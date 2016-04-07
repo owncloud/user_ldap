@@ -76,6 +76,11 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn);
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apw string */
+/** @global $bdn string */
+$test = new IntegrationTestPaging($host, $port, $adn, $apw, $bdn);
 $test->init();
 $test->run();
