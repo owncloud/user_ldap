@@ -15,6 +15,7 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 before_install:
+  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
   - bash ./before_install.sh user_ldap $CORE_BRANCH $DB
   - cd ../core
