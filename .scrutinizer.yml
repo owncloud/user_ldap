@@ -1,0 +1,11 @@
+filter:
+    excluded_paths:
+        - 'vendor/*'
+
+imports:
+    - javascript
+    - php
+
+tools:
+    external_code_coverage: true
+
