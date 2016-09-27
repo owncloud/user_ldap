@@ -58,18 +58,24 @@ class WizardTest extends \Test\TestCase {
 			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
 			$accMethods  = get_class_methods('\OCA\User_LDAP\Access');
 		}
-		$lw   = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
-		$conf = $this->getMock('\OCA\User_LDAP\Configuration',
-							   $confMethods,
-							   array($lw, null, null));
+		$lw   = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
+		$conf = $this->getMockBuilder('\OCA\User_LDAP\Configuration')
+			->setMethods($confMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
 
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-			$connMethods, array($lw, null, null));
+		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+			->setMethods($connMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
+			
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
-					->disableOriginalConstructor()
-					->getMock();
-		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um));
+			->disableOriginalConstructor()
+			->getMock();
+		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
+			->setMethods($accMethods)
+			->setConstructorArgs([$connector, $lw, $um])
+			->getMock();
 
 		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}

@@ -37,17 +37,17 @@ use OCA\User_LDAP\User\Manager;
 class ManagerTest extends \Test\TestCase {
 
 	private function getTestInstances() {
-		$access = $this->getMock('\OCA\User_LDAP\User\IUserTools');
-		$config = $this->getMock('\OCP\IConfig');
-		$filesys = $this->getMock('\OCA\User_LDAP\FilesystemHelper');
-		$log = $this->getMock('\OCA\User_LDAP\LogWrapper');
-		$avaMgr = $this->getMock('\OCP\IAvatarManager');
-		$image = $this->getMock('\OCP\Image');
-		$dbc = $this->getMock('\OCP\IDBConnection');
-		$userMgr = $this->getMock('\OCP\IUserManager');
+		$access = $this->createMock('\OCA\User_LDAP\User\IUserTools');
+		$config = $this->createMock('\OCP\IConfig');
+		$filesys = $this->createMock('\OCA\User_LDAP\FilesystemHelper');
+		$log = $this->createMock('\OCA\User_LDAP\LogWrapper');
+		$avaMgr = $this->createMock('\OCP\IAvatarManager');
+		$image = $this->createMock('\OCP\Image');
+		$dbc = $this->createMock('\OCP\IDBConnection');
+		$userMgr = $this->createMock('\OCP\IUserManager');
 
 		$connection = new \OCA\User_LDAP\Connection(
-			$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper'),
+			$lw  = $this->createMock('\OCA\User_LDAP\ILDAPWrapper'),
 			'',
 			null
 		);

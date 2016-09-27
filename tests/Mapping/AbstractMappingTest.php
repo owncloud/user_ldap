@@ -31,7 +31,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * kiss test on isColNameValid
 	 */
 	public function testIsColNameValid() {
-		$dbMock = $this->getMock('\OCP\IDBConnection');
+		$dbMock = $this->createMock('\OCP\IDBConnection');
 		$mapper = $this->getMapper($dbMock);
 
 		$this->assertTrue($mapper->isColNameValid('ldap_dn'));
