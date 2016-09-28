@@ -37,14 +37,14 @@ use OCP\IUserManager;
 class UserTest extends \Test\TestCase {
 
 	private function getTestInstances() {
-		$access  = $this->getMock('\OCA\User_LDAP\User\IUserTools');
-		$config  = $this->getMock('\OCP\IConfig');
-		$filesys = $this->getMock('\OCA\User_LDAP\FilesystemHelper');
-		$log     = $this->getMock('\OCA\User_LDAP\LogWrapper');
-		$avaMgr  = $this->getMock('\OCP\IAvatarManager');
-		$image   = $this->getMock('\OCP\Image');
-		$dbc     = $this->getMock('\OCP\IDBConnection');
-		$userMgr  = $this->getMock('\OCP\IUserManager');
+		$access  = $this->createMock('\OCA\User_LDAP\User\IUserTools');
+		$config  = $this->createMock('\OCP\IConfig');
+		$filesys = $this->createMock('\OCA\User_LDAP\FilesystemHelper');
+		$log     = $this->createMock('\OCA\User_LDAP\LogWrapper');
+		$avaMgr  = $this->createMock('\OCP\IAvatarManager');
+		$image   = $this->createMock('\OCP\Image');
+		$dbc     = $this->createMock('\OCP\IDBConnection');
+		$userMgr  = $this->createMock('\OCP\IUserManager');
 
 		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
 	}
@@ -61,17 +61,23 @@ class UserTest extends \Test\TestCase {
 			unset($accMethods[array_search('getConnection', $accMethods)]);
 			$umMethods = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
-		$lw = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
-		$im = $this->getMock('\OCP\Image');
+		$lw = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
+		$im = $this->createMock('\OCP\Image');
 		if (is_null($userMgr)) {
-			$userMgr = $this->getMock('\OCP\IUserManager');
+			$userMgr = $this->createMock('\OCP\IUserManager');
 		}
-		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
-			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
-		$connector = $this->getMock('\OCA\User_LDAP\Connection',
-			$conMethods, array($lw, null, null));
-		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um));
+		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
+			->setMethods($umMethods)
+			->setConstructorArgs([$cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr])
+			->getMock();
+		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+			->setMethods($conMethods)
+			->setConstructorArgs([$lw, null, null])
+			->getMock();
+		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
+			->setMethods($accMethods)
+			->setConstructorArgs([$connector, $lw, $um])
+			->getMock();
 
 		return array($access, $connector);
 	}
@@ -210,7 +216,7 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('42 GB')));
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock('\OCP\IUser');
 		$user->expects($this->once())
 			->method('setQuota')
 			->with('42 GB');
@@ -255,7 +261,7 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(false));
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock('\OCP\IUser');
 		$user->expects($this->once())
 			->method('setQuota')
 			->with('25 GB');
@@ -300,7 +306,7 @@ class UserTest extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('27 GB')));
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock('\OCP\IUser');
 		$user->expects($this->once())
 			->method('setQuota')
 			->with('27 GB');
@@ -414,7 +420,7 @@ class UserTest extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('readAttribute');
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->createMock('\OCP\IUser');
 		$user->expects($this->once())
 			->method('setQuota')
 			->with($readQuota);
@@ -464,7 +470,7 @@ class UserTest extends \Test\TestCase {
 			->method('isLoaded')
 			->will($this->returnValue(true));
 
-		$avatar = $this->getMock('\OCP\IAvatar');
+		$avatar = $this->createMock('\OCP\IAvatar');
 		$avatar->expects($this->once())
 			->method('set')
 			->with($this->isInstanceOf($image));
@@ -522,7 +528,7 @@ class UserTest extends \Test\TestCase {
 			->method('isLoaded')
 			->will($this->returnValue(true));
 
-		$avatar = $this->getMock('\OCP\IAvatar');
+		$avatar = $this->createMock('\OCP\IAvatar');
 		$avatar->expects($this->once())
 			->method('set')
 			->with($this->isInstanceOf($image));
