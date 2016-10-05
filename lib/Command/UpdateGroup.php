@@ -29,7 +29,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\LDAP;
 use \OCA\User_LDAP\Group_Proxy;
@@ -59,10 +58,10 @@ class UpdateGroup extends Command {
 					'the group ID'
 				)
 			->addOption(
-					'assume-yes',
-					'y',
+					'hide-warning',
+					null,
 					InputOption::VALUE_NONE,
-					'Group membership attribute is critical for this command to work properly. You\'ll be asked for verifying the attribute unless you pass this option'
+					'Group membership attribute is critical for this command to work properly. This option hides the warning and the additional output associated with it.'
 				);
 	}
 
@@ -71,22 +70,19 @@ class UpdateGroup extends Command {
 		// make sure we don't have duplicated groups in the parameters
 		$groupIDs = array_unique($groupIDs);
 
-		if (!$input->getOption('assume-yes')) {
-			$question = new ConfirmationQuestion("Group membership attribute is critical for this command, please verify.\nType \"y\" if you want to continue or \"n\" to abort: ");
-			if (!$this->getHelper('question')->ask($input, $output, $question)) {
-				return;
-			}
-		}
-
 		$helper = $this->helper;
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 
-		// show configuration information, useful to debug
-		foreach ($availableConfigs as $aconfig) {
-			$config = new \OCA\User_LDAP\Configuration($aconfig);
-			$message = '* ' . $config->ldapHost . ':' . $config->ldapPort . ' -> ' . $config->ldapGroupMemberAssocAttr;
-			$output->writeln($message, OutputInterface::VERBOSITY_VERBOSE);
+		if (!$input->getOption('hide-warning')) {
+			$output->writeln("Group membership attribute is critical for this command, please verify.");
+			// show configuration information, useful to debug
+			foreach ($availableConfigs as $aconfig) {
+				$config = new \OCA\User_LDAP\Configuration($aconfig);
+				$message = '* ' . $config->ldapHost . ':' . $config->ldapPort . ' -> ' . $config->ldapGroupMemberAssocAttr;
+				$output->writeln($message);
+			}
 		}
+
 
 		if (empty($availableConfigs)) {
 			$output->writeln('<error>No active configurations available</error>');
