@@ -26,8 +26,10 @@ namespace OCA\User_LDAP\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\LDAP;
 use \OCA\User_LDAP\Group_Proxy;
@@ -50,11 +52,17 @@ class UpdateGroup extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:update-group')
-			->setDescription('update the specified group information')
+			->setDescription('update the specified group membership information stored locally')
 			->addArgument(
 					'groupID',
 					InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 					'the group ID'
+				)
+			->addOption(
+					'assume-yes',
+					'y',
+					InputOption::VALUE_NONE,
+					'Group membership attribute is critical for this command to work properly. You\'ll be asked for verifying the attribute unless you pass this option'
 				);
 	}
 
@@ -63,11 +71,17 @@ class UpdateGroup extends Command {
 		// make sure we don't have duplicated groups in the parameters
 		$groupIDs = array_unique($groupIDs);
 
+		if (!$input->getOption('assume-yes')) {
+			$question = new ConfirmationQuestion("Group membership attribute is critical for this command, please verify.\nType \"y\" if you want to continue or \"n\" to abort: ");
+			if (!$this->getHelper('question')->ask($input, $output, $question)) {
+				return;
+			}
+		}
+
 		$helper = $this->helper;
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 
 		// show configuration information, useful to debug
-		$output->writeln('group membership attribute is critical for this command to work properly, please verify', OutputInterface::VERBOSITY_VERBOSE);
 		foreach ($availableConfigs as $aconfig) {
 			$config = new \OCA\User_LDAP\Configuration($aconfig);
 			$message = '* ' . $config->ldapHost . ':' . $config->ldapPort . ' -> ' . $config->ldapGroupMemberAssocAttr;
@@ -87,24 +101,24 @@ class UpdateGroup extends Command {
 		$groupProxy = new Group_Proxy($availableConfigs, $this->ldap);
 
 		foreach ($groupIDs as $groupID) {
-			$output->writeln("checking group \"$groupID\"...", OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln("checking group \"$groupID\"...");
 			if (!$groupProxy->groupExists($groupID)) {
-				$output->writeln("\"$groupID\" is missing, unmapping it", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("\"$groupID\" doesn't exist in LDAP any more, removing local mapping");
 				$this->removeGroupMapping($groupID);
 			} else {
-				$output->writeln("updating \"$groupID\" group DB information", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("updating \"$groupID\" group merbership information locally", OutputInterface::VERBOSITY_VERBOSE);
 				$userList = $groupProxy->usersInGroup($groupID);
 				$userChanges = $this->updateGroupMapping($groupID, $userList);
 
-				$output->writeln("sending hooks", OutputInterface::VERBOSITY_VERBOSE);
-				$output->writeln("new users:", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("triggering hooks", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("new users:");
 				foreach ($userChanges['added'] as $addedUser) {
-					$output->writeln($addedUser, OutputInterface::VERBOSITY_VERBOSE);
+					$output->writeln($addedUser);
 					\OCP\Util::emitHook('OC_User', 'post_addToGroup', array('uid' => $addedUser, 'gid' => $groupID));
 				}
-				$output->writeln("removed users:", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("removed users:");
 				foreach ($userChanges['removed'] as $removedUser) {
-					$output->writeln($removedUser, OutputInterface::VERBOSITY_VERBOSE);
+					$output->writeln($removedUser);
 					\OCP\Util::emitHook('OC_User', 'post_removeFromGroup', array('uid' => $removedUser, 'gid' => $groupID));
 				}
 			}
@@ -140,6 +154,11 @@ class UpdateGroup extends Command {
 	 * Return and array with 2 lists: one for the users added and another for the users removed from
 	 * the group:
 	 * ['added' => ['user1', 'user20'], 'removed' => ['user22']]
+	 *
+	 * @param string $groupName name of the group to be checked
+	 * @param array $userList array of user names to be compared. For example: ['user1', 'user44'].
+	 * The list will usually come from the LDAP server and will be compared against the information
+	 * in the DB.
 	 */
 	private function updateGroupMapping($groupName, $userList) {
 		$query = $this->connection->getQueryBuilder();
@@ -183,7 +202,7 @@ class UpdateGroup extends Command {
 	/**
 	 * Make sure $groupNames doesn't contain duplicated values. This function could behave
 	 * unexpectedly otherwise.
-	
+	 *
 	 * Take advantage of the owncloud_name column in the DB has a unique constraint.
 	 *
 	 * @return true if the count($groupNames) matches the number of
