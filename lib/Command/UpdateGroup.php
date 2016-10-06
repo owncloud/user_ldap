@@ -102,7 +102,7 @@ class UpdateGroup extends Command {
 				$output->writeln("\"$groupID\" doesn't exist in LDAP any more, removing local mapping");
 				$this->removeGroupMapping($groupID);
 			} else {
-				$output->writeln("updating \"$groupID\" group merbership information locally", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln("updating \"$groupID\" group membership information locally", OutputInterface::VERBOSITY_VERBOSE);
 				$userList = $groupProxy->usersInGroup($groupID);
 				$userChanges = $this->updateGroupMapping($groupID, $userList);
 
