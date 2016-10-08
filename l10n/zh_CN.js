@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : " 无法设定配置文件 %s",
     "Action does not exist" : "操作不存在",
     "The Base DN appears to be wrong" : "Base DN似乎错了",
+    "Testing configuration…" : "测试配置......",
     "Configuration incorrect" : "配置错误",
     "Configuration incomplete" : "配置未完成",
     "Configuration OK" : "配置完成",
