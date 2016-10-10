@@ -127,14 +127,14 @@ class UpdateGroup extends Command {
 
 		try {
 			$query = $this->connection->getQueryBuilder();
-			$query->delete('ldap_group_mapping', 'lgm')
-				->where($query->expr()->eq('lgm.owncloud_name', $query->createParameter('group')))
+			$query->delete('ldap_group_mapping')
+				->where($query->expr()->eq('owncloud_name', $query->createParameter('group')))
 				->setParameter('group', $groupName)
 				->execute();
 
 			$query2 = $this->connection->getQueryBuilder();
-			$query2->delete('ldap_group_members', 'lgm')
-				->where($query->expr()->eq('lgm.owncloudname', $query->createParameter('group')))
+			$query2->delete('ldap_group_members')
+				->where($query->expr()->eq('owncloudname', $query->createParameter('group')))
 				->setParameter('group', $groupName)
 				->execute();
 
