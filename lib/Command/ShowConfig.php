@@ -31,6 +31,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Configuration;
+use Symfony\Component\Console\Helper\Table;
 
 class ShowConfig extends Command {
 	/** @var \OCA\User_LDAP\Helper */
@@ -90,20 +91,20 @@ class ShowConfig extends Command {
 			$configuration = $configHolder->getConfiguration();
 			ksort($configuration);
 
-			$table = $this->getHelperSet()->get('table');
-			$table->setHeaders(array('Configuration', $id));
+			$table = new Table($output);
+			$table->setHeaders(['Configuration', $id]);
 			$rows = array();
-			foreach($configuration as $key => $value) {
-				if($key === 'ldapAgentPassword' && !$withPassword) {
+			foreach ($configuration as $key => $value) {
+				if ($key === 'ldapAgentPassword' && !$withPassword) {
 					$value = '***';
 				}
-				if(is_array($value)) {
+				if (is_array($value)) {
 					$value = implode(';', $value);
 				}
-				$rows[] = array($key, $value);
+				$rows[] = [$key, $value];
 			}
 			$table->setRows($rows);
-			$table->render($output);
+			$table->render();
 		}
 	}
 }

@@ -31,6 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IDateTimeFormatter;
+use Symfony\Component\Console\Helper\Table;
 
 class ShowRemnants extends Command {
 	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
@@ -62,11 +63,6 @@ class ShowRemnants extends Command {
 	 * {@inheritdoc}
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		/** @var \Symfony\Component\Console\Helper\Table $table */
-		$table = $this->getHelperSet()->get('table');
-		$table->setHeaders(array(
-			'ownCloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
-			'Dir', 'Sharer'));
 		$rows = array();
 		$resultSet = $this->dui->getUsers();
 		foreach($resultSet as $user) {
@@ -86,8 +82,12 @@ class ShowRemnants extends Command {
 		if ($input->getOption('json')) {
 			$output->writeln(json_encode($rows));			
 		} else {
+			$table = new Table($output);
+			$table->setHeaders([
+				'ownCloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
+				'Dir', 'Sharer']);
 			$table->setRows($rows);
-			$table->render($output);
+			$table->render();
 		}
 	}
 }
