@@ -16,6 +16,12 @@ addons:
     - mysql-client-core-5.6
     - mysql-client-5.6
 
+cache:
+  directories:
+    - $HOME/.cache/bower
+    - $HOME/.composer/cache
+    - $HOME/.npm
+
 env:
   global:
     - CORE_BRANCH=master
@@ -32,6 +38,7 @@ before_install:
   - php --version
   - php --info
   - composer install
+  - mysql -u root -e "SELECT User FROM mysql.user;"
   - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/before_install.sh
   - bash ./before_install.sh user_ldap $CORE_BRANCH $DB
   - cd ../core
