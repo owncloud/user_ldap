@@ -56,7 +56,7 @@ OC.L10N.register(
     "Users" : "Usuarios",
     "Login Attributes" : "Atributos de inicio de sesión",
     "Groups" : "Grupos",
-    "Test Configuration" : "Configuración de prueba",
+    "Test Configuration" : "Probar configuración",
     "Help" : "Ayuda",
     "Groups meeting these criteria are available in %s:" : "Los grupos que cumplen estos criterios están disponibles en %s:",
     "Only these object classes:" : "Sólo estas clases de objetos:",
