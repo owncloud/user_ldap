@@ -11,7 +11,7 @@ LDAP_ROOTPASS=admin
 LDAP_BASE_DN=dc=owncloud,dc=com
 LDAP_LOGIN_DN=cn=admin,dc=owncloud,dc=com
 
-docker pull nickstenning/slapd > /dev/null
+docker pull osixia/openldap:1.1.7 > /dev/null
 
 # start containers
 docker run -p 127.0.0.1:$LDAP_LOCAL_PORT:389 \
@@ -19,7 +19,7 @@ docker run -p 127.0.0.1:$LDAP_LOCAL_PORT:389 \
 	-e LDAP_ORGANISATION="$LDAP_ORGANISATION" \
 	-e LDAP_ROOTPASS=$LDAP_ROOTPASS \
 	--name docker-slapd \
-	-d nickstenning/slapd || exit 1
+	-d osixia/openldap:1.1.7 || exit 1
 
 docker pull osixia/phpldapadmin > /dev/null
 
