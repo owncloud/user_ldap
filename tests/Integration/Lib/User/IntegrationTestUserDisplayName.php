@@ -22,6 +22,7 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
+use OCA\User_LDAP\User\Manager as LDAPUserManager;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
@@ -57,6 +58,22 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 	}
 
 	/**
+	 * initializes an LDAP user manager instance
+	 * @return LDAPUserManager
+	 */
+	protected function initUserManager() {
+		$this->userManager = new LDAPUserManager(
+			\OC::$server->getConfig(),
+			new \OCA\User_LDAP\FilesystemHelper(),
+			new \OCA\User_LDAP\LogWrapper(),
+			\OC::$server->getAvatarManager(),
+			new \OCP\Image(),
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserManager()
+		);
+	}
+
+	/**
 	 * tests whether a display name consisting of two parts is created correctly
 	 *
 	 * @return bool
@@ -66,7 +83,6 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$dn = 'uid=alice,ou=Users,' . $this->base;
 		$this->prepareUser($dn, $username);
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
-
 		return strpos($displayName, '(Alice@example.com)') !== false;
 	}
 
@@ -83,7 +99,6 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$dn = 'uid=boris,ou=Users,' . $this->base;
 		$this->prepareUser($dn, $username);
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
-
 		return strpos($displayName, '(Boris@example.com)') === false;
 	}
 
