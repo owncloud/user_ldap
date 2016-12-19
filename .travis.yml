@@ -34,7 +34,7 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 before_install:
-  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - if [ $(phpenv version-name) = "7.0" ]; then echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
   - php --version
   - php --info
   - composer install
