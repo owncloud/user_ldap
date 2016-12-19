@@ -1,5 +1,7 @@
 #!/bin/bash
 
+php -m
+
 if [ $1 ] ; then
   TESTSCRIPT=$1
 else
@@ -15,9 +17,15 @@ fi
 WEBUSER=`ls -ld ../../../../config/config.php | awk '{print $3}'`
 OUT=""
 setup-scripts/start.sh > /dev/null && sleep 5 && \
-    sudo -u "$WEBUSER" ../../../../occ app:enable user_ldap && \
-    OUT=$(sudo -u "$WEBUSER" php -f "$TESTSCRIPT")
-    echo "$OUT"
+    if [ "$WEBUSER" == "travis" ]; then
+	../../../../occ app:enable user_ldap && \
+	OUT=$(php -f "$TESTSCRIPT")
+	echo "$OUT"
+    else
+	sudo -u "$WEBUSER" ../../../../occ app:enable user_ldap && \
+	OUT=$(sudo -u "$WEBUSER" php -f "$TESTSCRIPT")
+	echo "$OUT"
+    fi
 CODE=$?
 setup-scripts/stop.sh > /dev/null
 if [ $CODE -eq 0 ]; then
