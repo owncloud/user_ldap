@@ -25,9 +25,12 @@ namespace OCA\User_LDAP\Tests\Integration\Lib;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
-require_once __DIR__  . '/../../../../../lib/base.php';
+require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
 class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
+	/** @var  UserMapping */
+	public $mapping;
+
 	/**
 	 * prepares the LDAP environment and sets up a test configuration for
 	 * the LDAP backend.
@@ -68,6 +71,11 @@ class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apwd string */
+/** @global $bdn string */
 $test = new IntegrationTestBatchApplyUserAttributes($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

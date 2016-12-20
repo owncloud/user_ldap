@@ -25,7 +25,7 @@ namespace OCA\User_LDAP\Tests\Integration\Lib;
 
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
-require_once __DIR__  . '/../../../../../lib/base.php';
+require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
 class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
 
@@ -118,6 +118,11 @@ class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apwd string */
+/** @global $bdn string */
 $test = new IntegrationTestAccessGroupsMatchFilter($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

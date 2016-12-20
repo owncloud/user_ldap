@@ -27,6 +27,9 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 
+require_once __DIR__  . '/../../../../lib/base.php';
+require_once __DIR__ . '/FakeManager.php';
+
 abstract class AbstractIntegrationTest {
 	/** @var  LDAP */
 	protected $ldap;

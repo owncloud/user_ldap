@@ -26,7 +26,7 @@ use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User_LDAP;
 
-require_once __DIR__  . '/../../../../../lib/base.php';
+require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
 class IntegrationTestPaging extends AbstractIntegrationTest {
 	/** @var  UserMapping */
@@ -76,6 +76,11 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apwd string */
+/** @global $bdn string */
 $test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
