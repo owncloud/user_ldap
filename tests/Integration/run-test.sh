@@ -1,7 +1,5 @@
 #!/bin/bash
 
-php -m
-
 if [ $1 ] ; then
   TESTSCRIPT=$1
 else
