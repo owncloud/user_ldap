@@ -170,8 +170,11 @@ class User {
 
 		//Email
 		$attr = strtolower($this->connection->ldapEmailAttribute);
+		$quotaDefault = $this->connection->ldapQuotaDefault;
 		if(isset($ldapEntry[$attr])) {
 			$this->updateEmail($ldapEntry[$attr][0]);
+		} else if (!empty($quotaDefault)) {
+			$this->updateQuota();
 		}
 		unset($attr);
 
