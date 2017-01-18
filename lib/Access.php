@@ -1374,7 +1374,11 @@ class Access extends LDAPUtility implements IUserTools {
 		if ($term === '') {
 			$result = '*';
 		} else if ($allowEnum !== 'no') {
-			$result = $term . '*';
+			if ($this->connection->ldapMedialSearches) {
+				$result = '*' . $term . '*';
+			} else {
+				$result = $term . '*';
+			}
 		}
 		return $result;
 	}
