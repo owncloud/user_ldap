@@ -90,7 +90,6 @@ class Configuration {
 		'ldapNestedGroups' => false,
 		'ldapPagingSize' => null,
 		'ldapDynamicGroupMemberURL' => null,
-		'ldapMedialSearches' => false,
 	);
 
 	/**
@@ -288,7 +287,7 @@ class Configuration {
 
 	/**
 	 * Sets multi-line values as arrays
-	 *
+	 * 
 	 * @param string $varName name of config-key
 	 * @param array|string $value to set
 	 */
@@ -364,7 +363,7 @@ class Configuration {
 
 	/**
 	 * Sets a scalar value.
-	 *
+	 * 
 	 * @param string $varName name of config key
 	 * @param mixed $value to set
 	 */
@@ -451,7 +450,6 @@ class Configuration {
 			'ldap_paging_size'                  => 500,
 			'ldap_experienced_admin'            => 0,
 			'ldap_dynamic_group_member_url'     => '',
-			'ldap_medial_searches'              => 0,
 		);
 	}
 
@@ -508,7 +506,6 @@ class Configuration {
 			'ldap_paging_size'                  => 'ldapPagingSize',
 			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
-			'ldap_medial_searches'              => 'ldapMedialSearches',
 		);
 		return $array;
 	}

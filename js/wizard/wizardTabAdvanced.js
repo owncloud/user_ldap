@@ -91,10 +91,6 @@ OCA = OCA || {};
 					$element: $('#ldap_nested_groups'),
 					setMethod: 'setUseNestedGroups'
 				},
-				ldap_medial_searches: {
-					$element: $('#ldap_medial_searches'),
-					setMethod: 'setUseMedialSearches'
-				},
 				ldap_paging_size: {
 					$element: $('#ldap_paging_size'),
 					setMethod: 'setPagingSize'
@@ -273,7 +269,7 @@ OCA = OCA || {};
 		setDynamicGroupMemberURL: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute);
 		},
-
+                
 		/**
 		 * enabled or disables the use of nested groups (groups in groups in
 		 * groups…)
@@ -282,15 +278,6 @@ OCA = OCA || {};
 		 */
 		setUseNestedGroups: function(useNestedGroups) {
 			this.setElementValue(this.managedItems.ldap_nested_groups.$element, useNestedGroups);
-		},
-
-		/**
-		 * enabled or disables the use of medial searches
-		 *
-		 * @param {string} useNestedGroups contains an int
-		 */
-		setUseMedialSearches: function(useMedialSearches) {
-			this.setElementValue(this.managedItems.ldap_medial_searches.$element, useMedialSearches);
 		},
 
 		/**
