@@ -1369,7 +1369,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$config = \OC::$server->getConfig();
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
-		$allowMedialSearches = $config->getSystemValue('user_ldap.medial_search.enable', false);
+		$allowMedialSearches = $config->getSystemValue('user_ldap.enable_medial_search', false);
 
 		$result = $term;
 		if ($term === '') {
