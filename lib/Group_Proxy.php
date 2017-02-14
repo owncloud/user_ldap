@@ -54,9 +54,14 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach($this->backends as $configPrefix => $backend) {
-			if($result = call_user_func_array(array($backend, $method), $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
-				return $result;
+			try {
+				if($result = call_user_func_array(array($backend, $method), $parameters)) {
+					$this->writeToCache($cacheKey, $configPrefix);
+					return $result;
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 		return false;
@@ -76,19 +81,24 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 		//in case the uid has been found in the past, try this stored connection first
 		if(!is_null($prefix)) {
 			if(isset($this->backends[$prefix])) {
-				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
-				if($result === $passOnWhen) {
-					//not found here, reset cache to null if group vanished
-					//because sometimes methods return false with a reason
-					$groupExists = call_user_func_array(
-						array($this->backends[$prefix], 'groupExists'),
-						array($gid)
-					);
-					if(!$groupExists) {
-						$this->writeToCache($cacheKey, null);
+				try {
+					$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
+					if($result === $passOnWhen) {
+						//not found here, reset cache to null if group vanished
+						//because sometimes methods return false with a reason
+						$groupExists = call_user_func_array(
+							array($this->backends[$prefix], 'groupExists'),
+							array($gid)
+						);
+						if(!$groupExists) {
+							$this->writeToCache($cacheKey, null);
+						}
 					}
+					return $result;
+				} catch (\OC\ServerNotAvailableException $ex) {
+					$this->handleServerNotAvailable($prefix, $ex);
+					return false;
 				}
-				return $result;
 			}
 		}
 		return false;
@@ -117,10 +127,15 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function getUserGroups($uid) {
 		$groups = array();
 
-		foreach($this->backends as $backend) {
-			$backendGroups = $backend->getUserGroups($uid);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
+				$backendGroups = $backend->getUserGroups($uid);
+				if (is_array($backendGroups)) {
+					$groups = array_merge($groups, $backendGroups);
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 
@@ -134,10 +149,15 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users = array();
 
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
+				$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
+				if (is_array($backendUsers)) {
+					$users = array_merge($users, $backendUsers);
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 
@@ -164,10 +184,15 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		$groups = array();
 
-		foreach($this->backends as $backend) {
-			$backendGroups = $backend->getGroups($search, $limit, $offset);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
+				$backendGroups = $backend->getGroups($search, $limit, $offset);
+				if (is_array($backendGroups)) {
+					$groups = array_merge($groups, $backendGroups);
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 
@@ -194,5 +219,22 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function implementsActions($actions) {
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
+	}
+
+	/**
+	 * Show a log message only once per configuration prefix in order to prevent log flooding
+	 * @param string $configPrefix the configuration prefix for the LDAP connection
+	 * @param \Exception $ex the exception thrown
+	 */
+	protected function handleServerNotAvailable($configPrefix, $ex) {
+		static $messages = array();
+		if (!isset($messages[$configPrefix])) {
+			$badConnection = $this->getAccess($configPrefix)->getConnection();
+			$ldapHost = $badConnection->ldapHost;
+			$ldapPort = $badConnection->ldapPort;
+			\OCP\Util::writeLog('user_ldap', "can't access to group information in $ldapHost:$ldapPort ($configPrefix) : " . $ex->getMessage() . " ; jumping to the next backend", \OCP\Util::ERROR);
+			// mark config prefix as logged
+			$messages[$configPrefix] = true;
+		}
 	}
 }
