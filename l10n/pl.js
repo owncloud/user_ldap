@@ -33,8 +33,8 @@ OC.L10N.register(
     "Error while clearing the mappings." : "Błąd podczas czyszczenia mapowania.",
     "Mode switch" : "Przełącznik trybów",
     "Select attributes" : "Wybierz atrybuty",
-    "_%s group found_::_%s groups found_" : ["%s znaleziona grupa","%s znalezionych grup","%s znalezionych grup"],
-    "_%s user found_::_%s users found_" : ["%s znaleziony użytkownik","%s znalezionych użytkowników","%s znalezionych użytkowników"],
+    "_%s group found_::_%s groups found_" : ["%s znaleziona grupa","%s znalezionych grup","%s znalezionych grup","%s znalezionych grup"],
+    "_%s user found_::_%s users found_" : ["%s znaleziony użytkownik","%s znalezionych użytkowników","%s znalezionych użytkowników","%s znalezionych użytkowników"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Nie udało się wykryć atrybutu wyświetlanej nazwy użytkownika. Określ ją w zaawansowanych ustawieniach LDAP.",
     "Could not find the desired feature" : "Nie można znaleźć żądanej funkcji",
     "Invalid Host" : "Niepoprawny Host",
@@ -133,4 +133,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Czyść Mapowanie użytkownika LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Czyść Mapowanie nazwy grupy LDAP"
 },
-"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
