@@ -233,6 +233,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 			$ldapHost = $badConnection->ldapHost;
 			$ldapPort = $badConnection->ldapPort;
 			\OCP\Util::writeLog('user_ldap', "can't access to group information in $ldapHost:$ldapPort ($configPrefix) : " . $ex->getMessage() . " ; jumping to the next backend", \OCP\Util::ERROR);
+			// remove the backend to not query it again
+			unset($this->backends[$configPrefix]);
 			// mark config prefix as logged
 			$messages[$configPrefix] = true;
 		}
