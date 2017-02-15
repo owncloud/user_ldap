@@ -3,7 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/user_ldap/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/owncloud/user_ldap/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/owncloud/user_ldap/badges/build.png?b=master)](https://scrutinizer-ci.com/g/owncloud/user_ldap/build-status/master)
 
-#### Aditional configuration options that can be added to config.php
+#### Additional configuration options that can be added to config.php
 
 * `'user_ldap.enable_medial_search' => true`
 
