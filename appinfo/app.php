@@ -26,8 +26,6 @@
  *
  */
 
-OCP\App::registerAdmin('user_ldap', 'settings');
-
 $helper = new \OCA\User_LDAP\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\User_LDAP\LDAP();

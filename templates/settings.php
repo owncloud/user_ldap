@@ -1,9 +1,8 @@
 <?php
 
+/** @var array $_ */
 vendor_script('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-
 vendor_style('user_ldap', 'ui-multiselect/jquery.multiselect');
-
 script('user_ldap', [
 	'wizard/controller',
 	'wizard/configModel',
@@ -52,7 +51,7 @@ style('user_ldap', 'settings');
 ?>
 
 <form id="ldap" class="section" action="#" method="post">
-	<h2><?php p($l->t('LDAP')); ?></h2>
+	<h2 class="app-name"><?php p($l->t('LDAP')); ?></h2>
 
 	<div id="ldapSettings">
 	<ul>
