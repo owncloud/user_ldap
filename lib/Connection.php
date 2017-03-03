@@ -325,7 +325,7 @@ class Connection extends LDAPUtility {
 				\OCP\Util::writeLog('user_ldap',
 									'Base tree for '.$obj.
 									' is empty, using Base DN',
-									\OCP\Util::INFO);
+									\OCP\Util::DEBUG);
 				$this->configuration->$keyBase = $this->configuration->ldapBase;
 			}
 		}
