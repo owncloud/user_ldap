@@ -41,6 +41,7 @@ use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCP\Util;
 
 /**
  * Class Access
@@ -150,15 +151,15 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
-			\OCP\Util::writeLog('user_ldap',
+			Util::writeLog('user_ldap',
 				'No LDAP Connector assigned, access impossible for readAttribute.',
-				\OCP\Util::WARN);
+				Util::WARN);
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
 		if(!$this->ldap->isResource($cr)) {
 			//LDAP not available
-			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
+			Util::writeLog('user_ldap', 'LDAP resource not available.', Util::DEBUG);
 			return false;
 		}
 		//Cancel possibly running Paged Results operation, otherwise we run in
@@ -213,7 +214,7 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 		} while($isRangeRequest);
 
-		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
+		Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, Util::DEBUG);
 		return false;
 	}
 
@@ -236,13 +237,13 @@ class Access extends LDAPUtility implements IUserTools {
 		if(!$this->ldap->isResource($rr)) {
 			if ($attribute !== '') {
 				//do not throw this message on userExists check, irritates
-				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+				Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, Util::DEBUG);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
 		if ($attribute === '' && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
+			Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', Util::DEBUG);
 			return true;
 		}
 		$er = $this->ldap->firstEntry($cr, $rr);
@@ -251,7 +252,7 @@ class Access extends LDAPUtility implements IUserTools {
 			return false;
 		}
 		//LDAP attributes are not case sensitive
-		$result = \OCP\Util::mb_array_change_key_case(
+		$result = Util::mb_array_change_key_case(
 			$this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 
 		return $result;
@@ -541,14 +542,14 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 		} else {
 			//If the UUID can't be detected something is foul.
-			\OCP\Util::writeLog('user_ldap', 'Cannot determine UUID for '.$fdn.'. Skipping.', \OCP\Util::INFO);
+			Util::writeLog('user_ldap', 'Cannot determine UUID for '.$fdn.'. Skipping.', Util::INFO);
 			return false;
 		}
 
 		if(is_null($ldapName)) {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute);
 			if(!isset($ldapName[0]) && empty($ldapName[0])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', \OCP\Util::INFO);
+				Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', Util::INFO);
 				return false;
 			}
 			$ldapName = $ldapName[0];
@@ -574,7 +575,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
 		if(($isUser && !\OCP\User::userExists($intName))
-			|| (!$isUser && !\OC_Group::groupExists($intName))) {
+			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 				return $intName;
@@ -588,7 +589,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//if everything else did not help..
-		\OCP\Util::writeLog('user_ldap', 'Could not create unique name for '.$fdn.'.', \OCP\Util::INFO);
+		Util::writeLog('user_ldap', 'Could not create unique name for '.$fdn.'.', Util::INFO);
 		return false;
 	}
 
@@ -738,7 +739,7 @@ class Access extends LDAPUtility implements IUserTools {
 			// Check to be really sure it is unique
 			// while loop is just a precaution. If a name is not generated within
 			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if(!\OC_Group::groupExists($altName)) {
+			if(!\OC::$server->getGroupManager()->groupExists($altName)) {
 				return $altName;
 			}
 			$altName = $name . '_' . ($lastNo + $attempts);
@@ -955,7 +956,7 @@ class Access extends LDAPUtility implements IUserTools {
 		if(!$this->ldap->isResource($cr)) {
 			// Seems like we didn't find any resource.
 			// Return an empty array just like before.
-			\OCP\Util::writeLog('user_ldap', 'Could not search, because resource is missing.', \OCP\Util::DEBUG);
+			Util::writeLog('user_ldap', 'Could not search, because resource is missing.', Util::DEBUG);
 			return false;
 		}
 
@@ -966,11 +967,11 @@ class Access extends LDAPUtility implements IUserTools {
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
 		if(!is_array($sr) || $error !== 0) {
-			\OCP\Util::writeLog('user_ldap',
+			Util::writeLog('user_ldap',
 				'Error when searching: '.$this->ldap->error($cr).
 					' code '.$this->ldap->errno($cr),
-				\OCP\Util::ERROR);
-			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
+				Util::ERROR);
+			Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), Util::ERROR);
 			return false;
 		}
 
@@ -1012,7 +1013,7 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 		} else {
 			if(!is_null($limit)) {
-				\OCP\Util::writeLog('user_ldap', 'Paged search was not available', \OCP\Util::INFO);
+				Util::writeLog('user_ldap', 'Paged search was not available', Util::INFO);
 			}
 		}
 		/* ++ Fixing RHDS searches with pages with zero results ++
@@ -1037,7 +1038,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 *
 	 */
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
-		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
+		Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), Util::DEBUG);
 
 		$limitPerPage = intval($this->connection->ldapPagingSize);
 		if(!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
@@ -1158,7 +1159,7 @@ class Access extends LDAPUtility implements IUserTools {
 				if(!is_array($item)) {
 					continue;
 				}
-				$item = \OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
+				$item = Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
 				foreach($attr as $key) {
 					$key = mb_strtolower($key, 'UTF-8');
 					if(isset($item[$key])) {
@@ -1334,10 +1335,10 @@ class Access extends LDAPUtility implements IUserTools {
 			try {
 				return $this->getAdvancedFilterPartForSearch($search, $searchAttributes);
 			} catch(\Exception $e) {
-				\OCP\Util::writeLog(
+				Util::writeLog(
 					'user_ldap',
 					'Creating advanced filter for search failed, falling back to simple method.',
-					\OCP\Util::INFO
+					Util::INFO
 				);
 			}
 		}
@@ -1494,16 +1495,16 @@ class Access extends LDAPUtility implements IUserTools {
 		foreach($testAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
-				\OCP\Util::writeLog('user_ldap',
+				Util::writeLog('user_ldap',
 									'Setting '.$attribute.' as '.$uuidAttr,
-									\OCP\Util::DEBUG);
+									Util::DEBUG);
 				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
 		}
-		\OCP\Util::writeLog('user_ldap',
+		Util::writeLog('user_ldap',
 							'Could not autodetect the UUID attribute',
-							\OCP\Util::ERROR);
+							Util::ERROR);
 
 		return false;
 	}
@@ -1808,10 +1809,10 @@ class Access extends LDAPUtility implements IUserTools {
 		$pagedSearchOK = false;
 		if($this->connection->hasPagedResultSupport && ($limit !== 0)) {
 			$offset = intval($offset); //can be null
-			\OCP\Util::writeLog('user_ldap',
+			Util::writeLog('user_ldap',
 				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
 				.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset,
-				\OCP\Util::DEBUG);
+				Util::DEBUG);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach($bases as $base) {
 
@@ -1824,7 +1825,7 @@ class Access extends LDAPUtility implements IUserTools {
 					// '0' is valid, because 389ds
 					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 					//a bit recursive, $offset of 0 is the exit
-					\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
+					Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, Util::INFO);
 					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
@@ -1843,11 +1844,11 @@ class Access extends LDAPUtility implements IUserTools {
 					if(!$pagedSearchOK) {
 						return false;
 					}
-					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
+					Util::writeLog('user_ldap', 'Ready for a paged search', Util::DEBUG);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
+					Util::writeLog('user_ldap',
 						'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset,
-						\OCP\Util::INFO);
+						Util::INFO);
 				}
 
 			}

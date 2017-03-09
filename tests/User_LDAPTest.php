@@ -47,7 +47,7 @@ class User_LDAPTest extends \Test\TestCase {
 		parent::setUp();
 
 		\OC_User::clearBackends();
-		\OC_Group::clearBackends();
+		\OC::$server->getGroupManager()->clearBackends();
 	}
 
 	private function getAccessMock() {
