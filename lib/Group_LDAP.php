@@ -901,4 +901,16 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	public function implementsActions($actions) {
 		return (bool)(\OC\Group\Backend::COUNT_USERS & $actions);
 	}
+
+	/**
+	 * Returns whether the groups are visible for a given scope.
+	 *
+	 * @param string|null $scope scope string
+	 * @return bool true if searchable, false otherwise
+	 *
+	 * @since 10.0.0
+	 */
+	public function isVisibleForScope($scope) {
+		return true;
+	}
 }
