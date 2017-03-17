@@ -34,6 +34,12 @@ OCA = OCA || {};
 		 */
 		isToggling: false,
 
+		/**
+		 * @property {bool} - indicates whether a filter mode toggle operation
+		 * is still in progress
+		 */
+		saveQueue: [],
+
 		/** @inheritdoc */
 		init: function(tabIndex, tabID) {
 			this.tabIndex = tabIndex;
@@ -325,7 +331,7 @@ OCA = OCA || {};
 				var $element = this.managedItems[id].$element;
 				if (!$element.is('select[multiple]')) {
 					$element.change(function() {
-						view._requestSave($(this));
+						view._queueChanges($(this));
 					});
 				}
 			}
@@ -380,6 +386,36 @@ OCA = OCA || {};
 				value = $element.val();
 			}
 			this.configModel.set($element.attr('id'), value);
+		},
+		/**
+		 * queue up al changed elements from the model
+		 * represented by a HTML element and its ID.
+		 *
+		 * @param {jQuery|viewSaveInfo} $element
+		 * @private
+		 */
+		_queueChanges: function($element) {
+			var value = '';
+			if($element.is('input[type=checkbox]')
+				&& !$element.is(':checked')) {
+				value = 0;
+			} else if ($element.is('select[multiple]')) {
+				var entries = $element.multiselect("getChecked");
+				for(var i = 0; i < entries.length; i++) {
+					value = value + "\n" + entries[i].value;
+				}
+				value = $.trim(value);
+			} else {
+				value = $element.val();
+			}
+
+			this.saveQueue.push({
+				id : $element.attr('id'),
+				value : value
+			});
+
+
+			console.log(this.saveQueue);
 		},
 
 		/**
