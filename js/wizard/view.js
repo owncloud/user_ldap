@@ -296,6 +296,7 @@ OCA = OCA || {};
 			this.configModel.on('setCompleted', this.onSetRequestDone, this);
 			this.configModel.on('configurationTested', this.onTestCompleted, this);
 			this.configModel.on('receivedLdapFeature', this.onDetectionTestCompleted, this);
+			// this.configModel.on('queueChange', this.onQueueChange, this);
 		},
 
 		/**
@@ -304,8 +305,7 @@ OCA = OCA || {};
 		enableTabs: function() {
 			//do not use this function directly, use basicStatusCheck instead.
 			if(this.saveProcesses === 0) {
-				$('.ldap_action_continue').removeAttr('disabled');
-				$('.ldap_action_back').removeAttr('disabled');
+				this.enableButton('.ldap_action_continue, .ldap_action_back');
 				this.$settings.tabs('option', 'disabled', []);
 			}
 		},
@@ -314,9 +314,22 @@ OCA = OCA || {};
 		 * disables tab and navigation buttons
 		 */
 		disableTabs: function() {
-			$('.ldap_action_continue').attr('disabled', 'disabled');
-			$('.ldap_action_back').attr('disabled', 'disabled');
+			this.disableButton('.ldap_action_continue, .ldap_action_back');
 			this.$settings.tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+		},
+
+		/**
+		 * disables button
+		 */
+		disableButton: function(buttonClass) {
+			$(buttonClass).attr('disabled', 'disabled');
+		},
+
+		/**
+		 * enables button
+		 */
+		enableButton: function(buttonClass) {
+			$(buttonClass).removeAttr('disabled');
 		},
 
 		/**
