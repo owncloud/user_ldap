@@ -143,7 +143,6 @@ OC.L10N.register(
     "Special Attributes" : "特殊属性",
     "Quota Field" : "配额字段",
     "Quota Default" : "默认配额",
-    "in bytes" : "字节数",
     "Email Field" : "电邮字段",
     "User Home Folder Naming Rule" : "用户主目录命名规则",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "指定一个 LDAP/AD 属性。留空，则使用用户名称（默认）。",

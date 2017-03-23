@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Spesielle attributter",
     "Quota Field" : "Felt med lagringskvote",
     "Quota Default" : "Standard lagringskvote",
-    "in bytes" : "i bytes",
     "Email Field" : "Felt med e-postadresse",
     "User Home Folder Naming Rule" : "Navneregel for brukers hjemmemappe",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "La stå tom for brukernavn (standard). Ellers, spesifiser en LDAP/AD attributt.",

@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Специальные атрибуты",
     "Quota Field" : "Поле квоты",
     "Quota Default" : "Квота по умолчанию",
-    "in bytes" : "в байтах",
     "Email Field" : "Поле адреса email",
     "User Home Folder Naming Rule" : "Правило именования домашнего каталога пользователя",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Оставьте пустым для использования имени пользователя (по умолчанию). Иначе укажите атрибут LDAP/AD.",

@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Atributos especiales",
     "Quota Field" : "Cuota",
     "Quota Default" : "Cuota por defeutu",
-    "in bytes" : "en bytes",
     "Email Field" : "E-mail",
     "User Home Folder Naming Rule" : "Regla pa la carpeta Home d'usuariu",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Baleru pal nome d'usuariu (por defeutu). N'otru casu, especifica un atributu LDAP/AD.",

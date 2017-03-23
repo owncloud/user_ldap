@@ -138,7 +138,6 @@ OC.L10N.register(
     "Special Attributes" : "ویژگی های مخصوص",
     "Quota Field" : "سهمیه بندی انجام نشد.",
     "Quota Default" : "سهمیه بندی پیش فرض",
-    "in bytes" : "در بایت",
     "Email Field" : "ایمیل ارسال نشد.",
     "User Home Folder Naming Rule" : "قانون نامگذاری پوشه خانه کاربر",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "خالی گذاشتن برای نام کاربری (پیش فرض). در غیر این صورت، تعیین یک ویژگی LDAP/AD.",

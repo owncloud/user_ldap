@@ -137,7 +137,6 @@
     "Special Attributes" : "Ειδικά Χαρακτηριστικά ",
     "Quota Field" : "Ποσοσταση πεδιου",
     "Quota Default" : "Προκαθισμενο πεδιο",
-    "in bytes" : "σε bytes",
     "Email Field" : "Email τυπος",
     "User Home Folder Naming Rule" : "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας ",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD.",

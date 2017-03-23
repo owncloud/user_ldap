@@ -138,7 +138,6 @@ OC.L10N.register(
     "Special Attributes" : "Посебни параметри",
     "Quota Field" : "Поље квоте",
     "Quota Default" : "Подразумевана квота",
-    "in bytes" : "у бајтовима",
     "Email Field" : "Поље е-поште",
     "User Home Folder Naming Rule" : "Правило именовања корисничке фасцикле",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Оставите празно за корисничко име (подразумевано). У супротном, наведите особину LDAP/AD.",

@@ -137,7 +137,6 @@ OC.L10N.register(
     "Special Attributes" : "Atributos especiais",
     "Quota Field" : "Campo de cota",
     "Quota Default" : "Cota predeterminada",
-    "in bytes" : "en bytes",
     "Email Field" : "Campo do correo",
     "User Home Folder Naming Rule" : "Regra de nomeado do cartafol do usuario",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixar baleiro para o nome de usuario (predeterminado). Noutro caso, especifique un atributo LDAP/AD.",

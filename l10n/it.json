@@ -142,7 +142,6 @@
     "Special Attributes" : "Attributi speciali",
     "Quota Field" : "Campo Quota",
     "Quota Default" : "Quota predefinita",
-    "in bytes" : "in byte",
     "Email Field" : "Campo Email",
     "User Home Folder Naming Rule" : "Regola di assegnazione del nome della cartella utente",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD.",

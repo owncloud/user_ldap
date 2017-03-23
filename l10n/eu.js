@@ -111,7 +111,6 @@ OC.L10N.register(
     "Special Attributes" : "Atributu Bereziak",
     "Quota Field" : "Kuota Eremua",
     "Quota Default" : "Kuota Lehenetsia",
-    "in bytes" : "bytetan",
     "Email Field" : "Eposta eremua",
     "User Home Folder Naming Rule" : "Erabiltzailearen Karpeta Nagusia Izendatzeko Patroia",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua.",

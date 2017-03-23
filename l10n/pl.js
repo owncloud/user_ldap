@@ -122,7 +122,6 @@ OC.L10N.register(
     "Special Attributes" : "Specjalne atrybuty",
     "Quota Field" : "Pole przydziału",
     "Quota Default" : "Przydział domyślny",
-    "in bytes" : "w bajtach",
     "Email Field" : "Pole email",
     "User Home Folder Naming Rule" : "Reguły nazewnictwa folderu domowego użytkownika",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Pozostaw puste dla user name (domyślnie). W przeciwnym razie podaj atrybut LDAP/AD.",

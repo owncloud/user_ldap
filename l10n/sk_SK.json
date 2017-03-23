@@ -142,7 +142,6 @@
     "Special Attributes" : "Špeciálne atribúty",
     "Quota Field" : "Pole kvóty",
     "Quota Default" : "Predvolená kvóta",
-    "in bytes" : "v bajtoch",
     "Email Field" : "Pole emailu",
     "User Home Folder Naming Rule" : "Pravidlo pre nastavenie názvu používateľského priečinka dát",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút z LDAP/AD.",

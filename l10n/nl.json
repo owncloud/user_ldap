@@ -142,7 +142,6 @@
     "Special Attributes" : "Speciale attributen",
     "Quota Field" : "Quota veld",
     "Quota Default" : "Quota standaard",
-    "in bytes" : "in bytes",
     "Email Field" : "E-mailveld",
     "User Home Folder Naming Rule" : "Gebruikers Home map naamgevingsregel",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Laat leeg voor de gebruikersnaam (standaard). Of specificeer een LDAP/AD attribuut.",

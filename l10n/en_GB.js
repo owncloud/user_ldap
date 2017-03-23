@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Special Attributes",
     "Quota Field" : "Quota Field",
     "Quota Default" : "Quota Default",
-    "in bytes" : "in bytes",
     "Email Field" : "Email Field",
     "User Home Folder Naming Rule" : "User Home Folder Naming Rule",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.",

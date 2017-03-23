@@ -121,7 +121,6 @@ OC.L10N.register(
     "Special Attributes" : "特殊屬性",
     "Quota Field" : "配額欄位",
     "Quota Default" : "預設配額",
-    "in bytes" : "以位元組為單位",
     "Email Field" : "電郵欄位",
     "User Home Folder Naming Rule" : "使用者家目錄的命名規則",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "使用者名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。",

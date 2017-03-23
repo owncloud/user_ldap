@@ -139,7 +139,6 @@
     "Special Attributes" : "Atribut Khusus",
     "Quota Field" : "Kolom Kuota",
     "Quota Default" : "Kuota Baku",
-    "in bytes" : "dalam bytes",
     "Email Field" : "Kolom Email",
     "User Home Folder Naming Rule" : "Aturan Penamaan Folder Home Pengguna",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Biarkan nama pengguna kosong (default). Atau tetapkan atribut LDAP/AD.",
