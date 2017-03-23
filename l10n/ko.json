@@ -140,7 +140,6 @@
     "Special Attributes" : "특수 속성",
     "Quota Field" : "할당량 필드",
     "Quota Default" : "기본 할당량",
-    "in bytes" : "바이트 단위",
     "Email Field" : "이메일 필드",
     "User Home Folder Naming Rule" : "사용자 홈 폴더 이름 규칙",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오.",

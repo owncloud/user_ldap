@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Posebni atributi",
     "Quota Field" : "Polje količinske omejitve",
     "Quota Default" : "Privzeta količinska omejitev",
-    "in bytes" : "v bajtih",
     "Email Field" : "Polje elektronske pošte",
     "User Home Folder Naming Rule" : "Pravila poimenovanja uporabniške osebne mape",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LDAP/AD.",

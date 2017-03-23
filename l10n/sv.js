@@ -125,7 +125,6 @@ OC.L10N.register(
     "Special Attributes" : "Specialattribut",
     "Quota Field" : "Kvotfält",
     "Quota Default" : "Datakvot standard",
-    "in bytes" : "i bytes",
     "Email Field" : "E-postfält",
     "User Home Folder Naming Rule" : "Namnregel för hemkatalog",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP-/AD-attribut.",

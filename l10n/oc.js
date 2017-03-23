@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "Atributs especials",
     "Quota Field" : "Camp del quòta",
     "Quota Default" : "Quòta per defaut",
-    "in bytes" : "en octets",
     "Email Field" : "Camp Email",
     "User Home Folder Naming Rule" : "Règla de nomenatge del repertòri utilizaire",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Daissar void per user name (defaut). Podètz tanben especificar un atribut LDAP / AD.",

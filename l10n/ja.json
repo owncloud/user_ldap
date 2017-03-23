@@ -142,7 +142,6 @@
     "Special Attributes" : "特殊属性",
     "Quota Field" : "クォータ属性",
     "Quota Default" : "クォータのデフォルト",
-    "in bytes" : "バイト",
     "Email Field" : "メール属性",
     "User Home Folder Naming Rule" : "ユーザーのホームフォルダー命名規則",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "ユーザー名を空のままにしてください（デフォルト）。もしくは、LDAPもしくはADの属性を指定してください。",

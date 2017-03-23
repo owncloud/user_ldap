@@ -142,7 +142,6 @@
     "Special Attributes" : "Özel Öznitelikler",
     "Quota Field" : "Kota Alanı",
     "Quota Default" : "Öntanımlı Kota",
-    "in bytes" : "byte cinsinden",
     "Email Field" : "E-posta Alanı",
     "User Home Folder Naming Rule" : "Kullanıcı Ana Dizini İsimlendirme Kuralı",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kullanıcı adı bölümünü boş bırakın (öntanımlı). Aksi halde bir LDAP/AD özniteliği belirtin.",

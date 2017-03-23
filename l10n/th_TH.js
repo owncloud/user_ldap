@@ -144,7 +144,6 @@ OC.L10N.register(
     "Special Attributes" : "คุณลักษณะพิเศษ",
     "Quota Field" : "ช่องโควต้า",
     "Quota Default" : "โควต้าเริ่มต้น",
-    "in bytes" : "ในหน่วยไบต์",
     "Email Field" : "ช่องอีเมล",
     "User Home Folder Naming Rule" : "กฎการตั้งชื่อโฟลเดอร์แรกของผู้ใช้",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD",

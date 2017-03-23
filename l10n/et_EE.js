@@ -113,7 +113,6 @@ OC.L10N.register(
     "Special Attributes" : "Spetsiifilised atribuudid",
     "Quota Field" : "Mahupiirangu atribuut",
     "Quota Default" : "Vaikimisi mahupiirang",
-    "in bytes" : "baitides",
     "Email Field" : "E-posti väli",
     "User Home Folder Naming Rule" : "Kasutaja kodukataloogi nimetamise reegel",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus.",
