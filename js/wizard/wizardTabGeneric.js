@@ -35,8 +35,12 @@ OCA = OCA || {};
 		isToggling: false,
 
 		/**
-		 * @property {bool} - indicates whether a filter mode toggle operation
-		 * is still in progress
+		 * @property {bool} - indicates whether form changes have been made
+		 */
+		hasUnsavedChanges: false,
+
+		/**
+		 * @property {bool} - list of form elements that have changes
 		 */
 		saveQueue: [],
 
@@ -45,6 +49,7 @@ OCA = OCA || {};
 			this.tabIndex = tabIndex;
 			this.tabID = tabID;
 			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
+			this._disableButton('.ldap_action_continue, .ldap_action_save');
 			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
 		},
 
@@ -75,6 +80,7 @@ OCA = OCA || {};
 			this.configModel.on('serverError', this.onServerError, this);
 			this.configModel.on('setCompleted', this.onItemSaved, this);
 			this.configModel.on('configUpdated', this.onConfigLoaded, this);
+			this.configModel.on('queueChange', this.onQueueChange, this);
 		},
 
 		/**
@@ -325,7 +331,7 @@ OCA = OCA || {};
 
 			for(var id in this.managedItems) {
 				if(_.isUndefined(this.managedItems[id].$element)
-				   || _.isUndefined(this.managedItems[id].setMethod)) {
+					|| _.isUndefined(this.managedItems[id].setMethod)) {
 					continue;
 				}
 				var $element = this.managedItems[id].$element;
@@ -335,6 +341,22 @@ OCA = OCA || {};
 					});
 				}
 			}
+		},
+
+		/**
+		 * disables button
+		 *
+		 * @private
+		 */
+		_disableButton: function(buttonClass) {
+			$(buttonClass).attr('disabled', 'disabled');
+		},
+
+		/**
+		 * enables button
+		 */
+		_enableButton: function(buttonClass) {
+			$(buttonClass).removeAttr('disabled');
 		},
 
 		/**
@@ -409,13 +431,22 @@ OCA = OCA || {};
 				value = $element.val();
 			}
 
-			this.saveQueue.push({
-				id : $element.attr('id'),
-				value : value
-			});
+			this.saveQueue.push($element.attr('id'));
+			this._enableButton('.ldap_action_save');
+		},
 
+		_resetFrom : function () {
+			this.hasUnsavedChanges = [];
+		},
 
-			console.log(this.saveQueue);
+		_saveQueuedChanges: function () {
+
+			var saveQueue = _.uniq(this.saveQueue);
+
+			// _.forEach(saveQueue, function(value, key) {
+			// 	_requestSave()
+			// });
+
 		},
 
 		/**
