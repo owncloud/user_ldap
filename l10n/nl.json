@@ -141,6 +141,7 @@
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "De chunkgrootte die wordt gebruikt voor LDAP opvragingen die in grote aantallen resulteren, zoals gebruiker- of groepsverzamelingen. (Instellen op 0 deactiveert gepagede LDAP opvragingen in dergelijke situaties.)",
     "Special Attributes" : "Speciale attributen",
     "Quota Field" : "Quota veld",
+    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Laat leeg voor gebruik van het standaardquotum voor de gebruiker. Of, specificeer een LDAP/AD attribuut.",
     "Quota Default" : "Quota standaard",
     "Email Field" : "E-mailveld",
     "User Home Folder Naming Rule" : "Gebruikers Home map naamgevingsregel",
