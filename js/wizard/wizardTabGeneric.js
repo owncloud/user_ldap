@@ -46,11 +46,16 @@ OCA = OCA || {};
 
 		/** @inheritdoc */
 		init: function(tabIndex, tabID) {
+			var self = this;
 			this.tabIndex = tabIndex;
 			this.tabID = tabID;
 			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
 			this._disableButton('.ldap_action_continue, .ldap_action_save');
 			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
+			$('.ldap_action_save').click(function(event) {
+				event.preventDefault();
+				self._saveQueuedChanges();
+			});
 		},
 
 		/**
@@ -344,19 +349,27 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * disables button
+		 * disables button by css class
 		 *
+		 * @param {string} buttonClass
 		 * @private
 		 */
 		_disableButton: function(buttonClass) {
-			$(buttonClass).attr('disabled', 'disabled');
+			$(buttonClass)
+				.attr('disabled', 'disabled')
+				.addClass('ui-button-disabled ui-state-disabled');
 		},
 
 		/**
-		 * enables button
+		 * enables button by css class
+		 *
+		 * @param {string} buttonClass
+		 * @private
 		 */
 		_enableButton: function(buttonClass) {
-			$(buttonClass).removeAttr('disabled');
+			$(buttonClass)
+				.removeAttr('disabled')
+				.removeClass('ui-button-disabled ui-state-disabled');
 		},
 
 		/**
@@ -417,36 +430,19 @@ OCA = OCA || {};
 		 * @private
 		 */
 		_queueChanges: function($element) {
-			var value = '';
-			if($element.is('input[type=checkbox]')
-				&& !$element.is(':checked')) {
-				value = 0;
-			} else if ($element.is('select[multiple]')) {
-				var entries = $element.multiselect("getChecked");
-				for(var i = 0; i < entries.length; i++) {
-					value = value + "\n" + entries[i].value;
-				}
-				value = $.trim(value);
-			} else {
-				value = $element.val();
-			}
-
-			this.saveQueue.push($element.attr('id'));
+			this.saveQueue.push($element);
 			this._enableButton('.ldap_action_save');
 		},
 
-		_resetFrom : function () {
-			this.hasUnsavedChanges = [];
-		},
-
 		_saveQueuedChanges: function () {
-
+			var self = this;
 			var saveQueue = _.uniq(this.saveQueue);
 
-			// _.forEach(saveQueue, function(value, key) {
-			// 	_requestSave()
-			// });
+			_.forEach(saveQueue, function(value) {
+				self._requestSave(value);
+			});
 
+			this._disableButton('.ldap_action_save');
 		},
 
 		/**

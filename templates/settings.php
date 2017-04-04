@@ -120,4 +120,5 @@ style('user_ldap', 'settings');
 	</div>
 	<!-- Spinner Template -->
 	<img class="ldapSpinner hidden" src="<?php p(image_path('core', 'loading.gif')); ?>">
+	<div class="ldapSaveState"><ul></ul></div>
 </form>
