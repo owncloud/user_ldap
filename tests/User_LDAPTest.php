@@ -50,6 +50,11 @@ class User_LDAPTest extends \Test\TestCase {
 		\OC::$server->getGroupManager()->clearBackends();
 	}
 
+	protected function tearDown() {
+		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$queryBuilder->delete('accounts')->execute();
+	}
+
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
@@ -124,6 +129,55 @@ class User_LDAPTest extends \Test\TestCase {
 							return false;
 					}
 			   }));
+
+		$access->expects($this->any())
+			->method('dn2username')
+			->will($this->returnCallback(function($dn){
+				switch($dn) {
+					case 'dnOfRoland,dc=test':
+						return 'gunslinger';
+					case 'dnOfFormerUser,dc=test':
+						return 'formerUser';
+					case 'dnOfNewYorker,dc=test':
+						return 'newyorker';
+					case 'dnOfLadyOfShadows,dc=test':
+						return 'ladyofshadows';
+					default:
+						return false;
+				}
+		}));
+
+		$access->expects($this->any())
+			->method('stringResemblesDN')
+			->will($this->returnCallback(function($dn){
+				return in_array($dn, ['dnOfRoland,dc=test', 'dnOfFormerUser,dc=test', 'dnOfNewYorker,dc=test', 'dnOfLadyOfShadows,dc=test'], true);
+		}));
+
+		$access->expects($this->any())
+			->method('fetchUsersByLoginName')
+			->will($this->returnCallback(function($uid) {
+				switch ($uid) {
+					case 'gunslinger':
+						return array(array('dn' => ['dnOfRoland,dc=test']));
+					case 'formerUser':
+						return array(array('dn' => ['dnOfFormerUser,dc=test']));
+					case 'newyorker':
+						return array(array('dn' => ['dnOfNewYorker,dc=test']));
+					case 'ladyofshadows':
+						return array(array('dn' => ['dnOfLadyOfShadows,dc=test']));
+					default:
+						return array();
+				}
+			}));
+
+		$access->expects($this->any())
+			   ->method('areCredentialsValid')
+			   ->will($this->returnCallback(function($dn, $pwd) {
+					if($pwd === 'dt19') {
+						return true;
+					}
+					return false;
+			   }));
 	}
 
 	/**
@@ -160,9 +214,27 @@ class User_LDAPTest extends \Test\TestCase {
 				return array();
 			}));
 
+		$access->expects($this->any())
+			->method('readAttribute')
+			->with('dnOfRoland,dc=test', $this->callback(function($attr){
+					return in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
+				}), $this->anything())
+			->will($this->returnCallback(function($attr){
+					if ($attr === 'jpegPhoto' || $attr === 'thumbnailPhoto') {
+						return ['sdfsdljsdlkfjsadlkjfsdewuyriuweyiuyeiwuydjkfsh'];
+					} else {
+						return [];
+					}
+				}));
+
 		$retVal = 'gunslinger';
 		if($noDisplayName === true) {
 			$retVal = false;
+		} else {
+			$access->expects($this->any())
+				   ->method('username2dn')
+				   ->with($this->equalTo($retVal))
+				   ->will($this->returnValue('dnOfRoland,dc=test'));
 		}
 		$access->expects($this->any())
 			   ->method('dn2username')
@@ -301,7 +373,7 @@ class User_LDAPTest extends \Test\TestCase {
 	 * @return void
 	 */
 	private function prepareAccessForGetUsers(&$access) {
-		$access->expects($this->once())
+		$access->expects($this->any())
 			   ->method('escapeFilterPart')
 			   ->will($this->returnCallback(function($search) {
 				   return $search;
@@ -340,8 +412,40 @@ class User_LDAPTest extends \Test\TestCase {
 			   }));
 
 		$access->expects($this->any())
+			->method('fetchUsersByLoginName')
+			->will($this->returnCallback(function($uid) {
+				switch ($uid) {
+					case 'roland':
+						return array(array('dn' => ['dnOfRoland,dc=test']));
+					case 'newyorker':
+						return array(array('dn' => ['dnOfNewYorker,dc=test']));
+					case 'ladyofshadows':
+						return array(array('dn' => ['dnOfLadyOfShadows,dc=test']));
+					default:
+						return array();
+				}
+			}));
+
+		$access->expects($this->any())
+			->method('readAttribute')
+			->with($this->anything(), $this->callback(function($attr){
+					return in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
+				}), $this->anything())
+			->will($this->returnCallback(function($attr){
+					if ($attr === 'jpegPhoto' || $attr === 'thumbnailPhoto') {
+						return ['sdfsdljsdlkfjsadlkjfsdewuyriuweyiuyeiwuydjkfsh'];
+					} else {
+						return [];
+					}
+				}));
+
+		$access->expects($this->any())
 			   ->method('ownCloudUserNames')
 			   ->will($this->returnArgument(0));
+
+		$access->expects($this->any())
+			->method('areCredentialsValid')
+			->will($this->returnValue(true));
 	}
 
 	public function testGetUsersNoParam() {
@@ -395,8 +499,15 @@ class User_LDAPTest extends \Test\TestCase {
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
+		$userSession = \OC::$server->getUserSession();
+		$users = array('roland', 'newyorker', 'ladyofshadows');
+		foreach($users as $user) {
+			$userSession->login($user, 'secret');
+			@$userSession->logout();
+		}
+
 		$result = \OCP\User::getUsers();
-		$this->assertEquals(3, count($result));
+		$this->assertEquals(3, count($result), print_r($result, true));
 	}
 
 	public function testGetUsersViaAPILimitOffset() {
@@ -404,6 +515,13 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->prepareAccessForGetUsers($access);
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
+
+		$userSession = \OC::$server->getUserSession();
+		$users = array('roland', 'newyorker', 'ladyofshadows');
+		foreach($users as $user) {
+			$userSession->login($user, 'secret');
+			@$userSession->logout();
+		}
 
 		$result = \OCP\User::getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
@@ -415,6 +533,13 @@ class User_LDAPTest extends \Test\TestCase {
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
+		$userSession = \OC::$server->getUserSession();
+		$users = array('roland', 'newyorker', 'ladyofshadows');
+		foreach($users as $user) {
+			$userSession->login($user, 'secret');
+			@$userSession->logout();
+		}
+
 		$result = \OCP\User::getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
 	}
@@ -424,6 +549,13 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->prepareAccessForGetUsers($access);
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
+
+		$userSession = \OC::$server->getUserSession();
+		$users = array('roland', 'newyorker', 'ladyofshadows');
+		foreach($users as $user) {
+			$userSession->login($user, 'secret');
+			@$userSession->logout();
+		}
 
 		$result = \OCP\User::getUsers('yo');
 		$this->assertEquals(2, count($result));
@@ -513,6 +645,13 @@ class User_LDAPTest extends \Test\TestCase {
 				return false;
 			}));
 
+		$userSession = \OC::$server->getUserSession();
+		$users = array('gunslinger');
+		foreach($users as $user) {
+			$userSession->login($user, 'dt19');
+			@$userSession->logout();
+		}
+
 		//test for existing user
 		$result = \OCP\User::userExists('gunslinger');
 		$this->assertTrue($result);
@@ -535,6 +674,13 @@ class User_LDAPTest extends \Test\TestCase {
 				}
 				return false;
 			}));
+
+		$userSession = \OC::$server->getUserSession();
+		$users = array('gunslinger', 'formerUser');
+		foreach($users as $user) {
+			$userSession->login($user, 'dt19');
+			@$userSession->logout();
+		}
 
 		//test for deleted user
 		$result = \OCP\User::userExists('formerUser');
@@ -803,6 +949,13 @@ class User_LDAPTest extends \Test\TestCase {
 			}));
 
 		\OC_User::useBackend($backend);
+
+		$userSession = \OC::$server->getUserSession();
+		$users = array('gunslinger', 'newyorker');
+		foreach($users as $user) {
+			$userSession->login($user, 'dt19');
+			@$userSession->logout();
+		}
 
 		//with displayName
 		$result = \OCP\User::getDisplayName('gunslinger');
