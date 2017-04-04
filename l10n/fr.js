@@ -143,6 +143,7 @@ OC.L10N.register(
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Chunksize utilisée pour les recherches LDAP paginées qui peuvent retourner des résultats par lots comme une énumération d'utilisateurs ou de groupes. (Configurer à 0 pour désactiver les recherches LDAP paginées)",
     "Special Attributes" : "Attributs spéciaux",
     "Quota Field" : "Champ du quota",
+    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Laisser le quota utilisateur par défaut vide. Vous pouvez aussi spécifier un attribut LDAP / AD.",
     "Quota Default" : "Quota par défaut",
     "Email Field" : "Champ Email",
     "User Home Folder Naming Rule" : "Règle de nommage du répertoire utilisateur",
