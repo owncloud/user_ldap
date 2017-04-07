@@ -65,8 +65,20 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		// initialize home folder and make sure that the user will update
 		// also remove an possibly existing avatar
 		\OC_Util::tearDownFS();
+
+		\OC_User::setUserId($username);
+		$userObject = \OC::$server->getUserManager()->get($username);
+		if (!is_null($userObject)) {
+		    $userObject->updateLastLoginTimestamp();
+		}
 		\OC_Util::setupFS($username);
-		\OC::$server->getUserFolder($username);
+		if (\OC_User::userExists($username)) {
+		    \OC::$server->getUserFolder($username);
+		}
+
+		$userSession = \OC::$server->getUserSession();
+		$userSession->login($username, $username);
+
 		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
 		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
 			\OC::$server->getAvatarManager()->getAvatar($username)->remove();

@@ -82,6 +82,20 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$username = 'alice1337';
 		$dn = 'uid=alice,ou=Users,' . $this->base;
 		$this->prepareUser($dn, $username);
+
+		\OC_User::setUserId($username);
+		$userObject = \OC::$server->getUserManager()->get($username);
+		if (!is_null($userObject)) {
+		    $userObject->updateLastLoginTimestamp();
+		}
+		\OC_Util::setupFS($username);
+		if (\OC_User::userExists($username)) {
+		    \OC::$server->getUserFolder($username);
+		}
+
+		$userSession = \OC::$server->getUserSession();
+		$userSession->login($username, $username);
+
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
 		return strpos($displayName, '(Alice@example.com)') !== false;
 	}
