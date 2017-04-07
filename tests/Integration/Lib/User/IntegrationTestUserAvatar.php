@@ -57,6 +57,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 * @param string $image
 	 */
 	private function execFetchTest($dn, $username, $image) {
+		$uid = explode("=", explode(",", $dn)[0])[1];
+
 		$this->setJpegPhotoAttribute($dn, $image);
 
 		// assigns our self-picked oc username to the dn
@@ -72,12 +74,13 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		    $userObject->updateLastLoginTimestamp();
 		}
 		\OC_Util::setupFS($username);
+
+		$userSession = \OC::$server->getUserSession();
+		$userSession->login($uid, $uid);
+
 		if (\OC_User::userExists($username)) {
 		    \OC::$server->getUserFolder($username);
 		}
-
-		$userSession = \OC::$server->getUserSession();
-		$userSession->login($username, $username);
 
 		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
 		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
