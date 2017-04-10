@@ -68,6 +68,9 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		// also remove an possibly existing avatar
 		\OC_Util::tearDownFS();
 
+		$userSession = \OC::$server->getUserSession();
+		$userSession->login($uid, $uid);
+
 		\OC_User::setUserId($username);
 		$userObject = \OC::$server->getUserManager()->get($username);
 		if (!is_null($userObject)) {
@@ -75,8 +78,6 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		}
 		\OC_Util::setupFS($username);
 
-		$userSession = \OC::$server->getUserSession();
-		$userSession->login($uid, $uid);
 
 		if (\OC_User::userExists($username)) {
 		    \OC::$server->getUserFolder($username);
