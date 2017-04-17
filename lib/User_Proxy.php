@@ -64,9 +64,14 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 				&& method_exists($this->getAccess($configPrefix), $method)) {
 				$instance = $this->getAccess($configPrefix);
 			}
-			if($result = call_user_func_array(array($instance, $method), $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
-				return $result;
+			try {
+				if($result = call_user_func_array(array($instance, $method), $parameters)) {
+					$this->writeToCache($cacheKey, $configPrefix);
+					return $result;
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 		return false;
@@ -91,19 +96,24 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 					&& method_exists($this->getAccess($prefix), $method)) {
 					$instance = $this->getAccess($prefix);
 				}
-				$result = call_user_func_array(array($instance, $method), $parameters);
-				if($result === $passOnWhen) {
-					//not found here, reset cache to null if user vanished
-					//because sometimes methods return false with a reason
-					$userExists = call_user_func_array(
-						array($this->backends[$prefix], 'userExists'),
-						array($uid)
-					);
-					if(!$userExists) {
-						$this->writeToCache($cacheKey, null);
+				try {
+					$result = call_user_func_array(array($instance, $method), $parameters);
+					if($result === $passOnWhen) {
+						//not found here, reset cache to null if user vanished
+						//because sometimes methods return false with a reason
+						$userExists = call_user_func_array(
+							array($this->backends[$prefix], 'userExists'),
+							array($uid)
+						);
+						if(!$userExists) {
+							$this->writeToCache($cacheKey, null);
+						}
 					}
+					return $result;
+				} catch (\OC\ServerNotAvailableException $ex) {
+					$this->handleServerNotAvailable($prefix, $ex);
+					return false;
 				}
-				return $result;
 			}
 		}
 		return false;
@@ -141,10 +151,15 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = array();
-		foreach($this->backends as $backend) {
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = array_merge($users, $backendUsers);
+			}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 		return $users;
@@ -230,10 +245,15 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = array();
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$users = $users + $backendUsers;
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
+				$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
+				if (is_array($backendUsers)) {
+					$users = $users + $backendUsers;
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 		return $users;
@@ -263,13 +283,37 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 	 */
 	public function countUsers() {
 		$users = false;
-		foreach($this->backends as $backend) {
-			$backendUsers = $backend->countUsers();
-			if ($backendUsers !== false) {
-				$users += $backendUsers;
+		foreach($this->backends as $configPrefix => $backend) {
+			try {
+				$backendUsers = $backend->countUsers();
+				if ($backendUsers !== false) {
+					$users += $backendUsers;
+				}
+			} catch (\OC\ServerNotAvailableException $ex) {
+				$this->handleServerNotAvailable($configPrefix, $ex);
+				continue;
 			}
 		}
 		return $users;
+	}
+
+	/**
+	 * Show a log message only once per configuration prefix in order to prevent log flooding
+	 * @param string $configPrefix the configuration prefix for the LDAP connection
+	 * @param \Exception $ex the exception thrown
+	 */
+	protected function handleServerNotAvailable($configPrefix, $ex) {
+		static $messages = array();
+		if (!isset($messages[$configPrefix])) {
+			$badConnection = $this->getAccess($configPrefix)->getConnection();
+			$ldapHost = $badConnection->ldapHost;
+			$ldapPort = $badConnection->ldapPort;
+			\OCP\Util::writeLog('user_ldap', "can't access to user information in $ldapHost:$ldapPort ($configPrefix) : " . $ex->getMessage() . " ; jumping to the next backend", \OCP\Util::ERROR);
+			// remove the backend to not query it again
+			unset($this->backends[$configPrefix]);
+			// mark config prefix as logged
+			$messages[$configPrefix] = true;
+		}
 	}
 
 }
