@@ -448,7 +448,12 @@ class User {
 			if (!is_null($user)) {
 				$currentEmail = strval($user->getEMailAddress());
 				if ($currentEmail !== $email) {
-					$user->setEMailAddress($email);
+					try {
+						$user->setEMailAddress($email);
+					} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
+						\OCP\Util::writeLog('user_ldap', 'can\'t set email [' . $email .'] for user ['. $this->uid .']. Trying to set as empty email', \OCP\Util::WARN);
+						$user->setEMailAddress(null);
+					}
 				}
 			}
 		}
