@@ -195,4 +195,16 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
 	}
+
+	/**
+	 * Returns whether the groups are visible for a given scope.
+	 *
+	 * @param string|null $scope scope string
+	 * @return bool true if searchable, false otherwise
+	 *
+	 * @since 10.0.0
+	 */
+	public function isVisibleForScope($scope) {
+		return true;
+	}
 }
