@@ -79,22 +79,17 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		$username = 'alice1337';
-		$dn = 'uid=alice,ou=Users,' . $this->base;
+		$username = 'alice';
+		$dn = 'uid=alice,ou=users,' . $this->base;
 		$this->prepareUser($dn, $username);
 
-		\OC_User::setUserId($username);
-		$userObject = \OC::$server->getUserManager()->get($username);
-		if (!is_null($userObject)) {
-		    $userObject->updateLastLoginTimestamp();
-		}
-		\OC_Util::setupFS($username);
-		if (\OC_User::userExists($username)) {
-		    \OC::$server->getUserFolder($username);
-		}
-
 		$userSession = \OC::$server->getUserSession();
+		if ($userSession->isLoggedIn()) {
+			$userSession->logout();
+		}
 		$userSession->login($username, $username);
+
+		\OC_Util::setupFS($username);
 
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
 		return strpos($displayName, '(Alice@example.com)') !== false;
@@ -109,9 +104,18 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$this->connection->setConfiguration([
 			'ldapUserDisplayName2' => '',
 		]);
-		$username = 'boris23421';
-		$dn = 'uid=boris,ou=Users,' . $this->base;
+		$this->connection->saveConfiguration();
+
+		$username = 'boris';
+		$dn = 'uid=boris,ou=users,' . $this->base;
 		$this->prepareUser($dn, $username);
+
+		$userSession = \OC::$server->getUserSession();
+		if ($userSession->isLoggedIn()) {
+			$userSession->logout();
+		}
+		$userSession->login($username, $username);
+
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
 		return strpos($displayName, '(Boris@example.com)') === false;
 	}
@@ -125,6 +129,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 			'ldapUserDisplayName' => 'displayName',
 			'ldapUserDisplayName2' => 'mail',
 		]);
+		$this->connection->saveConfiguration();
 	}
 }
 

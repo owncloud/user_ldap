@@ -35,7 +35,7 @@ if (!$ok) {
 	die(1);
 }
 
-$ouName = 'Users';
+$ouName = 'users';
 $ouDN = 'ou=' . $ouName . ',' . $bdn;
 
 //creates on OU

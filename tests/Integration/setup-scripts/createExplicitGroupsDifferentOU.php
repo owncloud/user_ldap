@@ -54,7 +54,7 @@ if (true) {
 $groups = ['SquareGroup', 'CircleGroup', 'TriangleGroup', 'SquaredCircleGroup'];
 // groupOfNames requires groups to have at least one member
 // the member used is created by createExplicitUsers.php script
-$omniMember = 'uid=alice,ou=Users,' . $bdn;
+$omniMember = 'uid=alice,ou=users,' . $bdn;
 
 foreach ($groups as $cn) {
 	$newDN = 'cn=' . $cn . ',' . $ouDN;
