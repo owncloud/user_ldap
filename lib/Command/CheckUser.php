@@ -29,7 +29,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Helper as LDAPHelper;
 use OCA\User_LDAP\User_Proxy;
@@ -53,10 +52,9 @@ class CheckUser extends Command {
 	 * @param DeletedUsersIndex $dui
 	 * @param UserMapping $mapping
 	 */
-	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
+	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
-		$this->dui = $dui;
 		$this->mapping = $mapping;
 		parent::__construct();
 	}
@@ -90,7 +88,6 @@ class CheckUser extends Command {
 				return;
 			}
 
-			$this->dui->markUser($uid);
 			$output->writeln('The user does not exists on LDAP anymore.');
 			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 				. $uid . '"');

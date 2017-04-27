@@ -25,7 +25,6 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\DeletedUsersIndex;
 
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);
@@ -36,9 +35,6 @@ $uBackend = new User_Proxy(
 	new LDAP(),
 	$ocConfig
 );
-$deletedUsersIndex = new DeletedUsersIndex(
-	$ocConfig, $dbConnection, $userMapping
-);
 
 $application->add(new OCA\User_LDAP\Command\ShowConfig($helper));
 $application->add(new OCA\User_LDAP\Command\SetConfig());
@@ -46,10 +42,7 @@ $application->add(new OCA\User_LDAP\Command\TestConfig());
 $application->add(new OCA\User_LDAP\Command\CreateEmptyConfig($helper));
 $application->add(new OCA\User_LDAP\Command\DeleteConfig($helper));
 $application->add(new OCA\User_LDAP\Command\Search($ocConfig));
-$application->add(new OCA\User_LDAP\Command\ShowRemnants(
-	$deletedUsersIndex, \OC::$server->getDateTimeFormatter())
-);
 $application->add(new OCA\User_LDAP\Command\CheckUser(
-	$uBackend, $helper, $deletedUsersIndex, $userMapping)
+	$uBackend, $helper, $userMapping)
 );
 $application->add(new OCA\User_LDAP\Command\UpdateGroup(new LDAP(), $helper, $dbConnection));
