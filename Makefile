@@ -10,6 +10,7 @@ endif
 
 PHPUNIT="$(PWD)/lib/composer/phpunit/phpunit/phpunit"
 
+app_name=$(notdir $(CURDIR))
 ldap_doc_files=LICENSE README.md
 ldap_src_dirs=ajax appinfo css img js lib templates vendor
 ldap_all_src=$(ldap_src_dirs) $(ldap_doc_files)
@@ -21,6 +22,19 @@ COMPOSER_BIN=$(build_dir)/composer.phar
 composer_deps=vendor/
 composer_dev_deps=lib/composer/phpunit
 js_deps=node_modules/
+
+occ=$(CURDIR)/../../occ
+private_key=$(HOME)/.owncloud/certificates/$(app_name).key
+certificate=$(HOME)/.owncloud/certificates/$(app_name).crt
+sign=php -f $(occ) integrity:sign-app --privateKey="$(private_key)" --certificate="$(certificate)"
+sign_skip_msg="Skipping signing, either no key and certificate found in $(private_key) and $(certificate) or occ can not be found at $(occ)"
+ifneq (,$(wildcard $(private_key)))
+ifneq (,$(wildcard $(certificate)))
+ifneq (,$(wildcard $(occ)))
+	CAN_SIGN=true
+endif
+endif
+endif
 
 #
 # Catch-all rules
@@ -88,6 +102,13 @@ $(dist_dir)/user_ldap: $(composer_deps)  $(js_deps)
 	find $@/vendor -name doc -print | xargs rm -Rf
 	find $@/vendor -iname \*.sh -delete
 	find $@/vendor -iname \*.exe -delete
+
+ifdef CAN_SIGN
+	$(sign) --path="$(dist_dir)/user_ldap"
+else
+	@echo $(sign_skip_msg)
+endif
+	tar -czf $(dist_dir)/user_ldap.tar.gz -C $(dist_dir) $(app_name)
 
 .PHONY: dist
 dist: $(dist_dir)/user_ldap
