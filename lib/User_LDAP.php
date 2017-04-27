@@ -226,6 +226,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
 				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+					
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
@@ -233,10 +234,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			} catch (\Exception $e) {
 				return false;
 			}
-		}
-
-		if($user instanceof OfflineUser) {
-			$user->unmark();
 		}
 
 		return true;
@@ -282,13 +279,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	* @return bool
 	*/
 	public function deleteUser($uid) {
-		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if(intval($marked) === 0) {
-			\OC::$server->getLogger()->notice(
-				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				array('app' => 'user_ldap'));
-			return false;
-		}
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
 			array('app' => 'user_ldap'));
 

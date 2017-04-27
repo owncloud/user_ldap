@@ -39,7 +39,6 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
-use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCP\Util;
 
@@ -828,10 +827,6 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 			$this->cacheUserExists($ocName);
 			$user = $this->userManager->get($ocName);
-			if($user instanceof OfflineUser) {
-				$user->unmark();
-				$user = $this->userManager->get($ocName);
-			}
 			if ($user !== null) {
 				$user->processAttributes($userRecord);
 			} else {

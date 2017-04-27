@@ -173,39 +173,11 @@ class Manager {
 	}
 
 	/**
-	 * Checks whether the specified user is marked as deleted
-	 * @param string $id the ownCloud user name
-	 * @return bool
-	 */
-	public function isDeletedUser($id) {
-		$isDeleted = $this->ocConfig->getUserValue(
-			$id, 'user_ldap', 'isDeleted', 0);
-		return intval($isDeleted) === 1;
-	}
-
-	/**
-	 * creates and returns an instance of OfflineUser for the specified user
-	 * @param string $id
-	 * @return \OCA\User_LDAP\User\OfflineUser
-	 */
-	public function getDeletedUser($id) {
-		return new OfflineUser(
-			$id,
-			$this->ocConfig,
-			$this->db,
-			$this->access->getUserMapper());
-	}
-
-	/**
 	 * @brief returns a User object by it's ownCloud username
 	 * @param string $id the DN or username of the user
 	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 */
 	protected function createInstancyByUserName($id) {
-		//most likely a uid. Check whether it is a deleted user
-		if($this->isDeletedUser($id)) {
-			return $this->getDeletedUser($id);
-		}
 		$dn = $this->access->username2dn($id);
 		if($dn !== false) {
 			return $this->createAndCache($dn, $id);
