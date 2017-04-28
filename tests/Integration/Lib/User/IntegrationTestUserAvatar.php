@@ -57,6 +57,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 * @param string $image
 	 */
 	private function execFetchTest($dn, $username, $image) {
+		$uid = explode("=", explode(",", $dn)[0])[1];
+
 		$this->setJpegPhotoAttribute($dn, $image);
 
 		// assigns our self-picked oc username to the dn
@@ -65,12 +67,14 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		// initialize home folder and make sure that the user will update
 		// also remove an possibly existing avatar
 		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($username);
-		\OC::$server->getUserFolder($username);
-		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
-		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
-			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
+
+		$userSession = \OC::$server->getUserSession();
+		if ($userSession->isLoggedIn()) {
+			$userSession->logout();
 		}
+		$userSession->login($username, $uid);
+
+		\OC_Util::setupFS($username);
 
 		// finally attempt to get the avatar set
 		$user = $this->userManager->get($dn);
@@ -84,12 +88,18 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 */
 	protected function case1() {
 		$image = file_get_contents(__DIR__ . '/../../data/avatar-valid.jpg');
-		$dn = 'uid=alice,ou=Users,' . $this->base;
-		$username = 'alice1337';
+		$dn = 'uid=alice,ou=users,' . $this->base;
+		$username = 'alice';
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return \OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		$result = \OC::$server->getAvatarManager()->getAvatar($username)->exists();
+
+		// remove the avatar after checking
+		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
+			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
+		}
+		return $result;
 	}
 
 	/**
@@ -101,12 +111,17 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	protected function case2() {
 		// gif by Pmspinner from https://commons.wikimedia.org/wiki/File:Avatar2469_3.gif
 		$image = file_get_contents(__DIR__ . '/../../data/avatar-invalid.gif');
-		$dn = 'uid=boris,ou=Users,' . $this->base;
-		$username = 'boris7844';
+		$dn = 'uid=boris,ou=users,' . $this->base;
+		$username = 'boris';
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return !\OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		$result = !\OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		// remove the avatar after checking
+		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
+			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
+		}
+		return $result;
 	}
 
 	/**
@@ -142,8 +157,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 			'ldapUserFilter' => 'objectclass=inetOrgPerson',
 			'ldapUserDisplayName' => 'displayName',
 			'ldapGroupDisplayName' => 'cn',
-			'ldapLoginFilter' => 'uid=%uid',
 		]);
+		$this->connection->saveConfiguration();
 	}
 }
 

@@ -96,6 +96,7 @@ OC.L10N.register(
     "Test Base DN" : "Δοκιμή ",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Αποφυγή αυτόματων αιτημάτων LDAP. Προτιμότερο για μεγαλύτερες εγκαταστάσεις, αλλά απαιτεί κάποιες γνώσεις  LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Εισάγετε με μη αυτόματο τρόπο φίλτρα LDAP (προτείνεται για μεγάλους καταλόγους)",
+    "%s access is limited to users meeting these criteria:" : "%s η πρόσβαση είναι περιορισμένη σε χρήστες που πληρούν αυτά τα κριτήρια:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Οι πιο συνηθισμένες κλάσεις αντικειμένων για τους χρήστες είναι οι organizationalPerson, person, user, και inetOrgPerson. Εάν δεν είσαστε σίγουροι πιο κλάση να επιλέξετε, παρακαλώ συμβουλευτείτε τον διαχειριστή του καταλόγου σας.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Το φίλτρο καθορίζει ποιοι χρήστες LDAP θα έχουν πρόσβαση στην εγκατάσταση %s.",
     "Verify settings and count users" : "Επαλήθευση ρυθμίσεων και καταμέτρηση χρηστών",

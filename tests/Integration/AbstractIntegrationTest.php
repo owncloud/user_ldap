@@ -24,6 +24,7 @@ namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 
@@ -64,6 +65,10 @@ abstract class AbstractIntegrationTest {
 	 * the LDAP backend.
 	 */
 	public function init() {
+		// wipe account table
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('accounts')->execute();
+
 		$this->initLDAPWrapper();
 		$this->initConnection();
 		$this->initUserManager();
@@ -82,7 +87,10 @@ abstract class AbstractIntegrationTest {
 	 * sets up the LDAP configuration to be used for the test
 	 */
 	protected function initConnection() {
-		$this->connection = new Connection($this->ldap, '', null);
+		// use the defaults to make sure we don't use any remnants
+		$defaults = (new Configuration())->getDefaults();
+		$this->connection = new Connection($this->ldap, 'test');
+		$this->connection->setConfiguration($defaults);
 		$this->connection->setConfiguration([
 			'ldapHost' => $this->server['host'],
 			'ldapPort' => $this->server['port'],
