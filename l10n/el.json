@@ -143,6 +143,7 @@
     "Quota Field" : "Ποσοσταση πεδιου",
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Αφήστε κενό για να έχει ο χρήστης τον προεπιλεγμένο χώρο αποθήκευσης. Διαφορετικά, ορίστε το χαρακτηριστικό γνώρισμα του LDAP/AD.",
     "Quota Default" : "Προκαθισμενο πεδιο",
+    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Αντικατάσταση της προεπιλεγμένης ποσόστωσης για χρήστες LDAP που δεν έχουν καθορίσει τη ποσόστωση στο πεδίο Quota.",
     "Email Field" : "Email τυπος",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Ορίστε την ηλεκτρονική διεύθυνση του χρήστη από το χαρακτηριστικό γνώρισμα του LDAP. Αφήστε το κενό για προεπιλεγμένη συμπεριφορά. ",
     "User Home Folder Naming Rule" : "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας ",
