@@ -199,13 +199,6 @@ class User {
 		}
 		unset($attr);
 
-		// LDAP Username, needed for s2s sharing
-		if(isset($ldapEntry['uid'])) {
-			$this->storeLDAPUserName($ldapEntry['uid'][0]);
-		} else if(isset($ldapEntry['samaccountname'])) {
-			$this->storeLDAPUserName($ldapEntry['samaccountname'][0]);
-		}
-
 		//homePath
 		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
 			$attr = strtolower(substr($this->connection->homeFolderNamingRule, strlen('attr:')));
@@ -286,11 +279,6 @@ class User {
 				$path = $this->config->getSystemValue('datadirectory',
 						\OC::$SERVERROOT.'/data' ) . '/' . $path;
 			}
-			//we need it to store it in the DB as well in case a user gets
-			//deleted so we can clean up afterwards
-			$this->config->setUserValue(
-				$this->getUsername(), 'user_ldap', 'homePath', $path
-			);
 			return $path;
 		}
 
@@ -301,8 +289,6 @@ class User {
 			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
 		}
 
-		//false will apply default behaviour as defined and done by OC_User
-		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'homePath', '');
 		return false;
 	}
 
@@ -375,16 +361,6 @@ class User {
 	}
 
 	/**
-	 * Stores a key-value pair in relation to this user
-	 *
-	 * @param string $key
-	 * @param string $value
-	 */
-	private function store($key, $value) {
-		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
-	}
-
-	/**
 	 * Composes the display name and stores it in the database. The final
 	 * display name is returned.
 	 *
@@ -397,16 +373,7 @@ class User {
 		if($displayName2 !== '') {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
-		$this->store('displayName', $displayName);
 		return $displayName;
-	}
-
-	/**
-	 * Stores the LDAP Username in the Database
-	 * @param string $userName
-	 */
-	public function storeLDAPUserName($userName) {
-		$this->store('uid', $userName);
 	}
 
 	/**

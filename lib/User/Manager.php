@@ -175,7 +175,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by it's ownCloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
+	 * @return \OCA\User_LDAP\User\User|null
 	 */
 	protected function createInstancyByUserName($id) {
 		$dn = $this->access->username2dn($id);
