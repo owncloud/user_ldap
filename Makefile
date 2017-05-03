@@ -25,7 +25,8 @@ COMPOSER_BIN=$(build_dir)/composer.phar
 # internal aliases
 composer_deps=vendor/
 composer_dev_deps=lib/composer/phpunit
-bower_deps=vendor/
+nodejs_deps=node_modules
+bower_deps=vendor/ui-multiselect
 
 occ=$(CURDIR)/../../occ
 private_key=$(HOME)/.owncloud/certificates/$(app_name).key
@@ -44,7 +45,7 @@ endif
 # Catch-all rules
 #
 .PHONY: all
-all: $(composer_dev_deps)
+all: $(composer_dev_deps) $(bower_deps)
 
 .PHONY: clean
 clean: clean-composer-deps clean-dist clean-build
@@ -62,11 +63,9 @@ $(COMPOSER_BIN):
 #
 $(composer_deps): $(COMPOSER_BIN) composer.json composer.lock
 	php $(COMPOSER_BIN) install --no-dev
-	$(BOWER) install && touch $(bower_deps)
 
 $(composer_dev_deps): $(COMPOSER_BIN) composer.json composer.lock
 	php $(COMPOSER_BIN) install --dev
-	$(BOWER) install && touch $(bower_deps)
 
 .PHONY: clean-composer-deps
 clean-composer-deps:
@@ -79,10 +78,22 @@ update-composer: $(COMPOSER_BIN)
 	php $(COMPOSER_BIN) install --prefer-dist
 
 #
+## Node JS dependencies for tools
+#
+$(nodejs_deps): package.json
+	$(NPM) install --prefix $(NODE_PREFIX) && touch $@
+
+$(BOWER): $(nodejs_deps)
+$(JSDOC): $(nodejs_deps)
+
+$(bower_deps): $(BOWER)
+	$(BOWER) install && touch $@
+
+#
 # dist
 #
 
-$(dist_dir)/user_ldap: $(composer_deps)  $(bower_deps)
+$(dist_dir)/user_ldap: $(composer_deps) $(bower_deps)
 	rm -Rf $@; mkdir -p $@
 	cp -R $(ldap_all_src) $@
 	find $@/vendor -type d -iname Test? -print | xargs rm -Rf

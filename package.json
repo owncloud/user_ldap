@@ -6,7 +6,9 @@
     "test": "tests"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "bower": "~1.7.9"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/owncloud/user_ldap.git"
