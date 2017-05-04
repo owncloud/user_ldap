@@ -227,4 +227,17 @@ class OfflineUser {
 
 		$this->hasActiveShares = false;
 	}
+	
+	/**
+	 * Adding empty function to OfflineUser to avoid throwing error "function missing".
+	 * Composes the display name and stores it in the database. The final
+	 * display name is returned.
+	 *
+	 * @param string $displayName
+	 * @param string $displayName2
+	 * @returns string the effective display name
+	 */
+	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
+		return $displayName;
+	}
 }
