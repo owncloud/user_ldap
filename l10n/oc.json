@@ -38,7 +38,6 @@
     "Select attributes" : "Seleccionar los atributs",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Utilizaire introbable. Verificatz los atributs de login e lo nom d'utilizaire. Filtre efectiu (de copiar-pegar per validar en linha de comanda):<br/>",
     "User found and settings verified." : "Utilizaire trobat e paramètres verificats.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Paramètres verificats, mas sol lo primièr utilizaire se poirà connectar. Utilizatz puslèu un filtre mens restrictiu.",
     "An unspecified error occurred. Please check the settings and the log." : "Una error desconeguda s'es produsida. Verificatz los paramètres e lo log.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Lo filtre de recèrca es pas valid, probablament a causa de problèmas de sintaxi tals coma de parentèsis mancantas. Corregissètz-los.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Una error s'es produsida al moment de la connexion al LDAP / AD. Verificatz l'òste, lo pòrt e las informacions d'identificacion.",

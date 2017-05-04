@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "Velg attributter",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Bruker ikke funnet. Sjekk påloggingsattributtene og brukernavnet. Virksomt filter (kopier og lim inn for validering på kommandolinjen): <br/>",
     "User found and settings verified." : "Bruker funnet og innstillingene sjekket.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Innstillinger sjekket, men en bruker funnet. Kun den første vil kunne logge inn. Vurder et smalere filter.",
     "An unspecified error occurred. Please check the settings and the log." : "En uspesifisert feil oppstod. Sjekk innstillingene og loggen.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Søkefilteret er ugyldig, antakelig pga. syntaksproblemer som ulikt antall start- og sluttparenteser. Vennligst sjekk.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Det oppstod en feil ved tilkobling til LDAP / AD. Sjekk vertsnavn, portnummer og påloggingsdetaljer.",

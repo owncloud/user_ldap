@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "انتخاب مشخصه ها",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "کاربر پیدا نشد. لطفا مشخصه های ورود و نام کاربری خود را بررسی کنید. فیلتر مؤثر(copy-paste برای تایید از طریق command line):<br/>",
     "User found and settings verified." : "کاربر پیدا شد و تنظیمات تایید شد.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "تنظیمات تایید شد، اما یک کاربر پیدا شد. تنها اولین نفر میتواند وارد شود. فیلتری محدود تر را درنظر بگیرید.",
     "An unspecified error occurred. Please check the settings and the log." : "خطای نامشخص. لطفا تنظیمات و لاگ را بررسی کنید.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "فیلتر جستوجو نامعتبر است، احتمالا بدلیل اشتباه در نگارش است، مثل تعداد ناکافیه براکت ها. لطفا بازبینی کنید.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "خطا در ارتباط با LDAP/AD لطفا میزبان، پورت و اعتبار ها را بررسی کنید.",

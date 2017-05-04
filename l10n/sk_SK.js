@@ -40,7 +40,6 @@ OC.L10N.register(
     "Select attributes" : "Vyberte atribúty",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Používateľ nenájdený. Skontrolujte si svoje prihlasovacie údaje a meno. Použitý filter (pre skopírovanie a overenie v príkazovom riadku): <br/>",
     "User found and settings verified." : "Používateľ bol nájdený a nastavenie bolo overené.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Nastavenia sú overené, nájdený jeden používateľ. Len prvý používateľ sa bude môcť prihlásiť. Zvážte nastavenie užšieho filtra.",
     "An unspecified error occurred. Please check the settings and the log." : "Nastala nešpecifikovaná chyba. Overte nastavenia a súbor logu.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Filter vyhľadávania je neplatný, pravdepodobne je chybný syntax, napr. neuzatvorené zátvorky. Overte si to.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Nastala chyba pri pripojení k LDAP / AD, skontrolujte položky host, port a prihlasovacie údaje.",

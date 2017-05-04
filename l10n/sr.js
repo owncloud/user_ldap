@@ -39,7 +39,6 @@ OC.L10N.register(
     "Select attributes" : "Изаберите атрибуте",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Корисник није нађен. Проверите пријавне атрибуте и корисничко име. Важећи филтер (за копирај-налепи за оверу командне линије): <br/>",
     "User found and settings verified." : "Корисник нађен и поставке проверене.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "Поставке проверене али један корисник је нађен. Само први ће успети да се пријави. Размотрите проширење филтрирања.",
     "An unspecified error occurred. Please check the settings and the log." : "Десила се неодређана грешка. Проверите поставке и записник.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Филтер претраге је неисправан, вероватно због синтаксе попут неједнаког броја отворених и затворених заграда. Проверите.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Дошло је до грешке ЛДАП / АД везе. Проверите домаћина, порт и акредитиве.",

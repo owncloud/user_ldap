@@ -39,7 +39,6 @@ OC.L10N.register(
     "Select attributes" : "속성 선택",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "사용자를 찾을 수 없습니다. 로그인 속성과 사용자 이름을 확인하십시오. 적용되는 필터(명령행에 붙여넣어 검증 가능):<br/>",
     "User found and settings verified." : "사용자를 찾았고 설정을 확인했습니다.",
-    "Settings verified, but one user found. Only the first will be able to login. Consider a more narrow filter." : "설정을 확인하였으나 한 명의 사용자만 찾았습니다. 첫 사용자만 로그인할 수 있습니다. 더 좁은 필터를 지정하십시오.",
     "An unspecified error occurred. Please check the settings and the log." : "알 수 없는 오류가 발생했습니다. 설정과 로그를 확인하십시오.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "검색 필터가 잘못되었습니다. 열고 닫는 괄호 쌍이 맞지 않을 수도 있습니다. 확인 후 수정하십시오.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "LDAP/AD 연결 오류가 발생했습니다. 호스트, 포트, 인증 정보를 확인하십시오.",
