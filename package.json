@@ -1,0 +1,26 @@
+{
+  "name": "user_ldap",
+  "version": "0.9.0",
+  "description": "LDAP user and group backend",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "~1.7.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/owncloud/user_ldap.git"
+  },
+  "keywords": [
+    "ownCloud",
+    "LDAP"
+  ],
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/owncloud/user_ldap/issues"
+  },
+  "homepage": "https://github.com/owncloud/user_ldap#readme"
+}
