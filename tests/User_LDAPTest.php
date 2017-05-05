@@ -334,13 +334,6 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testDeleteUserCancel() {
-		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
-		$result = $backend->deleteUser('notme');
-		$this->assertFalse($result);
-	}
-
 	public function testDeleteUserSuccess() {
 		$access = $this->getAccessMock();
 		$mapping = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
@@ -349,14 +342,17 @@ class User_LDAPTest extends \Test\TestCase {
 		$mapping->expects($this->once())
 			->method('unmap')
 			->will($this->returnValue(true));
-		$access->expects($this->once())
+		$access->expects($this->exactly(2))
 			->method('getUserMapper')
 			->will($this->returnValue($mapping));
 
 		$config = $this->createMock('\OCP\IConfig');
-		$config->expects($this->exactly(2))
-			->method('getUserValue')
-			->will($this->onConsecutiveCalls('1', '/var/vhome/jdings/'));
+
+		$access->connection->expects($this->any())
+			->method('getConnectionResource')
+			->will($this->returnCallback(function() {
+				return true;
+			}));
 
 		$backend = new UserLDAP($access, $config);
 
@@ -364,7 +360,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertTrue($result);
 
 		$home = $backend->getHome('jeremy');
-		$this->assertSame($home, '/var/vhome/jdings/');
+		$this->assertFalse($home);
 	}
 
 	/**
@@ -708,11 +704,20 @@ class User_LDAPTest extends \Test\TestCase {
 
 	public function testDeleteUser() {
 		$access = $this->getAccessMock();
+		$mapping = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
+			->disableOriginalConstructor()
+			->getMock();
+		$mapping->expects($this->once())
+			->method('unmap')
+			->will($this->returnValue(true));
+		$access->expects($this->once())
+			->method('getUserMapper')
+			->will($this->returnValue($mapping));
+
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
 
-		//we do not support deleting users at all
 		$result = $backend->deleteUser('gunslinger');
-		$this->assertFalse($result);
+		$this->assertTrue($result);
 	}
 
 	public function testGetHomeAbsolutePath() {
@@ -822,9 +827,6 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
 	public function testGetHomeDeletedUser() {
 		$access = $this->getAccessMock();
 		$backend = new UserLDAP($access, $this->createMock('\OCP\IConfig'));
@@ -839,9 +841,15 @@ class User_LDAPTest extends \Test\TestCase {
 					return null;
 				}));
 
+		$access->connection->expects($this->any())
+			->method('getConnectionResource')
+			->will($this->returnCallback(function() {
+				return true;
+			}));
+
 		$access->expects($this->any())
 				->method('readAttribute')
-				->will($this->returnValue([]));
+				->will($this->returnValue(false));
 
 		$userMapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
 				->disableOriginalConstructor()
