@@ -1052,7 +1052,6 @@ class UserTest extends \Test\TestCase {
 			'updateQuota',
 			'updateEmail',
 			'composeAndStoreDisplayName',
-			'storeLDAPUserName',
 			'getHomePath',
 			'updateAvatar'
 		);
@@ -1212,9 +1211,6 @@ class UserTest extends \Test\TestCase {
 	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
 		list($access, $config, $filesys, $image, $log, $avaMgr, , $userMgr) =
 			$this->getTestInstances();
-
-		$config->expects($this->once())
-			->method('setUserValue');
 
 		$user = new User(
 			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
