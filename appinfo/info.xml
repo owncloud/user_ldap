@@ -16,6 +16,8 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	<documentation>
 		<admin>admin-ldap</admin>
 	</documentation>
+	<category>integration</category>
+	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/0527af6b981603f3410982c2ed70051b7cf991c3/user_ldap/user_ldap.png</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
 		<owncloud min-version="10.0" max-version="10.0" />
@@ -25,7 +27,6 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 
 	<background-jobs>
 		<job>OCA\User_LDAP\Jobs\UpdateGroups</job>
-		<job>OCA\User_LDAP\Jobs\CleanUp</job>
 	</background-jobs>
 
 	<settings>
