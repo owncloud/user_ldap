@@ -387,7 +387,7 @@ OCA = OCA || {};
 				noneSelectedText: caption,
 				classes: this.multiSelectPluginClass,
 				close: function() {
-					view._requestSave($element);
+					view._queueChanges($element);
 				}
 			});
 		},
@@ -431,7 +431,24 @@ OCA = OCA || {};
 		 */
 		_queueChanges: function($element) {
 			this.saveQueue.push($element);
+			this._updateVisualQueue();
 			this._enableButton('.ldap_action_save');
+		},
+
+		_updateVisualQueue: function () {
+			var $list = $('.ldapSaveState'),
+				queue = _.uniq(this.saveQueue),
+				id    = null;
+
+			// re-render from scratch
+			$list.html('');
+
+			_.forEach(queue, function($element) {
+				id = $element.attr('id');
+
+				if (!$list.find('[data-id="'+id+'"]').length)
+					$list.append('<li data-id="'+ id +'">' + id + '</li>');
+			});
 		},
 
 		_saveQueuedChanges: function () {
@@ -442,6 +459,9 @@ OCA = OCA || {};
 				self._requestSave(value);
 			});
 
+			// TODO: Remove Elements one by one after saving
+			this.saveQueue = [];
+			this._updateVisualQueue();
 			this._disableButton('.ldap_action_save');
 		},
 
