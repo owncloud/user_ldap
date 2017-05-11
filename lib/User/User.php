@@ -144,6 +144,7 @@ class User {
 		if($this->needsRefresh()) {
 			$this->updateEmail();
 			$this->updateQuota();
+			$this->updateSearchAttributes();
 			if($hasLoggedIn !== 0) {
 				//we do not need to try it, when the user has not been logged in
 				//before, because the file system will not be ready.
@@ -197,6 +198,17 @@ class User {
 				$displayName2
 			);
 		}
+		unset($attr);
+
+		$searchAttributes = '';
+		$attributes = strtolower($this->connection->ldapAttributesForUserSearch);
+		foreach($attributes as $attr) {
+			if(isset($ldapEntry[$attr])) {
+				$searchAttributes .= strval($ldapEntry[$attr][0]) . ' ';
+			}
+		}
+		$this->updateSearchAttributes(null);
+
 		unset($attr);
 
 		//homePath
@@ -425,6 +437,44 @@ class User {
 							\OCP\Util::writeLog('user_ldap', 'can\'t set email [' . $email .'] nor making it empty for user ['. $this->uid .']', \OCP\Util::ERROR);
 						}
 					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * updates the ownCloud accounts table search string as calculated from LDAP
+	 * @param string $valueFromLDAP if known, to save an LDAP read request
+	 * @return null
+	 */
+	public function updateSearchAttributes($valueFromLDAP = null) {
+		if($this->wasRefreshed('searchAttributes')) {
+			return;
+		}
+
+		// Get from LDAP if we don't have it already
+		if(is_null($valueFromLDAP)) {
+			$valueFromLDAP = '';
+			$attributes = $this->connection->ldapAttributesForUserSearch;
+
+			foreach($attributes as $attr) {
+				$attrVal = $this->access->readAttribute($this->dn, strtolower($attr));
+				if(is_array($attrVal) && (count($attrVal) > 0)) {
+					$attrVal = strval($attrVal[0]);
+				}
+				if($attrVal != '') {
+					$valueFromLDAP .= $attrVal . '';
+				}
+			}
+		}
+
+		// If we have a value, which is different to the current, then let's update the accounts table
+		if ($valueFromLDAP !== '') {
+			$user = $this->userManager->get($this->uid);
+			if (!is_null($user)) {
+				$currentSearchAttributes = strval($user->getSearchAttributes());
+				if ($currentSearchAttributes !== $valueFromLDAP) {
+					$user->setSearchAttributes($valueFromLDAP);
 				}
 			}
 		}
