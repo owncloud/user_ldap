@@ -50,9 +50,9 @@ OCA = OCA || {};
 			this.tabIndex = tabIndex;
 			this.tabID = tabID;
 			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
-			this._disableButton('.ldap_action_continue, .ldap_action_save');
+			this._disableButton('#ldap .ldap_action_continue, #ldap .ldap_action_save');
 			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
-			$('.ldap_action_save').click(function(event) {
+			$('#ldap .ldap_action_save').click(function(event) {
 				event.preventDefault();
 				self._saveQueuedChanges();
 			});
