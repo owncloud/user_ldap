@@ -203,16 +203,17 @@ class User {
 		// search attribbutes
 		$searchAttributes = '';
 		$attributes = $this->connection->ldapAttributesForUserSearch;
-		foreach($attributes as $attr) {
-			if(isset($ldapEntry[strtolower($attr)])) {
-				$searchAttributes .= strval($ldapEntry[strtolower($attr)][0]) . ' ';
+		if(!empty($attributes)) {
+			foreach($attributes as $attr) {
+				if(isset($ldapEntry[strtolower($attr)])) {
+					$searchAttributes .= strval($ldapEntry[strtolower($attr)][0]) . ' ';
+				}
 			}
+			if(!empty($searchAttributes)) {
+				$this->updateSearchAttributes($searchAttributes);
+			}
+			unset($attr);
 		}
-		if(!empty($searchAttributes)) {
-			$this->updateSearchAttributes($searchAttributes);
-		}
-
-		unset($attr);
 
 		//homePath
 		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
