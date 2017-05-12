@@ -200,14 +200,17 @@ class User {
 		}
 		unset($attr);
 
+		// search attribbutes
 		$searchAttributes = '';
-		$attributes = strtolower($this->connection->ldapAttributesForUserSearch);
+		$attributes = $this->connection->ldapAttributesForUserSearch;
 		foreach($attributes as $attr) {
-			if(isset($ldapEntry[$attr])) {
-				$searchAttributes .= strval($ldapEntry[$attr][0]) . ' ';
+			if(isset($ldapEntry[strtolower($attr)])) {
+				$searchAttributes .= strval($ldapEntry[strtolower($attr)][0]) . ' ';
 			}
 		}
-		$this->updateSearchAttributes(null);
+		if(!empty($searchAttributes)) {
+			$this->updateSearchAttributes($searchAttributes);
+		}
 
 		unset($attr);
 
@@ -451,7 +454,6 @@ class User {
 		if($this->wasRefreshed('searchAttributes')) {
 			return;
 		}
-
 		// Get from LDAP if we don't have it already
 		if(is_null($valueFromLDAP)) {
 			$valueFromLDAP = '';
@@ -472,8 +474,7 @@ class User {
 		if ($valueFromLDAP !== '') {
 			$user = $this->userManager->get($this->uid);
 			if (!is_null($user)) {
-				$currentSearchAttributes = strval($user->getSearchAttributes());
-				if ($currentSearchAttributes !== $valueFromLDAP) {
+				if ($user->getSearchAttributes() !== $valueFromLDAP) {
 					$user->setSearchAttributes($valueFromLDAP);
 				}
 			}

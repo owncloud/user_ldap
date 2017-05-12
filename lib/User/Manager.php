@@ -155,6 +155,12 @@ class Manager {
 			}
 		}
 
+		// Do we have custom search attributes for this configuration?
+		$search = $this->access->getConnection()->ldapAttributesForUserSearch;
+		if(!is_null($search)) {
+			$attributes = array_merge($attributes, $search);
+		}
+
 		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
 		if(strpos($homeRule, 'attr:') === 0) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
