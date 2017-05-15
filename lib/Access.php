@@ -1484,15 +1484,13 @@ class Access extends LDAPUtility implements IUserTools {
 			return true;
 		}
 
-		// for now, supported attributes are entryUUID, nsuniqueid, objectGUID, ipaUniqueID
-		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid');
-
-		foreach($testAttributes as $attribute) {
+		foreach($this->connection->uuidAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
 				Util::writeLog('user_ldap',
 									'Setting '.$attribute.' as '.$uuidAttr,
 									Util::DEBUG);
+				// TODO we should make the autodetection explicit and store it in the configuration after detection
 				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
