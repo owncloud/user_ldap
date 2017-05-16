@@ -444,7 +444,8 @@ class User {
 		}
 		$user = $this->userManager->get($this->uid);
 		if (!is_null($user)) {
-			$attributes = empty($this->connection->ldapAttributesForUserSearch) ? [] : $this->connection->ldapAttributesForUserSearch;
+			$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+			$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 			// Get from LDAP if we don't have it already
 			$searchTerms = [];
 			if(is_null($ldapEntry)) {
