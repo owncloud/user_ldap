@@ -157,7 +157,7 @@ class Manager {
 
 		// Do we have custom search attributes for this configuration?
 		$search = $this->access->getConnection()->ldapAttributesForUserSearch;
-		if(!is_null($search)) {
+		if(!empty($search)) {
 			$attributes = array_merge($attributes, $search);
 		}
 
