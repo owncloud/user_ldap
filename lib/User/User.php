@@ -201,19 +201,7 @@ class User {
 		unset($attr);
 
 		// search attributes
-		$searchAttributes = '';
-		$attributes = $this->connection->ldapAttributesForUserSearch;
-		if(!empty($attributes)) {
-			foreach($attributes as $attr) {
-				if(isset($ldapEntry[strtolower($attr)])) {
-					$searchAttributes .= strval($ldapEntry[strtolower($attr)][0]) . ' ';
-				}
-			}
-			if(!empty($searchAttributes)) {
-				$this->updateSearchAttributes($searchAttributes);
-			}
-			unset($attr);
-		}
+		$this->updateSearchAttributes($ldapEntry);
 
 		//homePath
 		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
@@ -449,34 +437,43 @@ class User {
 	/**
 	 * updates the ownCloud accounts table search string as calculated from LDAP
 	 * @param string $valueFromLDAP if known, to save an LDAP read request
-	 * @return null
 	 */
-	public function updateSearchAttributes($valueFromLDAP = null) {
+	public function updateSearchAttributes(array $ldapEntry = null) {
 		if($this->wasRefreshed('searchAttributes')) {
 			return;
 		}
-		// Get from LDAP if we don't have it already
-		if(is_null($valueFromLDAP)) {
-			$valueFromLDAP = '';
+		$user = $this->userManager->get($this->uid);
+		if (!is_null($user)) {
 			$attributes = is_null($this->connection->ldapAttributesForUserSearch) ? [] : $this->connection->ldapAttributesForUserSearch;
-			foreach($attributes as $attr) {
-				$attrVal = $this->access->readAttribute($this->dn, strtolower($attr));
-				if(is_array($attrVal) && (count($attrVal) > 0)) {
-					$attrVal = strval($attrVal[0]);
+			// Get from LDAP if we don't have it already
+			$searchTerms = [];
+			if(is_null($ldapEntry)) {
+				foreach($attributes as $attr) {
+					foreach ($this->access->readAttribute($this->dn, strtolower($attr)) as $value) {
+						$value = trim($value);
+						if (!empty($value)) {
+							$searchTerms[] = strtolower($value);
+						}
+					}
 				}
-				if($attrVal != '') {
-					$valueFromLDAP .= $attrVal . ' ';
+			} else {
+				foreach($attributes as $attr) {
+					$lowerAttr = strtolower($attr);
+					if(isset($ldapEntry[$lowerAttr])) {
+						foreach ($ldapEntry[$lowerAttr] as $value) {
+							$value = trim($value);
+							if (!empty($value)) {
+								$searchTerms[] = strtolower($value);
+							}
+						}
+					}
 				}
+				unset($attr);
 			}
-		}
 
-		// If we have a value, which is different to the current, then let's update the accounts table
-		if ($valueFromLDAP !== '') {
-			$user = $this->userManager->get($this->uid);
-			if (!is_null($user)) {
-				if ($user->getSearchAttributes() !== $valueFromLDAP) {
-					$user->setSearchAttributes(trim($valueFromLDAP));
-				}
+			// If we have a value, which is different to the current, then let's update the accounts table
+			if (array_diff($searchTerms, $user->getSearchTerms())) {
+				$user->setSearchTerms($searchTerms);
 			}
 		}
 	}
