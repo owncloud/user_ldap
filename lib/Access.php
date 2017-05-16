@@ -1201,7 +1201,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 		// Transliteration
 		// latin characters to ASCII
-		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+		$name = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name);
 
 		// Replacements
 		$name = str_replace(' ', '_', $name);
