@@ -444,20 +444,13 @@ class User {
 		}
 		$user = $this->userManager->get($this->uid);
 		if (!is_null($user)) {
-			$rawAttributes = $this->connection->ldapAttributesForUserSearch;
-			$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 			// Get from LDAP if we don't have it already
-			$searchTerms = [];
 			if(is_null($ldapEntry)) {
-				foreach($attributes as $attr) {
-					foreach ($this->access->readAttribute($this->dn, strtolower($attr)) as $value) {
-						$value = trim($value);
-						if (!empty($value)) {
-							$searchTerms[] = strtolower($value);
-						}
-					}
-				}
+				$searchTerms = $this->getSearchTerms();
 			} else {
+				$searchTerms = [];
+				$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+				$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 				foreach($attributes as $attr) {
 					$lowerAttr = strtolower($attr);
 					if(isset($ldapEntry[$lowerAttr])) {
@@ -469,7 +462,6 @@ class User {
 						}
 					}
 				}
-				unset($attr);
 			}
 
 			// If we have a value, which is different to the current, then let's update the accounts table
@@ -477,6 +469,25 @@ class User {
 				$user->setSearchTerms($searchTerms);
 			}
 		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getSearchTerms() {
+		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
+		// Get from LDAP if we don't have it already
+		$searchTerms = [];
+		foreach($attributes as $attr) {
+			foreach ($this->access->readAttribute($this->dn, strtolower($attr)) as $value) {
+				$value = trim($value);
+				if (!empty($value)) {
+					$searchTerms[] = strtolower($value);
+				}
+			}
+		}
+		return $searchTerms;
 	}
 
 	/**

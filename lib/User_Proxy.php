@@ -29,8 +29,11 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
+use OCP\User\IProvidesExtendedSearchBackend;
+use OCP\UserInterface;
 
-class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvidesExtendedSearchBackend {
 	private $backends = array();
 	private $refBackend = null;
 
@@ -47,6 +50,14 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface 
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string[]
+	 */
+	public function getSearchTerms($uid) {
+		return $this->handleRequest($uid, 'getSearchTerms', array($uid));
 	}
 
 	/**
