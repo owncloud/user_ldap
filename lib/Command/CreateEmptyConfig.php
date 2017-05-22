@@ -60,11 +60,6 @@ class CreateEmptyConfig extends Command {
 	protected function getNewConfigurationPrefix() {
 		$serverConnections = $this->helper->getServerConfigurationPrefixes();
 
-		// first connection uses no prefix
-		if(sizeof($serverConnections) == 0) {
-			return '';
-		}
-
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
 		$lastNumber = intval(str_replace('s', '', $lastKey));
