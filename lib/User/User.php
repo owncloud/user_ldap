@@ -144,6 +144,7 @@ class User {
 		if($this->needsRefresh()) {
 			$this->updateEmail();
 			$this->updateQuota();
+			$this->updateSearchAttributes();
 			if($hasLoggedIn !== 0) {
 				//we do not need to try it, when the user has not been logged in
 				//before, because the file system will not be ready.
@@ -198,6 +199,9 @@ class User {
 			);
 		}
 		unset($attr);
+
+		// search attributes
+		$this->updateSearchAttributes($ldapEntry);
 
 		//homePath
 		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
@@ -428,6 +432,62 @@ class User {
 				}
 			}
 		}
+	}
+
+	/**
+	 * updates the ownCloud accounts table search string as calculated from LDAP
+	 * @param string $valueFromLDAP if known, to save an LDAP read request
+	 */
+	public function updateSearchAttributes(array $ldapEntry = null) {
+		if($this->wasRefreshed('searchAttributes')) {
+			return;
+		}
+		$user = $this->userManager->get($this->uid);
+		if (!is_null($user)) {
+			// Get from LDAP if we don't have it already
+			if(is_null($ldapEntry)) {
+				$searchTerms = $this->getSearchTerms();
+			} else {
+				$searchTerms = [];
+				$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+				$attributes = empty($rawAttributes) ? [] : $rawAttributes;
+				foreach($attributes as $attr) {
+					$lowerAttr = strtolower($attr);
+					if(isset($ldapEntry[$lowerAttr])) {
+						foreach ($ldapEntry[$lowerAttr] as $value) {
+							$value = trim($value);
+							if (!empty($value)) {
+								$searchTerms[] = strtolower($value);
+							}
+						}
+					}
+				}
+			}
+
+			// If we have a value, which is different to the current, then let's update the accounts table
+			if (array_diff($searchTerms, $user->getSearchTerms())) {
+				$user->setSearchTerms($searchTerms);
+			}
+		}
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getSearchTerms() {
+		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
+		// Get from LDAP if we don't have it already
+		$searchTerms = [];
+		foreach($attributes as $attr) {
+			foreach ($this->access->readAttribute($this->dn, strtolower($attr)) as $value) {
+				$value = trim($value);
+				if (!empty($value)) {
+					$searchTerms[] = strtolower($value);
+				}
+			}
+		}
+		return $searchTerms;
 	}
 
 	/**
