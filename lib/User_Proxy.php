@@ -57,7 +57,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return string[]
 	 */
 	public function getSearchTerms($uid) {
-		$terms =  $this->handleRequest($uid, 'getSearchTerms', array($uid));
+		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid], []);
 		return is_array($terms) ? $terms : [];
 	}
 
