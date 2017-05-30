@@ -143,6 +143,7 @@ OC.L10N.register(
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "ページ分割サイズは、LDAP検索時にユーザーやグループのリスト一覧データを一括で返すデータ量を指定します。(設定が0の場合には、LDAP検索の分割転送は無効)",
     "Special Attributes" : "特殊属性",
     "Quota Field" : "クォータ属性",
+    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "空のままにするとユーザのデフォルトクオータになります。もしくは、LDAPもしくはADの属性を指定してください。",
     "Quota Default" : "クォータのデフォルト",
     "Email Field" : "メール属性",
     "User Home Folder Naming Rule" : "ユーザーのホームフォルダー命名規則",
