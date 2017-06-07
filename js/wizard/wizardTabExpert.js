@@ -26,15 +26,18 @@ OCA = OCA || {};
 			var items = {
 				ldap_expert_username_attr: {
 					$element: $('#ldap_expert_username_attr'),
-					setMethod: 'setUsernameAttribute'
+					setMethod: 'setUsernameAttribute',
+					disableAutoSave: true
 				},
 				ldap_expert_uuid_user_attr: {
 					$element: $('#ldap_expert_uuid_user_attr'),
-					setMethod: 'setUserUUIDAttribute'
+					setMethod: 'setUserUUIDAttribute',
+					disableAutoSave: true
 				},
 				ldap_expert_uuid_group_attr: {
 					$element: $('#ldap_expert_uuid_group_attr'),
-					setMethod: 'setGroupUUIDAttribute'
+					setMethod: 'setGroupUUIDAttribute',
+					disableAutoSave: true
 				},
 
 				//Buttons
@@ -94,17 +97,39 @@ OCA = OCA || {};
 		},
 
 		/**
-		 * requests clearing of all user mappings
+		 * requests clearing of all user or group mappings
 		 */
 		onClearUserMappingsClick: function() {
-			this.configModel.requestWizard('ldap_action_clear_user_mappings', {ldap_clear_mapping: 'user'});
+			var self = this;
+
+			OCdialogs.confirm(
+				t('user_ldap', "Clearing User Mappings may result in loss of data!"),
+				t('core', 'destructive action!').toUpperCase(),
+				function(cb) {
+					if (cb) {
+						self.configModel.requestWizard('ldap_action_clear_user_mappings', {ldap_clear_mapping: 'user' });
+					}
+				},
+				true
+			);
 		},
 
 		/**
 		 * requests clearing of all group mappings
 		 */
 		onClearGroupMappingsClick: function() {
-			this.configModel.requestWizard('ldap_action_clear_group_mappings', {ldap_clear_mapping: 'group'});
+			var self = this;
+
+			OCdialogs.confirm(
+				t('user_ldap', "Clearing Group Mappings may result in loss of data!"),
+				t('core', 'destructive action!').toUpperCase(),
+				function(cb) {
+					if (cb) {
+						self.configModel.requestWizard('ldap_action_clear_group_mappings', {ldap_clear_mapping: 'group' });
+					}
+				},
+				true
+			);
 		},
 
 		/**

@@ -334,18 +334,26 @@ OCA = OCA || {};
 		_enableAutoSave: function() {
 			var view = this;
 
-			for(var id in this.managedItems) {
-				if(_.isUndefined(this.managedItems[id].$element)
-					|| _.isUndefined(this.managedItems[id].setMethod)) {
-					continue;
+			_.each(this.managedItems, function(item, id){
+
+				if(_.isUndefined(item.$element) || _.isUndefined(item.setMethod)) {
+					return false;
 				}
-				var $element = this.managedItems[id].$element;
-				if (!$element.is('select[multiple]')) {
+
+				var $element = item.$element;
+				if (!$element.is('select[multiple]') && !item.disableAutoSave) {
+					console.log(id+': autosave');
+					$element.change(function() {
+						view._requestSave($(this));
+					});
+				}
+				else if (item.disableAutoSave) {
+					console.log(id+': queued');
 					$element.change(function() {
 						view._queueChanges($(this));
 					});
 				}
-			}
+			});
 		},
 
 		/**
@@ -387,7 +395,7 @@ OCA = OCA || {};
 				noneSelectedText: caption,
 				classes: this.multiSelectPluginClass,
 				close: function() {
-					view._queueChanges($element);
+					view._requestSave($element);
 				}
 			});
 		},

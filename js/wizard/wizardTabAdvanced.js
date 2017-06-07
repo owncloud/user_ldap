@@ -27,91 +27,112 @@ OCA = OCA || {};
 				// Connection settings
 				ldap_configuration_active: {
 					$element: $('#ldap_configuration_active'),
-					setMethod: 'setConfigurationState'
+					setMethod: 'setConfigurationState',
+					disableAutoSave: true
 				},
 				ldap_backup_host: {
 					$element: $('#ldap_backup_host'),
-					setMethod: 'setBackupHost'
+					setMethod: 'setBackupHost',
+					disableAutoSave: true
 				},
 				ldap_backup_port: {
 					$element: $('#ldap_backup_port'),
-					setMethod: 'setBackupPort'
+					setMethod: 'setBackupPort',
+					disableAutoSave: true
 				},
 				ldap_override_main_server: {
 					$element: $('#ldap_override_main_server'),
-					setMethod: 'setOverrideMainServerState'
+					setMethod: 'setOverrideMainServerState',
+					disableAutoSave: true
 				},
 				ldap_turn_off_cert_check: {
 					$element: $('#ldap_turn_off_cert_check'),
-					setMethod: 'setCertCheckDisabled'
+					setMethod: 'setCertCheckDisabled',
+					disableAutoSave: true
 				},
 				ldap_cache_ttl: {
 					$element: $('#ldap_cache_ttl'),
-					setMethod: 'setCacheTTL'
+					setMethod: 'setCacheTTL',
+					disableAutoSave: true
 				},
 
 				//Directory Settings
 				ldap_display_name: {
 					$element: $('#ldap_display_name'),
-					setMethod: 'setUserDisplayName'
+					setMethod: 'setUserDisplayName',
+					disableAutoSave: true
 				},
 				ldap_user_display_name_2: {
 					$element: $('#ldap_user_display_name_2'),
-					setMethod: 'setUserDisplayName2'
+					setMethod: 'setUserDisplayName2',
+					disableAutoSave: true
 				},
 				ldap_base_users: {
 					$element: $('#ldap_base_users'),
-					setMethod: 'setBaseDNUsers'
+					setMethod: 'setBaseDNUsers',
+					disableAutoSave: true
 				},
 				ldap_attributes_for_user_search: {
 					$element: $('#ldap_attributes_for_user_search'),
-					setMethod: 'setSearchAttributesUsers'
+					setMethod: 'setSearchAttributesUsers',
+					disableAutoSave: true
 				},
 				ldap_group_display_name: {
 					$element: $('#ldap_group_display_name'),
-					setMethod: 'setGroupDisplayName'
+					setMethod: 'setGroupDisplayName',
+					disableAutoSave: true
 				},
 				ldap_base_groups: {
 					$element: $('#ldap_base_groups'),
-					setMethod: 'setBaseDNGroups'
+					setMethod: 'setBaseDNGroups',
+					disableAutoSave: true
 				},
 				ldap_attributes_for_group_search: {
 					$element: $('#ldap_attributes_for_group_search'),
-					setMethod: 'setSearchAttributesGroups'
+					setMethod: 'setSearchAttributesGroups',
+					disableAutoSave: true
 				},
 				ldap_group_member_assoc_attribute: {
 					$element: $('#ldap_group_member_assoc_attribute'),
-					setMethod: 'setGroupMemberAssociationAttribute'
+					setMethod: 'setGroupMemberAssociationAttribute',
+					disableAutoSave: true
 				},
 				ldap_dynamic_group_member_url: {
 					$element: $('#ldap_dynamic_group_member_url'),
-					setMethod: 'setDynamicGroupMemberURL'
+					setMethod: 'setDynamicGroupMemberURL',
+					disableAutoSave: true
 				},
 				ldap_nested_groups: {
 					$element: $('#ldap_nested_groups'),
-					setMethod: 'setUseNestedGroups'
+					setMethod: 'setUseNestedGroups',
+					disableAutoSave: true
 				},
 				ldap_paging_size: {
 					$element: $('#ldap_paging_size'),
-					setMethod: 'setPagingSize'
+					setMethod: 'setPagingSize',
+					disableAutoSave: true
 				},
 
 				//Special Attributes
 				ldap_quota_attr: {
 					$element: $('#ldap_quota_attr'),
-					setMethod: 'setQuotaAttribute'
+					setMethod: 'setQuotaAttribute',
+					disableAutoSave: true
 				},
 				ldap_quota_def: {
 					$element: $('#ldap_quota_def'),
-					setMethod: 'setQuotaDefault'
+					setMethod: 'setQuotaDefault',
+					disableAutoSave: true
 				},
 				ldap_email_attr: {
 					$element: $('#ldap_email_attr'),
-					setMethod: 'setEmailAttribute'
+					setMethod: 'setEmailAttribute',
+					disableAutoSave: true
 				},
 				home_folder_naming_rule: {
 					$element: $('#home_folder_naming_rule'),
-					setMethod: 'setHomeFolderAttribute'
+					setMethod: 'setHomeFolderAttribute',
+					disableAutoSave: true
 				}
 			};
 			this.setManagedItems(items);

@@ -1,4 +1,8 @@
 <div class="ldapSettingControls">
+	<ul class="ldapSaveState"></ul>
+	<button class="ldap_action_save" name="ldap_action_save" type="button">
+		<?php p($l->t('Save changes'));?>
+	</button>
 	<button type="button" class="ldap_action_test_connection" name="ldap_action_test_connection">
 		<?php p($l->t('Test Configuration'));?>
 	</button>

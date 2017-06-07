@@ -4,9 +4,6 @@
 	<button class="ldap_action_back invisible" name="ldap_action_back" type="button">
 		<?php p($l->t('Back'));?>
 	</button>
-	<button class="ldap_action_save" name="ldap_action_save" type="button">
-		<?php p($l->t('Save'));?>
-	</button>
 	<button class="ldap_action_continue" name="ldap_action_continue" type="button">
 		<?php p($l->t('Continue'));?>
 	</button>

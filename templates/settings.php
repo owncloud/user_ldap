@@ -119,11 +119,5 @@ style('user_ldap', 'settings');
 	</fieldset>
 	</div>
 	<!-- Spinner Template -->
-	<div id="ldapFooter" class="ui-widget ui-widget-content ui-corner-all">
 	<img class="ldapSpinner hidden" src="<?php p(image_path('core', 'loading.gif')); ?>">
-		<ul class="ldapSaveState"></ul>
-		<button class="ldap_action_save" name="ldap_action_save" type="button">
-			<?php p($l->t('Save'));?>
-		</button>
-	</div>
 </form>
