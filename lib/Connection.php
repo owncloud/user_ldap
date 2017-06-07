@@ -52,6 +52,11 @@ class Connection extends LDAPUtility {
 	private $configured = false;
 	private $hasPagedResultSupport = true;
 
+	// for now, these are the autodetected unique attributes
+	public $uuidAttributes = [
+		'entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'
+	];
+
 	/**
 	 * @var bool runtime flag that indicates whether supported primary groups are available
 	 */
@@ -337,10 +342,8 @@ class Connection extends LDAPUtility {
 			if(!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;
 			} else {
-				$uuidAttributes = array('auto', 'entryuuid', 'nsuniqueid',
-										'objectguid', 'guid');
 				if(!in_array($this->configuration->$effectiveSetting,
-							$uuidAttributes)
+							array_merge(['auto'], $this->uuidAttributes))
 					&& (!is_null($this->configID))) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();

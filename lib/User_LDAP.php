@@ -36,8 +36,10 @@ namespace OCA\User_LDAP;
 use OC\User\NoUserException;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
+use OCP\IUserBackend;
+use OCP\UserInterface;
 
-class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface {
 
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
@@ -420,6 +422,19 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 */
 	public function getBackendName(){
 		return 'LDAP';
+	}
+
+	/**
+	 * @param $uid
+	 * returns false if no user wes found. Will lead to the proxy to check the next server
+	 * @return string[]
+	 */
+	public function getSearchTerms($uid) {
+		$user = $this->access->userManager->get($uid);
+		if ($user === null) {
+			return [];
+		}
+		return $user->getSearchTerms();
 	}
 
 }

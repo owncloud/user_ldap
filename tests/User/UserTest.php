@@ -190,6 +190,207 @@ class UserTest extends \Test\TestCase {
 		$user->updateEmail();
 	}
 
+	public function testUpdateSearchAttributesNotConfigured() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->exactly(1))
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(null));
+
+		$access->expects($this->never())
+			->method('readAttribute');
+
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$uuser->expects($this->once())
+			->method('getSearchTerms')
+			->will($this->returnValue([]));
+
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateSearchAttributes();
+	}
+
+	public function testUpdateSearchAttributesNotProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->exactly(1))
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(['uidNumber']));
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('uidnumber'))
+			->will($this->returnValue(['1234']));
+
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$uuser->expects($this->once())
+			->method('getSearchTerms')
+			->will($this->returnValue([]));
+		$uuser->expects($this->once())
+			->method('setSearchTerms')
+			->with(['1234']);
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userMgr */
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateSearchAttributes();
+	}
+
+	public function testUpdateSearchAttributesNotProvidedMultiValueField() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->exactly(1))
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(['mailAddresses']));
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo('uid=alice,dc=foo,dc=bar'),
+				$this->equalTo('mailaddresses'))
+			->will($this->returnValue(['test@test.com', 'test2@test.com']));
+
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$uuser->expects($this->once())
+			->method('getSearchTerms')
+			->will($this->returnValue([]));
+		$uuser->expects($this->once())
+			->method('setSearchTerms')
+			->with(['test@test.com', 'test2@test.com']);
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userMgr */
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateSearchAttributes();
+	}
+
+
+
+	public function testUpdateSearchAttributesNotProvidedMultiple() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$connection->expects($this->exactly(1))
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(['uidNumber', 'zipcode']));
+
+		$access->expects($this->exactly(2))
+			->method('readAttribute')
+			->withConsecutive(
+				[$this->equalTo('uid=alice,dc=foo,dc=bar'), $this->equalTo('uidnumber')],
+				[$this->equalTo('uid=alice,dc=foo,dc=bar'), $this->equalTo('zipcode')]
+			)
+			->will($this->onConsecutiveCalls(['1234'], ['nr140st']));
+
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$uuser->expects($this->once())
+			->method('getSearchTerms')
+			->will($this->returnValue(['1234']));
+		$uuser->expects($this->once())
+			->method('setSearchTerms')
+			->with(['1234', 'nr140st']);
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userMgr */
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateSearchAttributes();
+	}
+
+	public function testUpdateSearchAttributesProvided() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		list($access, $connection) =
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+
+		$access->expects($this->never())
+			->method('readAttribute');
+
+		$connection->expects($this->exactly(1))
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(['uidNumber']));
+
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$uuser->expects($this->once())
+			->method('getSearchTerms')
+			->will($this->returnValue([]));
+		$uuser->expects($this->once())
+			->method('setSearchTerms')
+			->with(['1234']);
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userMgr */
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
+
+		$uid = 'alice';
+		$dn  = 'uid=alice,dc=foo,dc=bar';
+
+		$user = new User(
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$user->updateSearchAttributes(['uidnumber' => ['1234']]);
+	}
+
 	public function testUpdateQuotaAllProvided() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
@@ -1051,6 +1252,7 @@ class UserTest extends \Test\TestCase {
 			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
+			'updateSearchAttributes',
 			'composeAndStoreDisplayName',
 			'getHomePath',
 			'updateAvatar'
@@ -1072,6 +1274,9 @@ class UserTest extends \Test\TestCase {
 				if($name === 'homeFolderNamingRule') {
 					return 'attr:homeDirectory';
 				}
+				if($name === 'ldapAttributesForUserSearch') {
+					return ['uidNumber'];
+				}
 				return $name;
 			}));
 
@@ -1079,6 +1284,7 @@ class UserTest extends \Test\TestCase {
 			strtolower($connection->ldapQuotaAttribute) => array('4096'),
 			strtolower($connection->ldapEmailAttribute) => array('alice@wonderland.org'),
 			strtolower($connection->ldapUserDisplayName) => array('Aaaaalice'),
+			strtolower($connection->ldapAttributesForUserSearch[0]) => '12345',
 			'uid' => array($uid),
 			'homedirectory' => array('Alice\'s Folder'),
 			'memberof' => array('cn=groupOne', 'cn=groupTwo'),

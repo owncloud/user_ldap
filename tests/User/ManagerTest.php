@@ -242,6 +242,26 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertTrue(in_array('thumbnailphoto', $attributes));
 	}
 
+	public function testGetAttributesWithCustomSearch() {
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
+			$this->getTestInstances();
+
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
+		$manager->setLdapAccess($access);
+
+		$connection = $access->getConnection();
+		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
+		$connection->setConfiguration(array('ldapAttributesForUserSearch' => 'uidNumber'));
+
+		$attributes = $manager->getAttributes();
+
+		$this->assertTrue(in_array('uidNumber', $attributes));
+		$this->assertTrue(in_array('dn', $attributes));
+		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array('jpegphoto', $attributes));
+		$this->assertTrue(in_array('thumbnailphoto', $attributes));
+	}
+
 	public function testGetAttributesMinimal() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
