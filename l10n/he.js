@@ -129,6 +129,7 @@ OC.L10N.register(
     "One User Base DN per line" : "משתמש DN בסיסי אחד לשורה",
     "User Search Attributes" : "מאפייני חיפוש משתמש",
     "Optional; one attribute per line" : "אופציונאלי; מאפיין אחד בשורה",
+    "Each attribute value is truncated to 191 characters" : "כל ערך משתנה מחולק ל- 191 תווים",
     "Group Display Name Field" : "שדה שם תצוגה לקבוצה",
     "The LDAP attribute to use to generate the groups's display name." : "מאפיין LDAP לשימוש בהפקת שם תצוגת הקבוצה.",
     "Base Group Tree" : "עץ קבוצה בסיסי",
