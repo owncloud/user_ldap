@@ -129,6 +129,7 @@ OC.L10N.register(
     "One User Base DN per line" : "Un DN Base de Usuario por línea",
     "User Search Attributes" : "Atributos de la busqueda de usuario",
     "Optional; one attribute per line" : "Opcional; un atributo por linea",
+    "Each attribute value is truncated to 191 characters" : "El valor de cada atributo está limitado a 191 caractéres.",
     "Group Display Name Field" : "Campo de nombre de grupo a mostrar",
     "The LDAP attribute to use to generate the groups's display name." : "El campo LDAP a usar para generar el nombre para mostrar del grupo.",
     "Base Group Tree" : "Árbol base de grupo",

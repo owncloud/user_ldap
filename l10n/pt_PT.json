@@ -127,6 +127,7 @@
     "One User Base DN per line" : "Uma base de utilizador DN por linha",
     "User Search Attributes" : "Utilizar atributos de pesquisa",
     "Optional; one attribute per line" : "Opcional; Um atributo por linha",
+    "Each attribute value is truncated to 191 characters" : "Cada valor de atributo é truncado após 191 caracteres",
     "Group Display Name Field" : "Mostrador do nome do grupo.",
     "The LDAP attribute to use to generate the groups's display name." : "Atributo LDAP para gerar o nome do grupo do ownCloud.",
     "Base Group Tree" : "Base da árvore de grupos.",
