@@ -129,6 +129,7 @@ OC.L10N.register(
     "One User Base DN per line" : "หนึ่งผู้ใช้ Base DN ต่อหนึ่งบรรทัด",
     "User Search Attributes" : "คุณลักษณะการค้นหาชื่อผู้ใช้",
     "Optional; one attribute per line" : "ตัวเลือกเพิ่มเติม; หนึ่งคุณลักษณะต่อบรรทัด",
+    "Each attribute value is truncated to 191 characters" : "ค่าแอตทริบิวต์แต่ละรายการแบ่งให้เป็นอักขระ 191 ตัวอักษร",
     "Group Display Name Field" : "ช่องแสดงชื่อกลุ่มที่ต้องการ",
     "The LDAP attribute to use to generate the groups's display name." : "คุณลักษณะ LDAP เพื่อใช้ในการสร้างชื่อที่ปรากฏของกลุ่ม",
     "Base Group Tree" : "รายการกลุ่มหลักแบบ Tree",
