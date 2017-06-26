@@ -237,53 +237,6 @@ class AccessTest extends \Test\TestCase {
 		$access->cacheUserHome('foobar', '/foobars/path');
 	}
 
-	public function testBatchApplyUserAttributes() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-		$mapperMock = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$mapperMock->expects($this->any())
-			->method('getNameByDN')
-			->will($this->returnValue('a_username'));
-
-		$userMock = $this->getMockBuilder('\OCA\User_LDAP\User\User')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$access->connection->expects($this->any())
-			->method('__get')
-			->will($this->returnValue('displayName'));
-
-		$access->setUserMapper($mapperMock);
-
-		$displayNameAttribute = strtolower($access->connection->ldapUserDisplayName);
-		$data = array(
-			array(
-				'dn' => 'foobar',
-				$displayNameAttribute => 'barfoo'
-			),
-			array(
-				'dn' => 'foo',
-				$displayNameAttribute => 'bar'
-			),
-			array(
-				'dn' => 'raboof',
-				$displayNameAttribute => 'oofrab'
-			)
-		);
-
-		$userMock->expects($this->exactly(count($data)))
-			->method('processAttributes');
-
-		$um->expects($this->exactly(count($data)))
-			->method('get')
-			->will($this->returnValue($userMock));
-
-		$access->batchApplyUserAttributes($data);
-	}
-
 	public function dNAttributeProvider() {
 		// corresponds to Access::resemblesDN()
 		return array(

@@ -258,9 +258,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface {
 
 		$result = $this->userExistsOnLDAP($user);
 		$this->access->connection->writeToCache('userExists'.$uid, $result);
-		if($result === true) {
-			$user->update();
-		}
 		return $result;
 	}
 
