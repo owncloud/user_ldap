@@ -223,13 +223,17 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				if (!empty($nestedGroups)) {
 					$subMembers = $this->_groupMembers($memberDN, $seen);
 					if ($subMembers) {
-						$allMembers = array_merge($allMembers, $subMembers);
+						// $allMembers = array_merge($allMembers, $subMembers);
+						// Fix for key merge
+						$allMembers = $allMembers + $subMembers;
 					}
 				}
 			}
 		}
 		
-		$allMembers = array_merge($allMembers, $this->getDynamicGroupMembers($dnGroup));
+		// $allMembers = array_merge($allMembers, $this->getDynamicGroupMembers($dnGroup));
+		// Fix for key merge
+		$allMembers = $allMembers + $this->getDynamicGroupMembers($dnGroup);
 		
 		$this->access->connection->writeToCache($cacheKey, $allMembers);
 		return $allMembers;
