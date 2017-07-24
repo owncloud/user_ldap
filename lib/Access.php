@@ -804,38 +804,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
-		$this->batchApplyUserAttributes($ldapRecords);
 		return $this->fetchList($ldapRecords, (count($attr) > 1));
-	}
-
-	/**
-	 * provided with an array of LDAP user records the method will fetch the
-	 * user object and requests it to process the freshly fetched attributes and
-	 * and their values
-	 * @param array $ldapRecords
-	 */
-	public function batchApplyUserAttributes(array $ldapRecords){
-		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
-		foreach($ldapRecords as $userRecord) {
-			if(!isset($userRecord[$displayNameAttribute])) {
-				// displayName is obligatory
-				continue;
-			}
-			$ocName  = $this->dn2ocname($userRecord['dn'][0]);
-			if($ocName === false) {
-				continue;
-			}
-			$this->cacheUserExists($ocName);
-			$user = $this->userManager->get($ocName);
-			if ($user !== null) {
-				$user->processAttributes($userRecord);
-			} else {
-				\OC::$server->getLogger()->debug(
-					"The ldap user manager returned null for $ocName",
-					['app'=>'user_ldap']
-				);
-			}
-		}
 	}
 
 	/**
