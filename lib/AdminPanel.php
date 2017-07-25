@@ -27,6 +27,7 @@ class AdminPanel implements ISettings {
 		$tmpl = new Template('user_ldap', 'settings');
 
 		$prefixes = $this->helper->getServerConfigurationPrefixes();
+		$activePrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		$hosts = $this->helper->getServerConfigurationHosts();
 
 		$wizardHtml = '';
@@ -48,6 +49,7 @@ class AdminPanel implements ISettings {
 			$tab = new Template('user_ldap', $wizTabs[$i]['tpl']);
 			if($i === 0) {
 				$tab->assign('serverConfigurationPrefixes', $prefixes);
+				$tab->assign('serverConfigurationActivePrefixes', $activePrefixes);
 				$tab->assign('serverConfigurationHosts', $hosts);
 			}
 			$tab->assign('wizardControls', $wControls);
