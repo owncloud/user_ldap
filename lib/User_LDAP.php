@@ -189,7 +189,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface {
 		$ldap_users_count = count($ldap_users);
 		$ldap_users2_count = count($ldap_users2);
 		if ($ldap_users_count !== $ldap_users2_count) {
-			\OCP\Util::writeLog('user_ldap', "getUsers: fetched $ldap_users_count users but returned $ldap_users2_count", \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', "LDAP unable to find user mappings for all the users returned by the search. Returning $ldap_users2_count instead of $ldap_users_count", \OCP\Util::ERROR);
 		}
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users2);
