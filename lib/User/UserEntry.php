@@ -1,0 +1,346 @@
+<?php
+/**
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ *
+ * @copyright Copyright (c) 2017, ownCloud GmbH.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
+namespace OCA\User_LDAP\User;
+
+use OCA\User_LDAP\Connection;
+use OCP\IConfig;
+use OCP\ILogger;
+
+/**
+ * User
+ *
+ * represents an LDAP user, gets and holds user-specific information from LDAP
+ */
+class UserEntry {
+	/**
+	 * @var IConfig
+	 */
+	protected $config;
+	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+	/**
+	 * @var Connection
+	 */
+	protected $connection;
+	/**
+	 * @var array
+	 */
+	protected $ldapEntry;
+	/**
+	 * @var string
+	 */
+	protected $ownCloudUID;
+
+	/**
+	 * @brief constructor, make sure the subclasses call this one!
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 * @param Connection $connection
+	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
+	 * @throws \InvalidArgumentException if entry does not contain a dn
+	 */
+	public function __construct(IConfig $config, ILogger $logger, Connection $connection, array $ldapEntry) {
+		$this->config = $config;
+		$this->logger = $logger;
+		$this->connection = $connection;
+		$this->ldapEntry = $ldapEntry;
+		// only accept an entry with the dn set
+		if ($this->getDN() === null) {
+			throw new \InvalidArgumentException('Entry must have the dn set');
+		}
+		//TODO extractAttributeValuesFromResult from Access
+	}
+
+	/**
+	 * @brief returns the LDAP DN of the entry
+	 * @return string|null
+	 */
+	public function getDN() {
+		return $this->getAttributeValue ('dn', null);
+	}
+
+	/**
+	 * @see getOwncloudUID() to get the owncloud internal userid
+	 * @return string username as configured. THIS IS NOT the ownCloud internal userid!
+	 * @throws \OutOfBoundsException if username could not be determined
+	 */
+	public function getUsername() {
+		$attr = $this->getAttributeName('ldapExpertUsernameAttr');
+		if ($attr === '') {
+			$username = $this->getUUID(); // fallback to uuid
+		} else {
+			$username = $this->getAttributeValue($attr, null);
+		}
+		if ($username === null) {
+			throw new \OutOfBoundsException('Cannot determine username for '.$this->getDN());
+		}
+		return $username;
+	}
+
+	/**
+	 * @brief returns the ownCloudUserID if it has been resolved by the Manager
+	 * @return string|null
+	 */
+	public function getOwnCloudUID() {
+		return $this->ownCloudUID;
+	}
+
+	/**
+	 * @param string $ownCloudUID
+	 */
+	public function setOwnCloudUID($ownCloudUID) {
+		$this->ownCloudUID = $ownCloudUID;
+	}
+	/**
+	 * @brief returns the uuid of the ldap entry
+	 * @return string
+	 * @throws \OutOfBoundsException if uuid could not be determined
+	 */
+	public function getUUID() {
+		$attr = $this->getAttributeName('ldapExpertUUIDUserAttr', 'auto');
+		if ($attr !== 'auto') {
+			$uuidAttributes = [$attr];
+		} else {
+			$uuidAttributes = $this->connection->uuidAttributes;
+		}
+		foreach ($uuidAttributes as $uuidAttribute) {
+			$uuid = $this->getAttributeValue($uuidAttribute);
+			if ($uuid === null) {
+				continue;
+			}
+			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
+				// remember autodetected uuid attribute
+				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
+				$this->connection->saveConfiguration();
+			}
+			return $uuid;
+		}
+		throw new \OutOfBoundsException('Cannot determine UUID for '.$this->getDN());
+	}
+
+	/**
+	 * @return string
+	 * @throws \OutOfBoundsException if display name could not be determined
+	 */
+	public function getDisplayName() {
+		$attr = $this->getAttributeName('ldapUserDisplayName', 'displayname');
+		$displayName = $this->getAttributeValue ($attr, '');
+
+		//Check whether the display name is configured to have a 2nd feature
+		$additionalAttribute = $this->getAttributeName('ldapUserDisplayName2');
+		if ($additionalAttribute !== '') {
+			$displayName2 = $this->getAttributeValue($additionalAttribute, '');
+		} else {
+			$displayName2 = '';
+		}
+
+		if($displayName !== '') {
+			$displayName2 = strval($displayName2);
+			if($displayName2 !== '') {
+				$displayName .= ' (' . $displayName2 . ')';
+			}
+			return $displayName;
+		}
+
+		return $this->getUsername();
+	}
+
+	/**
+	 * Overall process goes as follow:
+	 * 1. check if the users quota is parseable with the "verifyQuotaValue" function
+	 * 2. if the value can't be fetched, is empty or not parseable, use the default LDAP quota
+	 * 3. if the default LDAP quota can't be parsed, use the ownCloud's default quota (use 'default')
+	 * 4. check if the target user exists and set the quota for the user.
+	 *
+	 * The expected value for the quota attribute is a string describing the quota for the user. Valid
+	 * values are 'none' (unlimited), 'default' (the ownCloud's default quota), '1234' (quota in
+	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
+	 *
+	 * @return string quota
+	 */
+	public function getQuota() {
+		$quota = null;
+
+		$attr = $this->getAttributeName('ldapQuotaAttribute');
+		if ($attr === '') {
+			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
+		} else {
+			$quota = $this->getAttributeValue ($attr);
+			if (!$this->verifyQuotaValue($quota)) {
+				\OC::$server->getLogger()->debug("Invalid quota <$quota> for LDAP user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
+				$quota = null;
+			}
+		}
+
+		if ($quota === null) {
+			if (!$this->connection->ldapQuotaDefault) {
+				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
+			} else {
+				$quota = $this->connection->ldapQuotaDefault;
+				if (!$this->verifyQuotaValue($quota)) {
+					\OC::$server->getLogger()->debug("Invalid default quota <$quota>", ['app' => 'user_ldap']);
+					$quota = null;
+				}
+			}
+		}
+		if ($quota === null) {
+			$quota = 'default';
+		}
+
+		\OC::$server->getLogger()->debug("using quota <$quota> for user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
+		return $quota;
+
+	}
+
+	private function verifyQuotaValue($quotaValue) {
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
+	}
+
+	/**
+	 * @return string|null email
+	 */
+	public function getEMailAddress() {
+		$attr = $this->getAttributeName('ldapEmailAttribute', 'mail');
+		return $this->getAttributeValue ($attr);
+	}
+	/**
+	 * returns the home directory of the user if specified by LDAP settings
+	 * @return string|null
+	 * @throws \Exception
+	 */
+	public function getHome() {
+		$path = '';
+ 		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		if (is_string($attr) && strpos($attr, 'attr:') === 0 // TODO do faster startswith check
+			&& strlen($attr) > 5
+		) {
+			$attr = substr($attr, 5);
+
+			$path = $this->getAttributeValue($attr, '');
+		}
+
+		if ($path !== '') {
+			//if attribute's value is an absolute path take this, otherwise append it to data dir
+			//check for / at the beginning
+			if('/' !== $path[0]) {
+				$path = $this->config->getSystemValue('datadirectory',
+						\OC::$SERVERROOT.'/data' ) . '/' . $path;
+			}
+			return $path;
+		}
+
+		if(!is_null($attr)
+			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
+		) {
+			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
+			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getMemberOfGroups() {
+		if (isset($this->ldapEntry['memberof'])) {
+			return $this->ldapEntry['memberof'];
+		}
+		return [];
+	}
+
+	/**
+	 * @brief reads the image from LDAP that shall be used as Avatar
+	 * @return string|null image binary data (provided by LDAP)
+	 */
+	public function getAvatarImage() {
+		$data = $this->getAttributeValue ('jpegPhoto', null, false);
+		if ($data === null) {
+			$data = $this->getAttributeValue ('thumbnailPhoto', null, false);
+		}
+		return $data;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getSearchTerms() {
+		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
+		// Get from LDAP if we don't have it already
+		$searchTerms = [];
+		foreach($attributes as $attr) {
+			$attr = strtolower($attr);
+			if (isset($this->ldapEntry[$attr])) {
+				foreach ($this->ldapEntry[$attr] as $value) {
+					$value = trim($value);
+					if (!empty($value)) {
+						$searchTerms[strtolower($value)] = true;
+					}
+				}
+			}
+		}
+
+		return array_keys($searchTerms);
+	}
+
+	/**
+	 * @param $configOption string
+	 * @param $default string
+	 * @return string
+	 */
+	private function getAttributeName($configOption, $default = '') {
+		$attributeName = trim(strtolower($this->connection->$configOption));
+
+		// strtolower() returns '' for null and false, which is what the connection initializes config options to
+		if ($attributeName === '') {
+			return $default;
+		}
+
+		return $attributeName;
+	}
+	/**
+	 * TODO allow passing in a verification function, eg for quota or uuid values
+	 * @param $attributeName string
+	 * @param $default string
+	 * @param $trim bool don't trim value, eg for binary data
+	 * @return string|null|mixed
+	 */
+	private function getAttributeValue($attributeName, $default = null, $trim = true) {
+		$attributeName = strtolower($attributeName); // all ldap keys are lowercase
+		if (isset($this->ldapEntry[$attributeName][0])) {
+			$value = $this->ldapEntry[$attributeName][0];
+			if ($trim) {
+				$value = trim($value);
+			}
+			if ($value === '') {
+				return $default;
+			}
+			return $value;
+		}
+
+		return $default;
+	}
+
+}

@@ -30,10 +30,16 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserBackend;
+use OCP\User\IProvidesEMailBackend;
 use OCP\User\IProvidesExtendedSearchBackend;
+use OCP\User\IProvidesQuotaBackend;
 use OCP\UserInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvidesExtendedSearchBackend {
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvidesQuotaBackend, IProvidesExtendedSearchBackend, IProvidesEMailBackend {
+
+	/**
+	 * @var User_LDAP[]
+	 */
 	private $backends = array();
 	private $refBackend = null;
 
@@ -45,7 +51,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $ocConfig);
+				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
@@ -57,7 +63,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return string[]
 	 */
 	public function getSearchTerms($uid) {
-		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid], []);
+		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid]);
 		return is_array($terms) ? $terms : [];
 	}
 
@@ -284,4 +290,25 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		return $users;
 	}
 
+	/**
+	 * Get a users email address
+	 *
+	 * @param string $uid The username
+	 * @return string|null
+	 * @since 10.0
+	 */
+	public function getEMailAddress($uid) {
+		return $this->handleRequest($uid, 'getEMailAddress', [$uid]);
+	}
+
+	/**
+	 * Get a users quota
+	 *
+	 * @param string $uid The username
+	 * @return string|null
+	 * @since 10.0
+	 */
+	public function getQuota($uid) {
+		return $this->handleRequest($uid, 'getQuota', [$uid]);
+	}
 }

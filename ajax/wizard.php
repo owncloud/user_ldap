@@ -53,7 +53,7 @@ $con->setIgnoreValidation(true);
 $userManager = new \OCA\User_LDAP\User\Manager(
 	\OC::$server->getConfig(),
 	new \OCA\User_LDAP\FilesystemHelper(),
-	new \OCA\User_LDAP\LogWrapper(),
+	\OC::$server->getLogger(),
 	\OC::$server->getAvatarManager(),
 	new \OCP\Image(),
 	\OC::$server->getDatabaseConnection(),

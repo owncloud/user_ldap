@@ -26,12 +26,18 @@
 namespace OCA\User_LDAP\User;
 
 use OC\Cache\CappedMemoryCache;
-use OCA\User_LDAP\LogWrapper;
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User_Proxy;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\Image;
+use OCP\IUser;
 use OCP\IUserManager;
 
 /**
@@ -41,7 +47,12 @@ use OCP\IUserManager;
  * cache
  */
 class Manager {
-	/** @var IUserTools */
+	/**
+	 * DB config keys for user preferences
+	 */
+	const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
+
+	/** @var Access */
 	protected $access;
 
 	/** @var IConfig */
@@ -53,8 +64,8 @@ class Manager {
 	/** @var FilesystemHelper */
 	protected $ocFilesystem;
 
-	/** @var LogWrapper */
-	protected $ocLog;
+	/** @var ILogger */
+	protected $logger;
 
 	/** @var Image */
 	protected $image;
@@ -66,6 +77,7 @@ class Manager {
 	 * @var CappedMemoryCache $usersByDN
 	 */
 	protected $usersByDN;
+
 	/**
 	 * @var CappedMemoryCache $usersByUid
 	 */
@@ -75,20 +87,20 @@ class Manager {
 	 * @param IConfig $ocConfig
 	 * @param \OCA\User_LDAP\FilesystemHelper $ocFilesystem object that
 	 * gives access to necessary functions from the OC filesystem
-	 * @param  \OCA\User_LDAP\LogWrapper $ocLog
+	 * @param ILogger $logger
 	 * @param IAvatarManager $avatarManager
 	 * @param Image $image an empty image instance
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(IConfig $ocConfig,
-								FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
+								FilesystemHelper $ocFilesystem, ILogger $logger,
 								IAvatarManager $avatarManager, Image $image,
 								IDBConnection $db, IUserManager $userManager) {
 
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
-		$this->ocLog         = $ocLog;
+		$this->logger        = $logger;
 		$this->avatarManager = $avatarManager;
 		$this->image         = $image;
 		$this->db            = $db;
@@ -107,26 +119,8 @@ class Manager {
 	}
 
 	/**
-	 * @brief creates an instance of User and caches (just runtime) it in the
-	 * property array
-	 * @param string $dn the DN of the user
-	 * @param string $uid the internal (owncloud) username
-	 * @return \OCA\User_LDAP\User\User
-	 */
-	private function createAndCache($dn, $uid) {
-		$this->checkAccess();
-		$user = new User($uid, $dn, $this->access, $this->ocConfig,
-			$this->ocFilesystem, clone $this->image, $this->ocLog,
-			$this->avatarManager, $this->userManager);
-		$this->usersByDN[$dn]   = $user;
-		$this->usersByUid[$uid] = $user;
-		return $user;
-	}
-
-	/**
 	 * @brief checks whether the Access instance has been set
 	 * @throws \Exception if Access has not been set
-	 * @return null
 	 */
 	private function checkAccess() {
 		if(is_null($this->access)) {
@@ -135,6 +129,12 @@ class Manager {
 	}
 
 	/**
+	 * @return Connection
+	 */
+	public function getConnection() {
+		return $this->access->getConnection();
+	}
+	/**
 	 * returns a list of attributes that will be processed further, e.g. quota,
 	 * email, displayname, or others.
 	 * @param bool $minimal - optional, set to true to skip attributes with big
@@ -142,77 +142,466 @@ class Manager {
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$attributes = array('dn', 'uid', 'samaccountname', 'memberof');
-		$possible = array(
-			$this->access->getConnection()->ldapQuotaAttribute,
-			$this->access->getConnection()->ldapEmailAttribute,
-			$this->access->getConnection()->ldapUserDisplayName,
-			$this->access->getConnection()->ldapUserDisplayName2,
-		);
-		foreach($possible as $attr) {
-			if(!is_null($attr)) {
-				$attributes[] = $attr;
+		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true,
+			'memberof' => true,
+			$this->getConnection()->ldapQuotaAttribute => true,
+			$this->getConnection()->ldapEmailAttribute => true,
+			$this->getConnection()->ldapUserDisplayName => true,
+			$this->getConnection()->ldapUserDisplayName2 => true,
+		];
+		$homeRule = $this->getConnection()->homeFolderNamingRule;
+		if(strpos($homeRule, 'attr:') === 0) {
+			$attributes[substr($homeRule, strlen('attr:'))] = true;
+		}
+		$searchAttributes = $this->getConnection()->ldapAttributesForUserSearch;
+		if ($searchAttributes === '' || $searchAttributes === null) { //FIXME empty multiline initializes as '', make it []
+			$searchAttributes = [];
+		}
+		foreach($searchAttributes as $attr) {
+			if(is_string($attr)) {
+				$attributes[$attr] = true;
 			}
 		}
-
-		// Do we have custom search attributes for this configuration?
-		$search = $this->access->getConnection()->ldapAttributesForUserSearch;
-		if(!empty($search)) {
-			$attributes = array_merge($attributes, $search);
-		}
-
-		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
-		if(strpos($homeRule, 'attr:') === 0) {
-			$attributes[] = substr($homeRule, strlen('attr:'));
+		foreach ($this->getConnection()->uuidAttributes as $attr) {
+			$attributes[$attr] = true;
 		}
 
 		if(!$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
-			$attributes = array_merge($attributes, array(
-				'jpegphoto',
-				'thumbnailphoto'
-			));
+
+			$attributes['jpegphoto'] = true;
+			$attributes['thumbnailphoto'] = true;
 		}
 
-		return $attributes;
+		unset($attributes['']);
+
+		return array_keys($attributes);
 	}
 
 	/**
-	 * @brief returns a User object by it's ownCloud username
-	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|null
+	 * @brief returns a User object by the DN in an ldap entry
+	 * @param array $ldapEntry the ldap entry used to prefill the user properties
+	 * @return \OCA\User_LDAP\User\UserEntry
+	 * @throws \Exception when connection could not be established
+	 * @throws \InvalidArgumentException if entry does not contain a dn
+	 * @throws \OutOfBoundsException when username could not be determined
 	 */
-	protected function createInstancyByUserName($id) {
-		$dn = $this->access->username2dn($id);
-		if($dn !== false) {
-			return $this->createAndCache($dn, $id);
+	public function getFromEntry($ldapEntry) {
+		/*$dn = $ldapEntry['dn'][0]; // TODO use UserEntry?
+		if(isset($this->usersByDN[$dn])) {
+			return $this->usersByDN[$dn];
+		}*/
+		$this->checkAccess();
+		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->access->getConnection(), $ldapEntry);
+		$dn = $userEntry->getDN();
+
+		if(!$this->access->isDNPartOfBase($dn, $this->access->getConnection()->ldapBaseUsers)) {
+			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".print_r($this->access->getConnection()->ldapBaseUsers, true));
 		}
+
+		$uid = $this->resolveUID($userEntry);
+		$userEntry->setOwnCloudUID($uid);
+
+		// cache entries
+		$this->usersByDN[$dn] = $userEntry;
+		$this->usersByUid[$uid] = $userEntry;
+
+		return $userEntry;
+	}
+
+	/**
+	 * @param $uid
+	 * @return UserEntry|null
+	 */
+	public function getByOwnCloudUID($uid) {
+		if(isset($this->usersByUid[$uid])) {
+			return $this->usersByUid[$uid];
+		}
+
+		//TODO fetch, but for useEntry now should have been cached during login?
 		return null;
 	}
 
 	/**
-	 * @brief returns a User object by it's DN or ownCloud username
-	 * @param string $id the DN or username of the user
-	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
-	 * @throws \Exception when connection could not be established
+	 * checks whether a user is still available on LDAP
+	 *
+	 * @param string $dn
+	 * @return bool
+	 * @throws \Exception
+	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function get($id) {
-		$this->checkAccess();
-		if(isset($this->usersByDN[$id])) {
-			return $this->usersByDN[$id];
-		} else if(isset($this->usersByUid[$id])) {
-			return $this->usersByUid[$id];
-		}
+	public function dnExistsOnLDAP($dn) {
 
-		if($this->access->stringResemblesDN($id) ) {
-			$uid = $this->access->dn2username($id);
-			if($uid !== false) {
-				return $this->createAndCache($id, $uid);
+		//check if user really still exists by reading its entry
+		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapUserFilter))) {
+			$lcr = $this->access->connection->getConnectionResource();
+			if(is_null($lcr)) {
+				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
+			}
+
+			try {
+				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
+				if(!$uuid) {
+					return false;
+				}
+				$newDn = $this->access->getUserDnByUuid($uuid);
+				//check if renamed user is still valid by reapplying the ldap filter
+				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+					return false;
+				}
+				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
+				return true;
+			} catch (\Exception $e) {
+				return false;
 			}
 		}
 
-		return $this->createInstancyByUserName($id);
+		return true;
+	}
+	/**
+	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
+	 * @param UserEntry $userEntry user entry object backed by an ldap entry
+	 * @return string with with the uid to use in ownCloud
+	 * @throws \OutOfBoundsException when uid could not be determined
+	 */
+	public function resolveUID(UserEntry $userEntry) {
+		/** @var UserMapping $mapper */
+		$mapper = $this->access->getUserMapper();
+
+		$dn = $userEntry->getDN();
+
+		//let's try to retrieve the ownCloud name from the mappings table
+		$ocName = trim($mapper->getNameByDN($dn));
+		if(is_string($ocName) && $ocName !== '') {
+			return $ocName;
+		}
+
+		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
+		$uuid = $userEntry->getUUID();
+		$ocName = trim($mapper->getNameByUUID($uuid));
+		if(is_string($ocName) && $ocName !== '') {
+			$mapper->setDNbyUUID($dn, $uuid);
+			return $ocName;
+		}
+
+		$intName = trim($this->access->sanitizeUsername($userEntry->getUsername()));
+
+		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
+		if($intName !== '' && !\OCP\User::userExists($intName)) {
+			if($mapper->map($dn, $intName, $uuid)) {
+				return $intName;
+			}
+		}
+
+		// FIXME move to a better place, naming related. eg DistinguishedNameUtils
+		$altName = $this->access->createAltInternalOwnCloudName($intName, true);
+		if(is_string($altName) && $mapper->map($dn, $altName, $uuid)) {
+			return $altName;
+		}
+
+		throw new \OutOfBoundsException("Could not create unique name for $dn.");
 	}
 
+	public function updateAccount (UserEntry $userEntry) {
+		$targetUser = $this->userManager->get($userEntry->getOwnCloudUID());
+		if (!$targetUser) {
+			$this->logger->debug('Trying to update non existing user ' . $userEntry->getOwnCloudUID() . ', creating new account.', ['app' => 'user_ldap']);
+			// FIXME we don't hold a reference so we need to pull out the proxy back from the registered user backends...
+			foreach ($this->userManager->getBackends() as $backend) {
+				if ($backend instanceof User_Proxy) {
+					$this->userManager->createUserFromBackend($userEntry->getOwnCloudUID(), null, $backend);
+					return true;
+				}
+			}
+			$this->logger->error('Could neither update nor create user ' . $userEntry->getOwnCloudUID(), ['app' => 'user_ldap']);
+			return false;
+		} else {
+
+			$this->updateQuota($userEntry, $targetUser);
+			$this->updateEmail($userEntry, $targetUser);
+			$this->updateDisplayName($userEntry, $targetUser);
+			$this->updateSearchAttributes($userEntry, $targetUser);
+			// $this->updateHomePath($userEntry, $targetUser); // no longer changeable, manual occ intervention necessary
+			// TODO check if the path changed and log a warning?
+
+			$this->updateGroups($userEntry);
+		}
+		return true;
+	}
+
+	/**
+	 * update the quota for the user account
+	 *
+	 * @param UserEntry $userEntry
+	 * @param IUser $targetUser
+	 */
+	public function updateQuota(UserEntry $userEntry, IUser $targetUser) {
+		$newQuota = $userEntry->getQuota();
+		$targetUser->setQuota($newQuota);
+	}
+
+	/**
+	 * update the email address for the user account
+	 * @param UserEntry $userEntry
+	 * @param IUser $targetUser
+	 */
+	public function updateEmail(UserEntry $userEntry, IUser $targetUser) {
+		$newEmail = $userEntry->getEMailAddress();
+		try {
+			$targetUser->setEMailAddress($newEmail);
+		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
+			$this->logger->warning('Can\'t set email [' . $newEmail .'] for user ['. $userEntry->getOwnCloudUID() .']. Trying to set as empty email', ['app' => 'user_ldap']);
+			try {
+				$targetUser->setEMailAddress(null);
+			} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
+				$this->logger->error('Can\'t set email [' . $newEmail .'] nor making it empty for user ['. $userEntry->getOwnCloudUID() .']', ['app' => 'user_ldap']);
+			}
+		}
+	}
+
+	/**
+	 * update the display name for the user account
+	 * @param UserEntry $userEntry
+	 * @param IUser $targetUser
+	 */
+	public function updateDisplayName(UserEntry $userEntry, IUser $targetUser) {
+		$newDisplayName = $userEntry->getDisplayName();
+		if ($newDisplayName !== '') {
+			$targetUser->setDisplayName($newDisplayName);
+		}
+	}
+
+	/**
+	 * updates the ownCloud accounts table search string as calculated from LDAP
+	 * @param UserEntry $userEntry
+	 * @param IUser $targetUser
+	 */
+	public function updateSearchAttributes($userEntry, $targetUser) {
+		$searchTerms = $userEntry->getSearchTerms();
+		// If we have a value, which is different to the current, then let's update the accounts table
+		if (array_diff($searchTerms, $targetUser->getSearchTerms())) {
+			$targetUser->setSearchTerms($searchTerms);
+		}
+	}
+
+	/**
+	 * updates the ownCloud accounts table search string as calculated from LDAP
+	 * @param UserEntry $userEntry
+	 */
+	public function updateGroups($userEntry) {
+		//memberOf groups
+		$cacheKey = 'getMemberOf'.$userEntry->getOwnCloudUID();
+		$groups = $userEntry->getMemberOfGroups();
+		if(count($groups) === 0) {
+			$groups = false;
+		}
+		$this->access->connection->writeToCache($cacheKey, $groups);
+	}
+	/**
+	 * the call to the method that saves the avatar in the file
+	 * system must be postponed after the login. It is to ensure
+	 * external mounts are mounted properly (e.g. with login
+	 *  credentials from the session).
+	 * @param UserEntry $userEntry
+	 */
+	public function registerAvatarHook($userEntry) {
+		$avatarImage = $userEntry->getAvatarImage();
+		if($avatarImage !== null) {
+			// TODO avatar won't be shown on first login because post_login is too late
+			\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
+		}
+	}
+
+	/**
+	 * called by a post_login hook to save the avatar picture
+	 *
+	 * @param array $params
+	 */
+	public function updateAvatarPostLogin($params) {
+		if(isset($params['uid'])) {
+			$this->updateAvatar($params['uid']);
+		}
+	}
+
+	/**
+	 * FIXME fails if data/avatars does not exist?
+	 * @brief attempts to get an image from LDAP and sets it as ownCloud avatar
+	 * @param string $uid
+	 */
+	public function updateAvatar($uid) {
+		$userEntry = $this->getByOwnCloudUID($uid);
+		$avatarImage = $userEntry->getAvatarImage();
+		if($avatarImage === null) {
+			//not set, nothing left to do;
+			return;
+		}
+		$this->image->loadFromBase64(base64_encode($avatarImage));
+		$this->setOwnCloudAvatar($userEntry, $this->image);
+	}
+
+	/**
+	 * @brief sets an image as ownCloud avatar
+	 * @param UserEntry $userEntry
+	 * @param Image $image
+	 */
+	private function setOwnCloudAvatar(UserEntry $userEntry, Image $image) {
+		if(!$image->valid()) {
+			$this->logger->error('jpegPhoto data invalid for '.$userEntry->getDN(), ['app' => 'user_ldap']);
+			return;
+		}
+		//make sure it is a square and not bigger than 128x128
+		$size = min(array($this->image->width(), $this->image->height(), 128));
+		if(!$this->image->centerCrop($size)) {
+			$this->logger->error('croping image for avatar failed for '.$userEntry->getDN(), ['app' => 'user_ldap']);
+			return;
+		}
+
+		if(!$this->ocFilesystem->isLoaded()) {
+			$this->ocFilesystem->setup($userEntry->getOwnCloudUID());
+		}
+
+		try {
+			$avatar = $this->avatarManager->getAvatar($userEntry->getOwnCloudUID());
+			$avatar->set($this->image);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'user_ldap']);
+		}
+	}
+
+	/**
+	 * @brief marks the user as having logged in at least once
+	 * @param string $uid
+	 */
+	public function markLogin($uid) {
+		$this->ocConfig->setUserValue(
+			$uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, 1);
+	}
+
+
+	/**
+	 * returns an LDAP record based on a given login name
+	 *
+	 * @param string $loginName
+	 * @return UserEntry
+	 * @throws \Exception
+	 */
+	public function getLDAPUserByLoginName($loginName) {
+		//find out dn of the user name
+		$attrs = $this->getAttributes();
+		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
+		if(count($users) < 1) {
+			throw new \Exception('No user available for the given login name on ' .
+				$this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
+		}
+		return $this->getFromEntry($users[0]);
+	}
+
+
+	/**
+	 * Get a list of all users
+	 *
+	 * @param string $search
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return string[] an array of all uids
+	 */
+	public function getUsers($search = '', $limit = 10, $offset = 0) {
+		$search = $this->access->escapeFilterPart($search, true);
+
+		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
+		// error. With a limit of 0, we get 0 results. So we pass null.
+		if($limit <= 0) {
+			$limit = null;
+		}
+		$filter = $this->access->combineFilterWithAnd(array(
+			$this->getConnection()->ldapUserFilter,
+			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all
+			$this->access->getFilterPartForUserSearch($search)
+		));
+
+		\OCP\Util::writeLog('user_ldap',
+			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
+			\OCP\Util::DEBUG);
+		//do the search and translate results to owncloud names
+		$ldap_users = $this->fetchListOfUsers(
+			$filter,
+			$this->getAttributes(),
+			$limit, $offset);
+		$ownCloudUserNames = [];
+		foreach ($ldap_users as $ldapEntry) {
+			\OC::$server->getLogger()->debug(
+				"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".json_encode($ldapEntry),
+				['app' => 'user_ldap']
+			);
+			$userEntry = $this->getFromEntry($ldapEntry);
+			$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
+		}
+		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ownCloudUserNames). ' Users found', \OCP\Util::DEBUG);
+
+		return $ownCloudUserNames;
+	}
+
+
+	// TODO find better places for the delegations to Access
+
+	/**
+	 * @param string $name
+	 * @param string $password
+	 * @return bool
+	 */
+	public function areCredentialsValid($name, $password) {
+		return $this->access->areCredentialsValid($name, $password);
+	}
+	/**
+	 * returns the LDAP DN for the given internal ownCloud name of the user
+	 * @param string $name the ownCloud name in question
+	 * @return string|false with the LDAP DN on success, otherwise false
+	 * TODO move code here or to a utility class, also move Access::sanitizeDN there
+	 */
+	public function username2dn($name) {
+		return $this->access->username2dn($name);
+	}
+
+	/**
+	 * @param string $filter
+	 * @param string|string[] $attr
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array
+	 */
+	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
+		return $this->access->fetchListOfUsers($filter, $attr, $limit, $offset );
+	}
+
+
+	/**
+	 * returns the User Mapper
+	 * @throws \Exception
+	 * @return AbstractMapping
+	 */
+	public function getUserMapper() {
+		return $this->access->getUserMapper();
+	}
+
+
+	/**
+	 * @param string $filter
+	 * @param string|string[] $attr
+	 * @param int $limit
+	 * @param int $offset
+	 * @return false|int
+	 */
+	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
+		return $this->access->countUsers($filter, $attr, $limit, $offset);
+	}
+
+
+	/**
+	 * returns the filter used for counting users
+	 * @return string
+	 */
+	public function getFilterForUserCount() {
+		return $this->access->getFilterForUserCount();
+	}
 }
