@@ -37,5 +37,10 @@ interface IUserTools {
 
 	public function dn2username($dn, $ldapname = null);
 
+	/**
+	 * returns the LDAP DN for the given internal ownCloud name of the user
+	 * @param string $name the ownCloud name in question
+	 * @return string|false with the LDAP DN on success, otherwise false
+	 */
 	public function username2dn($name);
 }

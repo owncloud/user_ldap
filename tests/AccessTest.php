@@ -56,7 +56,7 @@ class AccessTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->createMock('\OCP\IConfig'),
 				$this->createMock('\OCA\User_LDAP\FilesystemHelper'),
-				$this->createMock('\OCA\User_LDAP\LogWrapper'),
+				$this->createMock('\OCP\ILogger'),
 				$this->createMock('\OCP\IAvatarManager'),
 				$this->createMock('\OCP\Image'),
 				$this->createMock('\OCP\IDBConnection'),

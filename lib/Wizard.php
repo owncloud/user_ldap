@@ -633,11 +633,13 @@ class Wizard extends LDAPUtility {
 			=== false) {
 			throw new \Exception('missing placeholder');
 		}
+		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->connection->ldapLoginFilter, \OCP\Util::DEBUG);
 
 		$users = $this->access->countUsersByLoginName($loginName);
 		if($this->ldap->errno($cr) !== 0) {
 			throw new \Exception($this->ldap->error($cr));
 		}
+		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. count($users) . ' users', \OCP\Util::DEBUG);
 		$filter = str_replace('%uid', $loginName, $this->access->connection->ldapLoginFilter);
 		$this->result->addChange('ldap_test_loginname', $users);
 		$this->result->addChange('ldap_test_effective_filter', $filter);
