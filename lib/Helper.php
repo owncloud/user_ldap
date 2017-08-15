@@ -202,6 +202,7 @@ class Helper {
 		$ldapWrapper = new LDAP();
 		$ocConfig = \OC::$server->getConfig();
 
+		//TODO loginName2UserName does not need to be in user_Proxy. User Manager seems more fitting
 		$userBackend  = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig
 		);

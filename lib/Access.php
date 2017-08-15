@@ -105,6 +105,14 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
+	 * returns the user Manager
+	 * @return Manager
+	 */
+	public function getUserManager() {
+		return $this->userManager;
+	}
+
+	/**
 	 * sets the Group Mapper
 	 * @param AbstractMapping $mapper
 	 */
@@ -429,8 +437,16 @@ class Access extends LDAPUtility implements IUserTools {
 
 		//Check whether the DN belongs to the Base, to avoid issues on multi-
 		//server setups
-		if(is_string($fdn) && $this->isDNPartOfBase($fdn, $this->connection->ldapBaseUsers)) {
-			return $fdn;
+		if(is_string($fdn)) {
+			if ($this->isDNPartOfBase($fdn, $this->connection->ldapBaseUsers)) {
+				return $fdn;
+			}
+			\OCP\Util::writeLog('user_ldap', "DN <$fdn> outside configured base domains:".
+				print_r($this->connection->ldapBaseUsers, true).
+				' on '.$this->connection->ldapHost, \OCP\Util::DEBUG);
+		} else {
+			\OCP\Util::writeLog('user_ldap', "No DN found for <$name> on ".
+				$this->connection->ldapHost, \OCP\Util::DEBUG);
 		}
 
 		return false;
@@ -494,11 +510,11 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
-	 * @param string $dn the dn of the user object
+	 * @param string $fdn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function dn2username($fdn, $ldapName = null) {
+	public function dn2username($fdn, $ldapName = null, $ldapEntry = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -506,17 +522,17 @@ class Access extends LDAPUtility implements IUserTools {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, true);
+		return $this->dn2ocname($fdn, $ldapName, true, $ldapEntry);
 	}
 
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
-	 * @param string $dn the dn of the user object
+	 * @param string $fdn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, $ldapEntry = null) {
 		if($isUser) {
 			$mapper = $this->getUserMapper();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
@@ -532,7 +548,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
-		$uuid = $this->getUUID($fdn, $isUser);
+		$uuid = $this->getUUID($fdn, $isUser, $ldapEntry);
 		if(is_string($uuid)) {
 			$ocName = $mapper->getNameByUUID($uuid);
 			if(is_string($ocName)) {
@@ -640,7 +656,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
 			if($ocName) {
-				$ownCloudNames[] = $ocName;
+				$ownCloudNames[$ldapObject['dn'][0]] = $ocName;
 				if($isUsers) {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
@@ -748,12 +764,13 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
+	 * FIXME was private
 	 * creates a unique name for internal ownCloud use.
 	 * @param string $name the display name of the object
 	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
 	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
 	 */
-	private function createAltInternalOwnCloudName($name, $isUser) {
+	public function createAltInternalOwnCloudName($name, $isUser) {
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
 		if($isUser) {
@@ -796,11 +813,12 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
+	 *
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array
+	 * @return array if only on attr is returned
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
@@ -816,14 +834,69 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
 		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), (count($attr) > 1));
+
 	}
 
 	/**
+	 * If count($attr) > 1 the result will be an array like this:
+	 *
+	 *	Array
+	 *	(
+	 *		[0] => Array
+	 *		(
+	 *			[dn] => Array
+	 *			(
+	 *				[0] => uid=zombie4000,ou=zombies,dc=owncloud,dc=com
+	 *			)
+	 *
+	 *			[uid] => Array
+	 *			(
+	 *				[0] => zombie4000
+	 *			)
+	 *
+	 *			[mail] => Array
+	 *			(
+	 *				[0] => zombie4000@example.org
+	 *          )
+	 *
+	 *  	)
+	 *
+	 *		[1] => Array
+	 *		(
+	 *			[dn] => Array
+	 *			(
+	 *				[0] => uid=zombie40000,ou=zombies,dc=owncloud,dc=com
+	 *			)
+	 *
+	 *			[uid] => Array
+	 *			(
+	 *				[0] => zombie40000
+	 *			)
+	 *
+	 *			[mail] => Array
+	 *			(
+	 *				[0] => zombie40000@example.org
+	 *          )
+	 *
+	 *		)
+	 * 		...
+	 *
+	 * Otherwise, eg. if $attr is ['dn'] it will be reduced to this
+	 *
+	 *  Array
+	 *	(
+     *		[0] => uid=zombie4000,ou=zombies,dc=owncloud,dc=com
+     *		[1] => uid=zombie40000,ou=zombies,dc=owncloud,dc=com
+     *		[2] => uid=zombie40001,ou=zombies,dc=owncloud,dc=com
+	 * 		...
+	 *
+	 * TODO this actually reduces the list if
+	 * FIXME was private
 	 * @param array $list
 	 * @param bool $manyAttributes
 	 * @return array
 	 */
-	private function fetchList($list, $manyAttributes) {
+	public function fetchList($list, $manyAttributes) {
 		if(is_array($list)) {
 			if($manyAttributes) {
 				return $list;
@@ -1366,6 +1439,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param string $name
 	 * @param string $password
 	 * @return bool
+	 * TODO should live in user manager?
 	 */
 	public function areCredentialsValid($name, $password) {
 		$name = $this->DNasBaseParameter($name);

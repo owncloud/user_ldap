@@ -25,7 +25,17 @@
 
 namespace OCA\User_LDAP\Tests\User;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\ILogger;
+use OCP\Image;
+use OCP\IUserManager;
 
 /**
  * Class Test_User_Manager
@@ -35,12 +45,56 @@ use OCA\User_LDAP\User\Manager;
  * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
+	/**
+	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $config;
+	/**
+	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $logger;
+	/**
+	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $connection;
+	/**
+	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $access;
+	/**
+	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $manager;
+
+	protected function setUp() {
+		parent::setUp();
+		$this->config     = $this->createMock(IConfig::class);
+		$filesystem = $this->createMock(FilesystemHelper::class);
+		$logger     = $this->createMock(ILogger::class);
+		$avatarManager = $this->createMock(IAvatarManager::class);
+		$image = $this->createMock(Image::class);
+		$dbConn = $this->createMock(IDBConnection::class);
+		$userMgr = $this->createMock(IUserManager::class);
+		$this->access     = $this->createMock(Access::class);
+		$this->connection     = $this->createMock(Connection::class);
+
+		$this->access->expects($this->any())
+			->method('getConnection')
+			->willReturn($this->connection);
+
+		$this->manager = new Manager(
+			$this->config, $filesystem, $logger, $avatarManager, $image,
+			$dbConn, $userMgr
+		);
+		$this->manager->setLdapAccess($this->access);
+
+	}
 
 	private function getTestInstances() {
 		$access = $this->createMock('\OCA\User_LDAP\User\IUserTools');
 		$config = $this->createMock('\OCP\IConfig');
 		$filesys = $this->createMock('\OCA\User_LDAP\FilesystemHelper');
-		$log = $this->createMock('\OCA\User_LDAP\LogWrapper');
+		$log = $this->createMock('\OCP\ILogger');
 		$avaMgr = $this->createMock('\OCP\IAvatarManager');
 		$image = $this->createMock('\OCP\Image');
 		$dbc = $this->createMock('\OCP\IDBConnection');
@@ -58,7 +112,7 @@ class ManagerTest extends \Test\TestCase {
 
 		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
 	}
-
+/*
 	public function testGetByDNExisting() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
@@ -223,57 +277,277 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertNull($user);
 	}
-
+*/
 	public function testGetAttributesAll() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
-			$this->getTestInstances();
+		$this->connection->expects($this->exactly(6))
+			->method('__get')
+			->withConsecutive(
+				[$this->equalTo('ldapQuotaAttribute')],
+				[$this->equalTo('ldapEmailAttribute')],
+				[$this->equalTo('ldapUserDisplayName')],
+				[$this->equalTo('ldapUserDisplayName2')],
+				[$this->equalTo('homeFolderNamingRule')],
+				[$this->equalTo('ldapAttributesForUserSearch')]
+			// uuidAttributes are a real member. the mock also has them
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				'mail',
+				'displayName',
+				'',
+				null,
+				null
+			);
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
-		$manager->setLdapAccess($access);
-
-		$connection = $access->getConnection();
-		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
-
-		$attributes = $manager->getAttributes();
+		$attributes = $this->manager->getAttributes();
 
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array('mail', $attributes));
 		$this->assertTrue(in_array('jpegphoto', $attributes));
 		$this->assertTrue(in_array('thumbnailphoto', $attributes));
 	}
 
 	public function testGetAttributesWithCustomSearch() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
-			$this->getTestInstances();
+		$this->connection->expects($this->exactly(6))
+			->method('__get')
+			->withConsecutive(
+				[$this->equalTo('ldapQuotaAttribute')],
+				[$this->equalTo('ldapEmailAttribute')],
+				[$this->equalTo('ldapUserDisplayName')],
+				[$this->equalTo('ldapUserDisplayName2')],
+				[$this->equalTo('homeFolderNamingRule')],
+				[$this->equalTo('ldapAttributesForUserSearch')]
+				// uuidAttributes are a real member. the mock also has them
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				'mail',
+				'displayName',
+				'',
+				null,
+				['uidNumber']
+			);
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
-		$manager->setLdapAccess($access);
 
-		$connection = $access->getConnection();
-		$connection->setConfiguration(array('ldapEmailAttribute' => 'mail'));
-		$connection->setConfiguration(array('ldapAttributesForUserSearch' => 'uidNumber'));
-
-		$attributes = $manager->getAttributes();
+		$attributes = $this->manager->getAttributes();
 
 		$this->assertTrue(in_array('uidNumber', $attributes));
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array($access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array('mail', $attributes));
 		$this->assertTrue(in_array('jpegphoto', $attributes));
 		$this->assertTrue(in_array('thumbnailphoto', $attributes));
 	}
 
 	public function testGetAttributesMinimal() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
-			$this->getTestInstances();
+		$this->connection->expects($this->exactly(6))
+			->method('__get')
+			->withConsecutive(
+				[$this->equalTo('ldapQuotaAttribute')],
+				[$this->equalTo('ldapEmailAttribute')],
+				[$this->equalTo('ldapUserDisplayName')],
+				[$this->equalTo('ldapUserDisplayName2')],
+				[$this->equalTo('homeFolderNamingRule')],
+				[$this->equalTo('ldapAttributesForUserSearch')]
+			// uuidAttributes are a real member. the mock also has them
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				null,
+				'displayName',
+				'',
+				null,
+				null
+			);
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
-		$manager->setLdapAccess($access);
-
-		$attributes = $manager->getAttributes(true);
+		$attributes = $this->manager->getAttributes(true);
 
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(!in_array('jpegphoto', $attributes));
-		$this->assertTrue(!in_array('thumbnailphoto', $attributes));
+		$this->assertFalse(in_array('mail', $attributes));
+		$this->assertFalse(in_array('jpegphoto', $attributes));
+		$this->assertFalse(in_array('thumbnailphoto', $attributes));
 	}
+
+	/**
+	 * Prepares the Access and Cnnection mock for getUsers tests
+	 * @return void
+	 */
+	private function prepareForGetUsers() {
+		$this->access->expects($this->any())
+			->method('escapeFilterPart')
+			->will($this->returnCallback(function($search) {
+				return $search;
+			}));
+
+		$this->access->expects($this->any())
+			->method('getFilterPartForUserSearch')
+			->will($this->returnCallback(function($search) {
+				return $search;
+			}));
+
+		$this->access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function($param) {
+				return $param[2];
+			}));
+/*
+		$this->access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnCallback(function($search, $a, $l, $o) {
+				$users = array('gunslinger', 'newyorker', 'ladyofshadows');
+				if(empty($search)) {
+					$result = $users;
+				} else {
+					$result = array();
+					foreach($users as $user) {
+						if(stripos($user,  $search) !== false) {
+							$result[] = $user;
+						}
+					}
+				}
+				if(!is_null($l) || !is_null($o)) {
+					$result = array_slice($result, $o, $l);
+				}
+				return $result;
+			}));*/
+
+		$this->access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnCallback(function($search, $a, $l, $o) {
+				$users = [
+					[ 'dn' => ['cn=alice,dc=foobar,dc=bar'] ],
+					[ 'dn' => ['cn=bob,dc=foobar,dc=bar'] ],
+					[ 'dn' => ['cn=carol,dc=foobar,dc=bar'] ],
+				];
+				if(empty($search)) {
+					$result = $users;
+				} else {
+					$result = [];
+					foreach($users as $user) {
+						if(stripos($user['dn'][0],  $search) !== false) {
+							$result[] = $user;
+						}
+					}
+				}
+				if(!is_null($l) || !is_null($o)) {
+					$result = array_slice($result, $o, $l);
+				}
+				return $result;
+			}));
+
+		$this->access->expects($this->any())
+			->method('fetchUsersByLoginName')
+			->will($this->returnCallback(function($uid) {
+				switch ($uid) {
+					case 'alice':
+						return array(array('dn' => ['cn=alice,dc=foobar,dc=bar']));
+					case 'bob':
+						return array(array('dn' => ['cn=bob,dc=foobar,dc=bar']));
+					case 'carol':
+						return array(array('dn' => ['cn=carol,dc=foobar,dc=bar']));
+					default:
+						return array();
+				}
+			}));
+
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->with($this->anything(), $this->callback(function($attr){
+				return in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
+			}), $this->anything())
+			->will($this->returnCallback(function($attr){
+				if ($attr === 'jpegPhoto' || $attr === 'thumbnailPhoto') {
+					return ['sdfsdljsdlkfjsadlkjfsdewuyriuweyiuyeiwuydjkfsh'];
+				} else {
+					return [];
+				}
+			}));
+
+		$this->access->expects($this->any())
+			->method('ownCloudUserNames')
+			->will($this->returnArgument(0));
+
+		$this->access->expects($this->any())
+			->method('areCredentialsValid')
+			->will($this->returnValue(true));
+
+		$this->access->expects($this->any())
+			->method('isDNPartOfBase')
+			->with($this->stringEndsWith('dc=foobar,dc=bar'))
+			->will($this->returnValue(true));
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->any())
+			->method('getNameByDN')
+			->will($this->returnCallback(function($dn) {
+				switch ($dn) {
+					case 'cn=alice,dc=foobar,dc=bar':
+						return 'alice';
+					case 'cn=bob,dc=foobar,dc=bar':
+						return 'bob';
+					case 'cn=carol,dc=foobar,dc=bar':
+						return 'carol';
+					default:
+						return false;
+				}
+			}));
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->will($this->returnValue($mapper));
+
+		$this->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($method) {
+				switch ($method) {
+					case 'ldapUserFilter':
+						return '(objectclass=inetorgperson)';
+					case 'ldapUserDisplayName':
+						return 'displayName';
+					case 'ldapQuotaAttribute':
+					case 'ldapUserDisplayName2':
+						return '';
+					case 'ldapEMailAttribute':
+					case 'homeFolderNamingRule':
+					case 'ldapAttributesForUserSearch':
+						return null;
+					case 'ldapBaseUsers':
+						return 'dc=foobar,dc=bar';
+					default:
+						return false;
+				}
+			}));
+	}
+
+	public function testGetUsersNoParam() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getUsers();
+		$this->assertEquals(3, count($result));
+	}
+
+	public function testGetUsersLimitOffset() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getUsers('', 1, 2);
+		$this->assertEquals(1, count($result));
+	}
+
+	public function testGetUsersLimitOffset2() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getUsers('', 2, 1);
+		$this->assertEquals(2, count($result));
+	}
+
+	public function testGetUsersSearchWithResult() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getUsers('l');
+		$this->assertEquals(2, count($result));
+	}
+
+	public function testGetUsersSearchEmptyResult() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getUsers('noone');
+		$this->assertEquals(0, count($result));
+	}
+
+	//the deprecated getUsers() public api only uses the account table, tests removed
 
 }
