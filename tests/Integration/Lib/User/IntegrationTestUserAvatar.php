@@ -44,7 +44,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
+		$userBackend  = new \OCA\User_LDAP\User_LDAP(\OC::$server->getConfig(), $this->userManager);
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -77,8 +77,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 
 		// finally attempt to get the avatar set
-		$user = $this->userManager->get($dn);
-		$user->updateAvatar();
+		$this->userManager->updateAvatar($uid);
 	}
 
 	/**
