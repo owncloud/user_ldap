@@ -108,7 +108,6 @@ abstract class AbstractIntegrationTest {
 
 	/**
 	 * initializes an LDAP user manager instance
-	 * @return Manager
 	 */
 	protected function initUserManager() {
 		$this->userManager = new FakeManager();
