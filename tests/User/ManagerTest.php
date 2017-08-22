@@ -89,29 +89,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager->setLdapAccess($this->access);
 
 	}
-
-	private function getTestInstances() {
-		$access = $this->createMock('\OCA\User_LDAP\User\IUserTools');
-		$config = $this->createMock('\OCP\IConfig');
-		$filesys = $this->createMock('\OCA\User_LDAP\FilesystemHelper');
-		$log = $this->createMock('\OCP\ILogger');
-		$avaMgr = $this->createMock('\OCP\IAvatarManager');
-		$image = $this->createMock('\OCP\Image');
-		$dbc = $this->createMock('\OCP\IDBConnection');
-		$userMgr = $this->createMock('\OCP\IUserManager');
-
-		$connection = new \OCA\User_LDAP\Connection(
-			$lw  = $this->createMock('\OCA\User_LDAP\ILDAPWrapper'),
-			'',
-			null
-		);
-
-		$access->expects($this->any())
-			->method('getConnection')
-			->will($this->returnValue($connection));
-
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
-	}
 /*
 	public function testGetByDNExisting() {
 		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =

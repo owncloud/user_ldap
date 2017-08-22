@@ -139,8 +139,7 @@ abstract class Proxy {
 		$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 		if($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
-		}
-		// FIXME return null if result is false ... the user then is unknown. Exception?
+		}// FIXME return null if result is false ... the user then is unknown. Exception?
 		return $result;
 	}
 

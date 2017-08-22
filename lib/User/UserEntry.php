@@ -26,9 +26,13 @@ use OCP\IConfig;
 use OCP\ILogger;
 
 /**
- * User
+ * UserEntry is a wrapper around an ldap search array.
  *
- * represents an LDAP user, gets and holds user-specific information from LDAP
+ * It represents an LDAP user and is created by the UserManager on a getUsers
+ * call. It is more than a Plain Old PHP Objects (POPO) because it uses the ldap
+ * configuration to fetch the results fo different getters. It also does some
+ * sanity checking eg for dn, displayName, uuid, quota and home folder. Finally,
+ * it can store the internal ownCloud UID determined by the UserManager.
  */
 class UserEntry {
 	/**
@@ -56,7 +60,7 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * @param Connection $connection
+	 * @param Connection $connection to lookup configured attribute names
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 */
@@ -73,7 +77,7 @@ class UserEntry {
 	}
 
 	/**
-	 * @brief returns the LDAP DN of the entry
+	 * @brief returns the Distinguished Name (DN) of the LDAP entry
 	 * @return string|null
 	 */
 	public function getDN() {

@@ -25,7 +25,6 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\User;
 
 class UserEntryTest extends \Test\TestCase {
 	/**
