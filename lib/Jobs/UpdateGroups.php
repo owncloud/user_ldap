@@ -43,6 +43,11 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 
 	static private $groupBE;
 
+	/**
+	 * @var int
+	 */
+	protected $interval;
+
 	public function __construct(){
 		$this->interval = self::getRefreshInterval();
 	}

@@ -41,9 +41,9 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 /**
- * Manager
+ * Manager of UserEntries
  *
- * upon request, returns an LDAP user object either by creating or from run-time
+ * upon request, returns a UserEntry object either by creating or from run-time
  * cache
  */
 class Manager {
@@ -234,10 +234,10 @@ class Manager {
 	public function dnExistsOnLDAP($dn) {
 
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapUserFilter))) {
-			$lcr = $this->access->connection->getConnectionResource();
+		if(!is_array($this->access->readAttribute($dn, '', $this->access->getConnection()->ldapUserFilter))) {
+			$lcr = $this->access->getConnection()->getConnectionResource();
 			if(is_null($lcr)) {
-				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
+				throw new \Exception('No LDAP Connection to server ' . $this->access->getConnection()->ldapHost);
 			}
 
 			try {
@@ -247,7 +247,7 @@ class Manager {
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+				if(!is_array($this->access->readAttribute($newDn, '', $this->access->getConnection()->ldapUserFilter))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
@@ -396,7 +396,7 @@ class Manager {
 		if(count($groups) === 0) {
 			$groups = false;
 		}
-		$this->access->connection->writeToCache($cacheKey, $groups);
+		$this->access->getConnection()->writeToCache($cacheKey, $groups);
 	}
 	/**
 	 * the call to the method that saves the avatar in the file
@@ -492,7 +492,7 @@ class Manager {
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if(count($users) < 1) {
 			throw new \Exception('No user available for the given login name on ' .
-				$this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
+				$this->access->getConnection()->ldapHost . ':' . $this->access->getConnection()->ldapPort);
 		}
 		return $this->getFromEntry($users[0]);
 	}

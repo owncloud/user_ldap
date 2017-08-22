@@ -24,7 +24,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
-use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
