@@ -514,7 +514,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function dn2username($fdn, $ldapName = null, $ldapEntry = null) {
+	public function dn2username($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -522,7 +522,7 @@ class Access extends LDAPUtility implements IUserTools {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, true, $ldapEntry);
+		return $this->dn2ocname($fdn, $ldapName, true);
 	}
 
 	/**
@@ -532,7 +532,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, $ldapEntry = null) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
 		if($isUser) {
 			$mapper = $this->getUserMapper();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
@@ -548,7 +548,7 @@ class Access extends LDAPUtility implements IUserTools {
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
-		$uuid = $this->getUUID($fdn, $isUser, $ldapEntry);
+		$uuid = $this->getUUID($fdn, $isUser);
 		if(is_string($uuid)) {
 			$ocName = $mapper->getNameByUUID($uuid);
 			if(is_string($ocName)) {
@@ -657,16 +657,6 @@ class Access extends LDAPUtility implements IUserTools {
 			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
 			if($ocName) {
 				$ownCloudNames[$ldapObject['dn'][0]] = $ocName;
-				if($isUsers) {
-					//cache the user names so it does not need to be retrieved
-					//again later (e.g. sharing dialogue).
-					if(is_null($nameByLDAP)) {
-						continue;
-					}
-					$sndName = isset($ldapObject[$sndAttribute][0])
-						? $ldapObject[$sndAttribute][0] : '';
-					$this->cacheUserDisplayName($ocName, $nameByLDAP, $sndName);
-				}
 			}
 		}
 		return $ownCloudNames;
@@ -688,19 +678,6 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function cacheUserExists($ocName) {
 		$this->connection->writeToCache('userExists'.$ocName, true);
-	}
-
-	/**
-	 * caches the user display name
-	 * @param string $ocName the internal ownCloud username
-	 * @param string $displayName the display name
-	 * @param string $displayName2 the second display name
-	 */
-	public function cacheUserDisplayName($ocName, $displayName, $displayName2 = '') {
-		$user = $this->userManager->get($ocName);
-		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
-		$cacheKeyTrunk = 'getDisplayName';
-		$this->connection->writeToCache($cacheKeyTrunk.$ocName, $displayName);
 	}
 
 	/**
@@ -803,7 +780,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * utilizing the login filter.
 	 *
 	 * @param string $loginName
-	 * @return array
+	 * @return int|false
 	 */
 	public function countUsersByLoginName($loginName) {
 		$loginName = $this->escapeFilterPart($loginName);

@@ -80,6 +80,9 @@ class WizardTest extends \Test\TestCase {
 		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}
 
+	/**
+	 * @param $ldap \PHPUnit_Framework_MockObject_MockObject
+	 */
 	private function prepareLdapWrapperForConnections(&$ldap) {
 		$ldap->expects($this->once())
 			->method('connect')
@@ -333,6 +336,7 @@ class WizardTest extends \Test\TestCase {
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
+		/** @var $wizard Wizard */
 		list($wizard, $configuration, $ldap, $access)
 			= $this->getWizardAndMocks();
 

@@ -26,7 +26,6 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Connection;
 
 /**
  * Class AccessTest

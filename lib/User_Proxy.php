@@ -27,7 +27,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -56,15 +55,6 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string[]
-	 */
-	public function getSearchTerms($uid) {
-		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid]);
-		return is_array($terms) ? $terms : [];
 	}
 
 	/**
@@ -99,6 +89,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return mixed the result of the method or false
 	 */
 	protected function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
+		// FIXME remove caching here ...
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
@@ -171,21 +162,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	/**
 	 * check if a user exists
 	 * @param string $uid the username
-	 * @return boolean
+	 * @return bool
 	 */
 	public function userExists($uid) {
 		return $this->handleRequest($uid, 'userExists', array($uid));
-	}
-
-	/**
-	 * check if a user exists on LDAP
-	 * @param string|\OCA\User_LDAP\User\User $user either the ownCloud user
-	 * name or an instance of that user
-	 * @return boolean
-	 */
-	public function userExistsOnLDAP($user) {
-		$id = ($user instanceof User) ? $user->getUsername() : $user;
-		return $this->handleRequest($id, 'userExistsOnLDAP', array($user));
 	}
 
 	/**
@@ -214,10 +194,14 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	/**
 	 * get the user's home directory
 	 * @param string $uid the username
-	 * @return boolean
+	 * @return string|null
 	 */
 	public function getHome($uid) {
-		return $this->handleRequest($uid, 'getHome', array($uid));
+		$result = $this->handleRequest($uid, 'getHome', [$uid]);
+		if ($result === false) { // false means no quota for user found
+			$result = null;
+		}
+		return $result;
 	}
 
 	/**
@@ -232,7 +216,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
-	 * @return boolean either the user can or cannot
+	 * @return bool either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
 		return $this->handleRequest($uid, 'canChangeAvatar', array($uid), true);
@@ -298,7 +282,11 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @since 10.0
 	 */
 	public function getEMailAddress($uid) {
-		return $this->handleRequest($uid, 'getEMailAddress', [$uid]);
+		$result = $this->handleRequest($uid, 'getEMailAddress', [$uid]);
+		if ($result === false) { // false means no quota for user found
+			$result = null;
+		}
+		return $result;
 	}
 
 	/**
@@ -309,6 +297,19 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @since 10.0
 	 */
 	public function getQuota($uid) {
-		return $this->handleRequest($uid, 'getQuota', [$uid]);
+		$result = $this->handleRequest($uid, 'getQuota', [$uid]);
+		if ($result === false) { // false means no quota for user found
+			$result = null;
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string $uid
+	 * @return string[]
+	 */
+	public function getSearchTerms($uid) {
+		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid]);
+		return is_array($terms) ? $terms : [];
 	}
 }

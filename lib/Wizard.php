@@ -624,23 +624,23 @@ class Wizard extends LDAPUtility {
 			return false;
 		}
 
-		$cr = $this->access->connection->getConnectionResource();
+		$cr = $this->access->getConnection()->getConnectionResource();
 		if(!$this->ldap->isResource($cr)) {
 			throw new \Exception('connection error');
 		}
 
-		if(mb_strpos($this->access->connection->ldapLoginFilter, '%uid', 0, 'UTF-8')
+		if(mb_strpos($this->access->getConnection()->ldapLoginFilter, '%uid', 0, 'UTF-8')
 			=== false) {
 			throw new \Exception('missing placeholder');
 		}
-		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->connection->ldapLoginFilter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->getConnection()->ldapLoginFilter, \OCP\Util::DEBUG);
 
 		$users = $this->access->countUsersByLoginName($loginName);
 		if($this->ldap->errno($cr) !== 0) {
 			throw new \Exception($this->ldap->error($cr));
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. count($users) . ' users', \OCP\Util::DEBUG);
-		$filter = str_replace('%uid', $loginName, $this->access->connection->ldapLoginFilter);
+		$filter = str_replace('%uid', $loginName, $this->access->getConnection()->ldapLoginFilter);
 		$this->result->addChange('ldap_test_loginname', $users);
 		$this->result->addChange('ldap_test_effective_filter', $filter);
 		return $this->result;
