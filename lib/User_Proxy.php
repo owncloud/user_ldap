@@ -182,6 +182,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 
 	/**
 	 * returns the username for the given login name, if available
+	 * needs to check all ldap servers
+	 * TODO this implies login != owncloud internal username
 	 *
 	 * @param string $loginName
 	 * @return string|false
