@@ -91,18 +91,6 @@ class Group_LDAPTest extends \Test\TestCase {
 			->will($this->returnValue($this->connection));
 	}
 
-	private function enableGroups() {
-		/*$this->connection->expects($this->any())
-			->method('__get')
-			->will($this->returnCallback(function($name) {
-				if($name === 'ldapDynamicGroupMemberURL') {
-					return '';
-				}
-				return 1;
-			}));
-		 */
-	}
-
 	public function testCountEmptySearchString() {
 
 		$this->access->expects($this->any())
