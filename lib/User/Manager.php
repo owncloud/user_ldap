@@ -166,7 +166,7 @@ class Manager {
 			$attributes[$attr] = true;
 		}
 
-		if(!$minimal) {
+		if($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
 
@@ -188,10 +188,6 @@ class Manager {
 	 * @throws \OutOfBoundsException when username could not be determined
 	 */
 	public function getFromEntry($ldapEntry) {
-		/*$dn = $ldapEntry['dn'][0]; // TODO use UserEntry?
-		if(isset($this->usersByDN[$dn])) {
-			return $this->usersByDN[$dn];
-		}*/
 		$this->checkAccess();
 		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->access->getConnection(), $ldapEntry);
 		$dn = $userEntry->getDN();
@@ -306,7 +302,7 @@ class Manager {
 	public function updateAccount (UserEntry $userEntry) {
 		$targetUser = $this->userManager->get($userEntry->getOwnCloudUID());
 		if (!$targetUser) {
-			$this->logger->debug('Trying to update non existing user ' . $userEntry->getOwnCloudUID() . ', creating new account.', ['app' => 'user_ldap']);
+			$this->logger->debug('Trying to update non existing user ' . $userEntry->getOwnCloudUID() . ', creating new account.', ['app' => self::class]);
 			// FIXME we don't hold a reference so we need to pull out the proxy back from the registered user backends...
 			foreach ($this->userManager->getBackends() as $backend) {
 				if ($backend instanceof User_Proxy) {
@@ -314,7 +310,7 @@ class Manager {
 					return true;
 				}
 			}
-			$this->logger->error('Could neither update nor create user ' . $userEntry->getOwnCloudUID(), ['app' => 'user_ldap']);
+			$this->logger->error('Could neither update nor create user ' . $userEntry->getOwnCloudUID(), ['app' => self::class]);
 			return false;
 		} else {
 
@@ -351,11 +347,11 @@ class Manager {
 		try {
 			$targetUser->setEMailAddress($newEmail);
 		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-			$this->logger->warning('Can\'t set email [' . $newEmail .'] for user ['. $userEntry->getOwnCloudUID() .']. Trying to set as empty email', ['app' => 'user_ldap']);
+			$this->logger->warning('Can\'t set email [' . $newEmail .'] for user ['. $userEntry->getOwnCloudUID() .']. Trying to set as empty email', ['app' => self::class]);
 			try {
 				$targetUser->setEMailAddress(null);
 			} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-				$this->logger->error('Can\'t set email [' . $newEmail .'] nor making it empty for user ['. $userEntry->getOwnCloudUID() .']', ['app' => 'user_ldap']);
+				$this->logger->error('Can\'t set email [' . $newEmail .'] nor making it empty for user ['. $userEntry->getOwnCloudUID() .']', ['app' => self::class]);
 			}
 		}
 	}
@@ -447,13 +443,13 @@ class Manager {
 	 */
 	private function setOwnCloudAvatar(UserEntry $userEntry, Image $image) {
 		if(!$image->valid()) {
-			$this->logger->error('jpegPhoto data invalid for '.$userEntry->getDN(), ['app' => 'user_ldap']);
+			$this->logger->error('jpegPhoto data invalid for '.$userEntry->getDN(), ['app' => self::class]);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
-			$this->logger->error('croping image for avatar failed for '.$userEntry->getDN(), ['app' => 'user_ldap']);
+			$this->logger->error('croping image for avatar failed for '.$userEntry->getDN(), ['app' => self::class]);
 			return;
 		}
 
@@ -465,7 +461,7 @@ class Manager {
 			$avatar = $this->avatarManager->getAvatar($userEntry->getOwnCloudUID());
 			$avatar->set($this->image);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'user_ldap']);
+			$this->logger->logException($e, ['app' => self::class]);
 		}
 	}
 
@@ -520,9 +516,12 @@ class Manager {
 			$this->access->getFilterPartForUserSearch($search)
 		));
 
-		\OCP\Util::writeLog('user_ldap',
-			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
-			\OCP\Util::DEBUG);
+		$this->logger->debug('getUsers: Options: search '.$search
+			.' limit '.$limit
+			.' offset ' .$offset
+			.' Filter: '.$filter,
+			['app' => self::class]);
+
 		//do the search and translate results to owncloud names
 		$ldap_users = $this->fetchListOfUsers(
 			$filter,
@@ -530,14 +529,20 @@ class Manager {
 			$limit, $offset);
 		$ownCloudUserNames = [];
 		foreach ($ldap_users as $ldapEntry) {
-			\OC::$server->getLogger()->debug(
-				"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".json_encode($ldapEntry),
-				['app' => 'user_ldap']
-			);
-			$userEntry = $this->getFromEntry($ldapEntry);
-			$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
+			try {
+				$userEntry = $this->getFromEntry($ldapEntry);
+				$this->logger->debug(
+					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".json_encode($ldapEntry),
+					['app' => self::class]
+				);
+				$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
+			} catch (\OutOfBoundsException $e) {
+				// tell the admin why we skip the user
+				$this->logger->logException($e, ['app' => self::class]);
+			}
 		}
-		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ownCloudUserNames). ' Users found', \OCP\Util::DEBUG);
+
+		$this->logger->debug('getUsers: '.count($ownCloudUserNames). ' Users found', ['app' => self::class]);
 
 		return $ownCloudUserNames;
 	}

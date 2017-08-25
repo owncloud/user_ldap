@@ -37,6 +37,8 @@ use OC\User\NoUserException;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
+use OCP\IImage;
+use OCP\Image;
 use OCP\IUserBackend;
 use OCP\UserInterface;
 
@@ -147,7 +149,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 		$this->userManager->updateAccount($userEntry);
 
 		//FIXME how can we trigger this for saml? needs to move to core!
-		$this->userManager->registerAvatarHook($userEntry);
+		if ($this->config->getSystemValue('enable_avatars', true) === true) {
+			$this->userManager->registerAvatarHook($userEntry);
+		}
 		$this->userManager->markLogin($userEntry->getOwnCloudUID());
 
 		return $userEntry->getOwncloudUid();
@@ -335,5 +339,31 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return false;
 		}
 		return $userEntry->getQuota();
+	}
+	/**
+	 * Get avatar for a users account for core powered user search
+	 *
+	 * FIXME This is an expensive operation and takes roughly half a second to parse the data and create the image. This might be too slow for sync jobs.
+	 *
+	 * @param string $uid The username
+	 * @return IImage|null|false
+	 * @throws \OutOfBoundsException if the avatar could not be determined as expected
+	 */
+	public function getAvatar($uid) {
+		$userEntry = $this->userManager->getByOwnCloudUID($uid);
+		if (!$userEntry) {
+			return false;
+		}
+		$image = new Image();
+		if ($image->loadFromData($userEntry->getAvatarImage())) {
+			//make sure it is a square and not bigger than 128x128
+			$size = min(array($image->width(), $image->height(), 128));
+			if(!$image->centerCrop($size)) {
+				throw new \OutOfBoundsException('cropping image for avatar failed for '.$userEntry->getDN());
+			}
+			return $image;
+		} else {
+			return null;
+		}
 	}
 }
