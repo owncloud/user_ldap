@@ -342,12 +342,12 @@ class Wizard extends LDAPUtility {
 
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapUserFilter;
-		$rr = $this->ldap->search($cr, $base, $filter, array(), 1, 1);
-		if(!$this->ldap->isResource($rr)) {
+		$rr = $this->getLDAP()->search($cr, $base, $filter, array(), 1, 1);
+		if(!$this->getLDAP()->isResource($rr)) {
 			return false;
 		}
-		$er = $this->ldap->firstEntry($cr, $rr);
-		$attributes = $this->ldap->getAttributes($cr, $er);
+		$er = $this->getLDAP()->firstEntry($cr, $rr);
+		$attributes = $this->getLDAP()->getAttributes($cr, $er);
 		$pureAttributes = array();
 		for($i = 0; $i < $attributes['count']; $i++) {
 			$pureAttributes[] = $attributes[$i];
@@ -625,7 +625,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		$cr = $this->access->getConnection()->getConnectionResource();
-		if(!$this->ldap->isResource($cr)) {
+		if(!$this->getLDAP()->isResource($cr)) {
 			throw new \Exception('connection error');
 		}
 
@@ -636,8 +636,8 @@ class Wizard extends LDAPUtility {
 		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->getConnection()->ldapLoginFilter, \OCP\Util::DEBUG);
 
 		$users = $this->access->countUsersByLoginName($loginName);
-		if($this->ldap->errno($cr) !== 0) {
-			throw new \Exception($this->ldap->error($cr));
+		if($this->getLDAP()->errno($cr) !== 0) {
+			throw new \Exception($this->getLDAP()->error($cr));
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. count($users) . ' users', \OCP\Util::DEBUG);
 		$filter = str_replace('%uid', $loginName, $this->access->getConnection()->ldapLoginFilter);
@@ -791,14 +791,14 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 		$base = $this->configuration->ldapBase[0];
-		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs, 0, 1000);
-		if(!$this->ldap->isResource($rr)) {
+		$rr = $this->getLDAP()->search($cr, $base, $filter, $possibleAttrs, 0, 1000);
+		if(!$this->getLDAP()->isResource($rr)) {
 			return false;
 		}
-		$er = $this->ldap->firstEntry($cr, $rr);
+		$er = $this->getLDAP()->firstEntry($cr, $rr);
 		while(is_resource($er)) {
-			$this->ldap->getDN($cr, $er);
-			$attrs = $this->ldap->getAttributes($cr, $er);
+			$this->getLDAP()->getDN($cr, $er);
+			$attrs = $this->getLDAP()->getAttributes($cr, $er);
 			$result = array();
 			$possibleAttrsCount = count($possibleAttrs);
 			for($i = 0; $i < $possibleAttrsCount; $i++) {
@@ -811,7 +811,7 @@ class Wizard extends LDAPUtility {
 				return key($result);
 			}
 
-			$er = $this->ldap->nextEntry($cr, $er);
+			$er = $this->getLDAP()->nextEntry($cr, $er);
 		}
 
 		return false;
@@ -831,15 +831,15 @@ class Wizard extends LDAPUtility {
 
 		//base is there, let's validate it. If we search for anything, we should
 		//get a result set > 0 on a proper base
-		$rr = $this->ldap->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
-		if(!$this->ldap->isResource($rr)) {
-			$errorNo  = $this->ldap->errno($cr);
-			$errorMsg = $this->ldap->error($cr);
+		$rr = $this->getLDAP()->search($cr, $base, 'objectClass=*', array('dn'), 0, 1);
+		if(!$this->getLDAP()->isResource($rr)) {
+			$errorNo  = $this->getLDAP()->errno($cr);
+			$errorMsg = $this->getLDAP()->error($cr);
 			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
 							' Error '.$errorNo.': '.$errorMsg, \OCP\Util::INFO);
 			return false;
 		}
-		$entries = $this->ldap->countEntries($cr, $rr);
+		$entries = $this->getLDAP()->countEntries($cr, $rr);
 		return ($entries !== false) && ($entries > 0);
 	}
 
@@ -898,13 +898,13 @@ class Wizard extends LDAPUtility {
 						}
 						$base = $this->configuration->ldapBase[0];
 						foreach($cns as $cn) {
-							$rr = $this->ldap->search($cr, $base, 'cn=' . $cn, array('dn', 'primaryGroupToken'));
-							if(!$this->ldap->isResource($rr)) {
+							$rr = $this->getLDAP()->search($cr, $base, 'cn=' . $cn, array('dn', 'primaryGroupToken'));
+							if(!$this->getLDAP()->isResource($rr)) {
 								continue;
 							}
-							$er = $this->ldap->firstEntry($cr, $rr);
-							$attrs = $this->ldap->getAttributes($cr, $er);
-							$dn = $this->ldap->getDN($cr, $er);
+							$er = $this->getLDAP()->firstEntry($cr, $rr);
+							$attrs = $this->getLDAP()->getAttributes($cr, $er);
+							$dn = $this->getLDAP()->getDN($cr, $er);
 							if ($dn == false || $dn === '') {
 								continue;
 							}
@@ -1040,20 +1040,20 @@ class Wizard extends LDAPUtility {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', \OCP\Util::DEBUG);
-		$cr = $this->ldap->connect($host, $port);
+		$cr = $this->getLDAP()->connect($host, $port);
 		if(!is_resource($cr)) {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
 		//set LDAP options
-		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
-		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_REFERRALS, 0);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 
 		try {
 			if($tls) {
-				$isTlsWorking = @$this->ldap->startTls($cr);
+				$isTlsWorking = @$this->getLDAP()->startTls($cr);
 				if(!$isTlsWorking) {
 					return false;
 				}
@@ -1061,19 +1061,19 @@ class Wizard extends LDAPUtility {
 
 			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
 			//interesting part: do the bind!
-			$login = $this->ldap->bind($cr,
+			$login = $this->getLDAP()->bind($cr,
 				$this->configuration->ldapAgentName,
 				$this->configuration->ldapAgentPassword
 			);
-			$errNo = $this->ldap->errno($cr);
+			$errNo = $this->getLDAP()->errno($cr);
 			$error = ldap_error($cr);
-			$this->ldap->unbind($cr);
+			$this->getLDAP()->unbind($cr);
 		} catch(ServerNotAvailableException $e) {
 			return false;
 		}
 
 		if($login === true) {
-			$this->ldap->unbind($cr);
+			$this->getLDAP()->unbind($cr);
 			if($ncc) {
 				throw new \Exception('Certificate cannot be validated.');
 			}
@@ -1141,7 +1141,7 @@ class Wizard extends LDAPUtility {
 		}
 		$base = $this->configuration->ldapBase[0];
 		$cr = $this->getConnection();
-		if(!$this->ldap->isResource($cr)) {
+		if(!$this->getLDAP()->isResource($cr)) {
 			return false;
 		}
 		$lastFilter = null;
@@ -1154,11 +1154,11 @@ class Wizard extends LDAPUtility {
 				continue;
 			}
 			// 20k limit for performance and reason
-			$rr = $this->ldap->search($cr, $base, $filter, array($attr), 0, 20000);
-			if(!$this->ldap->isResource($rr)) {
+			$rr = $this->getLDAP()->search($cr, $base, $filter, array($attr), 0, 20000);
+			if(!$this->getLDAP()->isResource($rr)) {
 				continue;
 			}
-			$entries = $this->ldap->countEntries($cr, $rr);
+			$entries = $this->getLDAP()->countEntries($cr, $rr);
 			$getEntryFunc = 'firstEntry';
 			if(($entries !== false) && ($entries > 0)) {
 				if(!is_null($maxF) && $entries > $maxEntries) {
@@ -1167,14 +1167,14 @@ class Wizard extends LDAPUtility {
 				}
 				$dnReadCount = 0;
 				do {
-					$entry = $this->ldap->$getEntryFunc($cr, $rr);
+					$entry = $this->getLDAP()->$getEntryFunc($cr, $rr);
 					$getEntryFunc = 'nextEntry';
-					if(!$this->ldap->isResource($entry)) {
+					if(!$this->getLDAP()->isResource($entry)) {
 						continue 2;
 					}
 					$rr = $entry; //will be expected by nextEntry next round
-					$attributes = $this->ldap->getAttributes($cr, $entry);
-					$dn = $this->ldap->getDN($cr, $entry);
+					$attributes = $this->getLDAP()->getAttributes($cr, $entry);
+					$dn = $this->getLDAP()->getDN($cr, $entry);
 					if($dn === false || in_array($dn, $dnRead)) {
 						continue;
 					}
@@ -1187,7 +1187,7 @@ class Wizard extends LDAPUtility {
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
 				} while(($state === self::LRESULT_PROCESSED_SKIP
-						|| $this->ldap->isResource($entry))
+						|| $this->getLDAP()->isResource($entry))
 						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
 			}
 		}
@@ -1290,19 +1290,19 @@ class Wizard extends LDAPUtility {
 			return $this->cr;
 		}
 
-		$cr = $this->ldap->connect(
+		$cr = $this->getLDAP()->connect(
 			$this->configuration->ldapHost,
 			$this->configuration->ldapPort
 		);
 
-		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
-		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_REFERRALS, 0);
+		$this->getLDAP()->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if($this->configuration->ldapTLS === 1) {
-			$this->ldap->startTls($cr);
+			$this->getLDAP()->startTls($cr);
 		}
 
-		$lo = @$this->ldap->bind($cr,
+		$lo = @$this->getLDAP()->bind($cr,
 								 $this->configuration->ldapAgentName,
 								 $this->configuration->ldapAgentPassword);
 		if($lo === true) {
