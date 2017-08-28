@@ -527,18 +527,19 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
+	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapName optional, the display name of the object
+	 * @param string $ldapDisplayName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
+	public function dn2ocname($fdn, $ldapDisplayName = null, $isUser = true) {
 		if($isUser) {
 			$mapper = $this->getUserMapper();
-			$nameAttribute = $this->connection->ldapUserDisplayName;
+			$displayNameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
 			$mapper = $this->getGroupMapper();
-			$nameAttribute = $this->connection->ldapGroupDisplayName;
+			$displayNameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 
 		//let's try to retrieve the ownCloud name from the mappings table
@@ -561,13 +562,13 @@ class Access extends LDAPUtility implements IUserTools {
 			return false;
 		}
 
-		if(is_null($ldapName)) {
-			$ldapName = $this->readAttribute($fdn, $nameAttribute);
-			if(!isset($ldapName[0]) && empty($ldapName[0])) {
+		if(is_null($ldapDisplayName)) {
+			$ldapDisplayName = $this->readAttribute($fdn, $displayNameAttribute);
+			if(!isset($ldapDisplayName[0]) && empty($ldapDisplayName[0])) {
 				Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', Util::INFO);
 				return false;
 			}
-			$ldapName = $ldapName[0];
+			$ldapDisplayName = $ldapDisplayName[0];
 		}
 
 		if($isUser) {
@@ -580,7 +581,7 @@ class Access extends LDAPUtility implements IUserTools {
 			}
 			$intName = $this->sanitizeUsername($username);
 		} else {
-			$intName = $ldapName;
+			$intName = $ldapDisplayName;
 		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
