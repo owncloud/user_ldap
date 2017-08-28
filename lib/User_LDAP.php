@@ -56,7 +56,7 @@ use OCP\UserInterface;
  * ^    - also names users based on the ldap entry and what is in oc
  * |
  * v
- * OCA\User_LDAP\User\User - Wrapper for an ldap entry representing a user TODO cache ldap entry
+ * OCA\User_LDAP\User\UserEntry - Wrapper for an ldap entry representing a user
  * ^
  * |
  * v

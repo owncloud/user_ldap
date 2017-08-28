@@ -34,7 +34,6 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
-use OCP\Image;
 use OCP\IUserManager;
 
 /**
@@ -72,7 +71,6 @@ class ManagerTest extends \Test\TestCase {
 		$filesystem = $this->createMock(FilesystemHelper::class);
 		$logger     = $this->createMock(ILogger::class);
 		$avatarManager = $this->createMock(IAvatarManager::class);
-		$image = $this->createMock(Image::class);
 		$dbConn = $this->createMock(IDBConnection::class);
 		$userMgr = $this->createMock(IUserManager::class);
 		$this->access     = $this->createMock(Access::class);
@@ -83,7 +81,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($this->connection);
 
 		$this->manager = new Manager(
-			$this->config, $filesystem, $logger, $avatarManager, $image,
+			$this->config, $filesystem, $logger, $avatarManager,
 			$dbConn, $userMgr
 		);
 		$this->manager->setLdapAccess($this->access);

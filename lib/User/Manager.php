@@ -67,9 +67,6 @@ class Manager {
 	/** @var ILogger */
 	protected $logger;
 
-	/** @var Image */
-	protected $image;
-
 	/** @param \OCP\IAvatarManager */
 	protected $avatarManager;
 
@@ -89,20 +86,18 @@ class Manager {
 	 * gives access to necessary functions from the OC filesystem
 	 * @param ILogger $logger
 	 * @param IAvatarManager $avatarManager
-	 * @param Image $image an empty image instance
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(IConfig $ocConfig,
 								FilesystemHelper $ocFilesystem, ILogger $logger,
-								IAvatarManager $avatarManager, Image $image,
+								IAvatarManager $avatarManager,
 								IDBConnection $db, IUserManager $userManager) {
 
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->logger        = $logger;
 		$this->avatarManager = $avatarManager;
-		$this->image         = $image;
 		$this->db            = $db;
 		$this->userManager   = $userManager;
 		$this->usersByDN     = new CappedMemoryCache();
@@ -189,11 +184,11 @@ class Manager {
 	 */
 	public function getFromEntry($ldapEntry) {
 		$this->checkAccess();
-		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->access->getConnection(), $ldapEntry);
+		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->getConnection(), $ldapEntry);
 		$dn = $userEntry->getDN();
 
-		if(!$this->access->isDNPartOfBase($dn, $this->access->getConnection()->ldapBaseUsers)) {
-			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".print_r($this->access->getConnection()->ldapBaseUsers, true));
+		if(!$this->access->isDNPartOfBase($dn, $this->getConnection()->ldapBaseUsers)) {
+			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".print_r($this->getConnection()->ldapBaseUsers, true));
 		}
 
 		$uid = $this->resolveUID($userEntry);
@@ -230,10 +225,10 @@ class Manager {
 	public function dnExistsOnLDAP($dn) {
 
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, '', $this->access->getConnection()->ldapUserFilter))) {
-			$lcr = $this->access->getConnection()->getConnectionResource();
+		if(!is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
+			$lcr = $this->getConnection()->getConnectionResource();
 			if(is_null($lcr)) {
-				throw new \Exception('No LDAP Connection to server ' . $this->access->getConnection()->ldapHost);
+				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
 			}
 
 			try {
@@ -243,7 +238,7 @@ class Manager {
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if(!is_array($this->access->readAttribute($newDn, '', $this->access->getConnection()->ldapUserFilter))) {
+				if(!is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
@@ -392,7 +387,7 @@ class Manager {
 		if(count($groups) === 0) {
 			$groups = false;
 		}
-		$this->access->getConnection()->writeToCache($cacheKey, $groups);
+		$this->getConnection()->writeToCache($cacheKey, $groups);
 	}
 	/**
 	 * the call to the method that saves the avatar in the file
@@ -432,8 +427,9 @@ class Manager {
 			//not set, nothing left to do;
 			return;
 		}
-		$this->image->loadFromBase64(base64_encode($avatarImage));
-		$this->setOwnCloudAvatar($userEntry, $this->image);
+		$image = new Image();
+		$image->loadFromBase64(base64_encode($avatarImage));
+		$this->setOwnCloudAvatar($userEntry, $image);
 	}
 
 	/**
@@ -447,8 +443,8 @@ class Manager {
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
-		$size = min(array($this->image->width(), $this->image->height(), 128));
-		if(!$this->image->centerCrop($size)) {
+		$size = min(array($image->width(), $image->height(), 128));
+		if(!$image->centerCrop($size)) {
 			$this->logger->error('croping image for avatar failed for '.$userEntry->getDN(), ['app' => self::class]);
 			return;
 		}
@@ -459,7 +455,7 @@ class Manager {
 
 		try {
 			$avatar = $this->avatarManager->getAvatar($userEntry->getOwnCloudUID());
-			$avatar->set($this->image);
+			$avatar->set($image);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => self::class]);
 		}
@@ -488,7 +484,7 @@ class Manager {
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if(count($users) < 1) {
 			throw new \Exception('No user available for the given login name on ' .
-				$this->access->getConnection()->ldapHost . ':' . $this->access->getConnection()->ldapPort);
+				$this->getConnection()->ldapHost . ':' . $this->getConnection()->ldapPort);
 		}
 		return $this->getFromEntry($users[0]);
 	}

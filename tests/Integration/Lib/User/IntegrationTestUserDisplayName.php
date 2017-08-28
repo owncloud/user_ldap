@@ -66,7 +66,6 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 			new \OCA\User_LDAP\FilesystemHelper(),
 			\OC::$server->getLogger(),
 			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager()
 		);
