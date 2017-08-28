@@ -186,7 +186,6 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 				new FilesystemHelper(),
 				\OC::$server->getLogger(),
 				\OC::$server->getAvatarManager(),
-				new \OCP\Image(),
 				$dbc,
 				\OC::$server->getUserManager());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);

@@ -32,6 +32,5 @@ namespace OCA\User_LDAP\Tests\Integration;
 class FakeManager extends \OCA\User_LDAP\User\Manager {
 	public function __construct() {
 		$this->ocConfig = \OC::$server->getConfig();
-		$this->image = new \OCP\Image();
 	}
 }
