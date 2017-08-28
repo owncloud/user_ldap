@@ -93,12 +93,12 @@ class Connection extends LDAPUtility {
 			$helper->getServerConfigurationPrefixes());
 		$this->hasPagedResultSupport =
 			intval($this->configuration->ldapPagingSize) !== 0
-			|| $this->ldap->hasPagedResultSupport();
+			|| $this->getLDAP()->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
-		if($this->ldap->isResource($this->ldapConnectionRes)) {
-			@$this->ldap->unbind($this->ldapConnectionRes);
+		if($this->getLDAP()->isResource($this->ldapConnectionRes)) {
+			@$this->getLDAP()->unbind($this->ldapConnectionRes);
 		};
 	}
 
@@ -169,7 +169,7 @@ class Connection extends LDAPUtility {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
-		} else if(!$this->ldap->isResource($this->ldapConnectionRes)) {
+		} else if(!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null;
 			$this->establishConnection();
 		}
@@ -185,7 +185,7 @@ class Connection extends LDAPUtility {
 	 */
 	public function resetConnectionResource() {
 		if(!is_null($this->ldapConnectionRes)) {
-			@$this->ldap->unbind($this->ldapConnectionRes);
+			@$this->getLDAP()->unbind($this->ldapConnectionRes);
 			$this->ldapConnectionRes = null;
 		}
 	}
@@ -501,7 +501,7 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
-			if(!$this->ldap->areLDAPFunctionsAvailable()) {
+			if(!$this->getLDAP()->areLDAPFunctionsAvailable()) {
 				$phpLDAPinstalled = false;
 				\OCP\Util::writeLog('user_ldap',
 									'function ldap_connect is not available. Make '.
@@ -531,8 +531,8 @@ class Connection extends LDAPUtility {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
 					$bindStatus = $this->bind();
-					$error = $this->ldap->isResource($this->ldapConnectionRes) ?
-						$this->ldap->errno($this->ldapConnectionRes) : -1;
+					$error = $this->getLDAP()->isResource($this->ldapConnectionRes) ?
+						$this->getLDAP()->errno($this->ldapConnectionRes) : -1;
 				}
 				if($bindStatus === true) {
 					return $bindStatus;
@@ -572,11 +572,11 @@ class Connection extends LDAPUtility {
 		if ($host === '') {
 			return false;
 		}
-		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
-		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
+		if($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
 				if($this->configuration->ldapTLS) {
-					$this->ldap->startTls($this->ldapConnectionRes);
+					$this->getLDAP()->startTls($this->ldapConnectionRes);
 				}
 			}
 		} else {
@@ -600,15 +600,15 @@ class Connection extends LDAPUtility {
 		$getConnectionResourceAttempt = true;
 		$cr = $this->getConnectionResource();
 		$getConnectionResourceAttempt = false;
-		if(!$this->ldap->isResource($cr)) {
+		if(!$this->getLDAP()->isResource($cr)) {
 			return false;
 		}
-		$ldapLogin = @$this->ldap->bind($cr,
+		$ldapLogin = @$this->getLDAP()->bind($cr,
 										$this->configuration->ldapAgentName,
 										$this->configuration->ldapAgentPassword);
 		if(!$ldapLogin) {
 			\OCP\Util::writeLog('user_ldap',
-				'Bind failed: ' . $this->ldap->errno($cr) . ': ' . $this->ldap->error($cr),
+				'Bind failed: ' . $this->getLDAP()->errno($cr) . ': ' . $this->getLDAP()->error($cr),
 				\OCP\Util::WARN);
 			$this->ldapConnectionRes = null;
 			return false;
