@@ -46,7 +46,7 @@ use OCP\Util;
  * Class Access
  * @package OCA\User_LDAP
  */
-class Access extends LDAPUtility implements IUserTools {
+class Access implements IUserTools {
 	/**
 	 * @var \OCA\User_LDAP\Connection
 	 */
@@ -76,9 +76,7 @@ class Access extends LDAPUtility implements IUserTools {
 	*/
 	protected $groupMapper;
 
-	public function __construct(Connection $connection, ILDAPWrapper $ldap,
-		Manager $userManager) {
-		parent::__construct($ldap);
+	public function __construct(Connection $connection, Manager $userManager) {
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->userManager->setLdapAccess($this);
@@ -145,6 +143,14 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function getConnection() {
 		return $this->connection;
+	}
+
+	/**
+	 * returns the Connection instance
+	 * @return \OCA\User_LDAP\ILDAPWrapper
+	 */
+	public function getLDAP() {
+		return $this->getConnection()->getLDAP();
 	}
 
 	/**

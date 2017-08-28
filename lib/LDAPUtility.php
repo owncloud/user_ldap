@@ -42,7 +42,7 @@ abstract class LDAPUtility {
 	/**
 	 * @return ILDAPWrapper
 	 */
-	protected function getLDAP() {
+	public function getLDAP() {
 		return $this->ldap;
 	}
 }

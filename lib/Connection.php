@@ -46,6 +46,7 @@ use OC\ServerNotAvailableException;
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  */
 class Connection extends LDAPUtility {
+
 	private $ldapConnectionRes = null;
 	private $configPrefix;
 	private $configID;
