@@ -89,6 +89,11 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAttributesAll() {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('enable_avatars', true)
+			->will($this->returnValue(true));
+
 		$this->connection->expects($this->exactly(6))
 			->method('__get')
 			->withConsecutive(
@@ -113,11 +118,53 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertTrue(in_array('dn', $attributes));
 		$this->assertTrue(in_array('mail', $attributes));
+		$this->assertTrue(in_array('displayName', $attributes));
 		$this->assertTrue(in_array('jpegphoto', $attributes));
 		$this->assertTrue(in_array('thumbnailphoto', $attributes));
+
+	}
+	public function testGetAttributesAvatarsDisabled() {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('enable_avatars', true)
+			->will($this->returnValue(false));
+
+		$this->connection->expects($this->exactly(6))
+			->method('__get')
+			->withConsecutive(
+				[$this->equalTo('ldapQuotaAttribute')],
+				[$this->equalTo('ldapEmailAttribute')],
+				[$this->equalTo('ldapUserDisplayName')],
+				[$this->equalTo('ldapUserDisplayName2')],
+				[$this->equalTo('homeFolderNamingRule')],
+				[$this->equalTo('ldapAttributesForUserSearch')]
+			// uuidAttributes are a real member. the mock also has them
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				'mail',
+				'displayName',
+				'',
+				null,
+				null
+			);
+
+		$attributes = $this->manager->getAttributes();
+
+		$this->assertTrue(in_array('dn', $attributes));
+		$this->assertTrue(in_array('mail', $attributes));
+		$this->assertTrue(in_array('displayName', $attributes));
+		$this->assertFalse(in_array('jpegphoto', $attributes));
+		$this->assertFalse(in_array('thumbnailphoto', $attributes));
+
 	}
 
 	public function testGetAttributesWithCustomSearch() {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('enable_avatars', true)
+			->will($this->returnValue(true));
+
 		$this->connection->expects($this->exactly(6))
 			->method('__get')
 			->withConsecutive(
@@ -141,11 +188,11 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(in_array('uidNumber', $attributes));
 		$this->assertTrue(in_array('dn', $attributes));
 		$this->assertTrue(in_array('mail', $attributes));
 		$this->assertTrue(in_array('jpegphoto', $attributes));
 		$this->assertTrue(in_array('thumbnailphoto', $attributes));
+		$this->assertTrue(in_array('uidNumber', $attributes));
 	}
 
 	public function testGetAttributesMinimal() {
