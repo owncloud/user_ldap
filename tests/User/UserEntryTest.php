@@ -485,7 +485,7 @@ class UserEntryTest extends \Test\TestCase {
 		$this->connection->expects($this->once())
 			->method('__get')
 			->with($this->equalTo('ldapAttributesForUserSearch'))
-			->will($this->returnValue(null));
+			->will($this->returnValue([]));
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
