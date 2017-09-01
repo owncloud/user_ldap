@@ -57,7 +57,7 @@ class Group_LDAPTest extends \Test\TestCase {
 			->method('__get')
 			->will($this->returnCallback(function ($method) {
 				switch ($method) {
-					case 'ldapEMailAttribute':
+					case 'ldapEmailAttribute':
 					case 'homeFolderNamingRule':
 					case 'ldapAttributesForUserSearch':
 						return null;
@@ -428,9 +428,10 @@ class Group_LDAPTest extends \Test\TestCase {
 			->method('__get')
 			->will($this->returnCallback(function($method) {
 				switch ($method) {
-					case 'ldapEMailAttribute':
+					case 'ldapEmailAttribute':
 					case 'homeFolderNamingRule':
 					case 'ldapAttributesForUserSearch':
+						return [];
 					case 'ldapDynamicGroupMemberURL':
 						return null;
 					case 'ldapQuotaAttribute':
@@ -443,7 +444,7 @@ class Group_LDAPTest extends \Test\TestCase {
 					case 'ldapUserDisplayName':
 						return 'displayName';
 					case 'ldapBaseUsers':
-						return 'dc=foobar,dc=bar';
+						return ['dc=foobar,dc=bar'];
 					case 'ldapGroupMemberAssocAttr':
 						return 'uniqueMember';
 					case 'useMemberOfToDetectMembership':

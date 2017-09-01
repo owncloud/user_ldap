@@ -343,7 +343,7 @@ class ManagerTest extends \Test\TestCase {
 					case 'ldapQuotaAttribute':
 					case 'ldapUserDisplayName2':
 						return '';
-					case 'ldapEMailAttribute':
+					case 'ldapEmailAttribute':
 					case 'homeFolderNamingRule':
 					case 'ldapAttributesForUserSearch':
 						return null;
