@@ -64,11 +64,12 @@ interface ILDAPWrapper {
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @param string $cookie structure sent by LDAP server
+	 * @param int $estimated The estimated number of entries to retrieve.
 	 * @return bool true on success, false otherwise
 	 *
 	 * Corresponds to ldap_control_paged_result_response
 	 */
-	public function controlPagedResultResponse($link, $result, &$cookie);
+	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null);
 
 	/**
 	 * Count the number of entries in a search

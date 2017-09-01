@@ -1014,10 +1014,12 @@ class Access implements IUserTools {
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		$cookie = null;
+		$estimated = '';
 		if($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
 			foreach($sr as $key => $res) {
-				if($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie)) {
+				if($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
+					Util::writeLog('user_ldap', "Page response cookie=<".bin2hex($cookie).">, estimated<$estimated>", Util::DEBUG);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
