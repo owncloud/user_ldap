@@ -63,12 +63,13 @@ class LDAP implements ILDAPWrapper {
 	 * @param LDAP $link
 	 * @param LDAP $result
 	 * @param string $cookie
+	 * @param int $estimated $cookie
 	 * @return bool|LDAP
 	 */
-	public function controlPagedResultResponse($link, $result, &$cookie) {
+	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
 		$this->preFunctionCall('ldap_control_paged_result_response',
-			array($link, $result, $cookie));
-		$result = ldap_control_paged_result_response($link, $result, $cookie);
+			array($link, $result, $cookie, $estimated));
+		$result = ldap_control_paged_result_response($link, $result, $cookie, $estimated);
 		$this->postFunctionCall();
 
 		return $result;
