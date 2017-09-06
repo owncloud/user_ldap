@@ -86,15 +86,15 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider convertSID2StrDataProvider
+	 * @dataProvider sid2strDataProvider
 	 * @param $sidBinary string
 	 * @param $sidExpected string
 	 */
-	public function testConvertSID2StrSuccess($sidBinary, $sidExpected) {
-		$this->assertSame($sidExpected, $this->access->convertSID2Str($sidBinary));
+	public function testSid2strSuccess($sidBinary, $sidExpected) {
+		$this->assertSame($sidExpected, Access::sid2str($sidBinary));
 	}
 
-	public function convertSID2StrDataProvider() {
+	public function sid2strDataProvider() {
 		return [
 			// test valid mappings
 			[
