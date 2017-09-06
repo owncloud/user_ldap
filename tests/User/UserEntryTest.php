@@ -76,7 +76,14 @@ class UserEntryTest extends \Test\TestCase {
 		);
 		self::assertEquals('a@b.c', $userEntry->getUsername());
 	}
-	public function testGetUsernameFallbackOnUUID() {
+
+	/**
+	 * @dataProvider uuidDataProvider
+	 * @param $uuidAttr string
+	 * @param $uuidValue string
+	 * @param $expected string
+	 */
+	public function testGetUsernameFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
 		$this->connection->expects($this->exactly(3))
 			->method('__get')
 			->withConsecutive(
@@ -86,16 +93,16 @@ class UserEntryTest extends \Test\TestCase {
 			)
 			->willReturnOnConsecutiveCalls(
 				null,
-				'objectguid',
-				'objectguid'
+				$uuidAttr,
+				$uuidAttr
 			);
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
-				'objectguid' => [0 => '563418fc-423b-1033-8d1c-ad5f418ee02e']
+				$uuidAttr => [0 => $uuidValue]
 			]
 		);
-		self::assertEquals('563418fc-423b-1033-8d1c-ad5f418ee02e', $userEntry->getUsername());
+		self::assertEquals($expected, $userEntry->getUsername());
 	}
 
 	/**
@@ -114,21 +121,51 @@ class UserEntryTest extends \Test\TestCase {
 		$userEntry->getUsername();
 	}
 
-	public function testGetUUIDIsConfigured() {
+
+	public function uuidDataProvider () {
+		return [
+			// openldap
+			['entryuuid', '563418fc-423b-1033-8d1c-ad5f418ee02e', '563418fc-423b-1033-8d1c-ad5f418ee02e'],
+			// redhad FreeIPA
+			['ipauniqueid', '9ca8bb70-bc3a-11df-9a4d-000c29a5c12c', '9ca8bb70-bc3a-11df-9a4d-000c29a5c12c'],
+			// Microsoft AD
+			['objectguid', "\x53\xdf\x4e\x49\x3e\xb3\xd1\x4e\x80\x0b\x53\xdf\x4e\x49\x3e\xb3", '494EDF53-B33E-4ED1-800B-53DF4E493EB3'],
+			// Novell eDirectory
+			['guid', "\x81\xC9\x53\x4C\xBA\x5D\xD9\x11\x89\xA2\x89\x0B\x9B\xD4\x8A\x51", '4C53C981-5DBA-11D9-89A2-890B9BD48A51'],
+			// 389 Directory Server / Oracle Directory Server
+			['nsuniqueid', '66446001-1dd211b2-66225011-2ee211db', '66446001-1dd211b2-66225011-2ee211db'],
+
+
+		];
+	}
+
+	/**
+	 * @dataProvider uuidDataProvider
+	 * @param $uuidAttr string
+	 * @param $uuidValue string
+	 * @param $expected string
+	 */
+	public function testGetUUIDIsConfigured($uuidAttr, $uuidValue, $expected) {
 		$this->connection->expects($this->exactly(2))
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
-			->will($this->returnValue('objectguid'));
+			->will($this->returnValue($uuidAttr));
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
-				'objectguid' => [0 => '563418fc-423b-1033-8d1c-ad5f418ee02e']
+				$uuidAttr => [0 => $uuidValue]
 			]
 		);
-		self::assertEquals('563418fc-423b-1033-8d1c-ad5f418ee02e', $userEntry->getUUID());
+		self::assertEquals($expected, $userEntry->getUUID());
 	}
 
-	public function testGetUUIDIsAuto() {
+	/**
+	 * @dataProvider uuidDataProvider
+	 * @param $uuidAttr string
+	 * @param $uuidValue string
+	 * @param $expected string
+	 */
+	public function testGetUUIDIsAuto($uuidAttr, $uuidValue, $expected) {
 		$this->connection->expects($this->exactly(2))
 			->method('__get')
 			->withConsecutive(
@@ -142,10 +179,10 @@ class UserEntryTest extends \Test\TestCase {
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
-				'guid' => [0 => '563418fc-423b-1033-8d1c-ad5f418ee02e']
+				$uuidAttr => [0 => $uuidValue]
 			]
 		);
-		self::assertEquals('563418fc-423b-1033-8d1c-ad5f418ee02e', $userEntry->getUUID());
+		self::assertEquals($expected, $userEntry->getUUID());
 	}
 
 	/**
