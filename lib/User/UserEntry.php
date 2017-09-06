@@ -21,6 +21,7 @@
 
 namespace OCA\User_LDAP\User;
 
+use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -60,6 +61,7 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * // FIXME Connection is used to look uf configuration ... pass in Configuration instead?
 	 * @param Connection $connection to lookup configured attribute names
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
@@ -136,8 +138,12 @@ class UserEntry {
 			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
 				// remember autodetected uuid attribute
 				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
-				$this->connection->saveConfiguration();
+				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
+			if($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
+				$uuid = Access::binGUID2str($uuid);
+			}
+
 			return $uuid;
 		}
 		throw new \OutOfBoundsException('Cannot determine UUID for '.$this->getDN());

@@ -287,7 +287,7 @@ class Access implements IUserTools {
 				if($this->resemblesDN($attribute)) {
 					$values[] = $this->sanitizeDN($result[$attribute][$i]);
 				} elseif($lowercaseAttribute === 'objectguid' || $lowercaseAttribute === 'guid') {
-					$values[] = $this->convertObjectGUID2Str($result[$attribute][$i]);
+					$values[] = self::binGUID2str($result[$attribute][$i]);
 				} else {
 					$values[] = $result[$attribute][$i];
 				}
@@ -1019,7 +1019,7 @@ class Access implements IUserTools {
 			$cr = $this->connection->getConnectionResource();
 			foreach($sr as $key => $res) {
 				if($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
-					Util::writeLog('user_ldap', "Page response cookie=<".bin2hex($cookie).">, estimated<$estimated>", Util::DEBUG);
+					Util::writeLog('user_ldap', "Page response cookie=<".serialize($cookie).">, estimated<$estimated>", Util::DEBUG);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
@@ -1563,29 +1563,44 @@ class Access implements IUserTools {
 	}
 
 	/**
-	 * converts a binary ObjectGUID into a string representation
-	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
+	 * converts a binary GUID into a string representation
+	 *
+	 * TODO use shorter version with pack()
+	 *
+	 * General UUID information: @see http://ldapwiki.com/wiki/Universally%20Unique%20Identifier
+	 *
+	 * ## openldap EntryUUID uses RFC4122 see {@link http://ldapwiki.com/wiki/UUID definition}
+	 * see the {@link http://ldapwiki.com/wiki/EntryUUID ldapwiki EntryUUID definition}
+	 *
+	 * ## Microsoft Active Directory objectGUID is defined as 16 byte octet string
+	 * {@link https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx official objectGUID definition}
+	 * From the {@link http://ldapwiki.com/wiki/ObjectGUID ldapwiki ObjectGUID definition}:
+	 * ObjectGUID is generally a Universally Unique Identifier other than the
+	 * format differs from the UUID standard only in the byte order of the first 3 fields.
+	 * {@link http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B325649 conversion to a string}
+	 *
+	 * ## Novell eDirectory GUID is defined as 16 byte octet string
+	 * From the {@link http://ldapwiki.com/wiki/GUID ldapwiki GUID definition}:
+	 * There are several different methods that are used to display any given GUID
+	 * {@link http://www.novell.com/documentation/developer/ndslib/schm_enu/data/sdk1198.html official GUID definition}
+	 *
+	 * ## 389 Directory Server / Oracle Directory Server Enterprise Edition (ODSEE) is defined as utf string
+	 * {@link https://github.com/leto/389-ds/blob/master/ldap/schema/01core389.ldif#L69 schema definition}
+	 * {@link  https://docs.oracle.com/cd/E49437_01/reference.111220/e27801/nsuniqueid-virtual-attribute.html official nsuniqueid definition}
+	 * The nsuniqueid values are generated based on the entryuuid value by moving the "-" to comply with the format of the ODSEE Nsuniqueid Virtual Attribute attribute.
+	 *
+	 * ## RedHat FreeIPA is defined as utf string
+	 * {@link https://github.com/freeipa/freeipa/blob/master/install/share/uuid.ldif ipaUniqueID schema}
+	 *
+	 * This implementation was taken from
+	 * {@link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198 The PHP ldap_get_values_lan doc comments}
+	 *
+	 * @param string $binGuid the ObjectGUID / GUID in it's binary form as retrieved from Microsoft AD / Novell eDirectory
 	 * @return string
-	 * @link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198
 	 */
-	private function convertObjectGUID2Str($oguid) {
-		$hex_guid = bin2hex($oguid);
-		$hex_guid_to_guid_str = '';
-		for($k = 1; $k <= 4; ++$k) {
-			$hex_guid_to_guid_str .= substr($hex_guid, 8 - 2 * $k, 2);
-		}
-		$hex_guid_to_guid_str .= '-';
-		for($k = 1; $k <= 2; ++$k) {
-			$hex_guid_to_guid_str .= substr($hex_guid, 12 - 2 * $k, 2);
-		}
-		$hex_guid_to_guid_str .= '-';
-		for($k = 1; $k <= 2; ++$k) {
-			$hex_guid_to_guid_str .= substr($hex_guid, 16 - 2 * $k, 2);
-		}
-		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 16, 4);
-		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
-
-		return strtoupper($hex_guid_to_guid_str);
+	public static function binGUID2str($binGuid) {
+		$unpacked = unpack('Va/v2b/n2c/Nd', $binGuid);
+		return sprintf('%08X-%04X-%04X-%04X-%04X%08X', $unpacked['a'], $unpacked['b1'], $unpacked['b2'], $unpacked['c1'], $unpacked['c2'], $unpacked['d']);
 	}
 
 	/**
@@ -1653,7 +1668,7 @@ class Access implements IUserTools {
 			$this->connection->writeToCache($cacheKey, false);
 			return false;
 		}
-		$domainObjectSid = $this->convertSID2Str($objectSid[0]);
+		$domainObjectSid = self::sid2str($objectSid[0]);
 		$this->connection->writeToCache($cacheKey, $domainObjectSid);
 
 		return $domainObjectSid;
@@ -1664,7 +1679,7 @@ class Access implements IUserTools {
 	 * @param string $sid
 	 * @return string
 	 */
-	public function convertSID2Str($sid) {
+	public static function sid2str($sid) {
 		// The format of a SID binary string is as follows:
 		// 1 byte for the revision level
 		// 1 byte for the number n of variable sub-ids

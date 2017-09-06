@@ -70,6 +70,9 @@ class Manager {
 	/** @param \OCP\IAvatarManager */
 	protected $avatarManager;
 
+	/** @param IUserManager */
+	protected $userManager;
+
 	/**
 	 * @var CappedMemoryCache $usersByDN
 	 */
