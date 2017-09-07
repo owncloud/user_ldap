@@ -146,6 +146,7 @@ class Manager {
 			$this->getConnection()->ldapEmailAttribute => true,
 			$this->getConnection()->ldapUserDisplayName => true,
 			$this->getConnection()->ldapUserDisplayName2 => true,
+			$this->getConnection()->ldapExpertUsernameAttr => true,
 		];
 		$homeRule = $this->getConnection()->homeFolderNamingRule;
 		if(strpos($homeRule, 'attr:') === 0) {
