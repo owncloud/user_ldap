@@ -344,7 +344,7 @@ class Configuration {
 	 */
 	protected function getSystemValue($varName) {
 		//FIXME: if another system value is added, softcode the default value
-		return \OCP\Config::getSystemValue($varName, false);
+		return \OC::$server->getConfig()->getSystemValue($varName, false);
 	}
 
 	/**
@@ -356,7 +356,7 @@ class Configuration {
 		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OCP\Config::getAppValue('user_ldap',
+		return \OC::$server->getConfig()->getAppValue('user_ldap',
 										$this->configPrefix.$varName,
 										$defaults[$varName]);
 	}
@@ -387,10 +387,9 @@ class Configuration {
 	/**
 	 * @param string $varName
 	 * @param string $value
-	 * @return bool
 	 */
 	protected function saveValue($varName, $value) {
-		return \OCP\Config::setAppValue('user_ldap',
+		return \OC::$server->getConfig()->setAppValue('user_ldap',
 										$this->configPrefix.$varName,
 										$value);
 	}

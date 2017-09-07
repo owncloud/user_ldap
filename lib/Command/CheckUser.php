@@ -40,16 +40,12 @@ class CheckUser extends Command {
 	/** @var \OCA\User_LDAP\Helper */
 	protected $helper;
 
-	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
-	protected $dui;
-
 	/** @var \OCA\User_LDAP\Mapping\UserMapping */
 	protected $mapping;
 
 	/**
 	 * @param User_Proxy $uBackend
 	 * @param LDAPHelper $helper
-	 * @param DeletedUsersIndex $dui
 	 * @param UserMapping $mapping
 	 */
 	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, UserMapping $mapping) {

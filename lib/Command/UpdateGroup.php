@@ -37,6 +37,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class UpdateGroup extends Command {
 
+	const ERROR_CODE_OK = 0;
 	const ERROR_CODE_MISSING_CONF = 1;
 	const ERROR_CODE_MISSING_MAPPING = 2;
 
@@ -132,6 +133,7 @@ class UpdateGroup extends Command {
 				}
 			}
 		}
+		return self::ERROR_CODE_OK;
 	}
 
 
