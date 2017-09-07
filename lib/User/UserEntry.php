@@ -99,7 +99,11 @@ class UserEntry {
 			$username = $this->getAttributeValue($attr, null);
 		}
 		if ($username === null) {
-			throw new \OutOfBoundsException('Cannot determine username for '.$this->getDN());
+			$json = @json_encode($this->ldapEntry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PARTIAL_OUTPUT_ON_ERROR );
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$json .= ', ' . json_last_error_msg();
+			};
+			throw new \OutOfBoundsException('Cannot determine username for '.$this->getDN().' from '.$json);
 		}
 		return $username;
 	}
