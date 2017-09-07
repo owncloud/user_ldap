@@ -33,6 +33,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\UserEntry;
@@ -266,11 +267,11 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * TODO move to Proxy ... is only here to satisfy interfaces which are no longer exposed because we always use the proxy
 	*/
 	public function implementsActions($actions) {
-		return (bool)((\OC\User\Backend::CHECK_PASSWORD
-			| \OC\User\Backend::GET_HOME
-			| \OC\User\Backend::GET_DISPLAYNAME
-			| \OC\User\Backend::PROVIDE_AVATAR
-			| \OC\User\Backend::COUNT_USERS)
+		return (bool)((Backend::CHECK_PASSWORD
+			| Backend::GET_HOME
+			| Backend::GET_DISPLAYNAME
+			| Backend::PROVIDE_AVATAR
+			| Backend::COUNT_USERS)
 			& $actions);
 	}
 

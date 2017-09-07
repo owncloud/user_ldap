@@ -639,7 +639,7 @@ class Wizard extends LDAPUtility {
 		if($this->getLDAP()->errno($cr) !== 0) {
 			throw new \Exception($this->getLDAP()->error($cr));
 		}
-		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. count($users) . ' users', \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. $users . ' users', \OCP\Util::DEBUG);
 		$filter = str_replace('%uid', $loginName, $this->access->getConnection()->ldapLoginFilter);
 		$this->result->addChange('ldap_test_loginname', $users);
 		$this->result->addChange('ldap_test_effective_filter', $filter);
@@ -1251,7 +1251,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * appends a list of values fr
-	 * @param resource $result the return value from ldap_get_attributes
+	 * @param resource|array $result the return value from ldap_get_attributes
 	 * @param string $attribute the attribute values to look for
 	 * @param array &$known new values will be appended here
 	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
