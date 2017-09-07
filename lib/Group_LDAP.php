@@ -854,14 +854,6 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * @param string $group
-	 * @return bool
-	 */
-	public function groupMatchesFilter($group) {
-		return (strripos($group, $this->groupSearch) !== false);
-	}
-
-	/**
 	 * check if a group exists
 	 * @param string $gid
 	 * @return bool
