@@ -166,13 +166,13 @@ class Manager {
 		}
 
 		if($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {
-			// attributes that are not really important but may come with big
-			// payload.
+			// attributes may come with big payload.
 
 			$attributes['jpegphoto'] = true;
 			$attributes['thumbnailphoto'] = true;
 		}
 
+		// we don't need the empty attribute
 		unset($attributes['']);
 
 		return array_keys($attributes);

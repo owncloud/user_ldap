@@ -76,6 +76,31 @@ class ManagerTest extends \Test\TestCase {
 		$this->access     = $this->createMock(Access::class);
 		$this->connection     = $this->createMock(Connection::class);
 
+		$this->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($method) {
+				switch ($method) {
+					case 'ldapUserFilter':
+						return '(objectclass=inetorgperson)';
+					case 'ldapUserDisplayName':
+						return 'displayName';
+					case 'ldapQuotaAttribute':
+					case 'ldapUserDisplayName2':
+						return '';
+					case 'ldapEmailAttribute':
+						return 'mail';
+					case 'homeFolderNamingRule':
+					case 'ldapExpertUsernameAttr':
+						return null;
+					case 'ldapAttributesForUserSearch':
+						return ['uidNumber'];
+					case 'ldapBaseUsers':
+						return 'dc=foobar,dc=bar';
+					default:
+						return false;
+				}
+			}));
+
 		$this->access->expects($this->any())
 			->method('getConnection')
 			->willReturn($this->connection);
@@ -94,33 +119,14 @@ class ManagerTest extends \Test\TestCase {
 			->with('enable_avatars', true)
 			->will($this->returnValue(true));
 
-		$this->connection->expects($this->exactly(6))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapEmailAttribute')],
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')],
-				[$this->equalTo('homeFolderNamingRule')],
-				[$this->equalTo('ldapAttributesForUserSearch')]
-			// uuidAttributes are a real member. the mock also has them
-			)
-			->willReturnOnConsecutiveCalls(
-				'',
-				'mail',
-				'displayName',
-				'',
-				null,
-				null
-			);
-
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(in_array('dn', $attributes));
+		$this->assertTrue(in_array('dn', $attributes, true));
 		$this->assertTrue(in_array('mail', $attributes));
-		$this->assertTrue(in_array('displayName', $attributes));
-		$this->assertTrue(in_array('jpegphoto', $attributes));
-		$this->assertTrue(in_array('thumbnailphoto', $attributes));
+		$this->assertTrue(in_array('displayName', $attributes, true));
+		$this->assertTrue(in_array('jpegphoto', $attributes, true));
+		$this->assertTrue(in_array('thumbnailphoto', $attributes, true));
+		$this->assertTrue(in_array('uidNumber', $attributes, true));
 
 	}
 	public function testGetAttributesAvatarsDisabled() {
@@ -129,99 +135,29 @@ class ManagerTest extends \Test\TestCase {
 			->with('enable_avatars', true)
 			->will($this->returnValue(false));
 
-		$this->connection->expects($this->exactly(6))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapEmailAttribute')],
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')],
-				[$this->equalTo('homeFolderNamingRule')],
-				[$this->equalTo('ldapAttributesForUserSearch')]
-			// uuidAttributes are a real member. the mock also has them
-			)
-			->willReturnOnConsecutiveCalls(
-				'',
-				'mail',
-				'displayName',
-				'',
-				null,
-				null
-			);
-
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array('mail', $attributes));
-		$this->assertTrue(in_array('displayName', $attributes));
-		$this->assertFalse(in_array('jpegphoto', $attributes));
-		$this->assertFalse(in_array('thumbnailphoto', $attributes));
+		$this->assertTrue(in_array('dn', $attributes, true));
+		$this->assertTrue(in_array('mail', $attributes, true));
+		$this->assertTrue(in_array('displayName', $attributes, true));
+		$this->assertFalse(in_array('jpegphoto', $attributes, true));
+		$this->assertFalse(in_array('thumbnailphoto', $attributes, true));
+		$this->assertTrue(in_array('uidNumber', $attributes, true));
 
 	}
 
-	public function testGetAttributesWithCustomSearch() {
+	public function testGetAttributesMinimal() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('enable_avatars', true)
 			->will($this->returnValue(true));
 
-		$this->connection->expects($this->exactly(6))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapEmailAttribute')],
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')],
-				[$this->equalTo('homeFolderNamingRule')],
-				[$this->equalTo('ldapAttributesForUserSearch')]
-				// uuidAttributes are a real member. the mock also has them
-			)
-			->willReturnOnConsecutiveCalls(
-				'',
-				'mail',
-				'displayName',
-				'',
-				null,
-				['uidNumber']
-			);
-
-
-		$attributes = $this->manager->getAttributes();
-
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array('mail', $attributes));
-		$this->assertTrue(in_array('jpegphoto', $attributes));
-		$this->assertTrue(in_array('thumbnailphoto', $attributes));
-		$this->assertTrue(in_array('uidNumber', $attributes));
-	}
-
-	public function testGetAttributesMinimal() {
-		$this->connection->expects($this->exactly(6))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapEmailAttribute')],
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')],
-				[$this->equalTo('homeFolderNamingRule')],
-				[$this->equalTo('ldapAttributesForUserSearch')]
-			// uuidAttributes are a real member. the mock also has them
-			)
-			->willReturnOnConsecutiveCalls(
-				'',
-				null,
-				'displayName',
-				'',
-				null,
-				null
-			);
-
 		$attributes = $this->manager->getAttributes(true);
 
-		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertFalse(in_array('mail', $attributes));
-		$this->assertFalse(in_array('jpegphoto', $attributes));
-		$this->assertFalse(in_array('thumbnailphoto', $attributes));
+		$this->assertTrue(in_array('dn', $attributes, true));
+		$this->assertTrue(in_array('mail', $attributes, true));
+		$this->assertFalse(in_array('jpegphoto', $attributes, true));
+		$this->assertFalse(in_array('thumbnailphoto', $attributes, true));
 	}
 
 	/**
