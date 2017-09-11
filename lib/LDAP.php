@@ -245,6 +245,22 @@ class LDAP implements ILDAPWrapper {
 		return is_resource($resource);
 	}
 
+	private function formatLdapCallArguments($func, $arguments) {
+		$argumentsLog = implode(",",
+			array_map(
+				function($argument) {
+					if (is_string($argument) || is_bool($argument) || is_numeric($argument)) {
+						return strval($argument);
+					}
+					return gettype($argument);
+				},
+				$arguments
+			)
+		);
+
+		return $func."(".$argumentsLog.")";
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -252,11 +268,19 @@ class LDAP implements ILDAPWrapper {
 		$arguments = func_get_args();
 		$func = 'ldap_' . array_shift($arguments);
 		if(function_exists($func)) {
+			// Start logging event
+			$eventId = uniqid($func);
+			\OC::$server->getEventLogger()->start($eventId, $this->formatLdapCallArguments($func, $arguments));
+
+			// Execute call
 			$this->preFunctionCall($func, $arguments);
 			$result = call_user_func_array($func, $arguments);
 			if ($result === FALSE) {
 				$this->postFunctionCall();
 			}
+
+			// Finish logging event
+			\OC::$server->getEventLogger()->end($eventId);
 			return $result;
 		}
 		return null;
