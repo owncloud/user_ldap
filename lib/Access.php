@@ -531,27 +531,24 @@ class Access implements IUserTools {
 		return $this->dn2ocname($fdn, $ldapName, true);
 	}
 
-	/**
-	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
+	/*
+	 * This function will try to obtain oc name via UUID and update DN,
+	 * and if not exists create oc name
+	 * NOTE: Legacy code
 	 *
-	 * @param string $fdn the dn of the user object
+	 * @param string $fdn the dn of the ldap object
 	 * @param string $ldapDisplayName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
-	 * @return string|false with with the name to use in ownCloud
+	 * @return string|false with with the name to use in ownCloud or false in case of failure
+	 *
 	 */
-	public function dn2ocname($fdn, $ldapDisplayName = null, $isUser = true) {
+	private function updateNameByDN($fdn, $ldapDisplayName, $isUser) {
 		if($isUser) {
 			$mapper = $this->getUserMapper();
 			$displayNameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
 			$mapper = $this->getGroupMapper();
 			$displayNameAttribute = $this->connection->ldapGroupDisplayName;
-		}
-
-		//let's try to retrieve the ownCloud name from the mappings table
-		$ocName = $mapper->getNameByDN($fdn);
-		if(is_string($ocName)) {
-			return $ocName;
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
@@ -616,44 +613,42 @@ class Access implements IUserTools {
 	}
 
 	/**
-	 * gives back the user names as they are used ownClod internally
-	 * @param array $ldapUsers as returned by fetchList()
-	 * @return array an array with the user names to use in ownCloud
+	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 *
-	 * gives back the user names as they are used ownClod internally
+	 * @param string $fdn the dn of the user object
+	 * @param string $ldapDisplayName optional, the display name of the object
+	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
+	 * @return string|false with with the name to use in ownCloud
 	 */
-	public function ownCloudUserNames($ldapUsers) {
-		return $this->ldap2ownCloudNames($ldapUsers, true);
-	}
+	public function dn2ocname($fdn, $ldapDisplayName = null, $isUser = true) {
+		if($isUser) {
+			$mapper = $this->getUserMapper();
+		} else {
+			$mapper = $this->getGroupMapper();
+		}
 
-	/**
-	 * gives back the group names as they are used ownClod internally
-	 * @param array $ldapGroups as returned by fetchList()
-	 * @return array an array with the group names to use in ownCloud
-	 *
-	 * gives back the group names as they are used ownClod internally
-	 */
-	public function ownCloudGroupNames($ldapGroups) {
-		return $this->ldap2ownCloudNames($ldapGroups, false);
+		//let's try to retrieve the ownCloud name from the mappings table
+		$ocName = $mapper->getNameByDN($fdn);
+		if(is_string($ocName)) {
+			return $ocName;
+		}
+
+		// Record not in mappings table, update/create name based on DN
+		return $this->updateNameByDN($fdn, $ldapDisplayName, $isUser);
 	}
 
 	/**
 	 * @param array $ldapObjects as returned by fetchList()
-	 * @param bool $isUsers
-	 * @return array
+	 * @param string $nameAttribute
+	 * @return array - key (ldap dn) / value (ldap name for name attribute)
 	 */
-	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
-		if($isUsers) {
-			$nameAttribute = $this->connection->ldapUserDisplayName;
-			$sndAttribute  = $this->connection->ldapUserDisplayName2;
-		} else {
-			$nameAttribute = $this->connection->ldapGroupDisplayName;
-		}
-		$ownCloudNames = array();
+	private function ldap2ownCloudNames($ldapObjects, $nameAttribute) {
+		$dnToLDAPNameMap = array();
 
 		foreach($ldapObjects as $ldapObject) {
+			$dn0 = $ldapObject['dn'][0];
 			$nameByLDAP = null;
-			if(    isset($ldapObject[$nameAttribute])
+			if(isset($ldapObject[$nameAttribute])
 				&& is_array($ldapObject[$nameAttribute])
 				&& isset($ldapObject[$nameAttribute][0])
 			) {
@@ -661,12 +656,59 @@ class Access implements IUserTools {
 				$nameByLDAP = $ldapObject[$nameAttribute][0];
 			}
 
-			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
+			$dnToLDAPNameMap[$dn0] = $nameByLDAP;
+		}
+
+		return $dnToLDAPNameMap;
+	}
+
+	/**
+	 * gives back the user names as they are used ownClod internally
+	 * @param array $ldapUsers as returned by fetchList()
+	 * @return array - key (ldap dn) / value (oc name)
+	 *
+	 * gives back the user names as they are used ownClod internally
+	 */
+	public function ownCloudUserNames($ldapUsers) {
+		$nameAttribute = $this->connection->ldapUserDisplayName;
+		$sndAttribute  = $this->connection->ldapUserDisplayName2;
+
+		// Translate ldap users to dn/ldapname for name attribute
+		$ownCloudNames = $this->ldap2ownCloudNames($ldapUsers, $nameAttribute);
+
+		// Translate dn/ldapname to oc name
+		$ldapUserNames = array();
+		foreach($ownCloudNames as $dn0 => $nameByLDAP) {
+			$ocName = $this->dn2ocname($dn0, $nameByLDAP, true);
 			if($ocName) {
-				$ownCloudNames[$ldapObject['dn'][0]] = $ocName;
+				$ldapUserNames[$dn0] = $ocName;
 			}
 		}
-		return $ownCloudNames;
+		return $ldapUserNames;
+	}
+
+	/**
+	 * gives back the group names as they are used ownClod internally
+	 * @param array $ldapGroups as returned by fetchList()
+	 * @return array - key (ldap dn) / value (oc name)
+	 *
+	 * gives back the group names as they are used ownClod internally
+	 */
+	public function ownCloudGroupNames($ldapGroups) {
+		$nameAttribute = $this->connection->ldapGroupDisplayName;
+
+		// Translate ldap groups to dn/ldapname for name attribute
+		$ownCloudNames = $this->ldap2ownCloudNames($ldapGroups, $nameAttribute);
+
+		// Translate dn/ldapname to oc name
+		$ldapGroupNames = array();
+		foreach($ownCloudNames as $dn0 => $nameByLDAP) {
+			$ocName = $this->dn2ocname($dn0, $nameByLDAP, false);
+			if($ocName) {
+				$ldapGroupNames[$dn0] = $ocName;
+			}
+		}
+		return $ldapGroupNames;
 	}
 
 	/**
