@@ -210,4 +210,15 @@ class Helper {
 			$param['uid'] = $uid;
 		}
 	}
+
+	public function getNewConfigPrefix() {
+		$serverConnections = $this->getServerConfigurationPrefixes();
+
+		sort($serverConnections);
+		$lastKey = array_pop($serverConnections);
+		$lastNumber = intval(str_replace('s', '', $lastKey));
+		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
+		return $nextPrefix;
+	}
+
 }
