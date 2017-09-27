@@ -61,9 +61,15 @@ class CreateEmptyConfig extends Command {
 		if(is_null($configID)) {
 			$configPrefix = $this->getNewConfigurationPrefix($availableConfigs);
 		} else {
-			if(in_array($configID, $availableConfigs)) {
+			// Check we are not trying to create an empty configid
+			if($configID === '') {
+				$output->writeln("configID cannot be empty");
+				return 1;
+			}
+			// Check if we are not already using this configid
+			if(in_array($configID, $availableConfigs, true)) {
 				$output->writeln("configID already exists");
-				return;
+				return 1;
 			}
 			$configPrefix = $configID;
 		}
