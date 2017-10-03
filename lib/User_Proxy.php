@@ -118,7 +118,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 				return $result;
 			}
 		}
-		return false;
+		return $passOnWhen;
 	}
 
 	/**
