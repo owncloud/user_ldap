@@ -32,4 +32,6 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	<settings>
 		<admin>OCA\User_LDAP\AdminPanel</admin>
 	</settings>
+
+	<use-migrations></use-migrations>
 </info>

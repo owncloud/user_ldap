@@ -31,6 +31,8 @@ if [ $CODE -eq 0 ]; then
     # so we add an extra check whether tests really succeeded
     if [[ $OUT != *"Tests succeeded"* ]]; then
         echo "a superordinate error occurred – please check the owncloud.log"
+        echo "disaplying the last 50 lines of owncloud log"
+        tail -n 50 ../../../../data/owncloud.log
         CODE=1
     fi
 fi

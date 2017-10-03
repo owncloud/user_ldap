@@ -50,20 +50,11 @@ class CreateEmptyConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configPrefix = $this->getNewConfigurationPrefix();
+		$configPrefix = $this->helper->getNewConfigPrefix();
 		$output->writeln("Created new configuration with configID '{$configPrefix}'");
 
 		$configHolder = new Configuration($configPrefix);
 		$configHolder->saveConfiguration();
 	}
 
-	protected function getNewConfigurationPrefix() {
-		$serverConnections = $this->helper->getServerConfigurationPrefixes();
-
-		sort($serverConnections);
-		$lastKey = array_pop($serverConnections);
-		$lastNumber = intval(str_replace('s', '', $lastKey));
-		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-		return $nextPrefix;
-	}
 }
