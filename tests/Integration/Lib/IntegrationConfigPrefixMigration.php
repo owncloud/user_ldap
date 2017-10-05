@@ -29,7 +29,6 @@ use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\Migrations\Version20170927125822;
 use OCP\Migration\IOutput;
 
-
 require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
 class IntegrationConfigPrefixMigration extends AbstractIntegrationTest {
@@ -45,12 +44,17 @@ class IntegrationConfigPrefixMigration extends AbstractIntegrationTest {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 
 		// clear all exiting configurations
+		$h = new Helper();
+		$prefixes = $h->getServerConfigurationPrefixes();
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$qb
-			->delete('appconfig')
-			->where($qb->expr()->eq('appid', 'user_ldap')) // ldap appid
-			->where($qb->expr()->like('configkey', '%ldap')); // all keys like ldap%
-		$qb->execute();
+		foreach($prefixes as $prefix) {
+			$qb
+				->resetQueryParts()
+				->delete('appconfig')
+				->where($qb->expr()->eq('appid', 'user_ldap'))
+				->where($qb->expr()->like('configkey', $qb->expr()->literal($prefix.'%')));
+			$qb->execute();
+		}
 
 		parent::init();
 
@@ -127,6 +131,14 @@ class IntegrationConfigPrefixMigration extends AbstractIntegrationTest {
 	}
 }
 
+class IntegrationOutput implements IOutput {
+	public function info($message) { echo $message; }
+	public function warning($message) { echo $message; }
+	public function startProgress($max = 0) {}
+	public function advance($step = 1, $description = '') {}
+	public function finishProgress() {}
+}
+
 require_once(__DIR__ . '/../setup-scripts/config.php');
 /** @global $host string */
 /** @global $port int */
@@ -136,12 +148,3 @@ require_once(__DIR__ . '/../setup-scripts/config.php');
 $test = new IntegrationConfigPrefixMigration($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
-
-
-class IntegrationOutput implements IOutput {
-	public function info($message) { echo $message; }
-	public function warning($message) { echo $message; }
-	public function startProgress($max = 0) {}
-	public function advance($step = 1, $description = '') {}
-	public function finishProgress() {}
-}
