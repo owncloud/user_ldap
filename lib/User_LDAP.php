@@ -73,7 +73,8 @@ use OCP\UserInterface;
  *
  * @package OCA\User_LDAP
  */
-class User_LDAP {
+// FIXME write tests for User_Proxy so we can remove these interfaces which are required to test checkPassword etc. see User_LDAPTest
+class User_LDAP implements IUserBackend, UserInterface {
 
 	/** @var IConfig */
 	protected $config;
