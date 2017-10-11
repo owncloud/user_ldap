@@ -340,7 +340,7 @@ class UserEntryTest extends \Test\TestCase {
 				'quota' => [0 => 'invalid']
 			]
 		);
-		self::assertEquals('default', $userEntry->getQuota());
+		self::assertEquals(null, $userEntry->getQuota());
 	}
 
 	public function testGetQuotaDefaultFallback() {
@@ -359,7 +359,7 @@ class UserEntryTest extends \Test\TestCase {
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
 		);
-		self::assertEquals('default', $userEntry->getQuota());
+		self::assertEquals(null, $userEntry->getQuota());
 	}
 
 	public function testGetEmailAddress() {

@@ -188,7 +188,7 @@ class UserEntry {
 	 * Overall process goes as follow:
 	 * 1. check if the users quota is parseable with the "verifyQuotaValue" function
 	 * 2. if the value can't be fetched, is empty or not parseable, use the default LDAP quota
-	 * 3. if the default LDAP quota can't be parsed, use the ownCloud's default quota (use 'default')
+	 * 3. if the default LDAP quota can't be parsed, use ownCloud's quota (return null)
 	 * 4. check if the target user exists and set the quota for the user.
 	 *
 	 * The expected value for the quota attribute is a string describing the quota for the user. Valid
@@ -196,6 +196,7 @@ class UserEntry {
 	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
 	 * @return string quota
+	 * TODO throw Exception for invalid values after https://github.com/owncloud/core/pull/28805 has been merged
 	 */
 	public function getQuota() {
 		$quota = null;
