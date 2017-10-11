@@ -207,15 +207,16 @@ class Manager {
 
 	/**
 	 * @param $uid
-	 * @return UserEntry|null
+	 * @return UserEntry
+	 * @throws \Exception
 	 */
 	public function getByOwnCloudUID($uid) {
 		if(isset($this->usersByUid[$uid])) {
 			return $this->usersByUid[$uid];
 		}
 
-		//TODO fetch, but for useEntry now should have been cached during login?
-		return null;
+		throw new \Exception('should never be reached');
+		// should have been chached during login or whil iterating over multiple users, eg during sync
 	}
 
 	/**
@@ -248,6 +249,7 @@ class Manager {
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
 			} catch (\Exception $e) {
+				$this->logger->logException($e, ['app' => self::class]);
 				return false;
 			}
 		}
@@ -298,6 +300,11 @@ class Manager {
 		throw new \OutOfBoundsException("Could not create unique name for $dn.");
 	}
 
+	/**
+	 * TODO sync in core
+	 * @param UserEntry $userEntry
+	 * @return bool
+	 */
 	public function updateAccount (UserEntry $userEntry) {
 		$targetUser = $this->userManager->get($userEntry->getOwnCloudUID());
 		if (!$targetUser) {
@@ -582,7 +589,7 @@ class Manager {
 
 	/**
 	 * returns the User Mapper
-	 * @throws \Exception
+	 * @throws \Exception when UserMapper was not assigned to the Access instance, yet
 	 * @return AbstractMapping
 	 */
 	public function getUserMapper() {

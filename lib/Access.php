@@ -149,7 +149,7 @@ class Access implements IUserTools {
 	 * returns the Connection instance
 	 * @return \OCA\User_LDAP\ILDAPWrapper
 	 */
-	public function getLDAP() {
+	private function getLDAP() {
 		return $this->getConnection()->getLDAP();
 	}
 
@@ -841,7 +841,7 @@ class Access implements IUserTools {
 	 *			[mail] => Array
 	 *			(
 	 *				[0] => zombie4000@example.org
-	 *          )
+	 *			)
 	 *
 	 *  	)
 	 *
@@ -860,7 +860,7 @@ class Access implements IUserTools {
 	 *			[mail] => Array
 	 *			(
 	 *				[0] => zombie40000@example.org
-	 *          )
+	 *			)
 	 *
 	 *		)
 	 * 		...
@@ -869,9 +869,9 @@ class Access implements IUserTools {
 	 *
 	 *  Array
 	 *	(
-     *		[0] => uid=zombie4000,ou=zombies,dc=owncloud,dc=com
-     *		[1] => uid=zombie40000,ou=zombies,dc=owncloud,dc=com
-     *		[2] => uid=zombie40001,ou=zombies,dc=owncloud,dc=com
+	 *		[0] => uid=zombie4000,ou=zombies,dc=owncloud,dc=com
+	 *		[1] => uid=zombie40000,ou=zombies,dc=owncloud,dc=com
+	 *		[2] => uid=zombie40001,ou=zombies,dc=owncloud,dc=com
 	 * 		...
 	 *
 	 * TODO this actually reduces the list if
@@ -880,7 +880,7 @@ class Access implements IUserTools {
 	 * @param bool $manyAttributes
 	 * @return array
 	 */
-	public function fetchList($list, $manyAttributes) {
+	private function fetchList($list, $manyAttributes) {
 		if(is_array($list)) {
 			if($manyAttributes) {
 				return $list;
