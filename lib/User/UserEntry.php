@@ -122,6 +122,7 @@ class UserEntry {
 	public function setOwnCloudUID($ownCloudUID) {
 		$this->ownCloudUID = $ownCloudUID;
 	}
+
 	/**
 	 * @brief returns the uuid of the ldap entry
 	 * @return string
@@ -154,6 +155,9 @@ class UserEntry {
 	}
 
 	/**
+	 * Determine the displayname, based on displayName, displayname2 with fallback to username.
+	 * TODO do fallback in core, allow returning null in backends
+	 *
 	 * @return string
 	 * @throws \OutOfBoundsException if display name could not be determined
 	 */
@@ -202,7 +206,7 @@ class UserEntry {
 		} else {
 			$quota = $this->getAttributeValue ($attr);
 			if (!$this->verifyQuotaValue($quota)) {
-				\OC::$server->getLogger()->debug("Invalid quota <$quota> for LDAP user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
+				\OC::$server->getLogger()->error("Invalid quota <$quota> for LDAP user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
 				$quota = null;
 			}
 		}
@@ -213,13 +217,13 @@ class UserEntry {
 			} else {
 				$quota = $this->connection->ldapQuotaDefault;
 				if (!$this->verifyQuotaValue($quota)) {
-					\OC::$server->getLogger()->debug("Invalid default quota <$quota>", ['app' => 'user_ldap']);
+					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
 				}
 			}
 		}
 		if ($quota === null) {
-			$quota = 'default';
+			$quota = false;
 		}
 
 		\OC::$server->getLogger()->debug("using quota <$quota> for user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
@@ -241,7 +245,7 @@ class UserEntry {
 	/**
 	 * returns the home directory of the user if specified by LDAP settings
 	 * @return string|null
-	 * @throws \Exception
+	 * @throws \Exception if a naming rule attribute is enforced, but it doesn't exist for that LDAP user
 	 */
 	public function getHome() {
 		$path = '';
@@ -264,10 +268,12 @@ class UserEntry {
 			return $path;
 		}
 
+		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
 		if(!is_null($attr)
 			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
+			// TODO narrow down exception
 			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
 		}
 
@@ -335,11 +341,12 @@ class UserEntry {
 		return $attributeName;
 	}
 	/**
+	 * Read first value from a single value Attribute of an ldap entry
 	 * TODO allow passing in a verification function, eg for quota or uuid values
 	 * @param $attributeName string
 	 * @param $default string
 	 * @param $trim bool don't trim value, eg for binary data
-	 * @return string|null|mixed
+	 * @return string|null
 	 */
 	private function getAttributeValue($attributeName, $default = null, $trim = true) {
 		$attributeName = strtolower($attributeName); // all ldap keys are lowercase

@@ -73,7 +73,7 @@ use OCP\UserInterface;
  *
  * @package OCA\User_LDAP
  */
-class User_LDAP implements IUserBackend, UserInterface {
+class User_LDAP {
 
 	/** @var IConfig */
 	protected $config;
@@ -312,7 +312,6 @@ class User_LDAP implements IUserBackend, UserInterface {
 		return $userEntry->getSearchTerms();
 	}
 
-
 	/**
 	 * Get a users email address
 	 *
@@ -327,11 +326,12 @@ class User_LDAP implements IUserBackend, UserInterface {
 		}
 		return $userEntry->getEMailAddress();
 	}
+
 	/**
-	 * Get a users email address
+	 * Get a users quota
 	 *
 	 * @param string $uid The username
-	 * @return string|null|false false if user was not found, null if no email is set
+	 * @return string|null|false false if user was not found, null if no quota is set
 	 * @since 10.0
 	 */
 	public function getQuota($uid) {
@@ -341,13 +341,14 @@ class User_LDAP implements IUserBackend, UserInterface {
 		}
 		return $userEntry->getQuota();
 	}
+
 	/**
 	 * Get avatar for a users account for core powered user search
 	 *
 	 * FIXME This is an expensive operation and takes roughly half a second to parse the data and create the image. This might be too slow for sync jobs.
 	 *
 	 * @param string $uid The username
-	 * @return IImage|null|false
+	 * @return IImage|null|false false if user was not found, null if no image is set
 	 * @throws \OutOfBoundsException if the avatar could not be determined as expected
 	 */
 	public function getAvatar($uid) {

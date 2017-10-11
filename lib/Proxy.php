@@ -83,11 +83,10 @@ abstract class Proxy {
 	}
 
 	/**
-	 * FIXME make protected again
 	 * @param string $configPrefix
 	 * @return Access
 	 */
-	public function getAccess($configPrefix) {
+	protected function getAccess($configPrefix) {
 		if(!isset(self::$accesses[$configPrefix])) {
 			$this->addAccess($configPrefix);
 		}
