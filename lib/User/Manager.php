@@ -215,7 +215,7 @@ class Manager {
 			return $this->usersByUid[$uid];
 		}
 		throw new \Exception('should never be reached');
-		// should have been chached during login or whil iterating over multiple users, eg during sync
+		// should have been cached during login or while iterating over multiple users, eg during sync
 	}
 
 	/**
