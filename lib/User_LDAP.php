@@ -99,11 +99,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		$user = $this->userManager->getByOwnCloudUID($uid);
-		if(!$user instanceof UserEntry) {
-			return false;
-		}
-		if($user->getAvatarImage() === false) {
+		$userEntry = $this->userManager->getCachedEntry($uid);
+		if($userEntry->getAvatarImage() === false) {
 			return true;
 		}
 
@@ -181,9 +178,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function userExists($uid) {
 		// check if an LdapEntry has been cached already
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-
-		if($userEntry === null) {
+		try {
+			$this->userManager->getCachedEntry($uid);
+		} catch (\Exception $e) {
 			// check if a uid -> dn mapping is in the db
 			$dn = $this->userManager->username2dn($uid);
 			if ($dn === false) {
@@ -220,11 +217,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @throws \Exception
 	 */
 	public function getHome($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
-
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		return $userEntry->getHome();
 	}
 
@@ -234,10 +227,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @return string|null|false display name
 	 */
 	public function getDisplayName($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		return $userEntry->getDisplayName();
 	}
 
@@ -306,10 +296,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @return string[]|false false if user user was not found
 	 */
 	public function getSearchTerms($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		return $userEntry->getSearchTerms();
 	}
 
@@ -321,10 +308,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @since 10.0
 	 */
 	public function getEMailAddress($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		return $userEntry->getEMailAddress();
 	}
 
@@ -336,10 +320,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @since 10.0
 	 */
 	public function getQuota($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		return $userEntry->getQuota();
 	}
 
@@ -353,10 +334,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @throws \OutOfBoundsException if the avatar could not be determined as expected
 	 */
 	public function getAvatar($uid) {
-		$userEntry = $this->userManager->getByOwnCloudUID($uid);
-		if (!$userEntry) {
-			return false;
-		}
+		$userEntry = $this->userManager->getCachedEntry($uid);
 		$image = new Image();
 		if ($image->loadFromData($userEntry->getAvatarImage())) {
 			//make sure it is a square and not bigger than 128x128

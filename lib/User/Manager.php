@@ -210,11 +210,10 @@ class Manager {
 	 * @return UserEntry
 	 * @throws \Exception
 	 */
-	public function getByOwnCloudUID($uid) {
+	public function getCachedEntry($uid) {
 		if(isset($this->usersByUid[$uid])) {
 			return $this->usersByUid[$uid];
 		}
-
 		throw new \Exception('should never be reached');
 		// should have been chached during login or whil iterating over multiple users, eg during sync
 	}
@@ -432,7 +431,7 @@ class Manager {
 	 * @param string $uid
 	 */
 	public function updateAvatar($uid) {
-		$userEntry = $this->getByOwnCloudUID($uid);
+		$userEntry = $this->getCachedEntry($uid);
 		$avatarImage = $userEntry->getAvatarImage();
 		if($avatarImage === null) {
 			//not set, nothing left to do;
