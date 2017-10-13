@@ -177,7 +177,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$userEntry = $this->createMock(UserEntry::class);
 
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue($userEntry));
 
@@ -187,7 +187,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	public function testUserExistsNotInDB() {
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
@@ -201,7 +201,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	public function testUserExistsInDBButNotOnLDAP() {
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
@@ -219,7 +219,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	public function testUserExistsInDBBAndOnLDAP() {
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
@@ -240,18 +240,19 @@ class User_LDAPTest extends \Test\TestCase {
 		$userEntry->expects($this->once())
 			->method('getHome')
 			->will($this->returnValue('/relative/or/absolute path/'));
-
-		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+		$this->manager->expects($this->any())
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue($userEntry));
 
 		$result = $this->backend->getHome('563418fc-423b-1033-8d1c-ad5f418ee02e');
 		$this->assertEquals('/relative/or/absolute path/', $result);
 	}
+
+	//TODO: why is it valid to return false on getHome?
 	public function testGetHomeNotCached() {
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue(null));
 
@@ -268,7 +269,7 @@ class User_LDAPTest extends \Test\TestCase {
 			->will($this->returnValue(null));
 
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue($userEntry));
 
@@ -282,7 +283,7 @@ class User_LDAPTest extends \Test\TestCase {
 			->will($this->returnValue('Foo'));
 
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue($userEntry));
 
@@ -290,7 +291,7 @@ class User_LDAPTest extends \Test\TestCase {
 	}
 	public function testGetDisplayNameNotCached() {
 		$this->manager->expects($this->once())
-			->method('getByOwnCloudUID')
+			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue(null));
 
