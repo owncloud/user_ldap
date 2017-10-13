@@ -193,7 +193,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->returnValue(null));
+			->will($this->throwException(new \Exception()));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
@@ -207,7 +207,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->returnValue(null));
+			->will($this->throwException(new \Exception()));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
@@ -225,7 +225,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->returnValue(null));
+			->will($this->throwException(new \Exception()));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
