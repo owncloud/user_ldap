@@ -651,6 +651,8 @@ class Access extends LDAPUtility implements IUserTools {
 						? $ldapObject[$sndAttribute][0] : '';
 					$this->cacheUserDisplayName($ocName, $nameByLDAP, $sndName);
 				}
+			} else {
+				Util::writeLog('user_ldap', "Setting the owncloud name for LDAP entry {$ldapObject['dn'][0]} isn't possible", Util::ERROR);
 			}
 		}
 		return $ownCloudNames;

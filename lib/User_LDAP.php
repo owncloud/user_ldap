@@ -182,11 +182,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface {
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
-		$ldap_users = $this->access->ownCloudUserNames($ldap_users);
-		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
+		$ldap_users2 = $this->access->ownCloudUserNames($ldap_users);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users2). ' Users found', \OCP\Util::DEBUG);
 
-		$this->access->connection->writeToCache($cachekey, $ldap_users);
-		return $ldap_users;
+		// sanity check
+		$ldap_users_count = count($ldap_users);
+		$ldap_users2_count = count($ldap_users2);
+		if ($ldap_users_count !== $ldap_users2_count) {
+			\OCP\Util::writeLog('user_ldap', "LDAP unable to find user mappings for all the users returned by the search. Returning $ldap_users2_count instead of $ldap_users_count", \OCP\Util::ERROR);
+		}
+
+		$this->access->connection->writeToCache($cachekey, $ldap_users2);
+		return $ldap_users2;
 	}
 
 	/**
