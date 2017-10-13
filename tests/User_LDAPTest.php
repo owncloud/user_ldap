@@ -130,6 +130,10 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('areCredentialsValid')
 			->will($this->returnValue(true));
+		$this->manager->expects($this->any())
+			->method('getCachedEntry')
+			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
+			->will($this->returnValue($userEntry));
 
 		\OC_User::useBackend($this->backend);
 
