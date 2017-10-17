@@ -208,14 +208,15 @@ class Manager {
 	/**
 	 * @param $uid
 	 * @return UserEntry
-	 * @throws \Exception
 	 */
 	public function getCachedEntry($uid) {
 		if(isset($this->usersByUid[$uid])) {
 			return $this->usersByUid[$uid];
 		}
-		throw new \Exception('should never be reached');
+
 		// should have been cached during login or while iterating over multiple users, eg during sync
+		$this->logger->warning('No cached ldap result found for '. $uid , ['app' => self::class]);
+		return null;
 	}
 
 	/**
