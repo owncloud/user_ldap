@@ -193,7 +193,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->throwException(new \Exception()));
+			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
@@ -207,7 +207,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->throwException(new \Exception()));
+			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
@@ -225,7 +225,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
-			->will($this->throwException(new \Exception()));
+			->will($this->returnValue(null));
 		$this->manager->expects($this->once())
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
@@ -253,7 +253,7 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertEquals('/relative/or/absolute path/', $result);
 	}
 
-	//TODO: why is it valid to return false on getHome?
+
 	public function testGetHomeNotCached() {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')

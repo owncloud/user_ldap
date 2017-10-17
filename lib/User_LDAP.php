@@ -100,6 +100,10 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function canChangeAvatar($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
+
 		if($userEntry->getAvatarImage() === false) {
 			return true;
 		}
@@ -178,19 +182,16 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function userExists($uid) {
 		// check if an LdapEntry has been cached already
-		try {
-			$this->userManager->getCachedEntry($uid);
-		} catch (\Exception $e) {
-			// check if a uid -> dn mapping is in the db
-			$dn = $this->userManager->username2dn($uid);
-			if ($dn === false) {
-				return false;
-			}
-
-			return $this->userManager->dnExistsOnLDAP($dn);
+		if ($this->userManager->getCachedEntry($uid) !== null) {
+			return true;
 		}
 
-		return true;
+		// check if a uid -> dn mapping is in the db
+		$dn = $this->userManager->username2dn($uid);
+		if ($dn === false) {
+			return false;
+		}
+		return $this->userManager->dnExistsOnLDAP($dn);
 	}
 
 	/**
@@ -218,6 +219,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function getHome($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
 		return $userEntry->getHome();
 	}
 
@@ -228,6 +232,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function getDisplayName($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
 		return $userEntry->getDisplayName();
 	}
 
@@ -293,10 +300,13 @@ class User_LDAP implements IUserBackend, UserInterface {
 
 	/**
 	 * @param $uid
-	 * @return string[]|false false if user user was not found
+	 * @return string[]|false false if user was not found
 	 */
 	public function getSearchTerms($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
 		return $userEntry->getSearchTerms();
 	}
 
@@ -309,6 +319,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function getEMailAddress($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
 		return $userEntry->getEMailAddress();
 	}
 
@@ -321,6 +334,9 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function getQuota($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
 		return $userEntry->getQuota();
 	}
 
@@ -335,6 +351,10 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 */
 	public function getAvatar($uid) {
 		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
+
 		$image = new Image();
 		if ($image->loadFromData($userEntry->getAvatarImage())) {
 			//make sure it is a square and not bigger than 128x128
