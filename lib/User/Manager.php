@@ -28,6 +28,7 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Exceptions\DoesNotExsitOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -161,6 +162,7 @@ class Manager {
 				$attributes[$attr] = true;
 			}
 		}
+		// @TODO if uuidAttribute is specified use that, else get possible uuidAttributes
 		foreach ($this->getConnection()->uuidAttributes as $attr) {
 			$attributes[$attr] = true;
 		}
@@ -176,6 +178,26 @@ class Manager {
 		unset($attributes['']);
 
 		return array_keys($attributes);
+	}
+
+	/**
+	 * Gets an UserEntry from the LDAP server from a distinguished name
+	 * @param $dn
+	 * @return UserEntry
+	 * @throws DoesNotExsitOnLDAPException when the dn supplied cannot be found on LDAP
+	 */
+	public function getUserEntryByDn($dn) {
+		$result = $this->access->executeRead(
+			$this->getConnection()->getConnectionResource(),
+			$dn,
+			$this->getAttributes(),
+			'objectClass=*',
+			20);
+		if($result === false || $result['count'] === 0) {
+			throw new DoesNotExsitOnLDAPException($dn);
+		}
+		// Try to convert entry into a UserEntry
+		return $this->getFromEntry($result);
 	}
 
 	/**

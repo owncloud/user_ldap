@@ -35,8 +35,8 @@ namespace OCA\User_LDAP;
 
 use OC\User\Backend;
 use OC\User\NoUserException;
+use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\User\Manager;
-use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -186,12 +186,18 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return true;
 		}
 
-		// check if a uid -> dn mapping is in the db
 		$dn = $this->userManager->username2dn($uid);
-		if ($dn === false) {
+		if($dn === false) {
 			return false;
 		}
-		return $this->userManager->dnExistsOnLDAP($dn);
+
+		// Try to get the entry from LDAP and convert to a user (so it is cached from now onwards)
+		try {
+			$this->userManager->getUserEntryByDn($dn);
+			return true;
+		} catch (DoesNotExistOnLDAPException $e) {
+			return false;
+		}
 	}
 
 	/**

@@ -27,6 +27,7 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\UserEntry;
 use OCA\User_LDAP\User_LDAP;
@@ -212,10 +213,11 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue('cn=foo,dc=foobar,dc=bar'));
+		$e = new DoesNotExistOnLDAPException();
 		$this->manager->expects($this->once())
-			->method('dnExistsOnLDAP')
+			->method('getUserEntryByDn')
 			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
-			->will($this->returnValue(false));
+			->will($this->throwException($e));
 
 		$result = $this->backend->userExists('563418fc-423b-1033-8d1c-ad5f418ee02e');
 		$this->assertFalse($result);
@@ -230,10 +232,11 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('username2dn')
 			->with($this->equalTo('563418fc-423b-1033-8d1c-ad5f418ee02e'))
 			->will($this->returnValue('cn=foo,dc=foobar,dc=bar'));
+		$entry = $this->createMock(UserEntry::class);
 		$this->manager->expects($this->once())
-			->method('dnExistsOnLDAP')
+			->method('getUserEntryByDn')
 			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
-			->will($this->returnValue(true));
+			->will($this->returnValue($entry));
 
 		$result = $this->backend->userExists('563418fc-423b-1033-8d1c-ad5f418ee02e');
 		$this->assertTrue($result);

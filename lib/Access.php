@@ -236,26 +236,29 @@ class Access implements IUserTools {
 	 *
 	 * @param resource $cr the LDAP connection
 	 * @param string $dn
-	 * @param string $attribute
+	 * @param string|array $attributes
 	 * @param string $filter
 	 * @param int $maxResults
 	 * @return array|bool false if there was any error, true if an exists check
 	 *                    was performed and the requested DN found, array with the
 	 *                    returned data on a successful usual operation
 	 */
-	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
-		$this->initPagedSearch($filter, array($dn), array($attribute), $maxResults, 0);
+	public function executeRead($cr, $dn, $attributes, $filter, $maxResults) {
+		if(is_string($attributes)) {
+			$attributes = [$attributes];
+		}
+		$this->initPagedSearch($filter, array($dn), $attributes, $maxResults, 0);
 		$dn = $this->DNasBaseParameter($dn);
-		$rr = @$this->getLDAP()->read($cr, $dn, $filter, array($attribute));
+		$rr = @$this->getLDAP()->read($cr, $dn, $filter, $attributes);
 		if(!$this->getLDAP()->isResource($rr)) {
-			if ($attribute !== '') {
+			if (count($attributes) === 1 && $attributes[0] === '') {
 				//do not throw this message on userExists check, irritates
 				Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, Util::DEBUG);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if ($attribute === '' && ($filter === 'objectclass=*' || $this->getLDAP()->countEntries($cr, $rr) === 1)) {
+		if ($attributes[0] === '' && ($filter === 'objectclass=*' || $this->getLDAP()->countEntries($cr, $rr) === 1)) {
 			Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', Util::DEBUG);
 			return true;
 		}
@@ -267,6 +270,15 @@ class Access implements IUserTools {
 		//LDAP attributes are not case sensitive
 		$result = Util::mb_array_change_key_case(
 			$this->getLDAP()->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+
+		if(in_array('dn', $attributes) && !array_key_exists('dn', $result)) {
+			// Hack to add in DN to results returned as it isnt for some reason
+			$count = $result['count'];
+			unset($result['count']);
+			$result['dn'] = ['count' => 1, $dn];
+			$result[] = 'dn';
+			$result['count'] = $count++;
+		}
 
 		return $result;
 	}
