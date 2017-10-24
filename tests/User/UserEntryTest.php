@@ -531,4 +531,13 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals([], $userEntry->getSearchTerms());
 	}
 
+	public function testLdapEntryLowercasedKeys() {
+
+		$val = 'cn=foo,dc=foobar,dc=bar';
+		$input = ['Dn' => ['count' => 1, $val]];
+		$userEntry = new UserEntry($this->config, $this->logger, $this->connection, $input);
+		// This requests the dn using lowercase 'dn' so it should return the value properly
+		$this->assertEquals($val, $userEntry->getDN());
+	}
+
 }

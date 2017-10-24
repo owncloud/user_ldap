@@ -25,6 +25,7 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Util;
 
 /**
  * UserEntry is a wrapper around an ldap search array.
@@ -70,7 +71,10 @@ class UserEntry {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->connection = $connection;
-		$this->ldapEntry = $ldapEntry;
+		// Fix ldap entry to force all keys to lowercase
+		foreach($ldapEntry as $key => $value) {
+			$this->ldapEntry[strtolower($key)] = $ldapEntry[$key];
+		}
 		// only accept an entry with the dn set
 		if ($this->getDN() === null) {
 			throw new \InvalidArgumentException('Entry must have the dn set');
