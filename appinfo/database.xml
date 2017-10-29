@@ -16,7 +16,7 @@
     <name>ldap_dn</name>
     <type>text</type>
     <notnull>true</notnull>
-	<length>255</length>
+	<length>191</length>
 	<default></default>
    </field>
 
@@ -24,7 +24,7 @@
     <name>owncloud_name</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>255</length>
+    <length>191</length>
 	<default></default>
    </field>
 
@@ -68,7 +68,7 @@
     <name>ldap_dn</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>255</length>
+    <length>191</length>
     <default></default>
    </field>
 
@@ -76,7 +76,7 @@
     <name>owncloud_name</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>255</length>
+    <length>191</length>
     <default></default>
    </field>
 
@@ -121,7 +121,7 @@
     <name>owncloudname</name>
     <type>text</type>
     <notnull>true</notnull>
-    <length>255</length>
+    <length>191</length>
     <default></default>
    </field>
 
