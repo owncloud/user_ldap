@@ -199,7 +199,7 @@ class UserEntry {
 	 * values are 'none' (unlimited), 'default' (the ownCloud's default quota), '1234' (quota in
 	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
-	 * @return string quota
+	 * @return string|false quota
 	 * TODO throw Exception for invalid values after https://github.com/owncloud/core/pull/28805 has been merged
 	 */
 	public function getQuota() {

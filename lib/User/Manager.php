@@ -362,7 +362,9 @@ class Manager {
 	 */
 	public function updateQuota(UserEntry $userEntry, IUser $targetUser) {
 		$newQuota = $userEntry->getQuota();
-		$targetUser->setQuota($newQuota);
+		if ($newQuota !== false) { // only update if we get a value
+			$targetUser->setQuota($newQuota);
+		}
 	}
 
 	/**
