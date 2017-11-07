@@ -42,7 +42,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
+		$userBackend  = new \OCA\User_LDAP\User_LDAP(\OC::$server->getConfig(), $this->userManager);
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -59,15 +59,13 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 
 	/**
 	 * initializes an LDAP user manager instance
-	 * @return LDAPUserManager
 	 */
 	protected function initUserManager() {
 		$this->userManager = new LDAPUserManager(
 			\OC::$server->getConfig(),
 			new \OCA\User_LDAP\FilesystemHelper(),
-			new \OCA\User_LDAP\LogWrapper(),
+			\OC::$server->getLogger(),
 			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager()
 		);

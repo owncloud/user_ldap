@@ -180,6 +180,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * gets a piece of the mapping list
+	 * TODO unused, remove
 	 * @param int $offset
 	 * @param int $limit
 	 * @return array

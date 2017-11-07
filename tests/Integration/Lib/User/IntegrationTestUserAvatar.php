@@ -24,7 +24,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
-use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
@@ -44,7 +43,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
+		$userBackend  = new \OCA\User_LDAP\User_LDAP(\OC::$server->getConfig(), $this->userManager);
 		\OC_User::useBackend($userBackend);
 	}
 
@@ -77,8 +76,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 
 		// finally attempt to get the avatar set
-		$user = $this->userManager->get($dn);
-		$user->updateAvatar();
+		$this->userManager->updateAvatar($uid);
 	}
 
 	/**
@@ -140,9 +138,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->userManager = new \OCA\User_LDAP\User\Manager(
 			\OC::$server->getConfig(),
 			new \OCA\User_LDAP\FilesystemHelper(),
-			new \OCA\User_LDAP\LogWrapper(),
+			\OC::$server->getLogger(),
 			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager()
 		);

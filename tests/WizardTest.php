@@ -25,6 +25,9 @@
 
 namespace OCA\User_LDAP\Tests;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\ILDAPWrapper;
 use \OCA\User_LDAP\Wizard;
 
 /**
@@ -35,6 +38,27 @@ use \OCA\User_LDAP\Wizard;
  * @package OCA\User_LDAP\Tests
  */
 class WizardTest extends \Test\TestCase {
+
+	/**
+	 * @var Configuration|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $configuration;
+
+	/**
+	 * @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $ldap;
+
+	/**
+	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $access;
+
+	/**
+	 * @var Wizard
+	 */
+	protected $wizard;
+
 	protected function setUp() {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
@@ -46,197 +70,187 @@ class WizardTest extends \Test\TestCase {
 				define($const, 42);
 			}
 		}
+		$this->configuration = $this->createMock(Configuration::class);
+
+		// TODO refactor Configuration class as a POPO with defaults, then use it instead of building a mock?
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($method) {
+				switch ($method) {
+					// multiline attributes are arrays
+					case 'ldapBase':
+						return ['dc=foobar,dc=bar'];
+					case 'ldapBaseUsers':
+						return ['dc=foobar,dc=bar'];
+					case 'ldapAttributesForUserSearch':
+						return [];
+					// other attributes
+					case 'ldapHost':
+						return 'localhost';
+					case 'ldapPort':
+						return 369;
+					case 'ldapEmailAttribute':
+						return 'myEmailAttribute';
+					case 'homeFolderNamingRule':
+						return null;
+					case 'ldapQuotaAttribute':
+					case 'ldapUserDisplayName2':
+					case 'ldapGroupFilter':
+						return '(objectclass=*)';
+					case 'ldapDynamicGroupMemberURL':
+						return '';
+					case 'ldapUserFilter':
+						return '(objectclass=inetorgperson)';
+					case 'ldapUserDisplayName':
+						return 'displayName';
+					case 'ldapGroupMemberAssocAttr':
+						return 'uniqueMember';
+					case 'hasMemberOfFilterSupport':
+					case 'useMemberOfToDetectMembership':
+					case 'ldapNestedGroups':
+						return 1;
+					default:
+						return false;
+				}
+			}));
+
+		$this->ldap = $this->createMock(ILDAPWrapper::class);
+		$this->ldap->expects($this->any())
+			->method('hasPagedResultSupport')
+			->will($this->returnValue(false));
+
+		$this->access = $this->createMock(Access::class);
+
+		$this->wizard = new Wizard($this->configuration, $this->ldap, $this->access);
 	}
 
-	private function getWizardAndMocks() {
-		static $confMethods;
-		static $connMethods;
-		static $accMethods;
-
-		if(is_null($confMethods)) {
-			$confMethods = get_class_methods('\OCA\User_LDAP\Configuration');
-			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods  = get_class_methods('\OCA\User_LDAP\Access');
-		}
-		$lw   = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
-		$conf = $this->getMockBuilder('\OCA\User_LDAP\Configuration')
-			->setMethods($confMethods)
-			->setConstructorArgs([$lw, null, null])
-			->getMock();
-
-		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
-			->setMethods($connMethods)
-			->setConstructorArgs([$lw, null, null])
-			->getMock();
-			
-		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
-			->disableOriginalConstructor()
-			->getMock();
-		$access = $this->getMockBuilder('\OCA\User_LDAP\Access')
-			->setMethods($accMethods)
-			->setConstructorArgs([$connector, $lw, $um])
-			->getMock();
-
-		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
-	}
-
-	private function prepareLdapWrapperForConnections(&$ldap) {
-		$ldap->expects($this->once())
+	private function prepareLdapWrapperForConnections() {
+		$this->ldap->expects($this->once())
 			->method('connect')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(3))
+		$this->ldap->expects($this->exactly(3))
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->once())
+		$this->ldap->expects($this->once())
 			->method('bind')
 			->will($this->returnValue(true));
 
 	}
 
 	public function testCumulativeSearchOnAttributeLimited() {
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
-			->method('__get')
-			->will($this->returnCallback(function($name) {
-					if($name === 'ldapBase') {
-						return array('base');
-					}
-					return null;
-			   }));
+		$this->prepareLdapWrapperForConnections();
 
-		$this->prepareLdapWrapperForConnections($ldap);
-
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('isResource')
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('search')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('countEntries')
 			//an is_resource check will follow, so we need to return a dummy resource
 			->will($this->returnValue(23));
 
 		//5 DNs per filter means 2x firstEntry and 8x nextEntry
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('firstEntry')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(8))
+		$this->ldap->expects($this->exactly(8))
 			->method('nextEntry')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(10))
+		$this->ldap->expects($this->exactly(10))
 			->method('getAttributes')
 			//dummy value, usually invalid
 			->will($this->returnValue(array('cn' => array('foo'), 'count' => 1)));
 
-		global $uidnumber;
 		$uidnumber = 1;
-		$ldap->expects($this->exactly(10))
+		$this->ldap->expects($this->exactly(10))
 			->method('getDN')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $b) {
-				global $uidnumber;
+			->will($this->returnCallback(function($a, $b) use (&$uidnumber) {
 				return $uidnumber++;
 			}));
 
 		// The following expectations are the real test
 		$filters = array('f1', 'f2', '*');
-		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 5);
+		$this->wizard->cumulativeSearchOnAttribute($filters, 'cn', 5);
 		unset($uidnumber);
 	}
 
 	public function testCumulativeSearchOnAttributeUnlimited() {
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
-			->method('__get')
-			->will($this->returnCallback(function($name) {
-					if($name === 'ldapBase') {
-						return array('base');
-					}
-					return null;
-			   }));
+		$this->prepareLdapWrapperForConnections();
 
-		$this->prepareLdapWrapperForConnections($ldap);
-
-		$ldap->expects($this->any())
+		$uidNumber = 1;
+		$this->ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnCallback(function($r) {
+			->will($this->returnCallback(function($r) use (&$uidNumber) {
 				if($r === true) {
 					return true;
 				}
 				if($r % 24 === 0) {
-					global $uidnumber;
-					$uidnumber++;
+					$uidNumber++;
 					return false;
 				}
 				return true;
 			}));
 
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('search')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('countEntries')
 			//an is_resource check will follow, so we need to return a dummy resource
 			->will($this->returnValue(23));
 
 		//5 DNs per filter means 2x firstEntry and 8x nextEntry
-		$ldap->expects($this->exactly(2))
+		$this->ldap->expects($this->exactly(2))
 			->method('firstEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($r) {
-				global $uidnumber;
-				return $uidnumber;
+			->will($this->returnCallback(function($r) use (&$uidNumber) {
+				return $uidNumber;
 			}));
 
-		$ldap->expects($this->exactly(46))
+		$this->ldap->expects($this->exactly(46))
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($r) {
-				global $uidnumber;
-				return $uidnumber;
+			->will($this->returnCallback(function($r) use (&$uidNumber) {
+				return $uidNumber;
 			}));
 
-		$ldap->expects($this->exactly(46))
+		$this->ldap->expects($this->exactly(46))
 			->method('getAttributes')
 			//dummy value, usually invalid
 			->will($this->returnValue(array('cn' => array('foo'), 'count' => 1)));
 
-		global $uidnumber;
-		$uidnumber = 1;
-		$ldap->expects($this->exactly(46))
+		$this->ldap->expects($this->exactly(46))
 			->method('getDN')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $b) {
-				global $uidnumber;
-				return $uidnumber++;
+			->will($this->returnCallback(function($a, $b) use (&$uidNumber) {
+				return $uidNumber++;
 			}));
 
 		// The following expectations are the real test
 		$filters = array('f1', 'f2', '*');
-		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
-		unset($uidnumber);
+		$this->wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
+		unset($uidNumber);
 	}
 
 	public function testDetectEmailAttributeAlreadySet() {
-		list($wizard, $configuration, $ldap, $access)
-			= $this->getWizardAndMocks();
-
-		$configuration->expects($this->any())
+		$this->configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
@@ -247,18 +261,16 @@ class WizardTest extends \Test\TestCase {
 				}
 			}));
 
-		$access->expects($this->once())
+		$this->access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(42));
 
-		$wizard->detectEmailAttribute();
+		$this->wizard->detectEmailAttribute();
 	}
 
 	public function testDetectEmailAttributeOverrideSet() {
-		list($wizard, $configuration, $ldap, $access)
-			= $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
+		$this->configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
@@ -269,13 +281,13 @@ class WizardTest extends \Test\TestCase {
 				}
 			}));
 
-		$access->expects($this->exactly(3))
+		$this->access->expects($this->exactly(3))
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($filterParts) {
 				return str_replace('=*', '', array_pop($filterParts));
 			}));
 
-		$access->expects($this->exactly(3))
+		$this->access->expects($this->exactly(3))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
@@ -288,16 +300,15 @@ class WizardTest extends \Test\TestCase {
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
-		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
 			$result['changes']['ldap_email_attr']);
 	}
 
 	public function testDetectEmailAttributeFind() {
-		list($wizard, $configuration, $ldap, $access)
-			= $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
+		$this->configuration = $this->createMock(Configuration::class);
+		$this->configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
@@ -308,13 +319,13 @@ class WizardTest extends \Test\TestCase {
 				}
 			}));
 
-		$access->expects($this->exactly(2))
+		$this->access->expects($this->exactly(2))
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($filterParts) {
 				return str_replace('=*', '', array_pop($filterParts));
 			}));
 
-		$access->expects($this->exactly(2))
+		$this->access->expects($this->exactly(2))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
@@ -327,16 +338,15 @@ class WizardTest extends \Test\TestCase {
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
-		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$this->wizard = new Wizard($this->configuration, $this->ldap, $this->access);
+		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
 			$result['changes']['ldap_email_attr']);
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
-		list($wizard, $configuration, $ldap, $access)
-			= $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
+		$this->configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
@@ -347,13 +357,13 @@ class WizardTest extends \Test\TestCase {
 				}
 			}));
 
-		$access->expects($this->exactly(3))
+		$this->access->expects($this->exactly(3))
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($filterParts) {
 				return str_replace('=*', '', array_pop($filterParts));
 			}));
 
-		$access->expects($this->exactly(3))
+		$this->access->expects($this->exactly(3))
 			->method('countUsers')
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
@@ -366,16 +376,15 @@ class WizardTest extends \Test\TestCase {
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
-		$result = $wizard->detectEmailAttribute();
+		$result = $this->wizard->detectEmailAttribute();
 		$this->assertSame(false, $result->hasChanges());
 	}
 
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
 		// tests that there is no infinite loop, when skipping already processed
 		// DNs (they can be returned multiple times for multiple filters )
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
 
-		$configuration->expects($this->any())
+		$this->configuration->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
 					if($name === 'ldapBase') {
@@ -384,42 +393,40 @@ class WizardTest extends \Test\TestCase {
 					return null;
 			   }));
 
-		$this->prepareLdapWrapperForConnections($ldap);
+		$this->prepareLdapWrapperForConnections();
 
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('isResource')
 			->will($this->returnCallback(function($res) {
 				return (bool)$res;
 			}));
 
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('search')
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('countEntries')
 			//an is_resource check will follow, so we need to return a dummy resource
 			->will($this->returnValue(7));
 
 		//5 DNs per filter means 2x firstEntry and 8x nextEntry
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('firstEntry')
 			//dummy value, usually invalid
 			->will($this->returnValue(1));
 
-		global $mark;
 		$mark = false;
 		// entries return order: 1, 2, 3, 4, 4, 5, 6
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->will($this->returnCallback(function($a, $prev){
+			->will($this->returnCallback(function($a, $prev) use (&$mark) {
 				$current = $prev + 1;
 				if($current === 7) {
 					return false;
 				}
-				global $mark;
 				if($prev === 4 && !$mark) {
 					$mark = true;
 					return 4;
@@ -427,14 +434,14 @@ class WizardTest extends \Test\TestCase {
 				return $current;
 			}));
 
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('getAttributes')
 			//dummy value, usually invalid
 			->will($this->returnCallback(function($a, $entry) {
 				return array('cn' => array($entry), 'count' => 1);
 			}));
 
-		$ldap->expects($this->any())
+		$this->ldap->expects($this->any())
 			->method('getDN')
 			//dummy value, usually invalid
 			->will($this->returnCallback(function($a, $b) {
@@ -443,7 +450,7 @@ class WizardTest extends \Test\TestCase {
 
 		// The following expectations are the real test
 		$filters = array('f1', 'f2', '*');
-		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
+		$resultArray = $this->wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		$this->assertSame(6, count($resultArray));
 		unset($mark);
 	}

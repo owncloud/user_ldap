@@ -1,11 +1,8 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2017, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,17 +19,6 @@
  *
  */
 
-namespace OCA\User_LDAP;
+namespace OCA\User_LDAP\Exceptions;
 
-
-abstract class BackendUtility {
-	protected $access;
-
-	/**
-	 * constructor, make sure the subclasses call this one!
-	 * @param Access $access an instance of Access for LDAP interaction
-	 */
-	public function __construct(Access $access) {
-		$this->access = $access;
-	}
-}
+class DoesNotExistOnLDAPException extends \Exception {}

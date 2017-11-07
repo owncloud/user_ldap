@@ -27,6 +27,9 @@ namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\User\Manager;
 
 /**
  * Class AccessTest
@@ -36,76 +39,66 @@ use OCA\User_LDAP\Connection;
  * @package OCA\User_LDAP\Tests
  */
 class AccessTest extends \Test\TestCase {
-	private function getConnectorAndLdapMock() {
-		static $conMethods;
-		static $accMethods;
-		static $umMethods;
 
-		if(is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
-			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
-		}
-		$lw  = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
-		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
-			->setMethods($conMethods)
-			->setConstructorArgs([$lw, null, null])
-			->getMock();
-		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
-			->setMethods($umMethods)
-			->setConstructorArgs([
-				$this->createMock('\OCP\IConfig'),
-				$this->createMock('\OCA\User_LDAP\FilesystemHelper'),
-				$this->createMock('\OCA\User_LDAP\LogWrapper'),
-				$this->createMock('\OCP\IAvatarManager'),
-				$this->createMock('\OCP\Image'),
-				$this->createMock('\OCP\IDBConnection'),
-				$this->createMock('\OCP\IUserManager')
-			])
-			->getMock();
+	/**
+	 * @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $ldapWrapper;
 
-		return [$lw, $connector, $um];
+	/**
+	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $connection;
+
+	/**
+	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $manager;
+
+	/**
+	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $access;
+
+	public function setUp() {
+		$this->ldapWrapper  = $this->createMock(ILDAPWrapper::class);
+		$this->connection  = $this->createMock(Connection::class);
+		$this->manager  = $this->createMock(Manager::class);
+		$this->access = new Access($this->connection, $this->manager);
+
 	}
 
-	public function testEscapeFilterPartValidChars() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
-		$input = 'okay';
-		$this->assertTrue($input === $access->escapeFilterPart($input));
+	/**
+	 * @dataProvider escapeFilterPartDataProvider
+	 * @param $input string
+	 * @param $expected string
+	 */
+	public function testEscapeFilterPartValidChars($input, $expected) {
+		$this->assertSame($expected, $this->access->escapeFilterPart($input));
 	}
 
-	public function testEscapeFilterPartEscapeWildcard() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
-		$input = '*';
-		$expected = '\\\\*';
-		$this->assertTrue($expected === $access->escapeFilterPart($input));
+	public function escapeFilterPartDataProvider () {
+		return [
+			['okay', 'okay'],
+			['*', '\\\\*'], // escape wildcard
+			['foo*bar', 'foo\\\\*bar'], // escape wildcard in valid chars
+		];
 	}
 
-	public function testEscapeFilterPartEscapeWildcard2() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
-		$input = 'foo*bar';
-		$expected = 'foo\\\\*bar';
-		$this->assertTrue($expected === $access->escapeFilterPart($input));
+	/**
+	 * @dataProvider sid2strDataProvider
+	 * @param $sidBinary string
+	 * @param $sidExpected string
+	 */
+	public function testSid2strSuccess($sidBinary, $sidExpected) {
+		$this->assertSame($sidExpected, Access::sid2str($sidBinary));
 	}
 
-	/** @dataProvider convertSID2StrSuccessData */
-	public function testConvertSID2StrSuccess(array $sidArray, $sidExpected) {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
-		$sidBinary = implode('', $sidArray);
-		$this->assertSame($sidExpected, $access->convertSID2Str($sidBinary));
-	}
-
-	public function convertSID2StrSuccessData() {
-		return array(
-			array(
-				array(
+	public function sid2strDataProvider() {
+		return [
+			// test valid mappings
+			[
+				implode('', [
 					"\x01",
 					"\x04",
 					"\x00\x00\x00\x00\x00\x05",
@@ -113,128 +106,132 @@ class AccessTest extends \Test\TestCase {
 					"\xa6\x81\xe5\x0e",
 					"\x4d\x6c\x6c\x2b",
 					"\xca\x32\x05\x5f",
-				),
+				]),
 				'S-1-5-21-249921958-728525901-1594176202',
-			),
-			array(
-				array(
+			],
+			[
+				implode('', [
 					"\x01",
 					"\x02",
 					"\xFF\xFF\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
-				),
+				]),
 				'S-1-281474976710655-4294967295-4294967295',
-			),
-		);
-	}
-
-	public function testConvertSID2StrInputError() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
-		$sidIllegal = 'foobar';
-		$sidExpected = '';
-
-		$this->assertSame($sidExpected, $access->convertSID2Str($sidIllegal));
+			],
+			// input error
+			['foobar', ''], // TODO should throw an exception and not silently return emptystring
+		];
 	}
 
 	public function testGetDomainDNFromDNSuccess() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
 		$inputDN = 'uid=zaphod,cn=foobar,dc=my,dc=server,dc=com';
 		$domainDN = 'dc=my,dc=server,dc=com';
 
-		$lw->expects($this->once())
+		$this->ldapWrapper->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
 			->will($this->returnValue(explode(',', $inputDN)));
 
-		$this->assertSame($domainDN, $access->getDomainDNFromDN($inputDN));
+		$this->connection->expects($this->any())
+			->method('getLDAP')
+			->willReturn($this->ldapWrapper);
+
+		$this->assertSame($domainDN, $this->access->getDomainDNFromDN($inputDN));
 	}
 
 	public function testGetDomainDNFromDNError() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
-
 		$inputDN = 'foobar';
 		$expected = '';
 
-		$lw->expects($this->once())
+		$this->ldapWrapper->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
 			->will($this->returnValue(false));
 
-		$this->assertSame($expected, $access->getDomainDNFromDN($inputDN));
+		$this->connection->expects($this->any())
+			->method('getLDAP')
+			->willReturn($this->ldapWrapper);
+
+		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
 	}
 
-	private function getResemblesDNInputData() {
-		return  $cases = array(
-			array(
-				'input' => 'foo=bar,bar=foo,dc=foobar',
-				'interResult' => array(
+	public function resemblesDNDataProvider() {
+		return [
+			[
+				'CN=username,OU=UNITNAME,OU=Region,OU=Country,DC=subdomain,DC=domain,DC=com',
+				[
+					'count' => 9,
+					 0 => 'CN=username',
+					 1 => 'OU=UNITNAME',
+					 2 => 'OU=Region',
+					 5 => 'OU=Country',
+					 6 => 'DC=subdomain',
+					 7 => 'DC=domain',
+					 8 => 'DC=com',
+				],
+				true
+			],
+			[
+				'foo=bar,bar=foo,dc=foobar',
+				[
 					'count' => 3,
 					0 => 'foo=bar',
 					1 => 'bar=foo',
 					2 => 'dc=foobar'
-				),
-				'expectedResult' => true
-			),
-			array(
-				'input' => 'foobarbarfoodcfoobar',
-				'interResult' => false,
-				'expectedResult' => false
-			)
-		);
+				],
+				true
+			],
+			[
+				'foobarbarfoodcfoobar', false, false
+			]
+		];
 	}
 
-	public function testStringResemblesDN() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+	/**
+	 * @dataProvider resemblesDNDataProvider
+	 * @param $input string
+	 * @param $intermediateResult string
+	 * @param $expected string
+	 */
+	public function testStringResemblesDNfake($input, $intermediateResult, $expected) {
 
-		$cases = $this->getResemblesDNInputData();
-
-		$lw->expects($this->exactly(2))
+		$this->ldapWrapper->expects($this->once())
 			->method('explodeDN')
-			->will($this->returnCallback(function ($dn) use ($cases) {
-				foreach($cases as $case) {
-					if($dn === $case['input']) {
-						return $case['interResult'];
-					}
-				}
-				return null;
-			}));
+			->with($input)
+			->will($this->returnValue($intermediateResult));
 
-		foreach($cases as $case) {
-			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
-		}
+		$this->connection->expects($this->any())
+			->method('getLDAP')
+			->willReturn($this->ldapWrapper);
+
+		$this->assertSame($expected, $this->access->stringResemblesDN($input));
 	}
 
-	public function testStringResemblesDNLDAPmod() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$lw = new \OCA\User_LDAP\LDAP();
-		$access = new Access($con, $lw, $um);
-
+	/**
+	 * @dataProvider resemblesDNDataProvider
+	 * @param $input string
+	 * @param $intermediateResult string
+	 * @param $expected string
+	 */
+	public function testStringResemblesDNLDAPnative($input, $intermediateResult, $expected) {
 		if(!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
 		}
 
-		$cases = $this->getResemblesDNInputData();
+		$this->connection->expects($this->once())
+			->method('getLDAP')
+			->willReturn(new LDAP());
 
-		foreach($cases as $case) {
-			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
-		}
+		$this->assertSame($expected, $this->access->stringResemblesDN($input));
 	}
 
 	public function testCacheUserHome() {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
 
-		$con->expects($this->once())
+		$this->connection->expects($this->once())
 			->method('writeToCache');
 
-		$access->cacheUserHome('foobar', '/foobars/path');
+		$this->access->cacheUserHome('foobar', '/foobars/path');
 	}
 
 	public function dNAttributeProvider() {
@@ -251,23 +248,23 @@ class AccessTest extends \Test\TestCase {
 	 * @dataProvider dNAttributeProvider
 	 */
 	public function testSanitizeDN($attribute) {
-		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-
-
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
-		$lw->expects($this->any())
+		$this->ldapWrapper->expects($this->any())
 			->method('isResource')
 			->will($this->returnValue(true));
 
-		$lw->expects($this->any())
+		$this->ldapWrapper->expects($this->any())
 			->method('getAttributes')
 			->will($this->returnValue(array(
 				$attribute => array('count' => 1, $dnFromServer)
 			)));
 
-		$access = new Access($con, $lw, $um);
-		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
+		$this->connection->expects($this->any())
+			->method('getLDAP')
+			->willReturn($this->ldapWrapper);
+
+		$values = $this->access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
 }
