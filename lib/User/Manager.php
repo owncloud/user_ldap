@@ -28,7 +28,7 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\Exceptions\DoesNotExsitOnLDAPException;
+use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -184,7 +184,7 @@ class Manager {
 	 * Gets an UserEntry from the LDAP server from a distinguished name
 	 * @param $dn
 	 * @return UserEntry
-	 * @throws DoesNotExsitOnLDAPException when the dn supplied cannot be found on LDAP
+	 * @throws DoesNotExistOnLDAPException when the dn supplied cannot be found on LDAP
 	 */
 	public function getUserEntryByDn($dn) {
 		$result = $this->access->executeRead(
@@ -194,7 +194,7 @@ class Manager {
 			'objectClass=*',
 			20);
 		if($result === false || $result['count'] === 0) {
-			throw new DoesNotExsitOnLDAPException($dn);
+			throw new DoesNotExistOnLDAPException($dn);
 		}
 		// Try to convert entry into a UserEntry
 		return $this->getFromEntry($result);
