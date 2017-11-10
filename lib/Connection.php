@@ -526,8 +526,9 @@ class Connection extends LDAPUtility {
 			try {
 				// skip contacting main server after failed connection attempt
 				// until cache TTL is reached
-				if (!$this->configuration->ldapOverrideMainServer
-					&& !$this->getFromCache('overrideMainServer')
+				if (trim($this->configuration->ldapBackupHost) === ""
+					|| (!$this->configuration->ldapOverrideMainServer
+					&& !$this->getFromCache('overrideMainServer'))
 				) {
 					$this->doConnect($this->configuration->ldapHost,
 						$this->configuration->ldapPort);
