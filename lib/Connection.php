@@ -609,7 +609,9 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 
+		// binding is done via getConnectionResource()
 		$cr = $this->getConnectionResource();
+
 		if(!$this->getLDAP()->isResource($cr)) {
 			return false;
 		}
