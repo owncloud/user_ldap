@@ -192,8 +192,9 @@ class Manager {
 			$dn,
 			$this->getAttributes(),
 			'objectClass=*',
-			20);
+			20); // TODO why 20? why is 1 not sufficient?
 		if($result === false || $result['count'] === 0) {
+			// FIXME the ldap error ($result = false) should bubble up ... and not be converted to a DoesNotExistOnLDAPException
 			throw new DoesNotExistOnLDAPException($dn);
 		}
 		// Try to convert entry into a UserEntry

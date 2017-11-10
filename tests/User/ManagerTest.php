@@ -27,9 +27,11 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\UserEntry;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -321,4 +323,36 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals(0, count($result));
 	}
 
+	public function testGetUserEntryByDn() {
+		$this->access->expects($this->once())
+			->method('executeRead')
+			->will($this->returnValue([
+				'count' => 1, // TODO this mixing of count and dn smells bad
+				'dn' => 'dc=foobar,dc=bar',
+			]));
+		$this->assertInstanceOf(UserEntry::class, $this->manager->getUserEntryByDn('dc=foobar,dc=bar'));
+	}
+
+	/**
+	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
+	 */
+	public function testGetUserEntryByDnNotFound() {
+		$this->access->expects($this->once())
+			->method('executeRead')
+			->will($this->returnValue([
+				'count' => 0,
+			]));
+		$this->manager->getUserEntryByDn('dc=foobar,dc=bar');
+	}
+
+	/**
+	 * FIXME the ldap error should bubble up ... and not be converted to a DoesNotExistOnLDAPException
+	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
+	 */
+	public function testGetUserEntryByDnLDAPError() {
+		$this->access->expects($this->once())
+			->method('executeRead')
+			->will($this->returnValue(false));
+		$this->manager->getUserEntryByDn('dc=foobar,dc=bar');
+	}
 }
