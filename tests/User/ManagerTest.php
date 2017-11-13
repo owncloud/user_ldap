@@ -328,9 +328,9 @@ class ManagerTest extends \Test\TestCase {
 			->method('executeRead')
 			->will($this->returnValue([
 				'count' => 1, // TODO this mixing of count and dn smells bad
-				'dn' => 'dc=foobar,dc=bar',
+				'dn' => ['cn=foo,ou=users,dc=foobar,dc=bar'], // all ldap array values are multivalue
 			]));
-		$this->assertInstanceOf(UserEntry::class, $this->manager->getUserEntryByDn('dc=foobar,dc=bar'));
+		$this->assertInstanceOf(UserEntry::class, $this->manager->getUserEntryByDn('cn=foo,ou=users,dc=foobar,dc=bar'));
 	}
 
 	/**
