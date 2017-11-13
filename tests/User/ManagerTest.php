@@ -330,6 +330,17 @@ class ManagerTest extends \Test\TestCase {
 				'count' => 1, // TODO this mixing of count and dn smells bad
 				'dn' => ['cn=foo,ou=users,dc=foobar,dc=bar'], // all ldap array values are multivalue
 			]));
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getNameByDN')
+			->with($this->equalTo('cn=foo,ou=users,dc=foobar,dc=bar'))
+			->will($this->returnValue('foo'));
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->will($this->returnValue($mapper));
+
 		$this->access->expects($this->once())
 			->method('isDNPartOfBase')
 			->will($this->returnValue(true));
