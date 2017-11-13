@@ -330,7 +330,28 @@ class ManagerTest extends \Test\TestCase {
 				'count' => 1, // TODO this mixing of count and dn smells bad
 				'dn' => ['cn=foo,ou=users,dc=foobar,dc=bar'], // all ldap array values are multivalue
 			]));
+		$this->access->expects($this->once())
+			->method('isDNPartOfBase')
+			->will($this->returnValue(true));
+
 		$this->assertInstanceOf(UserEntry::class, $this->manager->getUserEntryByDn('cn=foo,ou=users,dc=foobar,dc=bar'));
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function testGetUserEntryByDnNotPartOfBase() {
+		$this->access->expects($this->once())
+			->method('executeRead')
+			->will($this->returnValue([
+				'count' => 1, // TODO this mixing of count and dn smells bad
+				'dn' => ['cn=foo,ou=users,dc=foobar,dc=bar'], // all ldap array values are multivalue
+			]));
+		$this->access->expects($this->once())
+			->method('isDNPartOfBase')
+			->will($this->returnValue(false));
+
+		$this->manager->getUserEntryByDn('cn=foo,ou=users,dc=foobar,dc=bar');
 	}
 
 	/**
