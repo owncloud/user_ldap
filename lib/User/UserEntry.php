@@ -140,7 +140,8 @@ class UserEntry {
 			$uuidAttributes = $this->connection->uuidAttributes;
 		}
 		foreach ($uuidAttributes as $uuidAttribute) {
-			$uuid = $this->getAttributeValue($uuidAttribute);
+			// uuid may be binary ... must not be trimmed!
+			$uuid = $this->getAttributeValue($uuidAttribute, null, false);
 			if ($uuid === null) {
 				continue;
 			}
