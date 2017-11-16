@@ -8,7 +8,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 
 	</description>
 	<licence>AGPL</licence>
-	<author>Dominik Schmidt and Arthur Schiwon</author>
+	<author>Jörn Friedrich Dreyer, Tom Needham, Juan Pablo Villafañez Ramos, Dominik Schmidt and Arthur Schiwon</author>
 	<version>0.10.0</version>
 	<types>
 		<authentication/>
