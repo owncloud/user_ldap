@@ -130,12 +130,12 @@ class UserEntryTest extends \Test\TestCase {
 			['ipauniqueid', '9ca8bb70-bc3a-11df-9a4d-000c29a5c12c', '9ca8bb70-bc3a-11df-9a4d-000c29a5c12c'],
 			// Microsoft AD
 			['objectguid', "\x53\xdf\x4e\x49\x3e\xb3\xd1\x4e\x80\x0b\x53\xdf\x4e\x49\x3e\xb3", '494EDF53-B33E-4ED1-800B-53DF4E493EB3'],
+			// binary UUID may end with a \r readline char, don't trim it away
+			['objectguid', "\x13\x5C\x27\xB5\x66\x64\xFD\x43\xA1\x29\xA1\x2A\x6D\x3D\x9A\x0D", 'B5275C13-6466-43FD-A129-A12A6D3D9A0D'],
 			// Novell eDirectory
 			['guid', "\x81\xC9\x53\x4C\xBA\x5D\xD9\x11\x89\xA2\x89\x0B\x9B\xD4\x8A\x51", '4C53C981-5DBA-11D9-89A2-890B9BD48A51'],
 			// 389 Directory Server / Oracle Directory Server
 			['nsuniqueid', '66446001-1dd211b2-66225011-2ee211db', '66446001-1dd211b2-66225011-2ee211db'],
-
-
 		];
 	}
 
@@ -196,6 +196,23 @@ class UserEntryTest extends \Test\TestCase {
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+			]
+		);
+		$userEntry->getUUID();
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function testGetUUIDInvalidBinaryUUID() {
+		$this->connection->expects($this->exactly(2))
+			->method('__get')
+			->with($this->equalTo('ldapExpertUUIDUserAttr'))
+			->will($this->returnValue('objectguid'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'objectguid'  => [0 => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"],
 			]
 		);
 		$userEntry->getUUID();
