@@ -56,6 +56,9 @@ script:
 
   - sh -c "if [ '$INTEGRATION' = '1' ]; then tests/Integration/autotest.sh; fi"
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 matrix:
   include:
     - php: 7.0
