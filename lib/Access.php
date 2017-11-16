@@ -1611,8 +1611,18 @@ class Access implements IUserTools {
 	 * @return string
 	 */
 	public static function binGUID2str($binGuid) {
-		$unpacked = unpack('Va/v2b/n2c/Nd', $binGuid);
-		return sprintf('%08X-%04X-%04X-%04X-%04X%08X', $unpacked['a'], $unpacked['b1'], $unpacked['b2'], $unpacked['c1'], $unpacked['c2'], $unpacked['d']);
+		// V = unsigned long (always 32 bit, little endian byte order)
+		// v = unsigned short (always 16 bit, little endian byte order)
+		// n = unsigned short (always 16 bit, big endian byte order)
+		// N = unsigned long (always 32 bit, big endian byte order)
+		// TODO treat all warnings es error? see https://stackoverflow.com/a/2071048
+		$unpacked = unpack('Va/v2b/n2c/Nd', $binGuid); // only throws a warning if it could not parse the input
+		$uuid = sprintf('%08X-%04X-%04X-%04X-%04X%08X', $unpacked['a'], $unpacked['b1'], $unpacked['b2'], $unpacked['c1'], $unpacked['c2'], $unpacked['d']);
+		// make sure this is not a bogus UUID
+		if ($uuid === '00000000-0000-0000-0000-000000000000') {
+			throw new \OutOfBoundsException(sprintf(" invalid binary uuid <%X>", $binGuid));
+		}
+		return $uuid;
 	}
 
 	/**
