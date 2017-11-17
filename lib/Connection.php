@@ -30,6 +30,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCP\Util;
 
 /**
@@ -530,10 +531,10 @@ class Connection extends LDAPUtility {
 					|| (!$this->configuration->ldapOverrideMainServer
 					&& !$this->getFromCache('overrideMainServer'))
 				) {
-					if ($this->doConnect(
-							$this->configuration->ldapBackupHost,
-							$this->configuration->ldapBackupPort)
-						&& @$this->ldap->bind(
+					$this->doConnect(
+							$this->configuration->ldapHost,
+							$this->configuration->ldapPort);
+					if (@$this->ldap->bind(
 							$this->ldapConnectionRes,
 							$this->configuration->ldapAgentName,
 							$this->configuration->ldapAgentPassword)
@@ -541,25 +542,34 @@ class Connection extends LDAPUtility {
 						return true;
 					} else {
 						Util::writeLog('user_ldap',
-							'Connect and Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
+							'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
 							Util::DEBUG); // log only in debug mod because this is triggered by wrong passwords
-						$this->ldapConnectionRes = null;
+						throw new BindFailedException();
 					}
 				}
 			} catch (ServerNotAvailableException $e) {
 				if(trim($this->configuration->ldapBackupHost) === "") {
 					throw $e;
 				}
+			} catch (BindFailedException $e) {
+				if(trim($this->configuration->ldapBackupHost) === "") {
+					throw $e;
+				}
+			}
+
+			if(trim($this->configuration->ldapBackupHost) === "") {
+				$this->ldapConnectionRes = null;
+				return false;
 			}
 
 			// try the Backup (Replica!) Server
 			Util::writeLog('user_ldap',
 				'Trying to connect to backup server '.$this->configuration->ldapBackupHost.':'.$this->configuration->ldapBackupPort,
 				Util::DEBUG);
-			if ($this->doConnect(
+			$this->doConnect(
 					$this->configuration->ldapBackupHost,
-					$this->configuration->ldapBackupPort)
-				&& @$this->ldap->bind(
+					$this->configuration->ldapBackupPort);
+			if (@$this->ldap->bind(
 					$this->ldapConnectionRes,
 					$this->configuration->ldapAgentName,
 					$this->configuration->ldapAgentPassword)
@@ -572,11 +582,10 @@ class Connection extends LDAPUtility {
 				return true;
 			} else {
 				Util::writeLog('user_ldap',
-					'Connect and Bind to backup server failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
+					'Bind to backup server failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
 					Util::DEBUG);
-				$this->ldapConnectionRes = null;
+				throw new BindFailedException();
 			}
-			return false;
 		}
 		return null;
 	}
