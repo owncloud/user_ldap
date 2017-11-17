@@ -37,6 +37,7 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -1449,7 +1450,11 @@ class Access implements IUserTools {
 		if(!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		return $testConnection->bind();
+		try {
+			return $testConnection->bind();
+		} catch (BindFailedException $e) {
+			return false;
+		}
 	}
 
 	/**
