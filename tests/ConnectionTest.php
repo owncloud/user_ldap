@@ -136,4 +136,101 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
+	/**
+	 * @expectedException \OC\ServerNotAvailableException
+	 */
+	public function testConnectFails() {
+		$mainHost = 'ldap://nixda.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $mainHost,
+			'ldapPort' => 389,
+			'ldapAgentName' => 'uid=agent',
+			'ldapAgentPassword' => 'WrongPassword'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->once())
+			->method('connect')
+			->will($this->returnValue(false));
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(false));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->connection->init();
+	}
+
+	public function testBind() {
+		$mainHost = 'ldap://fake.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $mainHost,
+			'ldapPort' => 389,
+			'ldapAgentName' => 'uid=agent',
+			'ldapAgentPassword' => 'Secret'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->once())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('bind')
+			->will($this->returnValue(true));
+
+		$this->connection->init();
+	}
+
+	/**
+	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
+	 */
+	public function testBindFails() {
+		$mainHost = 'ldap://nixda.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $mainHost,
+			'ldapPort' => 389,
+			'ldapAgentName' => 'uid=agent',
+			'ldapAgentPassword' => 'WrongPassword'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->once())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('bind')
+			->will($this->returnValue(false));
+
+		$this->connection->init();
+	}
 }
