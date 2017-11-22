@@ -215,6 +215,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		return $this->handleRequest($uid, 'getDisplayName', array($uid));
 	}
 
+	public function setDisplayName($uid, $displayName) {
+		// ignored, function needed to make core store the display name in the account table
+
+	}
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
