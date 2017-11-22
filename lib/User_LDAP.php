@@ -274,6 +274,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
 			| Backend::GET_DISPLAYNAME
+			| Backend::SET_DISPLAYNAME // not really, but it is stored in the account table
 			| Backend::PROVIDE_AVATAR
 			| Backend::COUNT_USERS)
 			& $actions);
