@@ -162,9 +162,15 @@ class Manager {
 				$attributes[$attr] = true;
 			}
 		}
-		// @TODO if uuidAttribute is specified use that, else get possible uuidAttributes
-		foreach ($this->getConnection()->uuidAttributes as $attr) {
-			$attributes[$attr] = true;
+		$uuidAttribute = $this->getConnection()->ldapUuidUserAttribute;
+		if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
+			// if uuidAttribute is specified use that
+			$attributes[$uuidAttribute] = true;
+		} else {
+			// get known possible uuidAttributes
+			foreach ($this->getConnection()->uuidAttributes as $attr) {
+				$attributes[$attr] = true;
+			}
 		}
 
 		if($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {
