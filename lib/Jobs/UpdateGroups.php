@@ -34,7 +34,6 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
@@ -43,6 +42,11 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
 
 	static private $groupBE;
+
+	/**
+	 * @var int
+	 */
+	protected $interval;
 
 	public function __construct(){
 		$this->interval = self::getRefreshInterval();
@@ -180,13 +184,12 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$userManager = new Manager(
 				\OC::$server->getConfig(),
 				new FilesystemHelper(),
-				new LogWrapper(),
+				\OC::$server->getLogger(),
 				\OC::$server->getAvatarManager(),
-				new \OCP\Image(),
 				$dbc,
 				\OC::$server->getUserManager());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
-			$ldapAccess = new Access($connector, $ldapWrapper, $userManager);
+			$ldapAccess = new Access($connector, $userManager);
 			$groupMapper = new GroupMapping($dbc);
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);

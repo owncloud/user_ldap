@@ -4,8 +4,9 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2017, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,6 +26,9 @@
 namespace OCA\User_LDAP;
 
 abstract class LDAPUtility {
+	/**
+	 * @var ILDAPWrapper
+	 */
 	protected $ldap;
 
 	/**
@@ -33,5 +37,12 @@ abstract class LDAPUtility {
 	 */
 	public function __construct(ILDAPWrapper $ldapWrapper) {
 		$this->ldap = $ldapWrapper;
+	}
+
+	/**
+	 * @return ILDAPWrapper
+	 */
+	public function getLDAP() {
+		return $this->ldap;
 	}
 }

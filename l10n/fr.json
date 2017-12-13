@@ -127,6 +127,7 @@
     "One User Base DN per line" : "Un DN de base utilisateur par ligne",
     "User Search Attributes" : "Attributs de recherche utilisateurs",
     "Optional; one attribute per line" : "Optionnel, un attribut par ligne",
+    "Each attribute value is truncated to 191 characters" : "Chaque valeur d'attribut est tronquée à 191 caractères",
     "Group Display Name Field" : "Champ \"nom d'affichage\" du groupe",
     "The LDAP attribute to use to generate the groups's display name." : "L'attribut LDAP utilisé pour générer le nom d'affichage du groupe.",
     "Base Group Tree" : "DN racine de l'arbre groupes",

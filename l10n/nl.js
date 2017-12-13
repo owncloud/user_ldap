@@ -129,6 +129,7 @@ OC.L10N.register(
     "One User Base DN per line" : "Een User Base DN per regel",
     "User Search Attributes" : "Attributen voor gebruikerszoekopdrachten",
     "Optional; one attribute per line" : "Optioneel; één attribuut per regel",
+    "Each attribute value is truncated to 191 characters" : "Iedere attribuut waarde is afgekapt tot 191 tekens",
     "Group Display Name Field" : "Groep Schermnaam Veld",
     "The LDAP attribute to use to generate the groups's display name." : "Het te gebruiken LDAP attribuut voor het genereren van de weergavenaam voor de groepen.",
     "Base Group Tree" : "Basis groepsstructuur",

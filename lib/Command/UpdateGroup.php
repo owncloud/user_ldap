@@ -32,14 +32,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\LDAP;
 use \OCA\User_LDAP\Group_Proxy;
-use \OCA\User_LDAP\Mapping\GroupMapping;
 use \OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class UpdateGroup extends Command {
 
+	const ERROR_CODE_OK = 0;
 	const ERROR_CODE_MISSING_CONF = 1;
 	const ERROR_CODE_MISSING_MAPPING = 2;
+
+	/**
+	 * @var IDBConnection
+	 */
+	private $connection;
+	/**
+	 * @var LDAP
+	 */
+	private $ldap;
+	/**
+	 * @var Helper
+	 */
+	private $helper;
 
 	public function __construct(LDAP $ldap, Helper $helper, IDBConnection $connection) {
 		$this->connection = $connection;
@@ -120,6 +133,7 @@ class UpdateGroup extends Command {
 				}
 			}
 		}
+		return self::ERROR_CODE_OK;
 	}
 
 
@@ -159,7 +173,6 @@ class UpdateGroup extends Command {
 	 */
 	private function updateGroupMapping($groupName, $userList) {
 		$query = $this->connection->getQueryBuilder();
-		$needToInsert = false;
 		$result = $query->select('*')
 			->from('ldap_group_members')
 			->where($query->expr()->eq('owncloudname', $query->createParameter('group')))

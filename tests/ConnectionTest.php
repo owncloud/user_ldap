@@ -33,10 +33,10 @@ use OCA\User_LDAP\Connection;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject  */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var  Connection|\PHPUnit_Framework_MockObject_MockObject */
 	protected $connection;
 
 	public function setUp() {

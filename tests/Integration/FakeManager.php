@@ -22,6 +22,8 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
+use OCP\IConfig;
+
 /**
  * Class FakeManager
  *
@@ -30,8 +32,11 @@ namespace OCA\User_LDAP\Tests\Integration;
  * scope of these tests, we replace it with a mock.
  */
 class FakeManager extends \OCA\User_LDAP\User\Manager {
+
+	/** @var IConfig */
+	protected $ocConfig;
+
 	public function __construct() {
 		$this->ocConfig = \OC::$server->getConfig();
-		$this->image = new \OCP\Image();
 	}
 }

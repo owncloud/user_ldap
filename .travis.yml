@@ -34,7 +34,6 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 before_install:
-  - if [ $(phpenv version-name) = "7.0" ]; then echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
   - php --version
   - php --info
   - composer install
@@ -56,6 +55,9 @@ script:
   - if [ $(phpenv version-name) != "7.1" ] ; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover clover.xml ; fi
 
   - sh -c "if [ '$INTEGRATION' = '1' ]; then tests/Integration/autotest.sh; fi"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 matrix:
   include:

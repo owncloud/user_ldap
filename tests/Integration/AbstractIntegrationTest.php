@@ -108,7 +108,6 @@ abstract class AbstractIntegrationTest {
 
 	/**
 	 * initializes an LDAP user manager instance
-	 * @return Manager
 	 */
 	protected function initUserManager() {
 		$this->userManager = new FakeManager();
@@ -118,7 +117,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager);
+		$this->access = new Access($this->connection, $this->userManager);
 	}
 
 	/**

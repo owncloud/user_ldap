@@ -53,13 +53,12 @@ $con->setIgnoreValidation(true);
 $userManager = new \OCA\User_LDAP\User\Manager(
 	\OC::$server->getConfig(),
 	new \OCA\User_LDAP\FilesystemHelper(),
-	new \OCA\User_LDAP\LogWrapper(),
+	\OC::$server->getLogger(),
 	\OC::$server->getAvatarManager(),
-	new \OCP\Image(),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserManager());
 
-$access = new \OCA\User_LDAP\Access($con, $ldapWrapper, $userManager);
+$access = new \OCA\User_LDAP\Access($con, $userManager);
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 

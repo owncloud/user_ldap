@@ -129,6 +129,7 @@ OC.L10N.register(
     "One User Base DN per line" : "Ένα DN βάσης χρηστών ανά γραμμή",
     "User Search Attributes" : "Χαρακτηριστικά αναζήτησης των χρηστών ",
     "Optional; one attribute per line" : "Προαιρετικά? Ένα χαρακτηριστικό ανά γραμμή ",
+    "Each attribute value is truncated to 191 characters" : "Κάθε τιμή χαρακτηριστικού περικόπτεται σε 191 χαρακτήρες",
     "Group Display Name Field" : "Group Display Name Field",
     "The LDAP attribute to use to generate the groups's display name." : "Η ιδιότητα LDAP προς χρήση για δημιουργία του προβαλλόμενου ονόματος ομάδας.",
     "Base Group Tree" : "Base Group Tree",

@@ -57,7 +57,7 @@ abstract class Proxy {
 	private function addAccess($configPrefix) {
 		static $ocConfig;
 		static $fs;
-		static $log;
+		static $logger;
 		static $avatarM;
 		static $userMap;
 		static $groupMap;
@@ -66,7 +66,7 @@ abstract class Proxy {
 		if(is_null($fs)) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
-			$log      = new LogWrapper();
+			$logger   = \OC::$server->getLogger();
 			$avatarM  = \OC::$server->getAvatarManager();
 			$db       = \OC::$server->getDatabaseConnection();
 			$userMap  = new UserMapping($db);
@@ -74,9 +74,9 @@ abstract class Proxy {
 			$coreUserManager = \OC::$server->getUserManager();
 		}
 		$userManager =
-			new Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db, $coreUserManager);
+			new Manager($ocConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager);
+		$access = new Access($connector, $userManager);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;
@@ -84,7 +84,7 @@ abstract class Proxy {
 
 	/**
 	 * @param string $configPrefix
-	 * @return mixed
+	 * @return Access
 	 */
 	protected function getAccess($configPrefix) {
 		if(!isset(self::$accesses[$configPrefix])) {
@@ -135,10 +135,10 @@ abstract class Proxy {
 	 * @return mixed, the result of the specified method
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
-		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
+		$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
 		if($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
-		}
+		}// FIXME return null if result is false ... the user then is unknown. Exception?
 		return $result;
 	}
 
