@@ -1,10 +1,15 @@
 <?xml version="1.0"?>
 <info>
 	<id>user_ldap</id>
-	<name>LDAP user and group backend</name>
-	<description>This application enables administrators to connect ownCloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into ownCloud from a directory with the appropriate queries and filters.
+	<name>LDAP Integration</name>
+	<summary>Integrate LDAP user directories</summary>
+	<description>
+Looking to leverage your LDAP-based user directory? ownCloud perfectly integrates with existing infrastructure making professional user management a breeze. With centrally managed directories users can just use their account credentials for ownCloud as with any other service that is provided. Simultaneously IT is relieved as there is no need to care about different user accounts for specific services. Just connect ownCloud to a user directory and you're good to go!
 
-A user logs into ownCloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. ownCloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then ownCloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
+This application enables administrators to connect ownCloud to an LDAP-based user directory for authenticating and provisioning users, groups and user attributes. Administrators can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into ownCloud from a directory with the appropriate queries and filters.
+
+A user logs into ownCloud with their LDAP/AD credentials, and is granted access based on an authentication request handled by the LDAP/AD server. ownCloud does not store LDAP/AD passwords, rather these credentials are used to authenticate a user. ownCloud then uses a session for the user ID. 
+More information is available in the [LDAP User and Group Backend documentation](https://doc.owncloud.com/server/latest/admin_manual/configuration/user/user_auth_ldap.html).
 
 	</description>
 	<licence>AGPL</licence>
@@ -14,7 +19,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 		<authentication/>
 	</types>
 	<documentation>
-		<admin>admin-ldap</admin>
+		<admin>https://doc.owncloud.com/server/latest/admin_manual/configuration/user/user_auth_ldap.html</admin>
 	</documentation>
 	<category>integration</category>
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/0527af6b981603f3410982c2ed70051b7cf991c3/user_ldap/user_ldap.png</screenshot>
