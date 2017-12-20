@@ -33,6 +33,7 @@ branches:
   only:
     - master
     - /^stable\d+(\.\d+)?$/
+    - /^release\/.*$/
 
 before_install:
   - php --version
