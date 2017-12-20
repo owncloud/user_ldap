@@ -15,8 +15,8 @@ BOWER=$(NODE_PREFIX)/node_modules/bower/bin/bower
 JSDOC=$(NODE_PREFIX)/node_modules/.bin/jsdoc
 
 app_name=$(notdir $(CURDIR))
-ldap_doc_files=LICENSE README.md
-ldap_src_dirs=ajax appinfo css img js lib templates vendor
+ldap_doc_files=LICENSE README.md CHANGELOG.md
+ldap_src_dirs=ajax appinfo css img js lib l10n templates vendor
 ldap_all_src=$(ldap_src_dirs) $(ldap_doc_files)
 build_dir=$(CURDIR)/build
 dist_dir=$(build_dir)/dist
