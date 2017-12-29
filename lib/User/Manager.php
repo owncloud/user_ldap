@@ -362,28 +362,13 @@ class Manager {
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
-		if ($intName !== '' && !\OCP\User::userExists($intName)) {
-			$this->logger->debug(
-				'creating new mapping for {name}, uuid {uuid}, dn {dn}',
-				[
-					'app'  => __METHOD__,
-					'name' => $intName,
-					'uuid' => $uuid,
-					'dn'   => $dn
-				]
-			);
-			if ($mapper->map($dn, $intName, $uuid)) {
+		if($intName !== '' && $this->access->shouldMapToUsername($intName)) {
+			if($mapper->map($dn, $intName, $uuid)) {
 				return $intName;
 			}
 		}
 
-		// FIXME move to a better place, naming related. eg DistinguishedNameUtils
-		$altName = $this->access->createAltInternalOwnCloudName($intName, true);
-		if (\is_string($altName) && $mapper->map($dn, $altName, $uuid)) {
-			return $altName;
-		}
-
-		throw new \OutOfBoundsException("Could not create unique name for $dn.");
+		throw new \OutOfBoundsException("Mapping collision for DN $dn and UUID $uuid. Couldnt map to: $intName");
 	}
 
 	/**

@@ -606,25 +606,39 @@ class Access implements IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		// FIXME DI User and Group Managers
-		if (($isUser && !\OC::$server->getUserManager()->userExists($intName))
+		if(($isUser && $this->shouldMapToUsername($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
-			if ($mapper->map($fdn, $intName, $uuid)) {
+			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud UUID: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
+			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 				return $intName;
 			}
 		}
 		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+		\OC::$server->getLogger()->error("Mapping collision for DN $fdn and UUID $uuid. Couldn't map to: $intName", ['app' => 'user_ldap']);
+		//if everything else did not help..
+		return false;
+	}
 
-		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (\is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			return $altName;
+	/**
+	 * Determines if we should store a mapping to this ownCloud account or not
+	 * @param $username
+	 * @return bool
+	 */
+	public function shouldMapToUsername($username) {
+		$user = \OC::$server->getUserManager()->get($username);
+		if($user === null) {
+			\OC::$server->getLogger()->info("No account exists with username: $username so cannot reuse mapping", ['app' => 'user_ldap']);
+			// No account exists with this username, use this mapping
+			return true;
+		}
+		if($user->getBackendClassName() === 'LDAP') {
+			// Account with same username exists, and matching backend, we can use this - merge
+			return true;
 		}
 
-		//if everything else did not help..
-		\OC::$server->getLogger()->error(
-			"Could not create unique name for $fdn.",
-			['app' => 'user_ldap']);
+		// Account exists, but is from a different backend, don't use this mapping!
+		\OC::$server->getLogger()->error("Cannot reuse account with username: $username because it is from a different backend: {$user->getBackendClassName()}", ['app' => 'user_ldap']);
 		return false;
 	}
 
@@ -702,87 +716,8 @@ class Access implements IUserTools {
 		$this->connection->writeToCache("userExists$ocName", true);
 	}
 
-	/**
-	 * creates a unique name for internal ownCloud use for users. Don't call it directly.
-	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
-	 *
-	 * Instead of using this method directly, call
-	 * createAltInternalOwnCloudName($name, true)
-	 */
-	private function _createAltInternalOwnCloudNameForUsers($name) {
-		$attempts = 0;
-		//while loop is just a precaution. If a name is not generated within
-		//20 attempts, something else is very wrong. Avoids infinite loop.
-		while ($attempts < 20) {
-			$altName = "{$name}_" . \mt_rand(1000, 9999);
-			if (!\OC::$server->getUserManager()->userExists($altName)) {
-				return $altName;
-			}
-			$attempts++;
-		}
-		return false;
-	}
 
-	/**
-	 * creates a unique name for internal ownCloud use for groups. Don't call it directly.
-	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful.
-	 *
-	 * Instead of using this method directly, call
-	 * createAltInternalOwnCloudName($name, false)
-	 *
-	 * Group names are also used as display names, so we do a sequential
-	 * numbering, e.g. Developers_42 when there are 41 other groups called
-	 * "Developers"
-	 */
-	private function _createAltInternalOwnCloudNameForGroups($name) {
-		$usedNames = $this->groupMapper->getNamesBySearch($name, '', '_%');
-		if (!$usedNames || \count($usedNames) === 0) {
-			$lastNo = 1; //will become name_2
-		} else {
-			\natsort($usedNames);
-			$lastName = \array_pop($usedNames);
-			$lastNo = (int)\substr($lastName, \strrpos($lastName, '_') + 1);
-		}
-		$altName = "{$name}_" . (string)($lastNo+1);
-		unset($usedNames);
-
-		$attempts = 1;
-		while ($attempts < 21) {
-			// Check to be really sure it is unique
-			// while loop is just a precaution. If a name is not generated within
-			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if (!\OC::$server->getGroupManager()->groupExists($altName)) {
-				return $altName;
-			}
-			$altName = "{$name}_" . ($lastNo + $attempts);
-			$attempts++;
-		}
-		return false;
-	}
-
-	/**
-	 * FIXME was private
-	 * creates a unique name for internal ownCloud use.
-	 * @param string $name the display name of the object
-	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
-	 */
-	public function createAltInternalOwnCloudName($name, $isUser) {
-		$originalTTL = $this->connection->ldapCacheTTL;
-		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if ($isUser) {
-			$altName = $this->_createAltInternalOwnCloudNameForUsers($name);
-		} else {
-			$altName = $this->_createAltInternalOwnCloudNameForGroups($name);
-		}
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-
-		return $altName;
-	}
-
-	/**
+	/*
 	 * fetches a list of users according to a provided loginName and utilizing
 	 * the login filter.
 	 *
