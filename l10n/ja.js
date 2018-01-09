@@ -143,7 +143,7 @@ OC.L10N.register(
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "ページ分割サイズは、LDAP検索時にユーザーやグループのリスト一覧データを一括で返すデータ量を指定します。(設定が0の場合には、LDAP検索の分割転送は無効)",
     "Special Attributes" : "特殊属性",
     "Quota Field" : "クォータ属性",
-    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "空のままにするとユーザのデフォルトクオータになります。もしくは、LDAPもしくはADの属性を指定してください。",
+    "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "空のままにするとユーザーのデフォルトクオータになります。もしくは、LDAPもしくはADの属性を指定してください。",
     "Quota Default" : "クォータのデフォルト",
     "Email Field" : "メール属性",
     "User Home Folder Naming Rule" : "ユーザーのホームフォルダー命名規則",
@@ -156,7 +156,7 @@ OC.L10N.register(
     "UUID Attribute for Users:" : "ユーザーのUUID属性:",
     "UUID Attribute for Groups:" : "グループの UUID 属性:",
     "Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピング",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ユーザー名は(メタ)データの保存と割り当てに使用されます。ユーザーを正確に識別して認識するために、個々のLDAPユーザは内部ユーザ名を持っています。これは、ユーザー名からLDAPユーザーへのマッピングが必要であることを意味しています。この生成されたユーザ名は、LDAPユーザーのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザー名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、すべてのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。",
+    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ユーザー名は(メタ)データの保存と割り当てに使用されます。ユーザーを正確に識別して認識するために、個々のLDAPユーザーは内部ユーザ名を持っています。これは、ユーザー名からLDAPユーザーへのマッピングが必要であることを意味しています。この生成されたユーザー名は、LDAPユーザーのUUIDにマッピングされます。加えて、DNがLDAPとのインタラクションを削減するためにキャッシュされますが、識別には利用されません。DNが変わった場合は、変更が検出されます。内部ユーザー名は全体に亘って利用されます。マッピングをクリアすると、いたるところに使われないままの物が残るでしょう。マッピングのクリアは設定に敏感ではありませんが、すべてのLDAPの設定に影響を与えます！本番の環境では決してマッピングをクリアしないでください。テストもしくは実験の段階でのみマッピングのクリアを行なってください。",
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
     "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする"
 },
