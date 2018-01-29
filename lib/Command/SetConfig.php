@@ -60,6 +60,7 @@ class SetConfig extends Command {
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if(!in_array($configID, $availableConfigs)) {
+			var_dump($availableConfigs);
 			$output->writeln("Invalid configID");
 			return;
 		}

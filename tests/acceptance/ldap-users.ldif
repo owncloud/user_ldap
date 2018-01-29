@@ -1,0 +1,103 @@
+# Entry 1: ou=TestGroups,dc=owncloud,dc=com
+dn: ou=TestGroups,dc=owncloud,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: TestGroups
+
+# Entry 2: cn=grp1,ou=Armies,dc=owncloud,dc=com
+dn: cn=grp1,ou=TestGroups,dc=owncloud,dc=com
+cn: grp1
+gidnumber: 500
+memberuid: user1
+memberuid: user2
+objectclass: top
+objectclass: posixGroup
+
+# Entry 3: ou=TestUsers,dc=owncloud,dc=com
+dn: ou=TestUsers,dc=owncloud,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: TestUsers
+
+dn: uid=regularuser,ou=TestUsers,dc=owncloud,dc=com
+cn: Regular User
+displayname: Regular User
+gecos: Regular User
+gidnumber: 5000
+givenname: Regular
+homedirectory: /home/openldap/regularuser
+loginshell: /bin/bash
+mail: regularuser@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: Rosler
+uid: regularuser
+uidnumber: 30000
+userpassword: 123456
+
+dn: uid=user1,ou=TestUsers,dc=owncloud,dc=com
+cn: User1
+displayname: User One
+gecos: User1
+gidnumber: 5000
+givenname: User1
+homedirectory: /home/openldap/user1
+loginshell: /bin/bash
+mail: user1@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: Rosler
+uid: user1
+uidnumber: 30001
+userpassword: 1234
+
+
+dn: uid=user2,ou=TestUsers,dc=owncloud,dc=com
+cn: User2
+displayname: User Two
+gecos: User2
+gidnumber: 5000
+givenname: User2
+homedirectory: /home/openldap/user2
+loginshell: /bin/bash
+mail: user2@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: Rosler
+uid: user2
+uidnumber: 30002
+userpassword: 1234
+
+
+dn: uid=user3,ou=TestUsers,dc=owncloud,dc=com
+cn: User3
+displayname: User Three
+gecos: User3
+gidnumber: 5000
+givenname: User3
+homedirectory: /home/openldap/user3
+loginshell: /bin/bash
+mail: user3@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: Rosler
+uid: user3
+uidnumber: 30003
+userpassword: 1234
+
+
+dn: uid=user4,ou=TestUsers,dc=owncloud,dc=com
+cn: User4
+displayname: User Four
+gecos: User4
+gidnumber: 5000
+givenname: User4
+homedirectory: /home/openldap/user4
+loginshell: /bin/bash
+mail: user4@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+sn: Rosler
+uid: user4
+uidnumber: 30004
+userpassword: 1234
