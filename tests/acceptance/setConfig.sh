@@ -29,4 +29,5 @@ configID="LDAPTestId"
 ./occ ldap:set-config  "$configID" ldapUuidUserAttribute         "auto"
 ./occ ldap:set-config  "$configID" turnOffCertCheck              "0"
 ./occ ldap:set-config  "$configID" useMemberOfToDetectMembership "1"
+./occ ldap:set-config  "$configID" ldapConfigurationActive       "1"
 
