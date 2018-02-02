@@ -87,7 +87,7 @@ $(BOWER): $(nodejs_deps)
 $(JSDOC): $(nodejs_deps)
 
 $(bower_deps): $(BOWER)
-	$(BOWER) install && touch $@
+	$(BOWER) install --allow-root && touch $@
 
 #
 # dist
