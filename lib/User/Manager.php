@@ -330,63 +330,6 @@ class Manager {
 	}
 
 	/**
-	 * update the quota for the user account
-	 *
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateQuota(UserEntry $userEntry, IUser $targetUser) {
-		$newQuota = $userEntry->getQuota();
-		if ($newQuota !== false) { // only update if we get a value
-			$targetUser->setQuota($newQuota);
-		}
-	}
-
-	/**
-	 * update the email address for the user account
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateEmail(UserEntry $userEntry, IUser $targetUser) {
-		$newEmail = $userEntry->getEMailAddress();
-		try {
-			$targetUser->setEMailAddress($newEmail);
-		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-			$this->logger->warning('Can\'t set email [' . $newEmail .'] for user ['. $userEntry->getOwnCloudUID() .']. Trying to set as empty email', ['app' => self::class]);
-			try {
-				$targetUser->setEMailAddress(null);
-			} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-				$this->logger->error('Can\'t set email [' . $newEmail .'] nor making it empty for user ['. $userEntry->getOwnCloudUID() .']', ['app' => self::class]);
-			}
-		}
-	}
-
-	/**
-	 * update the display name for the user account
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateDisplayName(UserEntry $userEntry, IUser $targetUser) {
-		$newDisplayName = $userEntry->getDisplayName();
-		if ($newDisplayName !== '') {
-			$targetUser->setDisplayName($newDisplayName);
-		}
-	}
-
-	/**
-	 * updates the ownCloud accounts table search string as calculated from LDAP
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateSearchAttributes($userEntry, $targetUser) {
-		$searchTerms = $userEntry->getSearchTerms();
-		// If we have a value, which is different to the current, then let's update the accounts table
-		if (array_diff($searchTerms, $targetUser->getSearchTerms())) {
-			$targetUser->setSearchTerms($searchTerms);
-		}
-	}
-
-	/**
 	 * updates the ownCloud accounts table search string as calculated from LDAP
 	 * @param UserEntry $userEntry
 	 */
