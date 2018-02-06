@@ -332,16 +332,17 @@ class Manager {
 	/**
 	 * TODO sync in core
 	 * @param UserEntry $userEntry
+	 * @param string $password
 	 * @return bool
 	 */
-	public function updateAccount (UserEntry $userEntry) {
+	public function updateAccount (UserEntry $userEntry, $password) {
 		$targetUser = $this->userManager->get($userEntry->getOwnCloudUID());
 		if (!$targetUser) {
 			$this->logger->debug('Trying to update non existing user ' . $userEntry->getOwnCloudUID() . ', creating new account.', ['app' => self::class]);
 			// FIXME we don't hold a reference so we need to pull out the proxy back from the registered user backends...
 			foreach ($this->userManager->getBackends() as $backend) {
 				if ($backend instanceof User_Proxy) {
-					$this->userManager->createUserFromBackend($userEntry->getOwnCloudUID(), null, $backend);
+					$this->userManager->createUserFromBackend($userEntry->getOwnCloudUID(), $password, $backend);
 					return true;
 				}
 			}
