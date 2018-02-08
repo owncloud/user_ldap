@@ -88,7 +88,7 @@ abstract class AbstractIntegrationTest {
 	 */
 	protected function initConnection() {
 		// use the defaults to make sure we don't use any remnants
-		$defaults = (new Configuration())->getDefaults();
+		$defaults = (new Configuration(""))->getDefaults();
 		$this->connection = new Connection($this->ldap, 'test');
 		$this->connection->setConfiguration($defaults);
 		$this->connection->setConfiguration([

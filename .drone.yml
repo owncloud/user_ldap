@@ -18,6 +18,22 @@ pipeline:
       - /entrypoint.sh
       - slapadd -F /etc/ldap/slapd.d -l /var/www/owncloud/apps/user_ldap/tests/acceptance/ldap-users.ldif
       - slapd -d 32768 -u openldap -g openldap
+    when:
+      matrix:
+        TEST_SUITE: acceptance
+
+  ldap:
+    image: dinkel/openldap
+    detach: true
+    pull: true
+    environment:
+      - SLAPD_DOMAIN=owncloud.com
+      - SLAPD_ORGANIZATION=ownCloud
+      - SLAPD_PASSWORD=admin
+      - SLAPD_ADDITIONAL_MODULES=memberof
+    when:
+      matrix:
+        TEST_SUITE: integration
 
   install-server:
     image: owncloudci/core
@@ -38,6 +54,7 @@ pipeline:
 
   install-app:
     image: owncloudci/php:latest
+    pull: true
     commands:
       - cd /var/www/owncloud/apps/user_ldap
       - make
@@ -49,12 +66,21 @@ pipeline:
       - php occ config:system:set trusted_domains 1 --value=server
       - php occ config:system:set trusted_domains 2 --value=federated
       - php occ log:manage --level 0
+
+  ldap-config-for-acceptance-tests:
+    image: owncloudci/php:latest
+    pull: true
+    commands:
+      - cd /var/www/owncloud/
       - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
       - php occ ldap:show-config
       - php occ ldap:test-config "LDAPTestId"
       - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+    when:
+      matrix:
+        TEST_SUITE: acceptance
 
-  run-tests:
+  run-acceptance-tests:
     image: owncloudci/php:latest
     pull: true
     environment:
@@ -76,6 +102,20 @@ pipeline:
       - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
       - chmod 777 /var/www/owncloud/tests/ui/filesForUpload -R
       - bash tests/travis/start_ui_tests.sh --remote --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
+    when:
+      matrix:
+        TEST_SUITE: acceptance
+
+  run-integration-tests:
+    image: owncloudci/php:latest
+    pull: true
+    environment:
+      - LDAP_HOST=ldap
+    commands:
+      - php -f ./tests/Integration/Lib/${INTEGRATION_TEST_SCRIPT}
+    when:
+      matrix:
+        TEST_SUITE: integration
 
 services:
   server:
@@ -83,18 +123,27 @@ services:
     pull: true
     environment:
       - APACHE_WEBROOT=/var/www/owncloud/
-    command: [ "/usr/local/bin/apachectl", "-e debug" , "-DFOREGROUND" ]
+    command: [ "/usr/local/bin/apachectl", "-e", "debug" , "-D" , "FOREGROUND" ]
+    when:
+      matrix:
+        TEST_SUITE: acceptance
 
   federated:
     image: owncloudci/php:latest
     pull: true
     environment:
       - APACHE_WEBROOT=/var/www/owncloud/
-    command: [ "/usr/local/bin/apachectl", "-e debug" , "-DFOREGROUND" ]
+    command: [ "/usr/local/bin/apachectl", "-e", "debug" , "-D" , "FOREGROUND" ]
+    when:
+      matrix:
+        TEST_SUITE: acceptance
 
   selenium:
     image: selenium/standalone-chrome-debug:latest
     pull: true
+    when:
+      matrix:
+        TEST_SUITE: acceptance
 
   mysql:
     image: mysql:5.5
@@ -105,6 +154,76 @@ services:
       - MYSQL_ROOT_PASSWORD=owncloud
 
 matrix:
-  OC_VERSION:
-    - daily-master-qa
-    - daily-stable10-qa
+  include:
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: acceptance
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: acceptance
+
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
+   - OC_VERSION: daily-master-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
+
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
+   - OC_VERSION: daily-stable10-qa
+     TEST_SUITE: integration
+     INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
