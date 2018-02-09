@@ -1,0 +1,110 @@
+workspace:
+  base: /var/www/owncloud
+  path: apps/user_ldap
+
+branches: [master]
+
+pipeline:
+  ldap:
+    image: dinkel/openldap
+    detach: true
+    pull: true
+    environment:
+      - SLAPD_DOMAIN=owncloud.com
+      - SLAPD_ORGANIZATION=ownCloud
+      - SLAPD_PASSWORD=admin
+      - SLAPD_ADDITIONAL_MODULES=memberof
+    commands:
+      - /entrypoint.sh
+      - slapadd -F /etc/ldap/slapd.d -l /var/www/owncloud/apps/user_ldap/tests/acceptance/ldap-users.ldif
+      - slapd -d 32768 -u openldap -g openldap
+
+  install-server:
+    image: owncloudci/core
+    pull: true
+    version: ${OC_VERSION}
+    db_type: mysql
+    db_name: owncloud
+    db_host: mysql:3306
+    db_username: owncloud
+    db_password: owncloud
+
+  owncloud-log:
+    image: owncloud/ubuntu:16.04
+    detach: true
+    pull: true
+    commands:
+      - tail -f /var/www/owncloud/data/owncloud.log
+
+  install-app:
+    image: owncloudci/php:latest
+    commands:
+      - cd /var/www/owncloud/apps/user_ldap
+      - make
+      - cd /var/www/owncloud/
+      - php occ a:l
+      - php occ a:e user_ldap
+      - php occ a:e testing
+      - php occ a:l
+      - php occ config:system:set trusted_domains 1 --value=server
+      - php occ config:system:set trusted_domains 2 --value=federated
+      - php occ log:manage --level 0
+      - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+      - php occ ldap:show-config
+      - php occ ldap:test-config "LDAPTestId"
+      - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+
+  run-tests:
+    image: owncloudci/php:latest
+    pull: true
+    environment:
+      - BROWSER=chrome #chrome or firefox
+      - SELENIUM_HOST=selenium
+      - SRV_HOST_NAME=server
+      - SRV_HOST_PORT=80
+      - REMOTE_FED_SRV_HOST_NAME=federated
+      - REMOTE_FED_SRV_HOST_PORT=80
+      - SKELETON_DIR=/var/www/owncloud/tests/ui/skeleton
+      - SELENIUM_PORT=4444
+      - PLATFORM=Linux
+      - TEST_EXTERNAL_USER_BACKENDS=true
+    commands:
+      - cd /var/www/owncloud
+      - chown www-data * -R
+      - chmod +x lib/composer/behat/behat/bin/behat
+      - rm lib/composer/bin/behat
+      - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
+      - chmod 777 /var/www/owncloud/tests/ui/filesForUpload -R
+      - bash tests/travis/start_ui_tests.sh --remote --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
+
+services:
+  server:
+    image: owncloudci/php:latest
+    pull: true
+    environment:
+      - APACHE_WEBROOT=/var/www/owncloud/
+    command: [ "/usr/local/bin/apachectl", "-e debug" , "-DFOREGROUND" ]
+
+  federated:
+    image: owncloudci/php:latest
+    pull: true
+    environment:
+      - APACHE_WEBROOT=/var/www/owncloud/
+    command: [ "/usr/local/bin/apachectl", "-e debug" , "-DFOREGROUND" ]
+
+  selenium:
+    image: selenium/standalone-chrome-debug:latest
+    pull: true
+
+  mysql:
+    image: mysql:5.5
+    environment:
+      - MYSQL_USER=owncloud
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=owncloud
+      - MYSQL_ROOT_PASSWORD=owncloud
+
+matrix:
+  OC_VERSION:
+    - daily-master-qa
+    - daily-stable10-qa
