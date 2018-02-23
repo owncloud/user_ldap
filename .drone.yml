@@ -2,6 +2,7 @@ workspace:
   base: /var/www/owncloud
   path: apps/user_ldap
 
+
 branches: [master]
 
 pipeline:
