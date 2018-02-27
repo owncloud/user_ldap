@@ -206,6 +206,12 @@ matrix:
      NEED_INSTAL_APP: true
      
    - TEST_SUITE: phpunit
+     PHP_VERSION: 7.0
+     OC_VERSION: daily-stable10-qa
+     NEED_SERVER: true
+     NEED_INSTAL_APP: true
+
+   - TEST_SUITE: phpunit
      PHP_VERSION: 5.6
      OC_VERSION: daily-stable10-qa
      NEED_SERVER: true
