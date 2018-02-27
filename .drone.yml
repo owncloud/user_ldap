@@ -44,6 +44,9 @@ pipeline:
     db_host: mysql:3306
     db_username: owncloud
     db_password: owncloud
+    when:
+      matrix:
+        NEED_SERVER: true
 
   owncloud-log:
     image: owncloud/ubuntu:16.04
@@ -53,7 +56,7 @@ pipeline:
       - tail -f /var/www/owncloud/data/owncloud.log
 
   install-app:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     commands:
       - cd /var/www/owncloud/apps/user_ldap
@@ -66,9 +69,12 @@ pipeline:
       - php occ config:system:set trusted_domains 1 --value=server
       - php occ config:system:set trusted_domains 2 --value=federated
       - php occ log:manage --level 0
+    when:
+      matrix:
+        NEED_INSTALL_APP: true
 
   ldap-config-for-acceptance-tests:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     commands:
       - cd /var/www/owncloud/
@@ -81,7 +87,7 @@ pipeline:
         TEST_SUITE: acceptance
 
   run-acceptance-tests:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
       - BROWSER=chrome #chrome or firefox
@@ -107,7 +113,7 @@ pipeline:
         TEST_SUITE: acceptance
 
   run-integration-tests:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
       - LDAP_HOST=ldap
@@ -117,9 +123,44 @@ pipeline:
       matrix:
         TEST_SUITE: integration
 
+  lint-test:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      - cd /var/www/owncloud/apps/user_ldap
+      - make
+      - vendor/bin/parallel-lint  --exclude vendor .
+    when:
+      matrix:
+        TEST_SUITE: lint
+
+  phpunit-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      - cd /var/www/owncloud
+      - chmod +x lib/composer/phpunit/phpunit/phpunit
+      - rm lib/composer/bin/phpunit
+      - ln -s ../phpunit/phpunit/phpunit lib/composer/bin/phpunit
+      - phpdbg -d memory_limit=4096M -rr ./lib/composer/bin/phpunit --configuration apps/user_ldap/phpunit.xml
+    when:
+      matrix:
+        TEST_SUITE: phpunit
+
+  codecov:
+    image: robertstettner/drone-codecov
+    pull: true
+    files:
+      - apps/user_ldap/clover.xml
+    token: 5cbb8f63-f748-48a7-b28c-d71ca069e823
+    when:
+      matrix:
+        TEST_SUITE: phpunit
+        PHP_VERSION: 7.1
+
 services:
   server:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
       - APACHE_WEBROOT=/var/www/owncloud/
@@ -129,7 +170,7 @@ services:
         TEST_SUITE: acceptance
 
   federated:
-    image: owncloudci/php:latest
+    image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
       - APACHE_WEBROOT=/var/www/owncloud/
@@ -155,75 +196,205 @@ services:
 
 matrix:
   include:
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: acceptance
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: acceptance
+#syntax lint check
+   - TEST_SUITE: lint
+     PHP_VERSION: 7.1
+     NEED_SERVER: false
+     NEED_INSTALL_APP: false
+   - TEST_SUITE: lint
+     PHP_VERSION: 5.6
+     NEED_SERVER: false
+     NEED_INSTALL_APP: false
+     
+#unit tests
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.1
+     OC_VERSION: daily-master-qa
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.0
+     OC_VERSION: daily-stable10-qa
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
 
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
-   - OC_VERSION: daily-master-qa
-     TEST_SUITE: integration
-     INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 5.6
+     OC_VERSION: daily-stable10-qa
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
 
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+#acceptance tests
+   - TEST_SUITE: acceptance
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+#integration tests
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
-   - OC_VERSION: daily-stable10-qa
-     TEST_SUITE: integration
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: integration
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true

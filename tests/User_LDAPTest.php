@@ -37,6 +37,7 @@ use OCP\IConfig;
  * Class Test_User_Ldap_Direct
  *
  * @package OCA\User_LDAP\Tests
+ * @group DB
  */
 class User_LDAPTest extends \Test\TestCase {
 	/**
