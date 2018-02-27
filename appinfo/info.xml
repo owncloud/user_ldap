@@ -26,7 +26,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/0527af6b981603f3410982c2ed70051b7cf991c3/user_ldap/user_ldap.png</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
-		<owncloud min-version="10.0.3" max-version="10.0.99" />
+		<owncloud min-version="10.0.3" max-version="10.1" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>
