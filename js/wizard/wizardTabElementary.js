@@ -41,6 +41,12 @@ OCA = OCA || {};
 					setMethod: 'setPort',
 					$relatedElements: $('.ldapDetectPort')
 				},
+				ldap_vendor: {
+					$element: $('#ldap_vendor'),
+					setMethod: 'setVendor',
+					keyName: 'ldap_vendor',
+					featureName: 'DetectVendor'
+				},
 				ldap_dn: {
 					$element: $('#ldap_dn'),
 					setMethod: 'setAgentDN'
@@ -97,6 +103,13 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * returns managed item for the vendor
+		 */
+		getVendorItem: function () {
+			return this.managedItems.ldap_vendor;
+		},
+
+		/**
 		 * updates the host configuration text field
 		 *
 		 * @param {string} host
@@ -117,6 +130,19 @@ OCA = OCA || {};
 		 */
 		setPort: function(port) {
 			this.setElementValue(this.managedItems.ldap_port.$element, port);
+			this.considerFeatureRequests();
+		},
+
+		/**
+		 * updates the port configuration text field
+		 *
+		 * @param {string} vendor
+		 */
+		setVendor: function(vendor) {
+			var vendorString = (vendor.name || t('user_ldap', 'Unknown vendor'))
+				+ ' | '
+				+ (vendor.version || t('user_ldap', 'Unknown version'));
+			this.setElementValue(this.managedItems.ldap_vendor.$element, vendorString);
 		},
 
 		/**
@@ -167,6 +193,24 @@ OCA = OCA || {};
 			);
 		},
 
+		/**
+		 * @inheritdoc
+		 */
+		considerFeatureRequests: function() {
+			if(!this.isActive) {
+				return;
+			}
+			/*
+			if(this.getHost().$element.find('option').length === 0) {
+				this.disableElement(this.getObjectClassItem().$element);
+				this.disableElement(this.getGroupsItem().$element);
+				if(this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED) {
+				*/
+					this.configModel.requestWizard(this.getVendorItem().keyName);
+					/*
+				}
+			}*/
+		},
 		/**
 		 * @inheritdoc
 		 */
@@ -287,6 +331,8 @@ OCA = OCA || {};
 					}
 				}
 				OC.Notification.showTemporary(message);
+			} else if (payload.feature === view.getVendorItem().featureName) {
+				view.setVendor(payload.data);
 			}
 		},
 

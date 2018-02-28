@@ -79,6 +79,38 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	public function detectVendor() {
+		if(!$this->checkRequirements(['ldapHost','ldapPort'])) {
+			return  false;
+		}
+		$res = $this->access->executeRead(
+			$this->access->getConnection()->getConnectionResource(),
+			'',
+			['objectclass', 'vendorName', 'vendorVersion', 'orcldirectoryversion', 'isGlobalCatalogReady'],
+			'objectClass=*',
+			1
+		);
+		$name = null;
+		$version = null;
+		if (isset($res['vendorname'][0])) {
+			$name = $res['vendorname'][0];
+		}
+		if (isset($res['vendorversion'][0])) {
+			$version = $res['vendorversion'][0];
+		}
+		if ($version === null && isset($res['objectclass'][1]) && $res['objectclass'][1] === 'OpenLDAProotDSE') {
+			$version = 'OpenLDAP';
+		}
+		if ($version === null && isset($res['isglobalcatalogready'][0])) {
+			$name = 'Microsoft';
+			$version = 'Active Directory';
+		}
+
+		$this->result->addOptions('ldap_vendor', ['name' => $name, 'version' => $version ]);
+		//$this->result->addOptions('ldap_vendor', ['name' => 'somename', 'version' => 'semover 1.2.3' ]);
+		return $this->result;
+	}
+
 	/**
 	 * counts entries in the LDAP directory
 	 *

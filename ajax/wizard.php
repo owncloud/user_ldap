@@ -79,6 +79,7 @@ switch($action) {
 	case 'countUsers':
 	case 'countGroups':
 	case 'countInBaseDN':
+	case 'detectVendor':
 		try {
 			$result = $wizard->$action();
 			if($result !== false) {
