@@ -211,7 +211,10 @@ class UserEntry {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
 			$quota = $this->getAttributeValue ($attr);
-			if (!$this->verifyQuotaValue($quota)) {
+			if ($quota === '') {
+				\OC::$server->getLogger()->debug("No quota set for <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
+				$quota = null;
+			} else if (!$this->verifyQuotaValue($quota)) {
 				\OC::$server->getLogger()->error("Invalid quota <$quota> for LDAP user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
 				$quota = null;
 			}
