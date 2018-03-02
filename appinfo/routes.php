@@ -1,9 +1,8 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -20,18 +19,37 @@
  *
  */
 
-/** @var $this \OCP\Route\IRouter */
-$this->create('user_ldap_ajax_clearMappings', 'ajax/clearMappings.php')
-	->actionInclude('user_ldap/ajax/clearMappings.php');
-$this->create('user_ldap_ajax_deleteConfiguration', 'ajax/deleteConfiguration.php')
-	->actionInclude('user_ldap/ajax/deleteConfiguration.php');
-$this->create('user_ldap_ajax_getConfiguration', 'ajax/getConfiguration.php')
-	->actionInclude('user_ldap/ajax/getConfiguration.php');
-$this->create('user_ldap_ajax_getNewServerConfigPrefix', 'ajax/getNewServerConfigPrefix.php')
-	->actionInclude('user_ldap/ajax/getNewServerConfigPrefix.php');
-$this->create('user_ldap_ajax_setConfiguration', 'ajax/setConfiguration.php')
-	->actionInclude('user_ldap/ajax/setConfiguration.php');
-$this->create('user_ldap_ajax_testConfiguration', 'ajax/testConfiguration.php')
-	->actionInclude('user_ldap/ajax/testConfiguration.php');
-$this->create('user_ldap_ajax_wizard', 'ajax/wizard.php')
-	->actionInclude('user_ldap/ajax/wizard.php');
+return [
+	'routes' => [
+		[
+			'name' => 'configuration#create',
+			'url' => 'ajax/getNewServerConfigPrefix.php',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'configuration#read',
+			'url' => 'ajax/getConfiguration.php',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'configuration#test',
+			'url' => 'ajax/testConfiguration.php',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'configuration#delete',
+			'url' => 'ajax/deleteConfiguration.php',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'mapping#clear',
+			'url' => 'ajax/clearMappings.php',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'wizard#cast',
+			'url' => 'ajax/wizard.php',
+			'verb' => 'POST'
+		],
+	]
+];
