@@ -995,7 +995,7 @@ class Access implements IUserTools {
 	 * second | false if not successful
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
+	private function executeSearch($filter, array $base, &$attr = null, $limit = null, $offset = null) {
 		if ($attr !== null && !\is_array($attr)) {
 			$attr = [\mb_strtolower($attr, 'UTF-8')];
 		}
@@ -1043,17 +1043,20 @@ class Access implements IUserTools {
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
-	 * @return bool cookie validity, true if we have more pages, false otherwise.
+	 * @return array 0 => bool cookie validity, true if we have more pages, false otherwise.
+	 *               1 => estimate for every result. if 0 server just might not support estimates
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		$cookie = null;
-		$estimated = '';
+		$estimated = 0;
+		$estimates = [];
 		if ($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
 			foreach ($sr as $key => $res) {
 				if ($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
 					$range = $offset . "-" . ($offset + $limit);
+					$estimates[] = $estimated;
 					\OC::$server->getLogger()->debug(
 						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
 						['app' => 'user_ldap']);
@@ -1063,7 +1066,7 @@ class Access implements IUserTools {
 
 			//browsing through prior pages to get the cookie for the new one
 			if ($skipHandling) {
-				return false;
+				return [false, $estimates];
 			}
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
@@ -1083,7 +1086,9 @@ class Access implements IUserTools {
 		 * cookie is null, with openldap cookie is an empty string and
 		 * to 386ds '0' is a valid cookie. Even if $iFoundItems == 0
 		 */
-		return !empty($cookie) || $cookie === '0';
+		$validCookie = !empty($cookie) || $cookie === '0';
+
+		return [$validCookie, $estimates];
 	}
 
 	/**
@@ -1101,7 +1106,7 @@ class Access implements IUserTools {
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function count($filter, array $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OC::$server->getLogger()->debug(
 			'Count filter:  '.\print_r($filter, true),
 			['app' => 'user_ldap']);
@@ -1130,16 +1135,31 @@ class Access implements IUserTools {
 			 * countEntriesInSearchResults() method signature changed
 			 * by removing $limit and &$hasHitLimit parameters
 			 */
-			$count = $this->countEntriesInSearchResults($sr);
-			$counter += $count;
+			$counts = $this->countEntriesInSearchResults($sr);
 
-			$hasMorePages = $this->processPagedSearchStatus($sr, $filter, $base, $count, $limitPerPage,
-										$offset, $pagedSearchOK, $skipHandling);
+			list($hasMorePages, $estimates) = $this->processPagedSearchStatus(
+				$sr, $filter, $base, $count, $limitPerPage,
+				$offset, $pagedSearchOK, $skipHandling
+			);
+
+			foreach ($counts as $i => $count) {
+				$estimate = $estimates[$i];
+				if ($count === $estimate) {
+					// estimate reported for complete result, use it
+					$counter += $estimate;
+					// stop counting entries on subsequent pages for the base with an estimate
+					// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
+					unset($base[$i]);
+				} else {
+					$counter += $count;
+				}
+			}
+
 			$offset += $limitPerPage;
 			/* ++ Fixing RHDS searches with pages with zero results ++
 			 * Continue now depends on $hasMorePages value
 			 */
-			$continue = $pagedSearchOK && $hasMorePages;
+			$continue = $pagedSearchOK && $hasMorePages && count($base) > 0;
 		} while ($continue && ($limit === null || $limit <= 0 || $limit > $counter));
 
 		return $counter;
@@ -1147,19 +1167,19 @@ class Access implements IUserTools {
 
 	/**
 	 * @param array $searchResults
-	 * @return int
+	 * @return int[]
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($searchResults) {
 		$cr = $this->connection->getConnectionResource();
-		$counter = 0;
+		$counts = [];
 
 		foreach ($searchResults as $res) {
 			$count = (int)$this->getLDAP()->countEntries($cr, $res);
-			$counter += $count;
+			$counts[] = $count;
 		}
 
-		return $counter;
+		return $counts;
 	}
 
 	/**
@@ -1213,7 +1233,7 @@ class Access implements IUserTools {
 				$findings = \array_merge($findings, $this->getLDAP()->getEntries($cr, $res));
 			}
 
-			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+			list($continue, ) = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
 								$limit, $offset, $pagedSearchOK,
 										$skipHandling);
 			$offset += $limit;

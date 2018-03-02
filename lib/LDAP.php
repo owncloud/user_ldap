@@ -183,7 +183,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
+	 * @param LDAP|LDAP[] $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
@@ -194,7 +194,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP $link
+	 * @param LDAP|LDAP[] $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
