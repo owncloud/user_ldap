@@ -55,7 +55,7 @@ abstract class Proxy {
 	 * @param string $configPrefix
 	 */
 	private function addAccess($configPrefix) {
-		static $ocConfig;
+		static $coreConfig;
 		static $fs;
 		static $logger;
 		static $avatarM;
@@ -63,8 +63,8 @@ abstract class Proxy {
 		static $groupMap;
 		static $db;
 		static $coreUserManager;
-		if(is_null($fs)) {
-			$ocConfig = \OC::$server->getConfig();
+		if($fs === null) {
+			$coreConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$logger   = \OC::$server->getLogger();
 			$avatarM  = \OC::$server->getAvatarManager();
@@ -74,8 +74,8 @@ abstract class Proxy {
 			$coreUserManager = \OC::$server->getUserManager();
 		}
 		$userManager =
-			new Manager($ocConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
-		$connector = new Connection($this->ldap, $configPrefix);
+			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
+		$connector = new Connection($coreConfig, $this->ldap, $configPrefix);
 		$access = new Access($connector, $userManager);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
@@ -98,7 +98,7 @@ abstract class Proxy {
 	 * @return string
 	 */
 	protected function getUserCacheKey($uid) {
-		return 'user-'.$uid.'-lastSeenOn';
+		return "user-$uid-lastSeenOn";
 	}
 
 	/**
@@ -106,7 +106,7 @@ abstract class Proxy {
 	 * @return string
 	 */
 	protected function getGroupCacheKey($gid) {
-		return 'group-'.$gid.'-lastSeenOn';
+		return "group-$gid-lastSeenOn";
 	}
 
 	/**
@@ -148,7 +148,7 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if(is_null($key)) {
+		if($key === null) {
 			return $prefix;
 		}
 		return $prefix.md5($key);
@@ -159,7 +159,7 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if(is_null($this->cache) || !$this->isCached($key)) {
+		if($this->cache === null || !$this->isCached($key)) {
 			return null;
 		}
 		$key = $this->getCacheKey($key);
@@ -172,7 +172,7 @@ abstract class Proxy {
 	 * @return bool
 	 */
 	public function isCached($key) {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return false;
 		}
 		$key = $this->getCacheKey($key);
@@ -184,7 +184,7 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
@@ -193,7 +193,7 @@ abstract class Proxy {
 	}
 
 	public function clearCache() {
-		if(is_null($this->cache)) {
+		if($this->cache === null) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));

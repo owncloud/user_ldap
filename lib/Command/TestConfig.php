@@ -24,6 +24,8 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\LDAP;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +34,18 @@ use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
+
+
+	/** @var IConfig */
+	protected $coreConfig;
+
+	/**
+	 * @param IConfig $coreConfig
+	 */
+	public function __construct(IConfig $coreConfig) {
+		parent::__construct();
+		$this->coreConfig = $coreConfig;
+	}
 
 	protected function configure() {
 		$this
@@ -72,8 +86,8 @@ class TestConfig extends Command {
 	 * @return int
 	 */
 	protected function testConfig($configID) {
-		$lw = new \OCA\User_LDAP\LDAP();
-		$connection = new Connection($lw, $configID);
+		$lw = new LDAP();
+		$connection = new Connection($this->coreConfig, $lw, $configID);
 
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();

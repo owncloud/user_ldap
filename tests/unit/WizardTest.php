@@ -6,7 +6,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Viktor Szépe <viktor@szepe.net>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,19 +23,14 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests;
-
-use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\ILDAPWrapper;
-use \OCA\User_LDAP\Wizard;
+namespace OCA\User_LDAP;
 
 /**
  * Class Test_Wizard
  *
  * @group DB
  *
- * @package OCA\User_LDAP\Tests
+ * @package OCA\User_LDAP
  */
 class WizardTest extends \Test\TestCase {
 

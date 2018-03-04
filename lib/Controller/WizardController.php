@@ -30,6 +30,7 @@ use OCA\User_LDAP\Wizard;
 use OCA\User_LDAP\WizardResult;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -40,26 +41,35 @@ use OCP\IRequest;
  */
 class WizardController extends Controller {
 
+	/** @var IConfig */
+	protected $config;
+
 	/** @var Manager */
 	protected $manager;
+
 	/** @var IL10N */
 	protected $l10n;
+
 	/** @var LDAP */
 	protected $ldapWrapper;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IConfig $config
+	 * @param Manager $manager
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
 	 */
 	public function __construct($appName,
 								IRequest $request,
+								IConfig $config,
 								Manager $manager,
 								IL10N $l10n,
 								LDAP $ldapWrapper
 	) {
 		parent::__construct($appName, $request);
+		$this->config = $config;
 		$this->manager = $manager;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
@@ -71,7 +81,7 @@ class WizardController extends Controller {
 	 * @return Wizard
 	 */
 	private function getWizard($prefix, Configuration $configuration) {
-		$con = new Connection($this->ldapWrapper, $prefix, null);
+		$con = new Connection($this->config, $this->ldapWrapper, $prefix, null);
 		$con->setConfiguration($configuration->getConfiguration());
 		$con->ldapConfigurationActive = true;
 		$con->setIgnoreValidation(true);
@@ -94,7 +104,7 @@ class WizardController extends Controller {
 	public function cast($ldap_serverconfig_chooser, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
 		$prefix = $ldap_serverconfig_chooser;
 
-		$config = new Configuration($prefix);
+		$config = new Configuration($this->config, $prefix);
 
 
 		switch($action) {
@@ -170,7 +180,7 @@ class WizardController extends Controller {
 				}
 				$config->saveConfiguration();
 				//clear the cache on save
-				$connection = new Connection($this->ldapWrapper, $prefix);
+				$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
 				$connection->clearCache();
 				return new DataResponse(['status' => 'success']);
 

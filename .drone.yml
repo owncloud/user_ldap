@@ -145,7 +145,7 @@ pipeline:
     environment:
       - LDAP_HOST=ldap
     commands:
-      - php -f ./tests/Integration/Lib/${INTEGRATION_TEST_SCRIPT}
+      - php -f ./tests/integration/Lib/${INTEGRATION_TEST_SCRIPT}
     when:
       matrix:
         TEST_SUITE: integration

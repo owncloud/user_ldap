@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests\Mapping;
+namespace OCA\User_LDAP\Mapping;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
 	abstract public function getMapper(\OCP\IDBConnection $dbMock);

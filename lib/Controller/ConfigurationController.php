@@ -27,6 +27,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -38,18 +39,25 @@ use OCP\ISession;
  */
 class ConfigurationController extends Controller {
 
+	/** @var IConfig */
+	protected $config;
+
 	/** @var ISession */
 	protected $session;
+
 	/** @var IL10N */
 	protected $l10n;
+
 	/** @var LDAP */
 	protected $ldapWrapper;
+
 	/** @var Helper */
 	protected $helper;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IConfig $config
 	 * @param ISession $session
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
@@ -57,12 +65,14 @@ class ConfigurationController extends Controller {
 	 */
 	public function __construct($appName,
 								IRequest $request,
+								IConfig $config,
 								ISession $session,
 								IL10N $l10n,
 								LDAP $ldapWrapper,
 								Helper $helper
 	) {
 		parent::__construct($appName, $request);
+		$this->config = $config;
 		$this->session = $session;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
@@ -85,12 +95,12 @@ class ConfigurationController extends Controller {
 
 		$resultData = ['configPrefix' => $newPrefix];
 
-		$newConfig = new Configuration($newPrefix, false);
+		$newConfig = new Configuration($this->config, $newPrefix, false);
 		if(isset($copyConfig)) {
-			$originalConfig = new Configuration($copyConfig);
+			$originalConfig = new Configuration($this->config, $copyConfig);
 			$newConfig->setConfiguration($originalConfig->getConfiguration());
 		} else {
-			$configuration = new Configuration($newPrefix, false);
+			$configuration = new Configuration($this->config, $newPrefix, false);
 			$newConfig->setConfiguration($configuration->getDefaults());
 			$resultData['defaults'] = $configuration->getDefaults();
 		}
@@ -107,7 +117,7 @@ class ConfigurationController extends Controller {
 	 */
 	public function read($ldap_serverconfig_chooser) {
 		$prefix = $ldap_serverconfig_chooser;
-		$connection = new Connection($this->ldapWrapper, $prefix);
+		$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
 		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
 			// hide password
@@ -126,7 +136,7 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function test($ldap_serverconfig_chooser) {
-		$connection = new Connection($this->ldapWrapper, $ldap_serverconfig_chooser);
+		$connection = new Connection($this->config, $this->ldapWrapper, $ldap_serverconfig_chooser);
 		try {
 			$configurationOk = true;
 			$conf = $connection->getConfiguration();

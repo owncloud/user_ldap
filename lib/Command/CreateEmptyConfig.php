@@ -24,6 +24,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,15 +33,21 @@ use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Configuration;
 
 class CreateEmptyConfig extends Command {
-	/** @var \OCA\User_LDAP\Helper */
+
+	/** @var IConfig */
+	protected $config;
+
+	/** @var Helper */
 	protected $helper;
 
 	/**
+	 * @param IConfig $config
 	 * @param Helper $helper
 	 */
-	public function __construct(Helper $helper) {
-		$this->helper = $helper;
+	public function __construct(IConfig $config, Helper $helper) {
 		parent::__construct();
+		$this->config = $config;
+		$this->helper = $helper;
 	}
 
 	protected function configure() {
@@ -58,7 +65,7 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(is_null($configID)) {
+		if($configID === null) {
 			$configPrefix = $this->getNewConfigurationPrefix($availableConfigs);
 		} else {
 			// Check we are not trying to create an empty configid
@@ -75,15 +82,16 @@ class CreateEmptyConfig extends Command {
 		}
 		$output->writeln("Created new configuration with configID '{$configPrefix}'");
 
-		$configHolder = new Configuration($configPrefix);
+		$configHolder = new Configuration($this->config, $configPrefix);
 		$configHolder->saveConfiguration();
 	}
 
+	// TODO code duplication with the ConfiguratonController, move to Helper?
 	protected function getNewConfigurationPrefix(array $serverConnections) {
 
 		sort($serverConnections);
 		$lastKey = array_pop($serverConnections);
-		$lastNumber = intval(str_replace('s', '', $lastKey));
+		$lastNumber = (int)str_replace('s', '', $lastKey);
 		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
 		return $nextPrefix;
 	}

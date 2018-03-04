@@ -32,6 +32,8 @@ namespace OCA\User_LDAP\Jobs;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Group_LDAP;
+use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
@@ -172,7 +174,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 * @return \OCA\User_LDAP\Group_LDAP|\OCA\User_LDAP\Group_Proxy
 	 */
 	static private function getGroupBE() {
-		if(!is_null(self::$groupBE)) {
+		if(self::$groupBE !== null) {
 			return self::$groupBE;
 		}
 		$helper = new Helper();
@@ -181,22 +183,23 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
 			$dbc = \OC::$server->getDatabaseConnection();
+			$coreConfig = \OC::$server->getConfig();
 			$userManager = new Manager(
-				\OC::$server->getConfig(),
+				$coreConfig,
 				new FilesystemHelper(),
 				\OC::$server->getLogger(),
 				\OC::$server->getAvatarManager(),
 				$dbc,
 				\OC::$server->getUserManager());
-			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
+			$connector = new Connection($coreConfig, $ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $userManager);
 			$groupMapper = new GroupMapping($dbc);
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
 			$ldapAccess->setUserMapper($userMapper);
-			self::$groupBE = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
+			self::$groupBE = new Group_LDAP($ldapAccess);
 		} else {
-			self::$groupBE = new \OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
+			self::$groupBE = new Group_Proxy($configPrefixes, $ldapWrapper);
 		}
 
 		return self::$groupBE;
