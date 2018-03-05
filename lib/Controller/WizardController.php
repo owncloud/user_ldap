@@ -106,7 +106,6 @@ class WizardController extends Controller {
 
 		$config = new Configuration($this->config, $prefix);
 
-
 		switch($action) {
 			case 'guessPortAndTLS':
 			case 'guessBaseDN':

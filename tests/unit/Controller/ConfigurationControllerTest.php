@@ -30,6 +30,12 @@ use OCP\IRequest;
 use OCP\ISession;
 use Test\TestCase;
 
+/**
+ * Class ConfigurationControllerTest
+ *
+ * @group DB
+ * @package OCA\User_LDAP\Controller
+ */
 class ConfigurationControllerTest extends TestCase {
 
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
@@ -74,7 +80,25 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testRead() {
-		// TODO
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnCallback(function($app, $key, $default) {
+				switch ($key) {
+					case 't01ldap_host': return 'example.org';
+					case 't01ldap_agent_password': return 'secret';
+					default: return $default;
+				}
+			}));
+		$result = $this->controller->read('t01');
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$data = $result->getData();
+		$this->assertArraySubset([
+			'status' => 'success',
+			'configuration' => [
+				'ldap_host' => 'example.org',
+				'ldap_agent_password' => '**PASSWORD SET**'
+			]
+		], $data, true);
 	}
 
 	public function testDeleteNotExisting() {
