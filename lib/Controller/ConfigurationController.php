@@ -112,7 +112,7 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function read($ldap_serverconfig_chooser) {
-		$prefix = $ldap_serverconfig_chooser;
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
 		$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
 		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
@@ -132,7 +132,8 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function test($ldap_serverconfig_chooser) {
-		$connection = new Connection($this->config, $this->ldapWrapper, $ldap_serverconfig_chooser);
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+		$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
 		try {
 			$configurationOk = true;
 			$conf = $connection->getConfiguration();
@@ -199,7 +200,7 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function delete($ldap_serverconfig_chooser) {
-		$prefix = $ldap_serverconfig_chooser;
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
 		if($this->helper->deleteServerConfiguration($prefix)) {
 			return new DataResponse(['status' => 'success']);
 		}

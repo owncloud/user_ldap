@@ -102,7 +102,7 @@ class WizardController extends Controller {
 	 * @return DataResponse
 	 */
 	public function cast($ldap_serverconfig_chooser, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
-		$prefix = $ldap_serverconfig_chooser;
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
 
 		$config = new Configuration($this->config, $prefix);
 
@@ -143,7 +143,7 @@ class WizardController extends Controller {
 
 			case 'testLoginName': {
 				try {
-					$loginName = $ldap_test_loginname;
+					$loginName = $ldap_test_loginname; // TODO if possible make JS send as 'loginName' right away
 					// FIXME throw exception when loginname is empty
 					$result = $this->getWizard($prefix, $config)->testLoginName($loginName);
 					if($result !== false) {
@@ -161,16 +161,16 @@ class WizardController extends Controller {
 			}
 
 			case 'save':
-				$key = $cfgkey;
-				$val = $cfgval;
+				$key = $cfgkey; // TODO if possible make JS send as 'key' right away
+				$val = $cfgval; // TODO if possible make JS send as 'val' right away
 				if($key === null || $val === null) {
 					return new DataResponse([ // FIXME use same Exception as app framework
 						'status' => 'error',
 						'message' => $this->l10n->t('No data specified')
 					]);
 				}
-				$cfg = array($key => $val);
-				$setParameters = array();
+				$cfg = [$key => $val];
+				$setParameters = [];
 				$config->setConfiguration($cfg, $setParameters);
 				if(!in_array($key, $setParameters, true)) {
 					return new DataResponse([
