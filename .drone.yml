@@ -169,7 +169,7 @@ pipeline:
       - chmod +x lib/composer/phpunit/phpunit/phpunit
       - rm lib/composer/bin/phpunit
       - ln -s ../phpunit/phpunit/phpunit lib/composer/bin/phpunit
-      - phpdbg -d memory_limit=4096M -rr ./lib/composer/bin/phpunit --configuration apps/user_ldap/phpunit.xml
+      - phpdbg -d memory_limit=4096M -rr ./lib/composer/bin/phpunit --configuration apps/user_ldap/tests/unit/phpunit.xml
     when:
       matrix:
         TEST_SUITE: phpunit

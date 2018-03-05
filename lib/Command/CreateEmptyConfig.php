@@ -62,20 +62,25 @@ class CreateEmptyConfig extends Command {
 		;
 	}
 
+	/**
+	 * Executes the current command.
+	 *
+	 * @return null|int null or 0 if everything went fine, or an error code
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if($configID === null) {
-			$configPrefix = $this->getNewConfigurationPrefix($availableConfigs);
+			$configPrefix = $this->helper->nextPossibleConfigurationPrefix();
 		} else {
 			// Check we are not trying to create an empty configid
 			if($configID === '') {
-				$output->writeln("configID cannot be empty");
+				$output->writeln('configID cannot be empty');
 				return 1;
 			}
 			// Check if we are not already using this configid
+			$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 			if(in_array($configID, $availableConfigs, true)) {
-				$output->writeln("configID already exists");
+				$output->writeln('configID already exists');
 				return 1;
 			}
 			$configPrefix = $configID;
@@ -84,15 +89,7 @@ class CreateEmptyConfig extends Command {
 
 		$configHolder = new Configuration($this->config, $configPrefix);
 		$configHolder->saveConfiguration();
+		return 0;
 	}
 
-	// TODO code duplication with the ConfiguratonController, move to Helper?
-	protected function getNewConfigurationPrefix(array $serverConnections) {
-
-		sort($serverConnections);
-		$lastKey = array_pop($serverConnections);
-		$lastNumber = (int)str_replace('s', '', $lastKey);
-		$nextPrefix = 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-		return $nextPrefix;
-	}
 }

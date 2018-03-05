@@ -87,11 +87,7 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function create($copyConfig = null) {
-		$prefixes = $this->helper->getServerConfigurationPrefixes();
-		sort($prefixes);
-		$maxPrefix = array_pop($prefixes);
-		$count = (int)ltrim($maxPrefix, 's');
-		$newPrefix = 's'.str_pad($count+1, 2, '0', STR_PAD_LEFT);
+		$newPrefix = $this->helper->nextPossibleConfigurationPrefix();
 
 		$resultData = ['configPrefix' => $newPrefix];
 
