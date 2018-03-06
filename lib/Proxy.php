@@ -63,6 +63,7 @@ abstract class Proxy {
 		static $groupMap;
 		static $db;
 		static $coreUserManager;
+		static $helper;
 		if($fs === null) {
 			$coreConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
@@ -72,10 +73,14 @@ abstract class Proxy {
 			$userMap  = new UserMapping($db);
 			$groupMap = new GroupMapping($db);
 			$coreUserManager = \OC::$server->getUserManager();
+			$helper   = new Helper();
 		}
 		$userManager =
 			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
-		$connector = new Connection($coreConfig, $this->ldap, $configPrefix);
+
+		$configuration = new Configuration($coreConfig, $configPrefix);
+		$connector = new Connection($this->ldap, $configuration);
+
 		$access = new Access($connector, $userManager);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);

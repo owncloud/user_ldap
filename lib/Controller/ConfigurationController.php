@@ -115,7 +115,10 @@ class ConfigurationController extends Controller {
 	 */
 	public function read($ldap_serverconfig_chooser) {
 		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
-		$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
+
+		$configuration = new Configuration($this->config, $prefix);
+		$connection = new Connection($this->ldapWrapper, $configuration);
+
 		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
 			// hide password
@@ -135,7 +138,10 @@ class ConfigurationController extends Controller {
 	 */
 	public function test($ldap_serverconfig_chooser) {
 		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
-		$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
+
+		$configuration = new Configuration($this->config, $prefix);
+		$connection = new Connection($this->ldapWrapper, $configuration);
+
 		try {
 			$configurationOk = true;
 			$conf = $connection->getConfiguration();

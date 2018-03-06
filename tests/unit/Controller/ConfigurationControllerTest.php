@@ -160,7 +160,9 @@ class ConfigurationControllerTest extends TestCase {
 						return $default;
 				}
 			}));
+
 		$result = $this->controller->read('t01');
+
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
 		$this->assertArraySubset([
@@ -172,8 +174,75 @@ class ConfigurationControllerTest extends TestCase {
 		], $data, true);
 	}
 
+	public function testTest() {
+
+		// use valid looking config to pass critical validation
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnCallback(function($app, $key, $default) {
+				switch ($key) {
+					case 't01ldap_host':
+						return 'example.org';
+					case 't01ldap_port':
+						return '389';
+					case 't01ldap_display_name':
+						return 'displayName';
+					case 't01ldap_group_display_name':
+						return 'cn';
+					case 't01ldap_login_filter':
+						return '(uid=%uid)';
+					case 't01ldap_configuration_active':
+						return '1';
+					case 't01ldap_dn':
+						return  'cn=admin';
+					case 't01ldap_base':
+						return  'dc=example,dc=org';
+					case 't01ldap_agent_password':
+						return  base64_encode('secret');
+					default:
+						return $default;
+				}
+			}));
+
+		$this->ldap->expects($this->any())
+			->method('areLDAPFunctionsAvailable')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('bind')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->once())
+			->method('read')
+			->will($this->returnValue(['dn'=>'dummy']));
+
+		$result = $this->controller->test('t01');
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$data = $result->getData();
+		$this->assertArraySubset(['status' => 'success'], $data, true);
+	}
+
+	public function testDelete() {
+		// TODO implement me!
+	}
+
 	public function testDeleteNotExisting() {
+
 		$result = $this->controller->delete('na');
+
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
 		$this->assertArraySubset(['status' => 'error'], $data, true);

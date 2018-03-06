@@ -101,7 +101,7 @@ class Configuration {
 
 	/**
 	 * @param IConfig $coreConfig
-	 * @param string $prefix
+	 * @param string $prefix a string with the prefix for the configkey column (appconfig table)
 	 * @param bool $autoRead
 	 */
 	public function __construct(IConfig $coreConfig, $prefix, $autoRead = true) {
@@ -110,6 +110,19 @@ class Configuration {
 		if($autoRead) {
 			$this->readConfiguration();
 		}
+	}
+
+	/**
+	 * @return IConfig
+	 */
+	public function getCoreConfig() {
+		return $this->coreConfig;
+	}
+	/**
+	 * @return string the configuration prefix
+	 */
+	public function getPrefix() {
+		return $this->prefix;
 	}
 
 	/**
@@ -248,11 +261,9 @@ class Configuration {
 		}
 	}
 
-	/**
-	 * saves the current Configuration in the database
-	 */
-	public function saveConfiguration() {
+	private function getTranslatedConfig () {
 		$cta = array_flip($this->getConfigTranslationArray());
+		$result = [];
 		foreach($this->data as $key => $value) {
 			switch ($key) {
 				case 'ldapAgentPassword':
@@ -268,7 +279,7 @@ class Configuration {
 				case 'ldapGroupFilterObjectclass':
 				case 'ldapGroupFilterGroups':
 				case 'ldapLoginFilterAttributes':
-					if(is_array($value)) {
+					if (is_array($value)) {
 						$value = implode("\n", $value);
 					}
 					break;
@@ -279,11 +290,25 @@ class Configuration {
 				case 'ldapUuidGroupAttribute':
 					continue 2;
 			}
-			if($value === null) {
+			if ($value === null) {
 				$value = '';
 			}
-			$this->saveValue($cta[$key], $value);
+			$result[$cta[$key]] = $value;
 		}
+		return $result;
+	}
+	/**
+	 * saves the current Configuration in the database
+	 */
+	public function saveConfiguration() {
+		foreach($this->getTranslatedConfig() as $key => $value) {
+			$this->saveValue($key, $value);
+		}
+	}
+
+	public function isDefault() {
+		$diff = array_diff_assoc($this->getTranslatedConfig(), $this->getDefaults());
+		return count($diff) === 0;
 	}
 
 	/**

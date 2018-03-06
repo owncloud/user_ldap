@@ -81,7 +81,7 @@ class WizardController extends Controller {
 	 * @return Wizard
 	 */
 	private function getWizard($prefix, Configuration $configuration) {
-		$con = new Connection($this->config, $this->ldapWrapper, $prefix, null);
+		$con = new Connection($this->config, $this->ldapWrapper, null);
 		$con->setConfiguration($configuration->getConfiguration());
 		$con->ldapConfigurationActive = true;
 		$con->setIgnoreValidation(true);
@@ -179,7 +179,8 @@ class WizardController extends Controller {
 				}
 				$config->saveConfiguration();
 				//clear the cache on save
-				$connection = new Connection($this->config, $this->ldapWrapper, $prefix);
+				$configuration = new Configuration($this->config, $prefix);
+				$connection = new Connection($this->ldapWrapper, $configuration);
 				$connection->clearCache();
 				return new DataResponse(['status' => 'success']);
 

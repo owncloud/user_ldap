@@ -43,11 +43,13 @@ class ConnectionTest extends \Test\TestCase {
 		parent::setUp();
 		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
+		$configuration = new Configuration($coreConfig, 'test', false);
+
 		$this->ldap       = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder(Connection::class)
 			->setMethods(['getFromCache', 'writeToCache'])
-			->setConstructorArgs([$coreConfig, $this->ldap, '', null])
+			->setConstructorArgs([$this->ldap, $configuration, null])
 			->getMock();
 
 		$this->ldap->expects($this->any())
@@ -59,10 +61,10 @@ class ConnectionTest extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$lw  = $this->createMock(ILDAPWrapper::class);
 		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
-		$connection = new Connection($coreConfig, $lw, '', null);
+		$configuration = new Configuration($coreConfig, 'test', false);
+		$connection = new Connection($this->ldap, $configuration, null);
 		$agent = array(
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',

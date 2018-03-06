@@ -50,8 +50,6 @@ use OCP\Util;
  */
 class Connection extends LDAPUtility {
 
-	/** @var IConfig */
-	private $coreConfig;
 	private $ldapConnectionRes;
 	private $configPrefix;
 	private $configID;
@@ -74,31 +72,25 @@ class Connection extends LDAPUtility {
 	/** @var Configuration settings handler **/
 	protected $configuration;
 
-	protected $doNotValidate = false;
-
 	protected $ignoreValidation = false;
 
 	/**
 	 * Constructor
-	 * @param IConfig $coreConfig
 	 * @param ILDAPWrapper $ldap
-	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
-	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
+	 * @param Configuration
+	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections // TODO might be obsolete
 	 */
-	public function __construct(IConfig $coreConfig, ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, Configuration $configuration, $configID = 'user_ldap') {
 		parent::__construct($ldap);
-		$this->coreConfig = $coreConfig;
-		$this->configPrefix = $configPrefix;
+		$this->configPrefix = $configuration->getPrefix();
 		$this->configID = $configID;
-		$this->configuration = new Configuration($coreConfig, $configPrefix,
-												 $configID !== null);
+		$this->configuration = $configuration;
+
 		$memcache = \OC::$server->getMemCacheFactory();
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-		$helper = new Helper(); // TODO get rid of this ... do not even inject
-		$this->doNotValidate = !in_array($this->configPrefix,
-			$helper->getServerConfigurationPrefixes());
+
 		$this->hasPagedResultSupport =
 			(int)$this->configuration->ldapPagingSize !== 0
 			|| $this->getLDAP()->hasPagedResultSupport();
@@ -114,7 +106,7 @@ class Connection extends LDAPUtility {
 	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
-		$this->configuration = new Configuration($this->coreConfig,
+		$this->configuration = new Configuration($this->configuration->getCoreConfig(),
 												 $this->configPrefix,
 												 $this->configID !== null);
 		$this->ldapConnectionRes = null;
@@ -141,7 +133,6 @@ class Connection extends LDAPUtility {
 	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
-		$this->doNotValidate = false;
 		$before = $this->configuration->$name;
 		$this->configuration->$name = $value;
 		$after = $this->configuration->$name;
@@ -259,7 +250,7 @@ class Connection extends LDAPUtility {
 	 * to false.
 	 */
 	private function readConfiguration($force = false) {
-		if((!$this->configured || $force) && !is_null($this->configID)) {
+		if((!$this->configured || $force) && $this->configID !== null) {
 			$this->configuration->readConfiguration();
 			$this->configured = $this->validateConfiguration();
 		}
@@ -275,7 +266,6 @@ class Connection extends LDAPUtility {
 		if($setParameters === null) {
 			$setParameters = array();
 		}
-		$this->doNotValidate = false;
 		$this->configuration->setConfiguration($config, $setParameters);
 		if(count($setParameters) > 0) {
 			$this->configured = $this->validateConfiguration();
@@ -474,10 +464,9 @@ class Connection extends LDAPUtility {
 	 */
 	private function validateConfiguration() {
 
-		if($this->doNotValidate) {
+		if($this->configuration->isDefault()) {
 			//don't do a validation if it is a new configuration with pure
-			//default values. Will be allowed on changes via __set or
-			//setConfiguration
+			//default values.
 			return false;
 		}
 
