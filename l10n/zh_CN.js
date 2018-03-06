@@ -40,6 +40,7 @@ OC.L10N.register(
     "Select attributes" : "选择属性",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "找不到用户。请检查您的登录属性和用户名。有效过滤（复制和粘贴命令行验证）：",
     "User found and settings verified." : "用户已找到，设置已验证。",
+    "Settings verified, but more than one user was found. Only the first will be able to login. Consider a more narrow filter." : "配置已验证，但是发现有重复用户。只有第一个用户能够登陆。请你考虑应用更多的过滤条件来筛选。",
     "An unspecified error occurred. Please check the settings and the log." : "发生未指定的错误。请检查设置和日志。",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "搜索的筛选条件无效，可能是由于不完全开闭括号的句法的问题，请检查。",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "LDAP/ AD连接错误，请检查主机，端口和凭证。",
