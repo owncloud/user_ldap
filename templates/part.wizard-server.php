@@ -55,6 +55,12 @@
 				</div>
 			</div>
 			<div class="tablerow">
+				<input type="text" id="ldap_vendor" name="ldap_vendor"
+					   class="tablecell" readonly
+					   title="<?php p($l->t('The detected Vendor'));?>"
+				/>
+			</div>
+			<div class="tablerow">
 				<input type="text" id="ldap_dn" name="ldap_dn"
 				class="tablecell"
 				placeholder="<?php p($l->t('User DN'));?>" autocomplete="off"

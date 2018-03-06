@@ -19,6 +19,7 @@ OCA = OCA || {};
 
 		var detectors = [];
 		detectors.push(new OCA.LDAP.Wizard.WizardDetectorPort());
+		detectors.push(new OCA.LDAP.Wizard.WizardDetectorVendor());
 		detectors.push(new OCA.LDAP.Wizard.WizardDetectorBaseDN());
 		detectors.push(new OCA.LDAP.Wizard.WizardDetectorEmailAttribute());
 		detectors.push(new OCA.LDAP.Wizard.WizardDetectorUserDisplayNameAttribute());

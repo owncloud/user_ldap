@@ -72,6 +72,12 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * returns managed item for the vendor. must be
+		 * implemented by concrete view
+		 */
+		getVendorItem: function () {},
+
+		/**
 		 * returns managed item for the object class chooser. must be
 		 * implemented by concrete view
 		 */

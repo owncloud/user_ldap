@@ -36,6 +36,7 @@ script('user_ldap', [
 	'wizard/wizardDetectorUserGroupAssociation',
 	'wizard/wizardDetectorAvailableAttributes',
 	'wizard/wizardDetectorTestAbstract',
+	'wizard/wizardDetectorVendor',
 	'wizard/wizardDetectorTestLoginName',
 	'wizard/wizardDetectorTestBaseDN',
 	'wizard/wizardDetectorTestConfiguration',
