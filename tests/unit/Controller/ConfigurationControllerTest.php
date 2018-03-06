@@ -76,7 +76,75 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testCreate() {
-		// TODO
+		$this->helper->expects($this->once())
+			->method('nextPossibleConfigurationPrefix')
+			->will($this->returnValue('tcr'));
+
+		$this->config->expects($this->any())
+			->method('setAppValue')
+			->with('user_ldap', $this->stringStartsWith('tcr'), $this->anything());
+
+		$result = $this->controller->create();
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$data = $result->getData();
+		$this->assertArraySubset([
+			'status' => 'success',
+			'configPrefix' => 'tcr',
+			'defaults' => []
+		], $data, true);
+	}
+
+	public function testCreateWithCopy() {
+		$this->helper->expects($this->once())
+			->method('nextPossibleConfigurationPrefix')
+			->will($this->returnValue('tgt'));
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnCallback(function($app, $key, $default) {
+				switch ($key) {
+					case 'srcldap_host':
+						return 'example.org';
+					case 'srcldap_agent_password':
+						return base64_encode('secret');
+					default:
+						return $default;
+				}
+			}));
+
+		$expectedValue = null;
+		$this->config->expects($this->any())
+			->method('setAppValue')
+			->with(
+				'user_ldap',
+				$this->callback(function($key) use (&$expectedValue) {
+					switch ($key) {
+						case 'tgtldap_host':
+							$expectedValue = 'example.org';
+							break;
+						case 'tgtldap_agent_password':
+							$expectedValue = base64_encode('secret');
+							break;
+						default: $expectedValue = null;
+					};
+					return $this->stringStartsWith('tgt');
+				}),
+				$this->callback(function($value) use (&$expectedValue) {
+					if ($expectedValue !== null) {
+						return $expectedValue === $value;
+					};
+					return true;
+				}));
+
+		$result = $this->controller->create('src');
+
+		$this->assertInstanceOf(DataResponse::class, $result);
+		$data = $result->getData();
+		$this->assertArraySubset([
+			'status' => 'success',
+			'configPrefix' => 'tgt'
+		], $data, true);
 	}
 
 	public function testRead() {
@@ -84,9 +152,12 @@ class ConfigurationControllerTest extends TestCase {
 			->method('getAppValue')
 			->will($this->returnCallback(function($app, $key, $default) {
 				switch ($key) {
-					case 't01ldap_host': return 'example.org';
-					case 't01ldap_agent_password': return 'secret';
-					default: return $default;
+					case 't01ldap_host':
+						return 'example.org';
+					case 't01ldap_agent_password':
+						return  base64_encode('secret');
+					default:
+						return $default;
 				}
 			}));
 		$result = $this->controller->read('t01');

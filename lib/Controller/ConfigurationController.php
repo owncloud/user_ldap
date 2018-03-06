@@ -92,13 +92,15 @@ class ConfigurationController extends Controller {
 		$resultData = ['configPrefix' => $newPrefix];
 
 		$newConfig = new Configuration($this->config, $newPrefix, false);
-		if(isset($copyConfig)) {
-			$originalConfig = new Configuration($this->config, $copyConfig);
-			$newConfig->setConfiguration($originalConfig->getConfiguration());
-		} else {
+		if($copyConfig === null) {
+			// create empty config
 			$configuration = new Configuration($this->config, $newPrefix, false);
 			$newConfig->setConfiguration($configuration->getDefaults());
 			$resultData['defaults'] = $configuration->getDefaults();
+		} else {
+			// copy existing config
+			$originalConfig = new Configuration($this->config, $copyConfig);
+			$newConfig->setConfiguration($originalConfig->getConfiguration());
 		}
 		$newConfig->saveConfiguration();
 
@@ -117,7 +119,7 @@ class ConfigurationController extends Controller {
 		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
 			// hide password
-		$configuration['ldap_agent_password'] = '**PASSWORD SET**';
+			$configuration['ldap_agent_password'] = '**PASSWORD SET**';
 		}
 		return new DataResponse([
 			'status' => 'success',
