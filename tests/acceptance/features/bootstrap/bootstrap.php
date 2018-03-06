@@ -1,0 +1,40 @@
+<?php
+/**
+ * ownCloud
+ *
+ * @author Artur Neumann <info@jankaritech.com>
+ * @copyright Copyright (c) 2017 Artur Neumann info@jankaritech.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+require __DIR__ . '/../../../../vendor/autoload.php';
+require __DIR__ . '/../../../../../../lib/base.php';
+require __DIR__ . '/../../../../../../lib/composer/autoload.php';
+require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/BasicStructure.php';
+require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/FeatureContext.php';
+require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/LoginContext.php';
+require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/WebUIUserContext.php';
+require __DIR__ . '/../../../../../../tests/ui/features/lib/OwncloudPage.php';
+
+$classLoader = new \Composer\Autoload\ClassLoader();
+$classLoader->addPsr4("Page\\", __DIR__ . "/../lib", true);
+$classLoader->addPsr4(
+	"Page\\", __DIR__ . "/../../../../../../tests/ui/features/lib/", true
+);
+$classLoader->addPsr4(
+	"TestHelpers\\", __DIR__ . "/../../../../../../tests/TestHelpers/", true
+);
+$classLoader->register();
