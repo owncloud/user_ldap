@@ -27,6 +27,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -39,8 +40,7 @@ class MappingController extends Controller {
 
 	/** @var IL10N */
 	protected $l10n;
-	/** @var LDAP */
-	protected $ldapWrapper;
+
 	/** @var Connection */
 	protected $connection;
 
@@ -48,16 +48,16 @@ class MappingController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IL10N $l10n
-	 * @param LDAP $ldapWrapper
+	 * @param IDBConnection $connection
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
-								LDAP $ldapWrapper
+								IDBConnection $connection
 	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
-		$this->ldapWrapper = $ldapWrapper;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -71,14 +71,14 @@ class MappingController extends Controller {
 		$subject = $ldap_clear_mapping; // TODO if possible make JS send as 'subject' right away
 		$mapping = null;
 		if($subject === 'user') {
-			$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+			$mapping = new UserMapping($this->connection);
 		} else if($subject === 'group') {
-			$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
+			$mapping = new GroupMapping($this->connection);
 		}
+		// TODO else return error 'unknown subject '
 		try {
 			if($mapping === null || !$mapping->clear()) {
-				$l = \OC::$server->getL10N('user_ldap');
-				throw new \Exception($l->t('Failed to clear the mappings.'));
+				throw new \Exception($this->l10n->t('Failed to clear the mappings.'));
 			}
 			return new DataResponse(['status' => 'success']);
 		} catch (\Exception $e) {

@@ -76,19 +76,19 @@ class WizardController extends Controller {
 	}
 
 	/**
-	 * @param string $prefix config id
+	 * TODO allow to change config of wizard at runtime, DI wizard and mock it
 	 * @param Configuration $configuration
 	 * @return Wizard
 	 */
-	private function getWizard($prefix, Configuration $configuration) {
-		$con = new Connection($this->config, $this->ldapWrapper, null);
+	private function getWizard(Configuration $configuration) {
+		$con = new Connection($this->ldapWrapper, $configuration);
 		$con->setConfiguration($configuration->getConfiguration());
 		$con->ldapConfigurationActive = true;
 		$con->setIgnoreValidation(true);
 
 		$access = new Access($con, $this->manager);
 
-		return new Wizard($configuration, $this->ldapWrapper, $access);
+		return new Wizard($this->ldapWrapper, $configuration, $access, $this->l10n);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class WizardController extends Controller {
 			case 'countInBaseDN':
 				try {
 					/** @var WizardResult $result */
-					$result = $this->getWizard($prefix, $config)->$action();
+					$result = $this->getWizard($config)->$action();
 					if($result !== false) {
 						$data = $result->getResultArray();
 						$data['status'] = 'success';
@@ -144,7 +144,7 @@ class WizardController extends Controller {
 				try {
 					$loginName = $ldap_test_loginname; // TODO if possible make JS send as 'loginName' right away
 					// FIXME throw exception when loginname is empty
-					$result = $this->getWizard($prefix, $config)->testLoginName($loginName);
+					$result = $this->getWizard($config)->testLoginName($loginName);
 					if($result !== false) {
 						$data = $result->getResultArray();
 						$data['status'] = 'success';
