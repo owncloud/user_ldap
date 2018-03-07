@@ -47,6 +47,13 @@ class UserLdapContext extends RawMinkContext implements Context {
 	private $ldapHost;
 	private $ldapUsersOU;
 	private $ldapGroupsOU;
+	private $toDeleteDNs = [];
+	
+	/**
+	 *
+	 * @var WebUIGeneralContext
+	 */
+	private $webUIGeneralContext;
 	
 	/**
 	 * @Given the LDAP config :configId has the key :configKey set to :configValue
@@ -169,6 +176,70 @@ class UserLdapContext extends RawMinkContext implements Context {
 	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
 		$this->importLdifData($ldifData->getRaw());
 	}
+
+	/**
+	 * creates users in LDAP named: "<prefix>-0000" till "<prefix>-(<amount>-1)"
+	 * e.g.with $amount=2000; and $prefix="my-user-"; "my-user-0000" till "my-user-1999" 
+	 * password is the username
+	 * 
+	 * @Given the administrator has created :amount LDAP users with the prefix :prefix in the OU :ou
+	 * 
+	 * @param int $amount
+	 * @param string $prefix
+	 * @param string $ou
+	 * 
+	 * @return void
+	 */
+	public function createLDAPUsers($amount, $prefix, $ou) {
+		$uidNumberSearch = $this->ldap->searchEntries(
+			'objectClass=posixAccount', null, 0, ['uidNumber']
+		);
+		$maxUidNumber = 0;
+		foreach ($uidNumberSearch as $searchResult) {
+			if ((int)$searchResult['uidnumber'][0] > $maxUidNumber) {
+				$maxUidNumber = (int)$searchResult['uidnumber'][0];
+			}
+		}
+		$entry = array();
+		$ouDN = 'ou=' . $ou . ',' . $this->ldapBaseDN;
+		$ouExists = $this->ldap->exists($ouDN);
+		if (!$ouExists) {
+			$entry['objectclass'][] = 'top';
+			$entry['objectclass'][] = 'organizationalunit';
+			$entry['ou'] = $ou;
+			$this->ldap->add($ouDN, $entry);
+			$this->toDeleteDNs[] = $ouDN;
+		}
+		
+		$lenOfSuffix = strlen((string)$amount);
+		for ($i = 0; $i < $amount; $i++) {
+			$uid = $prefix . str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
+			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->ldapBaseDN; 
+			
+			$entry = array();
+			$entry['cn'] = $uid;
+			$entry['sn'] = $i;
+			$entry['homeDirectory'] = '/home/openldap/' . $uid;
+			$entry['objectclass'][] = 'posixAccount';
+			$entry['objectclass'][] = 'inetOrgPerson';
+			$entry['userPassword'] = $uid;
+			$entry['displayName'] = $uid;
+			$entry['gidNumber'] = 5000;
+			$entry['uidNumber'] = $maxUidNumber + $i + 1;
+			
+			$this->ldap->add($newDN, $entry);
+			$this->webUIGeneralContext->addUserToCreatedUsersList(
+				$uid, $uid, $uid, null, false
+			);
+			
+			if ($ouExists) {
+				//if the OU did not exist, we have created it,
+				//and we will delete the OU recursive.
+				//No need to remember the entries to delete
+				$this->toDeleteDNs[] = $newDN;
+			}
+		}
+	}
 	
 	/**
 	 * We need to make sure that the setup routines are called in the correct order
@@ -181,6 +252,10 @@ class UserLdapContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
+		$environment = $scope->getEnvironment();
+		// Get all the contexts you need in this context
+		$this->webUIGeneralContext = $environment->getContext('WebUIGeneralContext');
+		
 		$suiteParameters = SetupHelper::getSuiteParameters($scope);
 		$this->connectToLdap($suiteParameters);
 		$this->importLdifFile(
@@ -264,6 +339,9 @@ class UserLdapContext extends RawMinkContext implements Context {
 		$this->ldap->delete(
 			"ou=" . $this->ldapGroupsOU . "," . $this->ldapBaseDN, true
 		);
+		foreach ($this->toDeleteDNs as $dn) {
+			$this->ldap->delete($dn, true);
+		}
 		$this->theLdapUsersHaveBeenResynced();
 	}
 
