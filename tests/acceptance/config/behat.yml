@@ -26,7 +26,8 @@ default:
           regularGroupName: regulargrp
           regularGroupNames: grp1,grp2,grp3,usergrp,grpuser
       contexts:
-        - UserLdapContext:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIUserContext:
