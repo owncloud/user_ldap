@@ -211,4 +211,12 @@ class Helper {
 			$param['uid'] = $uid;
 		}
 	}
+
+	public function nextPossibleConfigurationPrefix() {
+		$prefixes = $this->getServerConfigurationPrefixes();
+		sort($prefixes);
+		$maxPrefix = array_pop($prefixes);
+		$count = (int)ltrim($maxPrefix, 's');
+		return 's'.str_pad($count+1, 2, '0', STR_PAD_LEFT);
+	}
 }

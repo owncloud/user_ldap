@@ -6,7 +6,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,12 +23,8 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests;
+namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\ILDAPWrapper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 
 /**
@@ -36,7 +32,7 @@ use OCA\User_LDAP\User\Manager;
  *
  * @group DB
  *
- * @package OCA\User_LDAP\Tests
+ * @package OCA\User_LDAP
  */
 class AccessTest extends \Test\TestCase {
 

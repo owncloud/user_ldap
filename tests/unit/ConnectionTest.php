@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,15 +22,15 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests;
-use OCA\User_LDAP\Connection;
+namespace OCA\User_LDAP;
+use OCP\IConfig;
 
 /**
  * Class Test_Connection
  *
  * @group DB
  *
- * @package OCA\User_LDAP\Tests
+ * @package OCA\User_LDAP
  */
 class ConnectionTest extends \Test\TestCase {
 	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject  */
@@ -41,12 +41,15 @@ class ConnectionTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
+		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
-		$this->ldap       = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
+		$configuration = new Configuration($coreConfig, 'test', false);
+
+		$this->ldap       = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
-		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
+		$this->connection = $this->getMockBuilder(Connection::class)
 			->setMethods(['getFromCache', 'writeToCache'])
-			->setConstructorArgs([$this->ldap, '', null])
+			->setConstructorArgs([$this->ldap, $configuration, null])
 			->getMock();
 
 		$this->ldap->expects($this->any())
@@ -58,9 +61,10 @@ class ConnectionTest extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$lw  = $this->createMock('\OCA\User_LDAP\ILDAPWrapper');
+		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
-		$connection = new Connection($lw, '', null);
+		$configuration = new Configuration($coreConfig, 'test', false);
+		$connection = new Connection($this->ldap, $configuration, null);
 		$agent = array(
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',

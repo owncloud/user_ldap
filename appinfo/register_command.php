@@ -36,13 +36,6 @@ $uBackend = new User_Proxy(
 	$ocConfig
 );
 
-$application->add(new OCA\User_LDAP\Command\ShowConfig($helper));
-$application->add(new OCA\User_LDAP\Command\SetConfig());
-$application->add(new OCA\User_LDAP\Command\TestConfig());
-$application->add(new OCA\User_LDAP\Command\CreateEmptyConfig($helper));
-$application->add(new OCA\User_LDAP\Command\DeleteConfig($helper));
-$application->add(new OCA\User_LDAP\Command\Search($ocConfig));
 $application->add(new OCA\User_LDAP\Command\CheckUser(
 	$uBackend, $helper, $userMapping)
 );
-$application->add(new OCA\User_LDAP\Command\UpdateGroup(new LDAP(), $helper, $dbConnection));

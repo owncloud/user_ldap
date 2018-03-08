@@ -24,6 +24,8 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Configuration;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,24 +43,24 @@ class UpdateGroup extends Command {
 	const ERROR_CODE_MISSING_CONF = 1;
 	const ERROR_CODE_MISSING_MAPPING = 2;
 
-	/**
-	 * @var IDBConnection
-	 */
+	/** @var IConfig */
+	protected $coreConfig;
+
+	/** @var IDBConnection */
 	private $connection;
-	/**
-	 * @var LDAP
-	 */
+
+	/** @var LDAP */
 	private $ldap;
-	/**
-	 * @var Helper
-	 */
+
+	/** @var Helper */
 	private $helper;
 
-	public function __construct(LDAP $ldap, Helper $helper, IDBConnection $connection) {
+	public function __construct(IConfig $coreConfig, LDAP $ldap, Helper $helper, IDBConnection $connection) {
+		parent::__construct();
+		$this->coreConfig = $coreConfig;
 		$this->connection = $connection;
 		$this->ldap = $ldap;
 		$this->helper = $helper;
-		parent::__construct();
 	}
 
 	protected function configure() {
@@ -90,7 +92,7 @@ class UpdateGroup extends Command {
 			$output->writeln("Group membership attribute is critical for this command, please verify.");
 			// show configuration information, useful to debug
 			foreach ($availableConfigs as $aconfig) {
-				$config = new \OCA\User_LDAP\Configuration($aconfig);
+				$config = new Configuration($this->coreConfig, $aconfig);
 				$message = '* ' . $config->ldapHost . ':' . $config->ldapPort . ' -> ' . $config->ldapGroupMemberAssocAttr;
 				$output->writeln($message);
 			}

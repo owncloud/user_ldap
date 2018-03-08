@@ -27,6 +27,7 @@ namespace OCA\User_LDAP\Command;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OC\Core\Command\Base;
+use OCP\IConfig;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,15 +35,21 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
-	/** @var \OCA\User_LDAP\Helper */
+
+	/** @var IConfig */
+	protected $config;
+
+	/** @var Helper */
 	protected $helper;
 
 	/**
+	 * @param IConfig $config
 	 * @param Helper $helper
 	 */
-	public function __construct(Helper $helper) {
-		$this->helper = $helper;
+	public function __construct(IConfig $config, Helper $helper) {
 		parent::__construct();
+		$this->config = $config;
+		$this->helper = $helper;
 	}
 
 	protected function configure() {
@@ -68,7 +75,7 @@ class ShowConfig extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(!is_null($configID)) {
+		if($configID !== null) {
 			$configIDs[] = $configID;
 			if(!in_array($configIDs[0], $availableConfigs)) {
 				$output->writeln("Invalid configID");
@@ -83,12 +90,13 @@ class ShowConfig extends Base {
 	/**
 	 * prints the LDAP configuration(s)
 	 * @param string[] configID(s)
+	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
 	 */
-	protected function renderConfigs($configIDs, $input, $output, $withPassword) {
+	protected function renderConfigs($configIDs, InputInterface $input, OutputInterface $output, $withPassword) {
 		foreach($configIDs as $id) {
-			$configHolder = new Configuration($id);
+			$configHolder = new Configuration($this->config, $id);
 			$configuration = $configHolder->getConfiguration();
 			ksort($configuration);
 			if (!$withPassword) {

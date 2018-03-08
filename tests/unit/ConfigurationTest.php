@@ -3,7 +3,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -20,9 +20,18 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests;
+namespace OCA\User_LDAP;
 
 class ConfigurationTest extends \Test\TestCase {
+
+	/** @var Configuration */
+	private $configuration;
+
+	protected function setUp() {
+		parent::setUp();
+		$config = \OC::$server->getConfig(); // TODO use mock
+		$this->configuration = new Configuration($config,'t01', false);
+	}
 
 	public function configurationDataProvider() {
 		$inputWithDN = array(
@@ -90,10 +99,8 @@ class ConfigurationTest extends \Test\TestCase {
 	 * @dataProvider configurationDataProvider
 	 */
 	public function testSetValue($key, $input, $expected) {
-		$configuration = new \OCA\User_LDAP\Configuration('t01', false);
-
-		$configuration->setConfiguration([$key => $input]);
-		$this->assertSame($configuration->$key, $expected);
+		$this->configuration->setConfiguration([$key => $input]);
+		$this->assertSame($this->configuration->$key, $expected);
 	}
 
 }

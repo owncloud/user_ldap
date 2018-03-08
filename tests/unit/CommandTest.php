@@ -19,11 +19,11 @@
  *
  */
 
-namespace OCA\User_LDAP\Command;
+namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Command\ShowConfig;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
-use OCA\User_LDAP\Helper;
 
 /**
  * Class CommandTest
@@ -41,8 +41,8 @@ class CommandTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->helper = $this->createMock(Helper::class);
-		
-		$command = new ShowConfig($this->helper);
+		$coreConfig = \OC::$server->getConfig();
+		$command = new ShowConfig($coreConfig, $this->helper);
 		$this->commandTester = new CommandTester($command);
 		$this->helper
 		->expects($this->once())

@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,19 +22,17 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests\Mapping;
-
-use OCA\User_LDAP\Mapping\GroupMapping;
+namespace OCA\User_LDAP\Mapping;
 
 /**
- * Class GroupMappingTest
+ * Class UserMappingTest
  *
  * @group DB
  *
- * @package OCA\User_LDAP\Tests\Mapping
+ * @package OCA\User_LDAP\Mapping
  */
-class GroupMappingTest extends AbstractMappingTest {
+class UserMappingTest extends AbstractMappingTest {
 	public function getMapper(\OCP\IDBConnection $dbMock) {
-		return new GroupMapping($dbMock);
+		return new UserMapping($dbMock);
 	}
 }

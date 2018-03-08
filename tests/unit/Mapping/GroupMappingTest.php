@@ -1,12 +1,11 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,17 +22,17 @@
  *
  */
 
-// Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+namespace OCA\User_LDAP\Mapping;
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$ldapWrapper = new OCA\User_LDAP\LDAP();
-$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
-$configuration = $connection->getConfiguration();
-if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
-	// hide password
-	$configuration['ldap_agent_password'] = '**PASSWORD SET**';
+/**
+ * Class GroupMappingTest
+ *
+ * @group DB
+ *
+ * @package OCA\User_LDAP\Mapping
+ */
+class GroupMappingTest extends AbstractMappingTest {
+	public function getMapper(\OCP\IDBConnection $dbMock) {
+		return new GroupMapping($dbMock);
+	}
 }
-OCP\JSON::success(array('configuration' => $configuration));

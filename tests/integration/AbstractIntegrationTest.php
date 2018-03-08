@@ -87,10 +87,11 @@ abstract class AbstractIntegrationTest {
 	 * sets up the LDAP configuration to be used for the test
 	 */
 	protected function initConnection() {
+		$coreConfig = \OC::$server->getConfig();
+		$configuration = new Configuration($coreConfig, 'test');
+		$this->connection = new Connection($this->ldap, $configuration);
 		// use the defaults to make sure we don't use any remnants
-		$defaults = (new Configuration(""))->getDefaults();
-		$this->connection = new Connection($this->ldap, 'test');
-		$this->connection->setConfiguration($defaults);
+		$this->connection->setConfiguration($configuration->getDefaults());
 		$this->connection->setConfiguration([
 			'ldapHost' => $this->server['host'],
 			'ldapPort' => $this->server['port'],

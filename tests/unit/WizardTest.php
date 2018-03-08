@@ -6,7 +6,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Viktor Szépe <viktor@szepe.net>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,36 +23,30 @@
  *
  */
 
-namespace OCA\User_LDAP\Tests;
+namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\ILDAPWrapper;
-use \OCA\User_LDAP\Wizard;
+use OCP\IL10N;
 
 /**
  * Class Test_Wizard
  *
  * @group DB
  *
- * @package OCA\User_LDAP\Tests
+ * @package OCA\User_LDAP
  */
 class WizardTest extends \Test\TestCase {
 
-	/**
-	 * @var Configuration|\PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var Configuration|\PHPUnit_Framework_MockObject_MockObject */
 	protected $configuration;
 
-	/**
-	 * @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
 	protected $ldap;
 
-	/**
-	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var Access|\PHPUnit_Framework_MockObject_MockObject */
 	protected $access;
+
+	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	protected $l10n;
 
 	/**
 	 * @var Wizard
@@ -120,8 +114,9 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 
 		$this->access = $this->createMock(Access::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->wizard = new Wizard($this->configuration, $this->ldap, $this->access);
+		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->access, $this->l10n);
 	}
 
 	private function prepareLdapWrapperForConnections() {
@@ -255,10 +250,9 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
-				} else {
-					//for requirement checks
-					return 'let me pass';
 				}
+				//for requirement checks
+				return 'let me pass';
 			}));
 
 		$this->access->expects($this->once())
@@ -275,10 +269,9 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
-				} else {
-					//for requirement checks
-					return 'let me pass';
 				}
+				//for requirement checks
+				return 'let me pass';
 			}));
 
 		$this->access->expects($this->exactly(3))
@@ -292,9 +285,11 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				}
+				if($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				}
+				if($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
@@ -313,10 +308,9 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
 					return '';
-				} else {
-					//for requirement checks
-					return 'let me pass';
 				}
+				//for requirement checks
+				return 'let me pass';
 			}));
 
 		$this->access->expects($this->exactly(2))
@@ -330,15 +324,17 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				}
+				if($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				}
+				if($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
-		$this->wizard = new Wizard($this->configuration, $this->ldap, $this->access);
+		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->access, $this->l10n);
 		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
 			$result['changes']['ldap_email_attr']);
@@ -351,10 +347,9 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($name) {
 				if($name === 'ldapEmailAttribute') {
 					return 'myEmailAttribute';
-				} else {
-					//for requirement checks
-					return 'let me pass';
 				}
+				//for requirement checks
+				return 'let me pass';
 			}));
 
 		$this->access->expects($this->exactly(3))
@@ -368,9 +363,11 @@ class WizardTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				}
+				if($filter === 'mail') {
 					return 0;
-				} else if($filter === 'mailPrimaryAddress') {
+				}
+				if($filter === 'mailPrimaryAddress') {
 					return 0;
 				}
 				throw new \Exception('Untested filter: ' . $filter);

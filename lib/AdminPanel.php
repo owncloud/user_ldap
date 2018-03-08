@@ -2,18 +2,24 @@
 
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
 use OCP\Template;
 
 class AdminPanel implements ISettings {
 
-	/** @var Helper  */
+	/** @var IConfig */
+	protected $config;
+
+	/** @var Helper */
 	protected $helper;
-	/** @var IL10N  */
+
+	/** @var IL10N */
 	protected $l;
 
-	public function __construct(Helper $helper, IL10N $l) {
+	public function __construct(IConfig $config, Helper $helper, IL10N $l) {
+		$this->config = $config;
 		$this->helper = $helper;
 		$this->l = $l;
 	}
@@ -60,7 +66,7 @@ class AdminPanel implements ISettings {
 		$tmpl->assign('settingControls', $sControls);
 
 		// assign default values
-		$config = new \OCA\User_LDAP\Configuration('', false);
+		$config = new Configuration($this->config, '', false);
 		$defaults = $config->getDefaults();
 		foreach($defaults as $key => $default) {
 			$tmpl->assign($key.'_default', $default);

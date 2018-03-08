@@ -24,6 +24,9 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\LDAP;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +35,29 @@ use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
+
+
+	/** @var IConfig */
+	protected $coreConfig;
+
+
+	/** @var Helper */
+	protected $helper;
+
+	/** @var LDAP */
+	protected $ldap;
+
+	/**
+	 * @param IConfig $coreConfig
+	 * @param Helper $helper
+	 * @param LDAP $ldap
+	 */
+	public function __construct(IConfig $coreConfig, Helper $helper, LDAP $ldap) {
+		parent::__construct();
+		$this->coreConfig = $coreConfig;
+		$this->helper = $helper;
+		$this->ldap = $ldap;
+	}
 
 	protected function configure() {
 		$this
@@ -46,15 +72,14 @@ class TestConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
-		$configID = $input->getArgument('configID');
-		if(!in_array($configID, $availableConfigs)) {
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
+		$configId = $input->getArgument('configID');
+		if(!in_array($configId, $availableConfigs, true)) {
 			$output->writeln("Invalid configID");
 			return;
 		}
 
-		$result = $this->testConfig($configID);
+		$result = $this->testConfig($configId);
 		if($result === 0) {
 			$output->writeln('The configuration is valid and the connection could be established!');
 		} else if($result === 1) {
@@ -68,12 +93,12 @@ class TestConfig extends Command {
 
 	/**
 	 * tests the specified connection
-	 * @param string $configID
+	 * @param string $configId
 	 * @return int
 	 */
-	protected function testConfig($configID) {
-		$lw = new \OCA\User_LDAP\LDAP();
-		$connection = new Connection($lw, $configID);
+	protected function testConfig($configId) {
+		$configuration = new Configuration($this->coreConfig, $configId);
+		$connection = new Connection($this->ldap, $configuration);
 
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();

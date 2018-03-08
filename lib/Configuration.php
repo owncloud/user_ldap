@@ -28,17 +28,24 @@
  */
 
 namespace OCA\User_LDAP;
+use OCP\IConfig;
 
 /**
  * @property int ldapPagingSize holds an integer
  */
 class Configuration {
 
-	protected $configPrefix = null;
-	protected $configRead = false;
+	/** @var IConfig */
+	protected $coreConfig;
 
-	//settings
-	protected $config = array(
+	/** @var string */
+	protected $prefix;
+
+	/** @var bool */
+	protected $read = false;
+
+	/** @var array */
+	protected $data = array(
 		'ldapHost' => null,
 		'ldapPort' => null,
 		'ldapBackupHost' => null,
@@ -93,14 +100,36 @@ class Configuration {
 	);
 
 	/**
-	 * @param string $configPrefix
+	 * @param IConfig $coreConfig
+	 * @param string $prefix a string with the prefix for the configkey column (appconfig table)
 	 * @param bool $autoRead
 	 */
-	public function __construct($configPrefix, $autoRead = true) {
-		$this->configPrefix = $configPrefix;
+	public function __construct(IConfig $coreConfig, $prefix, $autoRead = true) {
+		$this->coreConfig = $coreConfig;
+		$this->prefix = $prefix;
 		if($autoRead) {
 			$this->readConfiguration();
 		}
+	}
+
+	/**
+	 * @return IConfig
+	 */
+	public function getCoreConfig() {
+		return $this->coreConfig;
+	}
+	/**
+	 * @return string the configuration prefix
+	 */
+	public function getPrefix() {
+		return $this->prefix;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isRead() {
+		return $this->read;
 	}
 
 	/**
@@ -108,8 +137,8 @@ class Configuration {
 	 * @return mixed|null
 	 */
 	public function __get($name) {
-		if(isset($this->config[$name])) {
-			return $this->config[$name];
+		if(isset($this->data[$name])) {
+			return $this->data[$name];
 		}
 		return null;
 	}
@@ -119,14 +148,14 @@ class Configuration {
 	 * @param mixed $value
 	 */
 	public function __set($name, $value) {
-		$this->setConfiguration(array($name => $value));
+		$this->setConfiguration([$name => $value]);
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getConfiguration() {
-		return $this->config;
+		return $this->data;
 	}
 
 	/**
@@ -147,7 +176,7 @@ class Configuration {
 		foreach($config as $inputKey => $val) {
 			if(strpos($inputKey, '_') !== false && array_key_exists($inputKey, $cta)) {
 				$key = $cta[$inputKey];
-			} elseif(array_key_exists($inputKey, $this->config)) {
+			} elseif(array_key_exists($inputKey, $this->data)) {
 				$key = $inputKey;
 			} else {
 				continue;
@@ -186,9 +215,9 @@ class Configuration {
 	}
 
 	public function readConfiguration() {
-		if(!$this->configRead && !is_null($this->configPrefix)) {
+		if($this->prefix !== null && !$this->isRead()) {
 			$cta = array_flip($this->getConfigTranslationArray());
-			foreach($this->config as $key => $val) {
+			foreach($this->data as $key => $val) {
 				if(!isset($cta[$key])) {
 					//some are determined
 					continue;
@@ -226,18 +255,16 @@ class Configuration {
 						$readMethod = 'getValue';
 						break;
 				}
-				$this->config[$key] = $this->$readMethod($dbKey);
+				$this->data[$key] = $this->$readMethod($dbKey);
 			}
-			$this->configRead = true;
+			$this->read = true;
 		}
 	}
 
-	/**
-	 * saves the current Configuration in the database
-	 */
-	public function saveConfiguration() {
+	private function getTranslatedConfig () {
 		$cta = array_flip($this->getConfigTranslationArray());
-		foreach($this->config as $key => $value) {
+		$result = [];
+		foreach($this->data as $key => $value) {
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
@@ -252,7 +279,7 @@ class Configuration {
 				case 'ldapGroupFilterObjectclass':
 				case 'ldapGroupFilterGroups':
 				case 'ldapLoginFilterAttributes':
-					if(is_array($value)) {
+					if (is_array($value)) {
 						$value = implode("\n", $value);
 					}
 					break;
@@ -263,11 +290,25 @@ class Configuration {
 				case 'ldapUuidGroupAttribute':
 					continue 2;
 			}
-			if(is_null($value)) {
+			if ($value === null) {
 				$value = '';
 			}
-			$this->saveValue($cta[$key], $value);
+			$result[$cta[$key]] = $value;
 		}
+		return $result;
+	}
+	/**
+	 * saves the current Configuration in the database
+	 */
+	public function saveConfiguration() {
+		foreach($this->getTranslatedConfig() as $key => $value) {
+			$this->saveValue($key, $value);
+		}
+	}
+
+	public function isDefault() {
+		$diff = array_diff_assoc($this->getTranslatedConfig(), $this->getDefaults());
+		return count($diff) === 0;
 	}
 
 	/**
@@ -344,7 +385,7 @@ class Configuration {
 	 */
 	protected function getSystemValue($varName) {
 		//FIXME: if another system value is added, softcode the default value
-		return \OC::$server->getConfig()->getSystemValue($varName, false);
+		return $this->coreConfig->getSystemValue($varName, false);
 	}
 
 	/**
@@ -353,11 +394,11 @@ class Configuration {
 	 */
 	protected function getValue($varName) {
 		static $defaults;
-		if(is_null($defaults)) {
+		if($defaults === null) {
 			$defaults = $this->getDefaults();
 		}
-		return \OC::$server->getConfig()->getAppValue('user_ldap',
-										$this->configPrefix.$varName,
+		return $this->coreConfig->getAppValue('user_ldap',
+										$this->prefix.$varName,
 										$defaults[$varName]);
 	}
 
@@ -371,7 +412,7 @@ class Configuration {
 		if(is_string($value)) {
 			$value = trim($value);
 		}
-		$this->config[$varName] = $value;
+		$this->data[$varName] = $value;
 	}
 
 	/**
@@ -381,7 +422,7 @@ class Configuration {
 	 * @param mixed $value to set
 	 */
 	protected function setRawValue($varName, $value) {
-		$this->config[$varName] = $value;
+		$this->data[$varName] = $value;
 	}
 
 	/**
@@ -389,8 +430,8 @@ class Configuration {
 	 * @param string $value
 	 */
 	protected function saveValue($varName, $value) {
-		return \OC::$server->getConfig()->setAppValue('user_ldap',
-										$this->configPrefix.$varName,
+		$this->coreConfig->setAppValue('user_ldap',
+										$this->prefix.$varName,
 										$value);
 	}
 

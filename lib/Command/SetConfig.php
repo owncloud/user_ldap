@@ -24,6 +24,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +33,17 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Configuration;
 
 class SetConfig extends Command {
+
+	/** @var IConfig */
+	protected $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		parent::__construct();
+		$this->config = $config;
+	}
 
 	protected function configure() {
 		$this
@@ -78,7 +90,7 @@ class SetConfig extends Command {
 	 * @param string $configValue
 	 */
 	protected function setValue($configID, $key, $value) {
-		$configHolder = new Configuration($configID);
+		$configHolder = new Configuration($this->config, $configID);
 		$configHolder->$key = $value;
 		$configHolder->saveConfiguration();
 	}

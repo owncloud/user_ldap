@@ -34,10 +34,11 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCP\IL10N;
 
 class Wizard extends LDAPUtility {
 	/** @var \OCP\IL10N */
-	static protected $l;
+	protected $l;
 	protected $access;
 	protected $cr;
 	protected $configuration;
@@ -62,15 +63,20 @@ class Wizard extends LDAPUtility {
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
 	 * @param Access $access
+	 * @param IL10N $l10n
 	 */
-	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access) {
+	public function __construct(ILDAPWrapper $ldap, Configuration $configuration, Access $access, IL10N $l10n) {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
-		if(is_null(Wizard::$l)) {
-			Wizard::$l = \OC::$server->getL10N('user_ldap');
-		}
+		$this->l = $l10n;
 		$this->access = $access;
 		$this->result = new WizardResult();
+	}
+
+	// FIXME implement getLDAP() and return from Access instance. The code expects the two connections to be the same
+
+	public function setConfiguration (Configuration $configuration) {
+		$this->configuration = $configuration;
 	}
 
 	public function  __destruct() {
@@ -130,7 +136,7 @@ class Wizard extends LDAPUtility {
 		$filter = $this->configuration->ldapGroupFilter;
 
 		if(empty($filter)) {
-			$output = self::$l->n('%s group found', '%s groups found', 0, array(0));
+			$output = $this->l->n('%s group found', '%s groups found', 0, array(0));
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
@@ -144,7 +150,7 @@ class Wizard extends LDAPUtility {
 			}
 			return false;
 		}
-		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, array($groupsTotal));
+		$output = $this->l->n('%s group found', '%s groups found', $groupsTotal, array($groupsTotal));
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
@@ -157,7 +163,7 @@ class Wizard extends LDAPUtility {
 		$filter = $this->access->getFilterForUserCount();
 
 		$usersTotal = $this->formatCountResult($this->countEntries($filter, 'users'));
-		$output = self::$l->n('%s user found', '%s users found', $usersTotal, array($usersTotal));
+		$output = $this->l->n('%s user found', '%s users found', $usersTotal, array($usersTotal));
 		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
@@ -222,7 +228,7 @@ class Wizard extends LDAPUtility {
 		if ($attr !== '' && $attr !== 'displayName') {
 			// most likely not the default value with upper case N,
 			// verify it still produces a result
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				//no change, but we sent it back to make sure the user interface
 				//is still correct, even if the ajax call was cancelled meanwhile
@@ -234,7 +240,7 @@ class Wizard extends LDAPUtility {
 		// first attribute that has at least one result wins
 		$displayNameAttrs = array('displayname', 'cn');
 		foreach ($displayNameAttrs as $attr) {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 
 			if($count > 0) {
 				$this->applyFind('ldap_display_name', $attr);
@@ -242,7 +248,7 @@ class Wizard extends LDAPUtility {
 			}
 		};
 
-		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
+		throw new \Exception($this->l->t('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
 	}
 
 	/**
@@ -262,7 +268,7 @@ class Wizard extends LDAPUtility {
 
 		$attr = $this->configuration->ldapEmailAttribute;
 		if ($attr !== '') {
-			$count = intval($this->countUsersWithAttribute($attr, true));
+			$count = (int)$this->countUsersWithAttribute($attr, true);
 			if($count > 0) {
 				return false;
 			}
@@ -452,7 +458,7 @@ class Wizard extends LDAPUtility {
 			natsort($groupNames);
 			$this->result->addOptions($dbKey, array_values($groupNames));
 		} else {
-			throw new \Exception(self::$l->t('Could not find the desired feature'));
+			throw new \Exception($this->l->t('Could not find the desired feature'));
 		}
 
 		$setFeatures = $this->configuration->$confKey;
@@ -687,7 +693,7 @@ class Wizard extends LDAPUtility {
 			if ($settingsFound === true) {
 				$config = array(
 					'ldapPort' => $p,
-					'ldapTLS' => intval($t)
+					'ldapTLS' => (int)$t
 				);
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
@@ -1037,12 +1043,12 @@ class Wizard extends LDAPUtility {
 		$host = $this->configuration->ldapHost;
 		$hostInfo = parse_url($host);
 		if(!$hostInfo) {
-			throw new \Exception(self::$l->t('Invalid Host'));
+			throw new \Exception($this->l->t('Invalid Host'));
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', \OCP\Util::DEBUG);
 		$cr = $this->getLDAP()->connect($host, $port);
 		if(!is_resource($cr)) {
-			throw new \Exception(self::$l->t('Invalid Host'));
+			throw new \Exception($this->l->t('Invalid Host'));
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
@@ -1084,7 +1090,8 @@ class Wizard extends LDAPUtility {
 		if($errNo === -1 || ($errNo === 2 && $ncc)) {
 			//host, port or TLS wrong
 			return false;
-		} else if ($errNo === 2) {
+		}
+		if ($errNo === 2) {
 			return $this->connectAndBind($port, $tls, true);
 		}
 		throw new \Exception($error, $errNo);
@@ -1161,7 +1168,7 @@ class Wizard extends LDAPUtility {
 			$entries = $this->getLDAP()->countEntries($cr, $rr);
 			$getEntryFunc = 'firstEntry';
 			if(($entries !== false) && ($entries > 0)) {
-				if(!is_null($maxF) && $entries > $maxEntries) {
+				if($maxF !== null && $entries > $maxEntries) {
 					$maxEntries = $entries;
 					$maxF = $filter;
 				}
@@ -1232,7 +1239,7 @@ class Wizard extends LDAPUtility {
 			//sorting in the web UI. Therefore: array_values
 			$this->result->addOptions($dbkey, array_values($availableFeatures));
 		} else {
-			throw new \Exception(self::$l->t('Could not find the desired feature'));
+			throw new \Exception($this->l->t('Could not find the desired feature'));
 		}
 
 		$setFeatures = $this->configuration->$confkey;
@@ -1260,7 +1267,7 @@ class Wizard extends LDAPUtility {
 	private function getAttributeValuesFromEntry($result, $attribute, &$known) {
 		if(!is_array($result)
 		   || !isset($result['count'])
-		   || !$result['count'] > 0) {
+		   || !($result['count'] > 0)) {
 			return self::LRESULT_PROCESSED_INVALID;
 		}
 
@@ -1277,16 +1284,15 @@ class Wizard extends LDAPUtility {
 				}
 			}
 			return self::LRESULT_PROCESSED_OK;
-		} else {
-			return self::LRESULT_PROCESSED_SKIP;
 		}
+		return self::LRESULT_PROCESSED_SKIP;
 	}
 
 	/**
 	 * @return bool|mixed
 	 */
 	private function getConnection() {
-		if(!is_null($this->cr)) {
+		if($this->cr !== null) {
 			return $this->cr;
 		}
 
@@ -1336,7 +1342,7 @@ class Wizard extends LDAPUtility {
 		//636 ← LDAPS / SSL
 		//7xxx ← UCS. need to be checked first, because both ports may be open
 		$host = $this->configuration->ldapHost;
-		$port = intval($this->configuration->ldapPort);
+		$port = (int)$this->configuration->ldapPort;
 		$portSettings = array();
 
 		//In case the port is already provided, we will check this first
