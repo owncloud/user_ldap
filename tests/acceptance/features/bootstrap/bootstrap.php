@@ -23,16 +23,16 @@
 require __DIR__ . '/../../../../vendor/autoload.php';
 require __DIR__ . '/../../../../../../lib/base.php';
 require __DIR__ . '/../../../../../../lib/composer/autoload.php';
-require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/BasicStructure.php';
-require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/FeatureContext.php';
-require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/LoginContext.php';
-require __DIR__ . '/../../../../../../tests/ui/features/bootstrap/WebUIUserContext.php';
-require __DIR__ . '/../../../../../../tests/ui/features/lib/OwncloudPage.php';
+require __DIR__ . '/../../../../../../tests/acceptance/features/bootstrap/WebUIBasicStructure.php';
+require __DIR__ . '/../../../../../../tests/acceptance/features/bootstrap/WebUIGeneralContext.php';
+require __DIR__ . '/../../../../../../tests/acceptance/features/bootstrap/WebUILoginContext.php';
+require __DIR__ . '/../../../../../../tests/acceptance/features/bootstrap/WebUIUserContext.php';
+require __DIR__ . '/../../../../../../tests/acceptance/features/lib/OwncloudPage.php';
 
 $classLoader = new \Composer\Autoload\ClassLoader();
 $classLoader->addPsr4("Page\\", __DIR__ . "/../lib", true);
 $classLoader->addPsr4(
-	"Page\\", __DIR__ . "/../../../../../../tests/ui/features/lib/", true
+	"Page\\", __DIR__ . "/../../../../../../tests/acceptance/features/lib/", true
 );
 $classLoader->addPsr4(
 	"TestHelpers\\", __DIR__ . "/../../../../../../tests/TestHelpers/", true

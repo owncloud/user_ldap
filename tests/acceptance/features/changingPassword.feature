@@ -1,4 +1,4 @@
-@insulated @disablePreviews
+@webUI @insulated @disablePreviews
 Feature: changing password
 
 As an user

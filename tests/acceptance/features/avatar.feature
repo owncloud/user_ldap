@@ -1,4 +1,4 @@
-@insulated @disablePreviews
+@webUI @insulated @disablePreviews
 Feature: providing an avatar by LDAP
 
 As an user
