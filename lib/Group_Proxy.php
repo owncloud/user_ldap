@@ -207,4 +207,14 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function isVisibleForScope($scope) {
 		return true;
 	}
+
+	/**
+	 * Returns whether the groups and memberships are to be maintained by core
+	 * and sync mechanism to be used.
+	 *
+	 * @since 10.0.0
+	 */
+	public function isSyncMaintained() {
+		return true;
+	}
 }
