@@ -97,7 +97,7 @@ pipeline:
       - SRV_HOST_PORT=80
       - REMOTE_FED_SRV_HOST_NAME=federated
       - REMOTE_FED_SRV_HOST_PORT=80
-      - SKELETON_DIR=/var/www/owncloud/tests/ui/skeleton
+      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - SELENIUM_PORT=4444
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
@@ -107,7 +107,7 @@ pipeline:
       - chmod +x lib/composer/behat/behat/bin/behat
       - rm lib/composer/bin/behat
       - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
-      - chmod 777 /var/www/owncloud/tests/ui/filesForUpload -R
+      - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
       - bash tests/travis/start_ui_tests.sh --config apps/user_ldap/tests/acceptance/config/behat.yml
     when:
       matrix:
@@ -123,7 +123,7 @@ pipeline:
       - SRV_HOST_PORT=80
       - REMOTE_FED_SRV_HOST_NAME=federated
       - REMOTE_FED_SRV_HOST_PORT=80
-      - SKELETON_DIR=/var/www/owncloud/tests/ui/skeleton
+      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - SELENIUM_PORT=4444
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
@@ -133,7 +133,7 @@ pipeline:
       - chmod +x lib/composer/behat/behat/bin/behat
       - rm lib/composer/bin/behat
       - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
-      - chmod 777 /var/www/owncloud/tests/ui/filesForUpload -R
+      - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
       - bash tests/travis/start_ui_tests.sh --remote --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
     when:
       matrix:
