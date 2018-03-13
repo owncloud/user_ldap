@@ -104,9 +104,6 @@ pipeline:
     commands:
       - cd /var/www/owncloud
       - chown www-data * -R
-      - chmod +x lib/composer/behat/behat/bin/behat
-      - rm lib/composer/bin/behat
-      - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
       - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
       - bash tests/travis/start_ui_tests.sh --config apps/user_ldap/tests/acceptance/config/behat.yml
     when:
@@ -130,9 +127,6 @@ pipeline:
     commands:
       - cd /var/www/owncloud
       - chown www-data * -R
-      - chmod +x lib/composer/behat/behat/bin/behat
-      - rm lib/composer/bin/behat
-      - ln -s ../behat/behat/bin/behat lib/composer/bin/behat
       - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
       - bash tests/travis/start_ui_tests.sh --remote --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
     when:
@@ -166,9 +160,6 @@ pipeline:
     pull: true
     commands:
       - cd /var/www/owncloud
-      - chmod +x lib/composer/phpunit/phpunit/phpunit
-      - rm lib/composer/bin/phpunit
-      - ln -s ../phpunit/phpunit/phpunit lib/composer/bin/phpunit
       - phpdbg -d memory_limit=4096M -rr ./lib/composer/bin/phpunit --configuration apps/user_ldap/tests/unit/phpunit.xml
     when:
       matrix:
