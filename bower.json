@@ -4,6 +4,6 @@
   "private": true,
   "ignore": [],
   "dependencies": {
-    "ui-multiselect": "git://github.com/ehynds/jquery-ui-multiselect-widget#1.13"
+    "vue": "^2.5.16"
   }
 }
