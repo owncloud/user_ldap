@@ -29,7 +29,7 @@ return [
 		[
 			'name' => 'configuration#read',
 			'url' => 'ajax/getConfiguration.php',
-			'verb' => 'POST'
+			'verb' => 'GET'
 		],
 		[
 			'name' => 'configuration#test',
