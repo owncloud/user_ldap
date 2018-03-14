@@ -21,12 +21,16 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
-use OCA\User_LDAP\Helper;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\AppFramework\Http;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Exceptions\ConfigException;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -42,10 +46,14 @@ class ConfigurationControllerTest extends TestCase {
 
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ConfigMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $configMapper;
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $config;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $cf;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
+	/** @var ServerMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $mapper;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
@@ -58,159 +66,142 @@ class ConfigurationControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->configMapper = $this->createMock(ConfigMapper::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->cf = $this->createMock(ICacheFactory::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->mapper = $this->createMock(ServerMapper::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->ldap = $this->createMock(LDAP::class);
 
 		$this->controller = new ConfigurationController(
 			'user_ldap',
 			$this->request,
-			$this->configMapper,
+			$this->config,
+			$this->cf,
 			$this->session,
+			$this->mapper,
 			$this->l10n,
 			$this->ldap
 		);
 	}
 
 	public function testCreate() {
-		$this->configMapper->expects($this->once())
-			->method('nextPossibleConfigurationPrefix')
-			->will($this->returnValue('tcr'));
+		$this->request->method('getParams')
+			->will($this->returnValue(json_decode('{"id":"testid","password":"secret"}', true)));
 
-		$this->configMapper->expects($this->once())
+		$this->mapper->expects(self::once())
 			->method('insert');
 
 		$result = $this->controller->create();
 
-		$this->assertInstanceOf(DataResponse::class, $result);
-		$data = $result->getData();
-		$this->assertArraySubset([
-			'status' => 'success',
-			'configPrefix' => 'tcr',
-			'defaults' => []
-		], $data, true);
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_OK, $result->getStatus());
+		/** @var Server $c */
+		$c = $result->getData();
+		self::assertInstanceOf(Server::class, $c);
+		self::assertSame('testid', $c->getId());
+		self::assertFalse($c->isActive());
+		self::assertSame(600, $c->getCacheTTL());
+		self::assertSame([], $c->getUserTrees());
+		self::assertTrue($c->getPassword(), 'The password must never be exposed to the web frontend');
 	}
 
-	public function testCreateWithCopy() {
-		$this->configMapper->expects($this->once())
-			->method('nextPossibleConfigurationPrefix')
-			->will($this->returnValue('tgt'));
+	/**
+	 * // TODO check more wrong configs
+	 */
+	public function testCreateInvalid() {
+		$this->request->method('getParams')
+			->will($this->returnValue(json_decode('{"id":null}', true)));
 
-		$this->configMapper->expects($this->once())
-			->method('find')
-			->willReturn(
-				new Config(
-					[
-						'id' => 'src',
-						'ldapHost' => 'example.org',
-						'ldapAgentPassword' => \base64_encode('secret')
-					]
-				)
-			);
-		$this->configMapper->expects($this->once())
+		$this->mapper->expects(self::never())
+			->method('insert');
+
+		$result = $this->controller->create();
+
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+	}
+
+	public function testCreateExisting() {
+		$this->request->method('getParams')
+			->will($this->returnValue(json_decode('{"id":"idexists"}', true)));
+
+		$this->mapper->expects(self::once())
 			->method('insert')
-			->with($this->callback(
-				function (Config $config) {
-					$data = $config->getData();
-					return $config->getId() === 'tgt'
-						&& $data['ldapHost'] === 'example.org'
-						&& $data['ldapAgentPassword'] === 'secret';
-					// TODO: fix double encoded password
-				}
-			));
+		->willThrowException($this->createMock(UniqueConstraintViolationException::class));
 
-		$result = $this->controller->create('src');
+		$result = $this->controller->create();
 
-		$this->assertInstanceOf(DataResponse::class, $result);
-		$data = $result->getData();
-		$this->assertArraySubset([
-			'status' => 'success',
-			'configPrefix' => 'tgt'
-		], $data, true);
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_CONFLICT, $result->getStatus());
 	}
 
 	public function testRead() {
-		$config = [
-				'ldapHost' => 'example.org',
-				'ldapAgentPassword' => \base64_encode('secret')
-			];
-		$this->configMapper->expects($this->any())
+		$c = new Server(['id' => 'testid']);
+		$this->mapper->expects(self::once())
 			->method('find')
-			->willReturn(new Config($config));
+			->with('testid')
+			->willReturn($c);
 
-		$result = $this->controller->read('t01');
+		$result = $this->controller->read('testid');
 
-		$this->assertInstanceOf(DataResponse::class, $result);
-		$data = $result->getData();
-		$this->assertArraySubset([
-			'status' => 'success',
-			'configuration' => [
-				'ldapHost' => 'example.org',
-				'ldapAgentPassword' => '**PASSWORD SET**'
-			]
-		], $data, true);
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_OK, $result->getStatus());
+		/** @var Server $d */
+		$d = $result->getData();
+		self::assertSame($c, $d);
+		self::assertSame($c, $d);
+	}
+
+
+	public function testReadNotExisting() {
+		$this->mapper->expects(self::once())
+			->method('find')
+			->with('notexistingid')
+			->willThrowException(new DoesNotExistException(''));
+
+		$result = $this->controller->read('notexistingid');
+
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
+	}
+
+	public function testReadBroken() {
+		$this->mapper->expects(self::once())
+			->method('find')
+			->with('brokenid')
+			->willThrowException(new ConfigException());
+
+		$result = $this->controller->read('brokenid');
+
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
 	}
 
 	public function testTest() {
-		// use valid looking config to pass critical validation
-		$config = [
-				'ldapHost' => 'example.org',
-				'ldapPort' => '389',
-				'ldapDisplayName' => 'displayName',
-				'ldapGroupDisplayName' => 'cn',
-				'ldapLoginFilter' => '(uid=%uid)',
-				'ldapConfigurationActive' => 1,
-				'ldapAgentName' => 'cn=admin',
-				'ldapBase' => 'dc=example,dc=org',
-				'ldapAgentPassword' => \base64_encode('secret')
-		];
-		$this->configMapper->expects($this->any())
-			->method('find')
-			->willReturn(new Config($config));
-
-		$this->ldap->expects($this->any())
-			->method('areLDAPFunctionsAvailable')
-			->will($this->returnValue(true));
-
-		$this->ldap->expects($this->once())
-			->method('connect')
-			->will($this->returnValue('ldapResource'));
-
-		$this->ldap->expects($this->any())
-			->method('isResource')
-			->will($this->returnValue(true));
-
-		$this->ldap->expects($this->any())
-			->method('setOption')
-			->will($this->returnValue(true));
-
-		$this->ldap->expects($this->once())
-			->method('bind')
-			->will($this->returnValue(true));
-
-		$this->ldap->expects($this->once())
-			->method('read')
-			->will($this->returnValue(['dn'=>'dummy']));
-
-		$result = $this->controller->test('t01');
-
-		$this->assertInstanceOf(DataResponse::class, $result);
-		$data = $result->getData();
-		$this->assertArraySubset(['status' => 'success'], $data, true);
+		// TODO implement me!
 	}
 
-	//public function testDelete() {
-	// TODO implement me!
-	//}
+	public function testDelete() {
+		$this->mapper->expects(self::once())
+			->method('delete')
+			->with('existingid');
+
+		$result = $this->controller->delete('existingid');
+
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_OK, $result->getStatus());
+	}
 
 	public function testDeleteNotExisting() {
-		$this->configMapper->method('delete')
+		$this->mapper->expects(self::once())
+			->method('delete')
+			->with('notexistingid')
 			->willThrowException(new DoesNotExistException(''));
 
-		$result = $this->controller->delete('na');
-		$this->assertInstanceOf(DataResponse::class, $result);
-		$data = $result->getData();
-		$this->assertArraySubset(['status' => 'error'], $data, true);
+		$result = $this->controller->delete('notexistingid');
+
+		self::assertInstanceOf(DataResponse::class, $result);
+		self::assertSame(Http::STATUS_NOT_FOUND, $result->getStatus());
 	}
 }

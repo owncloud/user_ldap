@@ -25,10 +25,8 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\ServerMapper;
 use OC\Core\Command\Base;
-use OCA\User_LDAP\Exceptions\ConfigException;
-use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,18 +35,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
 
-	/** @var ConfigMapper */
+	/** @var ServerMapper */
 	protected $mapper;
 
-	/** @var bool */
-	protected $showPassword;
-
 	/**
-	 * @param ConfigMapper $configMapper
+	 * @param ServerMapper $mapper
 	 */
-	public function __construct(ConfigMapper $configMapper) {
+	public function __construct(ServerMapper $mapper) {
 		parent::__construct();
-		$this->mapper = $configMapper;
+		$this->mapper = $mapper;
 	}
 
 	protected function configure() {
@@ -72,19 +67,17 @@ class ShowConfig extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->showPassword = $input->getOption('show-password');
 		$configId = $input->getArgument('configID');
-		try {
-			$configIds = $configId ? [$this->mapper->find($configId)] : $this->mapper->listAll();
-			foreach ($configIds as $config) {
-				try {
-					$this->showConfig($config->getId(), $input, $output);
-				} catch (ConfigException $e) {
-					$output->writeln("Configuration with configID '$configId' is broken");
-				}
-			}
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$configId' does not exist");
+		$config = $this->mapper->find($configId);
+		switch ($input->getOption('output')) {
+			case self::OUTPUT_FORMAT_JSON:
+				$output->writeln(\json_encode($config));
+				break;
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$output->writeln(\json_encode($config, JSON_PRETTY_PRINT));
+				break;
+			default:
+				$this->writeArrayInOutputFormat($input, $output, $config, '');
 		}
 	}
 
@@ -94,9 +87,8 @@ class ShowConfig extends Base {
 	 * @param string $configId
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 *
-	 * @throws DoesNotExistException
-	 * @throws ConfigException
+	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
+	 * FIXME reenable this legacy rendering
 	 */
 	protected function showConfig($configId, InputInterface $input, OutputInterface $output) {
 		$config = $this->mapper->find($configId);

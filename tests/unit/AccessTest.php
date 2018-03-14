@@ -25,7 +25,15 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\Tree;
+use OCA\User_LDAP\Connection\BackendManager;
+use OCA\User_LDAP\Connection\FilterBuilder;
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\ICacheFactory;
+use OCP\IUserManager;
 
 /**
  * Class AccessTest
@@ -37,6 +45,14 @@ use OCA\User_LDAP\User\Manager;
 class AccessTest extends \Test\TestCase {
 
 	/**
+	 * @var IUserManager|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $userManager;
+	/**
+	 * @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $cf;
+	/**
 	 * @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $ldapWrapper;
@@ -45,6 +61,36 @@ class AccessTest extends \Test\TestCase {
 	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $connection;
+
+	/**
+	 * @var Server|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $server;
+
+	/**
+	 * @var Tree|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $tree;
+
+	/**
+	 * @var BackendManager|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $configManager;
+
+	/**
+	 * @var FilterBuilder|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $filterBuilder;
+
+	/**
+	 * @var UserMapping|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $userMapper;
+
+	/**
+	 * @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $groupMapper;
 
 	/**
 	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
@@ -57,10 +103,28 @@ class AccessTest extends \Test\TestCase {
 	private $access;
 
 	public function setUp() {
+		$this->userManager  = $this->createMock(IUserManager::class);
+		$this->cf  = $this->createMock(ICacheFactory::class);
 		$this->ldapWrapper  = $this->createMock(ILDAPWrapper::class);
 		$this->connection  = $this->createMock(Connection::class);
+		$this->server  = $this->createMock(Server::class);
+		$this->tree  = $this->createMock(Tree::class);
+		$this->configManager  = $this->createMock(BackendManager::class);
+		$this->filterBuilder  = $this->createMock(FilterBuilder::class);
+		$this->userMapper  = $this->createMock(UserMapping::class);
+		$this->groupMapper  = $this->createMock(GroupMapping::class);
 		$this->manager  = $this->createMock(Manager::class);
-		$this->access = new Access($this->connection, $this->manager);
+		$this->access = new Access(
+			$this->userManager,
+			$this->cf,
+			$this->connection,
+			$this->server,
+			$this->tree,
+			$this->configManager,
+			$this->filterBuilder,
+			$this->userMapper,
+			$this->groupMapper
+		);
 	}
 
 	/**
@@ -69,7 +133,7 @@ class AccessTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testEscapeFilterPartValidChars($input, $expected) {
-		$this->assertSame($expected, $this->access->escapeFilterPart($input));
+		$this->assertSame($expected, Access::escapeFilterPart($input));
 	}
 
 	public function escapeFilterPartDataProvider() {

@@ -21,12 +21,20 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Exceptions\BindFailedException;
+use OCA\User_LDAP\Exceptions\ConfigException;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -38,8 +46,8 @@ use OCP\ISession;
  */
 class ConfigurationController extends Controller {
 
-	/** @var ConfigMapper */
-	protected $mapper;
+	/** @var ICacheFactory */
+	protected $cf;
 
 	/** @var ISession */
 	protected $session;
@@ -47,63 +55,69 @@ class ConfigurationController extends Controller {
 	/** @var IL10N */
 	protected $l10n;
 
+	/** @var ServerMapper */
+	protected $mapper;
+
 	/** @var LDAP */
 	protected $ldapWrapper;
+
+	const REFERENCE_KEY = 'ldap_configuration_active';
+	const REFERENCE_KEY_LENGTH = 25;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param ConfigMapper $mapper
+	 * @param IConfig $config
+	 * @param ICacheFactory $cf
 	 * @param ISession $session
+	 * @param ServerMapper $mapper
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								ConfigMapper $mapper,
+								IConfig $config,
+								ICacheFactory $cf,
 								ISession $session,
+								ServerMapper $mapper,
 								IL10N $l10n,
 								LDAP $ldapWrapper
 	) {
 		parent::__construct($appName, $request);
-		$this->mapper = $mapper;
+		$this->config = $config;
+		$this->cf = $cf;
 		$this->session = $session;
+		$this->mapper = $mapper;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
 	}
 
 	/**
-	 * create a new ldap config
-	 *
-	 * @param string $copyConfig copy the config
 	 * @return DataResponse
 	 */
-	public function create($copyConfig = null) {
-		$newPrefix = $this->mapper->nextPossibleConfigurationPrefix();
+	public function listAll() {
+		return new DataResponse($this->mapper->listAll());
+	}
 
-		$resultData = ['configPrefix' => $newPrefix];
-
-		if ($copyConfig === null) {
-			// create empty config
-			$newConfig = new Config(['id' => $newPrefix]);
-			$resultData['defaults'] = $newConfig->jsonSerialize();
-		} else {
-			// copy existing config
-			$originalConfig = $this->mapper->find($copyConfig);
-			$newConfig = new Config(
-				\array_merge(
-					$originalConfig->jsonSerialize(),
-					[
-						'id' => $newPrefix
-					]
-				)
-			);
-			$newConfig->getData();
+	/**
+	 * create a new ldap config
+	 *
+	 * @return DataResponse
+	 */
+	public function create() {
+		$d = $this->request->getParams();
+		try {
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$this->mapper->insert($newConfig);
+		try {
+			$this->mapper->insert($c);
+		} catch (UniqueConstraintViolationException $e) {
+			return new DataResponse(null, Http::STATUS_CONFLICT);
+		}
 
-		$resultData['status'] = 'success';
-		return new DataResponse($resultData);
+		return new DataResponse($c);
 	}
 
 	/**
@@ -113,86 +127,107 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function read($id) {
-		$config = $this->mapper->find($id);
-		$connection = new Connection($this->ldapWrapper, $this->mapper, $config);
-
-		$configuration = $connection->getConfiguration();
-		if (isset($configuration['ldapAgentPassword']) && $configuration['ldapAgentPassword'] !== '') {
-			// hide password
-			$configuration['ldapAgentPassword'] = '**PASSWORD SET**';
+		try {
+			$c = $this->mapper->find($id);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		return new DataResponse([
-			'status' => 'success',
-			'configuration' => $configuration
-		]);
+
+		return new DataResponse($c);
+	}
+
+	/**
+	 * write the given ldap config, config is created if it does not exist
+	 *
+	 * @return DataResponse
+	 * @throws DoesNotExistException should not happen
+	 */
+	public function update() {
+		$d = $this->request->getParams();
+		try {
+			$n = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+		// id must exist
+		try {
+			$this->mapper->find($n->getId());
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		} catch (ConfigException $e) {
+			// ignore ... we are overwriting it anyway
+		}
+
+		$this->mapper->update($n);
+
+		return new DataResponse($n);
 	}
 
 	/**
 	 * test the given ldap config
 	 *
-	 * @param string $id config id
 	 * @return DataResponse
 	 */
-	public function test($id) {
-		$config = $this->mapper->find($id);
-		$connection = new Connection($this->ldapWrapper, $this->mapper, $config);
-
+	public function test() {
+		$d = $this->request->getParams();
 		try {
-			$configurationOk = true;
-			$conf = $connection->getConfiguration();
-			if ($conf['ldapConfigurationActive'] === '0') {
-				//needs to be true, otherwise it will also fail with an irritating message
-				$conf['ldapConfigurationActive'] = '1';
-				$configurationOk = $connection->setConfiguration($conf);
-			}
-			if ($configurationOk) {
-				//Configuration is okay
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		$c->setActive(true);
+
+		$connection = new Connection($this->cf, $this->ldapWrapper, $c);
+
+		// TODO check config
+		//return new DataResponse([
+		//	'message' => $this->l10n->t('The configuration is invalid. Please have a look at the logs for further details.')
+		//], Http::STATUS_BAD_REQUEST);
+
+		// try connection
+		try {
+			if ($connection->bind()) {
 				/*
-				 * Clossing the session since it won't be used from this point on. There might be a potential
-				 * race condition if a second request is made: either this request or the other might not
-				 * contact the LDAP backup server the first time when it should, but there shouldn't be any
-				 * problem with that other than the extra connection.
+				 * This shiny if block is an ugly hack to find out whether anonymous
+				 * bind is possible on AD or not. Because AD happily and constantly
+				 * replies with success to any anonymous bind request, we need to
+				 * fire up a broken operation. If AD does not allow anonymous bind,
+				 * it will end up with LDAP error code 1 which is turned into an
+				 * exception by the LDAP wrapper. We catch this. Other cases may
+				 * pass (like e.g. expected syntax error).
 				 */
-				$this->session->close();
-				if ($connection->bind()) {
-					/*
-					 * This shiny if block is an ugly hack to find out whether anonymous
-					 * bind is possible on AD or not. Because AD happily and constantly
-					 * replies with success to any anonymous bind request, we need to
-					 * fire up a broken operation. If AD does not allow anonymous bind,
-					 * it will end up with LDAP error code 1 which is turned into an
-					 * exception by the LDAP wrapper. We catch this. Other cases may
-					 * pass (like e.g. expected syntax error).
-					 */
-					try {
-						$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
-					} catch (\Exception $e) {
-						if ($e->getCode() === 1) {
-							return new DataResponse([
-								'status' => 'error',
-								'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
-							]);
-						}
+				try {
+					$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
+				} catch (\Exception $e) {
+					if ($e->getCode() === 1) {
+						return new DataResponse([
+							'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
+						], Http::STATUS_BAD_REQUEST);
 					}
 					return new DataResponse([
-						'status' => 'success',
-						'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
-					]);
+						'message' => $e->getMessage(),
+						'code' => $e->getCode()
+					], Http::STATUS_BAD_REQUEST);
 				}
 				return new DataResponse([
-					'status' => 'error',
-					'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+					'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
 				]);
 			}
 			return new DataResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('The configuration is invalid. Please have a look at the logs for further details.')
-			]);
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+			], Http::STATUS_BAD_REQUEST);
+		} catch (BindFailedException $e) {
+			return new DataResponse([
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+			], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return new DataResponse([
-				'status' => 'error',
-				'message' => $e->getMessage()
-			]);
+				'message' => $e->getMessage(),
+				'code' => $e->getCode()
+			], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
@@ -205,13 +240,100 @@ class ConfigurationController extends Controller {
 	public function delete($id) {
 		try {
 			$this->mapper->delete($id);
-		} catch (\Exception $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('Failed to delete the server configuration')
-			]);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse(null, Http::STATUS_OK);
+	}
+
+	/**
+	 * find an entity in a mapping using some well known ldap attributes:
+	 * cn, uid, samaccountname, userprincipalname, mail, displayname
+	 *
+	 * @param string $query to use
+	 * @return DataResponse
+	 */
+	public function discover($query) {
+		$d = $this->request->getParams();
+		try {
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+		if (\count($c->getUserTrees()) !== 1) {
+			return new DataResponse(['error' => 'To discover an entity the config must contain a user mapping that should be used'], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		return new DataResponse(['status' => 'success']);
+		$c->setActive(true);
+
+		$connection = new Connection($this->cf, $this->ldapWrapper, $c);
+		try {
+			if ($connection->bind()) {
+				try {
+					$username = Access::escapeFilterPart($query);
+					$filter = "(&(|(objectClass=User)(objectClass=inetOrgPerson))(|(cn=$username)(uid=$username)(samaccountname=$username)(userprincipalname=$username)(mail=$username)(displayname=$username)))";
+					$sr = $this->ldapWrapper->search(
+						$connection->getConnectionResource(),
+						array_shift($c->getUserTrees())->getBaseDN(),
+						$filter,
+						\array_merge(Access::$uuidAttributes, ['dn', 'objectclass', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'mailnickname', 'title', 'displayname', 'name', 'givenname', 'sn', 'company', 'department', 'postalcode', 'jpegphoto', 'thumbnailphoto', 'quota', 'memberof']), // more attributes
+						0, // attributes and values
+						10);
+					if ($sr === false) {
+						return new DataResponse([
+							'message' => $this->ldapWrapper->error($connection->getConnectionResource()),
+							'code' => $this->ldapWrapper->errno($connection->getConnectionResource())
+						], Http::STATUS_BAD_REQUEST);
+					}
+					$entries = $this->ldapWrapper->getEntries($connection->getConnectionResource(), $sr);
+					return new DataResponse($this->toAssocArray($entries));
+				} catch (\Exception $e) {
+					if ($e->getCode() === 1) {
+						return new DataResponse([
+							'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
+						], Http::STATUS_BAD_REQUEST);
+					}
+					return new DataResponse([
+						'message' => $e->getMessage(),
+						'code' => $e->getCode()
+					], Http::STATUS_BAD_REQUEST);
+				}
+			}
+			return new DataResponse([
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+			], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			return new DataResponse([
+				'message' => $e->getMessage(),
+				'code' => $e->getCode()
+			], Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param array $entries
+	 * @return array
+	 */
+	private function toAssocArray(array $entries) {
+		unset($entries['count']);
+		$results = [];
+		foreach ($entries as $entry) {
+			$dn = $entry['dn'];
+			$result = [];
+			unset($entry['dn'], $entry['count']);
+			foreach ($entry as $key => $values) {
+				if (!\is_numeric($key)) {
+					$rv = [];
+					foreach ($values as $k => $value) {
+						if (\is_numeric($k)) {
+							$rv[] = $value;
+						}
+					}
+					$result[$key] = $rv;
+				}
+			}
+			$results[$dn] = $result;
+		}
+		return $results;
 	}
 }

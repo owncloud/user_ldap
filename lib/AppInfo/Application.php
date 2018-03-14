@@ -22,10 +22,17 @@
 namespace OCA\User_LDAP\AppInfo;
 
 use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Connection\BackendManager;
+use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User_Proxy;
+use OCP\AppFramework\IAppContainer;
 
 class Application extends \OCP\AppFramework\App {
 	/**
@@ -50,6 +57,25 @@ class Application extends \OCP\AppFramework\App {
 				);
 			}
 		);
+		$server = $container->getServer();
+
+		$container->registerService(ILDAPWrapper::class, function (IAppContainer $c) {
+			return new LDAP();
+		});
+		$container->registerService(BackendManager::class, function (IAppContainer $c) use ($server) {
+			return new BackendManager(
+				$server->getConfig(),
+				$server->getLogger(),
+				$server->getMemCacheFactory(),
+				$server->getAvatarManager(),
+				$server->getUserManager(),
+				$server->getDatabaseConnection(),
+				$c->query(ILDAPWrapper::class),
+				$c->query(UserMapping::class),
+				$c->query(GroupMapping::class),
+				$c->query(FilesystemHelper::class)
+			);
+		});
 	}
 
 	public function checkCompatibility() {
@@ -62,18 +88,22 @@ class Application extends \OCP\AppFramework\App {
 	}
 
 	public function registerBackends() {
-		$helper = new Helper();
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		if (\count($configPrefixes) > 0) {
-			$container = $this->getContainer();
-			$server = $container->getServer();
-			$ldapWrapper = new LDAP();
-			$ocConfig = $server->getConfig();
-			$userBackend  = new User_Proxy($configPrefixes, $ldapWrapper, $container->query(ConfigMapper::class), $ocConfig);
-			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper, $container->query(ConfigMapper::class));
-			// register user backend
-			\OC_User::useBackend($userBackend);
-			$server->getGroupManager()->addBackend($groupBackend);
+		$container = $this->getContainer();
+		$server =$container->getServer();
+		$config = $server->getConfig();
+
+		$mapper = new ServerMapper($config, $server->getLogger());
+		if (\count($mapper->listAll()) > 0) {
+			$backendManager = $container->query(BackendManager::class);
+
+			// FIXME cleanup core to make registering user backends work with public apis. Currently OC_User::findFirstActiveUsedBackend is called during login ... urgh
+			\OC_User::useBackend(
+				new User_Proxy(	$mapper, $backendManager, $config)
+			);
+
+			$server->getGroupManager()->addBackend(
+				new Group_Proxy($mapper, $backendManager)
+			);
 		}
 	}
 

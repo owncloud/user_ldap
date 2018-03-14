@@ -29,76 +29,25 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\ConfigMapper;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\Connection\BackendManager;
 
 abstract class Proxy {
-	private static $accesses = [];
-	private $ldap = null;
-	private $mapper;
+
+	/** @var BackendManager */
+	protected $manager;
 
 	/** @var \OCP\ICache|null */
 	private $cache;
 
 	/**
-	 * @param ILDAPWrapper $ldap
+	 * @param BackendManager $manager
 	 */
-	public function __construct(ILDAPWrapper $ldap, ConfigMapper $mapper) {
-		$this->ldap = $ldap;
-		$this->mapper = $mapper;
+	public function __construct(BackendManager $manager) {
+		$this->manager = $manager;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-	}
-
-	/**
-	 * @param string $configPrefix
-	 */
-	private function addAccess($configPrefix) {
-		static $coreConfig;
-		static $fs;
-		static $logger;
-		static $avatarM;
-		static $userMap;
-		static $groupMap;
-		static $db;
-		static $coreUserManager;
-		static $helper;
-		if ($fs === null) {
-			$coreConfig = \OC::$server->getConfig();
-			$fs       = new FilesystemHelper();
-			$logger   = \OC::$server->getLogger();
-			$avatarM  = \OC::$server->getAvatarManager();
-			$db       = \OC::$server->getDatabaseConnection();
-			$userMap  = new UserMapping($db);
-			$groupMap = new GroupMapping($db);
-			$coreUserManager = \OC::$server->getUserManager();
-			$helper   = new Helper();
-		}
-		$userManager =
-			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
-
-		$config = $this->mapper->find($configPrefix);
-		$connector = new Connection($this->ldap, $this->mapper, $config);
-
-		$access = new Access($connector, $userManager);
-		$access->setUserMapper($userMap);
-		$access->setGroupMapper($groupMap);
-		self::$accesses[$configPrefix] = $access;
-	}
-
-	/**
-	 * @param string $configPrefix
-	 * @return Access
-	 */
-	protected function getAccess($configPrefix) {
-		if (!isset(self::$accesses[$configPrefix])) {
-			$this->addAccess($configPrefix);
-		}
-		return self::$accesses[$configPrefix];
 	}
 
 	/**

@@ -24,23 +24,23 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCA\User_LDAP\Config\ServerMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Command {
-	/** @var ConfigMapper */
+
+	/** @var ServerMapper */
 	protected $mapper;
 
 	/**
-	 * @param ConfigMapper $mapper
+	 * @param ServerMapper $mapper
 	 */
-	public function __construct(ConfigMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(ServerMapper $mapper) {
 		parent::__construct();
+		$this->mapper = $mapper;
 	}
 
 	protected function configure() {
@@ -57,11 +57,8 @@ class DeleteConfig extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$id = $input->getArgument('configID');
-		try {
-			$this->mapper->delete($id);
-			$output->writeln("Deleted configuration with configID '{$id}'");
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$id' does not exist");
-		}
+
+		$this->mapper->delete($id);
+		$output->writeln("Deleted configuration with configID '{$id}'");
 	}
 }

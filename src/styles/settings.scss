@@ -1,0 +1,124 @@
+$grid-gutter: 10px;
+
+// Colors
+
+$color-primary: #1d2d44;
+$color-secondary: #567298;
+
+$color-gray:   #DCDCDC;
+$color-lightgray:  #F1F1F1;
+
+$color-error            : red;
+$color-error-border     : #FED6D6;
+$color-error-background : #FFF0F0;
+
+$core-image-path : '../../../core/img';
+$app-image-path : '../img';
+
+#user_ldap {
+	position: relative;
+	height: calc(100vh - 45px);
+
+	.section {
+		padding: $grid-gutter * 2;
+		background-color: rgba($color-lightgray, .666);
+		border: 1px solid $color-gray;
+	}
+
+	.wizard {
+		&-tab-bar {
+			background: $color-primary;
+
+			margin    : 0;
+			padding   : 4px 4px 0;
+
+			li {
+				display   : inline-block;
+				padding   : 3px 6px;
+				color     : #fff;
+				transition: background-color 0.25s;
+
+				&:hover {
+					background-color: fade(#fff, 33.333%);
+					cursor          : pointer;
+				}
+
+				&.-is-active {
+					background: #fff;
+					color     : $color-primary;
+				}
+			}
+		}
+	}
+
+	.box {
+		padding: $grid-gutter;
+
+		+ .box {
+			margin-top: $grid-gutter;
+		}
+	}
+
+	.alert-box {
+		@extend .box;
+
+		border: 1px solid $color-error-border;
+		background: $color-error-background;
+		color: $color-error;
+	}
+
+	.tipp-box {
+		@extend .box;
+
+		background: #D0DBE3;
+		color: #497290;
+
+		> *:first-child {
+			margin-top: 0;
+		}
+
+		> *:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.title {
+		font-size    : 16px;
+		font-weight  : bold;
+		margin-bottom: 16px;
+	}
+
+	.button {
+		&-primary,
+		&-default {
+			transition: background-color .25s, border-color .25s;
+			padding: {
+				left: $grid-gutter;
+				right: $grid-gutter;
+			}
+		}
+
+		&-primary {
+			background-color: $color-secondary;
+			border-color    : darken($color-secondary, 5%);
+			color           : #fff;
+			letter-spacing  : .666px;
+		}
+	}
+	
+	button[disabled] {
+		background-color: rgba(230,230,230,.9);
+		border-color    : #ddd;
+		color           : #999;
+	}
+
+	@import "../../node_modules/purecss/build/base-min";
+	@import "../../node_modules/purecss/build/grids-min";
+	@import "../../node_modules/purecss/build/grids-responsive-min";
+
+	@import "helper";
+	@import "transitions";
+	@import "wizard";
+	@import "form";
+	@import "list";
+};

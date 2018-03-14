@@ -21,7 +21,7 @@
 
 namespace OCA\User_LDAP\Tests\User;
 
-use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -36,26 +36,26 @@ class UserEntryTest extends \Test\TestCase {
 	 */
 	protected $logger;
 	/**
-	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
+	 * @var UserTree|\PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected $connection;
+	protected $userTree;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
 		$this->logger     = $this->createMock(ILogger::class);
-		$this->connection = $this->createMock(Connection::class);
+		$this->userTree = $this->createMock(UserTree::class);
 	}
 
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidNew() {
-		new UserEntry($this->config, $this->logger, $this->connection, []);
+		new UserEntry($this->config, $this->logger, $this->userTree, []);
 	}
 
 	public function testGetDN() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -64,11 +64,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetUserName() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapUserName'))
+		$this->userTree->expects($this->once())
+			->method('getUsernameAttribute')
 			->will($this->returnValue('uid'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'uid' => [0 => 'foo']
@@ -78,11 +77,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetUserIdIsConfigured() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapExpertUsernameAttr'))
+		$this->userTree->expects($this->once())
+			->method('getExpertUsernameAttr')
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -97,20 +95,14 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $uuidValue string
 	 * @param $expected string
 	 */
-	public function testGetUserIdFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapExpertUsernameAttr')],
-				[$this->equalTo('ldapExpertUUIDUserAttr')],
-				[$this->equalTo('ldapExpertUUIDUserAttr')]
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				$uuidAttr,
-				$uuidAttr
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+	public function testGetUsernameFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
+		$this->userTree->expects($this->any())
+			->method('getExpertUsernameAttr')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getUuidAttribute')
+			->will($this->returnValue($uuidAttr));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -122,12 +114,11 @@ class UserEntryTest extends \Test\TestCase {
 	/**
 	 * @expectedException \OutOfBoundsException
 	 */
-	public function testGetUserIdUndetermined() {
-		$this->connection->expects($this->exactly(1))
-			->method('__get')
-			->with($this->equalTo('ldapExpertUsernameAttr'))
+	public function testGetUsernameUndetermined() {
+		$this->userTree->expects($this->once())
+			->method('getExpertUsernameAttr')
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -159,11 +150,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testGetUUIDIsConfigured($uuidAttr, $uuidValue, $expected) {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->with($this->equalTo('ldapExpertUUIDUserAttr'))
+		$this->userTree
+			->method('getUuidAttribute')
 			->will($this->returnValue($uuidAttr));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -179,17 +169,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testGetUUIDIsAuto($uuidAttr, $uuidValue, $expected) {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapExpertUUIDUserAttr')],
-				[$this->equalTo('ldapExpertUUIDUserAttr')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'auto',
-				'auto'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->exactly(2))
+			->method('getUuidAttribute')
+			->will($this->returnValue('auto'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -202,11 +185,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUUIDUndetermined() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapExpertUUIDUserAttr'))
+		$this->userTree->expects($this->once())
+			->method('getUuidAttribute')
 			->will($this->returnValue('auto'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -218,11 +200,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUUIDInvalidBinaryUUID() {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->with($this->equalTo('ldapExpertUUIDUserAttr'))
+		$this->userTree->expects($this->exactly(2))
+			->method('getUuidAttribute')
 			->will($this->returnValue('objectguid'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'objectguid'  => [0 => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"],
@@ -232,17 +213,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetDisplayName() {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'displayname',
-				''
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getDisplayNameAttribute')
+			->will($this->returnValue('displayname'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayName2Attribute')
+			->will($this->returnValue(''));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'displayname' => [0 => 'Foo'],
@@ -252,17 +229,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetDisplayNameWithSecondDisplayName() {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'displayname',
-				'mail'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getDisplayNameAttribute')
+			->will($this->returnValue('displayname'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayName2Attribute')
+			->will($this->returnValue('mail'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'displayname' => [0 => 'Foo'],
@@ -273,19 +246,16 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetDisplayNameFallback() {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapUserDisplayName')],
-				[$this->equalTo('ldapUserDisplayName2')],
-				[$this->equalTo('ldapExpertUsernameAttr')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'displayname',
-				'mail',
-				'uid'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getDisplayNameAttribute')
+			->will($this->returnValue('displayname'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayName2Attribute')
+			->will($this->returnValue('mail'));
+		$this->userTree->expects($this->any())
+			->method('getExpertUsernameAttr')
+			->will($this->returnValue('uid'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'uid' => [0 => 'foo'],
@@ -295,11 +265,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuota() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapQuotaAttribute'))
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
 			->will($this->returnValue('quota'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => '5 GB']
@@ -309,19 +278,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInvalid() {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapQuotaDefault')],
-				[$this->equalTo('ldapQuotaDefault')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'invalid',
-				'1 GB',
-				'1 GB'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue('invalid'));
+		$this->userTree->expects($this->any())
+			->method('getQuotaDefault')
+			->will($this->returnValue('1 GB'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => 'invalid']
@@ -331,19 +294,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaDefault() {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapQuotaDefault')],
-				[$this->equalTo('ldapQuotaDefault')]
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				'2 GB',
-				'2 GB'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getQuotaDefault')
+			->will($this->returnValue('2 GB'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -352,19 +309,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaDefaultInvalid() {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapQuotaDefault')],
-				[$this->equalTo('ldapQuotaDefault')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'invalid',
-				'invalid',
-				'invalid'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue('invalid'));
+		$this->userTree->expects($this->any())
+			->method('getQuotaDefault')
+			->will($this->returnValue('invalid'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => 'invalid']
@@ -374,17 +325,13 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaDefaultFallback() {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapQuotaAttribute')],
-				[$this->equalTo('ldapQuotaDefault')]
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				null
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getQuotaDefault')
+			->will($this->returnValue(null));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -393,11 +340,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetEmailAddress() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapEmailAttribute'))
+		$this->userTree->expects($this->any())
+			->method('getEmailAttribute')
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -407,11 +353,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetEmailAddressUnset() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapEmailAttribute'))
+		$this->userTree->expects($this->any())
+			->method('getEmailAttribute')
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -420,11 +365,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetHomeAttributeWithAbsolutePath() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('homeFolderNamingRule'))
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'home' => [0 => '/absolute/path/to/home']
@@ -437,11 +381,10 @@ class UserEntryTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->will($this->returnValue('/path/to/data'));
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('homeFolderNamingRule'))
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'home' => [0 => 'f/o/o']
@@ -451,11 +394,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetHomeUnset() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('homeFolderNamingRule'))
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -470,17 +412,13 @@ class UserEntryTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->will($this->returnValue(true));
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('homeFolderNamingRule')],
-				[$this->equalTo('ldapExpertUsernameAttr')]
-			)
-			->willReturnOnConsecutiveCalls(
-				'attr:home',
-				'mail'
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
+			->will($this->returnValue('attr:home'));
+		$this->userTree->expects($this->any())
+			->method('getExpertUsernameAttr')
+			->will($this->returnValue('mail'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -490,7 +428,7 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarImageInJpegPhoto() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'jpegphoto' => [0 => 'binarydata']
@@ -500,7 +438,7 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarImageInThumbnailPhoto() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'thumbnailphoto' => [0 => 'binarydata']
@@ -510,11 +448,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetSearchTerms() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapAttributesForUserSearch'))
+		$this->userTree->expects($this->any())
+			->method('getAdditionalSearchAttributes')
 			->will($this->returnValue(['mail', 'uid', 'firstname']));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c', 1 => 'alt@b.c'], // all mails should be found
@@ -525,12 +462,23 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals(['a@b.c', 'alt@b.c', 'foo'], $userEntry->getSearchTerms());
 	}
 
-	public function testGetSearchTermsUnconfigured() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapAttributesForUserSearch'))
+	public function testGetSearchTermsEmpty() {
+		$this->userTree->expects($this->any())
+			->method('getAdditionalSearchAttributes')
 			->will($this->returnValue([]));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+			]
+		);
+		self::assertEquals([], $userEntry->getSearchTerms());
+	}
+
+	public function testGetSearchTermsNull() {
+		$this->userTree->expects($this->any())
+			->method('getAdditionalSearchAttributes')
+			->will($this->returnValue(null));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -541,7 +489,7 @@ class UserEntryTest extends \Test\TestCase {
 	public function testLdapEntryLowercasedKeys() {
 		$val = 'cn=foo,dc=foobar,dc=bar';
 		$input = ['Dn' => ['count' => 1, $val]];
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection, $input);
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree, $input);
 		// This requests the dn using lowercase 'dn' so it should return the value properly
 		$this->assertEquals($val, $userEntry->getDN());
 	}

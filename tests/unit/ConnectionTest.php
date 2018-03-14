@@ -23,6 +23,8 @@
  */
 
 namespace OCA\User_LDAP;
+use OCA\User_LDAP\Config\Server;
+use OCP\ICacheFactory;
 
 use OCA\User_LDAP\Config\Config;
 use OCA\User_LDAP\Config\ConfigMapper;
@@ -35,8 +37,11 @@ use OCA\User_LDAP\Config\ConfigMapper;
  * @package OCA\User_LDAP
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
 	protected $ldap;
+
+	/** @var Server|\PHPUnit\Framework\MockObject\MockObject  */
+	protected $server;
 
 	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
@@ -47,64 +52,31 @@ class ConnectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->ldap       = $this->createMock(ILDAPWrapper::class);
-		$this->configMapper = $this->createMock(ConfigMapper::class);
-		$configuration = new Config(['id' => 'test']);
+		$cf = $this->createMock(ICacheFactory::class);
+		$this->ldap = $this->createMock(ILDAPWrapper::class);
+		$this->server = new Server([
+			'id' => 'test',
+			'active' => true,
+			'ldapHost' => 'ldap://fake.ldap',
+			'ldapPort' => 389,
+			'bindDN' => 'uid=agent',
+			'password' => '123456',
+		]);
 
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder(Connection::class)
 			->setMethods(['getFromCache', 'writeToCache'])
-			->setConstructorArgs(
-				[$this->ldap, $this->configMapper, $configuration, null])
+			->setConstructorArgs([$cf, $this->ldap, $this->server])
 			->getMock();
 
 		$this->ldap->expects($this->any())
 			->method('areLDAPFunctionsAvailable')
 			->will($this->returnValue(true));
 	}
-
-	public function testOriginalAgentUnchangedOnClone() {
-		//background: upon login a bind is done with the user credentials
-		//which is valid for the whole LDAP resource. It needs to be reset
-		//to the agent's credentials
-
-		$config = new Config(['id' => 'test']);
-		$connection = new Connection($this->ldap, $this->configMapper, $config, null);
-		$agent = [
-			'ldapAgentName' => 'agent',
-			'ldapAgentPassword' => '123456',
-		];
-		$connection->setConfiguration($agent);
-
-		$testConnection = clone $connection;
-		$user = [
-			'ldapAgentName' => 'user',
-			'ldapAgentPassword' => 'password',
-		];
-		$testConnection->setConfiguration($user);
-
-		$agentName = $connection->ldapAgentName;
-		$agentPawd = $connection->ldapAgentPassword;
-
-		$this->assertSame($agentName, $agent['ldapAgentName']);
-		$this->assertSame($agentPawd, $agent['ldapAgentPassword']);
-	}
-
+	
 	public function testUseBackupServer() {
-		$mainHost = 'ldap://nixda.ldap';
-		$backupHost = 'ldap://fallback.ldap';
-		$config = [
-			'ldapConfigurationActive' => true,
-			'ldapHost' => $mainHost,
-			'ldapPort' => 389,
-			'ldapBackupHost' => $backupHost,
-			'ldapBackupPort' => 389,
-			'ldapAgentName' => 'uid=agent',
-			'ldapAgentPassword' => 'SuchASecret'
-		];
-
-		$this->connection->setIgnoreValidation(true);
-		$this->connection->setConfiguration($config);
+		$this->server->setBackupHost('ldap://backup.ldap');
+		$this->server->setBackupPort(389);
 
 		$this->ldap->expects($this->any())
 			->method('isResource')
@@ -139,28 +111,16 @@ class ConnectionTest extends \Test\TestCase {
 				return true;
 			}));
 
-		$this->connection->init();
+		self::invokePrivate($this->connection, 'establishConnection');
 		$this->connection->resetConnectionResource();
-		// with the second init() we test whether caching works
-		$this->connection->init();
+		// with the second establishConnection() we test whether caching works
+		self::invokePrivate($this->connection, 'establishConnection');
 	}
 
 	/**
 	 * @expectedException \OC\ServerNotAvailableException
 	 */
 	public function testConnectFails() {
-		$mainHost = 'ldap://nixda.ldap';
-		$config = [
-			'ldapConfigurationActive' => true,
-			'ldapHost' => $mainHost,
-			'ldapPort' => 389,
-			'ldapAgentName' => 'uid=agent',
-			'ldapAgentPassword' => 'WrongPassword'
-		];
-
-		$this->connection->setIgnoreValidation(true);
-		$this->connection->setConfiguration($config);
-
 		$this->ldap->expects($this->once())
 			->method('connect')
 			->will($this->returnValue(false));
@@ -173,22 +133,10 @@ class ConnectionTest extends \Test\TestCase {
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		self::invokePrivate($this->connection, 'establishConnection');
 	}
 
 	public function testBind() {
-		$mainHost = 'ldap://fake.ldap';
-		$config = [
-			'ldapConfigurationActive' => true,
-			'ldapHost' => $mainHost,
-			'ldapPort' => 389,
-			'ldapAgentName' => 'uid=agent',
-			'ldapAgentPassword' => 'Secret'
-		];
-
-		$this->connection->setIgnoreValidation(true);
-		$this->connection->setConfiguration($config);
-
 		$this->ldap->expects($this->once())
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
@@ -205,25 +153,13 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		self::invokePrivate($this->connection, 'establishConnection');
 	}
 
 	/**
 	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
 	 */
 	public function testBindFails() {
-		$mainHost = 'ldap://nixda.ldap';
-		$config = [
-			'ldapConfigurationActive' => true,
-			'ldapHost' => $mainHost,
-			'ldapPort' => 389,
-			'ldapAgentName' => 'uid=agent',
-			'ldapAgentPassword' => 'WrongPassword'
-		];
-
-		$this->connection->setIgnoreValidation(true);
-		$this->connection->setConfiguration($config);
-
 		$this->ldap->expects($this->once())
 			->method('connect')
 			->will($this->returnValue('ldapResource'));
@@ -240,6 +176,6 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(false));
 
-		$this->connection->init();
+		self::invokePrivate($this->connection, 'establishConnection');
 	}
 }

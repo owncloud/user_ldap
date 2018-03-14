@@ -24,8 +24,9 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\LegacyWrapper;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,15 +35,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends Command {
 
-	/** @var ConfigMapper */
+	/** @var ServerMapper */
 	protected $mapper;
 
 	/**
-	 * @param IConfig $config
+	 * @param ServerMapper $mapper
 	 */
-	public function __construct(ConfigMapper $configMapper) {
+	public function __construct(ServerMapper $mapper) {
 		parent::__construct();
-		$this->mapper = $configMapper;
+		$this->mapper = $mapper;
 	}
 
 	protected function configure() {
@@ -67,31 +68,40 @@ class SetConfig extends Command {
 		;
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int|null|void
+	 * @throws DoesNotExistException
+	 * @throws \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+	 * @throws \OCA\User_LDAP\Exceptions\ConfigException
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configId = $input->getArgument('configID');
-		try {
-			$config = $this->mapper->find($configId);
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$configId' does not exist");
-			return;
-		}
 
+		try {
+			$server = $this->mapper->find($configId);
+		} catch (DoesNotExistException $e) {
+			$server = new Server(['id' => $configId]);
+			$this->mapper->insert($server);
+		}
 		$this->setValue(
-			$config,
+			$server,
 			$input->getArgument('configKey'),
 			$input->getArgument('configValue')
 		);
 
-		$this->mapper->update($config);
+		$this->mapper->update($server);
 	}
 
 	/**
 	 * save the configuration value as provided
-	 * @param Config $config
+	 * @param Server $server
 	 * @param string $key
 	 * @param string $value
 	 */
-	protected function setValue($config, $key, $value) {
-		$config->$key = $value;
+	protected function setValue(Server $server, $key, $value) {
+		$migration = new LegacyWrapper($server);
+		$migration->$key = $value;
 	}
 }

@@ -22,7 +22,7 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Config\UserTree;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -45,9 +45,9 @@ class UserEntry {
 	 */
 	protected $logger;
 	/**
-	 * @var Connection
+	 * @var UserTree
 	 */
-	protected $connection;
+	protected $userTree;
 	/**
 	 * @var array
 	 */
@@ -61,15 +61,14 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * // FIXME Connection is used to look up configuration ... pass in Configuration instead?
-	 * @param Connection $connection to lookup configured attribute names
+	 * @param UserTree $userTree
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 */
-	public function __construct(IConfig $config, ILogger $logger, Connection $connection, array $ldapEntry) {
+	public function __construct(IConfig $config, ILogger $logger, UserTree $userTree, array $ldapEntry) {
 		$this->config = $config;
 		$this->logger = $logger;
-		$this->connection = $connection;
+		$this->userTree = $userTree;
 		// Fix ldap entry to force all keys to lowercase
 		foreach ($ldapEntry as $key => $value) {
 			$this->ldapEntry[\strtolower($key)] = $ldapEntry[$key];
@@ -96,7 +95,7 @@ class UserEntry {
 	 * @return string username for this user
 	 */
 	public function getUserName() {
-		$attr = $this->getAttributeName('ldapUserName');
+		$attr = $this->userTree->getUsernameAttribute();
 		if ($attr !== '') {
 			return $this->getAttributeValue($attr, null);
 		}
@@ -109,8 +108,8 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if userid could not be determined
 	 */
 	public function getUserId() {
-		$attr = $this->getAttributeName('ldapExpertUsernameAttr');
-		if ($attr === '') {
+		$attr = $this->userTree->getExpertUsernameAttr();
+		if ($attr === null || $attr === '' || $attr === 'auto') {
 			$username = $this->getUUID(); // fallback to uuid
 		} else {
 			$username = $this->getAttributeValue($attr, null);
@@ -146,11 +145,11 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if uuid could not be determined
 	 */
 	public function getUUID() {
-		$attr = $this->getAttributeName('ldapExpertUUIDUserAttr', 'auto');
+		$attr = $this->userTree->getUuidAttribute();
 		if ($attr !== 'auto') {
 			$uuidAttributes = [$attr];
 		} else {
-			$uuidAttributes = $this->connection->uuidAttributes;
+			$uuidAttributes = Access::$uuidAttributes;
 		}
 		foreach ($uuidAttributes as $uuidAttribute) {
 			// uuid may be binary ... must not be trimmed!
@@ -158,10 +157,10 @@ class UserEntry {
 			if ($uuid === null) {
 				continue;
 			}
-			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
+			if ($this->userTree->getUuidAttribute() !== $uuidAttribute) {
 				// remember autodetected uuid attribute
-				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
-				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
+				$this->userTree->setUuidAttribute($uuidAttribute);
+				//$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
 			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
 				$uuid = Access::binGUID2str($uuid);
@@ -180,11 +179,11 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if display name could not be determined
 	 */
 	public function getDisplayName() {
-		$attr = $this->getAttributeName('ldapUserDisplayName', 'displayname');
+		$attr = $this->userTree->getDisplayNameAttribute();
 		$displayName = $this->getAttributeValue($attr, '');
 
 		//Check whether the display name is configured to have a 2nd feature
-		$additionalAttribute = $this->getAttributeName('ldapUserDisplayName2');
+		$additionalAttribute = $this->userTree->getDisplayName2Attribute();
 		if ($additionalAttribute !== '') {
 			$displayName2 = (string)$this->getAttributeValue($additionalAttribute, '');
 		} else {
@@ -218,8 +217,8 @@ class UserEntry {
 	public function getQuota() {
 		$quota = null;
 
-		$attr = $this->getAttributeName('ldapQuotaAttribute');
-		if ($attr === '') {
+		$attr = $this->userTree->getQuotaAttribute();
+		if (!is_string($attr) || $attr === '') {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
 			$quota = $this->getAttributeValue($attr);
@@ -230,10 +229,10 @@ class UserEntry {
 		}
 
 		if ($quota === null) {
-			if (!$this->connection->ldapQuotaDefault) {
+			if ($this->userTree->getQuotaDefault() === null) {
 				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
 			} else {
-				$quota = $this->connection->ldapQuotaDefault;
+				$quota = $this->userTree->getQuotaDefault();
 				if (!$this->verifyQuotaValue($quota)) {
 					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
@@ -256,7 +255,7 @@ class UserEntry {
 	 * @return string|null email
 	 */
 	public function getEMailAddress() {
-		$attr = $this->getAttributeName('ldapEmailAttribute', 'mail');
+		$attr = $this->userTree->getEmailAttribute();
 		return $this->getAttributeValue($attr);
 	}
 	/**
@@ -266,7 +265,7 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
-		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		$attr = $this->userTree->getHomeFolderNamingRule();
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -314,7 +313,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
-		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$rawAttributes = $this->userTree->getAdditionalSearchAttributes();
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];
@@ -333,21 +332,6 @@ class UserEntry {
 		return \array_keys($searchTerms);
 	}
 
-	/**
-	 * @param $configOption string
-	 * @param $default string
-	 * @return string
-	 */
-	private function getAttributeName($configOption, $default = '') {
-		$attributeName = \strtolower(\trim($this->connection->$configOption));
-
-		// strtolower() returns '' for null and false, which is what the connection initializes config options to
-		if ($attributeName === '') {
-			return $default;
-		}
-
-		return $attributeName;
-	}
 	/**
 	 * Read first value from a single value Attribute of an ldap entry
 	 * TODO allow passing in a verification function, eg for quota or uuid values

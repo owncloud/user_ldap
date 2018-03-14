@@ -3,12 +3,13 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,6 +31,8 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Connection\BackendManager;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -45,24 +48,24 @@ class User_Proxy extends Proxy implements
 		IProvidesExtendedSearchBackend,
 		IProvidesEMailBackend,
 		IProvidesUserNameBackend {
+	private $refBackend;
 
 	/**
-	 * @var User_LDAP[]
+	 * @param ServerMapper $config
+	 * @param BackendManager $manager
+	 * @param IConfig $ocConfig
+	 * FIXME this is called three times per request
 	 */
-	private $backends = [];
-	private $refBackend = null;
-
-	/**
-	 * Constructor
-	 * @param array $serverConfigPrefixes array containing the config Prefixes
-	 */
-	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, ConfigMapper $mapper, IConfig $ocConfig) {
-		parent::__construct($ldap, $mapper);
-		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
-			if ($this->refBackend === null) {
-				$this->refBackend = &$this->backends[$configPrefix];
+	public function __construct(ServerMapper $config, BackendManager $manager, IConfig $ocConfig) {
+		parent::__construct($manager);
+		foreach ($config->listAll() as $server) {
+			$manager->registerServer($server);
+			foreach ($server->getUserTrees() as $tree) {
+				$backend = $manager->createUserBackend($server, $tree);
+				// first backend is used for reference
+				if ($this->refBackend === null) {
+					$this->refBackend = $backend;
+				}
 			}
 		}
 	}
@@ -76,14 +79,9 @@ class User_Proxy extends Proxy implements
 	 */
 	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
-		foreach ($this->backends as $configPrefix => $backend) {
-			$instance = $backend;
-			if (!\method_exists($instance, $method)
-				&& \method_exists($this->getAccess($configPrefix), $method)) {
-				$instance = $this->getAccess($configPrefix);
-			}
-			if ($result = \call_user_func_array([$instance, $method], $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
+		foreach ($this->manager->getUserBackends() as $id => $backend) {
+			if ($result = \call_user_func_array([$backend, $method], $parameters)) {
+				$this->writeToCache($cacheKey, $id);
 				return $result;
 			}
 		}
@@ -101,21 +99,17 @@ class User_Proxy extends Proxy implements
 	protected function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
 		// FIXME remove caching here ...
 		$cacheKey = $this->getUserCacheKey($uid);
-		$prefix = $this->getFromCache($cacheKey);
+		$id = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if ($prefix !== null) {
-			if (isset($this->backends[$prefix])) {
-				$instance = $this->backends[$prefix];
-				if (!\method_exists($instance, $method)
-					&& \method_exists($this->getAccess($prefix), $method)) {
-					$instance = $this->getAccess($prefix);
-				}
-				$result = \call_user_func_array([$instance, $method], $parameters);
+		if ($id !== null) {
+			$backend = $this->manager->getUserBackend($id);
+			if ($backend !== null) {
+				$result = \call_user_func_array([$backend, $method], $parameters);
 				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
 					$userExists = \call_user_func_array(
-						[$this->backends[$prefix], 'userExists'],
+						[$backend, 'userExists'],
 						[$uid]
 					);
 					if (!$userExists) {
@@ -157,10 +151,11 @@ class User_Proxy extends Proxy implements
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = 10, $offset = 0) {
+	public function getUsers($search = '', $limit = 10, $offset = 0, $options = []) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getUserBackends() as $backend) {
+			// FIXME well if the caller uses a limit of 500 he may still get more than that if multiple servers are configured
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
 			if (\is_array($backendUsers)) {
 				$users = \array_merge($users, $backendUsers);
@@ -255,7 +250,7 @@ class User_Proxy extends Proxy implements
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getUserBackends() as $backend) {
 			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
 			if (\is_array($backendUsers)) {
 				$users = $users + $backendUsers;
@@ -288,7 +283,7 @@ class User_Proxy extends Proxy implements
 	 */
 	public function countUsers() {
 		$users = false;
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getUserBackends() as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
 				$users += $backendUsers;

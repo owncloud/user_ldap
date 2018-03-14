@@ -24,8 +24,8 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,13 +33,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateEmptyConfig extends Command {
-	/** @var ConfigMapper */
+
+	/** @var ServerMapper */
 	protected $mapper;
 
 	/**
-	 * @param ConfigMapper $mapper
+	 * @param ServerMapper $mapper
 	 */
-	public function __construct(ConfigMapper $mapper) {
+	public function __construct(ServerMapper $mapper) {
 		parent::__construct();
 		$this->mapper = $mapper;
 	}
@@ -64,7 +65,7 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configID = $input->getArgument('configID');
 		if ($configID === null) {
-			$configID = $this->mapper->nextPossibleConfigurationPrefix();
+			$configID = uniqid('sid-',true);
 		} else {
 			// Check we are not trying to create an empty configid
 			if ($configID === '') {
@@ -72,15 +73,16 @@ class CreateEmptyConfig extends Command {
 				return 1;
 			}
 		}
-		$newConfig = new Config(['id' => $configID]);
+
+		$newServer = new Server(['id' => $configID]);
 
 		try {
 			// Check if we are not already using this configid
-			$this->mapper->find($newConfig->getId());
-			$output->writeln("configID '$configID' already exists");
+			$this->mapper->find($newServer->getId());
+			$output->writeln('configID already exists');
 			return 1;
 		} catch (DoesNotExistException $e) {
-			$this->mapper->insert($newConfig);
+			$this->mapper->insert($newServer);
 			$output->writeln("Created new configuration with configID '{$configID}'");
 		}
 		return 0;
