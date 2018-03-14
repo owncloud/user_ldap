@@ -7,9 +7,9 @@ So that users can be found by their LDAP names
 
 	Scenario Outline: change display name on the LDAP server
 		Given the admin sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "<new-displayname>"
-		When I am on the login page
-		And I login with username "user1" and password "1234"
-		Then "<new-displayname>" should be shown as the name of the current user in the WebUI
+		When the user browses to the login page
+		And the user has logged in with username "user1" and password "1234" using the webUI
+		Then "<new-displayname>" should be shown as the name of the current user on the WebUI
 		Examples:
 		|new-displayname|
 		|999         |
@@ -19,14 +19,14 @@ So that users can be found by their LDAP names
 	@skip @issue-core-30657
 	Scenario: change display name on the LDAP server
 		Given the admin sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "0"
-		When I am on the login page
-		And I login with username "user1" and password "1234"
-		Then "0" should be shown as the name of the current user in the WebUI
+		When the user browses to the login page
+		And the user has logged in with username "user1" and password "1234" using the webUI
+		Then "0" should be shown as the name of the current user on the WebUI
 
 	Scenario: delete display name on the LDAP server
 		Given the admin sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to ""
-		When I am on the login page
-		And I login with username "user1" and password "1234"
-		Then "user1" should be shown as the name of the current user in the WebUI
-		When I relogin with username "user2" and password "1234"
-		Then "User Two" should be shown as the name of the current user in the WebUI
+		When the user browses to the login page
+		And the user has logged in with username "user1" and password "1234" using the webUI
+		Then "user1" should be shown as the name of the current user on the WebUI
+		When the user re-logs in with username "user2" and password "1234" using the webUI
+		Then "User Two" should be shown as the name of the current user on the WebUI
