@@ -1,10 +1,6 @@
 <template>
     <main id="user_ldap">
-        <p>
-            Ich bin {{ name }}
-        </p>
-
-        <!-- <h2 class="app-name">
+        <h2 class="app-name">
             {{ app.name }}
         </h2>
         <h3>
@@ -14,14 +10,13 @@
             Here is the current config:
         </p>
         <pre v-if="config.data" v-text="config.data"></pre>
-        <span v-else class="loader"></span> -->
+        <span v-else class="loader"></span>
     </main>
-</tempalte>
+</template>
 <script>
 export default {
     data () {
         return {
-            "name" : "Otto Walkes"
             "app" : {
                 "name": "User LDAP Settings … or whatever",
                 "description": "I love all the vue's!"
@@ -37,7 +32,7 @@ export default {
         otto () {
             return "Otto ist cool";
         }
-    }
+    },
     mounted () {
         this.fetchConfig()
     },
