@@ -3,7 +3,5 @@
   "license": "AGPL",
   "private": true,
   "ignore": [],
-  "dependencies": {
-    "vue": "^2.5.16"
-  }
+  "dependencies": {}
 }
