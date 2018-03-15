@@ -1,23 +1,40 @@
 {
   "name": "user_ldap",
-  "version": "0.9.0",
-  "description": "LDAP user and group backend",
+  "version": "0.10.0",
+  "description": "This application enables administrators to connect ownCloud to an LDAP-based user directory for authenticating and provisioning users, groups and user attributes. Administrators can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into ownCloud from a directory with the appropriate queries and filters.",
+  "main": "js/app.js",
   "directories": {
+    "lib": "lib",
     "test": "tests"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "bower": "~1.7.9"
+  "dependencies": {
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^0.28.10",
+    "less": "^3.0.1",
+    "less-loader": "^4.1.0",
+    "style-loader": "^0.20.3",
+    "vue": "^2.5.16",
+    "vue-gettext": "^2.0.26",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12"
+  },
+  "scripts": {
+    "build": "webpack -p",
+    "compile": "webpack -d",
+    "watch": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/owncloud/user_ldap.git"
   },
   "keywords": [
-    "ownCloud",
-    "LDAP"
+    "owncloud",
+    "ldap"
   ],
-  "author": "",
+  "author": "Jörn Friedrich Dreyer, Tom Needham, Juan Pablo Villafañez Ramos, Dominik Schmidt, Arthur Schiwon and Felix Heidecke",
   "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/owncloud/user_ldap/issues"
