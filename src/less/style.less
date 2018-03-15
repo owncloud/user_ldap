@@ -9,13 +9,33 @@
 	// use ruby-sass to compile this guy. run:
 	// > sass style.scss:style.css  --watch
 
-    .loader {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: transparent;
-        border-top: 2px solid red;
-    }
+	.loader {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 50%;
+		background: transparent;
+		border-top: 2px solid red;
+	}
+
+	.wizard {
+		display: block;
+
+		&-tabs {
+			margin: 0;
+			padding: 0;
+
+			li {
+				display: inline-block;
+				border: 1px solid black;
+				padding: 3px 6px;
+
+				&.-is-active {
+					background: gray;
+					color: white;
+				}
+			}
+		}
+	}
 }

@@ -3,12 +3,26 @@
         <h2 class="app-name">
             {{ app.name }}
         </h2>
-        <h3>
-            {{ app.description }}
-        </h3>
-        <p>
-            Here is the current config:
-        </p>
+        <section class="wizard">
+            <ul class="wizard-tabs">
+                <li @click="tab = 'server'" :class="{ '-is-active' : tab === 'server' }">Server</li>
+                <li @click="tab = 'user'"   :class="{ '-is-active' : tab === 'user' }">User</li>
+                <li @click="tab = 'login-attr'">Login Attributes</li>
+                <li @click="tab = 'groups'">Groups</li>
+            </ul>
+            <ul class="wizard-contents">
+                <li v-show="tab === 'server'">
+                    <p>
+                        Hier geht's um den server
+                    </p>
+                </li>
+                <li v-show="tab === 'user'">
+                    <p>
+                        Wir lieben User
+                    </p>
+                </li>
+            </ul>
+        </section>
         <pre v-if="config.data" v-text="config.data"></pre>
         <span v-else class="loader"></span>
     </main>
@@ -25,7 +39,8 @@ export default {
                 "data"    : null,
                 "loading" : false,
                 "failed"  : false
-            }
+            },
+            "tab" : "server"
         }
     },
     mounted () {
