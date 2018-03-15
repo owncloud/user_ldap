@@ -18,19 +18,14 @@ export default {
     data () {
         return {
             "app" : {
-                "name": "User LDAP Settings … or whatever",
-                "description": "I love all the vue's!"
+                "name": "User LDAP Wizzard",
+                "description": "This thing rules"
             },
             "config" : {
                 "data"    : null,
                 "loading" : false,
                 "failed"  : false
             }
-        }
-    },
-    computed: {
-        otto () {
-            return "Otto ist cool";
         }
     },
     mounted () {
