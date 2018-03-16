@@ -27,13 +27,12 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use TestHelpers\SetupHelper;
 
-
 require_once 'bootstrap.php';
 
 /**
- * LDAP context.
+ * context that holds all general steps for the user_ldap app
  */
-class UserLdapContext extends RawMinkContext implements Context {
+class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	private $oldConfig = [];
 	/**
@@ -48,7 +47,7 @@ class UserLdapContext extends RawMinkContext implements Context {
 	private $ldapUsersOU;
 	private $ldapGroupsOU;
 	private $toDeleteDNs = [];
-	
+
 	/**
 	 *
 	 * @var WebUIGeneralContext
@@ -123,13 +122,41 @@ class UserLdapContext extends RawMinkContext implements Context {
 	 * @param string $attribute
 	 * @param string $entry
 	 * @param string $value
+	 * @param bool $append
 	 * 
 	 * @return void
 	 */
-	public function theLdapAttributeOfTheEntryTo($attribute, $entry, $value) {
+	public function setTheLdapAttributeOfTheEntryTo(
+		$attribute, $entry, $value, $append=false
+	) {
 		$ldapEntry = $this->ldap->getEntry($entry . "," . $this->ldapBaseDN);
-		Zend\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value);
+		Zend\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, $append);
 		$this->ldap->update($entry . "," . $this->ldapBaseDN, $ldapEntry);
+	}
+	
+	/**
+	 * @When the admin sets the ldap attribute :attribute of the entry :entry to
+	 *
+	 * @param string $attribute
+	 * @param string $entry
+	 * @param TableNode $table
+	 *
+	 * @return void
+	 */
+	public function theLdapAttributeOfTheEntryToTable($attribute, $entry, $table) {
+		$first = true;
+		foreach ($table as $row) {
+			if ($first) {
+				$this->setTheLdapAttributeOfTheEntryTo(
+					$attribute, $entry, $row
+				);
+				$first = false;
+			} else {
+				$this->addValueToLdapAttributeOfTheEntry(
+					$attribute, $entry, $row
+				);
+			}
+		}
 	}
 
 	/**
@@ -146,7 +173,7 @@ class UserLdapContext extends RawMinkContext implements Context {
 	) {
 		$value = file_get_contents(getenv("FILES_FOR_UPLOAD") . $filename);
 		
-		$this->theLdapAttributeOfTheEntryTo(
+		$this->setTheLdapAttributeOfTheEntryTo(
 			$attribute, $entry, $value
 		);
 	}
@@ -161,9 +188,33 @@ class UserLdapContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function addValueToLdapAttributeOfTheEntry($value, $attribute, $entry) {
-		$ldapEntry = $this->ldap->getEntry($entry . "," . $this->ldapBaseDN);
-		Zend\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, true);
-		$this->ldap->update($entry . "," . $this->ldapBaseDN, $ldapEntry);
+		$this->setTheLdapAttributeOfTheEntryTo($attribute, $entry, $value, true);
+	}
+
+	/**
+	 * @When the admin deletes the ldap entry :entry
+	 * 
+	 * @param string $entry
+	 * 
+	 * @return void
+	 */
+	public function deleteTheLdapEntry($entry) {
+		$this->ldap->delete($entry . "," . $this->ldapBaseDN);
+	}
+
+	/**
+	 * @When the admin deletes the value :value from the attribute :attribute of the ldap entry :entry
+	 *
+	 * @param string $value
+	 * @param string $attribute
+	 * @param string $entry DN, not containing baseDN
+	 *
+	 * @return void
+	 */
+	public function deleteValueFromLdapAttribute($value, $attribute, $entry) {
+		$this->ldap->deleteAttributes(
+			$entry . "," . $this->ldapBaseDN, [$attribute => [$value]]
+		);
 	}
 
 	/**
@@ -175,6 +226,55 @@ class UserLdapContext extends RawMinkContext implements Context {
 	 */
 	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
 		$this->importLdifData($ldifData->getRaw());
+	}
+
+	/**
+	 * @return \Zend\Ldap\Ldap
+	 */
+	public function getLdap() {
+		return $this->ldap;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapAdminUser() {
+		return $this->ldapAdminUser;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapAdminPassword() {
+		return $this->ldapAdminPassword;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapBaseDN() {
+		return $this->ldapBaseDN;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapHost() {
+		return $this->ldapHost;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapUsersOU() {
+		return $this->ldapUsersOU;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapGroupsOU() {
+		return $this->ldapGroupsOU;
 	}
 
 	/**
@@ -231,7 +331,7 @@ class UserLdapContext extends RawMinkContext implements Context {
 			$this->webUIGeneralContext->addUserToCreatedUsersList(
 				$uid, $uid, $uid, null, false
 			);
-			
+
 			if ($ouExists) {
 				//if the OU did not exist, we have created it,
 				//and we will delete the OU recursive.
