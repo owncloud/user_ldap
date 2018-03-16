@@ -1,41 +1,58 @@
-@user_ldap_padding: 20px;
+@grid-gutter: 10px;
+
+@color-primary: rgb(30, 45, 70);
+@color-muted: rgb(240, 240, 240);
 
 #user_ldap {
-
-	padding: @user_ldap_padding;
-
-	// Put more SASS right here to "namespace" all the styles
-
-	// use ruby-sass to compile this guy. run:
-	// > sass style.scss:style.css  --watch
+	padding: @grid-gutter * 2;
 
 	.loader {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		position     : absolute;
+		top          : 50%;
+		left         : 50%;
+		transform    : translate(-50%, -50%);
 		border-radius: 50%;
-		background: transparent;
-		border-top: 2px solid red;
+		background   : transparent;
+		border-top   : 2px solid red;
 	}
 
 	.wizard {
 		display: block;
 
-		&-tabs {
-			margin: 0;
-			padding: 0;
+		&-tab-bar {
+			background: @color-primary;
+
+			margin    : 0;
+			padding   : 4px 4px 0;
 
 			li {
-				display: inline-block;
-				border: 1px solid black;
-				padding: 3px 6px;
+				display   : inline-block;
+				padding   : 3px 6px;
+				color     : #fff;
+				transition: background-color 0.25s;
+
+				&:hover {
+					background-color: fade(#fff, 33.333%);
+					cursor          : pointer;
+				}
 
 				&.-is-active {
-					background: gray;
-					color: white;
+					background: #fff;
+					color     : @color-primary;
 				}
 			}
 		}
+
+		&-contents {
+			border    : 1px solid @color-muted;
+			border-top: 0 none;
+			padding   : @grid-gutter * 2;
+		}
+	}
+
+	.title {
+		font-size    : 16px;
+		font-weight  : bold;
+		margin-bottom: 16px;
 	}
 }
