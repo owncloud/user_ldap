@@ -11,6 +11,7 @@ default:
       context:
         parameters:
           ocPath: apps/testing/api/v1/occ
+          adminUsername: admin
           adminPassword: admin
           ldapAdminUser: cn=admin,dc=owncloud,dc=com
           ldapAdminPassword: admin
@@ -21,10 +22,6 @@ default:
           ldapGroupsOU: TestGroups
           ldapInitialUserFilePath: /../../config/ldap-users.ldif
           regularUserPassword: 123456
-          regularUserName: regularuser
-          regularUserNames: user1,user2,user3,usergrp,grpuser
-          regularGroupName: regulargrp
-          regularGroupNames: grp1,grp2,grp3,usergrp,grpuser
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:

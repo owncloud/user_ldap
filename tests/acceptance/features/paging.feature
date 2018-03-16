@@ -17,7 +17,7 @@ So that all LDAP users get synced over to owncloud
 		Then it should be possible to login with the username "my-user-199" and password "my-user-199" using the WebUI
 
 	Scenario: change password on a system with a lot of users
-		And these users are initialized:
+		And these users have been initialized:
 		|username     |password     |
 		|my-user-000  |my-user-000  |
 		|my-user-100  |my-user-100  |
@@ -37,6 +37,6 @@ So that all LDAP users get synced over to owncloud
 		And the user has logged in with username "my-user-000" and password "my-user-000" using the webUI
 		And the user has opened the share dialog for the folder "simple-folder"
 		When the user types "12" in the share-with-field
-		Then all users and groups that contain the string "12" in their name should be listed in the autocomplete list
+		Then all users and groups that contain the string "12" in their name should be listed in the autocomplete list on the webUI
 		And the users own name should not be listed in the autocomplete list on the webUI
 

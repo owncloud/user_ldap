@@ -49,7 +49,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: regularuser
 uidnumber: 30000
-userpassword: 123456
+userpassword: 1234
 
 dn: uid=user1,ou=TestUsers,dc=owncloud,dc=com
 cn: User1
