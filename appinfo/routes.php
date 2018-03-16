@@ -22,6 +22,11 @@
 return [
 	'routes' => [
 		[
+			'name' => 'configuration#listAll',
+			'url' => 'configurations',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'configuration#create',
 			'url' => 'ajax/getNewServerConfigPrefix.php',
 			'verb' => 'POST'

@@ -54,6 +54,9 @@ class ConfigurationController extends Controller {
 	/** @var Helper */
 	protected $helper;
 
+	const REFERENCE_KEY = 'ldap_configuration_active';
+	const REFERENCE_KEY_LENGTH = 25;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -77,6 +80,37 @@ class ConfigurationController extends Controller {
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
 		$this->helper = $helper;
+	}
+
+	private function isReferenceKey($key) {
+		$needle = substr($key, -self::REFERENCE_KEY_LENGTH);
+		return $needle === self::REFERENCE_KEY;
+	}
+
+	public function listAll() {
+		$keys = $this->config->getAppKeys('user_ldap');
+		$prefixes = [];
+		$configs = [];
+		foreach ($keys as $key) {
+			if ($this->isReferenceKey($key)) {
+				$prefix = substr($key, 0, -self::REFERENCE_KEY_LENGTH);
+				$prefixes[] = $prefix;
+				$configs[$prefix] = [];
+			}
+		}
+
+		$configs = [];
+		foreach ($keys as $key) {
+			foreach ($prefixes as $prefix) {
+				if (substr($key,0, strlen($prefix)) === $prefix) {
+					$k = substr($key,strlen($prefix));
+					$configs[$prefix][$k] = $this->config->getAppValue('user_ldap', $key);
+					continue 2; // next config value
+				}
+			}
+		}
+
+		return new DataResponse($configs);
 	}
 
 	/**

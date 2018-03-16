@@ -51,18 +51,17 @@ export default {
             this.config.loading = true;
             this.config.failed  = false;
 
-            $.get(OC.generateUrl('apps/user_ldap/ajax/getConfiguration.php'))
+            $.get(OC.generateUrl('apps/user_ldap/configurations'))
             .done((data) => {
 
-                if (data.status != "success") {
-                    this.config.loading = false;
-                    this.config.failed  = true;
-                }
-                else {
-                    this.config.data    = data.configuration;
-                    this.config.loading = false;
-                }
+				this.config.data    = data;
+				this.config.loading = false;
             })
+            .fail((data) => {
+
+				this.config.loading = false;
+				this.config.failed  = true;
+			})
         }
     }
 }
