@@ -26,20 +26,21 @@
 				</li>
 			</ul>
 		</section>
+		<pre v-if="config.data" v-text="config.data"></pre>
 	</main>
 </template>
 <script>
 export default {
 	data () {
 		return {
-			"app" : {
-				"name": "User LDAP Wizzard",
-				"description": "This thing rules"
+			app : {
+				name: "User LDAP Wizzard",
+				description: "This thing rules"
 			},
-			"config" : {
-				"data"    : null,
-				"loading" : false,
-				"failed"  : false
+			config : {
+				data    : null,
+				loading : false,
+				failed  : false
 			},
 			ui : {
 				tab : 1
@@ -60,7 +61,7 @@ export default {
 				this.config.data    = data;
 				this.config.loading = false;
 			})
-			.fail((data) => {
+			.fail(() => {
 
 				this.config.loading = false;
 				this.config.failed  = true;
