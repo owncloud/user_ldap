@@ -118,10 +118,6 @@ class CheckUser extends Command {
 				. 'disabled LDAP configurations are present.');
 		}
 
-		// we don't check ldapUserCleanupInterval from config.php because this
-		// action is triggered manually, while the setting only controls the
-		// background job.
-
 		return true;
 	}
 
