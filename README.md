@@ -24,3 +24,5 @@ Attributes are unlikely to change very often, but waiting a day for a new quota 
 
 To allow modificatons of minimum time between checks to one hour (3600 seconds) you can do this via occ:
 ```occ config:app:set user_ldap updateAttributesInterval  --value=3600 ```
+
+Touch to verify CI
