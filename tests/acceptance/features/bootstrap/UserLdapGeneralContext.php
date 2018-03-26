@@ -50,9 +50,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 *
-	 * @var WebUIGeneralContext
+	 * @var FeatureContext
 	 */
-	private $webUIGeneralContext;
+	private $featureContext;
 	
 	/**
 	 * @Given the LDAP config :configId has the key :configKey set to :configValue
@@ -328,7 +328,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$entry['uidNumber'] = $maxUidNumber + $i + 1;
 			
 			$this->ldap->add($newDN, $entry);
-			$this->webUIGeneralContext->addUserToCreatedUsersList(
+			$this->featureContext->addUserToCreatedUsersList(
 				$uid, $uid, $uid, null, false
 			);
 
@@ -354,7 +354,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
 		// Get all the contexts you need in this context
-		$this->webUIGeneralContext = $environment->getContext('WebUIGeneralContext');
+		$this->featureContext = $environment->getContext('FeatureContext');
 		
 		$suiteParameters = SetupHelper::getSuiteParameters($scope);
 		$this->connectToLdap($suiteParameters);
