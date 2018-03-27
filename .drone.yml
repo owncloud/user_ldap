@@ -166,11 +166,13 @@ pipeline:
         TEST_SUITE: phpunit
 
   codecov:
-    image: robertstettner/drone-codecov
+    image: plugins/codecov:2
+    secrets: [codecov_token]
     pull: true
+    paths:
+     - tests/output
     files:
-      - apps/user_ldap/clover.xml
-    token: 5cbb8f63-f748-48a7-b28c-d71ca069e823
+     - '*.xml'
     when:
       matrix:
         TEST_SUITE: phpunit
