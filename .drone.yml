@@ -2,7 +2,7 @@ workspace:
   base: /var/www/owncloud
   path: apps/user_ldap
 
-branches: [master]
+branches: [master, release*]
 
 pipeline:
   ldap:
@@ -175,6 +175,15 @@ pipeline:
       matrix:
         TEST_SUITE: phpunit
         PHP_VERSION: 7.1
+
+  notify:
+    image: plugins/slack:1
+    pull: true
+    secrets: [ slack_webhook ]
+    channel: builds
+    when:
+      status: [ failure, changed ]
+      event: [ push, tag ]
 
 services:
   server:
