@@ -49,13 +49,6 @@ pipeline:
       matrix:
         NEED_SERVER: true
 
-  owncloud-log:
-    image: owncloud/ubuntu:16.04
-    detach: true
-    pull: true
-    commands:
-      - tail -f /var/www/owncloud/data/owncloud.log
-
   install-app:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -177,6 +170,14 @@ pipeline:
       matrix:
         TEST_SUITE: phpunit
         PHP_VERSION: 7.1
+
+  owncloud-log:
+    image: owncloud/ubuntu:16.04
+    pull: true
+    commands:
+      - cat /var/www/owncloud/data/owncloud.log
+    when:
+      status: [ failure ]
 
   notify:
     image: plugins/slack:1
