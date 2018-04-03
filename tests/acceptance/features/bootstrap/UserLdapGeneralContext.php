@@ -393,7 +393,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		$this->ldap->bind();
 		SetupHelper::init(
 			"admin", (string)$suiteParameters['adminPassword'],
-			$this->getMinkParameter('base_url'), $suiteParameters['ocPath']
+			$this->featureContext->getBaseUrl(), $suiteParameters['ocPath']
 		);
 	}
 

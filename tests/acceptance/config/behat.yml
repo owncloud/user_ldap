@@ -26,7 +26,7 @@ default:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext:
-            baseUrl:  http://localhost:8080/ocs/
+            baseUrl:  http://localhost:8080
             adminUsername: admin
             adminPassword: admin
             regularUserPassword: 123456
