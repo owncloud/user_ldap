@@ -3,6 +3,30 @@ objectclass: top
 objectclass: organizationalUnit
 ou: TestGroups
 
+dn: cn=group1,ou=TestGroups,dc=owncloud,dc=com
+cn: group1
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group2,ou=TestGroups,dc=owncloud,dc=com
+cn: group2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group3,ou=TestGroups,dc=owncloud,dc=com
+cn: group3
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=groupuser,ou=TestGroups,dc=owncloud,dc=com
+cn: groupuser
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
 dn: cn=grp1,ou=TestGroups,dc=owncloud,dc=com
 cn: grp1
 gidnumber: 500
