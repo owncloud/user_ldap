@@ -32,13 +32,11 @@ use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User_Proxy;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Image;
-use OCP\IUser;
 use OCP\IUserManager;
 
 /**
@@ -142,7 +140,6 @@ class Manager {
 	 */
 	public function getAttributes($minimal = false) {
 		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true,
-			'memberof' => true,
 			$this->getConnection()->ldapQuotaAttribute => true,
 			$this->getConnection()->ldapEmailAttribute => true,
 			$this->getConnection()->ldapUserDisplayName => true,
@@ -261,7 +258,7 @@ class Manager {
 		//check if user really still exists by reading its entry
 		if(!is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
 			$lcr = $this->getConnection()->getConnectionResource();
-			if(is_null($lcr)) {
+			if($lcr === null) {
 				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
 			}
 
@@ -329,19 +326,6 @@ class Manager {
 		throw new \OutOfBoundsException("Could not create unique name for $dn.");
 	}
 
-	/**
-	 * updates the ownCloud accounts table search string as calculated from LDAP
-	 * @param UserEntry $userEntry
-	 */
-	public function updateGroups($userEntry) {
-		//memberOf groups
-		$cacheKey = 'getMemberOf'.$userEntry->getOwnCloudUID();
-		$groups = $userEntry->getMemberOfGroups();
-		if(count($groups) === 0) {
-			$groups = false;
-		}
-		$this->getConnection()->writeToCache($cacheKey, $groups);
-	}
 	/**
 	 * the call to the method that saves the avatar in the file
 	 * system must be postponed after the login. It is to ensure

@@ -142,8 +142,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
 			return false;
 		}
-
-
+		
 		//are the credentials OK?
 		if(!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
 			return false;

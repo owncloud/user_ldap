@@ -476,29 +476,6 @@ class UserEntryTest extends \Test\TestCase {
 		$userEntry->getHome();
 	}
 
-	public function testGetMemberOf() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
-			[
-				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
-				'memberof' => [
-					0 => 'group1',
-					1 => 'group2',
-				]
-			]
-		);
-		self::assertEquals(['group1', 'group2'], $userEntry->getMemberOfGroups());
-		//TODO can we better verify the group names?
-	}
-
-	public function testGetMemberOfEmpty() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
-			[
-				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
-			]
-		);
-		self::assertEquals([], $userEntry->getMemberOfGroups());
-	}
-
 	public function testGetAvatarImageInJpegPhoto() {
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
 			[
