@@ -173,15 +173,14 @@ class UserEntry {
 		//Check whether the display name is configured to have a 2nd feature
 		$additionalAttribute = $this->getAttributeName('ldapUserDisplayName2');
 		if ($additionalAttribute !== '') {
-			$displayName2 = $this->getAttributeValue($additionalAttribute, '');
+			$displayName2 = (string)$this->getAttributeValue($additionalAttribute, '');
 		} else {
 			$displayName2 = '';
 		}
 
 		if($displayName !== '') {
-			$displayName2 = strval($displayName2);
 			if($displayName2 !== '') {
-				$displayName .= ' (' . $displayName2 . ')';
+				return "$displayName ($displayName2)";
 			}
 			return $displayName;
 		}
@@ -275,7 +274,7 @@ class UserEntry {
 		}
 
 		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
-		if(!is_null($attr)
+		if($attr !== null
 			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
@@ -284,16 +283,6 @@ class UserEntry {
 		}
 
 		return null;
-	}
-
-	/**
-	 * @return string[]
-	 */
-	public function getMemberOfGroups() {
-		if (isset($this->ldapEntry['memberof'])) {
-			return $this->ldapEntry['memberof'];
-		}
-		return [];
 	}
 
 	/**

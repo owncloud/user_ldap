@@ -32,13 +32,11 @@ use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User_Proxy;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Image;
-use OCP\IUser;
 use OCP\IUserManager;
 
 /**
@@ -142,7 +140,6 @@ class Manager {
 	 */
 	public function getAttributes($minimal = false) {
 		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true,
-			'memberof' => true,
 			$this->getConnection()->ldapQuotaAttribute => true,
 			$this->getConnection()->ldapEmailAttribute => true,
 			$this->getConnection()->ldapUserDisplayName => true,
@@ -261,7 +258,7 @@ class Manager {
 		//check if user really still exists by reading its entry
 		if(!is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
 			$lcr = $this->getConnection()->getConnectionResource();
-			if(is_null($lcr)) {
+			if($lcr === null) {
 				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
 			}
 
@@ -329,109 +326,6 @@ class Manager {
 		throw new \OutOfBoundsException("Could not create unique name for $dn.");
 	}
 
-	/**
-	 * TODO sync in core
-	 * @param UserEntry $userEntry
-	 * @param string $password
-	 * @return bool
-	 */
-	public function updateAccount (UserEntry $userEntry, $password) {
-		$targetUser = $this->userManager->get($userEntry->getOwnCloudUID());
-		if (!$targetUser) {
-			$this->logger->debug('Trying to update non existing user ' . $userEntry->getOwnCloudUID() . ', creating new account.', ['app' => self::class]);
-			// FIXME we don't hold a reference so we need to pull out the proxy back from the registered user backends...
-			foreach ($this->userManager->getBackends() as $backend) {
-				if ($backend instanceof User_Proxy) {
-					$this->userManager->createUserFromBackend($userEntry->getOwnCloudUID(), $password, $backend);
-					return true;
-				}
-			}
-			$this->logger->error('Could neither update nor create user ' . $userEntry->getOwnCloudUID(), ['app' => self::class]);
-			return false;
-		} else {
-
-			$this->updateQuota($userEntry, $targetUser);
-			$this->updateEmail($userEntry, $targetUser);
-			$this->updateDisplayName($userEntry, $targetUser);
-			$this->updateSearchAttributes($userEntry, $targetUser);
-			// $this->updateHomePath($userEntry, $targetUser); // no longer changeable, manual occ intervention necessary
-			// TODO check if the path changed and log a warning?
-
-			$this->updateGroups($userEntry);
-		}
-		return true;
-	}
-
-	/**
-	 * update the quota for the user account
-	 *
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateQuota(UserEntry $userEntry, IUser $targetUser) {
-		$newQuota = $userEntry->getQuota();
-		if ($newQuota !== false) { // only update if we get a value
-			$targetUser->setQuota($newQuota);
-		}
-	}
-
-	/**
-	 * update the email address for the user account
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateEmail(UserEntry $userEntry, IUser $targetUser) {
-		$newEmail = $userEntry->getEMailAddress();
-		try {
-			$targetUser->setEMailAddress($newEmail);
-		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-			$this->logger->warning('Can\'t set email [' . $newEmail .'] for user ['. $userEntry->getOwnCloudUID() .']. Trying to set as empty email', ['app' => self::class]);
-			try {
-				$targetUser->setEMailAddress(null);
-			} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $ex) {
-				$this->logger->error('Can\'t set email [' . $newEmail .'] nor making it empty for user ['. $userEntry->getOwnCloudUID() .']', ['app' => self::class]);
-			}
-		}
-	}
-
-	/**
-	 * update the display name for the user account
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateDisplayName(UserEntry $userEntry, IUser $targetUser) {
-		$newDisplayName = $userEntry->getDisplayName();
-		if ($newDisplayName !== '') {
-			$targetUser->setDisplayName($newDisplayName);
-		}
-	}
-
-	/**
-	 * updates the ownCloud accounts table search string as calculated from LDAP
-	 * @param UserEntry $userEntry
-	 * @param IUser $targetUser
-	 */
-	public function updateSearchAttributes($userEntry, $targetUser) {
-		$searchTerms = $userEntry->getSearchTerms();
-		// If we have a value, which is different to the current, then let's update the accounts table
-		if (array_diff($searchTerms, $targetUser->getSearchTerms())) {
-			$targetUser->setSearchTerms($searchTerms);
-		}
-	}
-
-	/**
-	 * updates the ownCloud accounts table search string as calculated from LDAP
-	 * @param UserEntry $userEntry
-	 */
-	public function updateGroups($userEntry) {
-		//memberOf groups
-		$cacheKey = 'getMemberOf'.$userEntry->getOwnCloudUID();
-		$groups = $userEntry->getMemberOfGroups();
-		if(count($groups) === 0) {
-			$groups = false;
-		}
-		$this->getConnection()->writeToCache($cacheKey, $groups);
-	}
 	/**
 	 * the call to the method that saves the avatar in the file
 	 * system must be postponed after the login. It is to ensure
