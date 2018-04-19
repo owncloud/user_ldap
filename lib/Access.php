@@ -1381,9 +1381,21 @@ class Access implements IUserTools {
 	 * @return string the final filter part to use in LDAP searches
 	 */
 	public function getFilterPartForUserSearch($search) {
-		return $this->getFilterPartForSearch($search,
-			$this->connection->ldapAttributesForUserSearch,
-			$this->connection->ldapUserDisplayName);
+		$this->detectUuidAttribute('', true);
+		$searchAttributes = $this->connection->ldapAttributesForUserSearch;
+		if (!is_array($searchAttributes)) {
+			$searchAttributes = [];
+		}
+
+		if (empty($searchAttributes)) {
+			$searchAttributes[] = $this->connection->ldapUserDisplayName;
+			$searchAttributes[] = $this->connection->ldapUuidUserAttribute;
+		} else {
+			if (!in_array($this->connection->ldapUuidUserAttribute, $searchAttributes, true)) {
+				$searchAttributes[] = $this->connection->ldapUuidUserAttribute;
+			}
+		}
+		return $this->getFilterPartForSearch($search, $searchAttributes, '');
 	}
 
 	/**
@@ -1413,11 +1425,10 @@ class Access implements IUserTools {
 		$searchWords = explode(' ', trim($search));
 		$wordFilters = [];
 		foreach($searchWords as $word) {
-			$word = $this->prepareSearchTerm($word);
 			//every word needs to appear at least once
 			$wordMatchOneAttrFilters = [];
 			foreach($searchAttributes as $attr) {
-				$wordMatchOneAttrFilters[] = "$attr=$word";
+				$wordMatchOneAttrFilters[] = $this->getFilterStringForSearch($attr, $word);
 			}
 			$wordFilters[] = $this->combineFilterWithOr($wordMatchOneAttrFilters);
 		}
@@ -1445,21 +1456,30 @@ class Access implements IUserTools {
 			}
 		}
 
-		$search = $this->prepareSearchTerm($search);
 		if(!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if ($fallbackAttribute === '') {
 				return '';
 			}
-			$filter[] = "$fallbackAttribute=$search";
+			$filter[] = $this->getFilterStringForSearch($fallbackAttribute, $search);
 		} else {
 			foreach($searchAttributes as $attribute) {
-				$filter[] = "$attribute=$search";
+				$filter[] = $this->getFilterStringForSearch($attribute, $search);
 			}
 		}
 		if(count($filter) === 1) {
 			return "($filter[0])";
 		}
 		return $this->combineFilterWithOr($filter);
+	}
+
+	private function getFilterStringForSearch($attribute, $value) {
+		$searchValue = $this->prepareSearchTerm($value);
+		if ($attribute === $this->connection->ldapUuidUserAttribute) {
+			// must be exact match
+			return "${attribute}=${value}";
+		} else {
+			return "${attribute}=${searchValue}";
+		}
 	}
 
 	/**
