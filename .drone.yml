@@ -14,27 +14,6 @@ pipeline:
       - SLAPD_ORGANIZATION=ownCloud
       - SLAPD_PASSWORD=admin
       - SLAPD_ADDITIONAL_MODULES=memberof
-    commands:
-      - /entrypoint.sh
-      - slapadd -F /etc/ldap/slapd.d -l /var/www/owncloud/apps/user_ldap/tests/acceptance/config/ldap-users.ldif
-      - chown -R openldap:openldap /etc/ldap/slapd.d/ /var/lib/ldap/ /var/run/slapd/
-      - slapd -d 32768 -u openldap -g openldap
-    when:
-      matrix:
-        NEED_PRELOAD_USER: true
-
-  ldap:
-    image: dinkel/openldap
-    detach: true
-    pull: true
-    environment:
-      - SLAPD_DOMAIN=owncloud.com
-      - SLAPD_ORGANIZATION=ownCloud
-      - SLAPD_PASSWORD=admin
-      - SLAPD_ADDITIONAL_MODULES=memberof
-    when:
-      matrix:
-        NEED_PRELOAD_USER: false
 
   install-server:
     image: owncloudci/core
@@ -94,6 +73,7 @@ pipeline:
       - SELENIUM_PORT=4444
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE=webUIUserLDAP
     commands:
       - cd /var/www/owncloud
       - chown www-data * -R
@@ -117,11 +97,12 @@ pipeline:
       - SELENIUM_PORT=4444
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE=webUICore
     commands:
       - cd /var/www/owncloud
       - chown www-data * -R
       - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
-      - bash tests/travis/start_ui_tests.sh --remote --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
+      - bash tests/travis/start_ui_tests.sh --remote --config apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
     when:
       matrix:
         TEST_SOURCE: core
@@ -262,7 +243,6 @@ matrix:
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
@@ -270,7 +250,6 @@ matrix:
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
@@ -278,7 +257,6 @@ matrix:
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: core
@@ -286,7 +264,6 @@ matrix:
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: core
@@ -294,7 +271,6 @@ matrix:
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: core
@@ -302,7 +278,6 @@ matrix:
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: true
 
 #integration tests
    - TEST_SUITE: integration
@@ -311,7 +286,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -319,7 +293,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -327,7 +300,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -335,7 +307,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -343,7 +314,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -351,7 +321,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -359,7 +328,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -367,7 +335,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -375,7 +342,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -383,7 +349,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
@@ -391,7 +356,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -399,7 +363,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -407,7 +370,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -415,7 +377,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -423,7 +384,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -431,7 +391,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -439,7 +398,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -447,7 +405,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -455,7 +412,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -463,7 +419,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -471,7 +426,6 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
@@ -479,4 +433,3 @@ matrix:
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     NEED_PRELOAD_USER: false

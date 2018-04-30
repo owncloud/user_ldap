@@ -5,10 +5,14 @@ default:
     SensioLabs\Behat\PageObjectExtension: ~
 
   suites:
-    default:
+    webUICore:
       paths:
-        - %paths.base%/../features
-      context:
+        - %paths.base%/../../../../../tests/acceptance/features/webUILogin
+        - %paths.base%/../../../../../tests/acceptance/features/webUIRestrictSharing
+        - %paths.base%/../../../../../tests/acceptance/features/webUISharingExternal
+        - %paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups
+        - %paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers
+      context: &common_webui_suite_context
         parameters:
           ocPath: apps/testing/api/v1/occ
           adminUsername: admin
@@ -24,13 +28,28 @@ default:
           regularUserPassword: 123456
       contexts:
         - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext:
+        - FeatureContext: &common_feature_context_params
             baseUrl:  http://localhost:8080
             adminUsername: admin
             adminPassword: admin
             regularUserPassword: 123456
             ocPath: ../../../../
+        - WebUIGeneralContext:
+        - WebUILoginContext:
+        - WebUIFilesContext:
+        - WebUISharingContext:
+        - FederationContext:
+        - WebUIPersonalGeneralSettingsContext:
+        - EmailContext:
+
+    webUIUserLDAP:
+      paths:
+        - %paths.base%/../features/webUIUserLDAP
+      context: *common_webui_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIUserContext:
