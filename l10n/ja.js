@@ -127,6 +127,7 @@ OC.L10N.register(
     "One User Base DN per line" : "1行に1つのユーザーベースDN",
     "User Search Attributes" : "ユーザー検索属性",
     "Optional; one attribute per line" : "オプション：1行に1属性",
+    "Each attribute value is truncated to 191 characters" : "各属性の値は191文字以降切り捨てられます。",
     "Group Display Name Field" : "グループ表示名のフィールド",
     "The LDAP attribute to use to generate the groups's display name." : "ユーザーのグループ表示名の生成に利用するLDAP属性",
     "Base Group Tree" : "ベースグループツリー",
