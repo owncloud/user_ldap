@@ -47,8 +47,8 @@ OC.L10N.register(
     "No data specified" : "داده ای مشخص نشده است",
     " Could not set configuration %s" : "امکان تعیین تنظیم %s نمی باشد",
     "Action does not exist" : "این عمل موجود نمی باشد",
-    "_%s group found_::_%s groups found_" : ["%s گروه بافت شد"],
-    "_%s user found_::_%s users found_" : ["%s کاربر بافت شد"],
+    "_%s group found_::_%s groups found_" : ["%s گروه بافت شد","%s گروه بافت شد"],
+    "_%s user found_::_%s users found_" : ["%s کاربر بافت شد","%s کاربر بافت شد"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "امکان شناسایی مشخصه نمایش نام کاربری وجود ندارد. لطفا در تنظیمات LDAP پیشرفته آن را خودتان وارد کنید.",
     "Could not find the desired feature" : "ویژگی مورد نظر پیدا نمیشود.",
     "Invalid Host" : "هاست نامعتبر است",
@@ -147,4 +147,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
     "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری"
 },
-"nplurals=1; plural=0;");
+"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");

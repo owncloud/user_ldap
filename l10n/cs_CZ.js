@@ -48,8 +48,8 @@ OC.L10N.register(
     "No data specified" : "Neurčena žádná data",
     " Could not set configuration %s" : "Nelze nastavit konfiguraci %s",
     "Action does not exist" : "Tato akce neexistuje",
-    "_%s group found_::_%s groups found_" : ["nalezena %s skupina","nalezeny %s skupiny","nalezeno %s skupin"],
-    "_%s user found_::_%s users found_" : ["nalezen %s uživatel","nalezeni %s uživatelé","nalezeno %s uživatelů"],
+    "_%s group found_::_%s groups found_" : ["nalezena %s skupina","nalezeny %s skupiny","nalezeno %s skupin","nalezeno %s skupin"],
+    "_%s user found_::_%s users found_" : ["nalezen %s uživatel","nalezeni %s uživatelé","nalezeno %s uživatelů","nalezeno %s uživatelů"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Nelze detekovat atribut pro zobrazení jména uživatele. Upřesněte ho prosím sami v rozšířeném nastavení LDAP.",
     "Could not find the desired feature" : "Nelze nalézt požadovanou vlastnost",
     "Invalid Host" : "Neplatný hostitel",
@@ -159,4 +159,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Zrušit mapování uživatelských jmen LDAPu",
     "Clear Groupname-LDAP Group Mapping" : "Zrušit mapování názvů skupin LDAPu"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");
+"nplurals=4; plural=(n < 10 && n % 1 == 0) ? 1 : (n < 9999 && n >= 10 && n % 1 == 0) ? 3 : (n % 1 != 0) : 4;");

@@ -49,8 +49,6 @@ OC.L10N.register(
     "No data specified" : "לא הוגדר מידע",
     " Could not set configuration %s" : " לא ניתן היה לקבוע הגדרות %s",
     "Action does not exist" : "פעולה לא קיימת",
-    "_%s group found_::_%s groups found_" : ["אותרה %s קבוצה","אותרו %s קבוצות"],
-    "_%s user found_::_%s users found_" : ["אותר %s משתמש","אותרו %s משתמשים"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "לא אותר מאפיין שם תצוגה למשתמש. יש לספק אותו בעצמך בהגדרות ldap מתקדמות.",
     "Could not find the desired feature" : "לא אותרה התכונה הרצויה",
     "Invalid Host" : "מארח לא חוקי",
@@ -161,4 +159,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=4; plural=(n==1 ? 1: n == 2 ? 2 : (n % 10 == 0 and n > 10) ? 4);");
