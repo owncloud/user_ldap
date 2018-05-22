@@ -21,4 +21,5 @@
 
 namespace OCA\User_LDAP\Exceptions;
 
-class BindFailedException extends \Exception {}
+class BindFailedException extends \Exception {
+}

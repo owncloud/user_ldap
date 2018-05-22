@@ -80,7 +80,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($method) {
+			->will($this->returnCallback(function ($method) {
 				switch ($method) {
 					case 'ldapUserFilter':
 						return '(objectclass=inetorgperson)';
@@ -112,7 +112,6 @@ class ManagerTest extends \Test\TestCase {
 			$dbConn, $userMgr
 		);
 		$this->manager->setLdapAccess($this->access);
-
 	}
 
 	public function testGetAttributesAll() {
@@ -123,13 +122,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(in_array('dn', $attributes, true));
-		$this->assertTrue(in_array('mail', $attributes));
-		$this->assertTrue(in_array('displayName', $attributes, true));
-		$this->assertTrue(in_array('jpegphoto', $attributes, true));
-		$this->assertTrue(in_array('thumbnailphoto', $attributes, true));
-		$this->assertTrue(in_array('uidNumber', $attributes, true));
-
+		$this->assertTrue(\in_array('dn', $attributes, true));
+		$this->assertTrue(\in_array('mail', $attributes));
+		$this->assertTrue(\in_array('displayName', $attributes, true));
+		$this->assertTrue(\in_array('jpegphoto', $attributes, true));
+		$this->assertTrue(\in_array('thumbnailphoto', $attributes, true));
+		$this->assertTrue(\in_array('uidNumber', $attributes, true));
 	}
 	public function testGetAttributesAvatarsDisabled() {
 		$this->config->expects($this->once())
@@ -139,13 +137,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(in_array('dn', $attributes, true));
-		$this->assertTrue(in_array('mail', $attributes, true));
-		$this->assertTrue(in_array('displayName', $attributes, true));
-		$this->assertFalse(in_array('jpegphoto', $attributes, true));
-		$this->assertFalse(in_array('thumbnailphoto', $attributes, true));
-		$this->assertTrue(in_array('uidNumber', $attributes, true));
-
+		$this->assertTrue(\in_array('dn', $attributes, true));
+		$this->assertTrue(\in_array('mail', $attributes, true));
+		$this->assertTrue(\in_array('displayName', $attributes, true));
+		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
+		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
+		$this->assertTrue(\in_array('uidNumber', $attributes, true));
 	}
 
 	public function testGetAttributesMinimal() {
@@ -156,10 +153,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes(true);
 
-		$this->assertTrue(in_array('dn', $attributes, true));
-		$this->assertTrue(in_array('mail', $attributes, true));
-		$this->assertFalse(in_array('jpegphoto', $attributes, true));
-		$this->assertFalse(in_array('thumbnailphoto', $attributes, true));
+		$this->assertTrue(\in_array('dn', $attributes, true));
+		$this->assertTrue(\in_array('mail', $attributes, true));
+		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
+		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
 	}
 
 	/**
@@ -169,67 +166,67 @@ class ManagerTest extends \Test\TestCase {
 	private function prepareForGetUsers() {
 		$this->access->expects($this->any())
 			->method('escapeFilterPart')
-			->will($this->returnCallback(function($search) {
+			->will($this->returnCallback(function ($search) {
 				return $search;
 			}));
 
 		$this->access->expects($this->any())
 			->method('getFilterPartForUserSearch')
-			->will($this->returnCallback(function($search) {
+			->will($this->returnCallback(function ($search) {
 				return $search;
 			}));
 
 		$this->access->expects($this->any())
 			->method('combineFilterWithAnd')
-			->will($this->returnCallback(function($param) {
+			->will($this->returnCallback(function ($param) {
 				return $param[2];
 			}));
 
 		$this->access->expects($this->any())
 			->method('fetchListOfUsers')
-			->will($this->returnCallback(function($search, $a, $l, $o) {
+			->will($this->returnCallback(function ($search, $a, $l, $o) {
 				$users = [
 					[ 'dn' => ['cn=alice,dc=foobar,dc=bar'] ],
 					[ 'dn' => ['cn=bob,dc=foobar,dc=bar'] ],
 					[ 'dn' => ['cn=carol,dc=foobar,dc=bar'] ],
 				];
-				if(empty($search)) {
+				if (empty($search)) {
 					$result = $users;
 				} else {
 					$result = [];
-					foreach($users as $user) {
-						if(stripos($user['dn'][0],  $search) !== false) {
+					foreach ($users as $user) {
+						if (\stripos($user['dn'][0], $search) !== false) {
 							$result[] = $user;
 						}
 					}
 				}
-				if(!is_null($l) || !is_null($o)) {
-					$result = array_slice($result, $o, $l);
+				if ($l !== null || $o !== null) {
+					$result = \array_slice($result, $o, $l);
 				}
 				return $result;
 			}));
 
 		$this->access->expects($this->any())
 			->method('fetchUsersByLoginName')
-			->will($this->returnCallback(function($uid) {
+			->will($this->returnCallback(function ($uid) {
 				switch ($uid) {
 					case 'alice':
-						return array(array('dn' => ['cn=alice,dc=foobar,dc=bar']));
+						return [['dn' => ['cn=alice,dc=foobar,dc=bar']]];
 					case 'bob':
-						return array(array('dn' => ['cn=bob,dc=foobar,dc=bar']));
+						return [['dn' => ['cn=bob,dc=foobar,dc=bar']]];
 					case 'carol':
-						return array(array('dn' => ['cn=carol,dc=foobar,dc=bar']));
+						return [['dn' => ['cn=carol,dc=foobar,dc=bar']]];
 					default:
-						return array();
+						return [];
 				}
 			}));
 
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->with($this->anything(), $this->callback(function($attr){
-				return in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
+			->with($this->anything(), $this->callback(function ($attr) {
+				return \in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
 			}), $this->anything())
-			->will($this->returnCallback(function($attr){
+			->will($this->returnCallback(function ($attr) {
 				if ($attr === 'jpegPhoto' || $attr === 'thumbnailPhoto') {
 					return ['sdfsdljsdlkfjsadlkjfsdewuyriuweyiuyeiwuydjkfsh'];
 				} else {
@@ -253,7 +250,7 @@ class ManagerTest extends \Test\TestCase {
 		$mapper = $this->createMock(UserMapping::class);
 		$mapper->expects($this->any())
 			->method('getNameByDN')
-			->will($this->returnCallback(function($dn) {
+			->will($this->returnCallback(function ($dn) {
 				switch ($dn) {
 					case 'cn=alice,dc=foobar,dc=bar':
 						return 'alice';
@@ -272,7 +269,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($method) {
+			->will($this->returnCallback(function ($method) {
 				switch ($method) {
 					case 'ldapUserFilter':
 						return '(objectclass=inetorgperson)';
@@ -296,31 +293,31 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetUsersNoParam() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers();
-		$this->assertEquals(3, count($result));
+		$this->assertEquals(3, \count($result));
 	}
 
 	public function testGetUsersLimitOffset() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('', 1, 2);
-		$this->assertEquals(1, count($result));
+		$this->assertEquals(1, \count($result));
 	}
 
 	public function testGetUsersLimitOffset2() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('', 2, 1);
-		$this->assertEquals(2, count($result));
+		$this->assertEquals(2, \count($result));
 	}
 
 	public function testGetUsersSearchWithResult() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('l');
-		$this->assertEquals(2, count($result));
+		$this->assertEquals(2, \count($result));
 	}
 
 	public function testGetUsersSearchEmptyResult() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('noone');
-		$this->assertEquals(0, count($result));
+		$this->assertEquals(0, \count($result));
 	}
 
 	public function testGetUserEntryByDn() {

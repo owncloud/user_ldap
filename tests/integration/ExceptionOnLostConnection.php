@@ -22,7 +22,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
-
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\LDAP;
 
@@ -33,7 +32,7 @@ use OCA\User_LDAP\LDAP;
  *
  * LDAP must be available via toxiproxy.
  *
- * This test must be run manually. 
+ * This test must be run manually.
  *
  */
 class ExceptionOnLostConnection {
@@ -97,9 +96,9 @@ class ExceptionOnLostConnection {
 		\OC_App::loadApps('user_ldap');
 
 		$ch = $this->getCurl();
-		$proxyInfoJson = curl_exec($ch);
+		$proxyInfoJson = \curl_exec($ch);
 		$this->checkCurlResult($ch, $proxyInfoJson);
-		$proxyInfo = json_decode($proxyInfoJson, true);
+		$proxyInfo = \json_decode($proxyInfoJson, true);
 		$this->originalProxyState = $proxyInfo['enabled'];
 		$this->ldapHost = 'ldap://' . $proxyInfo['listen']; // contains port as well
 
@@ -110,7 +109,7 @@ class ExceptionOnLostConnection {
 	 * restores original state of the LDAP proxy, if necessary
 	 */
 	public function cleanUp() {
-		if($this->originalProxyState === true) {
+		if ($this->originalProxyState === true) {
 			$this->setProxyState(true);
 		}
 	}
@@ -120,18 +119,18 @@ class ExceptionOnLostConnection {
 	 * fail
 	 */
 	public function run() {
-		if($this->originalProxyState === false) {
+		if ($this->originalProxyState === false) {
 			$this->setProxyState(true);
 		}
 		//host contains port, 2nd parameter will be ignored
 		$cr = $this->ldap->connect($this->ldapHost, 0);
 		$this->ldap->bind($cr, $this->ldapBindDN, $this->ldapBindPwd);
-		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 
 		// disable LDAP, will cause lost connection
 		$this->setProxyState(false);
 		try {
-			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 		} catch (ServerNotAvailableException $e) {
 			print("Test PASSED" . PHP_EOL);
 			exit(0);
@@ -149,9 +148,9 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function checkCurlResult($ch, $result) {
-		if($result === false) {
-			$error = curl_error($ch);
-			curl_close($ch);
+		if ($result === false) {
+			$error = \curl_error($ch);
+			\curl_close($ch);
 			throw new \Exception($error);
 		}
 	}
@@ -163,18 +162,18 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function setProxyState($isEnabled) {
-		if(!is_bool($isEnabled)) {
+		if (!\is_bool($isEnabled)) {
 			throw new \InvalidArgumentException('Bool expected');
 		}
-		$postData = json_encode(['enabled' => $isEnabled]);
+		$postData = \json_encode(['enabled' => $isEnabled]);
 		$ch = $this->getCurl();
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		\curl_setopt($ch, CURLOPT_POST, true);
+		\curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+		\curl_setopt($ch, CURLOPT_HTTPHEADER, [
 				'Content-Type: application/json',
-				'Content-Length: ' . strlen($postData))
+				'Content-Length: ' . \strlen($postData)]
 		);
-		$recvd = curl_exec($ch);
+		$recvd = \curl_exec($ch);
 		$this->checkCurlResult($ch, $recvd);
 	}
 
@@ -183,14 +182,13 @@ class ExceptionOnLostConnection {
 	 * @return resource
 	 */
 	private function getCurl() {
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $this->toxiProxyHost . '/proxies/' . $this->toxiProxyName);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$ch = \curl_init();
+		\curl_setopt($ch, CURLOPT_URL, $this->toxiProxyHost . '/proxies/' . $this->toxiProxyName);
+		\curl_setopt($ch, CURLOPT_HEADER, false);
+		\curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		return $ch;
 	}
 }
 
 $test = new ExceptionOnLostConnection('http://localhost:8474', 'ldap', 'dc=owncloud,dc=bzoc');
 $test->run();
-

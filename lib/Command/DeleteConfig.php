@@ -50,17 +50,16 @@ class DeleteConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 		;
 	}
-
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configPrefix = $input->getArgument('configID');
 
 		$success = $this->helper->deleteServerConfiguration($configPrefix);
 
-		if($success) {
+		if ($success) {
 			$output->writeln("Deleted configuration with configID '{$configPrefix}'");
 		} else {
 			$output->writeln("Cannot delete configuration with configID '{$configPrefix}'");

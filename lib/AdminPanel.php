@@ -36,23 +36,22 @@ class AdminPanel implements ISettings {
 		$hosts = $this->helper->getServerConfigurationHosts();
 
 		$wizardHtml = '';
-		$toc = array();
+		$toc = [];
 
 		$wControls = new Template('user_ldap', 'part.wizardcontrols');
 		$wControls = $wControls->fetchPage();
 		$sControls = new Template('user_ldap', 'part.settingcontrols');
 		$sControls = $sControls->fetchPage();
 
-
-		$wizTabs = array();
-		$wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $this->l->t('Server'));
-		$wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $this->l->t('Users'));
-		$wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $this->l->t('Login Attributes'));
-		$wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $this->l->t('Groups'));
-		$wizTabsCount = count($wizTabs);
-		for($i = 0; $i < $wizTabsCount; $i++) {
+		$wizTabs = [];
+		$wizTabs[] = ['tpl' => 'part.wizard-server',      'cap' => $this->l->t('Server')];
+		$wizTabs[] = ['tpl' => 'part.wizard-userfilter',  'cap' => $this->l->t('Users')];
+		$wizTabs[] = ['tpl' => 'part.wizard-loginfilter', 'cap' => $this->l->t('Login Attributes')];
+		$wizTabs[] = ['tpl' => 'part.wizard-groupfilter', 'cap' => $this->l->t('Groups')];
+		$wizTabsCount = \count($wizTabs);
+		for ($i = 0; $i < $wizTabsCount; $i++) {
 			$tab = new Template('user_ldap', $wizTabs[$i]['tpl']);
-			if($i === 0) {
+			if ($i === 0) {
 				$tab->assign('serverConfigurationPrefixes', $prefixes);
 				$tab->assign('serverConfigurationHosts', $hosts);
 			}
@@ -68,7 +67,7 @@ class AdminPanel implements ISettings {
 		// assign default values
 		$config = new Configuration($this->config, '', false);
 		$defaults = $config->getDefaults();
-		foreach($defaults as $key => $default) {
+		foreach ($defaults as $key => $default) {
 			$tmpl->assign($key.'_default', $default);
 		}
 
@@ -78,5 +77,4 @@ class AdminPanel implements ISettings {
 	public function getSectionID() {
 		return 'authentication';
 	}
-
 }

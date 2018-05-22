@@ -70,14 +70,14 @@ class MappingController extends Controller {
 	public function clear($ldap_clear_mapping, $ldap_serverconfig_chooser = null) {
 		$subject = $ldap_clear_mapping; // TODO if possible make JS send as 'subject' right away
 		$mapping = null;
-		if($subject === 'user') {
+		if ($subject === 'user') {
 			$mapping = new UserMapping($this->connection);
-		} else if($subject === 'group') {
+		} elseif ($subject === 'group') {
 			$mapping = new GroupMapping($this->connection);
 		}
 		// TODO else return error 'unknown subject '
 		try {
-			if($mapping === null || !$mapping->clear()) {
+			if ($mapping === null || !$mapping->clear()) {
 				throw new \Exception($this->l10n->t('Failed to clear the mappings.'));
 			}
 			return new DataResponse(['status' => 'success']);
@@ -88,5 +88,4 @@ class MappingController extends Controller {
 			]);
 		}
 	}
-
 }

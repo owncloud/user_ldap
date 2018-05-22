@@ -35,5 +35,4 @@ class UserMapping extends AbstractMapping {
 	protected function getTableName() {
 		return '*PREFIX*ldap_user_mapping';
 	}
-
 }

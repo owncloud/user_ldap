@@ -19,19 +19,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-if(php_sapi_name() !== 'cli') {
+if (\php_sapi_name() !== 'cli') {
 	print('Only via CLI, please.');
 	exit(1);
 }
 
 include __DIR__ . '/config.php';
 
-$cr = ldap_connect($host, $port);
-ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-$ok = ldap_bind($cr, $adn, $apwd);
+$cr = \ldap_connect($host, $port);
+\ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
+$ok = \ldap_bind($cr, $adn, $apwd);
 
 if (!$ok) {
-	echo ldap_error($cr);
+	echo \ldap_error($cr);
 	die(1);
 }
 
@@ -44,9 +44,9 @@ if (true) {
 	$entry['objectclass'][] = 'top';
 	$entry['objectclass'][] = 'organizationalunit';
 	$entry['ou'] = $ouName;
-	$b = ldap_add($cr, $ouDN, $entry);
+	$b = \ldap_add($cr, $ouDN, $entry);
 	if (!$b) {
-		echo ldap_error($cr);
+		echo \ldap_error($cr);
 		die(1);
 	}
 }
@@ -55,8 +55,8 @@ $users = ['alice', 'boris'];
 
 foreach ($users as $uid) {
 	$newDN = 'uid=' . $uid . ',' . $ouDN;
-	$fn = ucfirst($uid);
-	$sn = ucfirst(str_shuffle($uid));   // not so explicit but it's OK.
+	$fn = \ucfirst($uid);
+	$sn = \ucfirst(\str_shuffle($uid));   // not so explicit but it's OK.
 
 	$entry = [];
 	$entry['cn'] = $fn . ' ' . $sn;
@@ -67,11 +67,11 @@ foreach ($users as $uid) {
 	$entry['displayName'] = $sn . ', ' . $fn;
 	$entry['mail'] = $fn . '@example.com';
 
-	$ok = ldap_add($cr, $newDN, $entry);
+	$ok = \ldap_add($cr, $newDN, $entry);
 	if ($ok) {
 		echo('created user ' . ': ' . $entry['cn'] . PHP_EOL);
 	} else {
-		echo ldap_error($cr);
+		echo \ldap_error($cr);
 		die(1);
 	}
 }

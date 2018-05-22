@@ -65,17 +65,17 @@ class ConnectionTest extends \Test\TestCase {
 
 		$configuration = new Configuration($coreConfig, 'test', false);
 		$connection = new Connection($this->ldap, $configuration, null);
-		$agent = array(
+		$agent = [
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',
-		);
+		];
 		$connection->setConfiguration($agent);
 
 		$testConnection = clone $connection;
-		$user = array(
+		$user = [
 			'ldapAgentName' => 'user',
 			'ldapAgentPassword' => 'password',
-		);
+		];
 		$testConnection->setConfiguration($user);
 
 		$agentName = $connection->ldapAgentName;
@@ -127,7 +127,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->ldap->expects($this->exactly(3))
 			->method('bind')
 			->will($this->returnCallback(function () use (&$isThrown) {
-				if(!$isThrown) {
+				if (!$isThrown) {
 					$isThrown = true;
 					throw new \OC\ServerNotAvailableException();
 				}

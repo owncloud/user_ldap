@@ -34,7 +34,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
 
 abstract class Proxy {
-	static private $accesses = array();
+	private static $accesses = [];
 	private $ldap = null;
 
 	/** @var \OCP\ICache|null */
@@ -46,7 +46,7 @@ abstract class Proxy {
 	public function __construct(ILDAPWrapper $ldap) {
 		$this->ldap = $ldap;
 		$memcache = \OC::$server->getMemCacheFactory();
-		if($memcache->isAvailable()) {
+		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
 	}
@@ -64,7 +64,7 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $helper;
-		if($fs === null) {
+		if ($fs === null) {
 			$coreConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$logger   = \OC::$server->getLogger();
@@ -92,7 +92,7 @@ abstract class Proxy {
 	 * @return Access
 	 */
 	protected function getAccess($configPrefix) {
-		if(!isset(self::$accesses[$configPrefix])) {
+		if (!isset(self::$accesses[$configPrefix])) {
 			$this->addAccess($configPrefix);
 		}
 		return self::$accesses[$configPrefix];
@@ -141,7 +141,7 @@ abstract class Proxy {
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
 		$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
-		if($result === $passOnWhen) {
+		if ($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}// FIXME return null if result is false ... the user then is unknown. Exception?
 		return $result;
@@ -153,10 +153,10 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if($key === null) {
+		if ($key === null) {
 			return $prefix;
 		}
-		return $prefix.md5($key);
+		return $prefix.\md5($key);
 	}
 
 	/**
@@ -164,12 +164,12 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if($this->cache === null || !$this->isCached($key)) {
+		if ($this->cache === null || !$this->isCached($key)) {
 			return null;
 		}
 		$key = $this->getCacheKey($key);
 
-		return json_decode(base64_decode($this->cache->get($key)));
+		return \json_decode(\base64_decode($this->cache->get($key)));
 	}
 
 	/**
@@ -177,7 +177,7 @@ abstract class Proxy {
 	 * @return bool
 	 */
 	public function isCached($key) {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return false;
 		}
 		$key = $this->getCacheKey($key);
@@ -189,16 +189,16 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
-		$value = base64_encode(json_encode($value));
+		$value = \base64_encode(\json_encode($value));
 		$this->cache->set($key, $value, '2592000');
 	}
 
 	public function clearCache() {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));

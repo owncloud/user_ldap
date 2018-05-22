@@ -72,8 +72,8 @@ class UserEntry {
 		$this->logger = $logger;
 		$this->connection = $connection;
 		// Fix ldap entry to force all keys to lowercase
-		foreach($ldapEntry as $key => $value) {
-			$this->ldapEntry[strtolower($key)] = $ldapEntry[$key];
+		foreach ($ldapEntry as $key => $value) {
+			$this->ldapEntry[\strtolower($key)] = $ldapEntry[$key];
 		}
 		// only accept an entry with the dn set
 		if ($this->getDN() === null) {
@@ -87,7 +87,7 @@ class UserEntry {
 	 * @return string|null
 	 */
 	public function getDN() {
-		return $this->getAttributeValue ('dn', null);
+		return $this->getAttributeValue('dn', null);
 	}
 
 	/**
@@ -103,9 +103,9 @@ class UserEntry {
 			$username = $this->getAttributeValue($attr, null);
 		}
 		if ($username === null) {
-			$json = @json_encode($this->ldapEntry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PARTIAL_OUTPUT_ON_ERROR );
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$json .= ', ' . json_last_error_msg();
+			$json = @\json_encode($this->ldapEntry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_PARTIAL_OUTPUT_ON_ERROR);
+			if (\json_last_error() !== JSON_ERROR_NONE) {
+				$json .= ', ' . \json_last_error_msg();
 			};
 			throw new \OutOfBoundsException('Cannot determine username for '.$this->getDN().' from '.$json);
 		}
@@ -150,7 +150,7 @@ class UserEntry {
 				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
-			if($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
+			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
 				$uuid = Access::binGUID2str($uuid);
 			}
 
@@ -168,7 +168,7 @@ class UserEntry {
 	 */
 	public function getDisplayName() {
 		$attr = $this->getAttributeName('ldapUserDisplayName', 'displayname');
-		$displayName = $this->getAttributeValue ($attr, '');
+		$displayName = $this->getAttributeValue($attr, '');
 
 		//Check whether the display name is configured to have a 2nd feature
 		$additionalAttribute = $this->getAttributeName('ldapUserDisplayName2');
@@ -178,8 +178,8 @@ class UserEntry {
 			$displayName2 = '';
 		}
 
-		if($displayName !== '') {
-			if($displayName2 !== '') {
+		if ($displayName !== '') {
+			if ($displayName2 !== '') {
 				return "$displayName ($displayName2)";
 			}
 			return $displayName;
@@ -209,7 +209,7 @@ class UserEntry {
 		if ($attr === '') {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
-			$quota = $this->getAttributeValue ($attr);
+			$quota = $this->getAttributeValue($attr);
 			if (!$this->verifyQuotaValue($quota)) {
 				\OC::$server->getLogger()->error("Invalid quota <$quota> for LDAP user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
 				$quota = null;
@@ -233,7 +233,6 @@ class UserEntry {
 
 		\OC::$server->getLogger()->debug("using quota <$quota> for user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
 		return $quota;
-
 	}
 
 	private function verifyQuotaValue($quotaValue) {
@@ -245,7 +244,7 @@ class UserEntry {
 	 */
 	public function getEMailAddress() {
 		$attr = $this->getAttributeName('ldapEmailAttribute', 'mail');
-		return $this->getAttributeValue ($attr);
+		return $this->getAttributeValue($attr);
 	}
 	/**
 	 * returns the home directory of the user if specified by LDAP settings
@@ -254,11 +253,11 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
- 		$attr = $this->getAttributeName('homeFolderNamingRule', null);
-		if (is_string($attr) && strpos($attr, 'attr:') === 0 // TODO do faster startswith check
-			&& strlen($attr) > 5
+		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
+			&& \strlen($attr) > 5
 		) {
-			$attr = substr($attr, 5);
+			$attr = \substr($attr, 5);
 
 			$path = $this->getAttributeValue($attr, '');
 		}
@@ -266,15 +265,15 @@ class UserEntry {
 		if ($path !== '') {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning
-			if('/' !== $path[0]) {
+			if ($path[0] !== '/') {
 				$path = $this->config->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data' ) . '/' . $path;
+						\OC::$SERVERROOT.'/data') . '/' . $path;
 			}
 			return $path;
 		}
 
 		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
-		if($attr !== null
+		if ($attr !== null
 			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
@@ -290,9 +289,9 @@ class UserEntry {
 	 * @return string|null image binary data (provided by LDAP)
 	 */
 	public function getAvatarImage() {
-		$data = $this->getAttributeValue ('jpegPhoto', null, false);
+		$data = $this->getAttributeValue('jpegPhoto', null, false);
 		if ($data === null) {
-			$data = $this->getAttributeValue ('thumbnailPhoto', null, false);
+			$data = $this->getAttributeValue('thumbnailPhoto', null, false);
 		}
 		return $data;
 	}
@@ -305,19 +304,19 @@ class UserEntry {
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];
-		foreach($attributes as $attr) {
-			$attr = strtolower($attr);
+		foreach ($attributes as $attr) {
+			$attr = \strtolower($attr);
 			if (isset($this->ldapEntry[$attr])) {
 				foreach ($this->ldapEntry[$attr] as $value) {
-					$value = trim($value);
+					$value = \trim($value);
 					if (!empty($value)) {
-						$searchTerms[strtolower($value)] = true;
+						$searchTerms[\strtolower($value)] = true;
 					}
 				}
 			}
 		}
 
-		return array_keys($searchTerms);
+		return \array_keys($searchTerms);
 	}
 
 	/**
@@ -326,7 +325,7 @@ class UserEntry {
 	 * @return string
 	 */
 	private function getAttributeName($configOption, $default = '') {
-		$attributeName = trim(strtolower($this->connection->$configOption));
+		$attributeName = \trim(\strtolower($this->connection->$configOption));
 
 		// strtolower() returns '' for null and false, which is what the connection initializes config options to
 		if ($attributeName === '') {
@@ -344,11 +343,11 @@ class UserEntry {
 	 * @return string|null
 	 */
 	private function getAttributeValue($attributeName, $default = null, $trim = true) {
-		$attributeName = strtolower($attributeName); // all ldap keys are lowercase
+		$attributeName = \strtolower($attributeName); // all ldap keys are lowercase
 		if (isset($this->ldapEntry[$attributeName][0])) {
 			$value = $this->ldapEntry[$attributeName][0];
 			if ($trim) {
-				$value = trim($value);
+				$value = \trim($value);
 			}
 			if ($value === '') {
 				return $default;
@@ -358,5 +357,4 @@ class UserEntry {
 
 		return $default;
 	}
-
 }

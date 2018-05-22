@@ -31,7 +31,7 @@ use OC\ServerNotAvailableException;
 
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
-	protected $curArgs = array();
+	protected $curArgs = [];
 
 	/**
 	 * @param resource $link
@@ -49,10 +49,10 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	public function connect($host, $port) {
-		if(strpos($host, '://') === false) {
+		if (\strpos($host, '://') === false) {
 			$host = 'ldap://' . $host;
 		}
-		if(strpos($host, ':', strpos($host, '://') + 1) === false) {
+		if (\strpos($host, ':', \strpos($host, '://') + 1) === false) {
 			//ldap_connect ignores port parameter when URLs are passed
 			$host .= ':' . $port;
 		}
@@ -68,8 +68,8 @@ class LDAP implements ILDAPWrapper {
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
 		$this->preFunctionCall('ldap_control_paged_result_response',
-			array($link, $result, $cookie, $estimated));
-		$result = ldap_control_paged_result_response($link, $result, $cookie, $estimated);
+			[$link, $result, $cookie, $estimated]);
+		$result = \ldap_control_paged_result_response($link, $result, $cookie, $estimated);
 		$this->postFunctionCall();
 
 		return $result;
@@ -223,7 +223,7 @@ class LDAP implements ILDAPWrapper {
 	 * @return boolean if it the case, false otherwise
 	 * */
 	public function areLDAPFunctionsAvailable() {
-		return function_exists('ldap_connect');
+		return \function_exists('ldap_connect');
 	}
 
 	/**
@@ -231,8 +231,8 @@ class LDAP implements ILDAPWrapper {
 	 * @return boolean if it the case, false otherwise
 	 * */
 	public function hasPagedResultSupport() {
-		$hasSupport = function_exists('ldap_control_paged_result')
-			&& function_exists('ldap_control_paged_result_response');
+		$hasSupport = \function_exists('ldap_control_paged_result')
+			&& \function_exists('ldap_control_paged_result_response');
 		return $hasSupport;
 	}
 
@@ -242,17 +242,17 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool true if it is a resource, false otherwise
 	 */
 	public function isResource($resource) {
-		return is_resource($resource);
+		return \is_resource($resource);
 	}
 
 	private function formatLdapCallArguments($func, $arguments) {
-		$argumentsLog = implode(",",
-			array_map(
-				function($argument) {
-					if (is_string($argument) || is_bool($argument) || is_numeric($argument)) {
-						return strval($argument);
+		$argumentsLog = \implode(",",
+			\array_map(
+				function ($argument) {
+					if (\is_string($argument) || \is_bool($argument) || \is_numeric($argument)) {
+						return \strval($argument);
 					}
-					return gettype($argument);
+					return \gettype($argument);
 				},
 				$arguments
 			)
@@ -265,17 +265,17 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	private function invokeLDAPMethod() {
-		$arguments = func_get_args();
-		$func = 'ldap_' . array_shift($arguments);
-		if(function_exists($func)) {
+		$arguments = \func_get_args();
+		$func = 'ldap_' . \array_shift($arguments);
+		if (\function_exists($func)) {
 			// Start logging event
-			$eventId = uniqid($func);
+			$eventId = \uniqid($func);
 			\OC::$server->getEventLogger()->start($eventId, $this->formatLdapCallArguments($func, $arguments));
 
 			// Execute call
 			$this->preFunctionCall($func, $arguments);
-			$result = call_user_func_array($func, $arguments);
-			if ($result === FALSE) {
+			$result = \call_user_func_array($func, $arguments);
+			if ($result === false) {
 				$this->postFunctionCall();
 			}
 
@@ -296,21 +296,21 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	private function postFunctionCall() {
-		if($this->isResource($this->curArgs[0])) {
-			$errorCode = ldap_errno($this->curArgs[0]);
-			$errorMsg  = ldap_error($this->curArgs[0]);
-			if($errorCode !== 0) {
-				if($this->curFunc === 'ldap_get_entries'
+		if ($this->isResource($this->curArgs[0])) {
+			$errorCode = \ldap_errno($this->curArgs[0]);
+			$errorMsg  = \ldap_error($this->curArgs[0]);
+			if ($errorCode !== 0) {
+				if ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
-				} else if ($errorCode === 32) {
+				} elseif ($errorCode === 32) {
 					//for now
-				} else if ($errorCode === 10) {
+				} elseif ($errorCode === 10) {
 					//referrals, we switch them off, but then there is AD :)
-				} else if ($errorCode === -1) {
+				} elseif ($errorCode === -1) {
 					throw new ServerNotAvailableException('Lost connection to LDAP server.');
-				} else if ($errorCode === 48) {
+				} elseif ($errorCode === 48) {
 					throw new \Exception('LDAP authentication method rejected', $errorCode);
-				} else if ($errorCode === 1) {
+				} elseif ($errorCode === 1) {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {
 					\OCP\Util::writeLog('user_ldap',
@@ -323,6 +323,6 @@ class LDAP implements ILDAPWrapper {
 		}
 
 		$this->curFunc = '';
-		$this->curArgs = array();
+		$this->curArgs = [];
 	}
 }

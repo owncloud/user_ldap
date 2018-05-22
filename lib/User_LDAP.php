@@ -104,7 +104,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return false;
 		}
 
-		if($userEntry->getAvatarImage() === null) {
+		if ($userEntry->getAvatarImage() === null) {
 			return true;
 		}
 
@@ -126,7 +126,6 @@ class User_LDAP implements IUserBackend, UserInterface {
 		}
 	}
 
-
 	/**
 	 * Check if the password is correct
 	 * @param string $uid The username
@@ -138,13 +137,13 @@ class User_LDAP implements IUserBackend, UserInterface {
 	public function checkPassword($uid, $password) {
 		try {
 			$userEntry = $this->userManager->getLDAPUserByLoginName($uid);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
 			return false;
 		}
 		
 		//are the credentials OK?
-		if(!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
+		if (!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
 			return false;
 		}
 
@@ -155,7 +154,6 @@ class User_LDAP implements IUserBackend, UserInterface {
 		$this->userManager->markLogin($userEntry->getOwnCloudUID());
 
 		return $userEntry->getOwncloudUid();
-
 	}
 
 	/**
@@ -170,7 +168,6 @@ class User_LDAP implements IUserBackend, UserInterface {
 		return $this->userManager->getUsers($search, $limit, $offset);
 	}
 
-
 	/**
 	 * check if a user exists
 	 * @param string $uid the username
@@ -184,7 +181,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 		}
 
 		$dn = $this->userManager->username2dn($uid);
-		if($dn === false) {
+		if ($dn === false) {
 			return false;
 		}
 
@@ -205,7 +202,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	*/
 	public function deleteUser($uid) {
 		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
-			array('app' => 'user_ldap'));
+			['app' => 'user_ldap']);
 
 		$this->userManager->getUserMapper()->unmap($uid);
 
@@ -297,7 +294,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
-	public function getBackendName(){
+	public function getBackendName() {
 		return 'LDAP';
 	}
 
@@ -361,8 +358,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 		$image = new Image();
 		if ($image->loadFromData($userEntry->getAvatarImage())) {
 			//make sure it is a square and not bigger than 128x128
-			$size = min(array($image->width(), $image->height(), 128));
-			if(!$image->centerCrop($size)) {
+			$size = \min([$image->width(), $image->height(), 128]);
+			if (!$image->centerCrop($size)) {
 				throw new \OutOfBoundsException('cropping image for avatar failed for '.$userEntry->getDN());
 			}
 			return $image;

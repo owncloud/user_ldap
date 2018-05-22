@@ -62,22 +62,22 @@ class ShowConfig extends Base {
 					'configID',
 					InputArgument::OPTIONAL,
 					'will show the configuration of the specified id'
-				     )
+					 )
 			->addOption(
 					'show-password',
 					null,
 					InputOption::VALUE_NONE,
 					'show ldap bind password'
-				     )
+					 )
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if($configID !== null) {
+		if ($configID !== null) {
 			$configIDs[] = $configID;
-			if(!in_array($configIDs[0], $availableConfigs)) {
+			if (!\in_array($configIDs[0], $availableConfigs)) {
 				$output->writeln("Invalid configID");
 				return;
 			}
@@ -95,20 +95,20 @@ class ShowConfig extends Base {
 	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
 	 */
 	protected function renderConfigs($configIDs, InputInterface $input, OutputInterface $output, $withPassword) {
-		foreach($configIDs as $id) {
+		foreach ($configIDs as $id) {
 			$configHolder = new Configuration($this->config, $id);
 			$configuration = $configHolder->getConfiguration();
-			ksort($configuration);
+			\ksort($configuration);
 			if (!$withPassword) {
 				$configuration ['ldapAgentPassword'] = '***';
 			}
 			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 				$table = new Table($output);
 				$table->setHeaders(['Configuration', $id]);
-				$rows = array();
+				$rows = [];
 				foreach ($configuration as $key => $value) {
-					if (is_array($value)) {
-						$value = implode(';', $value);
+					if (\is_array($value)) {
+						$value = \implode(';', $value);
 					}
 					$rows[] = [$key, $value];
 				}

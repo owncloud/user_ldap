@@ -56,7 +56,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 * @param string $image
 	 */
 	private function execFetchTest($dn, $username, $image) {
-		$uid = explode("=", explode(",", $dn)[0])[1];
+		$uid = \explode("=", \explode(",", $dn)[0])[1];
 
 		$this->setJpegPhotoAttribute($dn, $image);
 
@@ -85,7 +85,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		$image = file_get_contents(__DIR__ . '/../../data/avatar-valid.jpg');
+		$image = \file_get_contents(__DIR__ . '/../../data/avatar-valid.jpg');
 		$dn = 'uid=alice,ou=users,' . $this->base;
 		$username = 'alice';
 
@@ -94,7 +94,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$result = \OC::$server->getAvatarManager()->getAvatar($username)->exists();
 
 		// remove the avatar after checking
-		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
+		if (\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
 			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
 		}
 		return $result;
@@ -108,7 +108,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 */
 	protected function case2() {
 		// gif by Pmspinner from https://commons.wikimedia.org/wiki/File:Avatar2469_3.gif
-		$image = file_get_contents(__DIR__ . '/../../data/avatar-invalid.gif');
+		$image = \file_get_contents(__DIR__ . '/../../data/avatar-invalid.gif');
 		$dn = 'uid=boris,ou=users,' . $this->base;
 		$username = 'boris';
 
@@ -116,7 +116,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$result = !\OC::$server->getAvatarManager()->getAvatar($username)->exists();
 		// remove the avatar after checking
-		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
+		if (\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
 			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
 		}
 		return $result;
@@ -131,7 +131,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	 */
 	private function setJpegPhotoAttribute($dn, $image) {
 		$changeSet = ['jpegphoto' => $image];
-		ldap_mod_add($this->connection->getConnectionResource(), $dn, $changeSet);
+		\ldap_mod_add($this->connection->getConnectionResource(), $dn, $changeSet);
 	}
 
 	protected function initUserManager() {
