@@ -121,6 +121,7 @@ pipeline:
       - cd /var/www/owncloud/apps/user_ldap
       - make
       - vendor/bin/parallel-lint  --exclude vendor .
+      - make test-php-style
     when:
       matrix:
         TEST_SUITE: lint
