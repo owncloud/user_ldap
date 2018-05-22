@@ -118,9 +118,15 @@ pipeline:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
     commands:
-      - cd /var/www/owncloud/apps/user_ldap
-      - make
-      - vendor/bin/parallel-lint  --exclude vendor .
+      - make test-php-lint
+    when:
+      matrix:
+        TEST_SUITE: lint
+
+  php-cs-fixer:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
       - make test-php-style
     when:
       matrix:
