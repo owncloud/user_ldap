@@ -441,6 +441,14 @@ class Group_LDAPTest extends \Test\TestCase {
 				}
 			}));
 
+		$ldap = $this->createMock(ILDAPWrapper::class);
+		$ldap->method('escape')
+			->willReturnCallback('ldap_escape');
+
+		$this->connection
+			->method('getLDAP')
+			->willReturn($ldap);
+
 		$this->access = $this->createMock(Access::class);
 
 		$this->access->expects($this->any())

@@ -27,7 +27,6 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
@@ -70,10 +69,16 @@ class ManagerTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
+
+		/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject $filesystem */
 		$filesystem = $this->createMock(FilesystemHelper::class);
+		/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $logger */
 		$logger     = $this->createMock(ILogger::class);
+		/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject $avatarManager */
 		$avatarManager = $this->createMock(IAvatarManager::class);
+		/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject $dbConn */
 		$dbConn = $this->createMock(IDBConnection::class);
+		/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject $userMgr */
 		$userMgr = $this->createMock(IUserManager::class);
 		$this->access     = $this->createMock(Access::class);
 		$this->connection     = $this->createMock(Connection::class);
@@ -88,6 +93,7 @@ class ManagerTest extends \Test\TestCase {
 						return 'displayName';
 					case 'ldapQuotaAttribute':
 					case 'ldapUserDisplayName2':
+					case 'ldapUuidUserAttribute':
 						return '';
 					case 'ldapEmailAttribute':
 						return 'mail';
@@ -103,7 +109,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('getConnection')
 			->willReturn($this->connection);
 
@@ -122,13 +128,14 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(\in_array('dn', $attributes, true));
-		$this->assertTrue(\in_array('mail', $attributes));
-		$this->assertTrue(\in_array('displayName', $attributes, true));
-		$this->assertTrue(\in_array('jpegphoto', $attributes, true));
-		$this->assertTrue(\in_array('thumbnailphoto', $attributes, true));
-		$this->assertTrue(\in_array('uidNumber', $attributes, true));
+		$this->assertContains('dn', $attributes);
+		$this->assertContains('mail', $attributes);
+		$this->assertContains('displayName', $attributes);
+		$this->assertContains('jpegphoto', $attributes);
+		$this->assertContains('thumbnailphoto', $attributes);
+		$this->assertContains('uidNumber', $attributes);
 	}
+
 	public function testGetAttributesAvatarsDisabled() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
@@ -137,12 +144,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertTrue(\in_array('dn', $attributes, true));
-		$this->assertTrue(\in_array('mail', $attributes, true));
-		$this->assertTrue(\in_array('displayName', $attributes, true));
+		$this->assertContains('dn', $attributes);
+		$this->assertContains('mail', $attributes);
+		$this->assertContains('displayName', $attributes);
 		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
 		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
-		$this->assertTrue(\in_array('uidNumber', $attributes, true));
+		$this->assertContains('uidNumber', $attributes);
 	}
 
 	public function testGetAttributesMinimal() {
@@ -153,8 +160,8 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes(true);
 
-		$this->assertTrue(\in_array('dn', $attributes, true));
-		$this->assertTrue(\in_array('mail', $attributes, true));
+		$this->assertContains('dn', $attributes);
+		$this->assertContains('mail', $attributes);
 		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
 		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
 	}
@@ -164,25 +171,25 @@ class ManagerTest extends \Test\TestCase {
 	 * @return void
 	 */
 	private function prepareForGetUsers() {
-		$this->access->expects($this->any())
+		$this->access
 			->method('escapeFilterPart')
 			->will($this->returnCallback(function ($search) {
 				return $search;
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('getFilterPartForUserSearch')
 			->will($this->returnCallback(function ($search) {
 				return $search;
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($param) {
 				return $param[2];
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('fetchListOfUsers')
 			->will($this->returnCallback(function ($search, $a, $l, $o) {
 				$users = [
@@ -206,7 +213,7 @@ class ManagerTest extends \Test\TestCase {
 				return $result;
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('fetchUsersByLoginName')
 			->will($this->returnCallback(function ($uid) {
 				switch ($uid) {
@@ -221,7 +228,7 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('readAttribute')
 			->with($this->anything(), $this->callback(function ($attr) {
 				return \in_array($attr, [null, '', 'jpegPhoto', 'thumbnailPhoto'], true);
@@ -229,26 +236,25 @@ class ManagerTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($attr) {
 				if ($attr === 'jpegPhoto' || $attr === 'thumbnailPhoto') {
 					return ['sdfsdljsdlkfjsadlkjfsdewuyriuweyiuyeiwuydjkfsh'];
-				} else {
-					return [];
 				}
+				return [];
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('ownCloudUserNames')
 			->will($this->returnArgument(0));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('areCredentialsValid')
 			->will($this->returnValue(true));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('isDNPartOfBase')
 			->with($this->stringEndsWith('dc=foobar,dc=bar'))
 			->will($this->returnValue(true));
 
 		$mapper = $this->createMock(UserMapping::class);
-		$mapper->expects($this->any())
+		$mapper
 			->method('getNameByDN')
 			->will($this->returnCallback(function ($dn) {
 				switch ($dn) {
@@ -263,11 +269,11 @@ class ManagerTest extends \Test\TestCase {
 				}
 			}));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('getUserMapper')
 			->will($this->returnValue($mapper));
 
-		$this->connection->expects($this->any())
+		$this->connection
 			->method('__get')
 			->will($this->returnCallback(function ($method) {
 				switch ($method) {
@@ -293,31 +299,31 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetUsersNoParam() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers();
-		$this->assertEquals(3, \count($result));
+		$this->assertCount(3, $result);
 	}
 
 	public function testGetUsersLimitOffset() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('', 1, 2);
-		$this->assertEquals(1, \count($result));
+		$this->assertCount(1, $result);
 	}
 
 	public function testGetUsersLimitOffset2() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('', 2, 1);
-		$this->assertEquals(2, \count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersSearchWithResult() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('l');
-		$this->assertEquals(2, \count($result));
+		$this->assertCount(2, $result);
 	}
 
 	public function testGetUsersSearchEmptyResult() {
 		$this->prepareForGetUsers();
 		$result = $this->manager->getUsers('noone');
-		$this->assertEquals(0, \count($result));
+		$this->assertCount(0, $result);
 	}
 
 	public function testGetUserEntryByDn() {
@@ -334,7 +340,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($this->equalTo('cn=foo,ou=users,dc=foobar,dc=bar'))
 			->will($this->returnValue('foo'));
 
-		$this->access->expects($this->any())
+		$this->access
 			->method('getUserMapper')
 			->will($this->returnValue($mapper));
 
@@ -505,5 +511,43 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->assertNull($this->manager->getCachedEntry('usertest'));
+	}
+
+	public function testResolveUID() {
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->exactly(2))
+			->method('getNameByDN')
+			->withConsecutive(
+				['cn=lastname\, firstname,ou=development,dc=owncloud,dc=com'],
+				['cn=lastname\5c2C firstname,ou=development,dc=owncloud,dc=com']
+			)
+			->willReturnOnConsecutiveCalls(
+				'',
+				'lastname'
+			);
+		$mapper->expects($this->once())
+			->method('getNameByUUID')
+			->willReturn('');
+		$mapper->expects($this->once())
+			->method('updateDN')
+			->with(
+				'cn=lastname\5c2C firstname,ou=development,dc=owncloud,dc=com',
+				'cn=lastname\, firstname,ou=development,dc=owncloud,dc=com'
+			);
+
+		$this->access
+			->method('getUserMapper')
+			->will($this->returnValue($mapper));
+
+		$this->config
+			->method('getAppValue')
+			->willReturn('1');
+
+		/** @var UserEntry|\PHPUnit_Framework_MockObject_MockObject $entry */
+		$entry =  $this->createMock(UserEntry::class);
+		$entry->method('getDN')->willReturn('cn=lastname\, firstname,ou=development,dc=owncloud,dc=com');
+		$entry->method('getUUID')->willReturn('a-b-c-d');
+
+		self::assertSame('lastname', $this->manager->resolveUID($entry));
 	}
 }

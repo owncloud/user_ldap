@@ -45,6 +45,9 @@ use OCP\Util;
 
 /**
  * Class Access
+ *
+ * Also responsible for normalizing DNs in ldap api request results
+ *
  * @package OCA\User_LDAP
  */
 class Access implements IUserTools {
@@ -289,13 +292,15 @@ class Access implements IUserTools {
 		$result = Util::mb_array_change_key_case(
 			$this->getLDAP()->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 
-		if (\in_array('dn', $attributes, true) && !\array_key_exists('dn', $result)) {
-			// Hack to add in DN to results returned as it isn't for some reason
-			$count = $result['count'];
-			unset($result['count']);
-			$result['dn'] = ['count' => 1, $dn];
+		if (!\array_key_exists('dn', $result)
+			&& \in_array('dn', $attributes, true)
+		) {
+			// add in DN to results
+			$rawDn = $this->getLDAP()->getDN($cr, $er);
+			$normalizedDn = Helper::normalizeDN($rawDn);
+			$result['dn'] = ['count' => 1, 0 => $normalizedDn];
 			$result[] = 'dn';
-			$result['count'] = $count++;
+			$result['count']++;
 		}
 
 		return $result;
@@ -316,7 +321,7 @@ class Access implements IUserTools {
 			$lowercaseAttribute = \strtolower($attribute);
 			for ($i=0; $i<$result[$attribute]['count']; $i++) {
 				if ($this->resemblesDN($attribute)) {
-					$values[] = $this->sanitizeDN($result[$attribute][$i]);
+					$values[] = Helper::normalizeDN($result[$attribute][$i]);
 				} elseif ($lowercaseAttribute === 'objectguid' || $lowercaseAttribute === 'guid') {
 					$values[] = self::binGUID2str($result[$attribute][$i]);
 				} else {
@@ -363,68 +368,31 @@ class Access implements IUserTools {
 	 */
 	private function resemblesDN($attr) {
 		$resemblingAttributes = [
-			'dn',
-			'uniquemember',
-			'member',
+			'dn',                     // http://www.alvestrand.no/objectid/2.5.4.49.html
+			'uniquemember',           // http://www.alvestrand.no/objectid/2.5.4.50.html
+			'member',                 // http://www.alvestrand.no/objectid/2.5.4.31.html
 			// memberOf is an "operational" attribute, without a definition in any RFC
 			'memberof'
+			/* there are other attributes that contain a dn, but we only need
+			   the above to determine membership of users and groups
+			'manager',                // http://www.alvestrand.no/objectid/0.9.2342.19200300.100.1.10.html
+			'owner',                  // http://www.alvestrand.no/objectid/2.5.4.32.html
+			'targetService',          // http://www.alvestrand.no/objectid/1.3.18.0.2.4.131.html
+			'nameandoptionaluid',     // http://www.alvestrand.no/objectid/1.3.6.1.4.1.1466.115.121.1.34.html
+			'modifiersname',          // http://www.alvestrand.no/objectid/2.5.18.4.html
+			'aliasedentryname',       // http://www.alvestrand.no/objectid/2.5.4.1.html
+			'roleoccupant',           // http://www.alvestrand.no/objectid/2.5.4.33.html
+			'seealso',                // http://www.alvestrand.no/objectid/2.5.4.34.html
+			'creatorsname',           // http://www.alvestrand.no/objectid/2.5.18.3.html
+			'subschemasubentry',      // http://www.alvestrand.no/objectid/2.5.18.10.html
+			'contextdefaultsubentry', // http://www.alvestrand.no/objectid/2.5.18.13.html
+			'associatedorganization', // http://www.alvestrand.no/objectid/2.16.840.1.101.2.2.1.4.html
+			'associatedpla',          // http://www.alvestrand.no/objectid/2.16.840.1.101.2.2.1.6.html
+			'aliaspointer',           // http://www.alvestrand.no/objectid/2.16.840.1.101.2.2.1.49.html
+			'listpointer',            // http://www.alvestrand.no/objectid/2.16.840.1.101.2.2.1.61.html
+			*/
 		];
 		return \in_array($attr, $resemblingAttributes, true);
-	}
-
-	/**
-	 * checks whether the given string is probably a DN
-	 * @param string $string
-	 * @return boolean
-	 */
-	public function stringResemblesDN($string) {
-		$r = $this->getLDAP()->explodeDN($string, 0);
-		// if exploding a DN succeeds and does not end up in
-		// an empty array except for $r[count] being 0.
-		return (\is_array($r) && \count($r) > 1);
-	}
-
-	/**
-	 * sanitizes a DN received from the LDAP server
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
-	 */
-	private function sanitizeDN($dn) {
-		//treating multiple base DNs
-		if (\is_array($dn)) {
-			$result = [];
-			foreach ($dn as $singleDN) {
-				$result[] = $this->sanitizeDN($singleDN);
-			}
-			return $result;
-		}
-
-		//OID sometimes gives back DNs with whitespace after the comma
-		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = \preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
-
-		//make comparisons and everything work
-		$dn = \mb_strtolower($dn, 'UTF-8');
-
-		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
-		//to use the DN in search filters, \ needs to be escaped to \5c additionally
-		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$replacements = [
-			'\,' => '\5c2C',
-			'\=' => '\5c3D',
-			'\+' => '\5c2B',
-			'\<' => '\5c3C',
-			'\>' => '\5c3E',
-			'\;' => '\5c3B',
-			'\"' => '\5c22',
-			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
-		];
-		$dn = \str_replace(\array_keys($replacements), \array_values($replacements), $dn);
-
-		return $dn;
 	}
 
 	/**
@@ -1274,12 +1242,12 @@ class Access implements IUserTools {
 						}
 						if ($key !== 'dn') {
 							if ($this->resemblesDN($key)) {
-								$selection[$i][$key] = $this->sanitizeDN($item[$key]);
+								$selection[$i][$key] = Helper::normalizeDN($item[$key]);
 							} else {
 								$selection[$i][$key] = $item[$key];
 							}
 						} else {
-							$selection[$i][$key] = [$this->sanitizeDN($item[$key])];
+							$selection[$i][$key] = [Helper::normalizeDN($item[$key])];
 						}
 					}
 				}
@@ -1478,7 +1446,7 @@ class Access implements IUserTools {
 		$result = $term;
 		if ($term === '') {
 			$result = '*';
-		} elseif ($allowEnum !== 'no') {
+		} elseif (\filter_var($allowEnum, FILTER_VALIDATE_BOOLEAN)) {
 			if ($allowMedialSearches) {
 				$result = "*$term*";
 			} else {
@@ -1833,9 +1801,9 @@ class Access implements IUserTools {
 	 */
 	public function isDNPartOfBase($dn, $bases) {
 		$belongsToBase = false;
-		$bases = $this->sanitizeDN($bases);
 
 		foreach ($bases as $base) {
+			$base = Helper::normalizeDN($base);
 			$belongsToBase = true;
 			if (\mb_strripos($dn, $base, 0, 'UTF-8') !== (\mb_strlen($dn, 'UTF-8')-\mb_strlen($base, 'UTF-8'))) {
 				$belongsToBase = false;

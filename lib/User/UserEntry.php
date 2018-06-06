@@ -62,7 +62,7 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * // FIXME Connection is used to look uf configuration ... pass in Configuration instead?
+	 * // FIXME Connection is used to look up configuration ... pass in Configuration instead?
 	 * @param Connection $connection to lookup configured attribute names
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
@@ -83,8 +83,8 @@ class UserEntry {
 	}
 
 	/**
-	 * @brief returns the Distinguished Name (DN) of the LDAP entry
-	 * @return string|null
+	 * DN normalization should have happened in @see \OCA\User_LDAP\Access::search()
+	 * @return string|null the Distinguished Name (DN) of the LDAP entry
 	 */
 	public function getDN() {
 		return $this->getAttributeValue('dn', null);
@@ -287,8 +287,9 @@ class UserEntry {
 		}
 
 		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
+		$enforce = $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true);
 		if ($attr !== null
-			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
+			&& \filter_var($enforce, FILTER_VALIDATE_BOOLEAN)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
 			// TODO narrow down exception
@@ -339,7 +340,7 @@ class UserEntry {
 	 * @return string
 	 */
 	private function getAttributeName($configOption, $default = '') {
-		$attributeName = \trim(\strtolower($this->connection->$configOption));
+		$attributeName = \strtolower(\trim($this->connection->$configOption));
 
 		// strtolower() returns '' for null and false, which is what the connection initializes config options to
 		if ($attributeName === '') {

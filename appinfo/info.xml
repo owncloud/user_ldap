@@ -45,6 +45,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
 		<command>OCA\User_LDAP\Command\DeleteConfig</command>
 		<command>OCA\User_LDAP\Command\Search</command>
-		<command>OCA\User_LDAP\Command\UpdateGroup</command>
 	</commands>
+
+	<use-migrations>true</use-migrations>
 </info>

@@ -151,75 +151,6 @@ class AccessTest extends \Test\TestCase {
 		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
 	}
 
-	public function resemblesDNDataProvider() {
-		return [
-			[
-				'CN=username,OU=UNITNAME,OU=Region,OU=Country,DC=subdomain,DC=domain,DC=com',
-				[
-					'count' => 9,
-					 0 => 'CN=username',
-					 1 => 'OU=UNITNAME',
-					 2 => 'OU=Region',
-					 5 => 'OU=Country',
-					 6 => 'DC=subdomain',
-					 7 => 'DC=domain',
-					 8 => 'DC=com',
-				],
-				true
-			],
-			[
-				'foo=bar,bar=foo,dc=foobar',
-				[
-					'count' => 3,
-					0 => 'foo=bar',
-					1 => 'bar=foo',
-					2 => 'dc=foobar'
-				],
-				true
-			],
-			[
-				'foobarbarfoodcfoobar', false, false
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider resemblesDNDataProvider
-	 * @param $input string
-	 * @param $intermediateResult string
-	 * @param $expected string
-	 */
-	public function testStringResemblesDNfake($input, $intermediateResult, $expected) {
-		$this->ldapWrapper->expects($this->once())
-			->method('explodeDN')
-			->with($input)
-			->will($this->returnValue($intermediateResult));
-
-		$this->connection->expects($this->any())
-			->method('getLDAP')
-			->willReturn($this->ldapWrapper);
-
-		$this->assertSame($expected, $this->access->stringResemblesDN($input));
-	}
-
-	/**
-	 * @dataProvider resemblesDNDataProvider
-	 * @param $input string
-	 * @param $intermediateResult string
-	 * @param $expected string
-	 */
-	public function testStringResemblesDNLDAPnative($input, $intermediateResult, $expected) {
-		if (!\function_exists('ldap_explode_dn')) {
-			$this->markTestSkipped('LDAP Module not available');
-		}
-
-		$this->connection->expects($this->once())
-			->method('getLDAP')
-			->willReturn(new LDAP());
-
-		$this->assertSame($expected, $this->access->stringResemblesDN($input));
-	}
-
 	public function testCacheUserHome() {
 		$this->connection->expects($this->once())
 			->method('writeToCache');
@@ -230,34 +161,21 @@ class AccessTest extends \Test\TestCase {
 	public function dNAttributeProvider() {
 		// corresponds to Access::resemblesDN()
 		return [
-			'dn' => ['dn'],
-			'uniqueMember' => ['uniquemember'],
-			'member' => ['member'],
-			'memberOf' => ['memberof']
+			'dn'				=> ['dn',				true],
+			'uniqueMember'		=> ['uniquemember',		true],
+			'member'			=> ['member',			true],
+			'memberOf'			=> ['memberof',			true],
+			'samaccountname'	=> ['samaccountname',	false]
 		];
 	}
 
 	/**
 	 * @dataProvider dNAttributeProvider
+	 * @param string $attribute
+	 * @param bool $expected
 	 */
-	public function testSanitizeDN($attribute) {
-		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
-
-		$this->ldapWrapper->expects($this->any())
-			->method('isResource')
-			->will($this->returnValue(true));
-
-		$this->ldapWrapper->expects($this->any())
-			->method('getAttributes')
-			->will($this->returnValue([
-				$attribute => ['count' => 1, $dnFromServer]
-			]));
-
-		$this->connection->expects($this->any())
-			->method('getLDAP')
-			->willReturn($this->ldapWrapper);
-
-		$values = $this->access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
-		$this->assertSame($values[0], \strtolower($dnFromServer));
+	public function testResemblesDN($attribute, $expected) {
+		$actual = self::invokePrivate($this->access, 'resemblesDN', [$attribute]);
+		$this->assertSame($expected, $actual);
 	}
 }
