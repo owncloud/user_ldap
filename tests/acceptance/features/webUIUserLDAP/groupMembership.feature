@@ -73,6 +73,24 @@ So that I only need to configure group membership once
 		Given the LDAP config "LDAPTestId" has these settings:
 		|key                          | value       |
 		|ldapAttributesForGroupSearch | description |
+		# Ensure that the test code is aware of the users and groups that exist
+		Given these users have been created but not initialized:
+			| username | password | displayname | email               |
+			| user1    | 1234     | User One    | user1@example.org   |
+			| user2    | 1234     | User Two    | user2@example.org   |
+			| user3    | 1234     | User Three  | user3@example.org   |
+			| user4    | 1234     | User Four   | user4@example.org   |
+			| usergrp  | 1234     | User Grp    | usergrp@example.org |
+		And these groups have been created:
+			| groupname |
+			| group1    |
+			| group2    |
+			| group3    |
+			| groupuser |
+			| grp1      |
+			| grp2      |
+			| grp3      |
+			| grpuser   |
 		And the admin sets the ldap attribute "description" of the entry "cn=grp1,ou=TestGroups" to "my first group"
 		And the user has opened the share dialog for the folder "simple-folder"
 		When the user types "my first" in the share-with-field
