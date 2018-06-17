@@ -22,6 +22,7 @@ build_dir=$(CURDIR)/build
 dist_dir=$(build_dir)/dist
 COMPOSER_BIN=$(build_dir)/composer.phar
 PHAN_BIN=$(build_dir)/phan.phar
+PHPSTAN_BIN=$(build_dir)/phpstan.phar
 
 # internal aliases
 composer_deps=vendor/
@@ -61,6 +62,9 @@ $(COMPOSER_BIN):
 
 $(PHAN_BIN): $(COMPOSER_BIN)
 	cd $(build_dir) && curl -s -L https://github.com/phan/phan/releases/download/0.12.10/phan.phar -o phan.phar;
+
+$(PHPSTAN_BIN): $(COMPOSER_BIN)
+	cd $(build_dir) && curl -s -L https://github.com/phpstan/phpstan/releases/download/0.9.2/phpstan.phar -o phpstan.phar;
 #
 # ownCloud ldap PHP dependencies
 #
@@ -126,3 +130,7 @@ clean-build:
 .PHONY: test-php-phan
 test-php-phan: $(PHAN_BIN)
 	php $(PHAN_BIN) --config-file .phan/config.php --require-config-exists -p
+
+.PHONY: test-php-phpstan
+test-php-phpstan: $(PHPSTAN_BIN)
+	php $(PHPSTAN_BIN) analyse --memory-limit=2G --configuration=./phpstan.neon --level=0 appinfo lib
