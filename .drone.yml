@@ -129,6 +129,15 @@ pipeline:
       matrix:
         TEST_SUITE: lint
 
+  phan:
+   image: owncloudci/php:7.1
+   pull: true
+   commands:
+     - make test-php-phan
+   when:
+     matrix:
+       TEST_SUITE: phan
+
   phpunit-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -212,11 +221,24 @@ matrix:
      PHP_VERSION: 7.1
      NEED_SERVER: false
      NEED_INSTALL_APP: false
+
    - TEST_SUITE: lint
      PHP_VERSION: 5.6
      NEED_SERVER: false
      NEED_INSTALL_APP: false
-     
+
+   - TEST_SUITE: phan
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     OC_VERSION: daily-master-qa
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phan
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     OC_VERSION: daily-stable10-qa
+     NEED_INSTALL_APP: true
+
 #unit tests
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.1
