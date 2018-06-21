@@ -34,12 +34,28 @@ OCA = OCA || {};
 		 */
 		isToggling: false,
 
+		/**
+		 * @property {bool} - indicates whether form changes have been made
+		 */
+		hasUnsavedChanges: false,
+
+		/**
+		 * @property {bool} - list of form elements that have changes
+		 */
+		saveQueue: [],
+
 		/** @inheritdoc */
 		init: function(tabIndex, tabID) {
+			var self = this;
 			this.tabIndex = tabIndex;
 			this.tabID = tabID;
 			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
+			this._disableButton('#ldap .ldap_action_continue, #ldap .ldap_action_save');
 			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
+			$('#ldap .ldap_action_save').click(function(event) {
+				event.preventDefault();
+				self._saveQueuedChanges();
+			});
 		},
 
 		/**
@@ -69,6 +85,7 @@ OCA = OCA || {};
 			this.configModel.on('serverError', this.onServerError, this);
 			this.configModel.on('setCompleted', this.onItemSaved, this);
 			this.configModel.on('configUpdated', this.onConfigLoaded, this);
+			this.configModel.on('queueChange', this.onQueueChange, this);
 		},
 
 		/**
@@ -317,18 +334,50 @@ OCA = OCA || {};
 		_enableAutoSave: function() {
 			var view = this;
 
-			for(var id in this.managedItems) {
-				if(_.isUndefined(this.managedItems[id].$element)
-				   || _.isUndefined(this.managedItems[id].setMethod)) {
-					continue;
+			_.each(this.managedItems, function(item, id){
+
+				if(_.isUndefined(item.$element) || _.isUndefined(item.setMethod)) {
+					return false;
 				}
-				var $element = this.managedItems[id].$element;
-				if (!$element.is('select[multiple]')) {
+
+				var $element = item.$element;
+				if (!$element.is('select[multiple]') && !item.disableAutoSave) {
+					console.log(id+': autosave');
 					$element.change(function() {
 						view._requestSave($(this));
 					});
 				}
-			}
+				else if (item.disableAutoSave) {
+					console.log(id+': queued');
+					$element.change(function() {
+						view._queueChanges($(this));
+					});
+				}
+			});
+		},
+
+		/**
+		 * disables button by css class
+		 *
+		 * @param {string} buttonClass
+		 * @private
+		 */
+		_disableButton: function(buttonClass) {
+			$(buttonClass)
+				.attr('disabled', 'disabled')
+				.addClass('ui-button-disabled ui-state-disabled');
+		},
+
+		/**
+		 * enables button by css class
+		 *
+		 * @param {string} buttonClass
+		 * @private
+		 */
+		_enableButton: function(buttonClass) {
+			$(buttonClass)
+				.removeAttr('disabled')
+				.removeClass('ui-button-disabled ui-state-disabled');
 		},
 
 		/**
@@ -380,6 +429,48 @@ OCA = OCA || {};
 				value = $element.val();
 			}
 			this.configModel.set($element.attr('id'), value);
+		},
+		/**
+		 * queue up al changed elements from the model
+		 * represented by a HTML element and its ID.
+		 *
+		 * @param {jQuery|viewSaveInfo} $element
+		 * @private
+		 */
+		_queueChanges: function($element) {
+			this.saveQueue.push($element);
+			this._updateVisualQueue();
+			this._enableButton('.ldap_action_save');
+		},
+
+		_updateVisualQueue: function () {
+			var $list = $('.ldapSaveState'),
+				queue = _.uniq(this.saveQueue),
+				id    = null;
+
+			// re-render from scratch
+			$list.html('');
+
+			_.forEach(queue, function($element) {
+				id = $element.attr('id');
+
+				if (!$list.find('[data-id="'+id+'"]').length)
+					$list.append('<li data-id="'+ id +'">' + id + '</li>');
+			});
+		},
+
+		_saveQueuedChanges: function () {
+			var self = this;
+			var saveQueue = _.uniq(this.saveQueue);
+
+			_.forEach(saveQueue, function(value) {
+				self._requestSave(value);
+			});
+
+			// TODO: Remove Elements one by one after saving
+			this.saveQueue = [];
+			this._updateVisualQueue();
+			this._disableButton('.ldap_action_save');
 		},
 
 		/**

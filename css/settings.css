@@ -38,7 +38,6 @@
 }
 
 .ldapWizardControls {
-	width: 60%;
 	text-align: right;
 }
 
@@ -97,7 +96,8 @@
 }
 
 .ldapSettingControls {
-	margin-top: 3px;
+	margin-top: 40px;
+	text-align: right;
 }
 
 #ldap fieldset p label {
@@ -225,4 +225,32 @@ select[multiple=multiple] + button {
 
 #ldapSettings div.ui-accordion-content {
 	background: white;
+}
+
+#ldapFooter {
+	margin-top: 15px;
+	padding: 5px;
+	display: flex;
+	justify-content: flex-end;
+	align-content: center;
+	background: #fff;
+}
+
+.ldapSaveState {
+	margin: 0 !important;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	float: left;
+}
+
+.ldapSaveState li {
+	display: inline-block;
+	margin: 0 5px;
+	padding: 13px 5px;
+	line-height: 0;
+	border-radius: 3px;
+	background: rgba(115, 130, 170, .25);
+	color: rgb(115, 130, 170);
+	font-size: .8rem;
 }
