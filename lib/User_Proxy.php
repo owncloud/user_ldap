@@ -32,9 +32,16 @@ use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
 use OCP\User\IProvidesExtendedSearchBackend;
 use OCP\User\IProvidesQuotaBackend;
+use OCP\User\IProvidesUserNameBackend;
 use OCP\UserInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvidesQuotaBackend, IProvidesExtendedSearchBackend, IProvidesEMailBackend {
+class User_Proxy extends Proxy implements
+		IUserBackend,
+		UserInterface,
+		IProvidesQuotaBackend,
+		IProvidesExtendedSearchBackend,
+		IProvidesEMailBackend,
+		IProvidesUserNameBackend {
 
 	/**
 	 * @var User_LDAP[]
@@ -294,7 +301,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	/**
 	 * Get a users quota
 	 *
-	 * @param string $uid The username
+	 * @param string $uid
 	 * @return string|null
 	 * @since 10.0
 	 */
@@ -313,5 +320,19 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	public function getSearchTerms($uid) {
 		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid]);
 		return \is_array($terms) ? $terms : [];
+	}
+
+	/**
+	 * Get a username
+	 *
+	 * @param string $uid
+	 * @return string the username
+	 */
+	public function getUserName($uid) {
+		$result = $this->handleRequest($uid, 'getUserName', [$uid]);
+		if ($result === false) { // false means no username for user found
+			$result = null;
+		}
+		return $result;
 	}
 }

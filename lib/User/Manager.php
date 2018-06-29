@@ -145,6 +145,9 @@ class Manager {
 			$this->getConnection()->ldapUserDisplayName2 => true,
 			$this->getConnection()->ldapExpertUsernameAttr => true,
 		];
+		if ($this->getConnection()->ldapUserName !== null) {
+			$attributes[$this->getConnection()->ldapUserName] = true;
+		}
 		$homeRule = $this->getConnection()->homeFolderNamingRule;
 		if (\strpos($homeRule, 'attr:') === 0) {
 			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
@@ -319,7 +322,7 @@ class Manager {
 			return $ocName;
 		}
 
-		$intName = \trim($this->access->sanitizeUsername($userEntry->getUsername()));
+		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		if ($intName !== '' && !\OCP\User::userExists($intName)) {

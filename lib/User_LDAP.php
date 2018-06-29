@@ -154,6 +154,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 		if ($this->config->getSystemValue('enable_avatars', true) === true) {
 			$this->userManager->registerAvatarHook($userEntry);
 		}
+
 		$this->userManager->markLogin($userEntry->getOwnCloudUID());
 
 		return $userEntry->getOwncloudUid();
@@ -344,6 +345,21 @@ class User_LDAP implements IUserBackend, UserInterface {
 	}
 
 	/**
+	 * Get a username
+	 *
+	 * @param string $uid The userid
+	 * @return string|null|false false if user was not found, null if username is empty
+	 * @since 10.0
+	 */
+	public function getUserName($uid) {
+		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
+		return $userEntry->getUserName();
+	}
+
+	/**
 	 * Get avatar for a users account for core powered user search
 	 *
 	 * FIXME This is an expensive operation and takes roughly half a second to parse the data and create the image. This might be too slow for sync jobs.
@@ -366,8 +382,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 				throw new \OutOfBoundsException('cropping image for avatar failed for '.$userEntry->getDN());
 			}
 			return $image;
-		} else {
-			return null;
 		}
+		return null;
 	}
 }
