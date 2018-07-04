@@ -221,7 +221,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return bool either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		return $this->handleRequest($uid, 'canChangeAvatar', array($uid), true);
+		return $this->handleRequest($uid, 'canChangeAvatar', array($uid));
 	}
 
 	/**
