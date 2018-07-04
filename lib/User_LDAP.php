@@ -104,7 +104,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return false;
 		}
 
-		if($userEntry->getAvatarImage() === false) {
+		if($userEntry->getAvatarImage() === null) {
 			return true;
 		}
 
