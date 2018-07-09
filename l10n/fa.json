@@ -144,5 +144,5 @@
     "Username-LDAP User Mapping" : "نام کاربری - نگاشت کاربر LDAP ",
     "Clear Username-LDAP User Mapping" : "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
     "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری"
-},"pluralForm" :"nplurals=2; plural=((n<=1 && n>= 0) ? 1);"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

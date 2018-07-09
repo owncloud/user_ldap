@@ -147,4 +147,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
     "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری"
 },
-"nplurals=2; plural=((n<=1 && n>= 0) ? 1);");
+"nplurals=2; plural=(n > 1);");
