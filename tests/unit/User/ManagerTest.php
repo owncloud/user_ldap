@@ -387,4 +387,70 @@ class ManagerTest extends \Test\TestCase {
 			->will($this->returnValue(false));
 		$this->manager->getUserEntryByDn('dc=foobar,dc=bar');
 	}
+
+	public function testGetCachedEntryCached() {
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->with('usertest')
+			->willReturn('uid=usertest,ou=users,dc=example,dc=com');
+
+		$this->access->method('executeRead')
+			->with($this->anything(), 'uid=usertest,ou=users,dc=example,dc=com', $this->anything(), $this->anything(), $this->anything())
+			->willReturn([
+				'count' => 5,
+				0 => 'dn',
+				'dn' => [
+					'count' => 1,
+					0 => 'uid=usertest,ou=users,dc=example,dc=com',
+				],
+				1 => 'uid',
+				'uid' => [
+					'count' => 1,
+					0 => 'usertest',
+				],
+				2 => 'displayname',
+				'displayname' => [
+					'count' => 0,
+					0 => 'Test user',
+				],
+				3 => 'quota',
+				'quota' => [
+					'count' => 1,
+					0 => '7GB',
+				],
+				4 => 'mail',
+				'mail' => [
+					'count' => 1,
+					0 => 'usertest@example.com',
+				],
+			]);
+
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getNameByDN')
+			->with('uid=usertest,ou=users,dc=example,dc=com')
+			->will($this->returnValue('usertest'));
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->will($this->returnValue($mapper));
+
+		$this->access->method('isDNPartOfBase')
+			->willReturn(true);
+
+		$cachedEntry = $this->manager->getCachedEntry('usertest');
+		$this->assertEquals('uid=usertest,ou=users,dc=example,dc=com', $cachedEntry->getDN());
+		$this->assertEquals('usertest', $cachedEntry->getOwnCloudUID());
+
+		$cachedEntry2 = $this->manager->getCachedEntry('usertest');
+		$this->assertEquals($cachedEntry, $cachedEntry2);
+	}
+
+	public function testGetCachedEntryFailed() {
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->willReturn(false);
+
+		$this->assertNull($this->manager->getCachedEntry('usertest'));
+	}
 }

@@ -328,4 +328,33 @@ class User_LDAPTest extends \Test\TestCase {
 
 		$this->assertFalse($this->backend->countUsers());
 	}
+
+	public function testCanChangeAvatarNotCached() {
+		$this->manager->method('getCachedEntry')
+			->willReturn(null);
+
+		$this->assertFalse($this->backend->canChangeAvatar('usertest'));
+	}
+
+	public function testCanChangeAvatarNoLdapImage() {
+		$userEntry = $this->createMock(UserEntry::class);
+		$userEntry->method('getAvatarImage')
+			->willReturn(null);
+
+		$this->manager->method('getCachedEntry')
+			->willReturn($userEntry);
+
+		$this->assertTrue($this->backend->canChangeAvatar('usertest'));
+	}
+
+	public function testCanChangeAvatarImageSet() {
+		$userEntry = $this->createMock(UserEntry::class);
+		$userEntry->method('getAvatarImage')
+			->willReturn('binaryDataForImageAsStringEncoded');
+
+		$this->manager->method('getCachedEntry')
+			->willReturn($userEntry);
+
+		$this->assertFalse($this->backend->canChangeAvatar('usertest'));
+	}
 }
