@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
+$state = \OC::$server->getConfig()->getSystemValue('ldapIgnoreNamingRules', 'doSet');
 if($state === 'doSet') {
-	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
+	\OC::$server->getConfig()->setSystemValue('ldapIgnoreNamingRules', false);
 }
