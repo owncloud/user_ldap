@@ -240,9 +240,16 @@ class Manager {
 			return $this->usersByUid[$uid];
 		}
 
-		$dn = $this->username2dn($uid);
-		if ($dn) {
-			return $this->getUserEntryByDn($dn);
+		try {
+			$dn = $this->username2dn($uid);
+			if ($dn) {
+				return $this->getUserEntryByDn($dn);
+			}
+		} catch (DoesNotExistOnLDAPException $e) {
+			return null;
+		} catch (\OutOfBoundsException $e) {
+			// dn might be outside of the base
+			return null;
 		}
 
 		// should have been cached during login or while iterating over multiple users, eg during sync

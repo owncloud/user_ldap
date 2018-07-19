@@ -453,4 +453,60 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertNull($this->manager->getCachedEntry('usertest'));
 	}
+
+	public function testGetCachedEntryMissingEntry() {
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->with('usertest')
+			->willReturn('uid=usertest,ou=users,dc=example,dc=com');
+
+		$this->access->method('executeRead')
+			->with($this->anything(), 'uid=usertest,ou=users,dc=example,dc=com', $this->anything(), $this->anything(), $this->anything())
+			->willReturn(false);
+
+		$this->assertNull($this->manager->getCachedEntry('usertest'));
+	}
+
+	public function testGetCachedEntryOutsideOfBase() {
+		$this->access->expects($this->once())
+			->method('username2dn')
+			->with('usertest')
+			->willReturn('uid=usertest,ou=users,dc=example,dc=com');
+
+		$this->access->method('executeRead')
+			->with($this->anything(), 'uid=usertest,ou=users,dc=example,dc=com', $this->anything(), $this->anything(), $this->anything())
+			->willReturn([
+				'count' => 5,
+				0 => 'dn',
+				'dn' => [
+					'count' => 1,
+					0 => 'uid=usertest,ou=users,dc=example,dc=com',
+				],
+				1 => 'uid',
+				'uid' => [
+					'count' => 1,
+					0 => 'usertest',
+				],
+				2 => 'displayname',
+				'displayname' => [
+					'count' => 0,
+					0 => 'Test user',
+				],
+				3 => 'quota',
+				'quota' => [
+					'count' => 1,
+					0 => '7GB',
+				],
+				4 => 'mail',
+				'mail' => [
+					'count' => 1,
+					0 => 'usertest@example.com',
+				],
+			]);
+
+		$this->access->method('isDNPartOfBase')
+			->willReturn(false);
+
+		$this->assertNull($this->manager->getCachedEntry('usertest'));
+	}
 }
