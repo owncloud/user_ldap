@@ -1,5 +1,5 @@
 @webUI @insulated @disablePreviews
-Feature: providing an avatar by LDAP
+Feature: providing an avatar by LDAP - check CI
 
 As an user
 I want to see my avatar from LDAP being used in owncloud
