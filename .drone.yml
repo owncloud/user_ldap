@@ -65,12 +65,10 @@ pipeline:
     environment:
       - BROWSER=chrome #chrome or firefox
       - SELENIUM_HOST=selenium
-      - SRV_HOST_NAME=server
-      - SRV_HOST_PORT=80
-      - REMOTE_FED_SRV_HOST_NAME=federated
-      - REMOTE_FED_SRV_HOST_PORT=80
-      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - SELENIUM_PORT=4444
+      - TEST_SERVER_URL=http://server
+      - TEST_SERVER_FED_URL=http://federated
+      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUIUserLDAP
@@ -78,7 +76,8 @@ pipeline:
       - cd /var/www/owncloud
       - chown www-data * -R
       - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
-      - bash tests/travis/start_ui_tests.sh --config apps/user_ldap/tests/acceptance/config/behat.yml
+      - cd tests/acceptance
+      - bash run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
     when:
       matrix:
         TEST_SOURCE: ldap
@@ -89,12 +88,10 @@ pipeline:
     environment:
       - BROWSER=chrome #chrome or firefox
       - SELENIUM_HOST=selenium
-      - SRV_HOST_NAME=server
-      - SRV_HOST_PORT=80
-      - REMOTE_FED_SRV_HOST_NAME=federated
-      - REMOTE_FED_SRV_HOST_PORT=80
-      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - SELENIUM_PORT=4444
+      - TEST_SERVER_URL=http://server
+      - TEST_SERVER_FED_URL=http://federated
+      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUICore
@@ -102,7 +99,8 @@ pipeline:
       - cd /var/www/owncloud
       - chown www-data * -R
       - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
-      - bash tests/travis/start_ui_tests.sh --remote --config apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
+      - cd tests/acceptance
+      - bash run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
     when:
       matrix:
         TEST_SOURCE: core
