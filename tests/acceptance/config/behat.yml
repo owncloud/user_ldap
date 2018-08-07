@@ -12,9 +12,6 @@ default:
         - %paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers
       context: &common_webui_suite_context
         parameters:
-          ocPath: apps/testing/api/v1/occ
-          adminUsername: admin
-          adminPassword: admin
           ldapAdminUser: cn=admin,dc=owncloud,dc=com
           ldapAdminPassword: admin
           ldapBaseDN: dc=owncloud,dc=com
@@ -31,7 +28,7 @@ default:
             adminUsername: admin
             adminPassword: admin
             regularUserPassword: 123456
-            ocPath: ../../../../
+            ocPath: apps/testing/api/v1/occ
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIFilesContext:
