@@ -392,8 +392,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		$this->ldap = new Zend\Ldap\Ldap($options);
 		$this->ldap->bind();
 		SetupHelper::init(
-			"admin", (string)$suiteParameters['adminPassword'],
-			$this->featureContext->getBaseUrl(), $suiteParameters['ocPath']
+			$this->featureContext->getAdminUsername(),
+			$this->featureContext->getAdminPassword(),
+			$this->featureContext->getBaseUrl(),
+			$this->featureContext->getOcPath()
 		);
 	}
 
