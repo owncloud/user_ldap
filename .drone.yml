@@ -68,7 +68,6 @@ pipeline:
       - SELENIUM_PORT=4444
       - TEST_SERVER_URL=http://server
       - TEST_SERVER_FED_URL=http://federated
-      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUIUserLDAP
@@ -91,7 +90,6 @@ pipeline:
       - SELENIUM_PORT=4444
       - TEST_SERVER_URL=http://server
       - TEST_SERVER_FED_URL=http://federated
-      - SKELETON_DIR=/var/www/owncloud/tests/acceptance/webUISkeleton
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUICore
