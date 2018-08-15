@@ -66,9 +66,6 @@ class Manager {
 	/** @var ILogger */
 	protected $logger;
 
-	/** @param \OCP\IAvatarManager */
-	protected $avatarManager;
-
 	/** @param IUserManager */
 	protected $userManager;
 
@@ -87,19 +84,16 @@ class Manager {
 	 * @param \OCA\User_LDAP\FilesystemHelper $ocFilesystem object that
 	 * gives access to necessary functions from the OC filesystem
 	 * @param ILogger $logger
-	 * @param IAvatarManager $avatarManager
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(IConfig $ocConfig,
 								FilesystemHelper $ocFilesystem, ILogger $logger,
-								IAvatarManager $avatarManager,
 								IDBConnection $db, IUserManager $userManager) {
 
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->logger        = $logger;
-		$this->avatarManager = $avatarManager;
 		$this->db            = $db;
 		$this->userManager   = $userManager;
 		$this->usersByDN     = new CappedMemoryCache();
@@ -391,7 +385,7 @@ class Manager {
 		}
 
 		try {
-			$avatar = $this->avatarManager->getAvatar($userEntry->getOwnCloudUID());
+			$avatar = \OC::$server->getAvatarManager()->getAvatar($userEntry->getOwnCloudUID());
 			$avatar->set($image);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => self::class]);

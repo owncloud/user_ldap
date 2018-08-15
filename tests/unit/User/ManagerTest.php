@@ -72,7 +72,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->config     = $this->createMock(IConfig::class);
 		$filesystem = $this->createMock(FilesystemHelper::class);
 		$logger     = $this->createMock(ILogger::class);
-		$avatarManager = $this->createMock(IAvatarManager::class);
 		$dbConn = $this->createMock(IDBConnection::class);
 		$userMgr = $this->createMock(IUserManager::class);
 		$this->access     = $this->createMock(Access::class);
@@ -108,7 +107,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($this->connection);
 
 		$this->manager = new Manager(
-			$this->config, $filesystem, $logger, $avatarManager,
+			$this->config, $filesystem, $logger,
 			$dbConn, $userMgr
 		);
 		$this->manager->setLdapAccess($this->access);

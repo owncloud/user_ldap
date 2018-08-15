@@ -58,25 +58,21 @@ abstract class Proxy {
 		static $coreConfig;
 		static $fs;
 		static $logger;
-		static $avatarM;
 		static $userMap;
 		static $groupMap;
 		static $db;
 		static $coreUserManager;
-		static $helper;
 		if($fs === null) {
 			$coreConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$logger   = \OC::$server->getLogger();
-			$avatarM  = \OC::$server->getAvatarManager();
 			$db       = \OC::$server->getDatabaseConnection();
 			$userMap  = new UserMapping($db);
 			$groupMap = new GroupMapping($db);
 			$coreUserManager = \OC::$server->getUserManager();
-			$helper   = new Helper();
 		}
 		$userManager =
-			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
+			new Manager($coreConfig, $fs, $logger, $db, $coreUserManager);
 
 		$configuration = new Configuration($coreConfig, $configPrefix);
 		$connector = new Connection($this->ldap, $configuration);
