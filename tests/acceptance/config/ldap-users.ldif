@@ -3,6 +3,19 @@ objectclass: top
 objectclass: organizationalUnit
 ou: TestGroups
 
+dn: cn=ShareeGroup,ou=TestGroups,dc=owncloud,dc=com
+cn: ShareeGroup
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=ShareeGroup2,ou=TestGroups,dc=owncloud,dc=com
+cn: ShareeGroup2
+gidnumber: 500
+memberuid: user1
+objectclass: top
+objectclass: posixGroup
+
 dn: cn=group1,ou=TestGroups,dc=owncloud,dc=com
 cn: group1
 gidnumber: 500
@@ -48,6 +61,13 @@ gidnumber: 500
 objectclass: top
 objectclass: posixGroup
 
+dn: cn=grp4,ou=TestGroups,dc=owncloud,dc=com
+cn: grp4
+memberuid: user1
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
 dn: cn=grpuser,ou=TestGroups,dc=owncloud,dc=com
 cn: grpuser
 gidnumber: 500
@@ -72,6 +92,22 @@ mail: regularuser@example.org
 objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: regularuser
+uidnumber: 40000
+userpassword: 1234
+
+dn: uid=user0,ou=TestUsers,dc=owncloud,dc=com
+cn: User0
+sn: One
+displayname: User Zero
+gecos: User0
+gidnumber: 5000
+givenname: User0
+homedirectory: /home/openldap/user0
+loginshell: /bin/bash
+mail: user0@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user0
 uidnumber: 30000
 userpassword: 1234
 
@@ -157,3 +193,20 @@ objectclass: inetOrgPerson
 uid: usergrp
 uidnumber: 30005
 userpassword: 123456
+
+
+dn: uid=sharee1,ou=TestUsers,dc=owncloud,dc=com
+cn: Sharee1
+sn: Sharee1
+displayname: Sharee One
+gecos: sharee1
+gidnumber: 5000
+givenname: Sharee One
+homedirectory: /home/openldap/sharee1
+loginshell: /bin/bash
+mail: sharee1@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: sharee1
+uidnumber: 30006
+userpassword: 1234

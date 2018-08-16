@@ -28,6 +28,12 @@ pipeline:
       matrix:
         NEED_SERVER: true
 
+  print-log:
+    image: owncloudci/php
+    detach: true
+    commands:
+     - tail -f /var/www/owncloud/data/owncloud.log
+
   install-app:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -55,6 +61,18 @@ pipeline:
       - php occ ldap:show-config
       - php occ ldap:test-config "LDAPTestId"
       - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+      - php occ user:list
+    when:
+      matrix:
+        TEST_SUITE: acceptance
+
+  fix-permissions:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      - chown www-data /var/www/owncloud -R
+      - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
+      - chmod +x /var/www/owncloud/tests/acceptance/run.sh
     when:
       matrix:
         TEST_SUITE: acceptance
@@ -72,16 +90,13 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUIUserLDAP
     commands:
-      - cd /var/www/owncloud
-      - chown www-data * -R
-      - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
-      - cd tests/acceptance
-      - bash run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
+      - cd /var/www/owncloud/tests/acceptance
+      - su-exec www-data ./run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
     when:
       matrix:
         TEST_SOURCE: ldap
 
-  run-core-acceptance-tests:
+  run-core-webui-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
@@ -94,14 +109,26 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUICore
     commands:
-      - cd /var/www/owncloud
-      - chown www-data * -R
-      - chmod 777 /var/www/owncloud/tests/acceptance/filesForUpload -R
-      - cd tests/acceptance
-      - bash run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP'
+      - cd /var/www/owncloud/tests/acceptance
+      - su-exec www-data ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
     when:
       matrix:
-        TEST_SOURCE: core
+        TEST_SOURCE: core-webUI
+
+  run-core-api-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    environment:
+      - TEST_SERVER_URL=http://server
+      - TEST_SERVER_FED_URL=http://federated
+      - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE=${BEHAT_SUITE}
+    commands:
+      - cd /var/www/owncloud/tests/acceptance
+      - su-exec www-data ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+    when:
+      matrix:
+        TEST_SOURCE: core-api
 
   run-integration-tests:
     image: owncloudci/php:${PHP_VERSION}
@@ -163,14 +190,6 @@ pipeline:
       matrix:
         TEST_SUITE: phpunit
         PHP_VERSION: 7.1
-
-  owncloud-log:
-    image: owncloud/ubuntu:16.04
-    pull: true
-    commands:
-      - cat /var/www/owncloud/data/owncloud.log
-    when:
-      status: [ failure ]
 
   notify:
     image: plugins/slack:1
@@ -261,7 +280,7 @@ matrix:
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
-#acceptance tests
+#acceptance tests - ldap specific
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
@@ -283,27 +302,244 @@ matrix:
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
+#acceptance tests - UI tests from core
    - TEST_SUITE: acceptance
-     TEST_SOURCE: core
+     TEST_SOURCE: core-webUI
      OC_VERSION: daily-master-qa
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
-     TEST_SOURCE: core
+     TEST_SOURCE: core-webUI
      OC_VERSION: daily-stable10-qa
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
-     TEST_SOURCE: core
+     TEST_SOURCE: core-webUI
      OC_VERSION: daily-stable10-qa
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
+#acceptance tests - API tests from core
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMain
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMetadataApps
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharees
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareManagement
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiTrashbin
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharingNotifications
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-master-qa
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavProperties
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMain
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMetadataApps
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharees
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareManagement
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiTrashbin
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharingNotifications
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavProperties
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMain
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiMetadataApps
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharees
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareManagement
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiShareOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiTrashbin
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiSharingNotifications
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavOperations
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-api
+     OC_VERSION: daily-stable10-qa
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiWebdavProperties
 #integration tests
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
