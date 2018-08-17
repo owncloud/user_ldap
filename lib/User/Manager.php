@@ -423,14 +423,14 @@ class Manager {
 	 *
 	 * @param string $loginName
 	 * @return UserEntry
-	 * @throws \Exception
+	 * @throws DoesNotExistOnLDAPException
 	 */
 	public function getLDAPUserByLoginName($loginName) {
 		//find out dn of the user name
 		$attrs = $this->getAttributes();
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if (\count($users) < 1) {
-			throw new \Exception('No user available for the given login name on ' .
+			throw new DoesNotExistOnLDAPException('No user available for the given login name on ' .
 				$this->getConnection()->ldapHost . ':' . $this->getConnection()->ldapPort);
 		}
 		return $this->getFromEntry($users[0]);

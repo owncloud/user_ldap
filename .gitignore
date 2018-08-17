@@ -2,3 +2,4 @@
 /build/
 /vendor/
 .php_cs.cache
+/tests/output/
