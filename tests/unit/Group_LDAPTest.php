@@ -90,14 +90,13 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testCountEmptySearchString() {
-
 		$this->access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
 
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
+			->will($this->returnValue(['u11', 'u22', 'u33', 'u34']));
 
 		// for primary groups
 		$this->access->expects($this->once())
@@ -111,14 +110,13 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testCountWithSearchString() {
-
 		$this->access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
 
 		$this->access->expects($this->any())
 			->method('fetchListOfUsers')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$this->access->expects($this->any())
 			->method('readAttribute')
@@ -128,10 +126,10 @@ class Group_LDAPTest extends \Test\TestCase {
 				//something that is neither null or false, but once an array
 				//with the users in the group – so we do so all other times for
 				//simplicity.
-				if (strpos($name, 'u') === 0) {
-					return strpos($name, '3');
+				if (\strpos($name, 'u') === 0) {
+					return \strpos($name, '3');
 				}
-				return array('u11', 'u22', 'u33', 'u34');
+				return ['u11', 'u22', 'u33', 'u34'];
 			}));
 
 		$this->access->expects($this->any())
@@ -147,7 +145,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testPrimaryGroupID2NameSuccess() {
-
 		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
 
 		$this->access->expects($this->once())
@@ -172,7 +169,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testPrimaryGroupID2NameNoSID() {
-
 		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
 
 		$this->access->expects($this->once())
@@ -194,7 +190,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testPrimaryGroupID2NameNoGroup() {
-
 		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
 
 		$this->access->expects($this->once())
@@ -204,7 +199,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$this->access->expects($this->once())
 			->method('searchGroups')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$this->access->expects($this->never())
 			->method('dn2groupname');
@@ -217,7 +212,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testPrimaryGroupID2NameNoName() {
-
 		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
 
 		$this->access->expects($this->once())
@@ -250,7 +244,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($dn, $attr)
-			->will($this->returnValue(array('3117')));
+			->will($this->returnValue(['3117']));
 
 		$groupBackend = new GroupLDAP($this->access);
 
@@ -283,7 +277,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * is hit
 	 */
 	public function testInGroupHitsUidGidCache() {
-
 		$uid = 'someUser';
 		$gid = 'someGroup';
 		$cacheKey = 'inGroup' . $uid . ':' . $gid;
@@ -301,15 +294,14 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testGetGroupsWithOffset() {
-
 		$this->access->expects($this->once())
 			->method('ownCloudGroupNames')
-			->will($this->returnValue(array('group1', 'group2')));
+			->will($this->returnValue(['group1', 'group2']));
 
 		$groupBackend = new GroupLDAP($this->access);
 		$groups = $groupBackend->getGroups('', 2, 2);
 
-		$this->assertSame(2, count($groups));
+		$this->assertSame(2, \count($groups));
 	}
 
 	/**
@@ -317,8 +309,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * as their primary.
 	 */
 	public function testUsersInGroupPrimaryMembersOnly() {
-
-
 		$this->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
@@ -327,9 +317,9 @@ class Group_LDAPTest extends \Test\TestCase {
 			->method('readAttribute')
 			->will($this->returnCallback(function ($dn, $attr) {
 				if ($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			}));
 
 		$this->access->expects($this->any())
@@ -338,7 +328,7 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$this->access->expects($this->once())
 			->method('ownCloudUserNames')
-			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
+			->will($this->returnValue(['lisa', 'bart', 'kira', 'brad']));
 
 		$userManager = $this->createMock(Manager::class);
 		$userManager->expects($this->once())
@@ -354,7 +344,7 @@ class Group_LDAPTest extends \Test\TestCase {
 		$groupBackend = new GroupLDAP($this->access);
 		$users = $groupBackend->usersInGroup('foobar');
 
-		$this->assertSame(4, count($users));
+		$this->assertSame(4, \count($users));
 	}
 
 	/**
@@ -362,7 +352,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	 * as their primary.
 	 */
 	public function testCountUsersInGroupPrimaryMembersOnly() {
-
 		$this->connection->expects($this->any())
 			->method('getFromCache')
 			->will($this->returnValue(null));
@@ -371,9 +360,9 @@ class Group_LDAPTest extends \Test\TestCase {
 			->method('readAttribute')
 			->will($this->returnCallback(function ($dn, $attr) {
 				if ($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			}));
 
 		$this->access->expects($this->any())
@@ -391,7 +380,6 @@ class Group_LDAPTest extends \Test\TestCase {
 	}
 
 	public function testGetUserGroupsMemberOf() {
-
 		$dn = 'cn=userX,dc=foobar';
 
 		$this->connection->hasPrimaryGroups = false;
@@ -415,16 +403,15 @@ class Group_LDAPTest extends \Test\TestCase {
 		$groupBackend = new GroupLDAP($this->access);
 		$groups = $groupBackend->getUserGroups('userX');
 
-		$this->assertSame(2, count($groups));
+		$this->assertSame(2, \count($groups));
 	}
 
 	private function setUpWithUseMemberOfToDetectMembershipDisabled() {
-
 		$this->connection = $this->createMock(Connection::class);
 
 		$this->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnCallback(function($method) {
+			->will($this->returnCallback(function ($method) {
 				switch ($method) {
 					case 'ldapEmailAttribute':
 					case 'homeFolderNamingRule':
@@ -459,7 +446,6 @@ class Group_LDAPTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('getConnection')
 			->will($this->returnValue($this->connection));
-
 	}
 
 	public function testGetUserGroupsMemberOfDisabled() {

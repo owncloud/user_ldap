@@ -73,7 +73,6 @@ abstract class AbstractIntegrationTest {
 		$this->initConnection();
 		$this->initUserManager();
 		$this->initAccess();
-
 	}
 
 	/**
@@ -127,19 +126,19 @@ abstract class AbstractIntegrationTest {
 	 * If a test failed, the script is exited with return code 1.
 	 */
 	public function run() {
-		$methods = get_class_methods($this);
+		$methods = \get_class_methods($this);
 		$atLeastOneCaseRan = false;
-		foreach($methods as $method) {
-			if(strpos($method, 'case') === 0) {
+		foreach ($methods as $method) {
+			if (\strpos($method, 'case') === 0) {
 				print("running $method " . PHP_EOL);
-				if(!$this->$method()) {
+				if (!$this->$method()) {
 					print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
 					exit(1);
 				}
 				$atLeastOneCaseRan = true;
 			}
 		}
-		if($atLeastOneCaseRan) {
+		if ($atLeastOneCaseRan) {
 			print('Tests succeeded' . PHP_EOL);
 		} else {
 			print('No Test was available.' . PHP_EOL);

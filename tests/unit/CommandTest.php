@@ -34,7 +34,7 @@ class CommandTest extends TestCase {
 	private $commandTester;
 	
 	/**
-	 * 
+	 *
 	 * {@inheritDoc}
 	 * @see \Test\TestCase::setUp()
 	 */
@@ -48,7 +48,6 @@ class CommandTest extends TestCase {
 		->expects($this->once())
 		->method("getServerConfigurationPrefixes")
 		->willReturn(["configId1","configId2"]);
-
 	}
 
 	/**
@@ -81,18 +80,18 @@ class CommandTest extends TestCase {
 	 * @param string $outputType
 	 * @return void
 	 */
-	public function testShowConfigAsJson($outputType){
+	public function testShowConfigAsJson($outputType) {
 		$this->commandTester->execute(
 			['configID' => 'configId1', '--output' => $outputType]
 		);
 		$output = $this->commandTester->getDisplay();
-		$decodedOutput = json_decode($output);
+		$decodedOutput = \json_decode($output);
 		\PHPUnit_Framework_Assert::assertNotNull($decodedOutput);
 		\PHPUnit_Framework_Assert::arrayHasKey("ldapBase");
 	}
 
 	/**
-	 * 
+	 *
 	 * @return string[][]
 	 */
 	public function providesOutputTypes() {
@@ -100,7 +99,7 @@ class CommandTest extends TestCase {
 	}
 	
 	/**
-	 * 
+	 *
 	 * @return string[][][] array with:
 	 *				input
 	 *				strings expected to be contained in the output

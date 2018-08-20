@@ -65,9 +65,8 @@ class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
 		$result = $this->access->fetchListOfUsers('objectclass=person', 'dn');
 		// on the original issue, PHP would emit a fatal error
 		// – cannot catch it here, but will render the test as unsuccessful
-		return is_array($result) && !empty($result);
+		return \is_array($result) && !empty($result);
 	}
-
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');

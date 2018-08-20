@@ -26,7 +26,7 @@
 namespace OCA\User_LDAP;
 
 class Group_Proxy extends Proxy implements \OCP\GroupInterface {
-	private $backends = array();
+	private $backends = [];
 	private $refBackend = null;
 
 	/**
@@ -35,10 +35,10 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
-		foreach($serverConfigPrefixes as $configPrefix) {
+		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix));
-			if(is_null($this->refBackend)) {
+			if ($this->refBackend === null) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
@@ -53,8 +53,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-		foreach($this->backends as $configPrefix => $backend) {
-			if($result = call_user_func_array(array($backend, $method), $parameters)) {
+		foreach ($this->backends as $configPrefix => $backend) {
+			if ($result = \call_user_func_array([$backend, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 			}
@@ -71,20 +71,21 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * @return mixed, the result of the method or false
 	 */
 	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
-		$cacheKey = $this->getGroupCacheKey($gid);;
+		$cacheKey = $this->getGroupCacheKey($gid);
+		;
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(!is_null($prefix)) {
-			if(isset($this->backends[$prefix])) {
-				$result = call_user_func_array(array($this->backends[$prefix], $method), $parameters);
-				if($result === $passOnWhen) {
+		if ($prefix !== null) {
+			if (isset($this->backends[$prefix])) {
+				$result = \call_user_func_array([$this->backends[$prefix], $method], $parameters);
+				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
-					$groupExists = call_user_func_array(
-						array($this->backends[$prefix], 'groupExists'),
-						array($gid)
+					$groupExists = \call_user_func_array(
+						[$this->backends[$prefix], 'groupExists'],
+						[$gid]
 					);
-					if(!$groupExists) {
+					if (!$groupExists) {
 						$this->writeToCache($cacheKey, null);
 					}
 				}
@@ -103,7 +104,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		return $this->handleRequest($gid, 'inGroup', array($uid, $gid));
+		return $this->handleRequest($gid, 'inGroup', [$uid, $gid]);
 	}
 
 	/**
@@ -115,12 +116,12 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		$groups = array();
+		$groups = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getUserGroups($uid);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
+			if (\is_array($backendGroups)) {
+				$groups = \array_merge($groups, $backendGroups);
 			}
 		}
 
@@ -132,12 +133,12 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$users = array();
+		$users = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
+			if (\is_array($backendUsers)) {
+				$users = \array_merge($users, $backendUsers);
 			}
 		}
 
@@ -152,7 +153,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		return $this->handleRequest(
-			$gid, 'countUsersInGroup', array($gid, $search));
+			$gid, 'countUsersInGroup', [$gid, $search]);
 	}
 
 	/**
@@ -162,12 +163,12 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		$groups = array();
+		$groups = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getGroups($search, $limit, $offset);
-			if (is_array($backendGroups)) {
-				$groups = array_merge($groups, $backendGroups);
+			if (\is_array($backendGroups)) {
+				$groups = \array_merge($groups, $backendGroups);
 			}
 		}
 
@@ -180,7 +181,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * @return bool
 	 */
 	public function groupExists($gid) {
-		return $this->handleRequest($gid, 'groupExists', array($gid));
+		return $this->handleRequest($gid, 'groupExists', [$gid]);
 	}
 
 	/**

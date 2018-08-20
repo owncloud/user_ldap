@@ -22,7 +22,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
-
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
 require_once __DIR__ . '/../AbstractIntegrationTest.php';
@@ -71,9 +70,9 @@ class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
 		$result = $this->access->groupsMatchFilter($dns);
 
 		$status =
-			count($result) === 2
-			&& in_array('cn=RedGroup,ou=Groups,' . $this->base, $result)
-			&& in_array('cn=PurpleGroup,ou=Groups,' . $this->base, $result);
+			\count($result) === 2
+			&& \in_array('cn=RedGroup,ou=Groups,' . $this->base, $result)
+			&& \in_array('cn=PurpleGroup,ou=Groups,' . $this->base, $result);
 
 		return $status;
 	}
@@ -95,9 +94,9 @@ class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
 		$result = $this->access->groupsMatchFilter($dns);
 
 		$status =
-			count($result) === 2
-			&& in_array('cn=RedGroup,ou=Groups,' . $this->base, $result)
-			&& in_array('cn=PurpleGroup,ou=Groups,' . $this->base, $result);
+			\count($result) === 2
+			&& \in_array('cn=RedGroup,ou=Groups,' . $this->base, $result)
+			&& \in_array('cn=PurpleGroup,ou=Groups,' . $this->base, $result);
 
 		return $status;
 	}

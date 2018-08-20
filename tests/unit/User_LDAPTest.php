@@ -256,7 +256,6 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertEquals('/relative/or/absolute path/', $result);
 	}
 
-
 	public function testGetHomeNotCached() {
 		$this->manager->expects($this->once())
 			->method('getCachedEntry')

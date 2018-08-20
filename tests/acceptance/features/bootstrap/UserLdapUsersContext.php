@@ -32,17 +32,17 @@ require_once 'bootstrap.php';
 class UserLdapUsersContext extends RawMinkContext implements Context {
 	
 	/**
-	 * 
+	 *
 	 * @var UserLdapGeneralContext
 	 */
 	private $userLdapGeneralContext;
 	
 	/**
 	 * @When the admin creates the group :group in the ldap OU :ou
-	 * 
+	 *
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
-	 * 
+	 *
 	 * @return void
 	 */
 	public function createLdapGroup($group, $ou = null) {
@@ -53,7 +53,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		$newDN = 'cn=' . $group . ',ou=' . $ou . ',' .
 				 $this->userLdapGeneralContext->getLdapBaseDN();
 		
-		$entry = array();
+		$entry = [];
 		$entry['cn'] = $group;
 		$entry['objectclass'][] = 'posixGroup';
 		$entry['objectclass'][] = 'top';
@@ -65,11 +65,11 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	/**
 	 * @When the admin adds the user :user to the ldap group :group
 	 * @When the admin adds the user :user to the group :group in the ldap OU :ou
-	 * 
+	 *
 	 * @param string $user
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
-	 * 
+	 *
 	 * @return void
 	 */
 	public function addUserToLdapGroup($user, $group, $ou = null) {
@@ -85,11 +85,11 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	/**
 	 * @When the admin removes user :user from the ldap group :group
 	 * @When the admin removes user :user from the group :group in the ldap OU :ou
-	 * 
+	 *
 	 * @param string $user
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
-	 * 
+	 *
 	 * @return void
 	 */
 	public function removeUserFromLdapGroup($user, $group, $ou = null) {
@@ -104,10 +104,10 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	/**
 	 * @When the admin deletes the ldap group :group
 	 * @When the admin deletes the group :group in the ldap OU :ou
-	 * 
+	 *
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
-	 * 
+	 *
 	 * @return void
 	 */
 	public function deleteLdapGroup($group, $ou = null) {
@@ -119,9 +119,9 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 
 	/**
 	 * @BeforeScenario
-	 * 
+	 *
 	 * @param BeforeScenarioScope $scope
-	 * 
+	 *
 	 * @return void
 	 */
 	public function setUpBeforeScenario(BeforeScenarioScope $scope) {

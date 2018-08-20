@@ -21,4 +21,5 @@
 
 namespace OCA\User_LDAP\Exceptions;
 
-class DoesNotExistOnLDAPException extends \Exception {}
+class DoesNotExistOnLDAPException extends \Exception {
+}

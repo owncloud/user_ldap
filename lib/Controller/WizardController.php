@@ -106,7 +106,7 @@ class WizardController extends Controller {
 
 		$config = new Configuration($this->config, $prefix);
 
-		switch($action) {
+		switch ($action) {
 			case 'guessPortAndTLS':
 			case 'guessBaseDN':
 			case 'detectEmailAttribute':
@@ -126,7 +126,7 @@ class WizardController extends Controller {
 				try {
 					/** @var WizardResult $result */
 					$result = $this->getWizard($config)->$action();
-					if($result !== false) {
+					if ($result !== false) {
 						$data = $result->getResultArray();
 						$data['status'] = 'success';
 						return new DataResponse($data);
@@ -145,7 +145,7 @@ class WizardController extends Controller {
 					$loginName = $ldap_test_loginname; // TODO if possible make JS send as 'loginName' right away
 					// FIXME throw exception when loginname is empty
 					$result = $this->getWizard($config)->testLoginName($loginName);
-					if($result !== false) {
+					if ($result !== false) {
 						$data = $result->getResultArray();
 						$data['status'] = 'success';
 						return new DataResponse($data);
@@ -162,7 +162,7 @@ class WizardController extends Controller {
 			case 'save':
 				$key = $cfgkey; // TODO if possible make JS send as 'key' right away
 				$val = $cfgval; // TODO if possible make JS send as 'val' right away
-				if($key === null || $val === null) {
+				if ($key === null || $val === null) {
 					return new DataResponse([ // FIXME use same Exception as app framework
 						'status' => 'error',
 						'message' => $this->l10n->t('No data specified')
@@ -171,7 +171,7 @@ class WizardController extends Controller {
 				$cfg = [$key => $val];
 				$setParameters = [];
 				$config->setConfiguration($cfg, $setParameters);
-				if(!in_array($key, $setParameters, true)) {
+				if (!\in_array($key, $setParameters, true)) {
 					return new DataResponse([
 						'status' => 'error',
 						'message' => $this->l10n->t($key.' Could not set configuration %s', $setParameters[0])
@@ -191,5 +191,4 @@ class WizardController extends Controller {
 				]);
 		}
 	}
-
 }

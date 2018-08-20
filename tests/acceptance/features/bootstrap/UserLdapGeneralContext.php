@@ -33,10 +33,9 @@ require_once 'bootstrap.php';
  * context that holds all general steps for the user_ldap app
  */
 class UserLdapGeneralContext extends RawMinkContext implements Context {
-
 	private $oldConfig = [];
 	/**
-	 * 
+	 *
 	 * @var Zend\Ldap\Ldap
 	 */
 	private $ldap;
@@ -56,11 +55,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	
 	/**
 	 * @Given the LDAP config :configId has the key :configKey set to :configValue
-	 * 
+	 *
 	 * @param string $configId
 	 * @param string $configKey
 	 * @param string $configValue
-	 * 
+	 *
 	 * @return void
 	 */
 	public function theLdapConfigHasTheKeySetTo(
@@ -75,7 +74,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				"could not read LDAP settings " . $occResult['stdErr']
 			);
 		}
-		$originalConfig = json_decode($occResult['stdOut'], true);
+		$originalConfig = \json_decode($occResult['stdOut'], true);
 		if (isset($originalConfig[$configKey])) {
 			$this->oldConfig[$configId][$configKey] = $originalConfig[$configKey];
 		} else {
@@ -87,10 +86,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @Given the LDAP config :configId has these settings:
-	 * 
+	 *
 	 * @param string $configId
 	 * @param TableNode $table with the headings |key | value |
-	 * 
+	 *
 	 * @return void
 	 */
 	public function theLdapConfigHasTheseSettings($configId, TableNode $table) {
@@ -103,7 +102,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @Given the LDAP users have been resynced
-	 * 
+	 *
 	 * @throws Exception
 	 * @return void
 	 */
@@ -118,12 +117,12 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the admin sets the ldap attribute :attribute of the entry :entry to :value
-	 * 
+	 *
 	 * @param string $attribute
 	 * @param string $entry
 	 * @param string $value
 	 * @param bool $append
-	 * 
+	 *
 	 * @return void
 	 */
 	public function setTheLdapAttributeOfTheEntryTo(
@@ -161,17 +160,17 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the admin sets the ldap attribute :attribute of the entry :entry to the content of the file :filename
-	 * 
+	 *
 	 * @param string $attribute
 	 * @param string $entry
 	 * @param string $filename
-	 * 
+	 *
 	 * @return void
 	 */
 	public function theLdapAttributeOfTheEntryToContentOfFile(
 		$attribute, $entry, $filename
 	) {
-		$value = file_get_contents(getenv("FILES_FOR_UPLOAD") . $filename);
+		$value = \file_get_contents(\getenv("FILES_FOR_UPLOAD") . $filename);
 		
 		$this->setTheLdapAttributeOfTheEntryTo(
 			$attribute, $entry, $value
@@ -180,11 +179,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the admin adds :value to the ldap attribute :attribute of the entry :entry
-	 * 
+	 *
 	 * @param string $value
 	 * @param string $attribute
 	 * @param string $entry
-	 * 
+	 *
 	 * @return void
 	 */
 	public function addValueToLdapAttributeOfTheEntry($value, $attribute, $entry) {
@@ -193,9 +192,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the admin deletes the ldap entry :entry
-	 * 
+	 *
 	 * @param string $entry
-	 * 
+	 *
 	 * @return void
 	 */
 	public function deleteTheLdapEntry($entry) {
@@ -219,9 +218,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the admin imports this ldif data:
-	 * 
+	 *
 	 * @param PyStringNode $ldifData
-	 * 
+	 *
 	 * @return void
 	 */
 	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
@@ -279,15 +278,15 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * creates users in LDAP named: "<prefix>-0000" till "<prefix>-(<amount>-1)"
-	 * e.g.with $amount=2000; and $prefix="my-user-"; "my-user-0000" till "my-user-1999" 
+	 * e.g.with $amount=2000; and $prefix="my-user-"; "my-user-0000" till "my-user-1999"
 	 * password is the username
-	 * 
+	 *
 	 * @Given the administrator has created :amount LDAP users with the prefix :prefix in the OU :ou
-	 * 
+	 *
 	 * @param int $amount
 	 * @param string $prefix
 	 * @param string $ou
-	 * 
+	 *
 	 * @return void
 	 */
 	public function createLDAPUsers($amount, $prefix, $ou) {
@@ -300,7 +299,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				$maxUidNumber = (int)$searchResult['uidnumber'][0];
 			}
 		}
-		$entry = array();
+		$entry = [];
 		$ouDN = 'ou=' . $ou . ',' . $this->ldapBaseDN;
 		$ouExists = $this->ldap->exists($ouDN);
 		if (!$ouExists) {
@@ -311,12 +310,12 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$this->toDeleteDNs[] = $ouDN;
 		}
 		
-		$lenOfSuffix = strlen((string)$amount);
+		$lenOfSuffix = \strlen((string)$amount);
 		for ($i = 0; $i < $amount; $i++) {
-			$uid = $prefix . str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
-			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->ldapBaseDN; 
+			$uid = $prefix . \str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
+			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->ldapBaseDN;
 			
-			$entry = array();
+			$entry = [];
 			$entry['cn'] = $uid;
 			$entry['sn'] = $i;
 			$entry['homeDirectory'] = '/home/openldap/' . $uid;
@@ -344,11 +343,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	/**
 	 * We need to make sure that the setup routines are called in the correct order
 	 * So this is the main function for setUp
-	 * 
+	 *
 	 * @BeforeScenario
-	 * 
+	 *
 	 * @param BeforeScenarioScope $scope
-	 * 
+	 *
 	 * @return void
 	 */
 	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
@@ -366,7 +365,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @param array $suiteParameters
-	 * 
+	 *
 	 * @return void
 	 */
 	public function connectToLdap($suiteParameters) {
@@ -375,20 +374,20 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		$this->ldapBaseDN = (string)$suiteParameters['ldapBaseDN'];
 		$this->ldapUsersOU = (string)$suiteParameters['ldapUsersOU'];
 		$this->ldapGroupsOU = (string)$suiteParameters['ldapGroupsOU'];
-		$ci = getenv("CI");
+		$ci = \getenv("CI");
 		if ($ci === "drone") {
 			$this->ldapHost = (string)$suiteParameters['ldapHostDrone'];
 		} else {
 			$this->ldapHost = (string)$suiteParameters['ldapHost'];
 		}
 		
-		$options = array(
+		$options = [
 			'host' => $this->ldapHost,
 			'password' => $this->ldapAdminPassword,
 			'bindRequiresDn' => true,
 			'baseDn' => $this->ldapBaseDN,
 			'username' => $this->ldapAdminUser
-		);
+		];
 		$this->ldap = new Zend\Ldap\Ldap($options);
 		$this->ldap->bind();
 		SetupHelper::init(
@@ -401,9 +400,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * imports an ldif string
-	 * 
+	 *
 	 * @param string $ldifData
-	 * 
+	 *
 	 * @return void
 	 */
 	public function importLdifData($ldifData) {
@@ -420,13 +419,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $path
-	 * 
+	 *
 	 * @return void
 	 */
 	public function importLdifFile($path) {
-		$ldifData = file_get_contents($path);
+		$ldifData = \file_get_contents($path);
 		$this->importLdifData($ldifData);
 	}
 
@@ -451,11 +450,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * After Scenario. Sets back old settings
 	 *
 	 * @AfterScenario
-	 * 
+	 *
 	 * @return void
 	 */
 	public function resetOldConfig() {
-		foreach ($this->oldConfig as $configId => $settings ) {
+		foreach ($this->oldConfig as $configId => $settings) {
 			foreach ($settings as $configKey => $configValue) {
 				$this->setLdapSetting($configId, $configKey, $configValue);
 			}
@@ -463,11 +462,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $configId
 	 * @param string $configKey
 	 * @param string $configValue
-	 * 
+	 *
 	 * @throws Exception
 	 * @return void
 	 */

@@ -102,12 +102,12 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->will($this->returnCallback(function ($app, $key, $default) {
 				switch ($key) {
 					case 'srcldap_host':
 						return 'example.org';
 					case 'srcldap_agent_password':
-						return base64_encode('secret');
+						return \base64_encode('secret');
 					default:
 						return $default;
 				}
@@ -118,19 +118,19 @@ class ConfigurationControllerTest extends TestCase {
 			->method('setAppValue')
 			->with(
 				'user_ldap',
-				$this->callback(function($key) use (&$expectedValue) {
+				$this->callback(function ($key) use (&$expectedValue) {
 					switch ($key) {
 						case 'tgtldap_host':
 							$expectedValue = 'example.org';
 							break;
 						case 'tgtldap_agent_password':
-							$expectedValue = base64_encode('secret');
+							$expectedValue = \base64_encode('secret');
 							break;
 						default: $expectedValue = null;
 					};
 					return $this->stringStartsWith('tgt');
 				}),
-				$this->callback(function($value) use (&$expectedValue) {
+				$this->callback(function ($value) use (&$expectedValue) {
 					if ($expectedValue !== null) {
 						return $expectedValue === $value;
 					};
@@ -150,12 +150,12 @@ class ConfigurationControllerTest extends TestCase {
 	public function testRead() {
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->will($this->returnCallback(function ($app, $key, $default) {
 				switch ($key) {
 					case 't01ldap_host':
 						return 'example.org';
 					case 't01ldap_agent_password':
-						return  base64_encode('secret');
+						return  \base64_encode('secret');
 					default:
 						return $default;
 				}
@@ -179,7 +179,7 @@ class ConfigurationControllerTest extends TestCase {
 		// use valid looking config to pass critical validation
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) {
+			->will($this->returnCallback(function ($app, $key, $default) {
 				switch ($key) {
 					case 't01ldap_host':
 						return 'example.org';
@@ -198,7 +198,7 @@ class ConfigurationControllerTest extends TestCase {
 					case 't01ldap_base':
 						return  'dc=example,dc=org';
 					case 't01ldap_agent_password':
-						return  base64_encode('secret');
+						return  \base64_encode('secret');
 					default:
 						return $default;
 				}
@@ -240,12 +240,10 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testDeleteNotExisting() {
-
 		$result = $this->controller->delete('na');
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
 		$this->assertArraySubset(['status' => 'error'], $data, true);
 	}
-
 }

@@ -39,7 +39,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	/**
 	 * @var User_LDAP[]
 	 */
-	private $backends = array();
+	private $backends = [];
 	private $refBackend = null;
 
 	/**
@@ -48,10 +48,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
 		parent::__construct($ldap);
-		foreach($serverConfigPrefixes as $configPrefix) {
+		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
-			if(is_null($this->refBackend)) {
+			if ($this->refBackend === null) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
@@ -66,13 +66,13 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
-		foreach($this->backends as $configPrefix => $backend) {
+		foreach ($this->backends as $configPrefix => $backend) {
 			$instance = $backend;
-			if(!method_exists($instance, $method)
-				&& method_exists($this->getAccess($configPrefix), $method)) {
+			if (!\method_exists($instance, $method)
+				&& \method_exists($this->getAccess($configPrefix), $method)) {
 				$instance = $this->getAccess($configPrefix);
 			}
-			if($result = call_user_func_array(array($instance, $method), $parameters)) {
+			if ($result = \call_user_func_array([$instance, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 			}
@@ -93,22 +93,22 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(!is_null($prefix)) {
-			if(isset($this->backends[$prefix])) {
+		if ($prefix !== null) {
+			if (isset($this->backends[$prefix])) {
 				$instance = $this->backends[$prefix];
-				if(!method_exists($instance, $method)
-					&& method_exists($this->getAccess($prefix), $method)) {
+				if (!\method_exists($instance, $method)
+					&& \method_exists($this->getAccess($prefix), $method)) {
 					$instance = $this->getAccess($prefix);
 				}
-				$result = call_user_func_array(array($instance, $method), $parameters);
-				if($result === $passOnWhen) {
+				$result = \call_user_func_array([$instance, $method], $parameters);
+				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
-					$userExists = call_user_func_array(
-						array($this->backends[$prefix], 'userExists'),
-						array($uid)
+					$userExists = \call_user_func_array(
+						[$this->backends[$prefix], 'userExists'],
+						[$uid]
 					);
-					if(!$userExists) {
+					if (!$userExists) {
 						$this->writeToCache($cacheKey, null);
 					}
 				}
@@ -149,11 +149,11 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
-		$users = array();
-		foreach($this->backends as $backend) {
+		$users = [];
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
-			if (is_array($backendUsers)) {
-				$users = array_merge($users, $backendUsers);
+			if (\is_array($backendUsers)) {
+				$users = \array_merge($users, $backendUsers);
 			}
 		}
 		return $users;
@@ -165,7 +165,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return bool
 	 */
 	public function userExists($uid) {
-		return $this->handleRequest($uid, 'userExists', array($uid));
+		return $this->handleRequest($uid, 'userExists', [$uid]);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * Check if the password is correct without logging in the user
 	 */
 	public function checkPassword($uid, $password) {
-		return $this->handleRequest($uid, 'checkPassword', array($uid, $password));
+		return $this->handleRequest($uid, 'checkPassword', [$uid, $password]);
 	}
 
 	/**
@@ -190,7 +190,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function loginName2UserName($loginName) {
 		$id = 'LOGINNAME,' . $loginName;
-		return $this->handleRequest($id, 'loginName2UserName', array($loginName));
+		return $this->handleRequest($id, 'loginName2UserName', [$loginName]);
 	}
 
 	/**
@@ -212,7 +212,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return string display name
 	 */
 	public function getDisplayName($uid) {
-		return $this->handleRequest($uid, 'getDisplayName', array($uid));
+		return $this->handleRequest($uid, 'getDisplayName', [$uid]);
 	}
 
 	/**
@@ -221,7 +221,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @return bool either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		return $this->handleRequest($uid, 'canChangeAvatar', array($uid));
+		return $this->handleRequest($uid, 'canChangeAvatar', [$uid]);
 	}
 
 	/**
@@ -233,10 +233,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
-		$users = array();
-		foreach($this->backends as $backend) {
+		$users = [];
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
-			if (is_array($backendUsers)) {
+			if (\is_array($backendUsers)) {
 				$users = $users + $backendUsers;
 			}
 		}
@@ -251,7 +251,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * Deletes a user
 	 */
 	public function deleteUser($uid) {
-		return $this->handleRequest($uid, 'deleteUser', array($uid));
+		return $this->handleRequest($uid, 'deleteUser', [$uid]);
 	}
 
 	/**
@@ -267,7 +267,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function countUsers() {
 		$users = false;
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
 				$users += $backendUsers;
@@ -312,6 +312,6 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	public function getSearchTerms($uid) {
 		$terms = $this->handleRequest($uid, 'getSearchTerms', [$uid]);
-		return is_array($terms) ? $terms : [];
+		return \is_array($terms) ? $terms : [];
 	}
 }

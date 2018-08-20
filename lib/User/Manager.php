@@ -95,7 +95,6 @@ class Manager {
 								FilesystemHelper $ocFilesystem, ILogger $logger,
 								IAvatarManager $avatarManager,
 								IDBConnection $db, IUserManager $userManager) {
-
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->logger        = $logger;
@@ -120,7 +119,7 @@ class Manager {
 	 * @throws \Exception if Access has not been set
 	 */
 	private function checkAccess() {
-		if(is_null($this->access)) {
+		if ($this->access === null) {
 			throw new \Exception('LDAP Access instance must be set first');
 		}
 	}
@@ -147,15 +146,15 @@ class Manager {
 			$this->getConnection()->ldapExpertUsernameAttr => true,
 		];
 		$homeRule = $this->getConnection()->homeFolderNamingRule;
-		if(strpos($homeRule, 'attr:') === 0) {
-			$attributes[substr($homeRule, strlen('attr:'))] = true;
+		if (\strpos($homeRule, 'attr:') === 0) {
+			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
 		}
 		$searchAttributes = $this->getConnection()->ldapAttributesForUserSearch;
 		if ($searchAttributes === '' || $searchAttributes === null) { //FIXME empty multiline initializes as '', make it []
 			$searchAttributes = [];
 		}
-		foreach($searchAttributes as $attr) {
-			if(is_string($attr)) {
+		foreach ($searchAttributes as $attr) {
+			if (\is_string($attr)) {
 				$attributes[$attr] = true;
 			}
 		}
@@ -170,7 +169,7 @@ class Manager {
 			}
 		}
 
-		if($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {
+		if ($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {
 			// attributes may come with big payload.
 
 			$attributes['jpegphoto'] = true;
@@ -180,7 +179,7 @@ class Manager {
 		// we don't need the empty attribute
 		unset($attributes['']);
 
-		return array_keys($attributes);
+		return \array_keys($attributes);
 	}
 
 	/**
@@ -196,7 +195,7 @@ class Manager {
 			$this->getAttributes(),
 			$this->getConnection()->ldapUserFilter,
 			20); // TODO why 20? why is 1 not sufficient?
-		if($result === false || $result['count'] === 0) {
+		if ($result === false || $result['count'] === 0) {
 			// FIXME the ldap error ($result = false) should bubble up ... and not be converted to a DoesNotExistOnLDAPException
 			throw new DoesNotExistOnLDAPException($dn);
 		}
@@ -217,8 +216,8 @@ class Manager {
 		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->getConnection(), $ldapEntry);
 		$dn = $userEntry->getDN();
 
-		if(!$this->access->isDNPartOfBase($dn, $this->getConnection()->ldapBaseUsers)) {
-			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".print_r($this->getConnection()->ldapBaseUsers, true));
+		if (!$this->access->isDNPartOfBase($dn, $this->getConnection()->ldapBaseUsers)) {
+			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".\print_r($this->getConnection()->ldapBaseUsers, true));
 		}
 
 		$uid = $this->resolveUID($userEntry);
@@ -236,7 +235,7 @@ class Manager {
 	 * @return UserEntry
 	 */
 	public function getCachedEntry($uid) {
-		if(isset($this->usersByUid[$uid])) {
+		if (isset($this->usersByUid[$uid])) {
 			return $this->usersByUid[$uid];
 		}
 
@@ -253,7 +252,7 @@ class Manager {
 		}
 
 		// should have been cached during login or while iterating over multiple users, eg during sync
-		$this->logger->warning('No cached ldap result found for '. $uid , ['app' => self::class]);
+		$this->logger->warning('No cached ldap result found for '. $uid, ['app' => self::class]);
 		return null;
 	}
 
@@ -268,20 +267,20 @@ class Manager {
 	public function dnExistsOnLDAP($dn) {
 
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
+		if (!\is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
 			$lcr = $this->getConnection()->getConnectionResource();
-			if($lcr === null) {
+			if ($lcr === null) {
 				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
 			}
 
 			try {
 				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
-				if(!$uuid) {
+				if (!$uuid) {
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if(!is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
+				if (!\is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
@@ -307,31 +306,31 @@ class Manager {
 		$dn = $userEntry->getDN();
 
 		//let's try to retrieve the ownCloud name from the mappings table
-		$ocName = trim($mapper->getNameByDN($dn));
-		if(is_string($ocName) && $ocName !== '') {
+		$ocName = \trim($mapper->getNameByDN($dn));
+		if (\is_string($ocName) && $ocName !== '') {
 			return $ocName;
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
 		$uuid = $userEntry->getUUID();
-		$ocName = trim($mapper->getNameByUUID($uuid));
-		if(is_string($ocName) && $ocName !== '') {
+		$ocName = \trim($mapper->getNameByUUID($uuid));
+		if (\is_string($ocName) && $ocName !== '') {
 			$mapper->setDNbyUUID($dn, $uuid);
 			return $ocName;
 		}
 
-		$intName = trim($this->access->sanitizeUsername($userEntry->getUsername()));
+		$intName = \trim($this->access->sanitizeUsername($userEntry->getUsername()));
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
-		if($intName !== '' && !\OCP\User::userExists($intName)) {
-			if($mapper->map($dn, $intName, $uuid)) {
+		if ($intName !== '' && !\OCP\User::userExists($intName)) {
+			if ($mapper->map($dn, $intName, $uuid)) {
 				return $intName;
 			}
 		}
 
 		// FIXME move to a better place, naming related. eg DistinguishedNameUtils
 		$altName = $this->access->createAltInternalOwnCloudName($intName, true);
-		if(is_string($altName) && $mapper->map($dn, $altName, $uuid)) {
+		if (\is_string($altName) && $mapper->map($dn, $altName, $uuid)) {
 			return $altName;
 		}
 
@@ -347,7 +346,7 @@ class Manager {
 	 */
 	public function registerAvatarHook($userEntry) {
 		$avatarImage = $userEntry->getAvatarImage();
-		if($avatarImage !== null) {
+		if ($avatarImage !== null) {
 			// TODO avatar won't be shown on first login because post_login is too late
 			\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
 		}
@@ -359,7 +358,7 @@ class Manager {
 	 * @param array $params
 	 */
 	public function updateAvatarPostLogin($params) {
-		if(isset($params['uid'])) {
+		if (isset($params['uid'])) {
 			$this->updateAvatar($params['uid']);
 		}
 	}
@@ -372,12 +371,12 @@ class Manager {
 	public function updateAvatar($uid) {
 		$userEntry = $this->getCachedEntry($uid);
 		$avatarImage = $userEntry->getAvatarImage();
-		if($avatarImage === null) {
+		if ($avatarImage === null) {
 			//not set, nothing left to do;
 			return;
 		}
 		$image = new Image();
-		$image->loadFromBase64(base64_encode($avatarImage));
+		$image->loadFromBase64(\base64_encode($avatarImage));
 		$this->setOwnCloudAvatar($userEntry, $image);
 	}
 
@@ -387,18 +386,18 @@ class Manager {
 	 * @param Image $image
 	 */
 	private function setOwnCloudAvatar(UserEntry $userEntry, Image $image) {
-		if(!$image->valid()) {
+		if (!$image->valid()) {
 			$this->logger->error('jpegPhoto data invalid for '.$userEntry->getDN(), ['app' => self::class]);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
-		$size = min(array($image->width(), $image->height(), 128));
-		if(!$image->centerCrop($size)) {
+		$size = \min([$image->width(), $image->height(), 128]);
+		if (!$image->centerCrop($size)) {
 			$this->logger->error('croping image for avatar failed for '.$userEntry->getDN(), ['app' => self::class]);
 			return;
 		}
 
-		if(!$this->ocFilesystem->isLoaded()) {
+		if (!$this->ocFilesystem->isLoaded()) {
 			$this->ocFilesystem->setup($userEntry->getOwnCloudUID());
 		}
 
@@ -419,7 +418,6 @@ class Manager {
 			$uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, 1);
 	}
 
-
 	/**
 	 * returns an LDAP record based on a given login name
 	 *
@@ -431,13 +429,12 @@ class Manager {
 		//find out dn of the user name
 		$attrs = $this->getAttributes();
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
-		if(count($users) < 1) {
+		if (\count($users) < 1) {
 			throw new \Exception('No user available for the given login name on ' .
 				$this->getConnection()->ldapHost . ':' . $this->getConnection()->ldapPort);
 		}
 		return $this->getFromEntry($users[0]);
 	}
-
 
 	/**
 	 * Get a list of all users
@@ -452,14 +449,14 @@ class Manager {
 
 		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
 		// error. With a limit of 0, we get 0 results. So we pass null.
-		if($limit <= 0) {
+		if ($limit <= 0) {
 			$limit = null;
 		}
-		$filter = $this->access->combineFilterWithAnd(array(
+		$filter = $this->access->combineFilterWithAnd([
 			$this->getConnection()->ldapUserFilter,
 			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all
 			$this->access->getFilterPartForUserSearch($search)
-		));
+		]);
 
 		$this->logger->debug('getUsers: Options: search '.$search
 			.' limit '.$limit
@@ -477,7 +474,7 @@ class Manager {
 			try {
 				$userEntry = $this->getFromEntry($ldapEntry);
 				$this->logger->debug(
-					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".json_encode($ldapEntry),
+					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".\json_encode($ldapEntry),
 					['app' => self::class]
 				);
 				$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
@@ -487,11 +484,10 @@ class Manager {
 			}
 		}
 
-		$this->logger->debug('getUsers: '.count($ownCloudUserNames). ' Users found', ['app' => self::class]);
+		$this->logger->debug('getUsers: '.\count($ownCloudUserNames). ' Users found', ['app' => self::class]);
 
 		return $ownCloudUserNames;
 	}
-
 
 	// TODO find better places for the delegations to Access
 
@@ -521,9 +517,8 @@ class Manager {
 	 * @return array
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
-		return $this->access->fetchListOfUsers($filter, $attr, $limit, $offset );
+		return $this->access->fetchListOfUsers($filter, $attr, $limit, $offset);
 	}
-
 
 	/**
 	 * returns the User Mapper
@@ -534,7 +529,6 @@ class Manager {
 		return $this->access->getUserMapper();
 	}
 
-
 	/**
 	 * @param string $filter
 	 * @param string|string[] $attr
@@ -542,10 +536,9 @@ class Manager {
 	 * @param int $offset
 	 * @return false|int
 	 */
-	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
+	public function countUsers($filter, $attr = ['dn'], $limit = null, $offset = null) {
 		return $this->access->countUsers($filter, $attr, $limit, $offset);
 	}
-
 
 	/**
 	 * returns the filter used for counting users

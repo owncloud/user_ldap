@@ -121,8 +121,7 @@ class UserEntryTest extends \Test\TestCase {
 		$userEntry->getUsername();
 	}
 
-
-	public function uuidDataProvider () {
+	public function uuidDataProvider() {
 		return [
 			// openldap
 			['entryuuid', '563418fc-423b-1033-8d1c-ad5f418ee02e', '563418fc-423b-1033-8d1c-ad5f418ee02e'],
@@ -526,12 +525,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testLdapEntryLowercasedKeys() {
-
 		$val = 'cn=foo,dc=foobar,dc=bar';
 		$input = ['Dn' => ['count' => 1, $val]];
 		$userEntry = new UserEntry($this->config, $this->logger, $this->connection, $input);
 		// This requests the dn using lowercase 'dn' so it should return the value properly
 		$this->assertEquals($val, $userEntry->getDN());
 	}
-
 }

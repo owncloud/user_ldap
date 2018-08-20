@@ -29,7 +29,7 @@
 $helper = new \OCA\User_LDAP\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 
-if(count($configPrefixes) > 0) {
+if (\count($configPrefixes) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$ocConfig = \OC::$server->getConfig();
 
@@ -48,7 +48,7 @@ if(count($configPrefixes) > 0) {
 	'loginName2UserName'
 );
 
-if(OCP\App::isEnabled('user_webdavauth')) {
+if (OCP\App::isEnabled('user_webdavauth')) {
 	OCP\Util::writeLog('user_ldap',
 		'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',
 		OCP\Util::WARN);

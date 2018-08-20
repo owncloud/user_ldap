@@ -38,7 +38,6 @@ use \OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class UpdateGroup extends Command {
-
 	const ERROR_CODE_OK = 0;
 	const ERROR_CODE_MISSING_CONF = 1;
 	const ERROR_CODE_MISSING_MAPPING = 2;
@@ -83,7 +82,7 @@ class UpdateGroup extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$groupIDs = $input->getArgument('groupID');
 		// make sure we don't have duplicated groups in the parameters
-		$groupIDs = array_unique($groupIDs);
+		$groupIDs = \array_unique($groupIDs);
 
 		$helper = $this->helper;
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
@@ -98,7 +97,6 @@ class UpdateGroup extends Command {
 			}
 		}
 
-
 		if (empty($availableConfigs)) {
 			$output->writeln('<error>No active configurations available</error>');
 			return self::ERROR_CODE_MISSING_CONF;
@@ -106,7 +104,7 @@ class UpdateGroup extends Command {
 
 		$splittedGroups = $this->checkGroupMappingExists($groupIDs);
 		if (!empty($splittedGroups['notinDB'])) {
-			$missingGroups = implode(', ', $splittedGroups['notinDB']);
+			$missingGroups = \implode(', ', $splittedGroups['notinDB']);
 			$output->writeln("<error>The following groups are missing in the DB and will be skipped: $missingGroups</error>");
 		}
 
@@ -126,18 +124,17 @@ class UpdateGroup extends Command {
 				$output->writeln("new users:");
 				foreach ($userChanges['added'] as $addedUser) {
 					$output->writeln($addedUser);
-					\OCP\Util::emitHook('OC_User', 'post_addToGroup', array('uid' => $addedUser, 'gid' => $groupID));
+					\OCP\Util::emitHook('OC_User', 'post_addToGroup', ['uid' => $addedUser, 'gid' => $groupID]);
 				}
 				$output->writeln("removed users:");
 				foreach ($userChanges['removed'] as $removedUser) {
 					$output->writeln($removedUser);
-					\OCP\Util::emitHook('OC_User', 'post_removeFromGroup', array('uid' => $removedUser, 'gid' => $groupID));
+					\OCP\Util::emitHook('OC_User', 'post_removeFromGroup', ['uid' => $removedUser, 'gid' => $groupID]);
 				}
 			}
 		}
 		return self::ERROR_CODE_OK;
 	}
-
 
 	private function removeGroupMapping($groupName) {
 		$this->connection->beginTransaction();
@@ -183,7 +180,7 @@ class UpdateGroup extends Command {
 		$row = $result->fetch();
 		if ($row) {
 			$needToInsert = false;
-			$mappedList = unserialize($row['owncloudusers']);
+			$mappedList = \unserialize($row['owncloudusers']);
 		} else {
 			$needToInsert = true;
 		}
@@ -193,21 +190,21 @@ class UpdateGroup extends Command {
 				->setValue('owncloudname', $query2->createParameter('group'))
 				->setValue('owncloudusers', $query2->createParameter('users'))
 				->setParameter('group', $groupName)
-				->setParameter('users', serialize($userList))
+				->setParameter('users', \serialize($userList))
 				->execute();
-			return array('added' => $userList, 'removed' => array());
+			return ['added' => $userList, 'removed' => []];
 		} else {
 			$query2 = $this->connection->getQueryBuilder();
 			$query2->update('ldap_group_members')
 				->set('owncloudusers', $query2->createParameter('users'))
 				->where($query2->expr()->eq('owncloudname', $query2->createParameter('group')))
 				->setParameter('group', $groupName)
-				->setParameter('users', serialize($userList))
+				->setParameter('users', \serialize($userList))
 				->execute();
 			// calculate changes
-			$usersAdded = array_diff($userList, $mappedList);
-			$usersRemoved = array_diff($mappedList, $userList);
-			return array('added' => $usersAdded, 'removed' => $usersRemoved);
+			$usersAdded = \array_diff($userList, $mappedList);
+			$usersRemoved = \array_diff($mappedList, $userList);
+			return ['added' => $usersAdded, 'removed' => $usersRemoved];
 		}
 	}
 
@@ -221,7 +218,7 @@ class UpdateGroup extends Command {
 	 * the DB and 'notinDB' for those that aren't
 	 */
 	private function checkGroupMappingExists($groupNames) {
-		$groups = array('inDB' => array(), 'notinDB' => array());
+		$groups = ['inDB' => [], 'notinDB' => []];
 		$query = $this->connection->getQueryBuilder();
 		$query->select('owncloud_name')
 			->from('ldap_group_mapping')
@@ -231,7 +228,7 @@ class UpdateGroup extends Command {
 
 		// fill with those which are inside the DB
 		while (($row = $result->fetch()) !== false) {
-			if (in_array($row['owncloud_name'], $groupNames, true)) {
+			if (\in_array($row['owncloud_name'], $groupNames, true)) {
 				$groups['inDB'][] = $row['owncloud_name'];
 			}
 		}
@@ -239,7 +236,7 @@ class UpdateGroup extends Command {
 		$result->closeCursor();
 
 		// fill with the missing ones
-		$groups['notinDB'] = array_diff($groupNames, $groups['inDB']);
+		$groups['notinDB'] = \array_diff($groupNames, $groups['inDB']);
 		return $groups;
 	}
 }

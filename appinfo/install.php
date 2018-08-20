@@ -20,6 +20,6 @@
  *
  */
 $state = \OC::$server->getConfig()->getSystemValue('ldapIgnoreNamingRules', 'doSet');
-if($state === 'doSet') {
+if ($state === 'doSet') {
 	\OC::$server->getConfig()->setSystemValue('ldapIgnoreNamingRules', false);
 }

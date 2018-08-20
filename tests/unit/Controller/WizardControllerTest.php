@@ -83,5 +83,4 @@ class WizardControllerTest extends TestCase {
 			'status' => 'error',
 		], $data, true);
 	}
-
 }

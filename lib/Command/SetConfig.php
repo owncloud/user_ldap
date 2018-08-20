@@ -53,17 +53,17 @@ class SetConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 			->addArgument(
 					'configKey',
 					InputArgument::REQUIRED,
 					'the configuration key'
-				     )
+					 )
 			->addArgument(
 					'configValue',
 					InputArgument::REQUIRED,
 					'the new configuration value'
-				     )
+					 )
 		;
 	}
 
@@ -71,7 +71,7 @@ class SetConfig extends Command {
 		$helper = new Helper();
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(!in_array($configID, $availableConfigs)) {
+		if (!\in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
 			return;
 		}

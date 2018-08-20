@@ -79,7 +79,6 @@ class ConfigurationController extends Controller {
 		$this->helper = $helper;
 	}
 
-
 	/**
 	 * create a new ldap config
 	 *
@@ -92,7 +91,7 @@ class ConfigurationController extends Controller {
 		$resultData = ['configPrefix' => $newPrefix];
 
 		$newConfig = new Configuration($this->config, $newPrefix, false);
-		if($copyConfig === null) {
+		if ($copyConfig === null) {
 			// create empty config
 			$configuration = new Configuration($this->config, $newPrefix, false);
 			$newConfig->setConfiguration($configuration->getDefaults());
@@ -170,9 +169,9 @@ class ConfigurationController extends Controller {
 					 * pass (like e.g. expected syntax error).
 					 */
 					try {
-						$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', array('dn'));
+						$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
 					} catch (\Exception $e) {
-						if($e->getCode() === 1) {
+						if ($e->getCode() === 1) {
 							return new DataResponse([
 								'status' => 'error',
 								'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
@@ -209,7 +208,7 @@ class ConfigurationController extends Controller {
 	 */
 	public function delete($ldap_serverconfig_chooser) {
 		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
-		if($this->helper->deleteServerConfiguration($prefix)) {
+		if ($this->helper->deleteServerConfiguration($prefix)) {
 			return new DataResponse(['status' => 'success']);
 		}
 		return new DataResponse([

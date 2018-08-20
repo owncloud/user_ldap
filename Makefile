@@ -126,3 +126,11 @@ clean-build:
 .PHONY: test-php-phan
 test-php-phan: $(PHAN_BIN)
 	php $(PHAN_BIN) --config-file .phan/config.php --require-config-exists -p
+
+.PHONY: test-php-lint
+test-php-lint: $(composer_dev_deps)
+	$(composer_deps)/bin/parallel-lint --exclude vendor --exclude build .
+
+.PHONY: test-php-style
+test-php-style: $(composer_dev_deps)
+	$(composer_deps)/bin/php-cs-fixer fix -v --diff --dry-run --allow-risky yes

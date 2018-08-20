@@ -68,9 +68,8 @@ class IntegrationTestFetchUsersByLoginName extends AbstractIntegrationTest {
 	 */
 	protected function case2() {
 		$result = $this->access->fetchUsersByLoginName('alice');
-		return count($result) === 1;
+		return \count($result) === 1;
 	}
-
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');

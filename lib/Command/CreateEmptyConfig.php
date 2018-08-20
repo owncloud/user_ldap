@@ -69,17 +69,17 @@ class CreateEmptyConfig extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configID = $input->getArgument('configID');
-		if($configID === null) {
+		if ($configID === null) {
 			$configPrefix = $this->helper->nextPossibleConfigurationPrefix();
 		} else {
 			// Check we are not trying to create an empty configid
-			if($configID === '') {
+			if ($configID === '') {
 				$output->writeln('configID cannot be empty');
 				return 1;
 			}
 			// Check if we are not already using this configid
 			$availableConfigs = $this->helper->getServerConfigurationPrefixes();
-			if(in_array($configID, $availableConfigs, true)) {
+			if (\in_array($configID, $availableConfigs, true)) {
 				$output->writeln('configID already exists');
 				return 1;
 			}
@@ -91,5 +91,4 @@ class CreateEmptyConfig extends Command {
 		$configHolder->saveConfiguration();
 		return 0;
 	}
-
 }

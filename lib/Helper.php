@@ -61,8 +61,8 @@ class Helper {
 				AND `configkey` LIKE ?
 		';
 
-		if($activeConfigurations) {
-			if (\OC::$server->getConfig()->getSystemValue( 'dbtype', 'sqlite' ) === 'oci') {
+		if ($activeConfigurations) {
+			if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
 				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
 				$sql .= ' AND to_char(`configvalue`)=\'1\'';
 			} else {
@@ -72,12 +72,12 @@ class Helper {
 
 		$stmt = \OCP\DB::prepare($sql);
 
-		$serverConfigs = $stmt->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$prefixes = array();
+		$serverConfigs = $stmt->execute(['%'.$referenceConfigkey])->fetchAll();
+		$prefixes = [];
 
-		foreach($serverConfigs as $serverConfig) {
-			$len = strlen($serverConfig['configkey']) - strlen($referenceConfigkey);
-			$prefixes[] = substr($serverConfig['configkey'], 0, $len);
+		foreach ($serverConfigs as $serverConfig) {
+			$len = \strlen($serverConfig['configkey']) - \strlen($referenceConfigkey);
+			$prefixes[] = \substr($serverConfig['configkey'], 0, $len);
 		}
 
 		return $prefixes;
@@ -99,12 +99,12 @@ class Helper {
 				AND `configkey` LIKE ?
 		';
 		$query = \OCP\DB::prepare($query);
-		$configHosts = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
-		$result = array();
+		$configHosts = $query->execute(['%'.$referenceConfigkey])->fetchAll();
+		$result = [];
 
-		foreach($configHosts as $configHost) {
-			$len = strlen($configHost['configkey']) - strlen($referenceConfigkey);
-			$prefix = substr($configHost['configkey'], 0, $len);
+		foreach ($configHosts as $configHost) {
+			$len = \strlen($configHost['configkey']) - \strlen($referenceConfigkey);
+			$prefix = \substr($configHost['configkey'], 0, $len);
 			$result[$prefix] = $configHost['configvalue'];
 		}
 
@@ -117,12 +117,12 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
+		if (!\in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}
 
 		$saveOtherConfigurations = '';
-		if(empty($prefix)) {
+		if (empty($prefix)) {
 			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
@@ -134,13 +134,13 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute(array($prefix.'%'));
+		$delRows = $query->execute([$prefix.'%']);
 
-		if(\OCP\DB::isError($delRows)) {
+		if (\OCP\DB::isError($delRows)) {
 			return false;
 		}
 
-		if($delRows === 0) {
+		if ($delRows === 0) {
 			return false;
 		}
 
@@ -156,11 +156,11 @@ class Helper {
 		$all = $this->getServerConfigurationPrefixes(false);
 		$active = $this->getServerConfigurationPrefixes(true);
 
-		if(!is_array($all) || !is_array($active)) {
+		if (!\is_array($all) || !\is_array($active)) {
 			throw new \Exception('Unexpected Return Value');
 		}
 
-		return count($all) !== count($active) || count($all) === 0;
+		return \count($all) !== \count($active) || \count($all) === 0;
 	}
 
 	/**
@@ -169,15 +169,15 @@ class Helper {
 	 * @return string|false domain as string on success, false otherwise
 	 */
 	public function getDomainFromURL($url) {
-		$uinfo = parse_url($url);
-		if(!is_array($uinfo)) {
+		$uinfo = \parse_url($url);
+		if (!\is_array($uinfo)) {
 			return false;
 		}
 
 		$domain = false;
-		if(isset($uinfo['host'])) {
+		if (isset($uinfo['host'])) {
 			$domain = $uinfo['host'];
-		} else if(isset($uinfo['path'])) {
+		} elseif (isset($uinfo['path'])) {
 			$domain = $uinfo['path'];
 		}
 
@@ -192,7 +192,7 @@ class Helper {
 	 * @throws \Exception
 	 */
 	public static function loginName2UserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
@@ -206,17 +206,17 @@ class Helper {
 		$userBackend  = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig
 		);
-		$uid = $userBackend->loginName2UserName($param['uid'] );
-		if($uid !== false) {
+		$uid = $userBackend->loginName2UserName($param['uid']);
+		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
 	}
 
 	public function nextPossibleConfigurationPrefix() {
 		$prefixes = $this->getServerConfigurationPrefixes();
-		sort($prefixes);
-		$maxPrefix = array_pop($prefixes);
-		$count = (int)ltrim($maxPrefix, 's');
-		return 's'.str_pad($count+1, 2, '0', STR_PAD_LEFT);
+		\sort($prefixes);
+		$maxPrefix = \array_pop($prefixes);
+		$count = (int)\ltrim($maxPrefix, 's');
+		return 's'.\str_pad($count+1, 2, '0', STR_PAD_LEFT);
 	}
 }

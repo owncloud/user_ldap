@@ -107,5 +107,4 @@ class MappingControllerTest extends TestCase {
 			'status' => 'success',
 		], $data, true);
 	}
-
 }

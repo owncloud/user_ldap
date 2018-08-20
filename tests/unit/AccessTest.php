@@ -61,7 +61,6 @@ class AccessTest extends \Test\TestCase {
 		$this->connection  = $this->createMock(Connection::class);
 		$this->manager  = $this->createMock(Manager::class);
 		$this->access = new Access($this->connection, $this->manager);
-
 	}
 
 	/**
@@ -73,7 +72,7 @@ class AccessTest extends \Test\TestCase {
 		$this->assertSame($expected, $this->access->escapeFilterPart($input));
 	}
 
-	public function escapeFilterPartDataProvider () {
+	public function escapeFilterPartDataProvider() {
 		return [
 			['okay', 'okay'],
 			['*', '\\\\*'], // escape wildcard
@@ -94,7 +93,7 @@ class AccessTest extends \Test\TestCase {
 		return [
 			// test valid mappings
 			[
-				implode('', [
+				\implode('', [
 					"\x01",
 					"\x04",
 					"\x00\x00\x00\x00\x00\x05",
@@ -106,7 +105,7 @@ class AccessTest extends \Test\TestCase {
 				'S-1-5-21-249921958-728525901-1594176202',
 			],
 			[
-				implode('', [
+				\implode('', [
 					"\x01",
 					"\x02",
 					"\xFF\xFF\xFF\xFF\xFF\xFF",
@@ -127,7 +126,7 @@ class AccessTest extends \Test\TestCase {
 		$this->ldapWrapper->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
-			->will($this->returnValue(explode(',', $inputDN)));
+			->will($this->returnValue(\explode(',', $inputDN)));
 
 		$this->connection->expects($this->any())
 			->method('getLDAP')
@@ -191,7 +190,6 @@ class AccessTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testStringResemblesDNfake($input, $intermediateResult, $expected) {
-
 		$this->ldapWrapper->expects($this->once())
 			->method('explodeDN')
 			->with($input)
@@ -211,7 +209,7 @@ class AccessTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testStringResemblesDNLDAPnative($input, $intermediateResult, $expected) {
-		if(!function_exists('ldap_explode_dn')) {
+		if (!\function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
 		}
 
@@ -223,7 +221,6 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	public function testCacheUserHome() {
-
 		$this->connection->expects($this->once())
 			->method('writeToCache');
 
@@ -232,12 +229,12 @@ class AccessTest extends \Test\TestCase {
 
 	public function dNAttributeProvider() {
 		// corresponds to Access::resemblesDN()
-		return array(
-			'dn' => array('dn'),
-			'uniqueMember' => array('uniquemember'),
-			'member' => array('member'),
-			'memberOf' => array('memberof')
-		);
+		return [
+			'dn' => ['dn'],
+			'uniqueMember' => ['uniquemember'],
+			'member' => ['member'],
+			'memberOf' => ['memberof']
+		];
 	}
 
 	/**
@@ -252,15 +249,15 @@ class AccessTest extends \Test\TestCase {
 
 		$this->ldapWrapper->expects($this->any())
 			->method('getAttributes')
-			->will($this->returnValue(array(
-				$attribute => array('count' => 1, $dnFromServer)
-			)));
+			->will($this->returnValue([
+				$attribute => ['count' => 1, $dnFromServer]
+			]));
 
 		$this->connection->expects($this->any())
 			->method('getLDAP')
 			->willReturn($this->ldapWrapper);
 
 		$values = $this->access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
-		$this->assertSame($values[0], strtolower($dnFromServer));
+		$this->assertSame($values[0], \strtolower($dnFromServer));
 	}
 }

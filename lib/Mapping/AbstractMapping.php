@@ -51,7 +51,7 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function isColNameValid($col) {
-		switch($col) {
+		switch ($col) {
 			case 'ldap_dn':
 			case 'owncloud_name':
 			case 'directory_uuid':
@@ -70,7 +70,7 @@ abstract class AbstractMapping {
 	 * @return string|false
 	 */
 	protected function getXbyY($fetchCol, $compareCol, $search) {
-		if(!$this->isColNameValid($fetchCol)) {
+		if (!$this->isColNameValid($fetchCol)) {
 			//this is used internally only, but we don't want to risk
 			//having SQL injection at all.
 			throw new \Exception('Invalid Column Name');
@@ -81,8 +81,8 @@ abstract class AbstractMapping {
 			WHERE `' . $compareCol . '` = ?
 		');
 
-		$res = $query->execute(array($search));
-		if($res !== false) {
+		$res = $query->execute([$search]);
+		if ($res !== false) {
 			return $query->fetchColumn();
 		}
 
@@ -123,7 +123,7 @@ abstract class AbstractMapping {
 			WHERE `directory_uuid` = ?
 		');
 
-		return $this->modify($query, array($fdn, $uuid));
+		return $this->modify($query, [$fdn, $uuid]);
 	}
 
 	/**
@@ -149,10 +149,10 @@ abstract class AbstractMapping {
 			WHERE `owncloud_name` LIKE ?
 		');
 
-		$res = $query->execute(array($prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch));
-		$names = array();
-		if($res !== false) {
-			while($row = $query->fetch()) {
+		$res = $query->execute([$prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch]);
+		$names = [];
+		if ($res !== false) {
+			while ($row = $query->fetch()) {
 				$names[] = $row['owncloud_name'];
 			}
 		}
@@ -208,11 +208,11 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
-		$row = array(
+		$row = [
 			'ldap_dn'        => $fdn,
 			'owncloud_name'  => $name,
 			'directory_uuid' => $uuid
-		);
+		];
 
 		try {
 			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
@@ -233,7 +233,7 @@ abstract class AbstractMapping {
 			DELETE FROM `'. $this->getTableName() .'`
 			WHERE `owncloud_name` = ?');
 
-		return $this->modify($query, array($name));
+		return $this->modify($query, [$name]);
 	}
 
 	/**

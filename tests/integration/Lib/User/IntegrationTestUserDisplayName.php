@@ -90,7 +90,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
-		return strpos($displayName, '(Alice@example.com)') !== false;
+		return \strpos($displayName, '(Alice@example.com)') !== false;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 		$userSession->login($username, $username);
 
 		$displayName = \OC::$server->getUserManager()->get($username)->getDisplayName();
-		return strpos($displayName, '(Boris@example.com)') === false;
+		return \strpos($displayName, '(Boris@example.com)') === false;
 	}
 
 	/**
