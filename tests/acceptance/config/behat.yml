@@ -5,12 +5,8 @@ default:
   suites:
     webUICore:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/webUILogin
-        - %paths.base%/../../../../../tests/acceptance/features/webUIRestrictSharing
-        - %paths.base%/../../../../../tests/acceptance/features/webUISharingExternal
-        - %paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups
-        - %paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers
-      context: &common_webui_suite_context
+        - %paths.base%/../../../../../tests/acceptance/features
+      context: &common_ldap_suite_context
         parameters:
           ldapAdminUser: cn=admin,dc=owncloud,dc=com
           ldapAdminPassword: admin
@@ -20,15 +16,14 @@ default:
           ldapUsersOU: TestUsers
           ldapGroupsOU: TestGroups
           ldapInitialUserFilePath: /../../config/ldap-users.ldif
-          regularUserPassword: 123456
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: &common_feature_context_params
             baseUrl:  http://localhost:8080
             adminUsername: admin
             adminPassword: admin
-            regularUserPassword: 123456
             ocPath: apps/testing/api/v1/occ
+            regularUserPassword: 1234
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIFilesContext:
@@ -37,10 +32,89 @@ default:
         - WebUIPersonalGeneralSettingsContext:
         - EmailContext:
 
+    apiMain:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiMain
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CardDavContext:
+        - CalDavContext:
+        - AppManagementContext:
+
+    apiMetadataApps:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiMetadataApps
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+
+    apiSharees:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiSharees
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - ShareesContext:
+
+    apiShareManagement:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiShareManagement
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+
+    apiShareOperations:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiShareOperations
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+
+    apiSharingNotifications:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - NotificationsCoreContext:
+
+    apiTrashbin:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiTrashbin
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+
+    apiWebdavOperations:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiWebdavOperations
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+
+    apiWebdavProperties:
+      paths:
+        - %paths.base%/../../../../../tests/acceptance/features/apiWebdavProperties
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+
     webUIUserLDAP:
       paths:
         - %paths.base%/../features/webUIUserLDAP
-      context: *common_webui_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
