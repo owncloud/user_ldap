@@ -22,9 +22,9 @@ So that all LDAP users get synced over to owncloud
 		|my-user-000  |my-user-000  |
 		|my-user-100  |my-user-100  |
 		|my-user-199  |my-user-199  |
-		When the admin sets the ldap attribute "userpassword" of the entry "uid=my-user-000,ou=NEWZombies" to "new-password000"
-		And the admin sets the ldap attribute "userpassword" of the entry "uid=my-user-100,ou=NEWZombies" to "new-password100"
-		And the admin sets the ldap attribute "userpassword" of the entry "uid=my-user-199,ou=NEWZombies" to "new-password199"
+		When the administrator sets the ldap attribute "userpassword" of the entry "uid=my-user-000,ou=NEWZombies" to "new-password000"
+		And the administrator sets the ldap attribute "userpassword" of the entry "uid=my-user-100,ou=NEWZombies" to "new-password100"
+		And the administrator sets the ldap attribute "userpassword" of the entry "uid=my-user-199,ou=NEWZombies" to "new-password199"
 		Then it should be possible to login with the username "my-user-000" and password "new-password000" using the WebUI
 		And the user logs out of the webUI
 		Then it should be possible to login with the username "my-user-100" and password "new-password100" using the WebUI

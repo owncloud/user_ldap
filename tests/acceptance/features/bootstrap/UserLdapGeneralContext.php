@@ -116,7 +116,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin sets the ldap attribute :attribute of the entry :entry to :value
+	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to :value
 	 *
 	 * @param string $attribute
 	 * @param string $entry
@@ -134,7 +134,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 	
 	/**
-	 * @When the admin sets the ldap attribute :attribute of the entry :entry to
+	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to
 	 *
 	 * @param string $attribute
 	 * @param string $entry
@@ -159,7 +159,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin sets the ldap attribute :attribute of the entry :entry to the content of the file :filename
+	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to the content of the file :filename
 	 *
 	 * @param string $attribute
 	 * @param string $entry
@@ -178,7 +178,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin adds :value to the ldap attribute :attribute of the entry :entry
+	 * @When the administrator adds :value to the ldap attribute :attribute of the entry :entry
 	 *
 	 * @param string $value
 	 * @param string $attribute
@@ -191,7 +191,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin deletes the ldap entry :entry
+	 * @When the administrator deletes the ldap entry :entry
 	 *
 	 * @param string $entry
 	 *
@@ -202,7 +202,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin deletes the value :value from the attribute :attribute of the ldap entry :entry
+	 * @When the administrator deletes the value :value from the attribute :attribute of the ldap entry :entry
 	 *
 	 * @param string $value
 	 * @param string $attribute
@@ -217,7 +217,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the admin imports this ldif data:
+	 * @When the administrator imports this ldif data:
 	 *
 	 * @param PyStringNode $ldifData
 	 *
