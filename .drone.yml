@@ -66,6 +66,16 @@ pipeline:
       matrix:
         TEST_SUITE: acceptance
 
+  setup-api-acceptance-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      # pre-create local_storage so fix-permissions will set its owner appropriately
+      - mkdir -p /var/www/owncloud/tests/acceptance/work/local_storage
+    when:
+      matrix:
+        TEST_SOURCE: core-api
+
   fix-permissions:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -91,7 +101,7 @@ pipeline:
       - BEHAT_SUITE=webUIUserLDAP
     commands:
       - cd /var/www/owncloud/tests/acceptance
-      - su-exec www-data ./run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
+      - ./run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
     when:
       matrix:
         TEST_SOURCE: ldap
@@ -110,7 +120,7 @@ pipeline:
       - BEHAT_SUITE=webUICore
     commands:
       - cd /var/www/owncloud/tests/acceptance
-      - su-exec www-data ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+      - ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
     when:
       matrix:
         TEST_SOURCE: core-webUI
@@ -125,7 +135,7 @@ pipeline:
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
       - cd /var/www/owncloud/tests/acceptance
-      - su-exec www-data ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+      - ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
     when:
       matrix:
         TEST_SOURCE: core-api
