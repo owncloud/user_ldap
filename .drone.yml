@@ -229,7 +229,7 @@ services:
         TEST_SUITE: acceptance
 
   mysql:
-    image: mysql:5.5
+    image: mysql:5.7
     environment:
       - MYSQL_USER=owncloud
       - MYSQL_PASSWORD=owncloud
