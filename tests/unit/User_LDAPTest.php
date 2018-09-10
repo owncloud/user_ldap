@@ -83,6 +83,16 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertEquals('563418fc-423b-1033-8d1c-ad5f418ee02e', $result);
 	}
 
+	public function testCheckPasswordDoesntExistDoesntLog() {
+		$this->manager->expects($this->once())
+			->method('getLDAPUserByLoginName')
+			->with($this->equalTo('foo'))
+			->willThrowException(new DoesNotExistOnLDAPException());
+		$result = $this->backend->checkPassword('foo', 'secret');
+		$this->manager->expects($this->never())->method('areCredentialsValid');
+		$this->assertEquals(false, $result);
+	}
+
 	public function testCheckPasswordWrongPassword() {
 		$userEntry = $this->createMock(UserEntry::class);
 		$userEntry->expects($this->any())
