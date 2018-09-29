@@ -93,7 +93,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: regularuser
 uidnumber: 40000
-userpassword: 1234
+userpassword: 123456
 
 dn: uid=user0,ou=TestUsers,dc=owncloud,dc=com
 cn: User0
@@ -109,7 +109,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: user0
 uidnumber: 30000
-userpassword: 1234
+userpassword: 123456
 
 dn: uid=user1,ou=TestUsers,dc=owncloud,dc=com
 cn: User1
@@ -127,7 +127,6 @@ uid: user1
 uidnumber: 30001
 userpassword: 1234
 
-
 dn: uid=user2,ou=TestUsers,dc=owncloud,dc=com
 cn: User2
 sn: Two
@@ -142,8 +141,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: user2
 uidnumber: 30002
-userpassword: 1234
-
+userpassword: AaBb2Cc3Dd4
 
 dn: uid=user3,ou=TestUsers,dc=owncloud,dc=com
 cn: User3
@@ -159,8 +157,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: user3
 uidnumber: 30003
-userpassword: 1234
-
+userpassword: aVeryLongPassword42TheMeaningOfLife
 
 dn: uid=user4,ou=TestUsers,dc=owncloud,dc=com
 cn: User4
@@ -176,7 +173,7 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: user4
 uidnumber: 30004
-userpassword: 1234
+userpassword: ThisIsThe4thAlternatePwd
 
 dn: uid=usergrp,ou=TestUsers,dc=owncloud,dc=com
 cn: usergrp
@@ -194,7 +191,6 @@ uid: usergrp
 uidnumber: 30005
 userpassword: 123456
 
-
 dn: uid=sharee1,ou=TestUsers,dc=owncloud,dc=com
 cn: Sharee1
 sn: Sharee1
@@ -209,4 +205,4 @@ objectclass: posixAccount
 objectclass: inetOrgPerson
 uid: sharee1
 uidnumber: 30006
-userpassword: 1234
+userpassword: 123456
