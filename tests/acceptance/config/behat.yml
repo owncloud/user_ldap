@@ -24,13 +24,16 @@ default:
             adminPassword: admin
             ocPath: apps/testing/api/v1/occ
             regularUserPassword: 1234
+        - EmailContext:
+        - FederationContext:
+        - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
-        - WebUIFilesContext:
-        - WebUISharingContext:
-        - FederationContext:
         - WebUIPersonalGeneralSettingsContext:
-        - EmailContext:
+        - WebUIPersonalSecuritySettingsContext:
+        - WebUISearchContext:
+        - WebUISharingContext:
+        - WebUIUserContext:
 
     apiMain:
       paths:
@@ -39,9 +42,9 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - AppManagementContext:
         - CardDavContext:
         - CalDavContext:
-        - AppManagementContext:
 
     apiMetadataApps:
       paths:
@@ -101,6 +104,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - SearchContext:
 
     apiWebdavProperties:
       paths:
