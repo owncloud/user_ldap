@@ -23,7 +23,7 @@ default:
             adminUsername: admin
             adminPassword: admin
             ocPath: apps/testing/api/v1/occ
-            regularUserPassword: 1234
+            regularUserPassword: 123456
         - EmailContext:
         - FederationContext:
         - WebUIFilesContext:
