@@ -7,10 +7,10 @@ So that I only need to configure group membership once
 
 	Background:
 		Given these users have been initialized:
-			|username|password|
-			|user1   |1234    |
-			|user2   |1234    |
-			|user3   |1234    |
+			| username | password                            |
+			| user1    | 1234                                |
+			| user2    | AaBb2Cc3Dd4                         |
+			| user3    | aVeryLongPassword42TheMeaningOfLife |
 		And the user browses to the login page
 		And the user has logged in with username "user1" and password "1234" using the webUI
 			
@@ -18,7 +18,7 @@ So that I only need to configure group membership once
 		When the user shares the folder "simple-folder" with the group "grp1" using the webUI
 		#ToDo use API calls
 		And the administrator adds the user "user3" to the ldap group "grp1"
-		When the user re-logs in with username "user3" and password "1234" using the webUI
+		When the user re-logs in with username "user3" and password "aVeryLongPassword42TheMeaningOfLife" using the webUI
 		Then the folder "simple-folder (2)" should be listed on the webUI
 		And the folder "simple-folder (2)" should be marked as shared with "grp1" by "User One" on the webUI
 		
@@ -26,20 +26,20 @@ So that I only need to configure group membership once
 		When the user shares the folder "simple-folder" with the group "grp1" using the webUI
 		#ToDo use API calls
 		And the administrator removes user "user2" from the ldap group "grp1"
-		And the user re-logs in with username "user2" and password "1234" using the webUI
+		And the user re-logs in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the folder "simple-folder (2)" should not be listed on the webUI
 		
 	Scenario: simple sharing with a group
 		When the user shares the folder "simple-folder" with the group "grp1" using the webUI
 		#ToDo use API calls
-		And the user re-logs in with username "user2" and password "1234" using the webUI
+		And the user re-logs in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the folder "simple-folder (2)" should be listed on the webUI
 		
 	Scenario: deleting a group after a folder was shared with that group
 		When the user shares the folder "simple-folder" with the group "grp1" using the webUI
 		#ToDo use API calls
 		And the administrator deletes the ldap group "grp1"
-		And the user re-logs in with username "user2" and password "1234" using the webUI
+		And the user re-logs in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the folder "simple-folder (2)" should not be listed on the webUI
 
 	Scenario: sharing with non unique group name (using unique oC group name)
@@ -47,7 +47,7 @@ So that I only need to configure group membership once
 		And the administrator adds the user "user3" to the group "grp1" in the ldap OU "TestUsers"
 		When the user shares the folder "simple-folder" with the group "grp1_2" using the webUI
 		#ToDo use API calls
-		And the user re-logs in with username "user3" and password "1234" using the webUI
+		And the user re-logs in with username "user3" and password "aVeryLongPassword42TheMeaningOfLife" using the webUI
 		Then the folder "simple-folder (2)" should be listed on the webUI
 
 	Scenario: sharing with non unique group name (using non-unique group name)
@@ -55,7 +55,7 @@ So that I only need to configure group membership once
 		And the administrator adds the user "user3" to the group "grp1" in the ldap OU "TestUsers"
 		When the user shares the folder "simple-folder" with the group "grp1" using the webUI
 		#ToDo use API calls
-		And the user re-logs in with username "user3" and password "1234" using the webUI
+		And the user re-logs in with username "user3" and password "aVeryLongPassword42TheMeaningOfLife" using the webUI
 		Then the folder "simple-folder (2)" should not be listed on the webUI
 
 	Scenario: sharing with a group that is filtered out
@@ -65,7 +65,7 @@ So that I only need to configure group membership once
 		|key                   | value                                        |
 		|ldapGroupFilter       | (&(\|(objectclass=posixGroup))(\|(cn=grp2))) |
 		|ldapGroupFilterGroups | grp2                                         |
-		And the user re-logs in with username "user2" and password "1234" using the webUI
+		And the user re-logs in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the folder "simple-folder (2)" should not be listed on the webUI
 
 	Scenario: search for groups by alternative attribute
@@ -75,12 +75,12 @@ So that I only need to configure group membership once
 		|ldapAttributesForGroupSearch | description |
 		# Ensure that the test code is aware of the users and groups that exist
 		Given these users have been created but not initialized:
-			| username | password | displayname | email               |
-			| user1    | 1234     | User One    | user1@example.org   |
-			| user2    | 1234     | User Two    | user2@example.org   |
-			| user3    | 1234     | User Three  | user3@example.org   |
-			| user4    | 1234     | User Four   | user4@example.org   |
-			| usergrp  | 1234     | User Grp    | usergrp@example.org |
+			| username |
+			| user1    |
+			| user2    |
+			| user3    |
+			| user4    |
+			| usergrp  |
 		And these groups have been created:
 			| groupname |
 			| group1    |
