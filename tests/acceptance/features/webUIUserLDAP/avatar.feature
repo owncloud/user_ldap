@@ -9,14 +9,14 @@ So that other users can recognize me by my picture
 	Scenario: upload an avatar to the LDAP server
 		When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=user2,ou=TestUsers" to the content of the file "testavatar.jpg"
 		And the user browses to the login page
-		And the user has logged in with username "user2" and password "1234" using the webUI
+		And the user has logged in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the display name should not be visible on the WebUI
 		And an avatar should be shown for the current user on the WebUI
 
 	Scenario: set the avatar on the LDAP server to an invalid string
 		When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=user2,ou=TestUsers" to "0"
 		And the user browses to the login page
-		And the user has logged in with username "user2" and password "1234" using the webUI
+		And the user has logged in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then the display name should be visible on the WebUI
 		And "User Two" should be shown as the name of the current user on the WebUI
 		And no avatar should be shown for the current user on the WebUI

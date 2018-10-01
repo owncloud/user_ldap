@@ -28,5 +28,5 @@ So that users can be found by their LDAP names
 		When the user browses to the login page
 		And the user has logged in with username "user1" and password "1234" using the webUI
 		Then "user1" should be shown as the name of the current user on the WebUI
-		When the user re-logs in with username "user2" and password "1234" using the webUI
+		When the user re-logs in with username "user2" and password "AaBb2Cc3Dd4" using the webUI
 		Then "User Two" should be shown as the name of the current user on the WebUI

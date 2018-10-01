@@ -55,7 +55,7 @@ So that they only need to remember one username and password (SSO)
 		Then it should not be possible to login with the username "user1@example.org" and password "1234" using the WebUI
 		But it should be possible to login with the username "user1" and password "1234" using the WebUI
 		When the user logs out of the webUI
-		Then it should be possible to login with the username "user2@example.org" and password "1234" using the WebUI
+		Then it should be possible to login with the username "user2@example.org" and password "AaBb2Cc3Dd4" using the WebUI
 	
 	Scenario: login with a new user
 		When the administrator imports this ldif data:
