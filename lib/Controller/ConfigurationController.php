@@ -26,6 +26,7 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -87,92 +88,124 @@ class ConfigurationController extends Controller {
 		return $needle === self::REFERENCE_KEY;
 	}
 
-	public function listAll() {
+	private function fetchAll() {
 		$keys = $this->config->getAppKeys('user_ldap');
-		$prefixes = [];
+		$ids = [];
 		$configs = [];
 		foreach ($keys as $key) {
 			if ($this->isReferenceKey($key)) {
-				$prefix = substr($key, 0, -self::REFERENCE_KEY_LENGTH);
-				$prefixes[] = $prefix;
-				$configs[$prefix] = [];
+				// determine the prefix length
+				$id = substr($key, 0, -self::REFERENCE_KEY_LENGTH);
+				$ids[] = $id;
+				$configs[$id] = [];
 			}
 		}
 
 		$configs = [];
 		foreach ($keys as $key) {
-			foreach ($prefixes as $prefix) {
-				if (substr($key,0, strlen($prefix)) === $prefix) {
-					$k = substr($key,strlen($prefix));
-					$configs[$prefix][$k] = $this->config->getAppValue('user_ldap', $key);
+			foreach ($ids as $id) {
+				if (substr($key,0, strlen($id)) === $id) {
+					$k = substr($key,strlen($id));
+					$configs[$id][$k] = $this->config->getAppValue('user_ldap', $key);
 					continue 2; // next config value
 				}
 			}
 		}
+		return $configs;
+	}
 
-		return new DataResponse($configs);
+	public function listAll() {
+		return new DataResponse($this->fetchAll());
 	}
 
 	/**
 	 * create a new ldap config
 	 *
-	 * @param string $copyConfig copy the config
+	 * @param string $sourceId copy values from this config (optional)
 	 * @return DataResponse
 	 */
-	public function create($copyConfig = null) {
-		$newPrefix = $this->helper->nextPossibleConfigurationPrefix();
+	public function create($sourceId = null) {
+		$id = $this->helper->nextPossibleConfigurationPrefix();
 
-		$resultData = ['configPrefix' => $newPrefix];
+		$resultData = ['configPrefix' => $id];
 
-		$newConfig = new Configuration($this->config, $newPrefix, false);
-		if ($copyConfig === null) {
+		$newConfig = new Configuration($this->config, $id, false);
+		if ($sourceId === null) {
 			// create empty config
-			$configuration = new Configuration($this->config, $newPrefix, false);
+			$configuration = new Configuration($this->config, $id, false);
 			$newConfig->setConfiguration($configuration->getDefaults());
 			$resultData['defaults'] = $configuration->getDefaults();
 		} else {
 			// copy existing config
-			$originalConfig = new Configuration($this->config, $copyConfig);
+			$originalConfig = new Configuration($this->config, $sourceId);
 			$newConfig->setConfiguration($originalConfig->getConfiguration());
 		}
 		$newConfig->saveConfiguration();
 
-		$resultData['status'] = 'success';
-		return new DataResponse($resultData);
+		$configs = $this->fetchAll();
+		return new DataResponse($configs[$id]);
 	}
 	/**
 	 * get the given ldap config
 	 *
-	 * @param string $ldap_serverconfig_chooser config id
+	 * @param string $id config id
 	 * @return DataResponse
 	 */
-	public function read($ldap_serverconfig_chooser) {
-		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+	public function read($id) {
+		$configs = $this->fetchAll();
+		if (empty($id) || !isset($configs[$id])) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
 
-		$configuration = new Configuration($this->config, $prefix);
-		$connection = new Connection($this->ldapWrapper, $configuration);
+		$configuration = $configs[$id];
 
-		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
 			// hide password
-			$configuration['ldap_agent_password'] = '**PASSWORD SET**';
+			$configuration['ldap_agent_password'] = true;
 		}
-		return new DataResponse([
-			'status' => 'success',
-			'configuration' => $configuration
-		]);
+
+		return new DataResponse($configuration);
+	}
+	/**
+	 * write the given ldap config, config is created if it does not exist
+	 *
+	 * @param string $id
+	 * @param array $config
+	 * @return DataResponse
+	 */
+	public function write($id, $config) {
+
+		if (empty($id) ) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+
+		// TODO check keys
+
+		foreach ($config as $key => $value) {
+			// ignore password if it is set to true = is set don't change
+			if ($key !== 'ldap_agent_password' && $value !== true) {
+				$this->config->setAppValue('user_ldap', "$id$key", $value);
+			}
+		}
+
+		$configs = $this->fetchAll();
+		return new DataResponse($configs[$id]);
 	}
 
 	/**
 	 * test the given ldap config
 	 *
-	 * @param string $ldap_serverconfig_chooser config id
+	 * @param string $id config id
 	 * @return DataResponse
 	 */
-	public function test($ldap_serverconfig_chooser) {
-		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+	public function test($id) {
 
-		$configuration = new Configuration($this->config, $prefix);
+		$configs = $this->fetchAll();
+		if (empty($id) || !isset($configs[$id])) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+
+		$configuration = new Configuration($this->config, $id);
 		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		try {
@@ -207,47 +240,44 @@ class ConfigurationController extends Controller {
 					} catch (\Exception $e) {
 						if ($e->getCode() === 1) {
 							return new DataResponse([
-								'status' => 'error',
 								'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
-							]);
+							], Http::STATUS_BAD_REQUEST);
 						}
 					}
 					return new DataResponse([
-						'status' => 'success',
 						'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
 					]);
 				}
 				return new DataResponse([
-					'status' => 'error',
 					'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
-				]);
+				], Http::STATUS_BAD_REQUEST);
 			}
 			return new DataResponse([
-				'status' => 'error',
 				'message' => $this->l10n->t('The configuration is invalid. Please have a look at the logs for further details.')
-			]);
+			], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return new DataResponse([
-				'status' => 'error',
 				'message' => $e->getMessage()
-			]);
+			], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * get the given ldap config
 	 *
-	 * @param string $ldap_serverconfig_chooser config id
+	 * @param string $id config id
 	 * @return DataResponse
 	 */
-	public function delete($ldap_serverconfig_chooser) {
-		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
-		if ($this->helper->deleteServerConfiguration($prefix)) {
-			return new DataResponse(['status' => 'success']);
+	public function delete($id) {
+		$configs = $this->fetchAll();
+		if (empty($id) || !isset($configs[$id])) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+		if ($this->helper->deleteServerConfiguration($id)) {
+			return new DataResponse(null, Http::STATUS_OK);
 		}
 		return new DataResponse([
-			'status' => 'error',
 			'message' => $this->l10n->t('Failed to delete the server configuration')
-		]);
+		], Http::STATUS_BAD_REQUEST);
 	}
 }
