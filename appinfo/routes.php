@@ -28,23 +28,28 @@ return [
 		],
 		[
 			'name' => 'configuration#create',
-			'url' => 'ajax/getNewServerConfigPrefix.php',
+			'url' => 'configurations',
 			'verb' => 'POST'
 		],
 		[
 			'name' => 'configuration#read',
-			'url' => 'ajax/getConfiguration.php',
+			'url' => 'configurations/{id}',
 			'verb' => 'GET'
 		],
 		[
 			'name' => 'configuration#test',
-			'url' => 'ajax/testConfiguration.php',
+			'url' => 'configurations/{id}/test',
+			'verb' => 'GET'
+		],
+		[
+			'name' => 'configuration#write',
+			'url' => 'configurations/{id}',
 			'verb' => 'POST'
 		],
 		[
 			'name' => 'configuration#delete',
-			'url' => 'ajax/deleteConfiguration.php',
-			'verb' => 'POST'
+			'url' => 'configurations/{id}',
+			'verb' => 'DELETE'
 		],
 		[
 			'name' => 'mapping#clear',

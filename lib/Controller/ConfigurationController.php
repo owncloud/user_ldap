@@ -143,7 +143,10 @@ class ConfigurationController extends Controller {
 		$newConfig->saveConfiguration();
 
 		$configs = $this->fetchAll();
-		return new DataResponse($configs[$id]);
+		return new DataResponse([
+			'id' => $id,
+			'config' => $configs[$id]
+		]);
 	}
 	/**
 	 * get the given ldap config
@@ -177,6 +180,9 @@ class ConfigurationController extends Controller {
 
 		if (empty($id) ) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+		if (empty($config) ) {
+			return new DataResponse(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		// TODO check keys
