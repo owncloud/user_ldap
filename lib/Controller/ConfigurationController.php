@@ -106,7 +106,13 @@ class ConfigurationController extends Controller {
 			foreach ($ids as $id) {
 				if (substr($key,0, strlen($id)) === $id) {
 					$k = substr($key,strlen($id));
-					$configs[$id][$k] = $this->config->getAppValue('user_ldap', $key);
+					// ignore password if it is set to true = is set
+					$value = $this->config->getAppValue('user_ldap', $key);
+					if ($k === 'ldap_agent_password' && !empty($value)) {
+						$configs[$id][$k] = true;
+					} else {
+						$configs[$id][$k] = $value;
+					}
 					continue 2; // next config value
 				}
 			}
@@ -189,7 +195,7 @@ class ConfigurationController extends Controller {
 
 		foreach ($config as $key => $value) {
 			// ignore password if it is set to true = is set don't change
-			if ($key !== 'ldap_agent_password' && $value !== true) {
+			if ($key !== 'ldap_agent_password' || $value !== true) {
 				$this->config->setAppValue('user_ldap', "$id$key", $value);
 			}
 		}
