@@ -97,11 +97,10 @@ class ConfigurationController extends Controller {
 				// determine the prefix length
 				$id = substr($key, 0, -self::REFERENCE_KEY_LENGTH);
 				$ids[] = $id;
-				$configs[$id] = [];
+				$configs[$id] = ['id' => $id];
 			}
 		}
 
-		$configs = [];
 		foreach ($keys as $key) {
 			foreach ($ids as $id) {
 				if (substr($key,0, strlen($id)) === $id) {
@@ -121,7 +120,7 @@ class ConfigurationController extends Controller {
 	}
 
 	public function listAll() {
-		return new DataResponse($this->fetchAll());
+		return new DataResponse(array_values($this->fetchAll()));
 	}
 
 	/**
@@ -149,10 +148,7 @@ class ConfigurationController extends Controller {
 		$newConfig->saveConfiguration();
 
 		$configs = $this->fetchAll();
-		return new DataResponse([
-			'id' => $id,
-			'config' => $configs[$id]
-		]);
+		return new DataResponse($configs[$id]);
 	}
 	/**
 	 * get the given ldap config
