@@ -471,6 +471,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function setLdapSetting($configId, $configKey, $configValue) {
+		if ($configValue === "") {
+			$configValue = "''";
+		}
 		$occResult = SetupHelper::runOcc(
 			['ldap:set-config', $configId, $configKey, $configValue]
 		);
