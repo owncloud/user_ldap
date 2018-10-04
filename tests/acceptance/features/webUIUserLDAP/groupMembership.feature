@@ -6,7 +6,7 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given these users have been initialized:
+    Given these users have been created:
       | username |
       | user1    |
       | user2    |
