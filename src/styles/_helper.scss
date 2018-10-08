@@ -1,0 +1,135 @@
+.margin-add {
+    margin: $grid-gutter;
+
+    &-top    { margin-top: $grid-gutter; }
+    &-left   { margin-left: $grid-gutter; }
+    &-right  { margin-right: $grid-gutter; }
+    &-bottom { margin-bottom: $grid-gutter; }
+
+    &-x2 {
+        margin: $grid-gutter * 2;
+
+        &-top    { margin-top: $grid-gutter * 2; }
+        &-left   { margin-left: $grid-gutter * 2; }
+        &-right  { margin-right: $grid-gutter * 2; }
+        &-bottom { margin-bottom: $grid-gutter * 2; }
+    }
+}
+
+.margin-remove {
+    margin: 0;
+
+    &-top    { margin-top: 0; }
+    &-left   { margin-left: 0; }
+    &-right  { margin-right: 0; }
+    &-bottom { margin-bottom: 0; }
+}
+
+.padding-add {
+    padding: $grid-gutter;
+
+    &-top    { padding-top: $grid-gutter; }
+    &-left   { padding-left: $grid-gutter; }
+    &-right  { padding-right: $grid-gutter; }
+    &-bottom { padding-bottom: $grid-gutter; }
+
+    &-x2 {
+        padding: $grid-gutter * 2;
+
+        &-top    { padding-top: $grid-gutter * 2; }
+        &-left   { padding-left: $grid-gutter * 2; }
+        &-right  { padding-right: $grid-gutter * 2; }
+        &-bottom { padding-bottom: $grid-gutter * 2; }
+    }
+}
+
+.padding-remove {
+    padding: 0;
+
+    &-top    { padding-top: 0; }
+    &-left   { padding-left: 0; }
+    &-right  { padding-right: 0; }
+    &-bottom { padding-bottom: 0; }
+}
+
+.content-align {
+    &-top    { display: flex; align-items: flex-start; }
+    &-right  { display: flex; justify-content: flex-end; }
+    &-bottom { display: flex; align-items: flex-end; }
+    &-left   { display: flex; justify-content: flex-start; }
+    &-center {
+        &-v { display: flex; align-items: center; }
+        &-h { display: flex; justify-content: center; }
+    }
+}
+
+.min-width {
+    &-80 {
+        min-width: 80px;
+    }
+    &-100 {
+        min-width: 100px;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.font-monospace {
+    font-family: "Courier", "Courier New", monospace;
+}
+
+label.icon,
+button.icon {
+    padding-left: 24px * 1.5;
+    background: {
+        position: center center;
+        repeat: no-repeat;
+        size: 24px 24px;
+    }
+
+    &-remove-text {
+        text-indent: -9999px;
+    }
+
+    &-person {
+        background-image: url("#{$app-image-path}/baseline-person-24px.svg");
+    }
+
+    &-sync {
+        background-image: url("#{$app-image-path}/baseline-sync-24px.svg");
+    }
+}
+
+.button-primary.icon-sync {
+    background-image: url("#{$app-image-path}/baseline-sync-white-24px.svg");
+}
+
+.button-primary.icon-sync[disabled] {
+    background-image: url("#{$app-image-path}/baseline-sync-grey-24px.svg");
+}
+
+.grow {
+    width: 100%;
+    flex-grow: 1;
+
+    &-2 {
+        width: 100%;
+        flex-grow: 2;
+    }
+}
+
+.shrink {
+    width: 100%;
+    flex-shrink: 1;
+
+    &-2 {
+        width: 100%;
+        flex-shrink: 2;
+    }
+}
+
+.float-right {
+    float: right;
+}

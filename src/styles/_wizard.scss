@@ -1,0 +1,7 @@
+.wizard {
+    &-section-footer {
+        margin-top: $grid-gutter;
+        padding-top: $grid-gutter;
+		border-top: 1px solid $color-gray;
+    }
+}

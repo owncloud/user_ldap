@@ -1,0 +1,93 @@
+.form {
+    &-unify {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+
+        label {
+            padding: $grid-gutter / 1.5 $grid-gutter;
+            background-color: $color-lightgray;
+            border: 1px solid $color-gray;
+            white-space: nowrap;
+        }
+
+        select,
+        input[type="text"],
+        input[type="url"],
+        input[type="password"],
+        input[type="number"] {
+            margin: 0;
+            padding: $grid-gutter / 1.5 $grid-gutter;
+        }
+
+        select {
+            min-height: 35px;
+            border: 1px solid $color-gray;
+            border-left: 0 none;
+        }
+
+        > *:first-child {
+            margin-right: 0;
+            border-right: 0 none;
+            border-top-right-radius: 0;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 0;
+        }
+
+        > *:last-child {
+            margin-left: 0;
+            border-left: 0 none;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 3px;
+        }
+    }
+
+    &-items-centered {
+        display: flex;
+        align-items: center;
+    }
+
+    &-nice-checkbox {
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        width: $grid-gutter * 3;
+        height: $grid-gutter * 1.5;
+        border: 1px solid $color-gray;
+        border-radius: 3px;
+
+        &:after {
+            position: absolute;
+            content: "";
+            height: ($grid-gutter * 1.5) - 2px;
+            width: ($grid-gutter * 1.5) - 2px;
+            top: 1px;
+            border-radius: 3px;
+            background-color: $color-gray;
+        }
+
+        &:not(.-checked):after {
+            left: 1px;
+        }
+
+        &.-checked {
+            border-color: $color-secondary;
+            background-color: $color-secondary;
+            &:after {
+                right: 1px;
+                background-color: #fff;
+                border-color: #fff;
+            }
+        }
+
+        transition: all .125s linear;
+    }
+}
+
+label.form-item {
+    display: flex;
+    align-items: center;
+}

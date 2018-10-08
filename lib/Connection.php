@@ -473,6 +473,8 @@ class Connection extends LDAPUtility {
 
 		//second step: critical checks. If left empty or filled wrong, mark as
 		//not configured and give a warning.
+
+		// TODO throw exceptions
 		return $this->doCriticalValidation();
 	}
 

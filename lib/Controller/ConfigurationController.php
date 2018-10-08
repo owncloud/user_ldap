@@ -251,6 +251,10 @@ class ConfigurationController extends Controller {
 								'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
 							], Http::STATUS_BAD_REQUEST);
 						}
+						return new DataResponse([
+							'message' => $e->getMessage(),
+							'code' => $e->getCode()
+						], Http::STATUS_BAD_REQUEST);
 					}
 					return new DataResponse([
 						'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
@@ -265,7 +269,8 @@ class ConfigurationController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return new DataResponse([
-				'message' => $e->getMessage()
+				'message' => $e->getMessage(),
+				'code' => $e->getCode()
 			], Http::STATUS_BAD_REQUEST);
 		}
 	}
