@@ -2,6 +2,7 @@
 /build/
 /vendor/
 .php_cs.cache
-.sass-cache
 /tests/output/
-js/*.bundle.js*
+
+/js/
+/css/
