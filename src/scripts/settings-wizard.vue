@@ -3,8 +3,12 @@
         <h2>
             LDAP Wizard
         </h2>
-        <wizardServer :server="config" :is-active="true"></wizardServer>
-        <wizardUsers :users="config" :is-available="userMappingAvailable" :is-active="true"></wizardUsers>
+		<wizardServer :server="config" :is-active="true"></wizardServer>
+		<wizardUsers :users="config" :is-available="userMappingAvailable" :is-active="true"></wizardUsers>
+		<router-link to="/list" tag="button" class="float-right">
+			return
+		</router-link>
+		<loading-spinner :active="loading"></loading-spinner>
     </section>
 </template>
 <script>

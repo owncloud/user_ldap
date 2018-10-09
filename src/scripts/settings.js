@@ -15,6 +15,11 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+
+// --- Global Components
+
+Vue.component('loading-spinner', require('./loading-spinner.vue'));
+
 const router = new VueRouter({
 	routes : [
 		{

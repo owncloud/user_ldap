@@ -33,6 +33,7 @@
 			</table>
 			<button @click="createNewConfig">Create new config</button>
 		</div>
+		<loading-spinner :active="loading"></loading-spinner>
     </section>
 </template>
 <script>

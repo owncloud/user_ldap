@@ -1,11 +1,7 @@
 {
     "globals": {
-        "$": true,
-        "OC" : true,
-        "_" : true,
-        "Vue" : true,
         "t" : true,
-        "module" : true
+        "require" : true
     },    
     "env": {
         "browser": true,
