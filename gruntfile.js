@@ -2,24 +2,6 @@ const sass = require('node-sass');
 
 module.exports = function(grunt) {
 	grunt.initConfig({
-
-		concat : {
-			'vendor-prod' : {
-				src: [
-					'node_modules/vue/dist/vue.min.js',
-					'node_modules/vue-router/dist/vue-router.min.js'
-				],
-				dest: 'js/vendor.js'
-			},
-			'vendor-dev' : {
-				src: [
-					'node_modules/vue/dist/vue.js',
-					'node_modules/vue-router/dist/vue-router.js'
-				],
-				dest: 'js/vendor.js'
-			}
-		},
-
 		sass: {
 			options: {
 				implementation : sass,
@@ -35,7 +17,6 @@ module.exports = function(grunt) {
 		browserify: {
 			dist: {
 				files: {
-					// destination for transpiled js : source js
 					'js/user_ldap_settings.js': 'src/scripts/settings.js'
 				},
 				options: {
@@ -74,17 +55,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-force');
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-browserify');
 
 	grunt.registerTask('default', [
-		'concat:vendor-prod',
 		'sass',
 		'browserify'
 	]);
 
 	grunt.registerTask('watcher', [
-		'concat:vendor-dev',
 		'sass',
 		'browserify',
 		'watch'
