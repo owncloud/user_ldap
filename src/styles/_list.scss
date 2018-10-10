@@ -1,0 +1,50 @@
+.settings-list {
+    table {
+        width          : 100%;
+        margin-top     : 20px;
+        border-collapse: collapse;
+
+        // general table row/cell/head layout
+
+        th {
+            border: 1px solid white;
+        }
+
+        tr td,
+        tr th {
+            padding: 5px 10px;
+        }
+
+        thead {
+            background: $color-lightgray;
+
+            tr:first-child th {
+                padding-top: 5px;
+                font-size  : 105%;
+                font-weight: bold;
+                text-align: left;
+            }
+
+            tr:last-child th {
+                padding-bottom: 5px;
+            }
+        }
+
+        tbody {
+            tr:not(:last-child) {
+                border-bottom: 1px solid $color-lightgray;
+            }
+
+            input[type="text"] {
+                box-sizing   : border-box;
+                width        : 100%;
+                font-family  : monospace;
+                text-overflow: ellipsis;
+            }
+        }
+
+        tfoot {
+            background: $color-lightgray;
+        }
+    }
+}

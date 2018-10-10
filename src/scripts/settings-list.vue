@@ -3,12 +3,12 @@
 		<h2 v-translate>
         	LDAP Configuration
         </h2>
-		<div class="config-list">
+		<div class="settings-list">
 			<table>
 				<thead>
 					<tr>
 						<th width="1%" v-translate="'core'">Status</th>
-						<th>ID</th>
+						<th v-translate="'core'">ID</th>
 						<th colspan="2">Server/Port</th>
 					</tr>
 				</thead>
@@ -17,7 +17,7 @@
 						<td>
 							<span class="form-nice-checkbox margin-add-right" :class="{ '-checked': checkBool(config.ldap_configuration_active) }" style="transform:translateY(4px)"></span>
 							<span v-if="checkBool(config.ldap_configuration_active)">Active</span>
-							<span v-else>Inactive</span>
+							<span v-else v-translate>Inactive</span>
 						</td>
 						<td class="text-monospace">
 							{{ config.id }}
@@ -27,11 +27,18 @@
 						</td>
 						<td class="content-align-right">
 							<button @click="openWizard(config.id)">Edit</button>
+							<span @click="deleteConfig(config.id)" class="icon icon-delete margin-add-left"></span>
 						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="99">
+							<button @click="createNewConfig" class="button-primary float-right" v-translate>Create new config</button>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
-			<button @click="createNewConfig">Create new config</button>
 		</div>
 		<loading-spinner :active="loading"></loading-spinner>
     </section>
@@ -77,6 +84,19 @@ export default {
 				this.configurations.push(data);
 				this.openWizard(data.id);
 			});
+		},
+		deleteConfig (id) {
+			if(confirm(`Delete config ${id}?`)) {
+				$.ajax({
+					url : OC.generateUrl('apps/user_ldap/configurations/' + id),
+					method : 'DELETE'
+				}).done((data) => {
+					this.configurations = _.without(this.configurations, _.findWhere(this.configurations, { 'id' : id }));
+					this.failed  = false;
+				}).fail((data) => {
+					this.failed  = true;
+				});
+			}
 		},
 		openWizard (id) {
 			this.$router.push({

@@ -5,9 +5,9 @@
         </h2>
 		<wizardServer :server="config" :is-active="true"></wizardServer>
 		<wizardUsers :users="config" :is-available="userMappingAvailable" :is-active="true"></wizardUsers>
-		<router-link to="/list" tag="button" class="float-right">
-			return
-		</router-link>
+		<button @click="returnToList" class="margin-add-x2-top float-right" v-translate>
+			Close
+		</button>
 		<loading-spinner :active="loading"></loading-spinner>
     </section>
 </template>
@@ -72,6 +72,15 @@ export default {
 			}).fail(() => {
 				this.loading = false;
 				this.failed  = true;
+			});
+		},
+		returnToList () {
+			if ( _.where(this.$children, { hasChanges : true }).length > 0 )
+				if (!confirm(this.t('Discard unsaved changes?')))
+					return;
+
+			this.$router.push({
+				name: 'List'
 			});
 		},
 	}

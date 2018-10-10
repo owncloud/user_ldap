@@ -33,7 +33,8 @@ const router = new VueRouter({
 		},
 		{
 			path: '/list',
-			component: List
+			component: List,
+			name : 'List'
 		},
 		{
 			path: '/wizard/:id',
