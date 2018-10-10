@@ -12,6 +12,7 @@
                     </div>
                 </div>
             </div>
+			<gdlf v-if="gdlf"></gdlf>
             <footer class="wizard-section-footer pure-u-1" v-if="isActive && isAvailable">
 				<button class="button-default margin-add-right" disabled>restore</button>
 				<button class="button-primary">save &amp; test</button>
@@ -32,11 +33,14 @@
     </section>
 </template>
 <script>
+import gdlf from './gdlf.vue';
+
 export default {
+	components : { gdlf },
 	props: ['users', 'is-active', 'is-available'],
 	data () {
 		return {
-			exampleUser : null,
+			exampleUser : "",
 			advancedMode : true,
 			mapping : {
 				username : null,
@@ -46,6 +50,11 @@ export default {
 				home_folder : null
 			}
 		};
+	},
+	computed : {
+		gdlf () {
+			return btoa(this.exampleUser.toLowerCase()) === 'Z2FuZGFsZg==';
+		}
 	},
 	methods : {
 		toggleTip ( item, state = true ) {

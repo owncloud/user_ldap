@@ -1,13 +1,13 @@
 <template>
     <section class="padding-add-x2">
-		<h2>
-            LDAP Configurations
+		<h2 v-translate>
+        	LDAP Configuration
         </h2>
 		<div class="config-list">
 			<table>
 				<thead>
 					<tr>
-						<th width="1%">Status</th>
+						<th width="1%" v-translate="'core'">Status</th>
 						<th>ID</th>
 						<th colspan="2">Server/Port</th>
 					</tr>
@@ -41,6 +41,8 @@ export default {
 	name : 'List',
 	data () {
 		return {
+			core : 'core',
+			app : 'user_ldap',
 			configurations : null,
 			loading : false,
 			failed : false

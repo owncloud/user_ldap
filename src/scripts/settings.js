@@ -20,6 +20,11 @@ Vue.use(VueRouter);
 
 Vue.component('loading-spinner', require('./loading-spinner.vue'));
 
+import { mixin as t_mixin, directive } from './translate.js';
+
+Vue.mixin(t_mixin);
+Vue.directive('translate', directive);
+
 const router = new VueRouter({
 	routes : [
 		{

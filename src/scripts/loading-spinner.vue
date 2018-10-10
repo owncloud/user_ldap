@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!active">
+    <div v-if="active">
         loading
     </div>
 </template>
