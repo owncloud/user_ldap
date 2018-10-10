@@ -15,18 +15,24 @@
                     <div class="pure-u-1-3 pure-u-xl-2-5 form-unify margin-add-bottom">
                         <label for="ldap_port" class="margin-add-left">Port:</label>
                         <input ref="ldap_port" class="font-monospace grow" type="number" min="0" max="65535" v-model="settings.ldap_port">
-                        <button class="button-primary icon icon-sync icon-remove-text" :disabled="!settings.ldap_host">autodetect</button>
+                        
+                        <button class="button-primary" @click="autodetectPort()" :disabled="!settings.ldap_host">detect</button>
                     </div>
                 </div>
 
                 <div class="pure-g pure-g-padded">
                     <div class="pure-u-1 form-unify margin-add-bottom">
                         <label for="ldap_dn" class="min-width-80">User-DN:</label>
-                        <input ref="ldap_port" class="font-monospace grow" type="text" placeholder="User Distinguished Name" v-model="settings.ldap_dn" v-on:focus="toggleTip('ldap_dn')" v-on:blur="toggleTip('ldap_dn', false)">
+                        <input ref="ldap_dn" class="font-monospace grow" type="text" placeholder="User Distinguished Name" v-model="settings.ldap_dn" v-on:focus="toggleTip('ldap_dn')" v-on:blur="toggleTip('ldap_dn', false)">
                     </div>
-                    <div class="pure-u-1 form-unify">
+                    <div class="pure-u-1 form-unify margin-add-bottom">
                         <label for="ldap_agent_password" class="min-width-80">Password:</label>
                         <input ref="ldap_agent_password" type="password" class="grow" v-model="settings.ldap_agent_password" v-on:focus="toggleTip('ldap_agent_password')" v-on:blur="toggleTip('ldap_agent_password', false)">
+                    </div>
+                    <div class="pure-u-1 form-unify">
+                        <label for="ldap_agent_password" class="min-width-80" v-translate>Base-DN:</label>
+                        <input ref="ldap_agent_password" type="text" class="font-monospace grow" v-model="settings.ldap_base_dn">
+                        <button class="button-primary" @click="autodetectBaseDn()" :disabled="!computedBaseDn">detect</button>
                     </div>
                 </div>
 
@@ -59,8 +65,8 @@
                         <label>show advanced settings</label>
                     </div>
                     <div class="pure-u-1-2 content-align-right">
-                        <button class="button-default margin-add-right" disabled>restore</button>
-                        <button @click="saveSettings()" class="button-primary">save &amp; test</button>
+                        <button @click="restoreFromBackup()" class="button-default margin-add-right" :disabled="!hasChanges">restore</button>
+                        <button @click="saveSettings()" class="button-primary" :disabled="!hasChanges">save &amp; test</button>
                     </div>
                 </div>
             </footer>
@@ -108,37 +114,87 @@ export default {
 				ldap_dn : false,
 				ldap_agent_password : false
             },
-            settings : {}
+            settings : {
+                ldap_host                : null,
+                ldap_port                : null,
+                ldap_dn                  : null,
+                ldap_base_dn             : null,
+                ldap_agent_password      : null,
+
+                ldap_backup_host         : null,
+                ldap_backup_port         : null,
+                ldap_cache_ttl           : null,
+                ldap_turn_off_cert_check : null
+            },
+            hasChanges : false,
+            settingsBackup : null
 		};
     },
     watch : {
         server (data, initial) {
             if (initial !== data) {
                 this.mapSettings();
+                this.writeSettingsBackup();
             }
+        },
+        settings : {
+            deep : true,
+            handler (val) {
+                this.hasChanges = JSON.stringify(val) != this.settingsBackup;
+            }
+        }
+    },
+    computed : {
+        computedBaseDn () {
+            if (this.settings.ldap_dn) {
+                let elements = this.settings.ldap_dn.split(',');
+
+                if (elements.length >= 3)
+                    return elements.slice(-3).join();
+            }
+            return null;
         }
     },
 	methods : {
 		toggleTip ( item, state = true ) {
 			this.tips[item] = state;
         },
+
         saveSettings () {
             $.post(OC.generateUrl(`apps/user_ldap/configurations/${this.$parent.id}`), { config: this.settings } ).then((data) => {
                 this.$parent.fetchConfig(true);
 			});
         },
-        mapSettings() {
-             this.settings = _.pick(this.server,
-                'ldap_host',
-                'ldap_port',
-                'ldap_dn',
-                'ldap_agent_password',
 
-                'ldap_backup_host',
-                'ldap_backup_port',
-                'ldap_cache_ttl',
-                'ldap_turn_off_cert_check'
-            );
+        mapSettings() {
+             this.settings = _.clone(_.pick(this.server, _.keys(this.settings)));
+        },
+
+        writeSettingsBackup() {
+            this.settingsBackup = JSON.stringify(_.pick(this.server, _.keys(this.settings)));
+        },
+
+        restoreFromBackup() {
+            this.settings = JSON.parse(this.settingsBackup);
+        },
+
+        // --- fooo ---
+
+        autodetectPort () {
+            if (!this.settings.ldap_host) {
+                return;
+            }
+            else if (this.settings.ldap_host.search('ldap://') === 0) {
+                this.settings.ldap_port = 389
+            }
+            else if (this.settings.ldap_host.search('ldaps://') === 0) {
+                this.settings.ldap_port = 636
+            }
+        },
+
+        autodetectBaseDn () {
+            this.settings.ldap_base_dn = this.computedBaseDn;
+            this.$forceUpdate();
         }
 	}
 };
