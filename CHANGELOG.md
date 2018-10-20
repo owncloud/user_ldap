@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+
+### Added
+- Store "samaccountname" in user preferences table - [#254](https://github.com/owncloud/user_ldap/issues/254)
+- PHP 7.2 support - [#280](https://github.com/owncloud/user_ldap/issues/280)
+
+### Fixed
+- Display name and email will not be editable from the profile page - [#218](https://github.com/owncloud/user_ldap/issues/218)
+- Do not throw exception when user not found on LDAP during login - [#269](https://github.com/owncloud/user_ldap/issues/269)
+- Users with no avatar in LDAP are now able to add avatar again, like in ownCloud 9.1 - [#256](https://github.com/owncloud/user_ldap/pull/256)
+- Replaced deprecated config API calls - [#258](https://github.com/owncloud/user_ldap/pull/258)
+
+### Removed
+- Removed obsolete comment reference to ldapUserCleanupInterval - [#213](https://github.com/owncloud/user_ldap/issues/213)
+
 ## [0.11.0] - 2018-04-19
 
 ### Added
@@ -40,5 +55,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.11.0...master
 [0.11.0]: https://github.com/owncloud/user_ldap/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/owncloud/user_ldap/compare/0.9.1...v0.10.0
