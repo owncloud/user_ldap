@@ -63,7 +63,21 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals('cn=foo,dc=foobar,dc=bar', $userEntry->getDN());
 	}
 
-	public function testGetUsernameIsConfigured() {
+	public function testGetUserName() {
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('ldapUserName'))
+			->will($this->returnValue('uid'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'uid' => [0 => 'foo']
+			]
+		);
+		self::assertEquals('foo', $userEntry->getUserName());
+	}
+
+	public function testGetUserIdIsConfigured() {
 		$this->connection->expects($this->once())
 			->method('__get')
 			->with($this->equalTo('ldapExpertUsernameAttr'))
@@ -74,7 +88,7 @@ class UserEntryTest extends \Test\TestCase {
 				'mail' => [0 => 'a@b.c']
 			]
 		);
-		self::assertEquals('a@b.c', $userEntry->getUsername());
+		self::assertEquals('a@b.c', $userEntry->getUserId());
 	}
 
 	/**
@@ -83,7 +97,7 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $uuidValue string
 	 * @param $expected string
 	 */
-	public function testGetUsernameFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
+	public function testGetUserIdFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
 		$this->connection->expects($this->exactly(3))
 			->method('__get')
 			->withConsecutive(
@@ -102,13 +116,13 @@ class UserEntryTest extends \Test\TestCase {
 				$uuidAttr => [0 => $uuidValue]
 			]
 		);
-		self::assertEquals($expected, $userEntry->getUsername());
+		self::assertEquals($expected, $userEntry->getUserId());
 	}
 
 	/**
 	 * @expectedException \OutOfBoundsException
 	 */
-	public function testGetUsernameUndetermined() {
+	public function testGetUserIdUndetermined() {
 		$this->connection->expects($this->exactly(1))
 			->method('__get')
 			->with($this->equalTo('ldapExpertUsernameAttr'))
@@ -118,7 +132,7 @@ class UserEntryTest extends \Test\TestCase {
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
 		);
-		$userEntry->getUsername();
+		$userEntry->getUserId();
 	}
 
 	public function uuidDataProvider() {

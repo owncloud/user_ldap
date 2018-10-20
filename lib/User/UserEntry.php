@@ -91,11 +91,25 @@ class UserEntry {
 	}
 
 	/**
-	 * @see getOwncloudUID() to get the owncloud internal userid
-	 * @return string username as configured. THIS IS NOT the ownCloud internal userid!
-	 * @throws \OutOfBoundsException if username could not be determined
+	 * Returns the username or null if none defined or
+	 * if no such LDAP attribute was configured.
+	 *
+	 * @return string username for this user
 	 */
-	public function getUsername() {
+	public function getUserName() {
+		$attr = $this->getAttributeName('ldapUserName');
+		if ($attr !== '') {
+			return $this->getAttributeValue($attr, null);
+		}
+		return null;
+	}
+
+	/**
+	 * @see getOwncloudUID() to get the owncloud internal userid
+	 * @return string userid as configured. THIS IS NOT the ownCloud internal userid!
+	 * @throws \OutOfBoundsException if userid could not be determined
+	 */
+	public function getUserId() {
 		$attr = $this->getAttributeName('ldapExpertUsernameAttr');
 		if ($attr === '') {
 			$username = $this->getUUID(); // fallback to uuid
@@ -107,7 +121,7 @@ class UserEntry {
 			if (\json_last_error() !== JSON_ERROR_NONE) {
 				$json .= ', ' . \json_last_error_msg();
 			};
-			throw new \OutOfBoundsException('Cannot determine username for '.$this->getDN().' from '.$json);
+			throw new \OutOfBoundsException('Cannot determine userid for '.$this->getDN().' from '.$json);
 		}
 		return $username;
 	}
@@ -185,7 +199,7 @@ class UserEntry {
 			return $displayName;
 		}
 
-		return $this->getUsername();
+		return $this->getUserId();
 	}
 
 	/**
@@ -278,7 +292,7 @@ class UserEntry {
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
 			// TODO narrow down exception
-			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
+			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUserId());
 		}
 
 		return null;

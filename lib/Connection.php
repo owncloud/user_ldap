@@ -61,6 +61,12 @@ class Connection extends LDAPUtility {
 	];
 
 	/**
+	 * TODO currently redundant with ldapExpertUsernameAttr. fix when core properly distinguishes uid and username
+	 * @var string|null attribute to use for username
+	 */
+	public $userNameAttribute = 'samaccountname';
+
+	/**
 	 * @var bool runtime flag that indicates whether supported primary groups are available
 	 */
 	public $hasPrimaryGroups = true;
@@ -98,7 +104,7 @@ class Connection extends LDAPUtility {
 	public function __destruct() {
 		if ($this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			@$this->getLDAP()->unbind($this->ldapConnectionRes);
-		};
+		}
 	}
 
 	/**
