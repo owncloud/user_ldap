@@ -53,9 +53,6 @@ script:
   # Run phpunit tests
   - if [ $(phpenv version-name) != "7.1" ]; then vendor/bin/phpunit --configuration "tests/unit/phpunit.xml"; else vendor/bin/phpunit --no-coverage --configuration "tests/unit/phpunit.xml"; fi
 
-  # Create coverage report
-  - if [ $(phpenv version-name) != "7.1" ] ; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/output/clover.xml ; fi
-
   - sh -c "if [ '$INTEGRATION' = '1' ]; then tests/integration/autotest.sh; fi"
 
 matrix:
