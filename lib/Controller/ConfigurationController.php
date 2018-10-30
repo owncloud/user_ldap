@@ -21,10 +21,12 @@
 
 namespace OCA\User_LDAP\Controller;
 
+use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -190,10 +192,14 @@ class ConfigurationController extends Controller {
 		// TODO check keys
 
 		foreach ($config as $key => $value) {
-			// ignore password if it is set to true = is set don't change
-			if ($key !== 'ldap_agent_password' || $value !== true) {
-				$this->config->setAppValue('user_ldap', "$id$key", $value);
+			if ($key === 'ldap_agent_password') {
+				if ($value === true) {
+					// ignore password if it is set to true = is set don't change
+					continue;
+				}
+				$value = \base64_encode($value);
 			}
+			$this->config->setAppValue('user_ldap', "$id$key", $value);
 		}
 
 		$configs = $this->fetchAll();
@@ -227,7 +233,7 @@ class ConfigurationController extends Controller {
 			if ($configurationOk) {
 				//Configuration is okay
 				/*
-				 * Clossing the session since it won't be used from this point on. There might be a potential
+				 * Closing the session since it won't be used from this point on. There might be a potential
 				 * race condition if a second request is made: either this request or the other might not
 				 * contact the LDAP backup server the first time when it should, but there shouldn't be any
 				 * problem with that other than the extra connection.
@@ -292,5 +298,79 @@ class ConfigurationController extends Controller {
 		return new DataResponse([
 			'message' => $this->l10n->t('Failed to delete the server configuration')
 		], Http::STATUS_BAD_REQUEST);
+	}
+
+	/**
+	 * find a user dn using some well known ldap attributes:
+	 * cn, uid, samaccountname, userprincipalname, mail, displayname
+	 *
+	 * @param string $id config id
+	 * @param string $username username to search for
+	 * @return DataResponse
+	 */
+	public function discover($id, $username) {
+		$configs = $this->fetchAll();
+		if (empty($id) || !isset($configs[$id])) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+		$configuration = new Configuration($this->config, $id);
+		$connection = new Connection($this->ldapWrapper, $configuration);
+		$connection->setIgnoreValidation(true);
+		try {
+			$conf = $connection->getConfiguration();
+			if ($conf['ldap_configuration_active'] === '0') {
+				//needs to be true, otherwise it will also fail with an irritating message
+				$conf['ldap_configuration_active'] = '1';
+				$connection->setConfiguration($conf);
+			}
+			//Configuration is okay
+			/*
+			 * Closing the session since it won't be used from this point on. There might be a potential
+			 * race condition if a second request is made: either this request or the other might not
+			 * contact the LDAP backup server the first time when it should, but there shouldn't be any
+			 * problem with that other than the extra connection.
+			 */
+			$this->session->close();
+			if ($connection->bind()) {
+				try {
+					$username = Access::escapeFilterPart($username);
+					$filter = "(&(|(objectClass=User)(objectClass=inetOrgPerson))(|(cn=$username)(uid=$username)(samaccountname=$username)(userprincipalname=$username)(mail=$username)(displayname=$username)))";
+					$sr = $this->ldapWrapper->search(
+						$connection->getConnectionResource(),
+						$conf[],
+						$filter,
+						['dn', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'displayname'],
+						0, // attributes and values
+						10);
+					if ($sr === false) {
+						return new DataResponse([
+							'message' => $this->ldapWrapper->error($connection->getConnectionResource()),
+							'code' => $this->ldapWrapper->errno($connection->getConnectionResource())
+						], Http::STATUS_BAD_REQUEST);
+					}
+					$result = $this->ldapWrapper->getEntries($connection->getConnectionResource(), $sr);
+					unset($result['count']);
+					return new DataResponse($result);
+				} catch (\Exception $e) {
+					if ($e->getCode() === 1) {
+						return new DataResponse([
+							'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
+						], Http::STATUS_BAD_REQUEST);
+					}
+					return new DataResponse([
+						'message' => $e->getMessage(),
+						'code' => $e->getCode()
+					], Http::STATUS_BAD_REQUEST);
+				}
+			}
+			return new DataResponse([
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+			], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			return new DataResponse([
+				'message' => $e->getMessage(),
+				'code' => $e->getCode()
+			], Http::STATUS_BAD_REQUEST);
+		}
 	}
 }

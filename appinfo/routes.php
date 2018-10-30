@@ -52,6 +52,11 @@ return [
 			'verb' => 'DELETE'
 		],
 		[
+			'name' => 'configuration#discover',
+			'url' => 'configurations/{id}/discover',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'mapping#clear',
 			'url' => 'ajax/clearMappings.php',
 			'verb' => 'POST'
