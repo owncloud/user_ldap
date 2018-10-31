@@ -1,36 +1,229 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jfd
- * Date: 30.10.18
- * Time: 12:59
- */
 
 namespace OCA\User_LDAP\Db;
 
 
-class UserMapping {
+class UserMapping extends Mapping {
 
-	private $baseDN;
-    private $displayNameAttribute;
-    private $displayName2Attribute;
-    private $filterObjectclass;
-    private $filterGroups;
-    private $filter;
-    private $filterMode;
-    private $loginFilter;
-    private $loginFilterMode;
-    private $loginFilterEmail;
-    private $loginFilterUsername;
-    private $loginFilterAttributes;
-    private $quotaAttribute;
-    private $quotaDefault;
-    private $emailAttribute;
-    private $uuidAttribute = 'auto';
-    private $attributesForUserSearch;
-    private $homeFolderNamingRule;
-    private $expertUUIDUserAttr;
-    private $expertUsernameAttr;
-    private $ignoreNamingRules = false;
-// TODO username
+	/**
+	 * @var string
+	 */
+	private $loginFilter; // generated, based on filter and login attributes
+	/**
+	 * @var int
+	 */
+	private $loginFilterMode; // 0 = generated, 1 = manual
+
+	/**
+	 * @var bool
+	 */
+	private $loginFilterEmail;
+	/**
+	 * @var bool
+	 */
+	private $loginFilterUsername;
+	/**
+	 * @var string[]
+	 */
+	private $loginFilterAttributes;
+
+	/**
+	 * @var string
+	 */
+	private $usernameAttribute; // this is the username that is used for wnd
+	/**
+	 * @var string
+	 */
+	private $expertUsernameAttr; // this is the internal oc username ...
+
+	/**
+	 * @var string
+	 */
+	private $displayName2Attribute;
+
+	/**
+	 * @var string
+	 */
+	private $emailAttribute;
+	/**
+	 * @var string
+	 */
+	private $homeFolderNamingRule;
+	/**
+	 * @var string
+	 */
+	private $quotaAttribute;
+	/**
+	 * @var string
+	 */
+	private $quotaDefault;
+
+	/**
+	 * @return string
+	 */
+	public function getLoginFilter() {
+		return $this->loginFilter;
+	}
+
+	/**
+	 * @param string $loginFilter
+	 */
+	public function setLoginFilter($loginFilter) {
+		$this->loginFilter = $loginFilter;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLoginFilterMode() {
+		return $this->loginFilterMode;
+	}
+
+	/**
+	 * @param int $loginFilterMode
+	 */
+	public function setLoginFilterMode($loginFilterMode) {
+		$this->loginFilterMode = $loginFilterMode;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isLoginFilterEmail() {
+		return $this->loginFilterEmail;
+	}
+
+	/**
+	 * @param bool $loginFilterEmail
+	 */
+	public function setLoginFilterEmail($loginFilterEmail) {
+		$this->loginFilterEmail = $loginFilterEmail;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isLoginFilterUsername() {
+		return $this->loginFilterUsername;
+	}
+
+	/**
+	 * @param bool $loginFilterUsername
+	 */
+	public function setLoginFilterUsername($loginFilterUsername) {
+		$this->loginFilterUsername = $loginFilterUsername;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getLoginFilterAttributes() {
+		return $this->loginFilterAttributes;
+	}
+
+	/**
+	 * @param string[] $loginFilterAttributes
+	 */
+	public function setLoginFilterAttributes($loginFilterAttributes) {
+		$this->loginFilterAttributes = $loginFilterAttributes;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUsernameAttribute() {
+		return $this->usernameAttribute;
+	}
+
+	/**
+	 * @param string $usernameAttribute
+	 */
+	public function setUsernameAttribute($usernameAttribute) {
+		$this->usernameAttribute = $usernameAttribute;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getExpertUsernameAttr() {
+		return $this->expertUsernameAttr;
+	}
+
+	/**
+	 * @param string $expertUsernameAttr
+	 */
+	public function setExpertUsernameAttr($expertUsernameAttr) {
+		$this->expertUsernameAttr = $expertUsernameAttr;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDisplayName2Attribute() {
+		return $this->displayName2Attribute;
+	}
+
+	/**
+	 * @param string $displayName2Attribute
+	 */
+	public function setDisplayName2Attribute($displayName2Attribute) {
+		$this->displayName2Attribute = $displayName2Attribute;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmailAttribute() {
+		return $this->emailAttribute;
+	}
+
+	/**
+	 * @param string $emailAttribute
+	 */
+	public function setEmailAttribute($emailAttribute) {
+		$this->emailAttribute = $emailAttribute;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHomeFolderNamingRule() {
+		return $this->homeFolderNamingRule;
+	}
+
+	/**
+	 * @param string $homeFolderNamingRule
+	 */
+	public function setHomeFolderNamingRule($homeFolderNamingRule) {
+		$this->homeFolderNamingRule = $homeFolderNamingRule;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getQuotaAttribute() {
+		return $this->quotaAttribute;
+	}
+
+	/**
+	 * @param string $quotaAttribute
+	 */
+	public function setQuotaAttribute($quotaAttribute) {
+		$this->quotaAttribute = $quotaAttribute;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getQuotaDefault() {
+		return $this->quotaDefault;
+	}
+
+	/**
+	 * @param string $quotaDefault
+	 */
+	public function setQuotaDefault($quotaDefault) {
+		$this->quotaDefault = $quotaDefault;
+	}
+
 }

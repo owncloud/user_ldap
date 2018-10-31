@@ -147,7 +147,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = 10, $offset = 0) {
+	public function getUsers($search = '', $limit = 10, $offset = 0, $options = []) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
 		foreach ($this->backends as $backend) {

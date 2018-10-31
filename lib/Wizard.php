@@ -1146,6 +1146,7 @@ class Wizard extends LDAPUtility {
 		   || !isset($this->configuration->ldapBase[0])) {
 			return false;
 		}
+		// TODO should use group / user base dn
 		$base = $this->configuration->ldapBase[0];
 		$cr = $this->getConnection();
 		if (!$this->getLDAP()->isResource($cr)) {

@@ -24,10 +24,13 @@ namespace OCA\User_LDAP\Controller;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Db\Server;
+use OCA\User_LDAP\Db\ServerMapper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
@@ -51,6 +54,9 @@ class ConfigurationController extends Controller {
 	/** @var IL10N */
 	protected $l10n;
 
+	/** @var ServerMapper */
+	protected $mapper;
+
 	/** @var LDAP */
 	protected $ldapWrapper;
 
@@ -65,6 +71,7 @@ class ConfigurationController extends Controller {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param ISession $session
+	 * @param ServerMapper $mapper
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
 	 * @param Helper $helper
@@ -73,6 +80,7 @@ class ConfigurationController extends Controller {
 								IRequest $request,
 								IConfig $config,
 								ISession $session,
+								ServerMapper $mapper,
 								IL10N $l10n,
 								LDAP $ldapWrapper,
 								Helper $helper
@@ -80,135 +88,91 @@ class ConfigurationController extends Controller {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->session = $session;
+		$this->mapper = $mapper;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
 		$this->helper = $helper;
 	}
 
-	private function isReferenceKey($key) {
-		$needle = substr($key, -self::REFERENCE_KEY_LENGTH);
-		return $needle === self::REFERENCE_KEY;
-	}
-
-	private function fetchAll() {
-		$keys = $this->config->getAppKeys('user_ldap');
-		$ids = [];
-		$configs = [];
-		foreach ($keys as $key) {
-			if ($this->isReferenceKey($key)) {
-				// determine the prefix length
-				$id = substr($key, 0, -self::REFERENCE_KEY_LENGTH);
-				$ids[] = $id;
-				$configs[$id] = ['id' => $id];
-			}
-		}
-
-		foreach ($keys as $key) {
-			foreach ($ids as $id) {
-				if (substr($key,0, strlen($id)) === $id) {
-					$k = substr($key,strlen($id));
-					// ignore password if it is set to true = is set
-					$value = $this->config->getAppValue('user_ldap', $key);
-					if ($k === 'ldap_agent_password' && !empty($value)) {
-						$configs[$id][$k] = true;
-					} else {
-						$configs[$id][$k] = $value;
-					}
-					continue 2; // next config value
-				}
-			}
-		}
-		return $configs;
-	}
-
+	/**
+	 * @NoCSRFRequired
+	 * @return DataResponse
+	 */
 	public function listAll() {
-		return new DataResponse(array_values($this->fetchAll()));
+		return new DataResponse($this->mapper->listAll());
 	}
 
 	/**
 	 * create a new ldap config
 	 *
-	 * @param string $sourceId copy values from this config (optional)
+	 * @PublicPage
+	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
-	public function create($sourceId = null) {
-		$id = $this->helper->nextPossibleConfigurationPrefix();
-
-		$resultData = ['configPrefix' => $id];
-
-		$newConfig = new Configuration($this->config, $id, false);
-		if ($sourceId === null) {
-			// create empty config
-			$configuration = new Configuration($this->config, $id, false);
-			$newConfig->setConfiguration($configuration->getDefaults());
-			$resultData['defaults'] = $configuration->getDefaults();
-		} else {
-			// copy existing config
-			$originalConfig = new Configuration($this->config, $sourceId);
-			$newConfig->setConfiguration($originalConfig->getConfiguration());
+	public function create() {
+		$d = $this->request->post;
+		$c = new Server($d);
+		if (empty($c->getId())) {
+			return new DataResponse(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$newConfig->saveConfiguration();
-
-		$configs = $this->fetchAll();
-		return new DataResponse($configs[$id]);
+		$o = $this->mapper->find($c->getId());
+		if ($o !== null) {
+			return new DataResponse(null, Http::STATUS_CONFLICT);
+		}
+		$this->mapper->insert($c);
+		return new DataResponse($c);
 	}
 	/**
 	 * get the given ldap config
 	 *
+	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
 	public function read($id) {
-		$configs = $this->fetchAll();
-		if (empty($id) || !isset($configs[$id])) {
+		$c = $this->mapper->find($id);
+		if ($c === null) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
 		}
 
-		$configuration = $configs[$id];
-
-		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
-			// hide password
-			$configuration['ldap_agent_password'] = true;
+		// hide password
+		if ($c->getPassword()) {
+			$c->setPassword(true);
 		}
 
-		return new DataResponse($configuration);
+		return new DataResponse($c);
 	}
 	/**
 	 * write the given ldap config, config is created if it does not exist
 	 *
-	 * @param string $id
-	 * @param array $config
+	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
-	public function write($id, $config) {
-
-		if (empty($id) ) {
-			return new DataResponse(null, Http::STATUS_NOT_FOUND);
-		}
-		if (empty($config) ) {
+	public function update() {
+		$d = $this->request->post;
+		$n = new Server($d);
+		// new config muste have an id
+		if (empty($n->getId())) {
 			return new DataResponse(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-
-		// TODO check keys
-
-		foreach ($config as $key => $value) {
-			if ($key === 'ldap_agent_password') {
-				if ($value === true) {
-					// ignore password if it is set to true = is set don't change
-					continue;
-				}
-				$value = \base64_encode($value);
-			}
-			$this->config->setAppValue('user_ldap', "$id$key", $value);
+		// id must exist
+		$c = $this->mapper->find($n->getId());
+		if ($c === null) {
+			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		}
+		// copy old password if no new one was configured
+		if ($n->getPassword() === true) {
+			$n->setPassword($c->getPassword());
 		}
 
-		$configs = $this->fetchAll();
-		return new DataResponse($configs[$id]);
+		$this->mapper->update($n);
+		return new DataResponse($n);
 	}
 
 	/**
 	 * test the given ldap config
 	 *
+	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
@@ -284,26 +248,24 @@ class ConfigurationController extends Controller {
 	/**
 	 * get the given ldap config
 	 *
+	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
 	public function delete($id) {
-		$configs = $this->fetchAll();
-		if (empty($id) || !isset($configs[$id])) {
+		$c = $this->mapper->find($id);
+		if ($c === null) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
 		}
-		if ($this->helper->deleteServerConfiguration($id)) {
-			return new DataResponse(null, Http::STATUS_OK);
-		}
-		return new DataResponse([
-			'message' => $this->l10n->t('Failed to delete the server configuration')
-		], Http::STATUS_BAD_REQUEST);
+		$this->mapper->delete($id);
+		return new DataResponse(null, Http::STATUS_OK);
 	}
 
 	/**
 	 * find a user dn using some well known ldap attributes:
 	 * cn, uid, samaccountname, userprincipalname, mail, displayname
 	 *
+	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @param string $username username to search for
 	 * @return DataResponse

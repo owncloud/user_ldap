@@ -611,7 +611,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!$this->groupExists($gid)) {
 			return [];
 		}
-		$search = $this->access->escapeFilterPart($search, true);
+		$search = Access::escapeFilterPart($search, true);
 		$cacheKey = 'usersInGroup-'.$gid.'-'.$search.'-'.$limit.'-'.$offset;
 		// check for cache of the exact query
 		$groupUsers = $this->access->getConnection()->getFromCache($cacheKey);
@@ -722,7 +722,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 			$this->access->getConnection()->writeToCache($cacheKey, $groupUsers);
 			return $groupUsers;
 		}
-		$search = $this->access->escapeFilterPart($search, true);
+		$search = Access::escapeFilterPart($search, true);
 		$isMemberUid =
 			(\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr)
 			=== 'memberuid');
@@ -828,7 +828,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!$this->enabled) {
 			return [];
 		}
-		$search = $this->access->escapeFilterPart($search, true);
+		$search = Access::escapeFilterPart($search, true);
 		$pagingSize = \intval($this->access->getConnection()->ldapPagingSize);
 		if (!$this->access->getConnection()->hasPagedResultSupport || $pagingSize <= 0) {
 			return $this->getGroupsChunk($search, $limit, $offset);

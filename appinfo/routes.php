@@ -42,7 +42,7 @@ return [
 			'verb' => 'GET'
 		],
 		[
-			'name' => 'configuration#write',
+			'name' => 'configuration#update',
 			'url' => 'configurations/{id}',
 			'verb' => 'POST'
 		],
