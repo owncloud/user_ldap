@@ -19,10 +19,10 @@ pipeline:
     image: owncloudci/core
     pull: true
     version: ${OC_VERSION}
-    db_type: mysql
-    db_name: owncloud
-    db_host: mysql:3306
-    db_username: owncloud
+    db_type: ${DB_TYPE}
+    db_name: ${DB_NAME}
+    db_host: ${DB_TYPE}
+    db_username: autotest
     db_password: owncloud
     when:
       matrix:
@@ -231,91 +231,298 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_USER=owncloud
+      - MYSQL_USER=autotest
       - MYSQL_PASSWORD=owncloud
-      - MYSQL_DATABASE=owncloud
+      - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_ROOT_PASSWORD=owncloud
+
+  pgsql:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=autotest
+      - POSTGRES_PASSWORD=owncloud
+      - POSTGRES_DB=${DB_NAME}
+    when:
+      matrix:
+        DB_TYPE: pgsql
+
+  oci:
+    image: deepdiver/docker-oracle-xe-11g
+    environment:
+      - ORACLE_USER=system
+      - ORACLE_PASSWORD=oracle
+      - ORACLE_DB=${DB_NAME}
+    when:
+      matrix:
+        DB_TYPE: oci
 
 matrix:
   include:
 #syntax lint check
    - TEST_SUITE: lint
      PHP_VERSION: 7.1
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: false
      NEED_INSTALL_APP: false
 
    - TEST_SUITE: lint
      PHP_VERSION: 5.6
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: false
      NEED_INSTALL_APP: false
 
    - TEST_SUITE: phan
      PHP_VERSION: 7.1
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: true
      OC_VERSION: daily-master-qa
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phan
      PHP_VERSION: 7.1
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: true
      OC_VERSION: daily-stable10-qa
      NEED_INSTALL_APP: true
 
 #unit tests
+  #with php 7.1 and core master
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.1
      OC_VERSION: daily-master-qa
+     DB_TYPE: sqlite
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.1
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.1
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.1
+     OC_VERSION: daily-master-qa
+     DB_TYPE: oci
+     DB_NAME: XE
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 7.2 and core master
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.2
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.2
      OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.2
+     OC_VERSION: daily-master-qa
+     DB_TYPE: oci
+     DB_NAME: XE
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 7.2 and core stable10
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.2
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.2
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 7.1 and core stable10
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.1
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.1
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
      NEED_SERVER: true
      NEED_INSTALL_APP: true
-     
+
+  #with php 7.0 and core stable10
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.0
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 7.0
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 5.6 and core stable10
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 5.6
+     DB_TYPE: sqlite
+     DB_NAME: owncloud
      OC_VERSION: daily-stable10-qa
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
      PHP_VERSION: 5.6
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     OC_VERSION: daily-stable10-qa
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 5.6
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     OC_VERSION: daily-stable10-qa
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: phpunit
+     PHP_VERSION: 5.6
+     DB_TYPE: oci
+     DB_NAME: XE
      OC_VERSION: daily-stable10-qa
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
 #acceptance tests - ldap specific
+  #with php 7.1 and core master
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
+     DB_TYPE: sqlite
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 7.2 and core master
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 7.2 and core stable10
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
-     PHP_VERSION: 7.0
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+  #with php 5.6 and core stable10
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_INSTALL_APP: true
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: oci
+     DB_NAME: XE
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -324,6 +531,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-webUI
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -331,6 +540,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-webUI
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -338,14 +549,19 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-webUI
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
 
 #acceptance tests - API tests from core
+  #with php 7.1 and core master
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -354,6 +570,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -362,6 +580,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -370,6 +590,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -378,6 +600,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -386,6 +610,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -394,6 +620,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -402,6 +630,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -410,14 +640,19 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
+  #with php 7.0 and core stable10
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -426,6 +661,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -434,6 +671,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -442,6 +681,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -450,6 +691,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -458,6 +701,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -466,6 +711,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -474,6 +721,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -482,14 +731,19 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
+  #with php 5.6 and core stable10
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -498,6 +752,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -506,6 +762,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -514,6 +772,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -522,6 +782,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -530,6 +792,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -538,6 +802,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -546,6 +812,8 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
@@ -554,13 +822,18 @@ matrix:
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
+
 #integration tests
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
      NEED_SERVER: true
@@ -568,6 +841,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
      NEED_SERVER: true
@@ -575,6 +850,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
      NEED_SERVER: true
@@ -582,6 +859,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
      NEED_SERVER: true
@@ -589,6 +868,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
      NEED_SERVER: true
@@ -596,6 +877,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
      NEED_SERVER: true
@@ -603,6 +886,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
      NEED_SERVER: true
@@ -610,6 +895,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
      NEED_SERVER: true
@@ -617,6 +904,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
      NEED_SERVER: true
@@ -624,6 +913,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
      NEED_SERVER: true
@@ -631,6 +922,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
      NEED_SERVER: true
@@ -638,6 +931,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
      NEED_SERVER: true
@@ -645,6 +940,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
      NEED_SERVER: true
@@ -652,6 +949,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
      NEED_SERVER: true
@@ -659,6 +958,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
      NEED_SERVER: true
@@ -666,6 +967,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
      NEED_SERVER: true
@@ -673,6 +976,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
      NEED_SERVER: true
@@ -680,6 +985,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
      NEED_SERVER: true
@@ -687,6 +994,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
      NEED_SERVER: true
@@ -694,6 +1003,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
      NEED_SERVER: true
@@ -701,6 +1012,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
      NEED_SERVER: true
@@ -708,6 +1021,8 @@ matrix:
 
    - TEST_SUITE: integration
      OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
      NEED_SERVER: true
