@@ -27,6 +27,7 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Db\Server;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -40,19 +41,23 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 * @var User_LDAP[]
 	 */
 	private $backends = [];
-	private $refBackend = null;
+	private $refBackend;
 
 	/**
 	 * Constructor
-	 * @param array $serverConfigPrefixes array containing the config Prefixes
+	 * @param Server[] $servers array containing the server configs
+	 * @param ILDAPWrapper $ldap
+	 * @param IConfig $ocConfig
+	 *
 	 */
-	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
+	public function __construct(array $servers, ILDAPWrapper $ldap, IConfig $ocConfig) {
 		parent::__construct($ldap);
-		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
+		foreach ($servers as $server) {
+			$id = $server->getId();
+			$this->backends[$id] =
+				new User_LDAP($ocConfig, $this->getAccess($server)->getUserManager());
 			if ($this->refBackend === null) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = &$this->backends[$id];
 			}
 		}
 	}
@@ -66,14 +71,14 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
-		foreach ($this->backends as $configPrefix => $backend) {
+		foreach ($this->backends as $id => $backend) {
 			$instance = $backend;
 			if (!\method_exists($instance, $method)
-				&& \method_exists($this->getAccess($configPrefix), $method)) {
-				$instance = $this->getAccess($configPrefix);
+				&& \method_exists($this->getAccess($id), $method)) {
+				$instance = $this->getAccess($id);
 			}
 			if ($result = \call_user_func_array([$instance, $method], $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
+				$this->writeToCache($cacheKey, $id);
 				return $result;
 			}
 		}
@@ -91,21 +96,21 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	protected function callOnLastSeenOn($uid, $method, $parameters, $passOnWhen) {
 		// FIXME remove caching here ...
 		$cacheKey = $this->getUserCacheKey($uid);
-		$prefix = $this->getFromCache($cacheKey);
+		$id = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if ($prefix !== null) {
-			if (isset($this->backends[$prefix])) {
-				$instance = $this->backends[$prefix];
+		if ($id !== null) {
+			if (isset($this->backends[$id])) {
+				$instance = $this->backends[$id];
 				if (!\method_exists($instance, $method)
-					&& \method_exists($this->getAccess($prefix), $method)) {
-					$instance = $this->getAccess($prefix);
+					&& \method_exists($this->getAccess($id), $method)) {
+					$instance = $this->getAccess($id);
 				}
 				$result = \call_user_func_array([$instance, $method], $parameters);
 				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
 					$userExists = \call_user_func_array(
-						[$this->backends[$prefix], 'userExists'],
+						[$this->backends[$id], 'userExists'],
 						[$uid]
 					);
 					if (!$userExists) {

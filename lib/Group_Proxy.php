@@ -25,21 +25,25 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Db\Server;
+
 class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	private $backends = [];
-	private $refBackend = null;
+	private $refBackend;
 
 	/**
 	 * Constructor
-	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
+	 * @param Server[] $servers array containing the server configs
+	 * @param ILDAPWrapper $ldap
 	 */
-	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
+	public function __construct(array $servers, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
-		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix));
+		foreach ($servers as $server) {
+			$id = $server->getId();
+			$this->backends[$id] =
+				new \OCA\User_LDAP\Group_LDAP($this->getAccess($server));
 			if ($this->refBackend === null) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = &$this->backends[$id];
 			}
 		}
 	}
@@ -53,9 +57,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-		foreach ($this->backends as $configPrefix => $backend) {
+		foreach ($this->backends as $id => $backend) {
 			if ($result = \call_user_func_array([$backend, $method], $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
+				$this->writeToCache($cacheKey, $id);
 				return $result;
 			}
 		}
@@ -72,17 +76,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-		;
-		$prefix = $this->getFromCache($cacheKey);
+
+		$id = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if ($prefix !== null) {
-			if (isset($this->backends[$prefix])) {
-				$result = \call_user_func_array([$this->backends[$prefix], $method], $parameters);
+		if ($id !== null) {
+			if (isset($this->backends[$id])) {
+				$result = \call_user_func_array([$this->backends[$id], $method], $parameters);
 				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
 					$groupExists = \call_user_func_array(
-						[$this->backends[$prefix], 'groupExists'],
+						[$this->backends[$id], 'groupExists'],
 						[$gid]
 					);
 					if (!$groupExists) {

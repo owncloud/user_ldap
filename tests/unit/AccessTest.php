@@ -69,7 +69,7 @@ class AccessTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testEscapeFilterPartValidChars($input, $expected) {
-		$this->assertSame($expected, $this->access->escapeFilterPart($input));
+		$this->assertSame($expected, Access::escapeFilterPart($input));
 	}
 
 	public function escapeFilterPartDataProvider() {

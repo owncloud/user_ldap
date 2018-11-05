@@ -30,30 +30,17 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCP\IConfig;
 use OCP\Util;
 
 /**
- * magic properties (incomplete)
  * responsible for LDAP connections in context with the provided configuration
- *
- * @property string ldapHost
- * @property string ldapPort holds the port number
- * @property string ldapUserFilter
- * @property string ldapUserDisplayName
- * @property string ldapUserDisplayName2
- * @property boolean hasPagedResultSupport
- * @property string[] ldapBaseUsers
- * @property int|string ldapPagingSize holds an integer
- * @property bool|mixed|void ldapGroupMemberAssocAttr
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes;
-	private $configPrefix;
-	private $configID;
 	private $configured = false;
-	private $hasPagedResultSupport = true;
 
 	// for now, these are the autodetected unique attributes
 	public $uuidAttributes = [
@@ -68,114 +55,57 @@ class Connection extends LDAPUtility {
 	//cache handler
 	protected $cache;
 
-	/** @var Configuration settings handler **/
-	protected $configuration;
+	/**
+	 * @var Server
+	 */
+	protected $server;
 
 	protected $ignoreValidation = false;
 
 	/**
 	 * Constructor
 	 * @param ILDAPWrapper $ldap
-	 * @param Configuration
-	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections // TODO might be obsolete
+	 * @param Server $server
 	 */
-	public function __construct(ILDAPWrapper $ldap, Configuration $configuration, $configID = 'user_ldap') {
+	public function __construct(ILDAPWrapper $ldap, Server $server) {
 		parent::__construct($ldap);
-		$this->configPrefix = $configuration->getPrefix();
-		$this->configID = $configID;
-		$this->configuration = $configuration;
+		$this->server = $server;
 
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-
-		$this->hasPagedResultSupport =
-			(int)$this->configuration->ldapPagingSize !== 0
-			|| $this->getLDAP()->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
 		if ($this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			@$this->getLDAP()->unbind($this->ldapConnectionRes);
-		};
+		}
 	}
 
 	/**
 	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
-		$this->configuration = new Configuration($this->configuration->getCoreConfig(),
-												 $this->configPrefix,
-												 $this->configID !== null);
-		$this->ldapConnectionRes = null;
-	}
-
-	/**
-	 * @param string $name
-	 * @return bool|mixed
-	 */
-	public function __get($name) {
-		if (!$this->configured) {
-			$this->readConfiguration();
-		}
-
-		if ($name === 'hasPagedResultSupport') {
-			return $this->hasPagedResultSupport;
-		}
-
-		return $this->configuration->$name;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function __set($name, $value) {
-		$before = $this->configuration->$name;
-		$this->configuration->$name = $value;
-		$after = $this->configuration->$name;
-		if ($before !== $after) {
-			if ($this->configID !== '') {
-				$this->configuration->saveConfiguration();
-			}
-			$this->validateConfiguration();
-		}
-	}
-
-	/**
-	 * sets whether the result of the configuration validation shall
-	 * be ignored when establishing the connection. Used by the Wizard
-	 * in early configuration state.
-	 * @param bool $state
-	 */
-	public function setIgnoreValidation($state) {
-		$this->ignoreValidation = (bool)$state;
-	}
-
-	/**
-	 * initializes the LDAP backend
-	 * @param bool $force read the config settings no matter what
-	 * @throws \OC\ServerNotAvailableException
-	 */
-	public function init($force = false) {
-		$this->readConfiguration($force);
-		$this->establishConnection();
+		$this->ldapConnectionRes = null; // use new connection resuorce
 	}
 
 	/**
 	 * Returns the LDAP handler
+	 *
 	 * @throws \OC\ServerNotAvailableException
+	 * @throws BindFailedException
 	 */
 	public function getConnectionResource() {
-		if (!$this->ldapConnectionRes) {
-			$this->init();
-		} elseif (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
-			$this->ldapConnectionRes = null;
-			$this->establishConnection();
+		if ($this->getLDAP()->isResource($this->ldapConnectionRes)) {
+			return $this->ldapConnectionRes;
 		}
+
+		$this->ldapConnectionRes = null;
+		$this->establishConnection();
+
 		if ($this->ldapConnectionRes === null) {
-			Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, Util::ERROR);
+			Util::writeLog('user_ldap', "No LDAP Connection to server {$this->server->getHost()}:{$this->server->getPort()}", Util::ERROR);
 			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
 		}
 		return $this->ldapConnectionRes;
@@ -196,7 +126,7 @@ class Connection extends LDAPUtility {
 	 * @return string
 	 */
 	private function getCacheKey($key) {
-		$prefix = 'LDAP-'.$this->configID.'-'.$this->configPrefix.'-';
+		$prefix = "LDAP-user_ldap-{$this->server->getId()}-";
 		if ($key === null) {
 			return $prefix;
 		}
@@ -208,10 +138,7 @@ class Connection extends LDAPUtility {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if (!$this->configured) {
-			$this->readConfiguration();
-		}
-		if ($this->cache === null || !$this->configuration->ldapCacheTTL) {
+		if ($this->cache === null || !$this->server->getCacheTTL()) {
 			return null;
 		}
 		$key = $this->getCacheKey($key);
@@ -224,17 +151,14 @@ class Connection extends LDAPUtility {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if (!$this->configured) {
-			$this->readConfiguration();
-		}
 		if ($this->cache === null
-			|| !$this->configuration->ldapCacheTTL
-			|| !$this->configuration->ldapConfigurationActive) {
+			|| !$this->server->getCacheTTL()
+			|| !$this->server->isActive()) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
 		$value = \base64_encode(\json_encode($value));
-		$this->cache->set($key, $value, $this->configuration->ldapCacheTTL);
+		$this->cache->set($key, $value, $this->server->getCacheTTL());
 	}
 
 	public function clearCache() {
@@ -244,77 +168,10 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * Caches the general LDAP configuration.
-	 * @param bool $force optional. true, if the re-read should be forced. defaults
-	 * to false.
+	 * @return Server
 	 */
-	private function readConfiguration($force = false) {
-		if ((!$this->configured || $force) && $this->configID !== null) {
-			$this->configuration->readConfiguration();
-			$this->configured = $this->validateConfiguration();
-		}
-	}
-
-	/**
-	 * set LDAP configuration with values delivered by an array, not read from configuration
-	 * @param array $config array that holds the config parameters in an associated array
-	 * @param array &$setParameters optional; array where the set fields will be given to
-	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
-	 */
-	public function setConfiguration($config, &$setParameters = null) {
-		if ($setParameters === null) {
-			$setParameters = [];
-		}
-		$this->configuration->setConfiguration($config, $setParameters);
-		if (\count($setParameters) > 0) {
-			$this->configured = $this->validateConfiguration();
-		}
-
-		return $this->configured;
-	}
-
-	/**
-	 * saves the current Configuration in the database and empties the
-	 * cache
-	 */
-	public function saveConfiguration() {
-		$this->configuration->saveConfiguration();
-		$this->clearCache();
-	}
-
-	/**
-	 * get the current LDAP configuration
-	 * @return array
-	 */
-	public function getConfiguration() {
-		$this->readConfiguration();
-		$config = $this->configuration->getConfiguration();
-		$cta = $this->configuration->getConfigTranslationArray();
-		$result = [];
-		foreach ($cta as $dbkey => $configkey) {
-			switch ($configkey) {
-				case 'homeFolderNamingRule':
-					if (\strpos($config[$configkey], 'attr:') === 0) {
-						$result[$dbkey] = \substr($config[$configkey], 5);
-					} else {
-						$result[$dbkey] = '';
-					}
-					break;
-				case 'ldapBase':
-				case 'ldapBaseUsers':
-				case 'ldapBaseGroups':
-				case 'ldapAttributesForUserSearch':
-				case 'ldapAttributesForGroupSearch':
-					if (\is_array($config[$configkey])) {
-						$result[$dbkey] = \implode("\n", $config[$configkey]);
-						break;
-					} //else follows default
-					// no break
-				default:
-					$result[$dbkey] = $config[$configkey];
-			}
-		}
-		return $result;
+	public function getServer() {
+		return $this->server;
 	}
 
 	private function doSoftValidation() {
@@ -485,12 +342,8 @@ class Connection extends LDAPUtility {
 	 * @throws BindFailedException
 	 */
 	private function establishConnection() {
-		if (!$this->configuration->ldapConfigurationActive) {
+		if (!$this->server->isActive()) {
 			return null;
-		}
-		static $phpLDAPinstalled = true;
-		if (!$phpLDAPinstalled) {
-			return false;
 		}
 		if (!$this->ignoreValidation && !$this->configured) {
 			Util::writeLog('user_ldap',
@@ -499,16 +352,7 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		if (!$this->ldapConnectionRes) {
-			if (!$this->getLDAP()->areLDAPFunctionsAvailable()) {
-				$phpLDAPinstalled = false;
-				Util::writeLog('user_ldap',
-									'function ldap_connect is not available. Make '.
-									'sure that the PHP ldap module is installed.',
-									Util::ERROR);
-
-				return false;
-			}
-			if ($this->configuration->turnOffCertCheck) {
+			if ($this->server->isTurnOffCertCheck()) {
 				if (\putenv('LDAPTLS_REQCERT=never')) {
 					Util::writeLog('user_ldap',
 						'Turned off SSL certificate validation successfully.',
@@ -523,17 +367,17 @@ class Connection extends LDAPUtility {
 			try {
 				// skip contacting main server after failed connection attempt
 				// until cache TTL is reached
-				if (\trim($this->configuration->ldapBackupHost) === ""
-					|| (!$this->configuration->ldapOverrideMainServer
+				if (empty($this->server->getBackupHost())
+					|| (!$this->server->isOverrideMainServer()
 					&& !$this->getFromCache('overrideMainServer'))
 				) {
 					$this->doConnect(
-							$this->configuration->ldapHost,
-							$this->configuration->ldapPort);
+							$this->server->getHost(),
+							$this->server->getPort());
 					if (@$this->ldap->bind(
 							$this->ldapConnectionRes,
-							$this->configuration->ldapAgentName,
-							$this->configuration->ldapAgentPassword)
+							$this->server->getBindDN(),
+							$this->server->getPassword())
 					) {
 						return true;
 					}
@@ -543,31 +387,31 @@ class Connection extends LDAPUtility {
 					throw new BindFailedException();
 				}
 			} catch (ServerNotAvailableException $e) {
-				if (\trim($this->configuration->ldapBackupHost) === "") {
+				if (empty($this->server->getBackupHost())) {
 					throw $e;
 				}
 			} catch (BindFailedException $e) {
-				if (\trim($this->configuration->ldapBackupHost) === "") {
+				if (empty($this->server->getBackupHost())) {
 					throw $e;
 				}
 			}
 
-			if (\trim($this->configuration->ldapBackupHost) === "") {
+			if (empty($this->server->getBackupHost())) {
 				$this->ldapConnectionRes = null;
 				return false;
 			}
 
 			// try the Backup (Replica!) Server
 			Util::writeLog('user_ldap',
-				'Trying to connect to backup server '.$this->configuration->ldapBackupHost.':'.$this->configuration->ldapBackupPort,
+				"Trying to connect to backup server {$this->server->getBackupHost()}:{$this->server->getBackupPort()}",
 				Util::DEBUG);
 			$this->doConnect(
-					$this->configuration->ldapBackupHost,
-					$this->configuration->ldapBackupPort);
+					$this->server->getBackupHost(),
+					$this->server->getBackupPort());
 			if (@$this->ldap->bind(
 					$this->ldapConnectionRes,
-					$this->configuration->ldapAgentName,
-					$this->configuration->ldapAgentPassword)
+					$this->server->getBindDN(),
+					$this->server->getPassword())
 			) {
 				if (!$this->getFromCache('overrideMainServer')) {
 					//when bind to backup server succeeded and failed to main server,
@@ -577,7 +421,7 @@ class Connection extends LDAPUtility {
 				return true;
 			}
 			Util::writeLog('user_ldap',
-				'Bind to backup server failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
+				"Bind to backup server failed: {$this->getLDAP()->errno($this->ldapConnectionRes)}: {$this->getLDAP()->error($this->ldapConnectionRes)}",
 				Util::DEBUG);
 			throw new BindFailedException();
 		}
@@ -597,7 +441,7 @@ class Connection extends LDAPUtility {
 		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
 		if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-				if ($this->configuration->ldapTLS) {
+				if ($this->server->isTls()) {
 					$this->getLDAP()->startTls($this->ldapConnectionRes);
 				}
 			}
@@ -613,10 +457,13 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Binds to LDAP
+	 *
 	 * @throws \OC\ServerNotAvailableException
+	 * @throws BindFailedException
+	 *
 	 */
 	public function bind() {
-		if (!$this->configuration->ldapConfigurationActive) {
+		if (!$this->server->isActive()) {
 			return false;
 		}
 

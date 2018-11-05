@@ -26,15 +26,20 @@
  *
  */
 
-$helper = new \OCA\User_LDAP\Helper();
-$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+$ocConfig = \OC::$server->getConfig();
 
-if (\count($configPrefixes) > 0) {
+$mapper = new \OCA\User_LDAP\Db\ServerMapper(
+	\OC::$server->getConfig(),
+	\OC::$server->getLogger()
+);
+
+$servers = $mapper->listAll(); // TODO filter only active?
+
+if (\count($servers) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
-	$ocConfig = \OC::$server->getConfig();
 
-	$userBackend  = new OCA\User_LDAP\User_Proxy($configPrefixes, $ldapWrapper, $ocConfig);
-	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
+	$userBackend  = new OCA\User_LDAP\User_Proxy($servers, $ldapWrapper, $ocConfig);
+	$groupBackend  = new OCA\User_LDAP\Group_Proxy($servers, $ldapWrapper);
 
 	// register user backend
 	OC_User::useBackend($userBackend);

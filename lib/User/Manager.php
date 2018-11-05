@@ -445,7 +445,7 @@ class Manager {
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
-		$search = $this->access->escapeFilterPart($search, true);
+		$search = Access::escapeFilterPart($search, true);
 
 		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
 		// error. With a limit of 0, we get 0 results. So we pass null.

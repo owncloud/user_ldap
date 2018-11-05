@@ -185,7 +185,7 @@ class Access implements IUserTools {
 		$this->abandonPagedSearch();
 		// openLDAP requires that we init a new Paged Search. Not needed by AD,
 		// but does not hurt either.
-		$pagingSize = (int)$this->connection->ldapPagingSize;
+		$pagingSize = (int)$this->connection->getServer()->getPageSize();
 		// 0 won't result in replies, small numbers may leave out groups
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		if ($pagingSize > 20) {
@@ -824,7 +824,7 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function fetchUsersByLoginName($loginName, array $attributes = ['dn']) {
-		$loginName = $this->escapeFilterPart($loginName);
+		$loginName = self::escapeFilterPart($loginName);
 		$filter = \str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		return $this->fetchListOfUsers($filter, $attributes);
 	}
@@ -838,7 +838,7 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function countUsersByLoginName($loginName) {
-		$loginName = $this->escapeFilterPart($loginName);
+		$loginName = self::escapeFilterPart($loginName);
 		$filter = \str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		return $this->countUsers($filter);
 	}
@@ -1326,7 +1326,7 @@ class Access implements IUserTools {
 	* @param bool $allowAsterisk whether in * at the beginning should be preserved
 	* @return string the escaped string
 	*/
-	public function escapeFilterPart($input, $allowAsterisk = false) {
+	public static function escapeFilterPart($input, $allowAsterisk = false) {
 		$asterisk = '';
 		if ($allowAsterisk && \strlen($input) > 0 && $input[0] === '*') {
 			$asterisk = '*';

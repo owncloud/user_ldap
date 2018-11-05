@@ -37,6 +37,7 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
+use OCA\User_LDAP\Db\GroupMapping;
 
 class Group_LDAP implements \OCP\GroupInterface {
 	protected $enabled = false;
@@ -58,8 +59,15 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 	public function __construct(Access $access) {
 		$this->access = $access;
-		$filter = $this->access->getConnection()->ldapGroupFilter;
-		$gassoc = $this->access->getConnection()->ldapGroupMemberAssocAttr;
+		$server = $this->access->getConnection()->getServer();
+		$mappings = $server->getMappings();
+		foreach ($mappings as $mapping) {
+			if ($mapping instanceof GroupMapping) {
+				$filter = $mapping->getFilter();
+				$gassoc = $mapping->getMemberAttribute();
+				break; // TODO how can we use all mappings?
+			}
+		}
 		if (!empty($filter) && !empty($gassoc)) {
 			$this->enabled = true;
 		}

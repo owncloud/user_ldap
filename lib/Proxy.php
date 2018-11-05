@@ -29,6 +29,7 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
@@ -52,9 +53,9 @@ abstract class Proxy {
 	}
 
 	/**
-	 * @param string $configPrefix
+	 * @param Server $server
 	 */
-	private function addAccess($configPrefix) {
+	private function addAccess(Server $server) {
 		static $coreConfig;
 		static $fs;
 		static $logger;
@@ -78,24 +79,25 @@ abstract class Proxy {
 		$userManager =
 			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
 
-		$configuration = new Configuration($coreConfig, $configPrefix);
-		$connector = new Connection($this->ldap, $configuration);
+
+		$connector = new Connection($this->ldap, $server);
 
 		$access = new Access($connector, $userManager);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
-		self::$accesses[$configPrefix] = $access;
+		self::$accesses[$server->getId()] = $access;
 	}
 
 	/**
-	 * @param string $configPrefix
+	 * @param Server $server
 	 * @return Access
 	 */
-	protected function getAccess($configPrefix) {
-		if (!isset(self::$accesses[$configPrefix])) {
-			$this->addAccess($configPrefix);
+	protected function getAccess(Server $server) {
+		$id = $server->getId();
+		if (!isset(self::$accesses[$id])) {
+			$this->addAccess($server);
 		}
-		return self::$accesses[$configPrefix];
+		return self::$accesses[$id];
 	}
 
 	/**

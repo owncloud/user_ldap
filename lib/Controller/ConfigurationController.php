@@ -27,6 +27,7 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Db\ServerMapper;
+use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCA\User_LDAP\Exceptions\ConfigException;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -178,69 +179,60 @@ class ConfigurationController extends Controller {
 	/**
 	 * test the given ldap config
 	 *
-	 * @param string $id config id
 	 * @return DataResponse
 	 */
-	public function test($id) {
-
-		$configs = $this->fetchAll();
-		if (empty($id) || !isset($configs[$id])) {
-			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+	public function test() {
+		$d = $this->request->post;
+		try {
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
-		$configuration = new Configuration($this->config, $id);
-		$connection = new Connection($this->ldapWrapper, $configuration);
+		$c->setActive(true);
 
+		$connection = new Connection($this->ldapWrapper, $c);
+
+		// TODO check config
+		//return new DataResponse([
+		//	'message' => $this->l10n->t('The configuration is invalid. Please have a look at the logs for further details.')
+		//], Http::STATUS_BAD_REQUEST);
+
+		// try connection
 		try {
-			$configurationOk = true;
-			$conf = $connection->getConfiguration();
-			if ($conf['ldap_configuration_active'] === '0') {
-				//needs to be true, otherwise it will also fail with an irritating message
-				$conf['ldap_configuration_active'] = '1';
-				$configurationOk = $connection->setConfiguration($conf);
-			}
-			if ($configurationOk) {
-				//Configuration is okay
+			if ($connection->bind()) {
 				/*
-				 * Closing the session since it won't be used from this point on. There might be a potential
-				 * race condition if a second request is made: either this request or the other might not
-				 * contact the LDAP backup server the first time when it should, but there shouldn't be any
-				 * problem with that other than the extra connection.
+				 * This shiny if block is an ugly hack to find out whether anonymous
+				 * bind is possible on AD or not. Because AD happily and constantly
+				 * replies with success to any anonymous bind request, we need to
+				 * fire up a broken operation. If AD does not allow anonymous bind,
+				 * it will end up with LDAP error code 1 which is turned into an
+				 * exception by the LDAP wrapper. We catch this. Other cases may
+				 * pass (like e.g. expected syntax error).
 				 */
-				$this->session->close();
-				if ($connection->bind()) {
-					/*
-					 * This shiny if block is an ugly hack to find out whether anonymous
-					 * bind is possible on AD or not. Because AD happily and constantly
-					 * replies with success to any anonymous bind request, we need to
-					 * fire up a broken operation. If AD does not allow anonymous bind,
-					 * it will end up with LDAP error code 1 which is turned into an
-					 * exception by the LDAP wrapper. We catch this. Other cases may
-					 * pass (like e.g. expected syntax error).
-					 */
-					try {
-						$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
-					} catch (\Exception $e) {
-						if ($e->getCode() === 1) {
-							return new DataResponse([
-								'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
-							], Http::STATUS_BAD_REQUEST);
-						}
+				try {
+					$this->ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
+				} catch (\Exception $e) {
+					if ($e->getCode() === 1) {
 						return new DataResponse([
-							'message' => $e->getMessage(),
-							'code' => $e->getCode()
+							'message' => $this->l10n->t('The configuration is invalid: anonymous bind is not allowed.')
 						], Http::STATUS_BAD_REQUEST);
 					}
 					return new DataResponse([
-						'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
-					]);
+						'message' => $e->getMessage(),
+						'code' => $e->getCode()
+					], Http::STATUS_BAD_REQUEST);
 				}
 				return new DataResponse([
-					'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
-				], Http::STATUS_BAD_REQUEST);
+					'message' => $this->l10n->t('The configuration is valid and the connection could be established!')
+				]);
 			}
 			return new DataResponse([
-				'message' => $this->l10n->t('The configuration is invalid. Please have a look at the logs for further details.')
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
+			], Http::STATUS_BAD_REQUEST);
+		} catch (BindFailedException $e) {
+			return new DataResponse([
+				'message' => $this->l10n->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')
 			], Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return new DataResponse([
@@ -266,43 +258,34 @@ class ConfigurationController extends Controller {
 	}
 
 	/**
-	 * find a user dn using some well known ldap attributes:
+	 * find an entity in a mapping using some well known ldap attributes:
 	 * cn, uid, samaccountname, userprincipalname, mail, displayname
 	 *
-	 * @param string $id config id
-	 * @param string $username username to search for
+	 * @param string $query $query to use
 	 * @return DataResponse
 	 */
-	public function discover($id, $username) {
-		$configs = $this->fetchAll();
-		if (empty($id) || !isset($configs[$id])) {
-			return new DataResponse(null, Http::STATUS_NOT_FOUND);
-		}
-		$configuration = new Configuration($this->config, $id);
-		$connection = new Connection($this->ldapWrapper, $configuration);
-		$connection->setIgnoreValidation(true);
+	public function discover($query) {
+		$d = $this->request->post;
 		try {
-			$conf = $connection->getConfiguration();
-			if ($conf['ldap_configuration_active'] === '0') {
-				//needs to be true, otherwise it will also fail with an irritating message
-				$conf['ldap_configuration_active'] = '1';
-				$connection->setConfiguration($conf);
-			}
-			//Configuration is okay
-			/*
-			 * Closing the session since it won't be used from this point on. There might be a potential
-			 * race condition if a second request is made: either this request or the other might not
-			 * contact the LDAP backup server the first time when it should, but there shouldn't be any
-			 * problem with that other than the extra connection.
-			 */
-			$this->session->close();
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+		if (count($c->getMappings()) !== 1) {
+			return new DataResponse(['error' => 'To discover an entity the config must contain the mapping that should be used'], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		$c->setActive(true);
+
+		$connection = new Connection($this->ldapWrapper, $c);
+		try {
 			if ($connection->bind()) {
 				try {
-					$username = Access::escapeFilterPart($username);
+					$username = Access::escapeFilterPart($query);
 					$filter = "(&(|(objectClass=User)(objectClass=inetOrgPerson))(|(cn=$username)(uid=$username)(samaccountname=$username)(userprincipalname=$username)(mail=$username)(displayname=$username)))";
 					$sr = $this->ldapWrapper->search(
 						$connection->getConnectionResource(),
-						$conf[],
+						$c->getMappings()[0]->getBaseDN(),
 						$filter,
 						['dn', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'displayname'],
 						0, // attributes and values

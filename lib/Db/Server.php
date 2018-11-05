@@ -178,7 +178,7 @@ class Server implements \JsonSerializable {
 	/**
 	 * @return bool
 	 */
-	public function getTls() {
+	public function isTls() {
 		return $this->tls;
 	}
 
