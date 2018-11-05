@@ -21,14 +21,15 @@
 
 namespace OCA\User_LDAP\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Db\ServerMapper;
+use OCA\User_LDAP\Exceptions\ConfigException;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -95,7 +96,6 @@ class ConfigurationController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
 	public function listAll() {
@@ -105,34 +105,35 @@ class ConfigurationController extends Controller {
 	/**
 	 * create a new ldap config
 	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
 	public function create() {
 		$d = $this->request->post;
-		$c = new Server($d);
-		if (empty($c->getId())) {
-			return new DataResponse(null, Http::STATUS_UNPROCESSABLE_ENTITY);
+		try {
+			$c = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$o = $this->mapper->find($c->getId());
-		if ($o !== null) {
+		try {
+			$this->mapper->insert($c);
+		} catch (UniqueConstraintViolationException $e) {
 			return new DataResponse(null, Http::STATUS_CONFLICT);
 		}
-		$this->mapper->insert($c);
 		return new DataResponse($c);
 	}
 	/**
 	 * get the given ldap config
 	 *
-	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
 	public function read($id) {
-		$c = $this->mapper->find($id);
-		if ($c === null) {
+		try {
+			$c = $this->mapper->find($id);
+		} catch (DoesNotExistException $e) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		// hide password
@@ -142,24 +143,29 @@ class ConfigurationController extends Controller {
 
 		return new DataResponse($c);
 	}
+
 	/**
 	 * write the given ldap config, config is created if it does not exist
 	 *
-	 * @NoCSRFRequired
 	 * @return DataResponse
+	 * @throws DoesNotExistException should not happen
 	 */
 	public function update() {
 		$d = $this->request->post;
-		$n = new Server($d);
-		// new config muste have an id
-		if (empty($n->getId())) {
-			return new DataResponse(null, Http::STATUS_UNPROCESSABLE_ENTITY);
+		try {
+			$n = new Server($d);
+		} catch (ConfigException $e) {
+			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 		// id must exist
-		$c = $this->mapper->find($n->getId());
-		if ($c === null) {
+		try {
+			$c = $this->mapper->find($n->getId());
+		} catch (DoesNotExistException $e) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
+		} catch (ConfigException $e) {
+			// ignore ... we are overwriting it anyway
 		}
+
 		// copy old password if no new one was configured
 		if ($n->getPassword() === true) {
 			$n->setPassword($c->getPassword());
@@ -172,7 +178,6 @@ class ConfigurationController extends Controller {
 	/**
 	 * test the given ldap config
 	 *
-	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
@@ -246,18 +251,17 @@ class ConfigurationController extends Controller {
 	}
 
 	/**
-	 * get the given ldap config
+	 * delete the given ldap config
 	 *
-	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @return DataResponse
 	 */
 	public function delete($id) {
-		$c = $this->mapper->find($id);
-		if ($c === null) {
+		try {
+			$this->mapper->delete($id);
+		} catch (DoesNotExistException $e) {
 			return new DataResponse(null, Http::STATUS_NOT_FOUND);
 		}
-		$this->mapper->delete($id);
 		return new DataResponse(null, Http::STATUS_OK);
 	}
 
@@ -265,7 +269,6 @@ class ConfigurationController extends Controller {
 	 * find a user dn using some well known ldap attributes:
 	 * cn, uid, samaccountname, userprincipalname, mail, displayname
 	 *
-	 * @NoCSRFRequired
 	 * @param string $id config id
 	 * @param string $username username to search for
 	 * @return DataResponse

@@ -1,7 +1,28 @@
 <?php
+/**
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ *
+ * @copyright Copyright (c) 2018, ownCloud GmbH
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
 
 namespace OCA\User_LDAP\Db;
 
+
+use OCA\User_LDAP\Exceptions\ConfigException;
 
 class Server implements \JsonSerializable {
 
@@ -26,11 +47,20 @@ class Server implements \JsonSerializable {
 	 */
 	private $mappings = [];
 
+	/**
+	 * Server constructor.
+	 *
+	 * @param array|null $data
+	 * @throws ConfigException
+	 */
 	public function __construct(array $data = null) {
 		if ($data === null) {
 			$data = [];
 		}
-		$this->id =                 isset($data['id'])                 ? (string)$data['id']                 : null;
+		if (empty($data['id'])) {
+			throw new ConfigException('Server config object must have an "id" property. Pro-tip: generate a uuid.');
+		}
+		$this->id = (string)$data['id'];
 		$this->active =             isset($data['active'])             ?   (bool)$data['active']             : false;
 		$this->host =               isset($data['host'])               ? (string)$data['host']               : '127.0.0.1';
 		$this->port =               isset($data['port'])               ?    (int)$data['port']               : 369;
@@ -53,10 +83,10 @@ class Server implements \JsonSerializable {
 				} else if ($mapping['type'] === 'group') {
 					$this->mappings[] = new GroupMapping($mapping);
 				} else {
-					throw new \Exception("unknown mapping type {$mapping['type']}");
+					throw new ConfigException("Unknown mapping type {$mapping['type']}");
 				}
 			} else {
-				throw new \Exception('no mapping type available');
+				throw new ConfigException('Mappings must have a "type" property');
 			}
 		}
 	}
