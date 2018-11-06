@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\User_LDAP\Db;
+namespace OCA\User_LDAP\Config;
 
 
 class GroupMapping extends Mapping {
@@ -81,4 +81,21 @@ class GroupMapping extends Mapping {
 
 	// TODO add hasPrimaryGroups as config, only detect it once
 
+
+	/**
+	 * Specify data which should be serialized to JSON
+	 *
+	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+	 * @return mixed data which can be serialized by <b>json_encode</b>,
+	 * which is a value of any type other than a resource.
+	 * @since 5.4.0
+	 */
+	public function jsonSerialize() {
+		$data = [];
+		// maybe using an array to store the properties makes more sense ... but please with explicit getters and setters
+		foreach ($this as $key => $value) {
+			$data[$key] = $value;
+		}
+		return $data;
+	}
 }

@@ -23,10 +23,9 @@ namespace OCA\User_LDAP\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\Db\Server;
-use OCA\User_LDAP\Db\ServerMapper;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
 use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCA\User_LDAP\Exceptions\ConfigException;
 use OCA\User_LDAP\Helper;
@@ -173,6 +172,9 @@ class ConfigurationController extends Controller {
 		}
 
 		$this->mapper->update($n);
+
+		// hide password
+		$n->setPassword(true);
 		return new DataResponse($n);
 	}
 

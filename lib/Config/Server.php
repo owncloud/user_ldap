@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\User_LDAP\Db;
+namespace OCA\User_LDAP\Config;
 
 
 use OCA\User_LDAP\Exceptions\ConfigException;
@@ -343,6 +343,7 @@ class Server implements \JsonSerializable {
 		foreach ($this as $key => $value) {
 			if ($key === 'mappings') {
 				$data[$key] = [];
+				/** @var Mapping $mapping */
 				foreach ($value as $mapping) {
 					$data[$key][] = $mapping->jsonSerialize();
 				}

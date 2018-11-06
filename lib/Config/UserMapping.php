@@ -19,10 +19,13 @@
  *
  */
 
-namespace OCA\User_LDAP\Db;
+namespace OCA\User_LDAP\Config;
 
 
 class UserMapping extends Mapping {
+
+	const LOGIN_FILTER_MODE_AUTO = 0;
+	const LOGIN_FILTER_MODE_MANUAL = 1;
 
 	/**
 	 * @var string
@@ -77,6 +80,29 @@ class UserMapping extends Mapping {
 	 */
 	private $quotaDefault;
 
+	public function __construct(array $data) {
+		parent::__construct($data);
+
+		$this->filterObjectclass =     isset($data['filterObjectclass'])     ?         $data['filterObjectclass']          : ['objectclass=person'];
+
+		$this->loginFilterMode =       isset($data['loginFilterMode'])       ?    (int)$data['loginFilterMode']       : self::LOGIN_FILTER_MODE_AUTO;
+		$this->loginFilterEmail =      isset($data['loginFilterEmail'])      ?   (bool)$data['loginFilterEmail']      : false;
+		$this->loginFilterUsername =   isset($data['loginFilterUsername'])   ?   (bool)$data['loginFilterUsername']   : true;
+		$this->loginFilterAttributes = isset($data['loginFilterAttributes']) ?         $data['loginFilterAttributes'] : [];
+		$this->usernameAttribute =     isset($data['usernameAttribute'])     ? (string)$data['usernameAttribute']     : 'samaccountname';
+		$this->expertUsernameAttr =    isset($data['expertUsernameAttr'])    ? (string)$data['expertUsernameAttr']    : 'auto';
+		$this->displayName2Attribute = isset($data['displayName2Attribute']) ? (string)$data['displayName2Attribute'] : 'displayName';
+		$this->emailAttribute =        isset($data['emailAttribute'])        ? (string)$data['emailAttribute']        : 'mail';
+		$this->homeFolderNamingRule =  isset($data['homeFolderNamingRule'])  ? (string)$data['homeFolderNamingRule']  : null;
+		$this->quotaAttribute =        isset($data['quotaAttribute'])        ? (string)$data['quotaAttribute']        : null;
+		$this->quotaDefault =          isset($data['quotaDefault'])          ?    (int)$data['quotaDefault']          : null;
+
+		if ($this->loginFilterMode === self::LOGIN_FILTER_MODE_AUTO) {
+			$this->loginFilter = '(&('.implode(')(', $this->filterObjectclass).")({$this->usernameAttribute}=%uid))";
+		} else {
+			$this->loginFilter =           isset($data['loginFilter'])           ? (string)$data['loginFilter']           : null;
+		}
+	}
 	/**
 	 * @return string
 	 */
@@ -245,4 +271,21 @@ class UserMapping extends Mapping {
 		$this->quotaDefault = $quotaDefault;
 	}
 
+
+	/**
+	 * Specify data which should be serialized to JSON
+	 *
+	 * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+	 * @return mixed data which can be serialized by <b>json_encode</b>,
+	 * which is a value of any type other than a resource.
+	 * @since 5.4.0
+	 */
+	public function jsonSerialize() {
+		$data = [];
+		// maybe using an array to store the properties makes more sense ... but please with explicit getters and setters
+		foreach ($this as $key => $value) {
+			$data[$key] = $value;
+		}
+		return $data;
+	}
 }

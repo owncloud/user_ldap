@@ -19,10 +19,10 @@
  *
  */
 
-namespace OCA\User_LDAP\Db;
+namespace OCA\User_LDAP\Config;
 
 
-abstract class Mapping {
+abstract class Mapping implements \JsonSerializable {
 
 	/**
 	 * @var string
