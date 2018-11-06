@@ -28,7 +28,7 @@
 
 $ocConfig = \OC::$server->getConfig();
 
-$mapper = new \OCA\User_LDAP\Db\ServerMapper(
+$mapper = new \OCA\User_LDAP\Config\ServerMapper(
 	\OC::$server->getConfig(),
 	\OC::$server->getLogger()
 );
