@@ -169,10 +169,10 @@ class Server implements \JsonSerializable {
 	}
 
 	/**
-	 * @param string $password
+	 * @param string|true $password
 	 */
 	public function setPassword($password) {
-		$this->password = (string)$password;
+		$this->password = $password;
 	}
 
 	/**
