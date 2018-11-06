@@ -29,75 +29,26 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\Server;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\Connection\BackendManager;
 
 abstract class Proxy {
-	private static $accesses = [];
-	private $ldap = null;
+
+
+	/** @var BackendManager */
+	protected $manager;
 
 	/** @var \OCP\ICache|null */
 	private $cache;
 
 	/**
-	 * @param ILDAPWrapper $ldap
+	 * @param BackendManager $manager
 	 */
-	public function __construct(ILDAPWrapper $ldap) {
-		$this->ldap = $ldap;
+	public function __construct(BackendManager $manager) {
+		$this->manager = $manager;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-	}
-
-	/**
-	 * @param Server $server
-	 */
-	private function addAccess(Server $server) {
-		static $coreConfig;
-		static $fs;
-		static $logger;
-		static $avatarM;
-		static $userMap;
-		static $groupMap;
-		static $db;
-		static $coreUserManager;
-		static $helper;
-		if ($fs === null) {
-			$coreConfig = \OC::$server->getConfig();
-			$fs       = new FilesystemHelper();
-			$logger   = \OC::$server->getLogger();
-			$avatarM  = \OC::$server->getAvatarManager();
-			$db       = \OC::$server->getDatabaseConnection();
-			$userMap  = new UserMapping($db);
-			$groupMap = new GroupMapping($db);
-			$coreUserManager = \OC::$server->getUserManager();
-			$helper   = new Helper();
-		}
-		$userManager =
-			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
-
-
-		$connector = new Connection($this->ldap, $server);
-
-		$access = new Access($connector, $userManager);
-		$access->setUserMapper($userMap);
-		$access->setGroupMapper($groupMap);
-		self::$accesses[$server->getId()] = $access;
-	}
-
-	/**
-	 * @param Server $server
-	 * @return Access
-	 */
-	protected function getAccess(Server $server) {
-		$id = $server->getId();
-		if (!isset(self::$accesses[$id])) {
-			$this->addAccess($server);
-		}
-		return self::$accesses[$id];
 	}
 
 	/**

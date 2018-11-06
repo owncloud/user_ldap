@@ -23,6 +23,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Db\UserMapping;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
@@ -46,9 +47,9 @@ class UserEntry {
 	 */
 	protected $logger;
 	/**
-	 * @var Connection
+	 * @var UserMapping
 	 */
-	protected $connection;
+	protected $mapping;
 	/**
 	 * @var array
 	 */
@@ -62,15 +63,14 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * // FIXME Connection is used to look uf configuration ... pass in Configuration instead?
-	 * @param Connection $connection to lookup configured attribute names
+	 * @param UserMapping $mapping
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 */
-	public function __construct(IConfig $config, ILogger $logger, Connection $connection, array $ldapEntry) {
+	public function __construct(IConfig $config, ILogger $logger, UserMapping $mapping, array $ldapEntry) {
 		$this->config = $config;
 		$this->logger = $logger;
-		$this->connection = $connection;
+		$this->mapping = $mapping;
 		// Fix ldap entry to force all keys to lowercase
 		foreach ($ldapEntry as $key => $value) {
 			$this->ldapEntry[\strtolower($key)] = $ldapEntry[$key];
@@ -96,7 +96,7 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if username could not be determined
 	 */
 	public function getUsername() {
-		$attr = $this->getAttributeName('ldapExpertUsernameAttr');
+		$attr = $this->mapping->getExpertUsernameAttr();
 		if ($attr === '') {
 			$username = $this->getUUID(); // fallback to uuid
 		} else {

@@ -30,8 +30,16 @@ $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);
 $helper = new Helper();
 $ocConfig = \OC::$server->getConfig();
+
+$mapper = new \OCA\User_LDAP\Config\ServerMapper(
+	$ocConfig,
+	\OC::$server->getLogger()
+);
+
+$servers = $mapper->listAll(); // TODO filter only active?
+
 $uBackend = new User_Proxy(
-	$helper->getServerConfigurationPrefixes(true),
+	$mapper->listAll(),
 	new LDAP(),
 	$ocConfig
 );

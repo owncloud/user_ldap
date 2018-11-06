@@ -26,20 +26,33 @@
  *
  */
 
-$ocConfig = \OC::$server->getConfig();
+$config = \OC::$server->getConfig();
+$logger = \OC::$server->getLogger();
 
 $mapper = new \OCA\User_LDAP\Config\ServerMapper(
-	\OC::$server->getConfig(),
-	\OC::$server->getLogger()
+	$config,
+	$logger
 );
 
-$servers = $mapper->listAll(); // TODO filter only active?
 
-if (\count($servers) > 0) {
+if (\count($mapper->listAll()) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
+	$db = \OC::$server->getDatabaseConnection();
 
-	$userBackend  = new OCA\User_LDAP\User_Proxy($servers, $ldapWrapper, $ocConfig);
-	$groupBackend  = new OCA\User_LDAP\Group_Proxy($servers, $ldapWrapper);
+	$backendManager = new \OCA\User_LDAP\Connection\BackendManager(
+		$config,
+		$logger,
+		\OC::$server->getAvatarManager(),
+		\OC::$server->getUserManager(),
+		$db,
+		$ldapWrapper,
+		new \OCA\User_LDAP\Mapping\UserMapping($db),
+		new \OCA\User_LDAP\Mapping\GroupMapping($db),
+		new \OCA\User_LDAP\FilesystemHelper()
+	);
+
+	$userBackend  = new OCA\User_LDAP\User_Proxy($mapper, $backendManager, $config);
+	$groupBackend  = new OCA\User_LDAP\Group_Proxy($mapper, $backendManager);
 
 	// register user backend
 	OC_User::useBackend($userBackend);

@@ -28,6 +28,9 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Config\UserMapping;
+use OCA\User_LDAP\Connection\BackendManager;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -37,27 +40,26 @@ use OCP\UserInterface;
 
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvidesQuotaBackend, IProvidesExtendedSearchBackend, IProvidesEMailBackend {
 
-	/**
-	 * @var User_LDAP[]
-	 */
-	private $backends = [];
 	private $refBackend;
 
 	/**
 	 * Constructor
-	 * @param Server[] $servers array containing the server configs
-	 * @param ILDAPWrapper $ldap
+	 * @param ServerMapper $config
+	 * @param BackendManager $manager
 	 * @param IConfig $ocConfig
 	 *
 	 */
-	public function __construct(array $servers, ILDAPWrapper $ldap, IConfig $ocConfig) {
-		parent::__construct($ldap);
-		foreach ($servers as $server) {
-			$id = $server->getId();
-			$this->backends[$id] =
-				new User_LDAP($ocConfig, $this->getAccess($server)->getUserManager());
-			if ($this->refBackend === null) {
-				$this->refBackend = &$this->backends[$id];
+	public function __construct(ServerMapper $config, BackendManager $manager, IConfig $ocConfig) {
+		parent::__construct($manager);
+		foreach ($config->listAll() as $server) {
+			foreach ($server->getMappings() as $i => $mapping) {
+				if ($mapping instanceof UserMapping) {
+					$backend = $manager->createUserBackend($server, $mapping);
+					// first backend is used for reference
+					if ($this->refBackend === null) {
+						$this->refBackend = $backend;
+					}
+				}
 			}
 		}
 	}
@@ -71,13 +73,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 	 */
 	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
-		foreach ($this->backends as $id => $backend) {
-			$instance = $backend;
-			if (!\method_exists($instance, $method)
-				&& \method_exists($this->getAccess($id), $method)) {
-				$instance = $this->getAccess($id);
-			}
-			if ($result = \call_user_func_array([$instance, $method], $parameters)) {
+		foreach ($this->manager->getUserBackends() as $id => $backend) {
+			if ($result = \call_user_func_array([$backend, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $id);
 				return $result;
 			}

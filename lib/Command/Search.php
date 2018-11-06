@@ -23,6 +23,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Config\ServerMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +32,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Group_Proxy;
-use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCP\IConfig;
 
@@ -101,16 +101,19 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+		$mapper = new ServerMapper(
+			\OC::$server->getConfig(),
+			\OC::$server->getLogger()
+		);
+		$servers = $mapper->listAll();
 		$ldapWrapper = new LDAP();
 
-		$offset = \intval($input->getOption('offset'));
-		$limit = \intval($input->getOption('limit'));
+		$offset = (int)$input->getOption('offset');
+		$limit = (int)$input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper);
+			$proxy = new Group_Proxy($servers, $ldapWrapper);
 			$getMethod = 'getGroups';
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
@@ -119,7 +122,7 @@ class Search extends Command {
 				$limit = null;
 			}
 		} else {
-			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig);
+			$proxy = new User_Proxy($servers, $ldapWrapper, $this->ocConfig);
 			$getMethod = 'getDisplayNames';
 			$printID = true;
 		}

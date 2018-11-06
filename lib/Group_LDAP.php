@@ -37,7 +37,7 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
-use OCA\User_LDAP\Db\GroupMapping;
+use OCA\User_LDAP\Config\GroupMapping;
 
 class Group_LDAP implements \OCP\GroupInterface {
 	protected $enabled = false;
@@ -230,9 +230,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$members = $this->access->readAttribute($dnGroup, $this->access->getConnection()->ldapGroupMemberAssocAttr,
 												$this->access->getConnection()->ldapGroupFilter);
 		if (\is_array($members)) {
+			$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
 			foreach ($members as $memberDN) {
 				$allMembers[$memberDN] = 1;
-				$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
 				if (!empty($nestedGroups)) {
 					$subMembers = $this->_groupMembers($memberDN, $seen);
 					if ($subMembers) {

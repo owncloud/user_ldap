@@ -28,6 +28,7 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -89,7 +90,7 @@ class Manager {
 	 * @param ILogger $logger
 	 * @param IAvatarManager $avatarManager
 	 * @param IDBConnection $db
-	 * @throws \Exception when the methods mentioned above do not exist
+	 * @param IUserManager $userManager
 	 */
 	public function __construct(IConfig $ocConfig,
 								FilesystemHelper $ocFilesystem, ILogger $logger,
@@ -127,7 +128,7 @@ class Manager {
 	/**
 	 * @return Connection
 	 */
-	public function getConnection() {
+	private function getConnection() {
 		return $this->access->getConnection();
 	}
 	/**
@@ -138,31 +139,34 @@ class Manager {
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true,
-			$this->getConnection()->ldapQuotaAttribute => true,
-			$this->getConnection()->ldapEmailAttribute => true,
-			$this->getConnection()->ldapUserDisplayName => true,
-			$this->getConnection()->ldapUserDisplayName2 => true,
-			$this->getConnection()->ldapExpertUsernameAttr => true,
-		];
-		$homeRule = $this->getConnection()->homeFolderNamingRule;
-		if (\strpos($homeRule, 'attr:') === 0) {
-			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
-		}
-		$searchAttributes = $this->getConnection()->ldapAttributesForUserSearch;
-		if ($searchAttributes === '' || $searchAttributes === null) { //FIXME empty multiline initializes as '', make it []
-			$searchAttributes = [];
-		}
-		foreach ($searchAttributes as $attr) {
-			if (\is_string($attr)) {
-				$attributes[$attr] = true;
+		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true];
+		$server = $this->getConnection()->getServer();
+		$lookupUUIDAttribute = false;
+		foreach ($server->getMappings() as $mapping) {
+			if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
+				$attributes[$mapping->getEmailAttribute()] = true;
+				$attributes[$mapping->getDisplayNameAttribute()] = true;
+				$attributes[$mapping->getDisplayName2Attribute()] = true;
+				$attributes[$mapping->getUsernameAttribute()] = true;
+				$attributes[$mapping->getExpertUsernameAttr()] = true;
+				$attributes[$mapping->getQuotaAttribute()] = true;
+				foreach ($mapping->getAdditionalSearchAttributes() as $attr) {
+					$attributes[$attr] = true;
+				}
+				$homeRule = $mapping->getHomeFolderNamingRule();
+				if (\strpos($homeRule, 'attr:') === 0) {
+					$attributes[\substr($homeRule, \strlen('attr:'))] = true;
+				}
+				$uuidAttribute = $mapping->getUuidAttribute();
+				if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
+					// if uuidAttribute is specified use that
+					$attributes[$uuidAttribute] = true;
+				} else {
+					$lookupUUIDAttribute = true;
+				}
 			}
 		}
-		$uuidAttribute = $this->getConnection()->ldapUuidUserAttribute;
-		if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
-			// if uuidAttribute is specified use that
-			$attributes[$uuidAttribute] = true;
-		} else {
+		if ($lookupUUIDAttribute) {
 			// get known possible uuidAttributes
 			foreach ($this->getConnection()->uuidAttributes as $attr) {
 				$attributes[$attr] = true;
@@ -194,7 +198,7 @@ class Manager {
 			$dn,
 			$this->getAttributes(),
 			$this->getConnection()->ldapUserFilter,
-			20); // TODO why 20? why is 1 not sufficient?
+			20); // TODO why 20? why is 1 not sufficient? hm maybe if multiple servers are asked at the same time? so this is a limit to 20 servers??
 		if ($result === false || $result['count'] === 0) {
 			// FIXME the ldap error ($result = false) should bubble up ... and not be converted to a DoesNotExistOnLDAPException
 			throw new DoesNotExistOnLDAPException($dn);
@@ -454,7 +458,7 @@ class Manager {
 		}
 		$filter = $this->access->combineFilterWithAnd([
 			$this->getConnection()->ldapUserFilter,
-			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all
+			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all? A: it requires the attribute to be not empty
 			$this->access->getFilterPartForUserSearch($search)
 		]);
 

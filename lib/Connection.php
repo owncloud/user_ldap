@@ -59,7 +59,7 @@ class Connection extends LDAPUtility {
 	 */
 	protected $server;
 
-	protected $ignoreValidation = false;
+	protected $ignoreValidation = true;
 
 	/**
 	 * Constructor

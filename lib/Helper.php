@@ -28,6 +28,8 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Db\ServerMapper;
+
 class Helper {
 
 	/**
@@ -196,15 +198,16 @@ class Helper {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		//ain't it ironic?
-		$helper = new Helper();
-
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		$ocConfig = \OC::$server->getConfig();
 
+		$mapper = new ServerMapper(
+			$ocConfig,
+			\OC::$server->getLogger()
+		);
+
 		$userBackend  = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig
+			$mapper->listAll(), $ldapWrapper, $ocConfig
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
