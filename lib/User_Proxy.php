@@ -27,7 +27,7 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Db\Server;
+use OCA\User_LDAP\Config\Server;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
