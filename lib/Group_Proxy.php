@@ -25,7 +25,7 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Db\Server;
+use OCA\User_LDAP\Config\Server;
 
 class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	private $backends = [];

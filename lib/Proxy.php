@@ -29,7 +29,7 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Db\Server;
+use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;

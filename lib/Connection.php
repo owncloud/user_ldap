@@ -30,9 +30,8 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
-use OCA\User_LDAP\Db\Server;
+use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Exceptions\BindFailedException;
-use OCP\IConfig;
 use OCP\Util;
 
 /**
