@@ -3,8 +3,8 @@
         <h2>
             LDAP Wizard
         </h2>
-		<wizardServer :server="config" :is-active="true"></wizardServer>
-		<wizardUsers :users="config" :is-available="userMappingAvailable" :is-active="true"></wizardUsers>
+		<wizardServer :server="config"></wizardServer>
+		<wizardUsers :users="config" :is-open="userConfigOpen"></wizardUsers>
 		<button @click="returnToList" class="margin-add-x2-top float-right" v-translate>
 			Close
 		</button>
@@ -25,33 +25,24 @@ export default {
 		return {
 			config  : false,
 			loading : false,
-			failed  : false
+			failed  : false,
+			userConfigOpen : false,
+			GroupConfigOpen : false
 		};
 	},
 	mounted () {
 		this.fetchConfig();
 	},
 	watch : {
-		'config.ldap_turn_off_cert_check' (val) {
-			if (val === '0') {
-				this.config.ldap_turn_off_cert_check = false;
-			}
-		},
-		'config.ldap_host' (val) {
-			if (_.isEmpty(val)) {
-				this.config.ldap_host = null;
-			}
-		},
-		'config.ldap_port' (val) {
-			if (_.isEmpty(val)) {
-				this.config.ldap_port = null;
-			}
-		},
-		'config.ldap_dn' (val) {
-			if (_.isEmpty(val)) {
-				this.config.ldap_dn = null;
-			}
-		}
+		config : {
+            deep : true,
+            handler (config) {
+				if (config.host && config.port && config.bindDN && config.password)
+					this.userConfigOpen = true;
+				else
+					this.userConfigOpen = false;
+            }
+        },
 	},
 	computed : {
 		id () {

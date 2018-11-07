@@ -23,7 +23,7 @@
 							{{ config.id }}
 						</td>
 						<td class="text-monospace">
-							{{ config.ldap_host | none }}:{{ config.ldap_port | none }}
+							{{ config.host | none }}:{{ config.port | none }}
 						</td>
 						<td class="content-align-right">
 							<button @click="openWizard(config.id)">Edit</button>
@@ -41,9 +41,11 @@
 			</table>
 		</div>
 		<loading-spinner :active="loading"></loading-spinner>
-    </section>
+	</section>
 </template>
 <script>
+const chance = require('chance').Chance();
+
 export default {
 	name : 'List',
 	data () {
@@ -57,7 +59,7 @@ export default {
 	},
 	filters : {
 		none(string) {
-			if (!_.isEmpty(string)) {
+			if (toString(string).length > 0) {
 				return string;
 			}
 			return 'none';
@@ -67,6 +69,9 @@ export default {
 		this.fetchConfigs();
 	},
 	methods : {
+		getRandomFistname() {
+			return chance.first().toLowerCase()
+		},
 		fetchConfigs () {
 			this.loading = true;
 			this.failed  = false;
@@ -80,7 +85,14 @@ export default {
 			});
 		},
 		createNewConfig () {
-			$.post(OC.generateUrl('apps/user_ldap/configurations')).done((data) => {
+			$.ajax({
+				url    : OC.generateUrl('apps/user_ldap/configurations'),
+				method : 'POST',
+				data   : {
+					id : this.getRandomFistname(),
+					mappings : []
+				}
+			}).done((data) => {
 				this.configurations.push(data);
 				this.openWizard(data.id);
 			});

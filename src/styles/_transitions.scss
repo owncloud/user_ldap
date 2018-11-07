@@ -1,0 +1,12 @@
+.fade-enter-active,
+.fade-leave-active {
+    transition: transform 0.26s ease;
+    transform-origin: top;
+    transform: scaleY(1);
+}
+.fade-enter,
+.fade-leave-to {
+    transition: transform 0.26s ease;
+    transform-origin: top;
+    transform: scaleY(0);
+}

@@ -130,3 +130,17 @@ button.icon {
     display: inline-block;
     float: right;
 }
+
+.opacity {
+    &-half {
+        opacity: .5;
+    }
+
+    &-one-third {
+        opacity: .333;
+    }
+
+    &-two-thirds {
+        opacity: .666;
+    }
+}
