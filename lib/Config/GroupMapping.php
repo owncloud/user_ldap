@@ -29,7 +29,7 @@ class GroupMapping extends Mapping {
 	 */
 	private $memberAttribute;
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $dynamicGroupMemberURL;
 	/**
@@ -37,6 +37,15 @@ class GroupMapping extends Mapping {
 	 */
 	private $nestedGroups;
 
+	public function __construct(array $data) {
+		parent::__construct($data);
+
+		$this->filterObjectclass =     isset($data['filterObjectclass'])     ?         $data['filterObjectclass']     : ['objectclass=group'];
+		$this->memberAttribute =       isset($data['memberAttribute'])       ? (string)$data['memberAttribute']       : 'uniquemember';
+		$this->dynamicGroupMemberURL = isset($data['dynamicGroupMemberURL']) ?         $data['dynamicGroupMemberURL'] : null;
+		$this->nestedGroups =          isset($data['nestedGroups'])          ?   (bool)$data['nestedGroups']          : false;
+
+	}
 	/**
 	 * @return string
 	 */
@@ -52,14 +61,14 @@ class GroupMapping extends Mapping {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getDynamicGroupMemberURL() {
 		return $this->dynamicGroupMemberURL;
 	}
 
 	/**
-	 * @param string $dynamicGroupMemberURL
+	 * @param string|null $dynamicGroupMemberURL
 	 */
 	public function setDynamicGroupMemberURL($dynamicGroupMemberURL) {
 		$this->dynamicGroupMemberURL = $dynamicGroupMemberURL;
