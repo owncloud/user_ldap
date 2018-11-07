@@ -927,7 +927,6 @@ class Access implements IUserTools {
 	 * 		...
 	 *
 	 * TODO this actually reduces the list if
-	 * FIXME was private
 	 * @param array $list
 	 * @param bool $manyAttributes
 	 * @return array
@@ -1371,7 +1370,7 @@ class Access implements IUserTools {
 		}
 	}
 
-		// for now, these are the autodetected unique attributes
+	// for now, these are the autodetected unique attributes
 	public static $uuidAttributes = [
 		'entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'
 	];

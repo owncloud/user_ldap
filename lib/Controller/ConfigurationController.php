@@ -263,7 +263,7 @@ class ConfigurationController extends Controller {
 	 * find an entity in a mapping using some well known ldap attributes:
 	 * cn, uid, samaccountname, userprincipalname, mail, displayname
 	 *
-	 * @param string $query $query to use
+	 * @param string $query to use
 	 * @return DataResponse
 	 */
 	public function discover($query) {
@@ -289,7 +289,7 @@ class ConfigurationController extends Controller {
 						$connection->getConnectionResource(),
 						$c->getMappings()[0]->getBaseDN(),
 						$filter,
-						['dn', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'displayname'],
+						\array_merge(Access::$uuidAttributes, ['dn', 'objectclass', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'mailnickname', 'title', 'displayname', 'name', 'givenname', 'sn', 'company', 'department', 'postalcode', 'jpegphoto', 'thumbnailphoto', 'quota', 'memberof']), // more attributes
 						0, // attributes and values
 						10);
 					if ($sr === false) {
@@ -298,9 +298,27 @@ class ConfigurationController extends Controller {
 							'code' => $this->ldapWrapper->errno($connection->getConnectionResource())
 						], Http::STATUS_BAD_REQUEST);
 					}
-					$result = $this->ldapWrapper->getEntries($connection->getConnectionResource(), $sr);
-					unset($result['count']);
-					return new DataResponse($result);
+					$entries = $this->ldapWrapper->getEntries($connection->getConnectionResource(), $sr);
+					unset($entries['count']);
+					$results = [];
+					foreach ($entries as $entry) {
+						$dn = $entry['dn'];
+						$result = [];
+						unset($entry['dn'], $entry['count']);
+						foreach ($entry as $key => $values) {
+							if (!is_numeric($key)) {
+								$rv = [];
+								foreach ($values as $k => $value) {
+									if (is_numeric($k)) {
+										$rv[] = $value;
+									}
+								}
+								$result[$key] = $rv;
+							}
+						}
+						$results[$dn] = $result;
+					}
+					return new DataResponse($results);
 				} catch (\Exception $e) {
 					if ($e->getCode() === 1) {
 						return new DataResponse([

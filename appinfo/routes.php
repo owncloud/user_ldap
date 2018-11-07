@@ -39,7 +39,7 @@ return [
 		[
 			'name' => 'configuration#test',
 			'url' => 'configurations/{id}/test',
-			'verb' => 'GET'
+			'verb' => 'POST'
 		],
 		[
 			'name' => 'configuration#update',
@@ -53,8 +53,8 @@ return [
 		],
 		[
 			'name' => 'configuration#discover',
-			'url' => 'configurations/{id}/discover',
-			'verb' => 'GET'
+			'url' => 'configurations/{id}/discover/{query}',
+			'verb' => 'POST'
 		],
 		[
 			'name' => 'mapping#clear',
