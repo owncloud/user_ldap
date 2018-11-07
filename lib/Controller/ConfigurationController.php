@@ -299,26 +299,7 @@ class ConfigurationController extends Controller {
 						], Http::STATUS_BAD_REQUEST);
 					}
 					$entries = $this->ldapWrapper->getEntries($connection->getConnectionResource(), $sr);
-					unset($entries['count']);
-					$results = [];
-					foreach ($entries as $entry) {
-						$dn = $entry['dn'];
-						$result = [];
-						unset($entry['dn'], $entry['count']);
-						foreach ($entry as $key => $values) {
-							if (!is_numeric($key)) {
-								$rv = [];
-								foreach ($values as $k => $value) {
-									if (is_numeric($k)) {
-										$rv[] = $value;
-									}
-								}
-								$result[$key] = $rv;
-							}
-						}
-						$results[$dn] = $result;
-					}
-					return new DataResponse($results);
+					return new DataResponse($this->toAssocArray($entries));
 				} catch (\Exception $e) {
 					if ($e->getCode() === 1) {
 						return new DataResponse([
@@ -340,5 +321,32 @@ class ConfigurationController extends Controller {
 				'code' => $e->getCode()
 			], Http::STATUS_BAD_REQUEST);
 		}
+	}
+
+	/**
+	 * @param array $entries
+	 * @return array
+	 */
+	private function toAssocArray(array $entries) {
+		unset($entries['count']);
+		$results = [];
+		foreach ($entries as $entry) {
+			$dn = $entry['dn'];
+			$result = [];
+			unset($entry['dn'], $entry['count']);
+			foreach ($entry as $key => $values) {
+				if (!is_numeric($key)) {
+					$rv = [];
+					foreach ($values as $k => $value) {
+						if (is_numeric($k)) {
+							$rv[] = $value;
+						}
+					}
+					$result[$key] = $rv;
+				}
+			}
+			$results[$dn] = $result;
+		}
+		return $results;
 	}
 }
