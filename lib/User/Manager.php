@@ -28,7 +28,6 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\Db\Server;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -52,9 +51,6 @@ class Manager {
 	 */
 	const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
 
-	/** @var Access */
-	protected $access;
-
 	/** @var IConfig */
 	protected $ocConfig;
 
@@ -74,6 +70,19 @@ class Manager {
 	protected $userManager;
 
 	/**
+	 * @var Access
+	 */
+	protected $access;
+
+	/**
+	 * @var Connection\FilterBuilder
+	 */
+	protected $filterBuilder;
+
+	/** @var \OCA\User_LDAP\Config\UserMapping */
+	protected $userConfig;
+
+	/**
 	 * @var CappedMemoryCache $usersByDN
 	 */
 	protected $usersByDN;
@@ -91,38 +100,29 @@ class Manager {
 	 * @param IAvatarManager $avatarManager
 	 * @param IDBConnection $db
 	 * @param IUserManager $userManager
+	 * @param Access $access
+	 * @param Connection\FilterBuilder $filterBuilder
+	 * @param \OCA\User_LDAP\Config\UserMapping $userConfig
 	 */
 	public function __construct(IConfig $ocConfig,
 								FilesystemHelper $ocFilesystem, ILogger $logger,
 								IAvatarManager $avatarManager,
-								IDBConnection $db, IUserManager $userManager) {
+								IDBConnection $db, IUserManager $userManager,
+								Access $access,
+								Connection\FilterBuilder $filterBuilder,
+								\OCA\User_LDAP\Config\UserMapping $userConfig
+	) {
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->logger        = $logger;
 		$this->avatarManager = $avatarManager;
 		$this->db            = $db;
 		$this->userManager   = $userManager;
+		$this->access        = $access;
+		$this->filterBuilder = $filterBuilder;
+		$this->userConfig    = $userConfig;
 		$this->usersByDN     = new CappedMemoryCache();
 		$this->usersByUid    = new CappedMemoryCache();
-	}
-
-	/**
-	 * @brief binds manager to an instance of IUserTools (implemented by
-	 * Access). It needs to be assigned first before the manager can be used.
-	 * @param IUserTools
-	 */
-	public function setLdapAccess(IUserTools $access) {
-		$this->access = $access;
-	}
-
-	/**
-	 * @brief checks whether the Access instance has been set
-	 * @throws \Exception if Access has not been set
-	 */
-	private function checkAccess() {
-		if ($this->access === null) {
-			throw new \Exception('LDAP Access instance must be set first');
-		}
 	}
 
 	/**
@@ -140,35 +140,30 @@ class Manager {
 	 */
 	public function getAttributes($minimal = false) {
 		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true];
-		$server = $this->getConnection()->getServer();
 		$lookupUUIDAttribute = false;
-		foreach ($server->getMappings() as $mapping) {
-			if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
-				$attributes[$mapping->getEmailAttribute()] = true;
-				$attributes[$mapping->getDisplayNameAttribute()] = true;
-				$attributes[$mapping->getDisplayName2Attribute()] = true;
-				$attributes[$mapping->getUsernameAttribute()] = true;
-				$attributes[$mapping->getExpertUsernameAttr()] = true;
-				$attributes[$mapping->getQuotaAttribute()] = true;
-				foreach ($mapping->getAdditionalSearchAttributes() as $attr) {
-					$attributes[$attr] = true;
-				}
-				$homeRule = $mapping->getHomeFolderNamingRule();
-				if (\strpos($homeRule, 'attr:') === 0) {
-					$attributes[\substr($homeRule, \strlen('attr:'))] = true;
-				}
-				$uuidAttribute = $mapping->getUuidAttribute();
-				if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
-					// if uuidAttribute is specified use that
-					$attributes[$uuidAttribute] = true;
-				} else {
-					$lookupUUIDAttribute = true;
-				}
-			}
+		$attributes[$this->userConfig->getEmailAttribute()] = true;
+		$attributes[$this->userConfig->getDisplayNameAttribute()] = true;
+		$attributes[$this->userConfig->getDisplayName2Attribute()] = true;
+		$attributes[$this->userConfig->getUsernameAttribute()] = true;
+		$attributes[$this->userConfig->getExpertUsernameAttr()] = true;
+		$attributes[$this->userConfig->getQuotaAttribute()] = true;
+		foreach ($this->userConfig->getAdditionalSearchAttributes() as $attr) {
+			$attributes[$attr] = true;
+		}
+		$homeRule = $this->userConfig->getHomeFolderNamingRule();
+		if (\strpos($homeRule, 'attr:') === 0) {
+			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
+		}
+		$uuidAttribute = $this->userConfig->getUuidAttribute();
+		if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
+			// if uuidAttribute is specified use that
+			$attributes[$uuidAttribute] = true;
+		} else {
+			$lookupUUIDAttribute = true;
 		}
 		if ($lookupUUIDAttribute) {
 			// get known possible uuidAttributes
-			foreach ($this->getConnection()->uuidAttributes as $attr) {
+			foreach (Access::$uuidAttributes as $attr) {
 				$attributes[$attr] = true;
 			}
 		}
@@ -197,7 +192,7 @@ class Manager {
 			$this->getConnection()->getConnectionResource(),
 			$dn,
 			$this->getAttributes(),
-			$this->getConnection()->ldapUserFilter,
+			$this->userConfig->getFilter(),
 			20); // TODO why 20? why is 1 not sufficient? hm maybe if multiple servers are asked at the same time? so this is a limit to 20 servers??
 		if ($result === false || $result['count'] === 0) {
 			// FIXME the ldap error ($result = false) should bubble up ... and not be converted to a DoesNotExistOnLDAPException
@@ -216,12 +211,11 @@ class Manager {
 	 * @throws \OutOfBoundsException when username could not be determined
 	 */
 	public function getFromEntry($ldapEntry) {
-		$this->checkAccess();
-		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->getConnection(), $ldapEntry);
+		$userEntry = new UserEntry($this->ocConfig, $this->logger, $this->userConfig, $ldapEntry);
 		$dn = $userEntry->getDN();
 
-		if (!$this->access->isDNPartOfBase($dn, $this->getConnection()->ldapBaseUsers)) {
-			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".\print_r($this->getConnection()->ldapBaseUsers, true));
+		if (!$this->access->isDNPartOfUserBases($dn)) {
+			throw new \OutOfBoundsException("DN <$dn> outside configured base domains: ".\print_r($this->userConfig->getBaseDN(), true));
 		}
 
 		$uid = $this->resolveUID($userEntry);
@@ -271,10 +265,10 @@ class Manager {
 	public function dnExistsOnLDAP($dn) {
 
 		//check if user really still exists by reading its entry
-		if (!\is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
+		if (!\is_array($this->access->readAttribute($dn, '', $this->userConfig->getFilter()))) {
 			$lcr = $this->getConnection()->getConnectionResource();
 			if ($lcr === null) {
-				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
+				throw new \Exception('No LDAP Connection to server ' /*. $this->getConnection()->ldapHost*/);
 			}
 
 			try {
@@ -282,9 +276,9 @@ class Manager {
 				if (!$uuid) {
 					return false;
 				}
-				$newDn = $this->access->getUserDnByUuid($uuid);
+				$newDn = $this->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
-				if (!\is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
+				if (!\is_array($this->access->readAttribute($newDn, '', $this->userConfig->getFilter()))) {
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
@@ -296,6 +290,33 @@ class Manager {
 		}
 
 		return true;
+	}
+
+	/**
+	 * reverse lookup of a DN given a known UUID
+	 *
+	 * @param string $uuid
+	 * @return string
+	 * @throws \OutOfBoundsException
+	 * @throws \OC\ServerNotAvailableException
+	 * FIXME check config has proper uuid attribute before activating a config? wizard stuff
+	 */
+	public function getUserDnByUuid($uuid) {
+		$uuidAttribute = $this->userConfig->getUuidAttribute();
+
+		if ($uuidAttribute === 'guid' || $uuidAttribute === 'objectguid') {
+			$uuid = $this->access->formatGuid2ForFilterUser($uuid);
+		}
+
+		$filter = $uuidAttribute . '=' . $uuid;
+		$result = $this->access->searchUsers($filter, ['dn'], 2);
+		if (isset($result[0]['dn']) && \count($result) === 1) {
+			// we put the count into account to make sure that this is
+			// really unique
+			return $result[0]['dn'][0];
+		}
+		return false;
+
 	}
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
@@ -428,14 +449,15 @@ class Manager {
 	 * @param string $loginName
 	 * @return UserEntry
 	 * @throws DoesNotExistOnLDAPException
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function getLDAPUserByLoginName($loginName) {
 		//find out dn of the user name
 		$attrs = $this->getAttributes();
-		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
+		$users = $this->access->fetchUsersByLoginName($this->userConfig, $loginName, $attrs);
 		if (\count($users) < 1) {
-			throw new DoesNotExistOnLDAPException('No user available for the given login name on ' .
-				$this->getConnection()->ldapHost . ':' . $this->getConnection()->ldapPort);
+			throw new DoesNotExistOnLDAPException('No user available for the given login name on '/* .
+				$this->getConnection()->ldapHost . ':' . $this->getConnection()->ldapPort*/);
 		}
 		return $this->getFromEntry($users[0]);
 	}
@@ -447,6 +469,7 @@ class Manager {
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return string[] an array of all uids
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = Access::escapeFilterPart($search, true);
@@ -456,10 +479,10 @@ class Manager {
 		if ($limit <= 0) {
 			$limit = null;
 		}
-		$filter = $this->access->combineFilterWithAnd([
-			$this->getConnection()->ldapUserFilter,
-			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all? A: it requires the attribute to be not empty
-			$this->access->getFilterPartForUserSearch($search)
+		$filter = $this->filterBuilder->combineFilterWithAnd([
+			$this->userConfig->getFilter(),
+			$this->userConfig->getDisplayNameAttribute() . '=*', // TODO why do we need this? =* basically selects all? A: it requires the attribute to be not empty
+			$this->filterBuilder->getFilterPartForUserSearch($this->userConfig, $search)
 		]);
 
 		$this->logger->debug('getUsers: Options: search '.$search
@@ -499,6 +522,7 @@ class Manager {
 	 * @param string $name
 	 * @param string $password
 	 * @return bool
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function areCredentialsValid($name, $password) {
 		return $this->access->areCredentialsValid($name, $password);
@@ -519,9 +543,10 @@ class Manager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array
+	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
-		return $this->access->fetchListOfUsers($filter, $attr, $limit, $offset);
+	private function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
+		return $this->access->fetchListOfUsers([$this->userConfig], $filter, $attr, $limit, $offset);
 	}
 
 	/**
@@ -539,9 +564,10 @@ class Manager {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return false|int
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function countUsers($filter, $attr = ['dn'], $limit = null, $offset = null) {
-		return $this->access->countUsers($filter, $attr, $limit, $offset);
+		return $this->access->countUsers([$this->userConfig], $filter, $attr, $limit, $offset);
 	}
 
 	/**

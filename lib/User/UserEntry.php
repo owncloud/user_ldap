@@ -22,11 +22,9 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\Db\UserMapping;
+use OCA\User_LDAP\Config\UserMapping;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\Util;
 
 /**
  * UserEntry is a wrapper around an ldap search array.
@@ -97,7 +95,7 @@ class UserEntry {
 	 */
 	public function getUsername() {
 		$attr = $this->mapping->getExpertUsernameAttr();
-		if ($attr === '') {
+		if ($attr === '' || $attr === 'auto') {
 			$username = $this->getUUID(); // fallback to uuid
 		} else {
 			$username = $this->getAttributeValue($attr, null);
@@ -133,11 +131,11 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if uuid could not be determined
 	 */
 	public function getUUID() {
-		$attr = $this->getAttributeName('ldapExpertUUIDUserAttr', 'auto');
+		$attr = $this->mapping->getUuidAttribute();
 		if ($attr !== 'auto') {
 			$uuidAttributes = [$attr];
 		} else {
-			$uuidAttributes = $this->connection->uuidAttributes;
+			$uuidAttributes = Access::$uuidAttributes;
 		}
 		foreach ($uuidAttributes as $uuidAttribute) {
 			// uuid may be binary ... must not be trimmed!
@@ -145,10 +143,10 @@ class UserEntry {
 			if ($uuid === null) {
 				continue;
 			}
-			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
+			if ($this->mapping->getUuidAttribute() !== $uuidAttribute) {
 				// remember autodetected uuid attribute
-				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
-				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
+				$this->mapping->setUuidAttribute($uuidAttribute);
+				//$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
 			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
 				$uuid = Access::binGUID2str($uuid);
@@ -167,11 +165,11 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if display name could not be determined
 	 */
 	public function getDisplayName() {
-		$attr = $this->getAttributeName('ldapUserDisplayName', 'displayname');
+		$attr = $this->mapping->getDisplayNameAttribute();
 		$displayName = $this->getAttributeValue($attr, '');
 
 		//Check whether the display name is configured to have a 2nd feature
-		$additionalAttribute = $this->getAttributeName('ldapUserDisplayName2');
+		$additionalAttribute = $this->mapping->getDisplayName2Attribute();
 		if ($additionalAttribute !== '') {
 			$displayName2 = (string)$this->getAttributeValue($additionalAttribute, '');
 		} else {
@@ -205,8 +203,8 @@ class UserEntry {
 	public function getQuota() {
 		$quota = null;
 
-		$attr = $this->getAttributeName('ldapQuotaAttribute');
-		if ($attr === '') {
+		$attr = $this->mapping->getQuotaAttribute();
+		if (empty($attr)) {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
 			$quota = $this->getAttributeValue($attr);
@@ -217,10 +215,10 @@ class UserEntry {
 		}
 
 		if ($quota === null) {
-			if (!$this->connection->ldapQuotaDefault) {
+			if ($this->mapping->getQuotaDefault() === null) {
 				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
 			} else {
-				$quota = $this->connection->ldapQuotaDefault;
+				$quota = $this->mapping->getQuotaDefault();
 				if (!$this->verifyQuotaValue($quota)) {
 					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
@@ -243,7 +241,7 @@ class UserEntry {
 	 * @return string|null email
 	 */
 	public function getEMailAddress() {
-		$attr = $this->getAttributeName('ldapEmailAttribute', 'mail');
+		$attr = $this->mapping->getEmailAttribute();
 		return $this->getAttributeValue($attr);
 	}
 	/**
@@ -253,7 +251,7 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
-		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		$attr = $this->mapping->getHomeFolderNamingRule();
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -300,7 +298,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
-		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$rawAttributes = $this->mapping->getAdditionalSearchAttributes();
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];
@@ -319,21 +317,6 @@ class UserEntry {
 		return \array_keys($searchTerms);
 	}
 
-	/**
-	 * @param $configOption string
-	 * @param $default string
-	 * @return string
-	 */
-	private function getAttributeName($configOption, $default = '') {
-		$attributeName = \trim(\strtolower($this->connection->$configOption));
-
-		// strtolower() returns '' for null and false, which is what the connection initializes config options to
-		if ($attributeName === '') {
-			return $default;
-		}
-
-		return $attributeName;
-	}
 	/**
 	 * Read first value from a single value Attribute of an ldap entry
 	 * TODO allow passing in a verification function, eg for quota or uuid values

@@ -25,25 +25,28 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\GroupMapping;
+use OCA\User_LDAP\Config\ServerMapper;
+use OCA\User_LDAP\Connection\BackendManager;
 
 class Group_Proxy extends Proxy implements \OCP\GroupInterface {
-	private $backends = [];
 	private $refBackend;
 
 	/**
-	 * Constructor
-	 * @param Server[] $servers array containing the server configs
-	 * @param ILDAPWrapper $ldap
+	 * @param ServerMapper $config
+	 * @param BackendManager $manager
 	 */
-	public function __construct(array $servers, ILDAPWrapper $ldap) {
-		parent::__construct($ldap);
-		foreach ($servers as $server) {
-			$id = $server->getId();
-			$this->backends[$id] =
-				new \OCA\User_LDAP\Group_LDAP($this->getAccess($server));
-			if ($this->refBackend === null) {
-				$this->refBackend = &$this->backends[$id];
+	public function __construct(ServerMapper $config, BackendManager $manager) {
+		parent::__construct($manager);
+		foreach ($config->listAll() as $server) {
+			foreach ($server->getMappings() as $i => $mapping) {
+				if ($mapping instanceof GroupMapping) {
+					$backend = $manager->createGroupBackend($server, $mapping);
+					// first backend is used for reference
+					if ($this->refBackend === null) {
+						$this->refBackend = $backend;
+					}
+				}
 			}
 		}
 	}
@@ -57,7 +60,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-		foreach ($this->backends as $id => $backend) {
+		foreach ($this->manager->getGroupBackends() as $id => $backend) {
 			if ($result = \call_user_func_array([$backend, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $id);
 				return $result;
@@ -76,17 +79,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-
 		$id = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
 		if ($id !== null) {
-			if (isset($this->backends[$id])) {
-				$result = \call_user_func_array([$this->backends[$id], $method], $parameters);
+			$backend = $this->manager->getGroupBackend($id);
+			if ($backend !== null) {
+				$result = \call_user_func_array([$backend, $method], $parameters);
 				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
 					$groupExists = \call_user_func_array(
-						[$this->backends[$id], 'groupExists'],
+						[$backend, 'groupExists'],
 						[$gid]
 					);
 					if (!$groupExists) {
@@ -122,7 +125,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function getUserGroups($uid) {
 		$groups = [];
 
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getGroupBackends() as $backend) {
 			$backendGroups = $backend->getUserGroups($uid);
 			if (\is_array($backendGroups)) {
 				$groups = \array_merge($groups, $backendGroups);
@@ -139,7 +142,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users = [];
 
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getGroupBackends() as $backend) {
 			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
 			if (\is_array($backendUsers)) {
 				$users = \array_merge($users, $backendUsers);
@@ -169,7 +172,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		$groups = [];
 
-		foreach ($this->backends as $backend) {
+		foreach ($this->manager->getGroupBackends() as $backend) {
 			$backendGroups = $backend->getGroups($search, $limit, $offset);
 			if (\is_array($backendGroups)) {
 				$groups = \array_merge($groups, $backendGroups);
@@ -197,6 +200,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * compared with OC_USER_BACKEND_CREATE_USER etc.
 	 */
 	public function implementsActions($actions) {
+		if ($this->refBackend === null) {
+			return false;
+		}
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
 	}

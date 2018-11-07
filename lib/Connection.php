@@ -86,7 +86,7 @@ class Connection extends LDAPUtility {
 	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
-		$this->ldapConnectionRes = null; // use new connection resuorce
+		$this->ldapConnectionRes = null; // use new connection resource
 	}
 
 	/**
@@ -196,7 +196,7 @@ class Connection extends LDAPUtility {
 			} else {
 				if ($this->configID !== null &&
 					!\in_array($this->configuration->$effectiveSetting,
-						\array_merge(['auto'], $this->uuidAttributes), true)
+						\array_merge(['auto'], Access::$uuidAttributes), true)
 				) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();

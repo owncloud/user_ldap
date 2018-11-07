@@ -38,6 +38,8 @@ namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Config\GroupMapping;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Connection\FilterBuilder;
 
 class Group_LDAP implements \OCP\GroupInterface {
 	protected $enabled = false;
@@ -53,21 +55,32 @@ class Group_LDAP implements \OCP\GroupInterface {
 	protected $cachedGroupsByMember;
 
 	/**
+	 * @var Server
+	 */
+	protected $server;
+	/**
+	 * @var GroupMapping
+	 */
+	protected $mapping;
+	/**
 	 * @var Access
 	 */
 	protected $access;
 
-	public function __construct(Access $access) {
+	/**
+	 * @var FilterBuilder
+	 */
+	protected $filterBuilder;
+
+	public function __construct(Server $server, GroupMapping $mapping, Access $access, FilterBuilder $filterBuilder) {
+		$this->server = $server;
+		$this->mapping = $mapping;
 		$this->access = $access;
-		$server = $this->access->getConnection()->getServer();
-		$mappings = $server->getMappings();
-		foreach ($mappings as $mapping) {
-			if ($mapping instanceof GroupMapping) {
-				$filter = $mapping->getFilter();
-				$gassoc = $mapping->getMemberAttribute();
-				break; // TODO how can we use all mappings?
-			}
-		}
+		$this->filterBuilder = $filterBuilder;
+
+		$filter = $mapping->getFilter();
+		$gassoc = $mapping->getMemberAttribute();
+
 		if (!empty($filter) && !empty($gassoc)) {
 			$this->enabled = true;
 		}
@@ -143,16 +156,26 @@ class Group_LDAP implements \OCP\GroupInterface {
 				if ($bytes >= 9000000) {
 					// AD has a default input buffer of 10 MB, we do not want
 					// to take even the chance to exceed it
-					$filter = $this->access->combineFilterWithOr($filterParts);
+					$filter = $this->filterBuilder->combineFilterWithOr($filterParts);
 					$bytes = 0;
 					$filterParts = [];
-					$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
+					$users = $this->access->fetchListOfUsers(
+						$this->server->getMappings(),
+						$filter,
+						'dn',
+						\count($filterParts)
+					);
 					$dns = \array_merge($dns, $users);
 				}
 			}
 			if (\count($filterParts) > 0) {
-				$filter = $this->access->combineFilterWithOr($filterParts);
-				$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
+				$filter = $this->filterBuilder->combineFilterWithOr($filterParts);
+				$users = $this->access->fetchListOfUsers(
+					$this->server->getMappings(),
+					$filter,
+					'dn',
+					\count($filterParts)
+				);
 				$dns = \array_merge($dns, $users);
 			}
 			$members = $dns;
@@ -371,15 +394,13 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 
 		$filterParts = [];
-		$filterParts[] = $this->access->getFilterForUserCount();
+		$filterParts[] = $this->filterBuilder->getFilterForUserCount();
 		if ($search !== '') {
-			$filterParts[] = $this->access->getFilterPartForUserSearch($search);
+			$filterParts[] = $this->filterBuilder->getFilterPartForUserSearch($search);
 		}
 		$filterParts[] = 'primaryGroupID=' . $groupID;
 
-		$filter = $this->access->combineFilterWithAnd($filterParts);
-
-		return $filter;
+		return $this->filterBuilder->combineFilterWithAnd($filterParts);
 	}
 
 	/**
@@ -395,6 +416,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
 			$users = $this->access->fetchListOfUsers(
+				$this->server->getMappings(),
 				$filter,
 				[$this->access->getConnection()->ldapUserDisplayName, 'dn'],
 				$limit,
@@ -475,7 +497,10 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
 			$groupsToMatch = $this->access->fetchListOfGroups(
-				$this->access->getConnection()->ldapGroupFilter, ['dn',$dynamicGroupMemberURL]);
+				$this->server->getMappings(),
+				$this->mapping->getFilter(),
+				['dn', $dynamicGroupMemberURL]
+			);
 			foreach ($groupsToMatch as $dynamicGroup) {
 				if (!\array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
 					continue;
@@ -585,8 +610,11 @@ class Group_LDAP implements \OCP\GroupInterface {
 			$this->access->getConnection()->ldapGroupFilter,
 			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$dn
 		]);
-		$groups = $this->access->fetchListOfGroups($filter,
-			[$this->access->getConnection()->ldapGroupDisplayName, 'dn']);
+		$groups = $this->access->fetchListOfGroups(
+			$this->server->getMappings(),
+			$filter,
+			[$this->mapping->getDisplayNameAttribute(), 'dn']
+		);
 		if (\is_array($groups)) {
 			foreach ($groups as $groupobj) {
 				$groupDN = $groupobj['dn'][0];
@@ -648,32 +676,40 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$primaryUsers = $this->getUsersInPrimaryGroup($groupDN, $search, $limit, $offset);
 		$members = \array_keys($this->_groupMembers($groupDN));
 		if (!$members && empty($primaryUsers)) {
-			//in case users could not be retrieved, return empty result set
+			// in case users could not be retrieved, return empty result set
 			$this->access->getConnection()->writeToCache($cacheKey, []);
 			return [];
 		}
 
 		$groupUsers = [];
-		$isMemberUid = (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid');
-		$attrs = $this->access->getUserManager()->getAttributes(true);
+		$isMemberUid = (\strtolower($this->mapping->getMemberAttribute()) === 'memberuid');
 		foreach ($members as $member) {
 			if ($isMemberUid) {
-				//we got uids, need to get their DNs to 'translate' them to user names
-				$filter = $this->access->combineFilterWithAnd([
+				// FIXME try to use the user mapping that corresponds to this group mapping first
+				//
+				// FIXME then use other mappings
+				// FIXME use filter array
+				// we got uids, need to get their DNs to 'translate' them to user names
+				$filter = $this->filterBuilder->combineFilterWithAnd([
 					\str_replace('%uid', $member, $this->access->getConnection()->ldapLoginFilter),
-					$this->access->getFilterPartForUserSearch($search)
+					$this->filterBuilder->getFilterPartForUserSearch($search)
 				]);
-				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
+				$ldap_users = $this->access->fetchListOfUsers(
+					$this->server->getMappings(),
+					$filter,
+					['dn'],
+					1
+				);
 				if (\count($ldap_users) < 1) {
 					continue;
 				}
-				$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
+				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
 			} else {
 				//we got DNs, check if we need to filter by search or we can give back all of them
 				if ($search !== '') {
 					if (!$this->access->readAttribute($member,
 						$this->access->getConnection()->ldapUserDisplayName,
-						$this->access->getFilterPartForUserSearch($search))) {
+						$this->filterBuilder->getFilterPartForUserSearch($search))) {
 						continue;
 					}
 				}
@@ -746,12 +782,18 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$groupUsers = [];
 		foreach ($members as $member) {
 			if ($isMemberUid) {
+
 				//we got uids, need to get their DNs to 'translate' them to user names
-				$filter = $this->access->combineFilterWithAnd([
+				$filter = $this->filterBuilder->combineFilterWithAnd([
 					\str_replace('%uid', $member, $this->access->getConnection()->ldapLoginFilter),
-					$this->access->getFilterPartForUserSearch($search)
+					$this->filterBuilder->getFilterPartForUserSearch($search)
 				]);
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn', 1);
+				$ldap_users = $this->access->fetchListOfUsers(
+					$this->server->getMappings(),
+					$filter,
+					'dn',
+					1
+				);
 				if (\count($ldap_users) < 1) {
 					continue;
 				}
@@ -760,7 +802,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 				//we need to apply the search filter now
 				if (!$this->access->readAttribute($member,
 					$this->access->getConnection()->ldapUserDisplayName,
-					$this->access->getFilterPartForUserSearch($search))) {
+					$this->filterBuilder->getFilterPartForUserSearch($search))) {
 					continue;
 				}
 				// dn2username will also check if the users belong to the allowed base
@@ -804,15 +846,18 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if ($limit <= 0) {
 			$limit = null;
 		}
-		$filter = $this->access->combineFilterWithAnd([
-			$this->access->getConnection()->ldapGroupFilter,
-			$this->access->getFilterPartForGroupSearch($search)
+		$filter = $this->filterBuilder->combineFilterWithAnd([
+			$this->mapping->getFilter(),
+			$this->filterBuilder->getFilterPartForGroupSearch($this->mapping, $search)
 		]);
 		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, \OCP\Util::DEBUG);
-		$ldap_groups = $this->access->fetchListOfGroups($filter,
-				[$this->access->getConnection()->ldapGroupDisplayName, 'dn'],
-				$limit,
-				$offset);
+		$ldap_groups = $this->access->fetchListOfGroups(
+			$this->server->getMappings(),
+			$filter,
+			[$this->mapping->getDisplayNameAttribute(), 'dn'],
+			$limit,
+			$offset
+		);
 		$ldap_groups = $this->access->ownCloudGroupNames($ldap_groups);
 
 		$this->access->getConnection()->writeToCache($cacheKey, $ldap_groups);

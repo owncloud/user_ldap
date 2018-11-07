@@ -93,15 +93,17 @@ class UserMapping extends Mapping {
 		$this->expertUsernameAttr =    isset($data['expertUsernameAttr'])    ? (string)$data['expertUsernameAttr']    : 'auto';
 		$this->displayName2Attribute = isset($data['displayName2Attribute']) ? (string)$data['displayName2Attribute'] : 'displayName';
 		$this->emailAttribute =        isset($data['emailAttribute'])        ? (string)$data['emailAttribute']        : 'mail';
-		$this->homeFolderNamingRule =  isset($data['homeFolderNamingRule'])  ? (string)$data['homeFolderNamingRule']  : null;
-		$this->quotaAttribute =        isset($data['quotaAttribute'])        ? (string)$data['quotaAttribute']        : null;
-		$this->quotaDefault =          isset($data['quotaDefault'])          ?    (int)$data['quotaDefault']          : null;
+		$this->homeFolderNamingRule =  isset($data['homeFolderNamingRule'])  ?         $data['homeFolderNamingRule']  : null;
+		$this->quotaAttribute =        isset($data['quotaAttribute'])        ?         $data['quotaAttribute']        : null;
+		$this->quotaDefault =          isset($data['quotaDefault'])          ?         $data['quotaDefault']          : null;
 
 		if ($this->loginFilterMode === self::LOGIN_FILTER_MODE_AUTO) {
 			$this->loginFilter = '(&('.implode(')(', $this->filterObjectclass).")({$this->usernameAttribute}=%uid))";
 		} else {
 			$this->loginFilter =           isset($data['loginFilter'])           ? (string)$data['loginFilter']           : null;
 		}
+
+		// avatar attribute?
 	}
 	/**
 	 * @return string
@@ -230,42 +232,42 @@ class UserMapping extends Mapping {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getHomeFolderNamingRule() {
 		return $this->homeFolderNamingRule;
 	}
 
 	/**
-	 * @param string $homeFolderNamingRule
+	 * @param string|null $homeFolderNamingRule
 	 */
 	public function setHomeFolderNamingRule($homeFolderNamingRule) {
 		$this->homeFolderNamingRule = $homeFolderNamingRule;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getQuotaAttribute() {
 		return $this->quotaAttribute;
 	}
 
 	/**
-	 * @param string $quotaAttribute
+	 * @param string|null $quotaAttribute
 	 */
 	public function setQuotaAttribute($quotaAttribute) {
 		$this->quotaAttribute = $quotaAttribute;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getQuotaDefault() {
 		return $this->quotaDefault;
 	}
 
 	/**
-	 * @param string $quotaDefault
+	 * @param string|null $quotaDefault
 	 */
 	public function setQuotaDefault($quotaDefault) {
 		$this->quotaDefault = $quotaDefault;

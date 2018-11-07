@@ -28,7 +28,7 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Db\ServerMapper;
+use OCA\User_LDAP\Config\ServerMapper;
 
 class Helper {
 

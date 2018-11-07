@@ -26,22 +26,32 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;
 
-$dbConnection = \OC::$server->getDatabaseConnection();
-$userMapping = new UserMapping($dbConnection);
+$db = \OC::$server->getDatabaseConnection();
+$userMapping = new UserMapping($db);
 $helper = new Helper();
-$ocConfig = \OC::$server->getConfig();
+$config = \OC::$server->getConfig();
+$logger = \OC::$server->getLogger();
 
 $mapper = new \OCA\User_LDAP\Config\ServerMapper(
-	$ocConfig,
-	\OC::$server->getLogger()
+	$config,
+	$logger
 );
 
-$servers = $mapper->listAll(); // TODO filter only active?
-
-$uBackend = new User_Proxy(
-	$mapper->listAll(),
+$backendManager = new \OCA\User_LDAP\Connection\BackendManager(
+	$config,
+	$logger,
+	\OC::$server->getAvatarManager(),
+	\OC::$server->getUserManager(),
+	$db,
 	new LDAP(),
-	$ocConfig
+	$userMapping,
+	new \OCA\User_LDAP\Mapping\GroupMapping($db),
+	new \OCA\User_LDAP\FilesystemHelper()
+);
+$uBackend = new User_Proxy(
+	$mapper,
+	$backendManager,
+	$config
 );
 
 $application->add(new OCA\User_LDAP\Command\CheckUser(
