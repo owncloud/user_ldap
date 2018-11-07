@@ -30,6 +30,7 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Group_LDAP;
 use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_LDAP;
 use OCP\IAvatarManager;
@@ -96,7 +97,7 @@ class BackendManager {
 	 * @param IAvatarManager $avatarManager
 	 * @param IUserManager $coreUserManager
 	 * @param IDBConnection $db
-	 * @param ILDAPWrapper $ldap
+	 * @param LDAP $ldap
 	 * @param \OCA\User_LDAP\Mapping\UserMapping $userMap
 	 * @param \OCA\User_LDAP\Mapping\GroupMapping $groupMap
 	 * @param FilesystemHelper $fs
@@ -107,7 +108,7 @@ class BackendManager {
 		IAvatarManager $avatarManager,
 		IUserManager $coreUserManager,
 		IDBConnection $db,
-		ILDAPWrapper $ldap,
+		LDAP $ldap,
 		\OCA\User_LDAP\Mapping\UserMapping $userMap,
 		\OCA\User_LDAP\Mapping\GroupMapping $groupMap,
 		FilesystemHelper $fs

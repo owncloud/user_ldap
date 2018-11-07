@@ -36,7 +36,6 @@ $mapper = new \OCA\User_LDAP\Config\ServerMapper(
 
 
 if (\count($mapper->listAll()) > 0) {
-	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$db = \OC::$server->getDatabaseConnection();
 
 	$backendManager = new \OCA\User_LDAP\Connection\BackendManager(
@@ -45,7 +44,7 @@ if (\count($mapper->listAll()) > 0) {
 		\OC::$server->getAvatarManager(),
 		\OC::$server->getUserManager(),
 		$db,
-		$ldapWrapper,
+		new \OCA\User_LDAP\LDAP(),
 		new \OCA\User_LDAP\Mapping\UserMapping($db),
 		new \OCA\User_LDAP\Mapping\GroupMapping($db),
 		new \OCA\User_LDAP\FilesystemHelper()
