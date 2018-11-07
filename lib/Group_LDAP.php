@@ -145,7 +145,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 
 		//extra work if we don't get back user DNs
-		if (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid') {
+		if (\strtolower($this->mapping->getMemberAttribute()) === 'memberuid') {
 			$dns = [];
 			$filterParts = [];
 			$bytes = 0;
@@ -197,7 +197,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 * that match the search url otherwise returns an empty array.
 	 */
 	public function getDynamicGroupMembers($dnGroup) {
-		$dynamicGroupMemberURL = \strtolower($this->access->getConnection()->ldapDynamicGroupMemberURL);
+		$dynamicGroupMemberURL = \strtolower($this->mapping->getDynamicGroupMemberURL());
 
 		if (empty($dynamicGroupMemberURL)) {
 			return [];
@@ -207,7 +207,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$memberURLs = $this->access->readAttribute(
 			$dnGroup,
 			$dynamicGroupMemberURL,
-			$this->access->getConnection()->ldapGroupFilter
+			$this->mapping->getFilter()
 		);
 		if ($memberURLs !== false) {
 			// this group has the 'memberURL' attribute so this is a dynamic group
@@ -250,13 +250,16 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return $groupMembers;
 		}
 		$seen[$dnGroup] = 1;
-		$members = $this->access->readAttribute($dnGroup, $this->access->getConnection()->ldapGroupMemberAssocAttr,
-												$this->access->getConnection()->ldapGroupFilter);
+		$members = $this->access->readAttribute(
+			$dnGroup,
+			$this->mapping->getMemberAttribute(),
+			$this->mapping->getFilter()
+		);
 		if (\is_array($members)) {
-			$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
+			$nestedGroups = $this->mapping->isNestedGroups();
 			foreach ($members as $memberDN) {
 				$allMembers[$memberDN] = 1;
-				if (!empty($nestedGroups)) {
+				if ($nestedGroups) {
 					$subMembers = $this->_groupMembers($memberDN, $seen);
 					if ($subMembers) {
 						$allMembers = \array_merge($allMembers, $subMembers);
@@ -291,8 +294,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 		$groups = $this->access->groupsMatchFilter($groups);
 		$allGroups =  $groups;
-		$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
-		if (\intval($nestedGroups) === 1) {
+		if ($this->mapping->isNestedGroups()) {
 			foreach ($groups as $group) {
 				$subGroups = $this->_getGroupDNsFromMemberOf($group, $seen);
 				$allGroups = \array_merge($allGroups, $subGroups);
@@ -320,9 +322,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 
 		//we need to get the DN from LDAP
-		$filter = $this->access->combineFilterWithAnd([
-			$this->access->getConnection()->ldapGroupFilter,
-			'objectsid=' . $domainObjectSid . '-' . $gid
+		$filter = $this->filterBuilder->combineFilterWithAnd([
+			$this->mapping->getFilter(),
+			"objectsid=$domainObjectSid-$gid"
 		]);
 		$result = $this->access->searchGroups($filter, ['dn'], 1);
 		if (empty($result)) {
@@ -492,7 +494,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$groups = [];
 		$primaryGroup = $this->getUserPrimaryGroup($userDN);
 
-		$dynamicGroupMemberURL = \strtolower($this->access->getConnection()->ldapDynamicGroupMemberURL);
+		$dynamicGroupMemberURL = \strtolower($this->mapping->getDynamicGroupMemberURL());
 
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
@@ -533,9 +535,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 		// if possible, read out membership via memberOf. It's far faster than
 		// performing a search, which still is a fallback later.
-		if (\intval($this->access->getConnection()->hasMemberOfFilterSupport) === 1
-			&& \intval($this->access->getConnection()->useMemberOfToDetectMembership) === 1
-		) {
+		if ($this->server->isSupportsMemberOf()) {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
 			if (\is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
@@ -556,15 +556,14 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
-		if ((\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'uniquemember')
-			|| (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'member')
-		) {
+		$memberAttr = \strtolower($this->mapping->getMemberAttribute());
+		if ($memberAttr === 'uniquemember' || $memberAttr === 'member') {
 			$uid = $userDN;
-		} elseif (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid') {
+		} elseif ($memberAttr === 'memberuid') {
 			$result = $this->access->readAttribute($userDN, 'uid');
 			if ($result === false) {
 				\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
-					$this->access->getConnection()->ldapHost, \OCP\Util::DEBUG);
+					$this->server->getHost(), \OCP\Util::DEBUG);
 			}
 			$uid = $result[0];
 		} else {
@@ -606,9 +605,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return [];
 		}
 		$seen[$dn] = true;
-		$filter = $this->access->combineFilterWithAnd([
-			$this->access->getConnection()->ldapGroupFilter,
-			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$dn
+		$filter = $this->filterBuilder->combineFilterWithAnd([
+			$this->mapping->getFilter(),
+			$this->mapping->getMemberAttribute().'='.$dn
 		]);
 		$groups = $this->access->fetchListOfGroups(
 			$this->server->getMappings(),
@@ -619,7 +618,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 			foreach ($groups as $groupobj) {
 				$groupDN = $groupobj['dn'][0];
 				$allGroups[$groupDN] = $groupobj;
-				$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
+				$nestedGroups = $this->mapping->isNestedGroups();
 				if (!empty($nestedGroups)) {
 					$supergroups = $this->getGroupsByMember($groupDN, $seen);
 					if (\is_array($supergroups) && (\count($supergroups)>0)) {
@@ -768,8 +767,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 		$search = Access::escapeFilterPart($search, true);
 		$isMemberUid =
-			(\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr)
-			=== 'memberuid');
+			(\strtolower($this->mapping->getMemberAttribute()) === 'memberuid');
 
 		//we need to apply the search filter
 		//alternatives that need to be checked:
@@ -882,8 +880,8 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return [];
 		}
 		$search = Access::escapeFilterPart($search, true);
-		$pagingSize = \intval($this->access->getConnection()->ldapPagingSize);
-		if (!$this->access->getConnection()->hasPagedResultSupport || $pagingSize <= 0) {
+		$pagingSize = $this->server->getPageSize();
+		if (!$this->server->isSupportsPaging() || $pagingSize <= 0) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
 		$maxGroups = 100000; // limit max results (just for safety reasons)
