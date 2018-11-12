@@ -22,15 +22,17 @@
 namespace OCA\User_LDAP\Connection;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Config\GroupMapping;
-use OCA\User_LDAP\Config\Mapping;
+use OCA\User_LDAP\Config\GroupTree;
+use OCA\User_LDAP\Config\Tree;
 use OCA\User_LDAP\Config\Server;
-use OCA\User_LDAP\Config\UserMapping;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Group_LDAP;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_LDAP;
 use OCP\IAvatarManager;
@@ -66,11 +68,11 @@ class BackendManager {
 	 */
 	private $ldap;
 	/**
-	 * @var \OCA\User_LDAP\Mapping\UserMapping
+	 * @var UserMapping
 	 */
 	private $userMap;
 	/**
-	 * @var \OCA\User_LDAP\Mapping\GroupMapping
+	 * @var GroupMapping
 	 */
 	private $groupMap;
 	/**
@@ -98,8 +100,8 @@ class BackendManager {
 	 * @param IUserManager $coreUserManager
 	 * @param IDBConnection $db
 	 * @param LDAP $ldap
-	 * @param \OCA\User_LDAP\Mapping\UserMapping $userMap
-	 * @param \OCA\User_LDAP\Mapping\GroupMapping $groupMap
+	 * @param UserMapping $userMap
+	 * @param GroupMapping $groupMap
 	 * @param FilesystemHelper $fs
 	 */
 	public function __construct(
@@ -109,8 +111,8 @@ class BackendManager {
 		IUserManager $coreUserManager,
 		IDBConnection $db,
 		LDAP $ldap,
-		\OCA\User_LDAP\Mapping\UserMapping $userMap,
-		\OCA\User_LDAP\Mapping\GroupMapping $groupMap,
+        UserMapping $userMap,
+		GroupMapping $groupMap,
 		FilesystemHelper $fs
 	) {
 		$this->coreConfig = $coreConfig;
@@ -152,9 +154,9 @@ class BackendManager {
 			}
 			// $node now is the node in the tree of configured base dns that
 			// contains the mapping configuration for that base dn
-			if ($mapping instanceof UserMapping) {
+			if ($mapping instanceof UserTree) {
 				$node['users'] = $mapping; // only one user mapping per rdn
-			} else if ($mapping instanceof GroupMapping) {
+			} else if ($mapping instanceof GroupTree) {
 				$node['groups'] = $mapping; // only one group mapping per rdn
 			} else {
 				$this->logger->error('ignoring unknown config mapping of type '.get_class($mapping));
@@ -165,7 +167,7 @@ class BackendManager {
 	/**
 	 * @param Server $server
 	 * @param string $dn
-	 * @return UserMapping
+	 * @return UserTree
 	 * @throws \Exception
 	 */
 	public function getUserConfig(Server $server, $dn) {
@@ -175,7 +177,7 @@ class BackendManager {
 	/**
 	 * @param Server $server
 	 * @param string $dn
-	 * @return UserMapping
+	 * @return UserTree
 	 * @throws \Exception
 	 */
 	public function getGroupConfig(Server $server, $dn) {
@@ -185,7 +187,7 @@ class BackendManager {
 	 * @param Server $server
 	 * @param string $dn
 	 * @param string $type
-	 * @return Mapping
+	 * @return Tree
 	 * @throws \Exception
 	 */
 	private function getConfig(Server $server, $dn, $type) {
@@ -220,10 +222,10 @@ class BackendManager {
 
 	/**
 	 * @param Server $server
-	 * @param UserMapping $mapping
+	 * @param UserTree $mapping
 	 * @return User_LDAP
 	 */
-	public function createUserBackend(Server $server, UserMapping $mapping) {
+	public function createUserBackend(Server $server, UserTree $mapping) {
 		$id = \strtolower("{$server->getId()}:u:{$mapping->getBaseDN()}");
 		if (!isset($this->userBackends[$id])) {
 
@@ -277,10 +279,10 @@ class BackendManager {
 
 	/**
 	 * @param Server $server
-	 * @param GroupMapping $mapping
+	 * @param GroupTree $mapping
 	 * @return Group_LDAP
 	 */
-	public function createGroupBackend(Server $server, GroupMapping $mapping) {
+	public function createGroupBackend(Server $server, GroupTree $mapping) {
 		$id = \strtolower("{$server->getId()}:g:{$mapping->getBaseDN()}");
 		if (!isset($this->groupBackends[$id])) {
 

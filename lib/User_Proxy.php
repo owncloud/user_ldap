@@ -29,7 +29,7 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Config\ServerMapper;
-use OCA\User_LDAP\Config\UserMapping;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\Connection\BackendManager;
 use OCP\IConfig;
 use OCP\IUserBackend;
@@ -52,7 +52,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		foreach ($config->listAll() as $server) {
 			$manager->registerServer($server);
 			foreach ($server->getMappings() as $i => $mapping) {
-				if ($mapping instanceof UserMapping) {
+				if ($mapping instanceof UserTree) {
 					$backend = $manager->createUserBackend($server, $mapping);
 					// first backend is used for reference
 					if ($this->refBackend === null) {

@@ -22,7 +22,7 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Config\UserMapping;
+use OCA\User_LDAP\Config\UserTree;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -45,9 +45,9 @@ class UserEntry {
 	 */
 	protected $logger;
 	/**
-	 * @var UserMapping
+	 * @var UserTree
 	 */
-	protected $mapping;
+	protected $userTree;
 	/**
 	 * @var array
 	 */
@@ -61,14 +61,14 @@ class UserEntry {
 	 * @brief constructor, make sure the subclasses call this one!
 	 * @param IConfig $config
 	 * @param ILogger $logger
-	 * @param UserMapping $mapping
+	 * @param UserTree $userTree
 	 * @param array $ldapEntry an ldapEntry returned from Access::fetchListOfUsers()
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 */
-	public function __construct(IConfig $config, ILogger $logger, UserMapping $mapping, array $ldapEntry) {
+	public function __construct(IConfig $config, ILogger $logger, UserTree $userTree, array $ldapEntry) {
 		$this->config = $config;
 		$this->logger = $logger;
-		$this->mapping = $mapping;
+		$this->userTree = $userTree;
 		// Fix ldap entry to force all keys to lowercase
 		foreach ($ldapEntry as $key => $value) {
 			$this->ldapEntry[\strtolower($key)] = $ldapEntry[$key];
@@ -94,7 +94,7 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if username could not be determined
 	 */
 	public function getUsername() {
-		$attr = $this->mapping->getExpertUsernameAttr();
+		$attr = $this->userTree->getExpertUsernameAttr();
 		if ($attr === '' || $attr === 'auto') {
 			$username = $this->getUUID(); // fallback to uuid
 		} else {
@@ -131,7 +131,7 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if uuid could not be determined
 	 */
 	public function getUUID() {
-		$attr = $this->mapping->getUuidAttribute();
+		$attr = $this->userTree->getUuidAttribute();
 		if ($attr !== 'auto') {
 			$uuidAttributes = [$attr];
 		} else {
@@ -143,9 +143,9 @@ class UserEntry {
 			if ($uuid === null) {
 				continue;
 			}
-			if ($this->mapping->getUuidAttribute() !== $uuidAttribute) {
+			if ($this->userTree->getUuidAttribute() !== $uuidAttribute) {
 				// remember autodetected uuid attribute
-				$this->mapping->setUuidAttribute($uuidAttribute);
+				$this->userTree->setUuidAttribute($uuidAttribute);
 				//$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
 			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
@@ -165,11 +165,11 @@ class UserEntry {
 	 * @throws \OutOfBoundsException if display name could not be determined
 	 */
 	public function getDisplayName() {
-		$attr = $this->mapping->getDisplayNameAttribute();
+		$attr = $this->userTree->getDisplayNameAttribute();
 		$displayName = $this->getAttributeValue($attr, '');
 
 		//Check whether the display name is configured to have a 2nd feature
-		$additionalAttribute = $this->mapping->getDisplayName2Attribute();
+		$additionalAttribute = $this->userTree->getDisplayName2Attribute();
 		if ($additionalAttribute !== '') {
 			$displayName2 = (string)$this->getAttributeValue($additionalAttribute, '');
 		} else {
@@ -203,7 +203,7 @@ class UserEntry {
 	public function getQuota() {
 		$quota = null;
 
-		$attr = $this->mapping->getQuotaAttribute();
+		$attr = $this->userTree->getQuotaAttribute();
 		if (empty($attr)) {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
@@ -215,10 +215,10 @@ class UserEntry {
 		}
 
 		if ($quota === null) {
-			if ($this->mapping->getQuotaDefault() === null) {
+			if ($this->userTree->getQuotaDefault() === null) {
 				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
 			} else {
-				$quota = $this->mapping->getQuotaDefault();
+				$quota = $this->userTree->getQuotaDefault();
 				if (!$this->verifyQuotaValue($quota)) {
 					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
@@ -241,7 +241,7 @@ class UserEntry {
 	 * @return string|null email
 	 */
 	public function getEMailAddress() {
-		$attr = $this->mapping->getEmailAttribute();
+		$attr = $this->userTree->getEmailAttribute();
 		return $this->getAttributeValue($attr);
 	}
 	/**
@@ -251,7 +251,7 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
-		$attr = $this->mapping->getHomeFolderNamingRule();
+		$attr = $this->userTree->getHomeFolderNamingRule();
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -298,7 +298,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
-		$rawAttributes = $this->mapping->getAdditionalSearchAttributes();
+		$rawAttributes = $this->userTree->getAdditionalSearchAttributes();
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];

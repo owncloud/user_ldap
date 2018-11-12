@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "chance": "^1.0.16",
     "purecss": "^1.0.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"

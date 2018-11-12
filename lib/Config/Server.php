@@ -43,7 +43,7 @@ class Server implements \JsonSerializable {
 	private $backupTTL;
 	private $cacheTTL;
 	/**
-	 * @var Mapping[]
+	 * @var Tree[]
 	 */
 	private $mappings = [];
 
@@ -79,9 +79,9 @@ class Server implements \JsonSerializable {
 		foreach ($data['mappings'] as $mapping) {
 			if (isset($mapping['type'])) {
 				if ($mapping['type'] === 'user') {
-					$this->mappings[] = new UserMapping($mapping);
+					$this->mappings[] = new UserTree($mapping);
 				} else if ($mapping['type'] === 'group') {
-					$this->mappings[] = new GroupMapping($mapping);
+					$this->mappings[] = new GroupTree($mapping);
 				} else {
 					throw new ConfigException("Unknown mapping type {$mapping['type']}");
 				}
@@ -316,14 +316,14 @@ class Server implements \JsonSerializable {
 	}
 
 	/**
-	 * @return Mapping[]
+	 * @return Tree[]
 	 */
 	public function getMappings() {
 		return $this->mappings;
 	}
 
 	/**
-	 * @param Mapping[] $mappings
+	 * @param Tree[] $mappings
 	 */
 	public function setMappings($mappings) {
 		$this->mappings = $mappings;
@@ -343,7 +343,7 @@ class Server implements \JsonSerializable {
 		foreach ($this as $key => $value) {
 			if ($key === 'mappings') {
 				$data[$key] = [];
-				/** @var Mapping $mapping */
+				/** @var Tree $mapping */
 				foreach ($value as $mapping) {
 					$data[$key][] = $mapping->jsonSerialize();
 				}

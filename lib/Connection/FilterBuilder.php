@@ -9,8 +9,8 @@
 namespace OCA\User_LDAP\Connection;
 
 
-use OCA\User_LDAP\Config\GroupMapping;
-use OCA\User_LDAP\Config\UserMapping;
+use OCA\User_LDAP\Config\GroupTree;
+use OCA\User_LDAP\Config\UserTree;
 use OCP\IConfig;
 
 class FilterBuilder {
@@ -154,11 +154,11 @@ class FilterBuilder {
 
 	/**
 	 * creates a filter part for to perform search for users
-	 * @param UserMapping $mapping
+	 * @param UserTree $mapping
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	public function getFilterPartForUserSearch(UserMapping $mapping, $search) {
+	public function getFilterPartForUserSearch(UserTree $mapping, $search) {
 		return $this->getFilterPartForSearch($search,
 			$mapping->getAdditionalSearchAttributes(),
 			$mapping->getDisplayNameAttribute());
@@ -166,11 +166,11 @@ class FilterBuilder {
 
 	/**
 	 * creates a filter part for to perform search for groups
-	 * @param GroupMapping $mapping
+	 * @param GroupTree $mapping
 	 * @param string $search the search term
 	 * @return string the final filter part to use in LDAP searches
 	 */
-	public function getFilterPartForGroupSearch(GroupMapping $mapping, $search) {
+	public function getFilterPartForGroupSearch(GroupTree $mapping, $search) {
 		return $this->getFilterPartForSearch($search,
 			$mapping->getAdditionalSearchAttributes(),
 			$mapping->getDisplayNameAttribute());
@@ -178,10 +178,10 @@ class FilterBuilder {
 
 	/**
 	 * returns the filter used for counting users
-	 * @param UserMapping $mapping
+	 * @param UserTree $mapping
 	 * @return string
 	 */
-	public function getFilterForUserCount(UserMapping $mapping) {
+	public function getFilterForUserCount(UserTree $mapping) {
 		return $this->combineFilterWithAnd([
 			$mapping->getFilter(),
 			"{$mapping->getDisplayNameAttribute()}=*" // make sure displayname is set TODO this might cause differences when counting and one of the users has no displayname set

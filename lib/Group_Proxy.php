@@ -25,7 +25,7 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\GroupMapping;
+use OCA\User_LDAP\Config\GroupTree;
 use OCA\User_LDAP\Config\ServerMapper;
 use OCA\User_LDAP\Connection\BackendManager;
 
@@ -40,7 +40,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 		parent::__construct($manager);
 		foreach ($config->listAll() as $server) {
 			foreach ($server->getMappings() as $i => $mapping) {
-				if ($mapping instanceof GroupMapping) {
+				if ($mapping instanceof GroupTree) {
 					$backend = $manager->createGroupBackend($server, $mapping);
 					// first backend is used for reference
 					if ($this->refBackend === null) {

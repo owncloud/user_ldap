@@ -37,7 +37,7 @@ use OCA\User_LDAP\Group_LDAP;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\GroupTree;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 

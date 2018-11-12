@@ -22,7 +22,7 @@
 namespace OCA\User_LDAP\Config;
 
 
-class GroupMapping extends Mapping {
+class GroupTree extends Tree {
 
 	/**
 	 * @var string

@@ -22,7 +22,7 @@
 namespace OCA\User_LDAP\Config;
 
 
-abstract class Mapping implements \JsonSerializable {
+abstract class Tree implements \JsonSerializable {
 
 	/**
 	 * @var string

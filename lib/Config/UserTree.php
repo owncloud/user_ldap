@@ -22,7 +22,7 @@
 namespace OCA\User_LDAP\Config;
 
 
-class UserMapping extends Mapping {
+class UserTree extends Tree {
 
 	const LOGIN_FILTER_MODE_AUTO = 0;
 	const LOGIN_FILTER_MODE_MANUAL = 1;

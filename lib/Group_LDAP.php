@@ -37,7 +37,7 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
-use OCA\User_LDAP\Config\GroupMapping;
+use OCA\User_LDAP\Config\GroupTree;
 use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Connection\FilterBuilder;
 
@@ -59,7 +59,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 */
 	protected $server;
 	/**
-	 * @var GroupMapping
+	 * @var GroupTree
 	 */
 	protected $mapping;
 	/**
@@ -72,7 +72,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 */
 	protected $filterBuilder;
 
-	public function __construct(Server $server, GroupMapping $mapping, Access $access, FilterBuilder $filterBuilder) {
+	public function __construct(Server $server, GroupTree $mapping, Access $access, FilterBuilder $filterBuilder) {
 		$this->server = $server;
 		$this->mapping = $mapping;
 		$this->access = $access;

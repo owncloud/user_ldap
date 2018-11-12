@@ -37,8 +37,10 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\Mapping;
+use OCA\User_LDAP\Config\GroupTree;
+use OCA\User_LDAP\Config\Tree;
 use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\Connection\BackendManager;
 use OCA\User_LDAP\Connection\FilterBuilder;
 use OCA\User_LDAP\Exceptions\BindFailedException;
@@ -67,9 +69,9 @@ class Access implements IUserTools {
 	 */
 	protected $serverConfig;
 	/**
-	 * @var Mapping
+	 * @var Tree
 	 */
-	protected $mappingConfig;
+	protected $treeConfig;
 	/**
 	 * @var BackendManager
 	 */
@@ -86,7 +88,7 @@ class Access implements IUserTools {
 	protected $userMapper;
 
 	/**
-	* @var GroupMapping $userMapper
+	* @var GroupMapping $groupMapper
 	*/
 	protected $groupMapper;
 
@@ -105,19 +107,19 @@ class Access implements IUserTools {
 	protected $lastCookie = '';
 
 	public function __construct(
-		IUserManager $userManager,
-		Connection $connection,
-		Server $serverConfig,
-		Mapping $mappingConfig,
-		BackendManager $configManager,
-		FilterBuilder $filterBuilder,
-		UserMapping $userMapper,
-		GroupMapping $groupMapper
+        IUserManager $userManager,
+        Connection $connection,
+        Server $serverConfig,
+        Tree $treeConfig,
+        BackendManager $configManager,
+        FilterBuilder $filterBuilder,
+        UserMapping $userMapper,
+        GroupMapping $groupMapper
 	) {
 		$this->userManager = $userManager;
 		$this->connection = $connection;
 		$this->serverConfig = $serverConfig;
-		$this->mappingConfig = $mappingConfig;
+		$this->treeConfig = $treeConfig;
 		$this->configManager = $configManager;
 		$this->filterBuilder = $filterBuilder;
 		$this->userMapper = $userMapper;
@@ -571,13 +573,13 @@ class Access implements IUserTools {
 	 *
 	 * @param string $fdn the dn of the user object
 	 * @param string $ldapDisplayName optional, the display name of the object
-	 * @param Mapping $mapping
+	 * @param Tree $mapping
 	 * @return string|false with with the name to use in ownCloud
 	 * @throws \BadMethodCallException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function dn2ocname($fdn, $ldapDisplayName = null, $mapping) {
-		if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
+		if ($mapping instanceof UserTree) {
 			$mapper = $this->userMapper;
 		} else {
 			$mapper = $this->groupMapper;
@@ -616,7 +618,7 @@ class Access implements IUserTools {
 			$ldapDisplayName = $ldapDisplayName[0];
 		}
 
-		if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
+		if ($mapping instanceof UserTree) {
 			$usernameAttribute = $mapping->getExpertUsernameAttr();
 			if ($usernameAttribute !== '') {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
@@ -636,7 +638,7 @@ class Access implements IUserTools {
 		$originalTTL = $this->serverConfig->getCacheTTL();
 		$this->serverConfig->setCacheTTL(0);
 		// FIXME DI User and Group Managers
-		$isUser = $mapping instanceof \OCA\User_LDAP\Config\UserMapping;
+		$isUser = $mapping instanceof UserTree;
 		if (($isUser && !$this->userManager->userExists($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			if ($mapper->map($fdn, $intName, $uuid)) {
@@ -817,36 +819,36 @@ class Access implements IUserTools {
 	 * fetches a list of users according to a provided loginName and utilizing
 	 * the login filter.
 	 *
-	 * @param \OCA\User_LDAP\Config\UserMapping $userMapping
+	 * @param UserTree $userTree
 	 * @param string $loginName
 	 * @param array $attributes optional, list of attributes to read
 	 * @return array
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function fetchUsersByLoginName(\OCA\User_LDAP\Config\UserMapping $userMapping, $loginName, array $attributes = ['dn']) {
+	public function fetchUsersByLoginName(UserTree $userTree, $loginName, array $attributes = ['dn']) {
 		$loginName = self::escapeFilterPart($loginName);
-		$filter = \str_replace('%uid', $loginName, $userMapping->getLoginFilter());
-		return $this->fetchListOfUsers([$userMapping], $filter, $attributes);
+		$filter = \str_replace('%uid', $loginName, $userTree->getLoginFilter());
+		return $this->fetchListOfUsers([$userTree], $filter, $attributes);
 	}
 
 	/**
 	 * counts the number of users according to a provided loginName and
 	 * utilizing the login filter.
 	 *
-	 * @param \OCA\User_LDAP\Config\UserMapping $userMapping
+	 * @param UserTree $userTree
 	 * @param string $loginName
 	 * @return int|false
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function countUsersByLoginName(\OCA\User_LDAP\Config\UserMapping $userMapping, $loginName) {
+	public function countUsersByLoginName(UserTree $userTree, $loginName) {
 		$loginName = self::escapeFilterPart($loginName);
-		$filter = \str_replace('%uid', $loginName, $userMapping->getLoginFilter());
-		return $this->countUsers([$userMapping], $filter);
+		$filter = \str_replace('%uid', $loginName, $userTree->getLoginFilter());
+		return $this->countUsers([$userTree], $filter);
 	}
 
 	/**
 	 *
-	 * @param Mapping[] $mappings to search in
+	 * @param Tree[] $mappings to search in
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -860,7 +862,7 @@ class Access implements IUserTools {
 	}
 
 	/**
-	 * @param Mapping[] $mappings to search in
+	 * @param Tree[] $mappings to search in
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -951,7 +953,7 @@ class Access implements IUserTools {
 	/**
 	 * executes an LDAP search, optimized for Users
 	 *
-	 * @param Mapping[] $mappings to search in
+	 * @param Tree[] $trees to search in
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -961,18 +963,18 @@ class Access implements IUserTools {
 	 * Executes an LDAP search
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function searchUsers(array $mappings, $filter, $attr = null, $limit = null, $offset = null) {
+	public function searchUsers(array $trees, $filter, $attr = null, $limit = null, $offset = null) {
 		$bases = [];
-		foreach ($mappings as $mapping) {
-			if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
-				$bases[] = $mapping->getBaseDN();
+		foreach ($trees as $tree) {
+			if ($tree instanceof UserTree) {
+				$bases[] = $tree->getBaseDN();
 			}
 		}
 		return $this->search($filter, $bases, $attr, $limit, $offset);
 	}
 
 	/**
-	 * @param Mapping[] $mappings to count in
+	 * @param Tree[] $trees to count in
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -980,11 +982,11 @@ class Access implements IUserTools {
 	 * @return false|int
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function countUsers(array $mappings, $filter, $attr = ['dn'], $limit = null, $offset = null) {
+	public function countUsers(array $trees, $filter, $attr = ['dn'], $limit = null, $offset = null) {
 		$bases = [];
-		foreach ($mappings as $mapping) {
-			if ($mapping instanceof \OCA\User_LDAP\Config\UserMapping) {
-				$bases[] = $mapping->getBaseDN();
+		foreach ($trees as $tree) {
+			if ($tree instanceof UserTree) {
+				$bases[] = $tree->getBaseDN();
 			}
 		}
 		return $this->count($filter, $bases, $attr, $limit, $offset);
@@ -993,7 +995,7 @@ class Access implements IUserTools {
 	/**
 	 * executes an LDAP search, optimized for Groups
 	 *
-	 * @param Mapping[] $mappings to search in
+	 * @param Tree[] $trees to search in
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -1003,11 +1005,11 @@ class Access implements IUserTools {
 	 * Executes an LDAP search
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function searchGroups(array $mappings, $filter, $attr = null, $limit = null, $offset = null) {
+	public function searchGroups(array $trees, $filter, $attr = null, $limit = null, $offset = null) {
 		$bases = [];
-		foreach ($mappings as $mapping) {
-			if ($mapping instanceof \OCA\User_LDAP\Config\GroupMapping) {
-				$bases[] = $mapping->getBaseDN();
+		foreach ($trees as $tree) {
+			if ($tree instanceof GroupTree) {
+				$bases[] = $tree->getBaseDN();
 			}
 		}
 		return $this->search($filter, $bases, $attr, $limit, $offset);
@@ -1016,7 +1018,7 @@ class Access implements IUserTools {
 	/**
 	 * returns the number of available groups
 	 *
-	 * @param Mapping[] $mappings to count in
+	 * @param Tree[] $trees to count in
 	 * @param string $filter the LDAP search filter
 	 * @param string[] $attr optional
 	 * @param int|null $limit
@@ -1024,11 +1026,11 @@ class Access implements IUserTools {
 	 * @return int|bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function countGroups(array $mappings, $filter, $attr = ['dn'], $limit = null, $offset = null) {
+	public function countGroups(array $trees, $filter, $attr = ['dn'], $limit = null, $offset = null) {
 		$bases = [];
-		foreach ($mappings as $mapping) {
-			if ($mapping instanceof \OCA\User_LDAP\Config\GroupMapping) {
-				$bases[] = $mapping->getBaseDN();
+		foreach ($trees as $tree) {
+			if ($tree instanceof GroupTree) {
+				$bases[] = $tree->getBaseDN();
 			}
 		}
 		return $this->count($filter, $bases, $attr, $limit, $offset);
@@ -1378,7 +1380,7 @@ class Access implements IUserTools {
 	 * auto-detects the directory's UUID attribute
 	 *
 	 * @param string $dn a known DN used to check against
-	 * @param Mapping $mapping
+	 * @param Tree $mapping
 	 * @param bool $force the detection should be run, even if it is not set to auto
 	 * @return bool true on success, false otherwise
 	 * @throws \OC\ServerNotAvailableException
@@ -1413,7 +1415,7 @@ class Access implements IUserTools {
 
 	/**
 	 * @param string $dn
-	 * @param Mapping $mapping
+	 * @param Tree $mapping
 	 * @return string|bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -1607,10 +1609,10 @@ class Access implements IUserTools {
 
 	// FIXME use sanitizeDN?
 	public function isDNPartOfUserBases($dn) {
-		return $this->configManager->getUserConfig($this->serverConfig, $dn) instanceof \OCA\User_LDAP\Config\UserMapping;
+		return $this->configManager->getUserConfig($this->serverConfig, $dn) instanceof UserTree;
 	}
 	public function isDNPartOfGroupBases($dn) {
-		return $this->configManager->getGroupConfig($this->serverConfig, $dn) instanceof \OCA\User_LDAP\Config\GroupMapping;
+		return $this->configManager->getGroupConfig($this->serverConfig, $dn) instanceof GroupTree;
 	}
 	/**
 	 * checks if the given DN is part of the given base DN(s)
