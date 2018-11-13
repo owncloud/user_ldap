@@ -74,7 +74,7 @@ class Helper {
 
 		$stmt = \OCP\DB::prepare($sql);
 
-		$serverConfigs = $stmt->execute(['%'.$referenceConfigkey])->fetchAll();
+		$serverConfigs = $stmt->execute(['%'.ServerMapper::PREFIX])->fetchAll();
 		$prefixes = [];
 
 		foreach ($serverConfigs as $serverConfig) {

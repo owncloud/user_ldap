@@ -42,10 +42,14 @@ class Server implements \JsonSerializable {
 	private $backupPort;
 	private $backupTTL;
 	private $cacheTTL;
-	/**
-	 * @var Tree[]
-	 */
-	private $mappings = [];
+    /**
+     * @var UserTree[]
+     */
+    private $userTrees = [];
+    /**
+     * @var GroupTree[]
+     */
+    private $groupTrees = [];
 
 	/**
 	 * Server constructor.
@@ -76,19 +80,18 @@ class Server implements \JsonSerializable {
 		$this->backupPort =         isset($data['backupPort'])         ?    (int)$data['backupPort']         : null;
 		$this->backupTTL =          isset($data['backupTTL'])          ?    (int)$data['backupTTL']          : 30;
 		$this->cacheTTL =           isset($data['cacheTTL'])           ?    (int)$data['cacheTTL']           : 600;
-		foreach ($data['mappings'] as $mapping) {
-			if (isset($mapping['type'])) {
-				if ($mapping['type'] === 'user') {
-					$this->mappings[] = new UserTree($mapping);
-				} else if ($mapping['type'] === 'group') {
-					$this->mappings[] = new GroupTree($mapping);
-				} else {
-					throw new ConfigException("Unknown mapping type {$mapping['type']}");
-				}
-			} else {
-				throw new ConfigException('Mappings must have a "type" property');
-			}
-		}
+		if (empty($data['users'])) {
+            $data['users'] = [];
+        }
+        foreach ($data['users'] as $userTree) {
+            $this->userTrees[] = new UserTree($userTree);
+        }
+        if (empty($data['users'])) {
+            $data['groups'] = [];
+        }
+        foreach ($data['groups'] as $groupTree) {
+            $this->groupTrees[] = new GroupTree($groupTree);
+        }
 	}
 
 	/**
@@ -315,19 +318,73 @@ class Server implements \JsonSerializable {
 		$this->cacheTTL = (int)$cacheTTL;
 	}
 
-	/**
-	 * @return Tree[]
-	 */
-	public function getMappings() {
-		return $this->mappings;
-	}
+    /**
+     * @param string $baseDN
+     * @return UserTree|null
+     */
+    public function getUserTree($baseDN) {
+        return $this->userTrees[$baseDN]??null;
+    }
 
 	/**
-	 * @param Tree[] $mappings
+	 * @return UserTree[]
 	 */
-	public function setMappings($mappings) {
-		$this->mappings = $mappings;
+	public function getUserTrees() {
+		return $this->userTrees;
 	}
+
+    /**
+     * @param string $baseDN
+     * @param UserTree $tree
+     */
+    public function setUserTree($baseDN, $tree) { // TODO normalize dn?
+        if ($tree === null) {
+            unset($this->userTrees[$baseDN]);
+        } else {
+            $this->userTrees[$baseDN] = $tree;
+        }
+    }
+
+    /**
+     * @param UserTree[] $trees
+     */
+    public function setUserTrees($trees) {
+        $this->userTrees = $trees;
+    }
+
+    /**
+     * @param string $baseDN
+     * @return GroupTree|null
+     */
+    public function getGroupTree($baseDN) {
+        return $this->groupTrees[$baseDN]??null;
+    }
+
+    /**
+     * @return GroupTree[]
+     */
+    public function getGroupTrees() {
+        return $this->groupTrees;
+    }
+
+    /**
+     * @param string $baseDN
+     * @param GroupTree $tree
+     */
+    public function setGroupTree($baseDN, $tree) { // TODO normalize dn?
+        if ($tree === null) {
+            unset($this->groupTrees[$baseDN]);
+        } else {
+            $this->groupTrees[$baseDN] = $tree;
+        }
+    }
+
+    /**
+     * @param GroupTree[] $trees
+     */
+    public function setGroupTrees($trees) {
+        $this->groupTrees = $trees;
+    }
 
 	/**
 	 * Specify data which should be serialized to JSON
@@ -341,7 +398,7 @@ class Server implements \JsonSerializable {
 		$data = [];
 		// maybe using an array to store the properties makes more sense ... but please with explicit getters and setters
 		foreach ($this as $key => $value) {
-			if ($key === 'mappings') {
+			if ($key === 'groupTrees' || $key === 'userTrees') {
 				$data[$key] = [];
 				/** @var Tree $mapping */
 				foreach ($value as $mapping) {

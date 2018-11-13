@@ -21,7 +21,7 @@
 
 namespace OCA\User_LDAP\Tests\User;
 
-use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -36,26 +36,26 @@ class UserEntryTest extends \Test\TestCase {
 	 */
 	protected $logger;
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var UserTree|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected $connection;
+	protected $userTree;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
 		$this->logger     = $this->createMock(ILogger::class);
-		$this->connection = $this->createMock(Connection::class);
+		$this->userTree = $this->createMock(UserTree::class);
 	}
 
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidNew() {
-		new UserEntry($this->config, $this->logger, $this->connection, []);
+		new UserEntry($this->config, $this->logger, $this->userTree, []);
 	}
 
 	public function testGetDN() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -64,11 +64,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetUsernameIsConfigured() {
-		$this->connection->expects($this->once())
-			->method('__get')
-			->with($this->equalTo('ldapExpertUsernameAttr'))
+		$this->userTree->expects($this->once())
+			->method('getExpertUsernameAttr')
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -84,19 +83,13 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testGetUsernameFallbackOnUUID($uuidAttr, $uuidValue, $expected) {
-		$this->connection->expects($this->exactly(3))
-			->method('__get')
-			->withConsecutive(
-				[$this->equalTo('ldapExpertUsernameAttr')],
-				[$this->equalTo('ldapExpertUUIDUserAttr')],
-				[$this->equalTo('ldapExpertUUIDUserAttr')]
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				$uuidAttr,
-				$uuidAttr
-			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+        $this->userTree->expects($this->once())
+            ->method('getExpertUsernameAttr')
+            ->will($this->returnValue(null));
+        $this->userTree
+            ->method('getUuidAttribute')
+            ->will($this->returnValue($uuidAttr));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -109,11 +102,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUsernameUndetermined() {
-		$this->connection->expects($this->exactly(1))
-			->method('__get')
-			->with($this->equalTo('ldapExpertUsernameAttr'))
-			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+        $this->userTree->expects($this->once())
+            ->method('getExpertUsernameAttr')
+            ->will($this->returnValue('mail'));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -145,11 +137,10 @@ class UserEntryTest extends \Test\TestCase {
 	 * @param $expected string
 	 */
 	public function testGetUUIDIsConfigured($uuidAttr, $uuidValue, $expected) {
-		$this->connection->expects($this->exactly(2))
-			->method('__get')
-			->with($this->equalTo('ldapExpertUUIDUserAttr'))
-			->will($this->returnValue($uuidAttr));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+        $this->userTree
+            ->method('getUuidAttribute')
+            ->will($this->returnValue($uuidAttr));
+		$userEntry = new UserEntry($this->config, $this->logger, $this->userTree,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]

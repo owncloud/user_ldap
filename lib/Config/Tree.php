@@ -27,11 +27,6 @@ abstract class Tree implements \JsonSerializable {
 	/**
 	 * @var string
 	 */
-	protected $type; // user or group
-
-	/**
-	 * @var string
-	 */
 	protected $baseDN;
 
 	/**
@@ -66,7 +61,6 @@ abstract class Tree implements \JsonSerializable {
 	protected $additionalSearchAttributes;
 
 	public function __construct(array $data) {
-		$this->type =                       isset($data['type'])                       ? (string)$data['type']                       : 'user';
 		$this->baseDN =                     isset($data['baseDN'])                     ? (string)$data['baseDN']                     : '';
 		$this->filterObjectclass =          isset($data['filterObjectclass'])          ?         $data['filterObjectclass']          : [];
 		$this->filterGroups =               isset($data['filterGroups'])               ?         $data['filterGroups']               : [];
@@ -75,20 +69,6 @@ abstract class Tree implements \JsonSerializable {
 		$this->uuidAttribute =              isset($data['uuidAttribute'])              ? (string)$data['uuidAttribute']              : 'auto';
 		$this->displayNameAttribute =       isset($data['displayNameAttribute'])       ? (string)$data['displayNameAttribute']       : 'displayName';
 		$this->additionalSearchAttributes = isset($data['additionalSearchAttributes']) ?         $data['additionalSearchAttributes'] : [];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getType() {
-		return $this->type;
-	}
-
-	/**
-	 * @param string $type
-	 */
-	public function setType($type) {
-		$this->type = $type;
 	}
 
 	/**

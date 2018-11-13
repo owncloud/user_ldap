@@ -273,8 +273,8 @@ class ConfigurationController extends Controller {
 		} catch (ConfigException $e) {
 			return new DataResponse(['error' => $e], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		if (count($c->getMappings()) !== 1) {
-			return new DataResponse(['error' => 'To discover an entity the config must contain the mapping that should be used'], Http::STATUS_UNPROCESSABLE_ENTITY);
+		if (count($c->getUserTrees()) !== 1) {
+			return new DataResponse(['error' => 'To discover an entity the config must contain a user mapping that should be used'], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		$c->setActive(true);
@@ -287,7 +287,7 @@ class ConfigurationController extends Controller {
 					$filter = "(&(|(objectClass=User)(objectClass=inetOrgPerson))(|(cn=$username)(uid=$username)(samaccountname=$username)(userprincipalname=$username)(mail=$username)(displayname=$username)))";
 					$sr = $this->ldapWrapper->search(
 						$connection->getConnectionResource(),
-						$c->getMappings()[0]->getBaseDN(),
+						$c->getUserTrees()[0]->getBaseDN(),
 						$filter,
 						\array_merge(Access::$uuidAttributes, ['dn', 'objectclass', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'mailnickname', 'title', 'displayname', 'name', 'givenname', 'sn', 'company', 'department', 'postalcode', 'jpegphoto', 'thumbnailphoto', 'quota', 'memberof']), // more attributes
 						0, // attributes and values

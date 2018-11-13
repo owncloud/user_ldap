@@ -24,20 +24,19 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Config\Server;
+use OCA\User_LDAP\Config\ServerMapper;
 use OCA\User_LDAP\LDAP;
-use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
 
-	/** @var IConfig */
-	protected $coreConfig;
+	/** @var ServerMapper */
+	protected $mapper;
 
 	/** @var Helper */
 	protected $helper;
@@ -46,14 +45,12 @@ class TestConfig extends Command {
 	protected $ldap;
 
 	/**
-	 * @param IConfig $coreConfig
-	 * @param Helper $helper
+	 * @param ServerMapper $mapper
 	 * @param LDAP $ldap
 	 */
-	public function __construct(IConfig $coreConfig, Helper $helper, LDAP $ldap) {
+	public function __construct(ServerMapper $mapper, LDAP $ldap) {
 		parent::__construct();
-		$this->coreConfig = $coreConfig;
-		$this->helper = $helper;
+		$this->mapper = $mapper;
 		$this->ldap = $ldap;
 	}
 
@@ -70,14 +67,9 @@ class TestConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configId = $input->getArgument('configID');
-		if (!\in_array($configId, $availableConfigs, true)) {
-			$output->writeln("Invalid configID");
-			return;
-		}
-
-		$result = $this->testConfig($configId);
+        $config = $this->mapper->find($configId);
+		$result = $this->testConfig($config);
 		if ($result === 0) {
 			$output->writeln('The configuration is valid and the connection could be established!');
 		} elseif ($result === 1) {
@@ -89,23 +81,21 @@ class TestConfig extends Command {
 		}
 	}
 
-	/**
-	 * tests the specified connection
-	 * @param string $configId
-	 * @return int
-	 */
-	protected function testConfig($configId) {
-		$configuration = new Configuration($this->coreConfig, $configId);
-		$connection = new Connection($this->ldap, $configuration);
+    /**
+     * tests the specified connection
+     * @param Server $config
+     * @return int
+     * @throws \OCA\User_LDAP\Exceptions\BindFailedException
+     * @throws \OC\ServerNotAvailableException
+     */
+	protected function testConfig(Server $config) {
+        $config->setActive(true);
+		$connection = new Connection($this->ldap, $config);
 
-		//ensure validation is run before we attempt the bind
-		$connection->getConfiguration();
+		//FIXME actually verify config
+        //ensure validation is run before we attempt the bind
+		//$connection->getConfiguration();
 
-		if (!$connection->setConfiguration([
-			'ldap_configuration_active' => 1,
-		])) {
-			return 1;
-		}
 		if ($connection->bind()) {
 			return 0;
 		}

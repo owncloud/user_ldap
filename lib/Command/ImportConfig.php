@@ -1,11 +1,8 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2018, ownCloud GmbH
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,12 +25,15 @@ use OCA\User_LDAP\Config\LegacyWrapper;
 use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Config\ServerMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Configuration;
 
-class SetConfig extends Command {
+class ImportConfig extends Command {
 
     /** @var ServerMapper */
     protected $mapper;
@@ -48,23 +48,8 @@ class SetConfig extends Command {
 
 	protected function configure() {
 		$this
-			->setName('ldap:set-config')
-			->setDescription('modifies an LDAP configuration')
-			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
-			->addArgument(
-					'configKey',
-					InputArgument::REQUIRED,
-					'the configuration key'
-					 )
-			->addArgument(
-					'configValue',
-					InputArgument::REQUIRED,
-					'the new configuration value'
-					 )
+			->setName('ldap:import-config')
+			->setDescription('imports an LDAP configuration')
 		;
 	}
 
@@ -72,37 +57,36 @@ class SetConfig extends Command {
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|null|void
-     * @throws DoesNotExistException
      * @throws \Doctrine\DBAL\Exception\UniqueConstraintViolationException
      * @throws \OCA\User_LDAP\Exceptions\ConfigException
      */
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $configId = $input->getArgument('configID');
-
+        $json = $this->getFromStdin();
+        $config = json_decode($json, true);
+        if (!\is_array($config) || empty($config)) {
+            throw new \UnexpectedValueException('The config must contain a valid json array: ('.json_last_error().') '.json_last_error_msg());
+        }
+        $newServer = new Server($config);
 
         try {
-            $server = $this->mapper->find($configId);
+            $this->mapper->find($newServer->getId());
+            $this->mapper->update($newServer);
         } catch (DoesNotExistException $e) {
-            $server = new Server(['id' => $configId]);
-            $this->mapper->insert($server);
+            $this->mapper->insert($newServer);
         }
-		$this->setValue(
-            $server,
-			$input->getArgument('configKey'),
-			$input->getArgument('configValue')
-		);
-
-        $this->mapper->update($server);
 	}
 
     /**
-     * save the configuration value as provided
-     * @param Server $server
-     * @param string $key
-     * @param string $value
+     * Get the content from stdin ("config:import < file.json")
+     *
+     * @return string
      */
-	protected function setValue(Server $server, $key, $value) {
-        $migration = new LegacyWrapper($server);
-        $migration->$key = $value;
-	}
+    protected function getFromStdin() {
+        // Read from stdin. stream_set_blocking is used to prevent blocking
+        // when nothing is passed via stdin.
+        \stream_set_blocking(STDIN, 0);
+        $content = \file_get_contents('php://stdin');
+        \stream_set_blocking(STDIN, 1);
+        return $content;
+    }
 }

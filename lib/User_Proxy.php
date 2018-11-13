@@ -51,14 +51,12 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IProvides
 		parent::__construct($manager);
 		foreach ($config->listAll() as $server) {
 			$manager->registerServer($server);
-			foreach ($server->getMappings() as $i => $mapping) {
-				if ($mapping instanceof UserTree) {
-					$backend = $manager->createUserBackend($server, $mapping);
-					// first backend is used for reference
-					if ($this->refBackend === null) {
-						$this->refBackend = $backend;
-					}
-				}
+			foreach ($server->getUserTrees() as $tree) {
+                $backend = $manager->createUserBackend($server, $tree);
+                // first backend is used for reference
+                if ($this->refBackend === null) {
+                    $this->refBackend = $backend;
+                }
 			}
 		}
 	}

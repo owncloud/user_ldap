@@ -42,6 +42,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	<commands>
 		<command>OCA\User_LDAP\Command\ShowConfig</command>
 		<command>OCA\User_LDAP\Command\SetConfig</command>
+		<command>OCA\User_LDAP\Command\ImportConfig</command>
 		<command>OCA\User_LDAP\Command\TestConfig</command>
 		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
 		<command>OCA\User_LDAP\Command\DeleteConfig</command>

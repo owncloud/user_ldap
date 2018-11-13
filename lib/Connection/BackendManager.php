@@ -128,40 +128,41 @@ class BackendManager {
 
 	const WITH_ATTRIBUTES = 0; // see description of http://php.net/manual/en/function.ldap-explode-dn.php
 
+    private function setNode($id, $type, Tree $tree) {
+        $baseDN = $tree->getBaseDN();
+        $dn = $this->ldap->explodeDN($baseDN, self::WITH_ATTRIBUTES);
+        unset($dn['count']);
+        $dn = \array_reverse($dn);
+        $node = &$this->servers[$id];
+        foreach ($dn as $rdn) {
+            $rdn = \strtolower($rdn);
+            // explodeDN might return escaped UTF-8, see http://php.net/manual/en/function.ldap-explode-dn.php
+            $rdn = preg_replace_callback(
+                '/\\\([0-9a-f]{2})/',
+                function ($matches) { return chr(hexdec($matches[1])); },
+                $rdn
+            );
+            if (!isset($node[$rdn])) {
+                $node[$rdn] = [];
+            }
+            $node = &$node[$rdn];
+        }
+        // $node now is the node in the tree of configured base dns that
+        // contains the mapping configuration for that base dn
+        $node[$type] = $tree;
+    }
+
 	public function registerServer(Server $server) {
 		$id = $server->getId();
 		if (!isset($this->servers[$id])) {
 			$this->servers[$id] = [];
 		}
-		foreach ($server->getMappings() as $mapping) {
-			$baseDN = $mapping->getBaseDN();
-			$dn = $this->ldap->explodeDN($baseDN, self::WITH_ATTRIBUTES);
-			unset($dn['count']);
-			$dn = \array_reverse($dn);
-			$node = &$this->servers[$id];
-			foreach ($dn as $rdn) {
-				$rdn = \strtolower($rdn);
-				// explodeDN might return escaped UTF-8, see http://php.net/manual/en/function.ldap-explode-dn.php
-				$rdn = preg_replace_callback(
-					'/\\\([0-9a-f]{2})/',
-					function ($matches) { return chr(hexdec($matches[1])); },
-					$rdn
-				);
-				if (!isset($node[$rdn])) {
-					$node[$rdn] = [];
-				}
-				$node = &$node[$rdn];
-			}
-			// $node now is the node in the tree of configured base dns that
-			// contains the mapping configuration for that base dn
-			if ($mapping instanceof UserTree) {
-				$node['users'] = $mapping; // only one user mapping per rdn
-			} else if ($mapping instanceof GroupTree) {
-				$node['groups'] = $mapping; // only one group mapping per rdn
-			} else {
-				$this->logger->error('ignoring unknown config mapping of type '.get_class($mapping));
-			}
-		}
+        foreach ($server->getUserTrees() as $tree) {
+            $this->setNode($id, 'users', $tree);
+        }
+        foreach ($server->getGroupTrees() as $tree) {
+            $this->setNode($id, 'groups', $tree);
+        }
 	}
 
 	/**

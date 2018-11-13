@@ -39,14 +39,12 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function __construct(ServerMapper $config, BackendManager $manager) {
 		parent::__construct($manager);
 		foreach ($config->listAll() as $server) {
-			foreach ($server->getMappings() as $i => $mapping) {
-				if ($mapping instanceof GroupTree) {
-					$backend = $manager->createGroupBackend($server, $mapping);
-					// first backend is used for reference
-					if ($this->refBackend === null) {
-						$this->refBackend = $backend;
-					}
-				}
+			foreach ($server->getGroupTrees() as $tree) {
+                $backend = $manager->createGroupBackend($server, $tree);
+                // first backend is used for reference
+                if ($this->refBackend === null) {
+                    $this->refBackend = $backend;
+                }
 			}
 		}
 	}
