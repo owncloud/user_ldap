@@ -10,21 +10,21 @@ Feature: login users
     Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
 
   Scenario: using ldap filter including email field
-    When the LDAP config "LDAPTestId" has these settings:
+    When LDAP config "LDAPTestId" has these settings:
       | key                | value                                                                            |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(\|(uid=%uid)(mailPrimaryAddress=%uid)(mail=%uid))) |
       | ldapEmailAttribute |                                                                                  |
     Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
 
   Scenario: using ldapEmailAttribute but loginFilter lacks email field
-    When the LDAP config "LDAPTestId" has these settings:
+    When LDAP config "LDAPTestId" has these settings:
       | key                | value                                    |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(uid=%uid)) |
       | ldapEmailAttribute | mail                                     |
     Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
 
   Scenario: no ldapEmailAttribute and loginFilter lacks email field
-    When the LDAP config "LDAPTestId" has these settings:
+    When LDAP config "LDAPTestId" has these settings:
       | key                | value                                    |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(uid=%uid)) |
       | ldapEmailAttribute |                                          |

@@ -6,7 +6,7 @@ Feature: paging
   So that all LDAP users get synced over to owncloud
 
   Background:
-    Given the LDAP config "LDAPTestId" has the key "ldapPagingSize" set to "10"
+    Given LDAP config "LDAPTestId" has key "ldapPagingSize" set to "10"
     And the administrator has created "200" LDAP users with the prefix "my-user-" in the OU "NEWZombies"
 
   Scenario: login to a system with a lot of users
