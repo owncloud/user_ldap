@@ -35,7 +35,7 @@ Feature: paging
     And the LDAP users have been resynced
     And the user has browsed to the login page
     And the user has logged in with username "my-user-000" and password "my-user-000" using the webUI
-    And the user has opened the share dialog for the folder "simple-folder"
+    And the user has opened the share dialog for folder "simple-folder"
     When the user types "12" in the share-with-field
     Then all users and groups that contain the string "12" in their name should be listed in the autocomplete list on the webUI
     And the users own name should not be listed in the autocomplete list on the webUI
