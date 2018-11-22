@@ -54,7 +54,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $featureContext;
 	
 	/**
-	 * @Given the LDAP config :configId has the key :configKey set to :configValue
+	 * @Given LDAP config :configId has key :configKey set to :configValue
 	 *
 	 * @param string $configId
 	 * @param string $configKey
@@ -62,7 +62,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 *
 	 * @return void
 	 */
-	public function theLdapConfigHasTheKeySetTo(
+	public function ldapConfigHasKeySetTo(
 		$configId, $configKey, $configValue
 	) {
 		//remember old settings to be able to set them back after test run
@@ -85,16 +85,16 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @Given the LDAP config :configId has these settings:
+	 * @Given LDAP config :configId has these settings:
 	 *
 	 * @param string $configId
 	 * @param TableNode $table with the headings |key | value |
 	 *
 	 * @return void
 	 */
-	public function theLdapConfigHasTheseSettings($configId, TableNode $table) {
+	public function ldapConfigHasTheseSettings($configId, TableNode $table) {
 		foreach ($table as $line) {
-			$this->theLdapConfigHasTheKeySetTo(
+			$this->ldapConfigHasKeySetTo(
 				$configId, $line['key'], $line['value']
 			);
 		}

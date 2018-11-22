@@ -235,6 +235,9 @@ services:
       - MYSQL_PASSWORD=owncloud
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_ROOT_PASSWORD=owncloud
+    when:
+      matrix:
+        DB_TYPE: mysql
 
   pgsql:
     image: postgres:9.4

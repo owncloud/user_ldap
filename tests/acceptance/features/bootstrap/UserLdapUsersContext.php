@@ -38,7 +38,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	private $userLdapGeneralContext;
 	
 	/**
-	 * @When the administrator creates the group :group in the ldap OU :ou
+	 * @When the administrator creates group :group in ldap OU :ou
 	 *
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
@@ -63,8 +63,8 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	}
 	
 	/**
-	 * @When the administrator adds the user :user to the ldap group :group
-	 * @When the administrator adds the user :user to the group :group in the ldap OU :ou
+	 * @When the administrator adds user :user to ldap group :group
+	 * @When the administrator adds user :user to group :group in ldap OU :ou
 	 *
 	 * @param string $user
 	 * @param string $group
@@ -83,8 +83,8 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	}
 	
 	/**
-	 * @When the administrator removes user :user from the ldap group :group
-	 * @When the administrator removes user :user from the group :group in the ldap OU :ou
+	 * @When the administrator removes user :user from ldap group :group
+	 * @When the administrator removes user :user from group :group in ldap OU :ou
 	 *
 	 * @param string $user
 	 * @param string $group
@@ -102,8 +102,8 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * @When the administrator deletes the ldap group :group
-	 * @When the administrator deletes the group :group in the ldap OU :ou
+	 * @When the administrator deletes ldap group :group
+	 * @When the administrator deletes group :group in ldap OU :ou
 	 *
 	 * @param string $group
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
