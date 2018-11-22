@@ -22,8 +22,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 		<admin>https://doc.owncloud.com/server/latest/admin_manual/configuration/user/user_auth_ldap.html</admin>
 	</documentation>
 	<category>integration</category>
-	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/9fe61df4a47d5fd2bf07f8581ff7ccf323a846ae/user_ldap/ownCloud-app-ldap-user-management.jpg</screenshot>
-	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/0527af6b981603f3410982c2ed70051b7cf991c3/user_ldap/user_ldap.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/user_ldap/ownCloud-app-ldap-user-management.jpg</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
 		<owncloud min-version="10.0.10" max-version="11.0.0.0" />
