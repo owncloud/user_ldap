@@ -6,7 +6,7 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given these users have been created:
+    Given these users have been created with default attributes:
       | username |
       | user1    |
       | user2    |
@@ -73,7 +73,7 @@ Feature: group membership
       | key                          | value       |
       | ldapAttributesForGroupSearch | description |
     # Ensure that the test code is aware of the users and groups that exist
-    Given these users have been created but not initialized:
+    Given these users have been created with default attributes but not initialized:
       | username |
       | user1    |
       | user2    |
