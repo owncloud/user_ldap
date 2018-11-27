@@ -1226,6 +1226,17 @@ class Access implements IUserTools {
 			return [];
 		}
 
+		unset($findings['count']);
+
+		//we slice the findings, when
+		//a) paged search unsuccessful, though attempted
+		//b) no paged search, but limit set
+		if ((!$pagedSearchOK && $limit !== null)
+			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
+		) {
+			$findings = \array_slice($findings, (int)$offset, $limit);
+		}
+
 		if ($attr !== null) {
 			$selection = [];
 			$i = 0;
@@ -1254,14 +1265,6 @@ class Access implements IUserTools {
 				$i++;
 			}
 			$findings = $selection;
-		}
-		//we slice the findings, when
-		//a) paged search unsuccessful, though attempted
-		//b) no paged search, but limit set
-		if ((!$pagedSearchOK && $limit !== null)
-			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
-		) {
-			$findings = \array_slice($findings, (int)$offset, $limit);
 		}
 		return $findings;
 	}
@@ -1975,7 +1978,7 @@ class Access implements IUserTools {
 							['app' => 'user_ldap']);
 					} else {
 						\OC::$server->getLogger()->debug(
-							'Continuing for a paged search with cookie '.$this->cookie2str($cookie)." at $limit/$offset",
+							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $limit/$offset",
 							['app' => 'user_ldap']);
 					}
 					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
