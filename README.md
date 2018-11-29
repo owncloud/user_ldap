@@ -11,6 +11,8 @@ PHPUnit tests: `make test-php`
 
     By default, when you search for a user your input string will match the beginning of the username. For example, if your LDAP server has "erl" and "peter" as users and you search with "er", only "erl" will be shown.
 
+Trigger CI.
+
     Enabling this option allows you to overcome this limitation. In the example above, when this option is active, searching for "er" will find both users.
 
     Before enabling this option take into account the following things:
