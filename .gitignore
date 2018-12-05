@@ -1,5 +1,12 @@
 /node_modules/
 /build/
-/vendor/
 .php_cs.cache
 /tests/output/
+
+# Composer
+/vendor/
+vendor-bin/**/vendor
+vendor-bin/**/composer.lock
+
+# Tests - auto-generated files
+/tests/acceptance/output*
