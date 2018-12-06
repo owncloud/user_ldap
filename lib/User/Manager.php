@@ -30,6 +30,7 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\IAvatarManager;
@@ -314,18 +315,57 @@ class Manager {
 			return $ocName;
 		}
 
-		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
+		// second try: get the UUID and check if it is known. Then, update the DN and return the name.
 		$uuid = $userEntry->getUUID();
 		$ocName = \trim($mapper->getNameByUUID($uuid));
 		if (\is_string($ocName) && $ocName !== '') {
+			$this->logger->warning(
+				'DN changed! Found user {name} by uuid {uuid}, updating dn to {dn}',
+				[
+					'app'  => __METHOD__,
+					'name' => $ocName,
+					'uuid' => $uuid,
+					'dn'   => $dn
+				]
+			);
 			$mapper->setDNbyUUID($dn, $uuid);
 			return $ocName;
 		}
 
-		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
+		// third try: fallback to poorly escaped dn
+		$resolveUid = $this->ocConfig->getAppValue('user_ldap', 'resolve_uid_by_legacy_dn', true);
+		if (\filter_var($resolveUid, FILTER_VALIDATE_BOOLEAN)) {
+			$legacyDn = Helper::legacySanitizeDN($dn);
+
+			// let's try to retrieve the ownCloud name from the mappings table
+			$ocName = \trim($mapper->getNameByDN($legacyDn));
+			if (\is_string($ocName) && $ocName !== '') {
+				$this->logger->warning(
+					'Legacy DN detected! Found user {name} by legacy dn {legacyDn}, updating dn to {dn}',
+					[
+						'app'  => __METHOD__,
+						'name' => $ocName,
+						'legacyDn' => $legacyDn,
+						'dn'   => $dn
+					]
+				);
+				$mapper->updateDN($legacyDn, $dn);
+				return $ocName;
+			}
+		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
+		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
 		if ($intName !== '' && !\OCP\User::userExists($intName)) {
+			$this->logger->debug(
+				'creating new mapping for {name}, uuid {uuid}, dn {dn}',
+				[
+					'app'  => __METHOD__,
+					'name' => $intName,
+					'uuid' => $uuid,
+					'dn'   => $dn
+				]
+			);
 			if ($mapper->map($dn, $intName, $uuid)) {
 				return $intName;
 			}

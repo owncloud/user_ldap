@@ -127,6 +127,22 @@ abstract class AbstractMapping {
 	}
 
 	/**
+	 * Update the DN
+	 * @param string $oldDn
+	 * @param string $newDn
+	 * @return bool
+	 */
+	public function updateDN($oldDn, $newDn) {
+		$query = $this->dbc->prepare('
+			UPDATE `' . $this->getTableName() . '`
+			SET `ldap_dn` = ?
+			WHERE `ldap_dn` = ?
+		');
+
+		return $this->modify($query, [$newDn, $oldDn]);
+	}
+
+	/**
 	 * Gets the name based on the provided LDAP DN.
 	 * @param string $fdn
 	 * @return string|false

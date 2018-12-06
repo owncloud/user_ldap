@@ -94,6 +94,18 @@ interface ILDAPWrapper {
 	public function error($link);
 
 	/**
+	 * Escape a string for use in an LDAP filter or DN
+	 * @param string $value The value to escape.
+	 * @param string $ignore Characters to ignore when escaping.
+	 * @param int $flags The context the escaped string will be used in:
+	 *   LDAP_ESCAPE_FILTER for filters to be used with ldap_search(), or
+	 *   LDAP_ESCAPE_DN for DNs.
+	 * @return string Returns the escaped string.
+	 * @link http://www.php.net/manual/en/function.ldap-escape.php
+	 */
+	public function escape($value, $ignore = null, $flags = null);
+
+	/**
 	 * Splits DN into its component parts
 	 * @param string $dn
 	 * @param int @withAttrib

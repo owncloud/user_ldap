@@ -445,7 +445,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 * This function includes groups based on dynamic group membership.
 	 */
 	public function getUserGroups($uid) {
-		if (!$this->enabled) {
+		if (!$this->enabled || $uid === '') {
 			return [];
 		}
 		$cacheKey = 'getUserGroups'.$uid;
@@ -573,9 +573,10 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return [];
 		}
 		$seen[$dn] = true;
+		$escapedDn = $this->access->getConnection()->getLDAP()->escape($dn, null, LDAP_ESCAPE_FILTER);
 		$filter = $this->access->combineFilterWithAnd([
 			$this->access->getConnection()->ldapGroupFilter,
-			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$dn
+			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$escapedDn
 		]);
 		$groups = $this->access->fetchListOfGroups($filter,
 			[$this->access->getConnection()->ldapGroupDisplayName, 'dn']);
