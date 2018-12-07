@@ -606,10 +606,10 @@ class Access implements IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if(($isUser && $this->shouldMapToUsername($intName))
+		if (($isUser && $this->shouldMapToUsername($intName))
 			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
 			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud UUID: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
-			if($mapper->map($fdn, $intName, $uuid)) {
+			if ($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 				return $intName;
 			}
@@ -627,12 +627,12 @@ class Access implements IUserTools {
 	 */
 	public function shouldMapToUsername($username) {
 		$user = \OC::$server->getUserManager()->get($username);
-		if($user === null) {
+		if ($user === null) {
 			\OC::$server->getLogger()->info("No account exists with username: $username so cannot reuse mapping", ['app' => 'user_ldap']);
 			// No account exists with this username, use this mapping
 			return true;
 		}
-		if($user->getBackendClassName() === 'LDAP') {
+		if ($user->getBackendClassName() === 'LDAP' && \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
 			// Account with same username exists, and matching backend, we can use this - merge
 			return true;
 		}
@@ -715,7 +715,6 @@ class Access implements IUserTools {
 	public function cacheUserExists($ocName) {
 		$this->connection->writeToCache("userExists$ocName", true);
 	}
-
 
 	/*
 	 * fetches a list of users according to a provided loginName and utilizing

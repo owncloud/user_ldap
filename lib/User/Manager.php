@@ -362,8 +362,8 @@ class Manager {
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
-		if($intName !== '' && $this->access->shouldMapToUsername($intName)) {
-			if($mapper->map($dn, $intName, $uuid)) {
+		if ($intName !== '' && $this->access->shouldMapToUsername($intName)) {
+			if ($mapper->map($dn, $intName, $uuid)) {
 				return $intName;
 			}
 		}
