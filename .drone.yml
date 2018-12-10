@@ -15,7 +15,7 @@ pipeline:
       - SLAPD_PASSWORD=admin
       - SLAPD_ADDITIONAL_MODULES=memberof
 
-  install-server:
+  install-core:
     image: owncloudci/core
     pull: true
     version: ${OC_VERSION}
@@ -26,13 +26,26 @@ pipeline:
     db_password: owncloud
     when:
       matrix:
+        NEED_CORE: true
+
+  owncloud-log:
+    image: owncloud/ubuntu:16.04
+    detach: true
+    pull: true
+    commands:
+      - tail -f /var/www/owncloud/data/owncloud.log
+    when:
+      matrix:
         NEED_SERVER: true
 
-  print-log:
-    image: owncloudci/php
-    detach: true
+  owncloud-coding-standard:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
     commands:
-     - tail -f /var/www/owncloud/data/owncloud.log
+      - make test-php-style
+    when:
+      matrix:
+        TEST_SUITE: owncloud-coding-standard
 
   install-app:
     image: owncloudci/php:${PHP_VERSION}
@@ -90,8 +103,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUIUserLDAP
     commands:
-      - cd /var/www/owncloud/tests/acceptance
-      - ./run.sh --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml
+      - make test-acceptance-ldap
     when:
       matrix:
         TEST_SOURCE: ldap
@@ -109,8 +121,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=webUICore
     commands:
-      - cd /var/www/owncloud/tests/acceptance
-      - ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+      - make test-acceptance-webui
     when:
       matrix:
         TEST_SOURCE: core-webUI
@@ -124,8 +135,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
-      - cd /var/www/owncloud/tests/acceptance
-      - ./run.sh --remote --config /var/www/owncloud/apps/user_ldap/tests/acceptance/config/behat.yml --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+      - make test-acceptance-api
     when:
       matrix:
         TEST_SOURCE: core-api
@@ -141,24 +151,6 @@ pipeline:
       matrix:
         TEST_SUITE: integration
 
-  lint-test:
-    image: owncloudci/php:${PHP_VERSION}
-    pull: true
-    commands:
-      - make test-php-lint
-    when:
-      matrix:
-        TEST_SUITE: lint
-
-  php-cs-fixer:
-    image: owncloudci/php:${PHP_VERSION}
-    pull: true
-    commands:
-      - make test-php-style
-    when:
-      matrix:
-        TEST_SUITE: lint
-
   phan:
    image: owncloudci/php:7.1
    pull: true
@@ -168,12 +160,23 @@ pipeline:
      matrix:
        TEST_SUITE: phan
 
+  phpstan:
+    image: owncloudci/php:7.1
+    pull: true
+    commands:
+      - make test-php-phpstan
+    when:
+      matrix:
+        TEST_SUITE: phpstan
+
   phpunit-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
+    environment:
+      - COVERAGE=${COVERAGE}
     commands:
-      - cd /var/www/owncloud
-      - phpdbg -d memory_limit=4096M -rr ./lib/composer/bin/phpunit --configuration apps/user_ldap/tests/unit/phpunit.xml
+      - if [ -z "${COVERAGE}" ]; then make test-php-unit; fi
+      - if [ "${COVERAGE}" = "true" ]; then make test-php-unit-dbg; fi
     when:
       matrix:
         TEST_SUITE: phpunit
@@ -183,13 +186,11 @@ pipeline:
     secrets: [codecov_token]
     pull: true
     paths:
-     - tests/output
-    files:
-     - '*.xml'
+     - tests/output/*.xml
     when:
       matrix:
-        TEST_SUITE: phpunit
-        PHP_VERSION: 7.1
+        COVERAGE: true
+      
 
   notify:
     image: plugins/slack:1
@@ -261,26 +262,18 @@ services:
 
 matrix:
   include:
-#syntax lint check
-   - TEST_SUITE: lint
-     PHP_VERSION: 7.1
-     DB_TYPE: mysql
-     DB_NAME: owncloud
-     NEED_SERVER: false
-     NEED_INSTALL_APP: false
+    # owncloud-coding-standard
+   - PHP_VERSION: 7.2
+     TEST_SUITE: owncloud-coding-standard
 
-   - TEST_SUITE: lint
-     PHP_VERSION: 5.6
-     DB_TYPE: mysql
-     DB_NAME: owncloud
-     NEED_SERVER: false
-     NEED_INSTALL_APP: false
+   - PHP_VERSION: 5.6
+     TEST_SUITE: owncloud-coding-standard
 
    - TEST_SUITE: phan
      PHP_VERSION: 7.1
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      OC_VERSION: daily-master-qa
      NEED_INSTALL_APP: true
 
@@ -288,7 +281,7 @@ matrix:
      PHP_VERSION: 7.1
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      OC_VERSION: daily-stable10-qa
      NEED_INSTALL_APP: true
 
@@ -299,7 +292,7 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: sqlite
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -307,7 +300,7 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -315,15 +308,16 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: pgsql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
+     COVERAGE: true
 
    - TEST_SUITE: phpunit
      PHP_VERSION: 7.1
      OC_VERSION: daily-master-qa
      DB_TYPE: oci
      DB_NAME: XE
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.2 and core master
@@ -332,7 +326,7 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -340,7 +334,7 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: pgsql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -348,7 +342,7 @@ matrix:
      OC_VERSION: daily-master-qa
      DB_TYPE: oci
      DB_NAME: XE
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.2 and core stable10
@@ -357,7 +351,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -365,7 +359,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: pgsql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.1 and core stable10
@@ -374,7 +368,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -382,7 +376,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: pgsql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.0 and core stable10
@@ -391,7 +385,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: mysql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -399,7 +393,7 @@ matrix:
      OC_VERSION: daily-stable10-qa
      DB_TYPE: pgsql
      DB_NAME: owncloud
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 5.6 and core stable10
@@ -408,7 +402,7 @@ matrix:
      DB_TYPE: sqlite
      DB_NAME: owncloud
      OC_VERSION: daily-stable10-qa
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -416,7 +410,7 @@ matrix:
      DB_TYPE: mysql
      DB_NAME: owncloud
      OC_VERSION: daily-stable10-qa
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -424,7 +418,7 @@ matrix:
      DB_TYPE: pgsql
      DB_NAME: owncloud
      OC_VERSION: daily-stable10-qa
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: phpunit
@@ -432,7 +426,7 @@ matrix:
      DB_TYPE: oci
      DB_NAME: XE
      OC_VERSION: daily-stable10-qa
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
 #acceptance tests - ldap specific
@@ -444,6 +438,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -453,6 +448,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -462,6 +458,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.2 and core master
@@ -472,6 +469,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.2
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -481,6 +479,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.2
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 7.2 and core stable10
@@ -491,6 +490,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.2
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -500,6 +500,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.2
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
   #with php 5.6 and core stable10
@@ -510,6 +511,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -519,6 +521,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -528,6 +531,7 @@ matrix:
      DB_NAME: XE
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
 #acceptance tests - UI tests from core
@@ -538,6 +542,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -547,6 +552,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: acceptance
@@ -556,6 +562,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
 #acceptance tests - API tests from core
@@ -567,6 +574,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMain
 
@@ -577,6 +585,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMetadataApps
 
@@ -587,6 +596,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharees
 
@@ -597,6 +607,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareManagement
 
@@ -607,6 +618,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareOperations
 
@@ -617,6 +629,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiTrashbin
 
@@ -627,6 +640,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharingNotifications
 
@@ -637,6 +651,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavOperations
 
@@ -647,6 +662,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
@@ -658,6 +674,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMain
 
@@ -668,6 +685,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMetadataApps
 
@@ -678,6 +696,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharees
 
@@ -688,6 +707,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareManagement
 
@@ -698,6 +718,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareOperations
 
@@ -708,6 +729,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiTrashbin
 
@@ -718,6 +740,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharingNotifications
 
@@ -728,6 +751,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavOperations
 
@@ -738,6 +762,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.0
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
@@ -749,6 +774,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMain
 
@@ -759,6 +785,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiMetadataApps
 
@@ -769,6 +796,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharees
 
@@ -779,6 +807,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareManagement
 
@@ -789,6 +818,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiShareOperations
 
@@ -799,6 +829,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiTrashbin
 
@@ -808,6 +839,7 @@ matrix:
      DB_TYPE: mysql
      DB_NAME: owncloud
      PHP_VERSION: 5.6
+     NEED_CORE: true
      NEED_SERVER: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiSharingNotifications
@@ -818,6 +850,7 @@ matrix:
      DB_TYPE: mysql
      DB_NAME: owncloud
      PHP_VERSION: 5.6
+     NEED_CORE: true
      NEED_SERVER: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavOperations
@@ -829,6 +862,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
@@ -839,7 +873,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -848,7 +882,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -857,7 +891,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -866,7 +900,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -875,7 +909,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -884,7 +918,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -893,7 +927,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -902,7 +936,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -911,7 +945,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -920,7 +954,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -929,7 +963,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 7.1
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -938,7 +972,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -947,7 +981,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -956,7 +990,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -965,7 +999,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -974,7 +1008,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -983,7 +1017,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -992,7 +1026,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -1001,7 +1035,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -1010,7 +1044,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -1019,7 +1053,7 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
 
    - TEST_SUITE: integration
@@ -1028,5 +1062,5 @@ matrix:
      DB_NAME: owncloud
      PHP_VERSION: 5.6
      INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
-     NEED_SERVER: true
+     NEED_CORE: true
      NEED_INSTALL_APP: true
