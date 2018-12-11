@@ -5,19 +5,34 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.13.0] - 2018-12-11
+
+### Changed
+
+- Set max version to 10 because core is switching to Semver - [#319](https://github.com/owncloud/user_ldap/issues/319)
+- Update Screenshot - [#306](https://github.com/owncloud/user_ldap/issues/306)
+
+### Fixed
+
+- Remove legacy table and resolve dn encoding issues - [#248](https://github.com/owncloud/user_ldap/issues/248)
+- Suppress "invalid quota" message if quota isn't set for the user - [#237](https://github.com/owncloud/user_ldap/issues/237)
+
 ## [0.12.0] - 2018-11-05
 
 ### Added
+
 - Store "samaccountname" in user preferences table - [#254](https://github.com/owncloud/user_ldap/issues/254)
 - PHP 7.2 support - [#280](https://github.com/owncloud/user_ldap/issues/280)
 
 ### Fixed
+
 - Display name and email will not be editable from the profile page - [#218](https://github.com/owncloud/user_ldap/issues/218)
 - Do not throw exception when user not found on LDAP during login - [#269](https://github.com/owncloud/user_ldap/issues/269)
 - Users with no avatar in LDAP are now able to add avatar again, like in ownCloud 9.1 - [#256](https://github.com/owncloud/user_ldap/pull/256)
 - Replaced deprecated config API calls - [#258](https://github.com/owncloud/user_ldap/pull/258)
 
 ### Removed
+
 - Removed obsolete comment reference to ldapUserCleanupInterval - [#213](https://github.com/owncloud/user_ldap/issues/213)
 
 ## [0.11.0] - 2018-04-19
@@ -41,6 +56,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [0.10.0] - 2017-12-20
 
 ### Fixed
+
 - Rework LDAP app to match account table logic [#125](https://github.com/owncloud/user_ldap/issues/125)
 - Use custom uuid attribute if configured - [#158](https://github.com/owncloud/user_ldap/issues/158)
 - Sync displayname on login - [#157](https://github.com/owncloud/user_ldap/issues/157)
@@ -57,7 +73,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.12.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.13.0...master
+[0.13.0]: https://github.com/owncloud/user_ldap/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/owncloud/user_ldap/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/owncloud/user_ldap/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/owncloud/user_ldap/compare/0.9.1...v0.10.0
+
