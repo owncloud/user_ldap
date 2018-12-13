@@ -1,5 +1,6 @@
 # LDAP Integration
-[![Build Status](https://scrutinizer-ci.com/g/owncloud/user_ldap/badges/build.png?b=master)](https://scrutinizer-ci.com/g/owncloud/user_ldap/build-status/master)
+
+[![Build Status](https://drone.owncloud.com/api/badges/owncloud/user_ldap/status.svg?branch=master)](https://drone.owncloud.com/owncloud/user_ldap)
 
 ## Running Tests
 
