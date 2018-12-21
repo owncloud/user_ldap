@@ -32,7 +32,6 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Config\Config;
 use OCA\User_LDAP\Config\ConfigMapper;
-use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCP\Util;
 
 /**
@@ -50,6 +49,11 @@ use OCP\Util;
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  */
 class Connection extends LDAPUtility {
+
+	// TODO move to separate file, see http://php.net/manual/en/function.ldap-errno.php for more errnos
+	const LDAP_SUCCESS = 0x00;
+	const LDAP_INVALID_CREDENTIALS = 0x31;
+
 	private $ldapConnectionRes;
 	private $configPrefix;
 	private $configID;
@@ -169,6 +173,7 @@ class Connection extends LDAPUtility {
 	 * @return resource | null
 	 *
 	 * @throws \OC\ServerNotAvailableException
+	 * @return resource
 	 */
 	public function getConnectionResource() {
 		if ($this->ldapConnectionRes === null) {
@@ -474,138 +479,114 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * Connects and Binds to LDAP
+	 * This function checks the ldap error no and also the LDAP_OPT_DIAGNOSTIC_MESSAGE
+	 * to log as much information as possible. Login attempts with wrong credentials
+	 * will only be logged in debug mode.
 	 *
-	 * @throws \OC\ServerNotAvailableException
-	 * @throws BindFailedException
+	 * @param string $msg The prefix for the log message
+	 * @param array $context
 	 */
-	private function establishConnection() {
-		if (!$this->config->ldapConfigurationActive) {
-			return null;
+	private function checkError($msg = 'LDAP Error check', $context = ['app' => __METHOD__]) {
+		$errno = $this->getLDAP()->errno($this->ldapConnectionRes);
+		if ($errno === self::LDAP_SUCCESS) {
+			\OC::$server->getLogger()->debug("$msg: ($errno), ".\var_export($this->ldapConnectionRes, true), $context);
+			return;
 		}
-		static $phpLDAPinstalled = true;
-		if (!$phpLDAPinstalled) {
-			return false;
+		$errmsg = $this->getLDAP()->error($this->ldapConnectionRes);
+		if (\is_resource($this->ldapConnectionRes)) {
+			$this->getLDAP()->getOption($this->ldapConnectionRes, LDAP_OPT_DIAGNOSTIC_MESSAGE, $errdiag);
 		}
-		if (!$this->ignoreValidation && !$this->configured) {
-			Util::writeLog('user_ldap',
-								'Configuration is invalid, cannot connect',
-								Util::WARN);
-			return false;
+
+		if (empty($errdiag)) {
+			$errdiag = 'no extended diagnostics';
 		}
-		if (!$this->ldapConnectionRes) {
-			if (!$this->getLDAP()->areLDAPFunctionsAvailable()) {
-				$phpLDAPinstalled = false;
-				Util::writeLog('user_ldap',
-									'function ldap_connect is not available. Make '.
-									'sure that the PHP ldap module is installed.',
-									Util::ERROR);
-
-				return false;
-			}
-			if ($this->config->turnOffCertCheck) {
-				if (\putenv('LDAPTLS_REQCERT=never')) {
-					Util::writeLog('user_ldap',
-						'Turned off SSL certificate validation successfully.',
-						Util::DEBUG);
-				} else {
-					Util::writeLog('user_ldap',
-										'Could not turn off SSL certificate validation.',
-										Util::WARN);
-				}
-			}
-
-			try {
-				// skip contacting main server after failed connection attempt
-				// until cache TTL is reached
-				if (\trim($this->config->ldapBackupHost) === ""
-					|| (!$this->config->ldapOverrideMainServer
-					&& !$this->getFromCache('overrideMainServer'))
-				) {
-					$this->doConnect(
-							$this->config->ldapHost,
-							$this->config->ldapPort);
-					if (@$this->ldap->bind(
-							$this->ldapConnectionRes,
-							$this->config->ldapAgentName,
-							$this->config->ldapAgentPassword)
-					) {
-						return true;
-					}
-					Util::writeLog('user_ldap',
-						'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-						Util::DEBUG); // log only in debug mod because this is triggered by wrong passwords
-					throw new BindFailedException();
-				}
-			} catch (ServerNotAvailableException $e) {
-				if (\trim($this->config->ldapBackupHost) === "") {
-					throw $e;
-				}
-			} catch (BindFailedException $e) {
-				if (\trim($this->config->ldapBackupHost) === "") {
-					throw $e;
-				}
-			}
-
-			if (\trim($this->config->ldapBackupHost) === "") {
-				$this->ldapConnectionRes = null;
-				return false;
-			}
-
-			// try the Backup (Replica!) Server
-			Util::writeLog('user_ldap',
-				'Trying to connect to backup server '.$this->config->ldapBackupHost.':'.$this->config->ldapBackupPort,
-				Util::DEBUG);
-			$this->doConnect(
-					$this->config->ldapBackupHost,
-					$this->config->ldapBackupPort);
-			if (@$this->ldap->bind(
-					$this->ldapConnectionRes,
-					$this->config->ldapAgentName,
-					$this->config->ldapAgentPassword)
-			) {
-				if (!$this->getFromCache('overrideMainServer')) {
-					//when bind to backup server succeeded and failed to main server,
-					//skip contacting him until next cache refresh
-					$this->writeToCache('overrideMainServer', true);
-				}
-				return true;
-			}
-			Util::writeLog('user_ldap',
-				'Bind to backup server failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-				Util::DEBUG);
-			throw new BindFailedException();
+		if ($errno === self::LDAP_INVALID_CREDENTIALS) {
+			// log auth errors only in debug
+			\OC::$server->getLogger()->debug("$msg: ($errno) $errmsg, $errdiag, ".\var_export($this->ldapConnectionRes, true), $context);
+		} else {
+			\OC::$server->getLogger()->error("$msg: ($errno) $errmsg, $errdiag, ".\var_export($this->ldapConnectionRes, true), $context);
 		}
-		return null;
 	}
 
 	/**
-	 * @param string $host
-	 * @param string $port
-	 * @return bool
+	 * Connects and Binds to LDAP
+	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function doConnect($host, $port) {
-		if ($host === '') {
+	private function establishConnection() {
+		if (!$this->config->ldapConfigurationActive) {
+			throw new ServerNotAvailableException('Connection not active');
+		}
+		if (!$this->ignoreValidation && !$this->configured) {
+			\OC::$server->getLogger()->warning(
+				'Configuration is invalid, cannot connect',
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
-		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
-		if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-				if ($this->config->ldapTLS) {
-					$this->getLDAP()->startTls($this->ldapConnectionRes);
+
+		$backupHostEmpty = \trim($this->config->ldapBackupHost) === '';
+		// skip contacting main server after failed connection attempt
+		// until cache TTL is reached
+		$shouldTryMainServer = $backupHostEmpty
+			|| (!$this->config->ldapOverrideMainServer && !$this->getFromCache('overrideMainServer'));
+		$hosts = [
+			'main' => [
+				'host' => $this->config->ldapHost,
+				'port' => $this->config->ldapPort,
+				'skip' => $shouldTryMainServer !== true
+			],
+			'backup' => [
+				'host' => $this->config->ldapBackupHost,
+				'port' => $this->config->ldapBackupPort,
+				'skip' => $backupHostEmpty
+			]
+		];
+		foreach ($hosts as $configName => $config) {
+			if ($config['skip'] === true) {
+				continue;
+			}
+
+			try {
+				$ldapServer = new Ldap\Server(
+					$this->ldap,
+					\OC::$server->getLogger(),
+					$config['host'],
+					$config['port'],
+					$this->config
+				);
+				if ($ldapServer->openConnection("{$this->configID} $configName")) {
+					$this->ldapConnectionRes = $ldapServer->getResource();
+					if ($configName === 'backup' && !$this->getFromCache('overrideMainServer')) {
+						//when bind to backup server succeeded and failed to main server,
+						//skip contacting him until next cache refresh
+						$this->writeToCache('overrideMainServer', true);
+					}
+
+					return true;
+				}
+				$reason = $this->ldap->getLastError();
+				\OC::$server->getLogger()->warning(
+					"Bind to {$configName} server {$config['host']} failed: $reason",
+					['app' => 'user_ldap']
+				);
+			} catch (ServerNotAvailableException $e) {
+				$reason = $this->ldap->getLastError();
+				\OC::$server->getLogger()->warning(
+					"Bind to {$configName} server {$config['host']} failed: $reason",
+					['app' => 'user_ldap']
+				);
+				if (
+					($hosts['main']['skip'] === true && $configName === 'backup')
+					|| ($hosts['backup']['skip'] === true && $configName === 'main')
+				) {
+					$this->ldapConnectionRes = null;
+					throw $e;
 				}
 			}
-		} else {
-			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
-		// Set network timeout threshold to avoid long delays when ldap server cannot be resolved
-		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, \intval($this->config->ldapNetworkTimeout));
-		if (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
-			$this->ldapConnectionRes = null; // to indicate it really is not set, connect() might have set it to false
-			throw new ServerNotAvailableException("Connect to $host:$port failed");
-		}
-		return true;
+
+		throw new ServerNotAvailableException('Connection to LDAP server could not be established');
 	}
 
 	/**
@@ -620,9 +601,6 @@ class Connection extends LDAPUtility {
 		// binding is done via getConnectionResource()
 		$cr = $this->getConnectionResource();
 
-		if (!$this->getLDAP()->isResource($cr)) {
-			return false;
-		}
-		return true;
+		return $this->getLDAP()->isResource($cr);
 	}
 }

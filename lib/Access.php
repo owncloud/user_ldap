@@ -1468,11 +1468,7 @@ class Access implements IUserTools {
 		if (!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		try {
-			return $testConnection->bind();
-		} catch (BindFailedException $e) {
-			return false;
-		}
+		return $testConnection->bind();
 	}
 
 	/**

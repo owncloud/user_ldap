@@ -209,6 +209,17 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
+	 * Get the current value for given option
+	 * @param resource $link LDAP link resource
+	 * @param string $option a defined LDAP Server option
+	 * @param mixed &$retval will be set to the option value.
+	 * @return bool true on success, false otherwise
+	 */
+	public function getOption($link, $option, &$retval) {
+		return $this->invokeLDAPMethod('get_option', $link, $option, $retval);
+	}
+
+	/**
 	 * @param LDAP $link
 	 * @param string $option
 	 * @param int $value
