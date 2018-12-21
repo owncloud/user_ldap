@@ -1,5 +1,10 @@
 SHELL := /bin/bash
 
+COMPOSER_BIN := $(shell command -v composer 2> /dev/null)
+ifndef COMPOSER_BIN
+    $(error composer is not available on your system, please install composer)
+endif
+
 #
 # Define NPM and check if it is available on the system.
 #
@@ -25,8 +30,6 @@ ldap_src_dirs=appinfo css img js lib l10n templates vendor
 ldap_all_src=$(ldap_src_dirs) $(ldap_doc_files)
 build_dir=$(CURDIR)/build
 dist_dir=$(build_dir)/dist
-COMPOSER_BIN=$(build_dir)/composer.phar
-PHAN_BIN=$(build_dir)/phan.phar
 
 # internal aliases
 composer_deps=vendor/
@@ -157,7 +160,6 @@ test-php-unit: $(composer_dev_deps)
 test-php-unit-dbg: ## Run php unit tests using phpdbg
 test-php-unit-dbg: $(composer_dev_deps)
 	$(PHPUNITDBG) --configuration ./phpunit.xml --testsuite unit
-
 
 .PHONY: test-acceptance-api
 test-acceptance-api: ## Run API acceptance tests
