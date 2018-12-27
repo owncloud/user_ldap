@@ -20,9 +20,7 @@
  *
  */
 
-require __DIR__ . '/../../../../vendor/autoload.php';
-require __DIR__ . '/../../../../../../lib/base.php';
-require __DIR__ . '/../../../../../../lib/composer/autoload.php';
+require_once __DIR__ . '/../../../../../../tests/acceptance/features/bootstrap/bootstrap.php';
 
 $classLoader = new \Composer\Autoload\ClassLoader();
 $classLoader->addPsr4(
