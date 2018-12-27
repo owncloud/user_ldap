@@ -174,7 +174,7 @@ test-acceptance-cli: $(composer_dev_deps)
 .PHONY: test-acceptance-ldap
 test-acceptance-ldap: ## Run LDAP acceptance tests
 test-acceptance-ldap: $(composer_dev_deps)
-	../../tests/acceptance/run.sh tests/acceptance/features
+	../../tests/acceptance/run.sh --remote --type webui
 
 .PHONY: test-acceptance-webui
 test-acceptance-webui: ## Run webUI acceptance tests
