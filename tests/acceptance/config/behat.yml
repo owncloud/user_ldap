@@ -70,6 +70,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
 
     apiShareOperations:
       paths:
@@ -78,6 +79,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
 
     apiSharingNotifications:
       paths:
@@ -105,6 +107,7 @@ default:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
         - SearchContext:
+        - PublicWebDavContext:
 
     apiWebdavProperties:
       paths:
