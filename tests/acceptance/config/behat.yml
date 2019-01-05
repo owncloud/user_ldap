@@ -71,6 +71,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - PublicWebDavContext:
+        - TrashbinContext:
 
     apiShareOperations:
       paths:
@@ -80,6 +81,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - PublicWebDavContext:
+        - TrashbinContext:
 
     apiSharingNotifications:
       paths:
@@ -97,6 +99,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - TrashbinContext:
 
     apiWebdavOperations:
       paths:
