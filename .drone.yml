@@ -140,6 +140,20 @@ pipeline:
       matrix:
         TEST_SOURCE: core-api
 
+  run-core-cli-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    environment:
+      - TEST_SERVER_URL=http://server
+      - TEST_SERVER_FED_URL=http://federated
+      - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE=${BEHAT_SUITE}
+    commands:
+      - make test-acceptance-cli
+    when:
+      matrix:
+        TEST_SOURCE: core-cli
+
   run-integration-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -565,7 +579,7 @@ matrix:
      NEED_CORE: true
      NEED_INSTALL_APP: true
 
-#acceptance tests - API tests from core
+#acceptance tests - API and CLI tests from core
   #with php 7.1 and core master
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
@@ -665,6 +679,17 @@ matrix:
      NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-cli
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
   #with php 7.0 and core stable10
    - TEST_SUITE: acceptance
@@ -766,6 +791,17 @@ matrix:
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
 
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-cli
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.0
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
+
   #with php 5.6 and core stable10
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-api
@@ -865,6 +901,17 @@ matrix:
      NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: apiWebdavProperties
+
+   - TEST_SUITE: acceptance
+     TEST_SOURCE: core-cli
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
 #integration tests
    - TEST_SUITE: integration
