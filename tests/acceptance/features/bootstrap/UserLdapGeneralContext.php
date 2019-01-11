@@ -102,6 +102,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @Given the LDAP users have been resynced
+	 * @When the LDAP users are resynced
 	 *
 	 * @throws Exception
 	 * @return void

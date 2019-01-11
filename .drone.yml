@@ -77,7 +77,7 @@ pipeline:
       - php occ user:list
     when:
       matrix:
-        TEST_SUITE: acceptance
+        NEED_SERVER: true
 
   fix-permissions:
     image: owncloudci/php:${PHP_VERSION}
@@ -88,9 +88,9 @@ pipeline:
       - chmod +x /var/www/owncloud/tests/acceptance/run.sh
     when:
       matrix:
-        TEST_SUITE: acceptance
+        NEED_SERVER: true
 
-  run-ldap-acceptance-tests:
+  ldap-webui-acceptance-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
     environment:
@@ -101,12 +101,26 @@ pipeline:
       - TEST_SERVER_FED_URL=http://federated
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
-      - BEHAT_SUITE=webUIUserLDAP
+      - BEHAT_SUITE={BEHAT_SUITE}
     commands:
       - make test-acceptance-ldap
     when:
       matrix:
+        TEST_SUITE: web-acceptance
+
+  ldap-cli-acceptance-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    environment:
+      - TEST_SERVER_URL=http://server
+      - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE={BEHAT_SUITE}
+    commands:
+      - make test-acceptance-cli
+    when:
+      matrix:
         TEST_SOURCE: ldap
+        TEST_SUITE: cli-acceptance
 
   run-core-webui-tests:
     image: owncloudci/php:${PHP_VERSION}
@@ -190,7 +204,6 @@ pipeline:
     when:
       matrix:
         COVERAGE: true
-      
 
   notify:
     image: plugins/slack:1
@@ -210,7 +223,7 @@ services:
     command: [ "/usr/local/bin/apachectl", "-e", "debug" , "-D" , "FOREGROUND" ]
     when:
       matrix:
-        TEST_SUITE: acceptance
+        NEED_SERVER: true
 
   federated:
     image: owncloudci/php:${PHP_VERSION}
@@ -220,14 +233,14 @@ services:
     command: [ "/usr/local/bin/apachectl", "-e", "debug" , "-D" , "FOREGROUND" ]
     when:
       matrix:
-        TEST_SUITE: acceptance
+        NEED_SERVER: true
 
   selenium:
     image: selenium/standalone-chrome-debug:latest
     pull: true
     when:
       matrix:
-        TEST_SUITE: acceptance
+        NEED_SELENIUM: true
 
   mysql:
     image: mysql:5.7
@@ -431,7 +444,7 @@ matrix:
 
 #acceptance tests - ldap specific
   #with php 7.1 and core master
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
      DB_TYPE: sqlite
@@ -440,8 +453,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
      DB_TYPE: mysql
@@ -450,8 +465,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
      DB_TYPE: pgsql
@@ -460,9 +477,22 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: cli-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
   #with php 7.2 and core master
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
      DB_TYPE: mysql
@@ -471,8 +501,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
      DB_TYPE: pgsql
@@ -481,9 +513,22 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: cli-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
   #with php 7.2 and core stable10
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
      DB_TYPE: mysql
@@ -492,8 +537,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
      DB_TYPE: pgsql
@@ -502,9 +549,22 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: cli-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
   #with php 5.6 and core stable10
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
      DB_TYPE: mysql
@@ -513,8 +573,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
      DB_TYPE: pgsql
@@ -523,8 +585,10 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
 
-   - TEST_SUITE: acceptance
+   - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-stable10-qa
      DB_TYPE: oci
@@ -533,6 +597,19 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIUserLDAP
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: cli-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: cliProvisioning
 
 #acceptance tests - UI tests from core
    - TEST_SUITE: acceptance
@@ -544,6 +621,7 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     NEED_SELENIUM: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-webUI
@@ -554,6 +632,7 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     NEED_SELENIUM: true
 
    - TEST_SUITE: acceptance
      TEST_SOURCE: core-webUI
@@ -564,6 +643,7 @@ matrix:
      NEED_SERVER: true
      NEED_CORE: true
      NEED_INSTALL_APP: true
+     NEED_SELENIUM: true
 
 #acceptance tests - API tests from core
   #with php 7.1 and core master
