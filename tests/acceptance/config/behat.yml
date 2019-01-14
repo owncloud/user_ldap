@@ -138,6 +138,17 @@ default:
         - WebUISharingContext:
         - WebUIFilesContext:
 
+    cliProvisioning:
+      paths:
+        - %paths.base%/../features/cliProvisioning
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - EmailContext:
+        - OccContext:
+
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
           filename: report-user_ldap.xml
