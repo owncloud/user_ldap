@@ -147,6 +147,7 @@ default:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
         - EmailContext:
+        - OccUsersGroupsContext:
         - OccContext:
 
   extensions:
