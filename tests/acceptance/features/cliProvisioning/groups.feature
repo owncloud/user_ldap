@@ -61,3 +61,10 @@ Feature: add group
       | simplegroup | nothing special here        |
       | España      | special European characters |
       | नेपाली      | Unicode group name          |
+
+  Scenario: admin tries to delete ldap defined group
+    When the LDAP users are resynced
+    And the administrator deletes group "grp1" using the occ command
+    Then the command should have failed with exit code 1
+    And the command output should contain the text "The specified group could not be deleted"
+    And group "grp1" should exist
