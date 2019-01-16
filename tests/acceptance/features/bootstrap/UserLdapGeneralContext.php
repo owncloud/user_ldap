@@ -47,6 +47,8 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $ldapGroupsOU;
 	private $toDeleteDNs = [];
 	private $toDeleteLdapConfigs = [];
+	private $ldapCreatedUsers = [];
+	private $ldapCreatedGroups = [];
 
 	/**
 	 *
@@ -241,6 +243,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @When the administrator imports this ldif data:
+	 * @Given the administrator has imported this ldif data:
 	 *
 	 * @param PyStringNode $ldifData
 	 *
@@ -437,13 +440,34 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 */
 	public function importLdifData($ldifData) {
 		$items = Zend\Ldap\Ldif\Encoder::decode($ldifData);
-		
 		if (isset($items['dn'])) {
 			//only one item in the ldif data
 			$this->ldap->add($items['dn'], $items);
+			if (isset($items['uid'])) {
+				$this->featureContext->addUserToCreatedUsersList(
+					$items['uid'][0],
+					$items['userpassword'][0]
+				);
+				\array_push($this->ldapCreatedUsers, $items['uid'][0]);
+			}
+			if (isset($items['objectclass']) && $items['objectclass'][0] === 'posixGroup') {
+				$this->featureContext->addGroupToCreatedGroupsList($items['cn'][0]);
+				\array_push($this->ldapCreatedGroups, $items['cn'][0]);
+			}
 		} else {
 			foreach ($items as $item) {
 				$this->ldap->add($item['dn'], $item);
+				if (isset($item['uid'])) {
+					$this->featureContext->addUserToCreatedUsersList(
+						$item['uid'][0],
+						$item['userpassword'][0]
+					);
+					\array_push($this->ldapCreatedUsers, $item['uid'][0]);
+				}
+				if (isset($item['objectclass']) && \in_array('posixGroup', $item['objectclass'])) {
+					$this->featureContext->addGroupToCreatedGroupsList($item['cn'][0]);
+					\array_push($this->ldapCreatedGroups, $item['cn'][0]);
+				}
 			}
 		}
 	}
@@ -483,6 +507,14 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		foreach ($this->toDeleteDNs as $dn) {
 			$this->ldap->delete($dn, true);
 		}
+
+		foreach ($this->ldapCreatedUsers as $user) {
+			$this->featureContext->rememberThatUserIsNotExpectedToExist($user);
+		}
+		foreach ($this->ldapCreatedGroups as $group) {
+			$this->featureContext->rememberThatGroupIsNotExpectedToExist($group);
+		}
+
 		$this->theLdapUsersHaveBeenResynced();
 	}
 
