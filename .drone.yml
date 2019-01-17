@@ -141,9 +141,9 @@ pipeline:
       - TEST_SERVER_URL=http://server
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
-      - BEHAT_SUITE={BEHAT_SUITE}
+      - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
-      - make test-acceptance-ldap
+      - make test-acceptance-ldap-webui
     when:
       matrix:
         TEST_SUITE: web-acceptance
@@ -154,13 +154,27 @@ pipeline:
     environment:
       - TEST_SERVER_URL=http://server
       - TEST_EXTERNAL_USER_BACKENDS=true
-      - BEHAT_SUITE={BEHAT_SUITE}
+      - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
-      - make test-acceptance-cli
+      - make test-acceptance-ldap-cli
     when:
       matrix:
         TEST_SOURCE: ldap
         TEST_SUITE: cli-acceptance
+
+  ldap-api-acceptance-tests:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    environment:
+      - TEST_SERVER_URL=http://server
+      - TEST_EXTERNAL_USER_BACKENDS=true
+      - BEHAT_SUITE=${BEHAT_SUITE}
+    commands:
+      - make test-acceptance-ldap-api
+    when:
+      matrix:
+        TEST_SOURCE: ldap
+        TEST_SUITE: api-acceptance
 
   run-core-webui-tests:
     image: owncloudci/php:${PHP_VERSION}
@@ -530,6 +544,17 @@ matrix:
      NEED_INSTALL_APP: true
      BEHAT_SUITE: cliProvisioning
 
+   - TEST_SUITE: api-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiUserLDAPConnection
+
   #with php 7.2 and core master
    - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
@@ -566,6 +591,17 @@ matrix:
      NEED_INSTALL_APP: true
      BEHAT_SUITE: cliProvisioning
 
+   - TEST_SUITE: api-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiUserLDAPConnection
+
   #with php 7.2 and core stable10
    - TEST_SUITE: web-acceptance
      TEST_SOURCE: ldap
@@ -601,6 +637,17 @@ matrix:
      NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: cliProvisioning
+
+   - TEST_SUITE: api-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiUserLDAPConnection
 
   #with php 5.6 and core stable10
    - TEST_SUITE: web-acceptance
@@ -649,6 +696,17 @@ matrix:
      NEED_CORE: true
      NEED_INSTALL_APP: true
      BEHAT_SUITE: cliProvisioning
+
+   - TEST_SUITE: api-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: apiUserLDAPConnection
 
 #acceptance tests - UI tests from core
    - TEST_SUITE: acceptance

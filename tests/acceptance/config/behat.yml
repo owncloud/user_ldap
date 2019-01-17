@@ -139,6 +139,16 @@ default:
         - WebUISharingContext:
         - WebUIFilesContext:
 
+    apiUserLDAPConnection:
+      paths:
+        - %paths.base%/../features/apiUserLDAPConnection
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+
     cliProvisioning:
       paths:
         - %paths.base%/../features/cliProvisioning

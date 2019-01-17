@@ -46,6 +46,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $ldapUsersOU;
 	private $ldapGroupsOU;
 	private $toDeleteDNs = [];
+	private $toDeleteLdapConfigs = [];
 
 	/**
 	 *
@@ -54,7 +55,24 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $featureContext;
 	
 	/**
+	 * @Given a new LDAP config with the name :configId has been created
+	 * @param string $configId
+	 */
+	public function createNewLdapConfig($configId) {
+		$occResult = SetupHelper::runOcc(
+			['ldap:create-empty-config', $configId]
+		);
+		if ($occResult['code'] !== "0") {
+			throw new \Exception(
+				"could not create empty LDAP config " . $occResult['stdErr']
+			);
+		}
+		$this->toDeleteLdapConfigs[] = $configId;
+	}
+	
+	/**
 	 * @Given LDAP config :configId has key :configKey set to :configValue
+	 * @When the administrator sets the LDAP config :configId key :configKey to :configValue using the occ command
 	 *
 	 * @param string $configId
 	 * @param string $configKey
@@ -65,22 +83,23 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function ldapConfigHasKeySetTo(
 		$configId, $configKey, $configValue
 	) {
-		//remember old settings to be able to set them back after test run
-		$occResult = SetupHelper::runOcc(
-			['ldap:show-config', $configId, "--output=json"]
-		);
-		if ($occResult['code'] !== "0") {
-			throw new Exception(
-				"could not read LDAP settings " . $occResult['stdErr']
+		if (!isset($this->oldConfig[$configId][$configKey])) {
+			//remember old settings to be able to set them back after test run
+			$occResult = SetupHelper::runOcc(
+				['ldap:show-config', $configId, "--output=json"]
 			);
+			if ($occResult['code'] !== "0") {
+				throw new \Exception(
+					"could not read LDAP settings " . $occResult['stdErr']
+				);
+			}
+			$originalConfig = \json_decode($occResult['stdOut'], true);
+			if (isset($originalConfig[$configKey])) {
+				$this->oldConfig[$configId][$configKey] = $originalConfig[$configKey];
+			} else {
+				$this->oldConfig[$configId][$configKey] = "";
+			}
 		}
-		$originalConfig = \json_decode($occResult['stdOut'], true);
-		if (isset($originalConfig[$configKey])) {
-			$this->oldConfig[$configId][$configKey] = $originalConfig[$configKey];
-		} else {
-			$this->oldConfig[$configId][$configKey] = "";
-		}
-		
 		$this->setLdapSetting($configId, $configKey, $configValue);
 	}
 
@@ -112,7 +131,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			['user:sync', 'OCA\User_LDAP\User_Proxy', '-m', 'remove']
 		);
 		if ($occResult['code'] !== "0") {
-			throw new Exception("could not sync LDAP users " . $occResult['stdErr']);
+			throw new \Exception("could not sync LDAP users " . $occResult['stdErr']);
 		}
 	}
 
@@ -261,6 +280,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 */
 	public function getLdapHost() {
 		return $this->ldapHost;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLdapHostWithoutScheme() {
+		return $this->featureContext->removeSchemeFromUrl($this->ldapHost);
 	}
 
 	/**
@@ -434,6 +460,16 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @AfterScenario
 	 * @return void
 	 */
+	public function afterScenario() {
+		$this->resetOldConfig();
+		$this->deleteUserAndGroups();
+	}
+
+	/**
+	 * delete all imported ldap users and groups
+	 *
+	 * @return void
+	 */
 	public function deleteUserAndGroups() {
 		$this->ldap->delete(
 			"ou=" . $this->ldapUsersOU . "," . $this->ldapBaseDN, true
@@ -448,13 +484,14 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
-	 * After Scenario. Sets back old settings
-	 *
-	 * @AfterScenario
+	 * Sets back old settings
 	 *
 	 * @return void
 	 */
 	public function resetOldConfig() {
+		foreach ($this->toDeleteLdapConfigs as $configId) {
+			SetupHelper::runOcc(['ldap:delete-config', $configId]);
+		}
 		foreach ($this->oldConfig as $configId => $settings) {
 			foreach ($settings as $configKey => $configValue) {
 				$this->setLdapSetting($configId, $configKey, $configValue);
@@ -468,18 +505,31 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $configKey
 	 * @param string $configValue
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function setLdapSetting($configId, $configKey, $configValue) {
 		if ($configValue === "") {
 			$configValue = "''";
 		}
+		$substitutions = [
+			[
+				"code" => "%ldap_host_without_scheme%",
+				"function" => [
+					$this,
+					"getLdapHostWithoutScheme"
+				],
+				"parameter" => []
+			]
+		];
+		$configValue = $this->featureContext->substituteInLineCodes(
+			$configValue, [], $substitutions
+		);
 		$occResult = SetupHelper::runOcc(
 			['ldap:set-config', $configId, $configKey, $configValue]
 		);
 		if ($occResult['code'] !== "0") {
-			throw new Exception(
+			throw new \Exception(
 				"could not set LDAP setting " . $occResult['stdErr']
 			);
 		}
