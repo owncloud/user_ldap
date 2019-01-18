@@ -101,6 +101,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - TrashbinContext:
 
     apiWebdavOperations:
@@ -148,6 +149,7 @@ default:
         - FeatureContext: *common_feature_context_params
         - EmailContext:
         - OccContext:
+        - OccUsersGroupsContext:
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
