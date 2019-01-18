@@ -140,6 +140,16 @@ default:
         - WebUIFilesContext:
         - OccContext:
 
+    apiUserLDAPSharing:
+      paths:
+        - %paths.base%/../features/apiUserLDAPSharing
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - OccContext:
+        - FeatureContext: *common_feature_context_params
+
     apiUserLDAPConnection:
       paths:
         - '%paths.base%/../features/apiUserLDAPConnection'
