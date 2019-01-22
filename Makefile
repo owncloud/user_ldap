@@ -162,25 +162,29 @@ test-php-unit-dbg: $(composer_dev_deps)
 	$(PHPUNITDBG) --configuration ./phpunit.xml --testsuite unit
 
 .PHONY: test-acceptance-api
-test-acceptance-api: ## Run API acceptance tests
+test-acceptance-api: ## Run core API acceptance tests
 test-acceptance-api: $(composer_dev_deps)
 	../../tests/acceptance/run.sh --remote --type api --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
-.PHONY: test-acceptance-cli
-test-acceptance-cli: ## Run CLI acceptance tests
-test-acceptance-cli: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type cli
-
-.PHONY: test-acceptance-ldap
-test-acceptance-ldap: ## Run LDAP acceptance tests
-test-acceptance-ldap: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type webui
-
 .PHONY: test-acceptance-webui
-test-acceptance-webui: ## Run webUI acceptance tests
+test-acceptance-webui: ## Run core webUI acceptance tests
 test-acceptance-webui: $(composer_dev_deps)
 	../../tests/acceptance/run.sh --remote --type webui --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
+.PHONY: test-acceptance-ldap-cli
+test-acceptance-ldap-cli: ## Run LDAP CLI acceptance tests
+test-acceptance-ldap-cli: $(composer_dev_deps)
+	../../tests/acceptance/run.sh --remote --type cli
+
+.PHONY: test-acceptance-ldap-webui
+test-acceptance-ldap-webui: ## Run LDAP webUI acceptance tests
+test-acceptance-ldap-webui: $(composer_dev_deps)
+	../../tests/acceptance/run.sh --remote --type webui
+
+.PHONY: test-acceptance-ldap-api
+test-acceptance-ldap-api: ## Run LDAP API acceptance tests
+test-acceptance-ldap-api: $(composer_dev_deps)
+	../../tests/acceptance/run.sh --remote --type api
 
 #
 # Dependency management
