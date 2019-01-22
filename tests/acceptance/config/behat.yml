@@ -138,6 +138,7 @@ default:
         - WebUIUserContext:
         - WebUISharingContext:
         - WebUIFilesContext:
+        - OccContext:
 
     apiUserLDAPConnection:
       paths:
