@@ -56,7 +56,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	
 	/**
 	 * @Given a new LDAP config with the name :configId has been created
+	 *
 	 * @param string $configId
+	 *
+	 * @return void
 	 */
 	public function createNewLdapConfig($configId) {
 		$occResult = SetupHelper::runOcc(
