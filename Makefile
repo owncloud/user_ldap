@@ -183,13 +183,13 @@ test-acceptance-ldap-cli: $(acceptance_test_deps)
 
 .PHONY: test-acceptance-ldap-webui
 test-acceptance-ldap-webui: ## Run LDAP webUI acceptance tests
-test-acceptance-ldap-webui: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type webui
+test-acceptance-ldap-webui: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui
 
 .PHONY: test-acceptance-ldap-api
 test-acceptance-ldap-api: ## Run LDAP API acceptance tests
-test-acceptance-ldap-api: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type api
+test-acceptance-ldap-api: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api
 
 #
 # Dependency management
