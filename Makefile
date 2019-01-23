@@ -21,6 +21,7 @@ PHP_CS_FIXER=php -d zend.enable_gc=0 vendor-bin/owncloud-codestyle/vendor/bin/ph
 PHP_CODESNIFFER=vendor-bin/php_codesniffer/vendor/bin/phpcs
 PHAN=php -d zend.enable_gc=0 vendor-bin/phan/vendor/bin/phan
 PHPSTAN=php -d zend.enable_gc=0 vendor-bin/phpstan/vendor/bin/phpstan
+BEHAT_BIN=vendor-bin/behat/vendor/bin/behat
 
 BOWER=$(NODE_PREFIX)/node_modules/bower/bin/bower
 JSDOC=$(NODE_PREFIX)/node_modules/.bin/jsdoc
@@ -35,6 +36,7 @@ dist_dir=$(build_dir)/dist
 # internal aliases
 composer_deps=vendor/
 composer_dev_deps=lib/composer/phpunit
+acceptance_test_deps=vendor-bin/behat/vendor
 nodejs_deps=node_modules
 bower_deps=vendor/ui-multiselect
 
@@ -83,6 +85,7 @@ $(composer_dev_deps): $(COMPOSER_BIN) composer.json composer.lock
 clean-composer-deps:
 	rm -f $(COMPOSER_BIN)
 	rm -Rf $(composer_deps)
+	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
 
 .PHONY: update-composer
 update-composer: $(COMPOSER_BIN)
@@ -165,28 +168,28 @@ test-php-unit-dbg: $(composer_dev_deps)
 
 .PHONY: test-acceptance-api
 test-acceptance-api: ## Run core API acceptance tests
-test-acceptance-api: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type api --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+test-acceptance-api: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
 .PHONY: test-acceptance-webui
 test-acceptance-webui: ## Run core webUI acceptance tests
-test-acceptance-webui: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type webui --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+test-acceptance-webui: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
 .PHONY: test-acceptance-ldap-cli
 test-acceptance-ldap-cli: ## Run LDAP CLI acceptance tests
-test-acceptance-ldap-cli: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type cli
+test-acceptance-ldap-cli: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli
 
 .PHONY: test-acceptance-ldap-webui
 test-acceptance-ldap-webui: ## Run LDAP webUI acceptance tests
-test-acceptance-ldap-webui: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type webui
+test-acceptance-ldap-webui: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui
 
 .PHONY: test-acceptance-ldap-api
 test-acceptance-ldap-api: ## Run LDAP API acceptance tests
-test-acceptance-ldap-api: $(composer_dev_deps)
-	../../tests/acceptance/run.sh --remote --type api
+test-acceptance-ldap-api: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api
 
 #
 # Dependency management
@@ -224,3 +227,9 @@ vendor-bin/phpstan/vendor: vendor/bamarni/composer-bin-plugin vendor-bin/phpstan
 
 vendor-bin/phpstan/composer.lock: vendor-bin/phpstan/composer.json
 	@echo phpstan composer.lock is not up to date.
+
+vendor-bin/behat/vendor: vendor/bamarni/composer-bin-plugin vendor-bin/behat/composer.lock
+	composer bin behat install --no-progress
+
+vendor-bin/behat/composer.lock: vendor-bin/behat/composer.json
+	@echo behat composer.lock is not up to date.

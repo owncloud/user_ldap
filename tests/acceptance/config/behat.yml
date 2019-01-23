@@ -1,11 +1,11 @@
 default:
   autoload:
-    '': %paths.base%/../features/bootstrap
+    '': '%paths.base%/../features/bootstrap'
 
   suites:
     webUICore:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features
+        - '%paths.base%/../../../../../tests/acceptance/features'
       context: &common_ldap_suite_context
         parameters:
           ldapAdminUser: cn=admin,dc=owncloud,dc=com
@@ -37,7 +37,7 @@ default:
 
     apiMain:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiMain
+        - '%paths.base%/../../../../../tests/acceptance/features/apiMain'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -48,7 +48,7 @@ default:
 
     apiMetadataApps:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiMetadataApps
+        - '%paths.base%/../../../../../tests/acceptance/features/apiMetadataApps'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -56,7 +56,7 @@ default:
 
     apiSharees:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiSharees
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharees'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -65,7 +65,7 @@ default:
 
     apiShareManagement:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiShareManagement
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareManagement'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -76,7 +76,7 @@ default:
 
     apiShareOperations:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiShareOperations
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareOperations'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -87,7 +87,7 @@ default:
 
     apiSharingNotifications:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -96,7 +96,7 @@ default:
 
     apiTrashbin:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiTrashbin
+        - '%paths.base%/../../../../../tests/acceptance/features/apiTrashbin'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -106,7 +106,7 @@ default:
 
     apiWebdavOperations:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiWebdavOperations
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavOperations'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -117,7 +117,7 @@ default:
 
     apiWebdavProperties:
       paths:
-        - %paths.base%/../../../../../tests/acceptance/features/apiWebdavProperties
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavProperties'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -127,7 +127,7 @@ default:
 
     webUIUserLDAP:
       paths:
-        - %paths.base%/../features/webUIUserLDAP
+        - '%paths.base%/../features/webUIUserLDAP'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -142,7 +142,7 @@ default:
 
     apiUserLDAPConnection:
       paths:
-        - %paths.base%/../features/apiUserLDAPConnection
+        - '%paths.base%/../features/apiUserLDAPConnection'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -152,7 +152,7 @@ default:
 
     cliProvisioning:
       paths:
-        - %paths.base%/../features/cliProvisioning
+        - '%paths.base%/../features/cliProvisioning'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -165,6 +165,6 @@ default:
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
           filename: report-user_ldap.xml
-          outputDir: %paths.base%/../../../../../tests/acceptance/output/
+          outputDir: '%paths.base%/../../../../../tests/acceptance/output/'
 
       rdx\behatvars\BehatVariablesExtension: ~
