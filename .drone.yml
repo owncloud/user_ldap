@@ -106,6 +106,19 @@ pipeline:
       matrix:
         NEED_INSTALL_APP: true
 
+  prepare-user-management-app:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      - git clone https://github.com/owncloud/user_management.git /var/www/owncloud/server/apps/user_management
+      - cd /var/www/owncloud/server
+      - php occ a:l
+      - php occ a:e user_management
+      - php occ a:l
+    when:
+      matrix:
+        NEED_USER_MANAGEMENT: true
+
   ldap-config-for-acceptance-tests:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -533,6 +546,43 @@ matrix:
      BEHAT_SUITE: webUIUserLDAP
      NEED_SELENIUM: true
 
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: sqlite
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.1
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+
    - TEST_SUITE: cli-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
@@ -580,6 +630,32 @@ matrix:
      BEHAT_SUITE: webUIUserLDAP
      NEED_SELENIUM: true
 
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-master-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
+
    - TEST_SUITE: cli-acceptance
      TEST_SOURCE: ldap
      OC_VERSION: daily-master-qa
@@ -626,6 +702,19 @@ matrix:
      NEED_INSTALL_APP: true
      BEHAT_SUITE: webUIUserLDAP
      NEED_SELENIUM: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 7.2
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
 
    - TEST_SUITE: cli-acceptance
      TEST_SOURCE: ldap
@@ -685,6 +774,44 @@ matrix:
      NEED_INSTALL_APP: true
      BEHAT_SUITE: webUIUserLDAP
      NEED_SELENIUM: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: mysql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: pgsql
+     DB_NAME: owncloud
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
+
+   - TEST_SUITE: web-acceptance
+     TEST_SOURCE: ldap
+     OC_VERSION: daily-stable10-qa
+     DB_TYPE: oci
+     DB_NAME: XE
+     PHP_VERSION: 5.6
+     NEED_SERVER: true
+     NEED_CORE: true
+     NEED_INSTALL_APP: true
+     BEHAT_SUITE: webUIProvisioning
+     NEED_SELENIUM: true
+     NEED_USER_MANAGEMENT: true
 
    - TEST_SUITE: cli-acceptance
      TEST_SOURCE: ldap
