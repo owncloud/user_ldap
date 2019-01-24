@@ -33,4 +33,12 @@ $classLoader->addPsr4(
 $classLoader->addPsr4(
 	"TestHelpers\\", __DIR__ . "/../../../../../../tests/TestHelpers", true
 );
+
+// Some tests require User management app
+$classLoader->addPsr4(
+	"", __DIR__ . "/../../../../../../apps/user_management/tests/acceptance/features/bootstrap", true
+);
+$classLoader->addPsr4(
+	"Page\\", __DIR__ . "/../../../../../../apps/user_management/tests/acceptance/features/lib", true
+);
 $classLoader->register();
