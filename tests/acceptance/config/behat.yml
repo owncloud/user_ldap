@@ -46,6 +46,16 @@ default:
         - CardDavContext:
         - CalDavContext:
 
+    apiComments:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiComments'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CommentsContext:
+        - WebDavPropertiesContext:
+
     apiMetadataApps:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiMetadataApps'
@@ -104,6 +114,16 @@ default:
         - OccContext:
         - TrashbinContext:
 
+    apiWebdavLocks:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavLocks'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
+        - WebDavLockingContext:
+
     apiWebdavOperations:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavOperations'
@@ -124,6 +144,16 @@ default:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
         - WebDavPropertiesContext:
+
+    cliTrashbin:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/cliTrashbin'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - TrashbinContext:
 
     webUIUserLDAP:
       paths:

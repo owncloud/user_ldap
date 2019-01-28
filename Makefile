@@ -171,6 +171,11 @@ test-acceptance-api: ## Run core API acceptance tests
 test-acceptance-api: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
+.PHONY: test-acceptance-cli
+test-acceptance-cli: ## Run core CLI acceptance tests
+test-acceptance-cli: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
+
 .PHONY: test-acceptance-webui
 test-acceptance-webui: ## Run core webUI acceptance tests
 test-acceptance-webui: $(acceptance_test_deps)
