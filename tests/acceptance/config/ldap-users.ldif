@@ -79,6 +79,29 @@ objectclass: top
 objectclass: organizationalUnit
 ou: TestUsers
 
+# Additional groups for core tests on ldap users
+dn: cn=hash#group,ou=TestGroups,dc=owncloud,dc=com
+cn: hash#group
+memberuid: user0
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=ordinary-group,ou=TestGroups,dc=owncloud,dc=com
+cn: ordinary-group
+memberuid: user1
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group-3,ou=TestGroups,dc=owncloud,dc=com
+cn: group-3
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
 dn: uid=regularuser,ou=TestUsers,dc=owncloud,dc=com
 cn: Regular User
 sn: User

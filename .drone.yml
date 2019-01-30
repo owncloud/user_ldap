@@ -1014,6 +1014,39 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiCapabilities
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFavorites
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFederation
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiComments
 
     - TEST_SUITE: acceptance
@@ -1092,6 +1125,28 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiTrashbin
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiTags
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiVersions
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1159,7 +1214,40 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiCapabilities
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFavorites
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFederation
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1236,7 +1324,29 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiTags
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiTrashbin
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiVersions
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1304,7 +1414,40 @@ matrix:
       NEED_CORE: true
       NEED_SERVER: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiCapabilities
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
+      NEED_CORE: true
+      NEED_SERVER: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
+      NEED_CORE: true
+      NEED_SERVER: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFavorites
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
+      NEED_CORE: true
+      NEED_SERVER: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiFederation
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1381,6 +1524,17 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiTags
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiTrashbin
 
     - TEST_SUITE: acceptance
@@ -1411,8 +1565,8 @@ matrix:
       DB_TYPE: mysql
       DB_NAME: owncloud
       PHP_VERSION: 5.6
-      NEED_CORE: true
       NEED_SERVER: true
+      NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiWebdavOperations
 
