@@ -970,6 +970,17 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiMain
 
     - TEST_SUITE: acceptance
@@ -1025,6 +1036,17 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiSharingNotifications
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiTrashbin
 
     - TEST_SUITE: acceptance
@@ -1036,7 +1058,7 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiSharingNotifications
+      BEHAT_SUITE: apiWebdavLocks
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1059,28 +1081,6 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiWebdavProperties
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-master-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 7.1
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiComments
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-master-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 7.1
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavLocks
 
     # acceptance tests - API tests from core
     # with php 7.0 and core stable10
@@ -1093,6 +1093,17 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiMain
 
     - TEST_SUITE: acceptance
@@ -1148,6 +1159,17 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiSharingNotifications
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiTrashbin
 
     - TEST_SUITE: acceptance
@@ -1159,7 +1181,7 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiSharingNotifications
+      BEHAT_SUITE: apiWebdavLocks
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1182,28 +1204,6 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiWebdavProperties
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 7.0
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiComments
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 7.0
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavLocks
 
     # acceptance tests - API tests from core
     # with php 5.6 and core stable10
@@ -1213,6 +1213,17 @@ matrix:
       DB_TYPE: mysql
       DB_NAME: owncloud
       PHP_VERSION: 5.6
+      NEED_CORE: true
+      NEED_SERVER: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1268,6 +1279,17 @@ matrix:
       DB_TYPE: mysql
       DB_NAME: owncloud
       PHP_VERSION: 5.6
+      NEED_CORE: true
+      NEED_SERVER: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiSharingNotifications
+
+    - TEST_SUITE: acceptance
+      TEST_SOURCE: core-api
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 5.6
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1279,10 +1301,10 @@ matrix:
       DB_TYPE: mysql
       DB_NAME: owncloud
       PHP_VERSION: 5.6
-      NEED_CORE: true
       NEED_SERVER: true
+      NEED_CORE: true
       NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiSharingNotifications
+      BEHAT_SUITE: apiWebdavLocks
 
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-api
@@ -1305,28 +1327,6 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiWebdavProperties
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiComments
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavLocks
 
     # integration tests
     - TEST_SUITE: integration
