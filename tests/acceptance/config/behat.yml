@@ -125,6 +125,16 @@ default:
         - WebDavLockingContext:
         - WebDavPropertiesContext:
 
+    apiWebdavMove:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavMove'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+        - WebDavPropertiesContext:
+
     apiWebdavOperations:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavOperations'
@@ -145,6 +155,17 @@ default:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
         - WebDavPropertiesContext:
+
+    apiWebdavUpload:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavUpload'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+        - PublicWebDavContext:
+
 
     cliTrashbin:
       paths:
