@@ -156,6 +156,16 @@ default:
         - OccContext:
         - TrashbinContext:
 
+    apiProvisioningLDAP:
+      paths:
+        - '%paths.base%/../features/apiProvisioningLDAP'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+
     webUIUserLDAP:
       paths:
         - '%paths.base%/../features/webUIUserLDAP'
