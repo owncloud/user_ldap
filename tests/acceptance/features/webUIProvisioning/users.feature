@@ -68,6 +68,13 @@ Feature: add users
     And the user attributes returned by the API should include
     | displayname | ldap user |
 
+  Scenario: admin tries to modify email of user for which an LDAP attribute is specified
+    When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "ldapuser@oc.com"
+    And the administrator changes the email of user "user1" to "webuiemail@oc.com" using the webUI
+    And the LDAP users are resynced
+    Then user "user1" should exist
+    But the email address of user "user1" should be "ldapuser@oc.com"
+
   Scenario: admin tries to modify password of user for which an LDAP attribute is specified
     Given the administrator has browsed to the users page
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=user0,ou=TestUsers" to "ldap_password"
