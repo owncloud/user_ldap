@@ -85,14 +85,6 @@ default:
         - CardDavContext:
         - CalDavContext:
 
-    apiMetadataApps:
-      paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiMetadataApps'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
-
     apiSharees:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiSharees'
