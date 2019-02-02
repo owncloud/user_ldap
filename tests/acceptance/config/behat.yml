@@ -35,6 +35,16 @@ default:
         - WebUISharingContext:
         - WebUIUserContext:
 
+    apiComments:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiComments'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CommentsContext:
+        - WebDavPropertiesContext:
+
     apiMain:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiMain'
@@ -45,16 +55,6 @@ default:
         - AppManagementContext:
         - CardDavContext:
         - CalDavContext:
-
-    apiComments:
-      paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiComments'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
-        - CommentsContext:
-        - WebDavPropertiesContext:
 
     apiMetadataApps:
       paths:
@@ -84,6 +84,15 @@ default:
         - TrashbinContext:
         - WebDavPropertiesContext:
 
+    apiSharingNotifications:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - NotificationsCoreContext:
+
     apiShareOperations:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiShareOperations'
@@ -94,15 +103,6 @@ default:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
-
-    apiSharingNotifications:
-      paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
-        - NotificationsCoreContext:
 
     apiTrashbin:
       paths:
@@ -187,36 +187,6 @@ default:
         - FeatureContext: *common_feature_context_params
         - OccContext:
 
-    webUIUserLDAP:
-      paths:
-        - '%paths.base%/../features/webUIUserLDAP'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext: *common_feature_context_params
-        - WebUIGeneralContext:
-        - WebUILoginContext:
-        - WebUIUserContext:
-        - WebUISharingContext:
-        - WebUIFilesContext:
-        - OccContext:
-
-    webUIProvisioning:
-      paths:
-        - '%paths.base%/../features/webUIProvisioning'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext: *common_feature_context_params
-        - WebUIGeneralContext:
-        - WebUILoginContext:
-        - WebUIUserContext:
-        - WebUIUsersContext:
-        - WebUIFilesContext:
-        - WebUINotificationsContext:
-
     apiUserLDAPSharing:
       paths:
         - %paths.base%/../features/apiUserLDAPSharing
@@ -248,6 +218,36 @@ default:
         - EmailContext:
         - OccContext:
         - OccUsersGroupsContext:
+
+    webUIProvisioning:
+      paths:
+        - '%paths.base%/../features/webUIProvisioning'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - WebUIGeneralContext:
+        - WebUILoginContext:
+        - WebUIUserContext:
+        - WebUIUsersContext:
+        - WebUIFilesContext:
+        - WebUINotificationsContext:
+
+    webUIUserLDAP:
+      paths:
+        - '%paths.base%/../features/webUIUserLDAP'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - WebUIGeneralContext:
+        - WebUILoginContext:
+        - WebUIUserContext:
+        - WebUISharingContext:
+        - WebUIFilesContext:
+        - OccContext:
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
