@@ -35,16 +35,34 @@ default:
         - WebUISharingContext:
         - WebUIUserContext:
 
-    apiMain:
+    apiCapabilities:
       paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiMain'
+        - '%paths.base%/../../../../../tests/acceptance/features/apiCapabilities'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
-        - AppManagementContext:
-        - CardDavContext:
-        - CalDavContext:
+        - CapabilitiesContext:
+
+    apiFavorites:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiFavorites'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - FavoritesContext:
+        - WebDavPropertiesContext:
+
+    apiFederation:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiFederation'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - FederationContext:
+        - WebDavPropertiesContext:
 
     apiComments:
       paths:
@@ -55,6 +73,17 @@ default:
         - FeatureContext: *common_feature_context_params
         - CommentsContext:
         - WebDavPropertiesContext:
+
+    apiMain:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiMain'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - AppManagementContext:
+        - CardDavContext:
+        - CalDavContext:
 
     apiMetadataApps:
       paths:
@@ -104,6 +133,15 @@ default:
         - FeatureContext: *common_feature_context_params
         - NotificationsCoreContext:
 
+    apiTags:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiTags'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - TagsContext:
+
     apiTrashbin:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiTrashbin'
@@ -113,6 +151,16 @@ default:
         - FeatureContext: *common_feature_context_params
         - OccContext:
         - TrashbinContext:
+
+    apiVersions:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiVersions'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - ChecksumContext:
+        - FilesVersionsContext:
 
     apiWebdavLocks:
       paths:
@@ -184,6 +232,15 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+
+    cliMain:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/cliMain'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - OccContext:
 
