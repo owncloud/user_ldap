@@ -44,6 +44,16 @@ default:
         - FeatureContext: *common_feature_context_params
         - CapabilitiesContext:
 
+    apiComments:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiComments'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CommentsContext:
+        - WebDavPropertiesContext:
+
     apiFavorites:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiFavorites'
@@ -64,16 +74,6 @@ default:
         - FederationContext:
         - WebDavPropertiesContext:
 
-    apiComments:
-      paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiComments'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
-        - CommentsContext:
-        - WebDavPropertiesContext:
-
     apiMain:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiMain'
@@ -84,14 +84,6 @@ default:
         - AppManagementContext:
         - CardDavContext:
         - CalDavContext:
-
-    apiMetadataApps:
-      paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiMetadataApps'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
 
     apiSharees:
       paths:
@@ -215,6 +207,15 @@ default:
         - PublicWebDavContext:
 
 
+    cliMain:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/cliMain'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+
     cliTrashbin:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/cliTrashbin'
@@ -235,29 +236,37 @@ default:
         - FeatureContext: *common_feature_context_params
         - OccContext:
 
-    cliMain:
+    apiUserLDAPConnection:
       paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/cliMain'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - FeatureContext: *common_feature_context_params
-        - OccContext:
-
-    webUIUserLDAP:
-      paths:
-        - '%paths.base%/../features/webUIUserLDAP'
+        - '%paths.base%/../features/apiUserLDAPConnection'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
-        - WebUIGeneralContext:
-        - WebUILoginContext:
-        - WebUIUserContext:
-        - WebUISharingContext:
-        - WebUIFilesContext:
+        - LoggingContext:
+
+    apiUserLDAPSharing:
+      paths:
+        - %paths.base%/../features/apiUserLDAPSharing
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
         - OccContext:
+        - FeatureContext: *common_feature_context_params
+
+    cliProvisioning:
+      paths:
+        - '%paths.base%/../features/cliProvisioning'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - EmailContext:
+        - OccContext:
+        - OccUsersGroupsContext:
 
     webUIProvisioning:
       paths:
@@ -274,37 +283,20 @@ default:
         - WebUIFilesContext:
         - WebUINotificationsContext:
 
-    apiUserLDAPSharing:
+    webUIUserLDAP:
       paths:
-        - %paths.base%/../features/apiUserLDAPSharing
+        - '%paths.base%/../features/webUIUserLDAP'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - WebUIGeneralContext:
+        - WebUILoginContext:
+        - WebUIUserContext:
+        - WebUISharingContext:
+        - WebUIFilesContext:
         - OccContext:
-        - FeatureContext: *common_feature_context_params
-
-    apiUserLDAPConnection:
-      paths:
-        - '%paths.base%/../features/apiUserLDAPConnection'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext: *common_feature_context_params
-        - LoggingContext:
-
-    cliProvisioning:
-      paths:
-        - '%paths.base%/../features/cliProvisioning'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext: *common_feature_context_params
-        - EmailContext:
-        - OccContext:
-        - OccUsersGroupsContext:
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
