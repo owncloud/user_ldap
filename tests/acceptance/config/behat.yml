@@ -279,7 +279,6 @@ default:
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIUserContext:
-        - WebUIUsersContext:
         - WebUIFilesContext:
         - WebUINotificationsContext:
 
