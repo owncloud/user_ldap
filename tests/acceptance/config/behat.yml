@@ -183,8 +183,8 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
-        - SearchContext:
         - PublicWebDavContext:
+        - SearchContext:
 
     apiWebdavProperties:
       paths:
@@ -276,11 +276,11 @@ default:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
+        - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
-        - WebUIUserContext:
-        - WebUIFilesContext:
         - WebUINotificationsContext:
+        - WebUIUserContext:
 
     webUIUserLDAP:
       paths:
@@ -290,12 +290,12 @@ default:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
-        - WebUIUserContext:
         - WebUISharingContext:
-        - WebUIFilesContext:
-        - OccContext:
+        - WebUIUserContext:
 
   extensions:
       jarnaiz\JUnitFormatter\JUnitFormatterExtension:
