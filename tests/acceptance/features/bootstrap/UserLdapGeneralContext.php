@@ -110,6 +110,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 	/**
 	 * @Given LDAP config :configId has these settings:
+	 * @When the administrator sets these settings of LDAP config :configId using the occ command
 	 *
 	 * @param string $configId
 	 * @param TableNode $table with the headings |key | value |
