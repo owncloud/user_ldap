@@ -248,12 +248,13 @@ default:
 
     apiUserLDAPSharing:
       paths:
-        - %paths.base%/../features/apiUserLDAPSharing
+        - '%paths.base%/../features/apiUserLDAPSharing'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - OccContext:
+        - WebDavPropertiesContext:
         - FeatureContext: *common_feature_context_params
 
     cliProvisioning:
