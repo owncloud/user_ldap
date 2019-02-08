@@ -245,6 +245,8 @@ default:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - OccContext:
+        - OccUsersGroupsContext:
 
     apiUserLDAPSharing:
       paths:
