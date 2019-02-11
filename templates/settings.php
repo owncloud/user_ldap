@@ -81,6 +81,7 @@ style('user_ldap', 'settings');
 				<p><label for="ldap_override_main_server"><?php p($l->t('Disable Main Server'));?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"  title="<?php p($l->t('Only connect to the replica server.'));?>" /></p>
 				<p><label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.'));?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" title="<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName()));?>" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1"><br/></p>
 				<p><label for="ldap_cache_ttl"><?php p($l->t('Cache Time-To-Live'));?></label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" title="<?php p($l->t('in seconds. A change empties the cache.'));?>" data-default="<?php p($_['ldap_cache_ttl_default']); ?>" /></p>
+				<p><label for="ldap_network_timeout"><?php p($l->t('Network Timeout'));?></label><input type="number" id="ldap_network_timeout" name="ldap_network_timeout" title="<?php p($l->t('timeout for all the ldap network operations, in seconds.'));?>" data-default="<?php p($_['ldap_network_timeout_default']); ?>" /></p>
 			</div>
 			<h3><?php p($l->t('Directory Settings'));?></h3>
 			<div>
