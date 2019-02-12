@@ -66,13 +66,6 @@ help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 #
-# Basic required tools
-#
-$(COMPOSER_BIN):
-	mkdir $(build_dir)
-	cd $(build_dir) && curl -sS https://getcomposer.org/installer | php
-
-#
 # ownCloud ldap PHP dependencies
 #
 $(composer_deps): $(COMPOSER_BIN) composer.json composer.lock
@@ -83,7 +76,6 @@ $(composer_dev_deps): $(COMPOSER_BIN) composer.json composer.lock
 
 .PHONY: clean-composer-deps
 clean-composer-deps:
-	rm -f $(COMPOSER_BIN)
 	rm -Rf $(composer_deps)
 	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
 
