@@ -49,6 +49,10 @@ OCA = OCA || {};
 					$element: $('#ldap_cache_ttl'),
 					setMethod: 'setCacheTTL'
 				},
+				ldap_network_timeout: {
+					$element: $('#ldap_network_timeout'),
+					setMethod: 'setNetworkTimeout'
+				},
 
 				//Directory Settings
 				ldap_display_name: {
@@ -187,6 +191,15 @@ OCA = OCA || {};
 		 */
 		setCacheTTL: function(cacheTTL) {
 			this.setElementValue(this.managedItems.ldap_cache_ttl.$element, cacheTTL);
+		},
+
+		/**
+		 * sets the network timeout (in seconds)
+		 *
+		 * @param {string} networkTimeout contains an int
+		 */
+		setNetworkTimeout: function(networkTimeout) {
+			this.setElementValue(this.managedItems.ldap_network_timeout.$element, networkTimeout);
 		},
 
 		/**
