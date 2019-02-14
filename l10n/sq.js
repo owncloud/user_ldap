@@ -118,6 +118,8 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "E pakëshillueshme, përdoreni vetëm për testim! Nëse lidhja funksionon vetëm me këtë mundësi, importoni te shërbyesi juaj %s dëshminë SSL të shërbyesit LDAP.",
     "Cache Time-To-Live" : "Jetëgjatësi Fshehtine",
     "in seconds. A change empties the cache." : "në sekonda. Ndryshimi e zbraz fshehtinën.",
+    "Network Timeout" : "Mbarim kohe për funksion Rrjeti",
+    "timeout for all the ldap network operations, in seconds." : "mbarim kohe për krejt veprimet në rrjet LDAP, në sekonda.",
     "Directory Settings" : "Rregullime Drejtorie",
     "User Display Name Field" : "Fushë Emri Përdoruesi Në Ekran",
     "The LDAP attribute to use to generate the user's display name." : "Atribut LDAP që përdoret për të prodhuar emër ekrani për përdoruesin.",
