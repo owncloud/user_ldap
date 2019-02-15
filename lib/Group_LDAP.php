@@ -665,11 +665,11 @@ class Group_LDAP implements \OCP\GroupInterface {
 				$filter = $this->access->connection->ldapUserFilter;
 				//we got DNs, check if we need to filter by search or we can give back all of them
 				if ($search !== '') {
-					$filter = $this->access->combineFilterWithAnd(array(
+					$filter = $this->access->combineFilterWithAnd([
 						$this->access->connection->ldapUserFilter,
-						$this->access->getFilterPartForUserSearch($search)));
+						$this->access->getFilterPartForUserSearch($search)]);
 				}
-				if(!is_array($this->access->readAttribute($member,
+				if (!\is_array($this->access->readAttribute($member,
 						$this->access->connection->ldapUserDisplayName,
 						$filter))) {
 					continue;
