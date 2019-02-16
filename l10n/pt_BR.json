@@ -116,6 +116,8 @@
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Não recomendado, use-o somente para teste! Se a conexão só funciona com esta opção, importar o certificado SSL do servidor LDAP em seu servidor %s.",
     "Cache Time-To-Live" : "Cache Time-To-Live",
     "in seconds. A change empties the cache." : "em segundos. Uma mudança esvaziará o cache.",
+    "Network Timeout" : "Tempo limite da rede",
+    "timeout for all the ldap network operations, in seconds." : "tempo limite para todas as operações de rede do ldap, em segundos.",
     "Directory Settings" : "Configurações de Diretório",
     "User Display Name Field" : "Campo Nome de Exibição de Usuário",
     "The LDAP attribute to use to generate the user's display name." : "O atributo LDAP para usar para gerar o nome de exibição do usuário.",
