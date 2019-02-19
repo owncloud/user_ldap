@@ -49,11 +49,6 @@ use OCP\Util;
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  */
 class Connection extends LDAPUtility {
-
-	// TODO move to separate file, see http://php.net/manual/en/function.ldap-errno.php for more errnos
-	const LDAP_SUCCESS = 0x00;
-	const LDAP_INVALID_CREDENTIALS = 0x31;
-
 	private $ldapConnectionRes;
 	private $configPrefix;
 	private $configID;
@@ -476,36 +471,6 @@ class Connection extends LDAPUtility {
 		//second step: critical checks. If left empty or filled wrong, mark as
 		//not configured and give a warning.
 		return $this->doCriticalValidation();
-	}
-
-	/**
-	 * This function checks the ldap error no and also the LDAP_OPT_DIAGNOSTIC_MESSAGE
-	 * to log as much information as possible. Login attempts with wrong credentials
-	 * will only be logged in debug mode.
-	 *
-	 * @param string $msg The prefix for the log message
-	 * @param array $context
-	 */
-	private function checkError($msg = 'LDAP Error check', $context = ['app' => __METHOD__]) {
-		$errno = $this->getLDAP()->errno($this->ldapConnectionRes);
-		if ($errno === self::LDAP_SUCCESS) {
-			\OC::$server->getLogger()->debug("$msg: ($errno), ".\var_export($this->ldapConnectionRes, true), $context);
-			return;
-		}
-		$errmsg = $this->getLDAP()->error($this->ldapConnectionRes);
-		if (\is_resource($this->ldapConnectionRes)) {
-			$this->getLDAP()->getOption($this->ldapConnectionRes, LDAP_OPT_DIAGNOSTIC_MESSAGE, $errdiag);
-		}
-
-		if (empty($errdiag)) {
-			$errdiag = 'no extended diagnostics';
-		}
-		if ($errno === self::LDAP_INVALID_CREDENTIALS) {
-			// log auth errors only in debug
-			\OC::$server->getLogger()->debug("$msg: ($errno) $errmsg, $errdiag, ".\var_export($this->ldapConnectionRes, true), $context);
-		} else {
-			\OC::$server->getLogger()->error("$msg: ($errno) $errmsg, $errdiag, ".\var_export($this->ldapConnectionRes, true), $context);
-		}
 	}
 
 	/**
