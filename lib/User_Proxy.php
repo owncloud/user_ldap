@@ -236,7 +236,7 @@ class User_Proxy extends Proxy implements
 	 * @throws DoesNotExistOnLDAPException
 	 */
 	public function canChangeAvatar($uid) {
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			if ($backend->userExists($uid)) {
 				return $backend->canChangeAvatar($uid);
 			}
