@@ -236,12 +236,16 @@ class Manager {
 
 	/**
 	 * @param $uid
+	 *
 	 * @return UserEntry
 	 */
 	public function getCachedEntry($uid) {
 		if (isset($this->usersByUid[$uid])) {
 			return $this->usersByUid[$uid];
 		}
+		
+		// should have been cached during login or while iterating over multiple users, eg during syncreturn null;
+		$this->logger->logException(new \Exception("No cached ldap result found for $uid - expected to find in cached results"), ['app' => self::class]);
 
 		try {
 			$dn = $this->username2dn($uid);
@@ -254,10 +258,6 @@ class Manager {
 			// dn might be outside of the base
 			return null;
 		}
-
-		// should have been cached during login or while iterating over multiple users, eg during sync
-		$this->logger->info('No cached ldap result found for '. $uid, ['app' => self::class]);
-		return null;
 	}
 
 	/**
