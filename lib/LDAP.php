@@ -209,17 +209,6 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * Get the current value for given option
-	 * @param resource $link LDAP link resource
-	 * @param string $option a defined LDAP Server option
-	 * @param mixed &$retval will be set to the option value.
-	 * @return bool true on success, false otherwise
-	 */
-	public function getOption($link, $option, &$retval) {
-		return $this->invokeLDAPMethod('get_option', $link, $option, $retval);
-	}
-
-	/**
 	 * @param LDAP $link
 	 * @param string $option
 	 * @param int $value
@@ -333,8 +322,13 @@ class LDAP implements ILDAPWrapper {
 					if ($errDiag === "") {
 						$errDiag = 'no extended diagnostics';
 					}
-					$logMessage = "Bind failed: (), $errDiag, " . \var_export($this->curArgs[0], true);
-					\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
+					$logMessage = "Bind failed: ($errorCode) $errorMsg, $errDiag, " . \var_export($this->curArgs[0], true);
+					if ($errorCode === self::LDAP_INVALID_CREDENTIALS) {
+						// log auth errors only in debug
+						\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
+					} else {
+						\OC::$server->getLogger()->error($logMessage, ['app' => 'user_ldap']);
+					}
 				} elseif ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
 				} elseif ($errorCode === self::LDAP_NO_SUCH_OBJECT) {

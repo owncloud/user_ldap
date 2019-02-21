@@ -185,15 +185,6 @@ interface ILDAPWrapper {
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
 
 	/**
-	 * Get the current value for given option
-	 * @param resource $link LDAP link resource
-	 * @param string $option a defined LDAP Server option
-	 * @param mixed &$retval will be set to the option value.
-	 * @return bool true on success, false otherwise
-	 */
-	public function getOption($link, $option, &$retval);
-
-	/**
 	 * Sets the value of the specified option to be $value
 	 * @param resource $link LDAP link resource
 	 * @param string $option a defined LDAP Server option
