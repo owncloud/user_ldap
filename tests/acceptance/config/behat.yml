@@ -35,6 +35,14 @@ default:
         - WebUISharingContext:
         - WebUIUserContext:
 
+    apiAuth:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiAuth'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+
     apiCapabilities:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiCapabilities'
