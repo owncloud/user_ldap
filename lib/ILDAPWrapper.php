@@ -227,4 +227,12 @@ interface ILDAPWrapper {
 	 * @return bool true if it is a resource, false otherwise
 	 */
 	public function isResource($resource);
+
+	/**
+	 * Get the last error as (errorCode) errorMsg
+	 * or an empty string
+	 *
+	 * @return string
+	 */
+	public function getLastError();
 }

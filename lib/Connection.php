@@ -507,11 +507,11 @@ class Connection extends LDAPUtility {
 				'skip' => $backupHostEmpty
 			]
 		];
+
 		foreach ($hosts as $configName => $config) {
 			if ($config['skip'] === true) {
 				continue;
 			}
-
 			try {
 				$ldapServer = new Ldap\Server(
 					$this->ldap,
@@ -520,6 +520,7 @@ class Connection extends LDAPUtility {
 					$config['port'],
 					$this->config
 				);
+
 				if ($ldapServer->openConnection("{$this->configID} $configName")) {
 					$this->ldapConnectionRes = $ldapServer->getResource();
 					if ($configName === 'backup' && !$this->getFromCache('overrideMainServer')) {

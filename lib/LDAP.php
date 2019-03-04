@@ -32,6 +32,8 @@ use OC\ServerNotAvailableException;
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
 	protected $curArgs = [];
+	/** @var string */
+	protected $lastError = '';
 
 	/**
 	 * @param resource $link
@@ -261,6 +263,15 @@ class LDAP implements ILDAPWrapper {
 		return \is_resource($resource);
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return string
+	 */
+	public function getLastError() {
+		return $this->lastError;
+	}
+
 	private function formatLdapCallArguments($func, $arguments) {
 		$argumentsLog = \implode(",",
 			\array_map(
@@ -316,19 +327,15 @@ class LDAP implements ILDAPWrapper {
 			$errorCode = \ldap_errno($this->curArgs[0]);
 			$errorMsg  = \ldap_error($this->curArgs[0]);
 			if ($errorCode !== self::LDAP_SUCCESS) {
+				$this->lastError = "($errorCode) $errorMsg";
 				if ($this->curFunc === 'ldap_bind') {
 					$errDiag = "";
 					\ldap_get_option($this->curArgs[0], LDAP_OPT_DIAGNOSTIC_MESSAGE, $errDiag);
 					if ($errDiag === "") {
 						$errDiag = 'no extended diagnostics';
 					}
-					$logMessage = "Bind failed: ($errorCode) $errorMsg, $errDiag, " . \var_export($this->curArgs[0], true);
-					if ($errorCode === self::LDAP_INVALID_CREDENTIALS) {
-						// log auth errors only in debug
-						\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
-					} else {
-						\OC::$server->getLogger()->error($logMessage, ['app' => 'user_ldap']);
-					}
+					$logMessage = "Bind failed: (), $errDiag, " . \var_export($this->curArgs[0], true);
+					\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
 				} elseif ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
 				} elseif ($errorCode === self::LDAP_NO_SUCH_OBJECT) {
@@ -347,7 +354,11 @@ class LDAP implements ILDAPWrapper {
 						[ 'app' => 'user_ldap']
 					);
 				}
+			} else {
+				$this->lastError = '';
 			}
+		} else {
+			$this->lastError = \var_export($this->curArgs[0], true) . "  is not a valid resource";
 		}
 
 		$this->curFunc = '';
