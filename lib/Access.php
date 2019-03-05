@@ -1053,8 +1053,9 @@ class Access implements IUserTools {
 			$cr = $this->connection->getConnectionResource();
 			foreach ($sr as $key => $res) {
 				if ($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
+					$range = $offset . "-" . ($offset + $limit);
 					\OC::$server->getLogger()->debug(
-						'Page response cookie '.$this->cookie2str($cookie)." at $limit/$offset, estimated<$estimated>",
+						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
 						['app' => 'user_ldap']);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
@@ -1935,15 +1936,16 @@ class Access implements IUserTools {
 		$pagedSearchOK = false;
 		if ($this->connection->hasPagedResultSupport && ($limit !== 0)) {
 			$offset = (int)$offset; //can be null
+			$range = $offset . "-" . ($offset + $limit);
 			\OC::$server->getLogger()->debug(
 				"initializing paged search for  Filter $filter base ".\print_r($bases, true)
-				.' attr '.\print_r($attr, true)." at $limit/$offset",
+				.' attr '.\print_r($attr, true)." at $range",
 				['app' => 'user_ldap']);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach ($bases as $base) {
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 				\OC::$server->getLogger()->debug(
-					"Cookie for $base at $limit/$offset is ".$this->cookie2str($cookie),
+					"Cookie for $base at $range is ".$this->cookie2str($cookie),
 					['app' => 'user_ldap']);
 				if (empty($cookie) && $cookie !== '0' && ($offset > 0)) {
 					// no cookie known, although the offset is not 0. Maybe cache run out. We need
@@ -1974,11 +1976,11 @@ class Access implements IUserTools {
 						//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 						$this->abandonPagedSearch();
 						\OC::$server->getLogger()->debug(
-							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $limit/$offset",
+							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
 							['app' => 'user_ldap']);
 					} else {
 						\OC::$server->getLogger()->debug(
-							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $limit/$offset",
+							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
 							['app' => 'user_ldap']);
 					}
 					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
@@ -1989,7 +1991,7 @@ class Access implements IUserTools {
 					}
 				} else {
 					\OC::$server->getLogger()->debug(
-						"No paged search for us at $limit/$offset",
+						"No paged search for us at $range",
 						['app' => 'user_ldap']);
 				}
 			}
