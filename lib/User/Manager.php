@@ -26,6 +26,7 @@
 namespace OCA\User_LDAP\User;
 
 use OC\Cache\CappedMemoryCache;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
@@ -117,11 +118,11 @@ class Manager {
 
 	/**
 	 * @brief checks whether the Access instance has been set
-	 * @throws \Exception if Access has not been set
+	 * @throws \BadMethodCallException if Access has not been set
 	 */
 	private function checkAccess() {
 		if ($this->access === null) {
-			throw new \Exception('LDAP Access instance must be set first');
+			throw new \BadMethodCallException('LDAP Access instance must be set first');
 		}
 	}
 
@@ -188,9 +189,14 @@ class Manager {
 
 	/**
 	 * Gets an UserEntry from the LDAP server from a distinguished name
+	 *
 	 * @param $dn
 	 * @return UserEntry
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
 	 * @throws DoesNotExistOnLDAPException when the dn supplied cannot be found on LDAP
+	 * @throws ServerNotAvailableException
 	 */
 	public function getUserEntryByDn($dn) {
 		$result = $this->access->executeRead(
@@ -211,7 +217,7 @@ class Manager {
 	 * @brief returns a User object by the DN in an ldap entry
 	 * @param array $ldapEntry the ldap entry used to prefill the user properties
 	 * @return \OCA\User_LDAP\User\UserEntry
-	 * @throws \Exception when connection could not be established
+	 * @throws \BadMethodCallException when access object has not been set
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 * @throws \OutOfBoundsException when username could not be determined
 	 */

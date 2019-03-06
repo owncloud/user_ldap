@@ -33,6 +33,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
@@ -174,9 +175,13 @@ class User_LDAP implements IUserBackend, UserInterface {
 
 	/**
 	 * check if a user exists
+	 *
 	 * @param string $uid the username
 	 * @return boolean
-	 * @throws \Exception when connection could not be established
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws ServerNotAvailableException when connection could not be established
 	 */
 	public function userExists($uid) {
 		// check if an LdapEntry has been cached already
