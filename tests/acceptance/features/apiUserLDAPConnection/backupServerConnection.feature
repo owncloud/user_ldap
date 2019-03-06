@@ -35,10 +35,10 @@ So that user authentication still works when the main LDAP server is not reachab
     When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
-     | app       | message                                                 |
-     | user_ldap | Error when searching: Can't contact LDAP server code -1 |
-     | user_ldap | Attempt for Paging?                                     |
-     | core      | Login failed: 'user0' (Remote IP:                       |
+     | message                                                                   | app       |
+     | Bind to main server not-existent failed: (-1) Can't contact LDAP server   | user_ldap |
+     | Bind to backup server not-existent failed: (-1) Can't contact LDAP server | user_ldap |
+     | Login failed: 'user0' (Remote IP:                                         | core      |
     When the administrator sets the LDAP config "LDAPTestId" key "<server-that-comes-back>" to "%ldap_host%" using the occ command
     And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"

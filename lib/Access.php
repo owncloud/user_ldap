@@ -37,6 +37,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -1467,7 +1468,12 @@ class Access implements IUserTools {
 		if (!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		return $testConnection->bind();
+
+		try {
+			return $testConnection->bind();
+		} catch (ServerNotAvailableException $e) {
+			return false;
+		}
 	}
 
 	/**
