@@ -1904,11 +1904,9 @@ class Access implements IUserTools {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		// allow '0' for 389ds
-		if (!empty($cookie) || $cookie === '0') {
-			$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
-			$this->cookies[$cacheKey] = $cookie;
-			$this->lastCookie = $cookie;
-		}
+		$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
+		$this->cookies[$cacheKey] = $cookie;
+		$this->lastCookie = $cookie;
 	}
 
 	/**
@@ -1958,12 +1956,8 @@ class Access implements IUserTools {
 					} else {
 						$reOffset = $offset - $limit;
 					}
-					//a bit recursive, $offset of 0 is the exit
-					\OC::$server->getLogger()->debug(
-						"Looking for cookie L/O $limit/$reOffset",
-						['app' => 'user_ldap']);
-					$this->search($filter, [$base], $attr, $limit, $reOffset, true);
-					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+					// just try the previous one
+					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $reOffset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					//TODO: remember this, probably does not change in the next request...
 					if (empty($cookie) && $cookie !== '0') {
