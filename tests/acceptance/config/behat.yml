@@ -42,6 +42,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - CorsContext:
 
     apiCapabilities:
       paths:
