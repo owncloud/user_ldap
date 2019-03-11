@@ -124,6 +124,13 @@ class Access implements IUserTools {
 	}
 
 	/**
+	 * @return IUserManager
+	 */
+	public function getUserManager() {
+		return $this->userManager;
+	}
+
+	/**
 	 * returns the User Mapper
 	 * @throws \BadMethodCallException
 	 * @return AbstractMapping

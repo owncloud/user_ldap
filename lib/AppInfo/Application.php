@@ -98,7 +98,7 @@ class Application extends \OCP\AppFramework\App {
 
 			// FIXME cleanup core to make registering user backends work with public apis. Currently OC_User::findFirstActiveUsedBackend is called during login ... urgh
 			\OC_User::useBackend(
-				new User_Proxy(	$mapper, $backendManager, $config)
+				new User_Proxy($mapper, $backendManager, $config)
 			);
 
 			$server->getGroupManager()->addBackend(

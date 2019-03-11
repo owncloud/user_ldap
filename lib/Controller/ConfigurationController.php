@@ -274,7 +274,7 @@ class ConfigurationController extends Controller {
 					$filter = "(&(|(objectClass=User)(objectClass=inetOrgPerson))(|(cn=$username)(uid=$username)(samaccountname=$username)(userprincipalname=$username)(mail=$username)(displayname=$username)))";
 					$sr = $this->ldapWrapper->search(
 						$connection->getConnectionResource(),
-						array_shift($c->getUserTrees())->getBaseDN(),
+						\array_shift($c->getUserTrees())->getBaseDN(),
 						$filter,
 						\array_merge(Access::$uuidAttributes, ['dn', 'objectclass', 'cn', 'uid', 'samaccountname', 'userprincipalname', 'mail', 'mailnickname', 'title', 'displayname', 'name', 'givenname', 'sn', 'company', 'department', 'postalcode', 'jpegphoto', 'thumbnailphoto', 'quota', 'memberof']), // more attributes
 						0, // attributes and values

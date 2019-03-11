@@ -65,7 +65,7 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configID = $input->getArgument('configID');
 		if ($configID === null) {
-			$configID = uniqid('sid-',true);
+			$configID = \uniqid('sid-', true);
 		} else {
 			// Check we are not trying to create an empty configid
 			if ($configID === '') {

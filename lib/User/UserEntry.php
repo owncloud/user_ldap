@@ -218,7 +218,7 @@ class UserEntry {
 		$quota = null;
 
 		$attr = $this->userTree->getQuotaAttribute();
-		if (!is_string($attr) || $attr === '') {
+		if (!\is_string($attr) || $attr === '') {
 			\OC::$server->getLogger()->debug("No LDAP quota attribute configured", ['app' => 'user_ldap']);
 		} else {
 			$quota = $this->getAttributeValue($attr);
