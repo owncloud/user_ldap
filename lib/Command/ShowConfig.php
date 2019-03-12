@@ -68,7 +68,23 @@ class ShowConfig extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configId = $input->getArgument('configID');
+		if ($configId) {
+			$this->showConfig($configId, $input, $output);
+		} else {
+			// show all configs
+			$allConfigs = $this->mapper->listAll();
+			foreach ($allConfigs as $config) {
+				$this->showConfig($config->getId(), $input, $output);
+			}
+		}
+	}
+
+	protected function showConfig($configId, InputInterface $input, OutputInterface $output) {
 		$config = $this->mapper->find($configId);
+		$showPassword = $input->getOption('show-password');
+		if ($showPassword === false) {
+			$config->setPassword('***');
+		}
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
 				$output->writeln(\json_encode($config));
@@ -77,7 +93,18 @@ class ShowConfig extends Base {
 				$output->writeln(\json_encode($config, JSON_PRETTY_PRINT));
 				break;
 			default:
-				$this->writeArrayInOutputFormat($input, $output, $config, '');
+				$table = new Table($output);
+				$table->setHeaders(['Configuration', $configId]);
+				$rows = [];
+				foreach ($config->jsonSerialize() as $key => $value) {
+					if (\is_array($value)) {
+						$value = \implode(';', $value);
+					}
+					$rows[] = [$key, $value];
+				}
+
+				$table->setRows($rows);
+				$table->render();
 		}
 	}
 

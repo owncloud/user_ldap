@@ -64,6 +64,8 @@ class ShowConfigTest extends TestCase {
 	public function testShowConfigAsTable(
 		$input, $expectedToBeContained, $expectedNotToBeContained
 	) {
+		$this->serverMapper->method('find')
+			->willReturn(new Server(['id' => 'random']));
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();
 		foreach ($expectedToBeContained as $expected) {
@@ -86,6 +88,8 @@ class ShowConfigTest extends TestCase {
 	 * @return void
 	 */
 	public function testShowConfigAsJson($outputType) {
+		$this->serverMapper->method('find')
+			->willReturn(new Server(['id' => 'configId1']));
 		$this->commandTester->execute(
 			['configID' => 'configId1', '--output' => $outputType]
 		);
@@ -115,34 +119,34 @@ class ShowConfigTest extends TestCase {
 			[
 				[],
 				[
-					"+-------------------------------+----------------+\n" .
-					"| Configuration                 | configId1      |\n" .
-					"+-------------------------------+----------------+\n",
-					"+-------------------------------+----------------+\n" .
-					"| Configuration                 | configId2      |\n" .
-					"+-------------------------------+----------------+\n",
-					"| ldapAgentPassword             | ***            |"
+					"+-----------------------+-----------+\n" .
+					"| Configuration         | configId1 |\n" .
+					"+-----------------------+-----------+\n",
+					"+-----------------------+-----------+\n" .
+					"| Configuration         | configId2 |\n" .
+					"+-----------------------+-----------+\n",
+					"| password              | ***       |"
 				],
 				[]
 			],
 			[
 				['configID' => 'configId1'],
 				[
-					"+-------------------------------+----------------+\n" .
-					"| Configuration                 | configId1      |\n" .
-					"+-------------------------------+----------------+\n",
-					"| ldapAgentPassword             | ***            |"
+					"+-----------------------+-----------+\n" .
+					"| Configuration         | configId1 |\n" .
+					"+-----------------------+-----------+\n",
+					"| password              | ***       |"
 				],
 				[
-					"+-------------------------------+----------------+\n" .
-					"| Configuration                 | configId2      |\n" .
-					"+-------------------------------+----------------+\n"
+					"+-----------------------+-----------+\n" .
+					"| Configuration         | configId2 |\n" .
+					"+-----------------------+-----------+\n"
 				]
 			],
 			[
 				['--show-password' => true],
-				["| ldapAgentPassword             |                |"],
-				["| ldapAgentPassword             | ***            |"],
+				["| password              |           |"],
+				["| password              | ***       |"],
 			],
 		];
 	}

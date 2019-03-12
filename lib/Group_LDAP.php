@@ -697,6 +697,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$groupUsers = [];
 		$isMemberUid = (\strtolower($this->tree->getMemberAttribute()) === 'memberuid');
 		foreach ($members as $member) {
+			$tree = $this->treeManager->getUserConfig($this->server, $member);
 			if ($isMemberUid) {
 				// FIXME try to use the user mapping that corresponds to this group mapping first
 				//
@@ -705,7 +706,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 				// we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->filterBuilder->combineFilterWithAnd([
 					\str_replace('%uid', $member, $this->access->getConnection()->ldapLoginFilter),
-					$this->filterBuilder->getFilterPartForUserSearch($search)
+					$this->filterBuilder->getFilterPartForUserSearch($tree, $search)
 				]);
 				$ldap_users = $this->access->fetchListOfUsers(
 					$this->server->getUserTrees(),
@@ -718,7 +719,6 @@ class Group_LDAP implements \OCP\GroupInterface {
 				}
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
 			} else {
-				$tree = $this->treeManager->getUserConfig($this->server, $member);
 				//we got DNs, check if we need to filter by search or we can give back all of them
 				if ($search !== '') {
 					if (!$this->access->readAttribute(
@@ -797,14 +797,15 @@ class Group_LDAP implements \OCP\GroupInterface {
 		//does not supply a search string
 		$groupUsers = [];
 		foreach ($members as $member) {
+			// FIXME $member is a uid, not a dn ... well it should be a dn ... hm
+			$tree = $this->treeManager->getUserConfig($this->server, $member);
 			if ($isMemberUid) {
-
 				// FIXME which user tree should we use? we need to iterate over all of them
 				// TODO well ... do we only need to iterate over user trees that use uid as the username?
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->filterBuilder->combineFilterWithAnd([
 					\str_replace('%uid', $member, $this->access->getConnection()->ldapLoginFilter),
-					$this->filterBuilder->getFilterPartForUserSearch($search)
+					$this->filterBuilder->getFilterPartForUserSearch($tree, $search)
 				]);
 				$ldap_users = $this->access->fetchListOfUsers(
 					$this->server->getUserTrees(),
@@ -817,8 +818,6 @@ class Group_LDAP implements \OCP\GroupInterface {
 				}
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
 			} else {
-				// FIXME $member is a uid, not a dn ... well it should be a dn ... hm
-				$tree = $this->treeManager->getUserConfig($this->server, $member);
 				if ($tree === null) {
 					$this->log->warning("no tree found for $member, skipping", ['app' => __METHOD__]);
 					continue;
