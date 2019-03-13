@@ -57,6 +57,17 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $featureContext;
 	
 	/**
+	 * @Given sleep :seconds in LDAP test
+	 *
+	 * @param string $seconds
+	 *
+	 * @return void
+	 */
+	public function sleepInLdapTest($seconds) {
+		\sleep($seconds);
+	}
+	
+	/**
 	 * @Given a new LDAP config with the name :configId has been created
 	 *
 	 * @param string $configId
@@ -74,7 +85,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		}
 		$this->toDeleteLdapConfigs[] = $configId;
 	}
-	
+
 	/**
 	 * @Given LDAP config :configId has key :configKey set to :configValue
 	 * @When the administrator sets the LDAP config :configId key :configKey to :configValue using the occ command

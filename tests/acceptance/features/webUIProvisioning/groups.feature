@@ -7,6 +7,7 @@ Feature: add group
   Background:
     Given user admin has logged in using the webUI
     And the administrator has browsed to the users page
+    And sleep 1 in LDAP test
 
   Scenario: Adding a simple database group should be possible
     When the administrator adds group "simple-group" using the webUI
