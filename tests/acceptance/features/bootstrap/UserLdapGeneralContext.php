@@ -74,7 +74,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		}
 		$this->toDeleteLdapConfigs[] = $configId;
 	}
-	
+
 	/**
 	 * @Given LDAP config :configId has key :configKey set to :configValue
 	 * @When the administrator sets the LDAP config :configId key :configKey to :configValue using the occ command
