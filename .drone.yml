@@ -358,7 +358,7 @@ matrix:
     - PHP_VERSION: 7.2
       TEST_SUITE: owncloud-coding-standard
 
-    - PHP_VERSION: 5.6
+    - PHP_VERSION: 7.0
       TEST_SUITE: owncloud-coding-standard
 
     - TEST_SUITE: phan
@@ -475,6 +475,14 @@ matrix:
     - TEST_SUITE: phpunit
       PHP_VERSION: 7.0
       OC_VERSION: daily-stable10-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+
+    - TEST_SUITE: phpunit
+      PHP_VERSION: 7.0
+      OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
       NEED_CORE: true
@@ -488,33 +496,8 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
 
-    # with php 5.6 and core stable10
     - TEST_SUITE: phpunit
-      PHP_VERSION: 5.6
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: sqlite
-      DB_NAME: owncloud
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-
-    - TEST_SUITE: phpunit
-      PHP_VERSION: 5.6
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-
-    - TEST_SUITE: phpunit
-      PHP_VERSION: 5.6
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: pgsql
-      DB_NAME: owncloud
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-
-    - TEST_SUITE: phpunit
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       OC_VERSION: daily-stable10-qa
       DB_TYPE: oci
       DB_NAME: XE
@@ -821,13 +804,13 @@ matrix:
       BEHAT_SUITE: apiProvisioningLDAP
 
     # acceptance tests - ldap specific
-    # with php 5.6 and core stable10
+    # with php 7.0 and core stable10
     - TEST_SUITE: web-acceptance
       TEST_SOURCE: ldap
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -839,7 +822,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: pgsql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -851,7 +834,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: oci
       DB_NAME: XE
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -863,7 +846,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -875,7 +858,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: pgsql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -887,7 +870,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: oci
       DB_NAME: XE
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -899,7 +882,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -910,7 +893,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -921,7 +904,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -932,7 +915,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -965,19 +948,6 @@ matrix:
       USE_FEDERATED_SERVER: true
       FEDERATION_OC_VERSION: daily-stable10-qa
 
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-webUI
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      NEED_SELENIUM: true
-      USE_FEDERATED_SERVER: true
-      FEDERATION_OC_VERSION: daily-stable10-qa
-
     #acceptance tests - CLI tests from core
     # with php 7.1 and core master
     - TEST_SUITE: acceptance
@@ -991,13 +961,13 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: cliTrashbin
 
-    # with php 5.6 and core stable10
+    # with php 7.0 and core stable10
     - TEST_SUITE: acceptance
       TEST_SOURCE: core-cli
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1403,195 +1373,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiWebdavUpload
 
-    # acceptance tests - API tests from core
-    # with php 5.6 and core stable10
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiAuth
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiCapabilities
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiComments
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiFavorites
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiFederation
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiMain
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiSharees
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiShareManagement
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiShareOperations
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiSharingNotifications
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiTags
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiTrashbin
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavLocks
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavMove
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavOperations
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavProperties
-
-    - TEST_SUITE: acceptance
-      TEST_SOURCE: core-api
-      OC_VERSION: daily-stable10-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 5.6
-      NEED_CORE: true
-      NEED_SERVER: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiWebdavUpload
-
     # integration tests
     - TEST_SUITE: integration
       OC_VERSION: daily-master-qa
@@ -1696,7 +1477,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestAccessGroupsMatchFilter.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1705,7 +1486,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationBackupServer.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1714,7 +1495,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserAvatar.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1723,7 +1504,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: User/IntegrationTestUserDisplayName.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1732,7 +1513,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestBackupServer.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1741,7 +1522,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationConnect.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1750,7 +1531,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestBatchApplyUserAttributes.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1759,7 +1540,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestConnect.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1768,7 +1549,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestCountUsersByLoginName.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1777,7 +1558,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestFetchUsersByLoginName.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
@@ -1786,7 +1567,7 @@ matrix:
       OC_VERSION: daily-stable10-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
-      PHP_VERSION: 5.6
+      PHP_VERSION: 7.0
       INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
