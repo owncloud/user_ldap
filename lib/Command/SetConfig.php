@@ -24,6 +24,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Config\LegacyConfig;
 use OCA\User_LDAP\Config\LegacyWrapper;
 use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Config\ServerMapper;
@@ -38,12 +39,17 @@ class SetConfig extends Command {
 	/** @var ServerMapper */
 	protected $mapper;
 
+	/** @var LegacyConfig  */
+	protected $legacyConfig;
+
 	/**
 	 * @param ServerMapper $mapper
+	 * @param LegacyConfig $legacyConfig
 	 */
-	public function __construct(ServerMapper $mapper) {
+	public function __construct(ServerMapper $mapper, LegacyConfig $legacyConfig) {
 		parent::__construct();
 		$this->mapper = $mapper;
+		$this->legacyConfig = $legacyConfig;
 	}
 
 	protected function configure() {
@@ -101,7 +107,7 @@ class SetConfig extends Command {
 	 * @param string $value
 	 */
 	protected function setValue(Server $server, $key, $value) {
-		$migration = new LegacyWrapper($server);
+		$migration = new LegacyWrapper($server, $this->legacyConfig);
 		$migration->$key = $value;
 	}
 }

@@ -179,10 +179,6 @@ class ConfigurationControllerTest extends TestCase {
 		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
 	}
 
-	public function testTest() {
-		// TODO implement me!
-	}
-
 	public function testDelete() {
 		$this->mapper->expects(self::once())
 			->method('delete')

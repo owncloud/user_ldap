@@ -41,6 +41,7 @@ class Server implements \JsonSerializable {
 	private $backupTTL;
 	private $cacheTTL;
 	private $timeout;
+
 	/**
 	 * @var bool does the server support primary groups for the user tree?
 	 * TODO move to the user tree
@@ -70,6 +71,14 @@ class Server implements \JsonSerializable {
 		if (empty($data['id'])) {
 			throw new ConfigException('Server config object must have an "id" property. Pro-tip: generate a uuid.');
 		}
+
+		// string 'false' will be casted to boolean true otherwise
+		foreach ($this->getBoolOptions() as $option) {
+			if (isset($data[$option])) {
+				$data[$option] = $this->toBoolean($data[$option]);
+			}
+		}
+
 		$this->id = (string)$data['id'];
 		$this->active =                isset($data['active'])                ?   (bool)$data['active']                : false;
 		$this->host =                  isset($data['host'])                  ? (string)$data['host']                  : '127.0.0.1';
@@ -197,7 +206,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $tls
 	 */
 	public function setTls($tls) {
-		$this->tls = (bool)$tls;
+		$this->tls = $this->toBoolean($tls);
 	}
 
 	/**
@@ -211,7 +220,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $turnOffCertCheck
 	 */
 	public function setTurnOffCertCheck($turnOffCertCheck) {
-		$this->turnOffCertCheck = (bool)$turnOffCertCheck;
+		$this->turnOffCertCheck = $this->toBoolean($turnOffCertCheck);
 	}
 
 	/**
@@ -225,7 +234,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $supportsPaging
 	 */
 	public function setSupportsPaging($supportsPaging) {
-		$this->supportsPaging = (bool)$supportsPaging;
+		$this->supportsPaging = $this->toBoolean($supportsPaging);
 	}
 
 	/**
@@ -253,7 +262,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $supportsMemberOf
 	 */
 	public function setSupportsMemberOf($supportsMemberOf) {
-		$this->supportsMemberOf = (bool)$supportsMemberOf;
+		$this->supportsMemberOf = $this->toBoolean($supportsMemberOf);
 	}
 
 	/**
@@ -267,7 +276,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $overrideMainServer
 	 */
 	public function setOverrideMainServer($overrideMainServer) {
-		$this->overrideMainServer = (bool)$overrideMainServer;
+		$this->overrideMainServer = $this->toBoolean($overrideMainServer);
 	}
 
 	/**
@@ -351,7 +360,7 @@ class Server implements \JsonSerializable {
 	 * @param bool $supportsPrimaryGroups
 	 */
 	public function setSupportsPrimaryGroups($supportsPrimaryGroups) {
-		$this->supportsPaging = (bool)$supportsPrimaryGroups;
+		$this->supportsPaging = $this->toBoolean($supportsPrimaryGroups);
 	}
 
 	/**
@@ -445,6 +454,24 @@ class Server implements \JsonSerializable {
 			}
 		}
 		return $data;
+	}
+
+	public function getBoolOptions() {
+		return [
+			'active',
+			'tls',
+			'turnOffCertCheck',
+			'supportsPaging',
+			'supportsMemberOf',
+			'overrideMainServer'
+		];
+	}
+
+	private function toBoolean($value) {
+		if (\is_string($value)) {
+			return $value === 'true' || $value === '1';
+		}
+		return (bool) $value;
 	}
 }
 

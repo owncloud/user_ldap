@@ -26,61 +26,65 @@ class LegacyWrapper {
 	/** @var Server */
 	private $server;
 
-	public function __construct(Server $server) {
+	/** @var LegacyConfig  */
+	private $legacyConfig;
+
+	public function __construct(Server $server, LegacyConfig $legacyConfig) {
 		$this->server = $server;
+		$this->legacyConfig = $legacyConfig;
 	}
 
 	public function __set($name, $value) {
 		switch ($name) {
 			// server config
-			case 'ldap_host':
+			case 'ldapHost':
 				$this->server->setHost($value);
 				break;
-			case 'ldap_port':
+			case 'ldapPort':
 				$this->server->setPort($value);
 				break;
-			case 'ldap_backup_host':
+			case 'ldapBackupHost':
 				$this->server->setBackupHost($value);
 				break;
-			case 'ldap_backup_port':
+			case 'ldapBackupPort':
 				$this->server->setBackupPort($value);
 				break;
-			case 'ldap_override_main_server':
+			case 'ldapOverrideMainServer':
 				$this->server->setOverrideMainServer($value);
 				break;
-			case 'ldap_dn':
+			case 'ldapAgentName':
 				$this->server->setBindDN($value);
 				break;
-			case 'ldap_agent_password':
+			case 'ldapAgentPassword':
 				$this->server->setPassword($value);
 				break;
-			case 'ldap_cache_ttl':
+			case 'ldapCacheTTL':
 				$this->server->setCacheTTL($value);
 				break;
-			case 'ldap_tls':
+			case 'ldapTLS':
 				$this->server->setTls($value);
 				break;
-			case 'ldap_turn_off_cert_check':
+			case 'turnOffCertCheck':
 				$this->server->setTurnOffCertCheck($value);
 				break;
-			case 'ldap_configuration_active':
+			case 'ldapConfigurationActive':
 				$this->server->setActive($value);
 				break;
 			// memberof is handled by a single flag
-			case 'has_memberof_filter_support':
+			case 'hasMemberOfFilterSupport':
 				$this->server->setSupportsMemberOf($value);
 				break;
-			case 'use_memberof_to_detect_membership':
+			case 'useMemberOfToDetectMembership':
 				$this->server->setSupportsMemberOf($value);
 				break;
 			// supports paging?
-			case 'ldap_paging_size':
+			case 'ldapPagingSize':
 				$this->server->setPageSize($value);
 				break;
 
 			// user tree
-			case 'ldap_base_users':
-				$tree = $this->getUserTrees()[0];
+			case 'ldapBaseUsers':
+				$tree = \array_values($this->getUserTrees())[0];
 				$this->server->setUserTrees([]);
 				// copy first tree config to all base dns
 				foreach ($this->getMultiValues($value) as $base) {
@@ -89,100 +93,100 @@ class LegacyWrapper {
 					$this->server->setUserTree($base, $newTree);
 				}
 				break;
-			case 'ldap_userlist_filter':
+			case 'ldapUserFilter':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setFilter($value);
 				}
 				break;
-			case 'ldap_user_filter_mode':
+			case 'ldapUserFilterMode':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setFilterMode($value);
 				}
 				break;
-			case 'ldap_userfilter_objectclass':
+			case 'ldapUserFilterObjectclass':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setFilterObjectclass($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_userfilter_groups':
+			case 'ldapUserFilterGroups':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setFilterGroups($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_display_name':
+			case 'ldapUserDisplayName':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setDisplayNameAttribute($value);
 				}
 				break;
-			case 'ldap_attributes_for_user_search':
+			case 'ldapAttributesForUserSearch':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setAdditionalSearchAttributes($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_expert_uuid_user_attr':
+			case 'ldapExpertUUIDUserAttr':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setUuidAttribute($value);
 				}
 				break;
-			case 'ldap_login_filter':
+			case 'ldapLoginFilter':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setLoginFilter($value);
 				}
 				break;
-			case 'ldap_login_filter_mode':
+			case 'ldapLoginFilterMode':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setLoginFilterMode($value);
 				}
 				break;
-			case 'ldap_loginfilter_email':
+			case 'ldapLoginFilterEmail':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setLoginFilterEmail($value);
 				}
 				break;
-			case 'ldap_loginfilter_username':
+			case 'ldapLoginFilterUsername':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setLoginFilterUsername($value);
 				}
 				break;
-			case 'ldap_loginfilter_attributes':
+			case 'ldapLoginFilterAttributes':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setLoginFilterAttributes($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_user_display_name_2':
+			case 'ldapUserDisplayName2':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setDisplayName2Attribute($value);
 				}
 				break;
-			case 'ldap_quota_def':
+			case 'ldapQuotaDefault':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setQuotaDefault($value);
 				}
 				break;
-			case 'ldap_quota_attr':
+			case 'ldapQuotaAttribute':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setQuotaAttribute($value);
 				}
 				break;
-			case 'ldap_email_attr':
+			case 'ldapEmailAttribute':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setEmailAttribute($value);
 				}
 				break;
-			case 'home_folder_naming_rule':
+			case 'homeFolderNamingRule':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setHomeFolderNamingRule($value);
 				}
 				break;
-			case 'ldap_expert_username_attr':
+			case 'ldapExpertUsernameAttr':
 				foreach ($this->getUserTrees() as $ut) {
 					$ut->setExpertUsernameAttr($value);
 				}
 				break;
 
 			//group tree
-			case 'ldap_base_groups':
-				$tree = $this->getGroupTrees()[0];
+			case 'ldapBaseGroups':
+				$tree = \array_values($this->getGroupTrees())[0];
 				$this->server->setGroupTrees([]);
 				// copy first tree config to all base dns
 				foreach ($this->getMultiValues($value) as $base) {
@@ -191,52 +195,52 @@ class LegacyWrapper {
 					$this->server->setGroupTree($base, $newTree);
 				}
 				break;
-			case 'ldap_group_filter':
+			case 'ldapGroupFilter':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setFilter($value);
 				}
 				break;
-			case 'ldap_group_filter_mode':
+			case 'ldapGroupFilterMode':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setFilterMode($value);
 				}
 				break;
-			case 'ldap_groupfilter_objectclass':
+			case 'ldapGroupFilterObjectclass':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setFilterObjectclass($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_groupfilter_groups':
+			case 'ldapGroupFilterGroups':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setFilterGroups($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_group_display_name':
+			case 'ldapGroupDisplayName':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setDisplayNameAttribute($value);
 				}
 				break;
-			case 'ldap_attributes_for_group_search':
+			case 'ldapAttributesForGroupSearch':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setAdditionalSearchAttributes($this->getMultiValues($value));
 				}
 				break;
-			case 'ldap_expert_uuid_group_attr':
+			case 'ldapExpertUUIDGroupAttr':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setUuidAttribute($value);
 				}
 				break;
-			case 'ldap_group_member_assoc_attribute':
+			case 'ldapGroupMemberAssocAttr':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setMemberAttribute($value);
 				}
 				break;
-			case 'ldap_nested_groups':
+			case 'ldapNestedGroups':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setNestedGroups($value);
 				}
 				break;
-			case 'ldap_dynamic_group_member_url':
+			case 'ldapDynamicGroupMemberURL':
 				foreach ($this->getGroupTrees() as $ut) {
 					$ut->setDynamicGroupMemberURL($value);
 				}

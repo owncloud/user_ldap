@@ -22,6 +22,7 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Command\ShowConfig;
+use OCA\User_LDAP\Config\LegacyConfig;
 use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Config\ServerMapper;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -36,6 +37,9 @@ class ShowConfigTest extends TestCase {
 	private $commandTester;
 	/** @var ServerMapper|\PHPUnit_Framework_MockObject_MockObject  */
 	protected $serverMapper;
+
+	/** @var LegacyConfig|\PHPUnit_Framework_MockObject_MockObject  */
+	protected $legacyConfig;
 	
 	/**
 	 *
@@ -45,7 +49,8 @@ class ShowConfigTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->serverMapper = $this->createMock(ServerMapper::class);
-		$command = new ShowConfig($this->serverMapper);
+		$this->legacyConfig = $this->createMock(LegacyConfig::class);
+		$command = new ShowConfig($this->serverMapper, $this->legacyConfig);
 		$this->commandTester = new CommandTester($command);
 		$this->serverMapper
 			->method('listAll')
@@ -65,7 +70,7 @@ class ShowConfigTest extends TestCase {
 		$input, $expectedToBeContained, $expectedNotToBeContained
 	) {
 		$this->serverMapper->method('find')
-			->willReturn(new Server(['id' => 'random']));
+			->willReturn(new Server(['id' => 'configId1']));
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();
 		foreach ($expectedToBeContained as $expected) {

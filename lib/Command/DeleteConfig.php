@@ -4,8 +4,9 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Martin Konrad <info@martin-konrad.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2019, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,6 +26,7 @@
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Config\ServerMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,8 +59,11 @@ class DeleteConfig extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$id = $input->getArgument('configID');
-
-		$this->mapper->delete($id);
-		$output->writeln("Deleted configuration with configID '{$id}'");
+		try {
+			$this->mapper->delete($id);
+			$output->writeln("Deleted configuration with configID '{$id}'");
+		} catch (DoesNotExistException $e) {
+			$output->writeln("Configuration with configID '$id' does not exist");
+		}
 	}
 }

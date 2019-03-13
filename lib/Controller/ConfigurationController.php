@@ -61,9 +61,6 @@ class ConfigurationController extends Controller {
 	/** @var LDAP */
 	protected $ldapWrapper;
 
-	const REFERENCE_KEY = 'ldap_configuration_active';
-	const REFERENCE_KEY_LENGTH = 25;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
