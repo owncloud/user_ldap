@@ -5,12 +5,15 @@ Feature: add group
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
+    Given user admin has logged in using the webUI
+    And the administrator has browsed to the users page
+
+  Scenario: admin gets all the groups the first time after LDAP has been setup
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
     Then the command should have been successful
+    And the command output should contain the text '- grp1'
     And the command output should contain the text '- ShareeGroup2'
-    And user admin has logged in using the webUI
-    And the administrator has browsed to the users page
 
   Scenario: admin gets all the groups the first time after LDAP has been setup
     When the administrator gets the groups in JSON format using the occ command
@@ -39,7 +42,7 @@ Feature: add group
     And group "simple-group" should exist
 
   Scenario: Add group with same name as existing ldap group
-    And group "grp1" should exist
+    #And group "grp1" should exist
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
     And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
