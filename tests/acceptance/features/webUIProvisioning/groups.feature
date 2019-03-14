@@ -53,4 +53,3 @@ Feature: add group
       | grpuser      |
       | ShareeGroup  |
       | ShareeGroup2 |
-      | TestUsers    |
