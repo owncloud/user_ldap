@@ -14,6 +14,7 @@ Feature: add group
     Then the command should have been successful
     And the command output should contain the text '- grp1'
     And the command output should contain the text '- ShareeGroup2'
+    And the command output should contain the text '- make this scenario fail here'
 
   Scenario: admin gets all the groups the first time after LDAP has been setup
     When the administrator gets the groups in JSON format using the occ command
