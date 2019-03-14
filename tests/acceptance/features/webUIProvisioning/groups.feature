@@ -13,7 +13,27 @@ Feature: add group
     Then the group name "simple-group" should be listed on the webUI
     And group "simple-group" should exist
 
-  Scenario: Add group with same name as existing ldap group
+  Scenario: Add group with same name as existing ldap group (1)
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+
+  Scenario: Add group with same name as existing ldap group (2)
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+
+  Scenario: Add group with same name as existing ldap group (3)
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+
+  Scenario: Add group with same name as existing ldap group (4)
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+
+  Scenario: Add group with same name as existing ldap group (5)
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
     And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
