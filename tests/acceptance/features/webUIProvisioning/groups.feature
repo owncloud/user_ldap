@@ -8,6 +8,7 @@ Feature: add group
     Given user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
+  @skip
   Scenario: admin gets all the groups the first time after LDAP has been setup
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
@@ -16,6 +17,7 @@ Feature: add group
     And the command output should contain the text '- ShareeGroup2'
     And the command output should contain the text '- make this scenario fail here'
 
+  @skip
   Scenario: admin gets all the groups the first time after LDAP has been setup
     When the administrator gets the groups in JSON format using the occ command
     Then the command should have been successful
@@ -42,10 +44,26 @@ Feature: add group
     Then the group name "simple-group" should be listed on the webUI
     And group "simple-group" should exist
 
-  Scenario: Add group with same name as existing ldap group
+  Scenario: Add group with same name as existing ldap group (1)
     #And group "grp1" should exist
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
+    Then the command should have been successful
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+    And group "grp1" should exist
+
+  Scenario: Add group with same name as existing ldap group (2)
+    When the administrator adds group "grp1" using the webUI
+    Then the group name "grp1" should be listed on the webUI
+    And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+    And group "grp1" should exist
+
+  Scenario: Add group with same name as existing ldap group (3)
+    #And group "grp1" should exist
+    # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
+    When the administrator gets the groups in JSON format using the occ command
     Then the command should have been successful
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
