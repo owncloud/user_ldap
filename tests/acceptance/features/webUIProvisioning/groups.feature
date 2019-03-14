@@ -36,3 +36,21 @@ Feature: add group
     Then the group name "db-group_2" should be listed on the webUI
     And group "db-group_2" should exist
 
+  Scenario: admin gets all the groups the first time after LDAP has been setup
+    When the administrator gets the groups in JSON format using the occ command
+    Then the command should have been successful
+    And the groups returned by the occ command should be
+      | group        |
+      | admin        |
+      | group1       |
+      | group2       |
+      | group3       |
+      | groupuser    |
+      | grp1         |
+      | grp2         |
+      | grp3         |
+      | grp4         |
+      | grpuser      |
+      | ShareeGroup  |
+      | ShareeGroup2 |
+      | TestUsers    |
