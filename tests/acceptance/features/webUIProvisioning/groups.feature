@@ -7,8 +7,31 @@ Feature: add group
   Background:
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
+    Then the command should have been successful
+    And the command output should contain the text '- ShareeGroup2'
     And user admin has logged in using the webUI
     And the administrator has browsed to the users page
+
+  Scenario: admin gets all the groups the first time after LDAP has been setup
+    When the administrator gets the groups in JSON format using the occ command
+    Then the command should have been successful
+    And the groups returned by the occ command should be
+      | group          |
+      | admin          |
+      | group1         |
+      | group2         |
+      | group3         |
+      | groupuser      |
+      | grp1           |
+      | grp2           |
+      | grp3           |
+      | grp4           |
+      | grpuser        |
+      | ShareeGroup    |
+      | ShareeGroup2   |
+      | hash#group     |
+      | ordinary-group |
+      | group-3        |
 
   Scenario: Adding a simple database group should be possible
     When the administrator adds group "simple-group" using the webUI
@@ -35,21 +58,3 @@ Feature: add group
     And the administrator reloads the users page
     Then the group name "db-group_2" should be listed on the webUI
     And group "db-group_2" should exist
-
-  Scenario: admin gets all the groups the first time after LDAP has been setup
-    When the administrator gets the groups in JSON format using the occ command
-    Then the command should have been successful
-    And the groups returned by the occ command should be
-      | group        |
-      | admin        |
-      | group1       |
-      | group2       |
-      | group3       |
-      | groupuser    |
-      | grp1         |
-      | grp2         |
-      | grp3         |
-      | grp4         |
-      | grpuser      |
-      | ShareeGroup  |
-      | ShareeGroup2 |
