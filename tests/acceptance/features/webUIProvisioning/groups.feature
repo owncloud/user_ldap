@@ -44,17 +44,17 @@ Feature: add group
     Then the group name "simple-group" should be listed on the webUI
     And group "simple-group" should exist
 
-  Scenario: Add group with same name as existing ldap group (1)
-    #And group "grp1" should exist
-    # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
-    Given the administrator has invoked occ command "group:list"
-    Then the command should have been successful
+  Scenario: Add group with same name as existing ldap group (original)
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
     And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
     And group "grp1" should exist
 
   Scenario: Add group with same name as existing ldap group (2)
+    #And group "grp1" should exist
+    # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
+    Given the administrator has invoked occ command "group:list"
+    Then the command should have been successful
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
     And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
