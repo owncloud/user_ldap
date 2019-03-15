@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "7ffcbfc8be5015adcad7b2eff0e6d7b1",
@@ -511,20 +511,20 @@
         },
         {
             "name": "owncloud/coding-standard",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owncloud/coding-standard.git",
-                "reference": "548ba3b83e590e946a5aa1da33f7f4c8a55e61c5"
+                "reference": "04f99fc3c6e07df0ce9594737f49e816b6d33004"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owncloud/coding-standard/zipball/548ba3b83e590e946a5aa1da33f7f4c8a55e61c5",
-                "reference": "548ba3b83e590e946a5aa1da33f7f4c8a55e61c5",
+                "url": "https://api.github.com/repos/owncloud/coding-standard/zipball/04f99fc3c6e07df0ce9594737f49e816b6d33004",
+                "reference": "04f99fc3c6e07df0ce9594737f49e816b6d33004",
                 "shasum": ""
             },
             "require": {
-                "friendsofphp/php-cs-fixer": "^2.11"
+                "friendsofphp/php-cs-fixer": "^2.12"
             },
             "type": "library",
             "autoload": {
@@ -556,7 +556,7 @@
                 "standard",
                 "style"
             ],
-            "time": "2018-05-16T13:47:45+00:00"
+            "time": "2019-03-11T16:35:29+00:00"
         },
         {
             "name": "paragonie/random_compat",
