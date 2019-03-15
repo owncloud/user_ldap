@@ -405,6 +405,123 @@ matrix:
     - TEST_SUITE: web-acceptance
       TEST_SOURCE: ldap
       OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
+      DB_TYPE: sqlite
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+
+    - TEST_SUITE: web-acceptance
+      TEST_SOURCE: ldap
+      OC_VERSION: daily-master-qa
       DB_TYPE: mysql
       DB_NAME: owncloud
       PHP_VERSION: 7.1
