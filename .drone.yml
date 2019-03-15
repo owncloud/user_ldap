@@ -111,8 +111,6 @@ pipeline:
     pull: true
     commands:
       - git clone https://github.com/owncloud/user_management.git /var/www/owncloud/server/apps/user_management
-      - cd /var/www/owncloud/server/apps/user_management
-      - git checkout setQuotaOfUserTo-waitTillXpathIsVisible
       - cd /var/www/owncloud/server
       - php occ a:l
       - php occ a:e user_management
