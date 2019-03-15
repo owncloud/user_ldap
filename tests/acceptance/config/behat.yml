@@ -31,6 +31,7 @@ default:
         - WebUILoginContext:
         - WebUIPersonalGeneralSettingsContext:
         - WebUIPersonalSecuritySettingsContext:
+        - WebUIPersonalSharingSettingsContext:
         - WebUISearchContext:
         - WebUISharingContext:
         - WebUIUserContext:
@@ -288,6 +289,7 @@ default:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIUserContext:

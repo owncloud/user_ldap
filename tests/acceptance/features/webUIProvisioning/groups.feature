@@ -5,7 +5,9 @@ Feature: add group
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
-    Given user admin has logged in using the webUI
+    # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
+    Given the administrator has invoked occ command "group:list"
+    And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
   Scenario: Adding a simple database group should be possible
