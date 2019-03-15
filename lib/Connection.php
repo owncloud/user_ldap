@@ -98,7 +98,7 @@ class Connection extends LDAPUtility {
 
 		$this->hasPagedResultSupport =
 			(int)$this->configuration->ldapPagingSize !== 0
-			|| $this->getLDAP()->hasPagedResultSupport();
+			&& $this->getLDAP()->hasPagedResultSupport();
 	}
 
 	public function __destruct() {

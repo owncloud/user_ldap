@@ -1053,8 +1053,9 @@ class Access implements IUserTools {
 			$cr = $this->connection->getConnectionResource();
 			foreach ($sr as $key => $res) {
 				if ($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
+					$range = $offset . "-" . ($offset + $limit);
 					\OC::$server->getLogger()->debug(
-						'Page response cookie '.$this->cookie2str($cookie).", estimated<$estimated>",
+						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
 						['app' => 'user_ldap']);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
@@ -1226,6 +1227,17 @@ class Access implements IUserTools {
 			return [];
 		}
 
+		unset($findings['count']);
+
+		//we slice the findings, when
+		//a) paged search unsuccessful, though attempted
+		//b) no paged search, but limit set
+		if ((!$pagedSearchOK && $limit !== null)
+			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
+		) {
+			$findings = \array_slice($findings, (int)$offset, $limit);
+		}
+
 		if ($attr !== null) {
 			$selection = [];
 			$i = 0;
@@ -1254,14 +1266,6 @@ class Access implements IUserTools {
 				$i++;
 			}
 			$findings = $selection;
-		}
-		//we slice the findings, when
-		//a) paged search unsuccessful, though attempted
-		//b) no paged search, but limit set
-		if ((!$pagedSearchOK && $limit !== null)
-			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
-		) {
-			$findings = \array_slice($findings, (int)$offset, $limit);
 		}
 		return $findings;
 	}
@@ -1900,11 +1904,9 @@ class Access implements IUserTools {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		// allow '0' for 389ds
-		if (!empty($cookie) || $cookie === '0') {
-			$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
-			$this->cookies[$cacheKey] = $cookie;
-			$this->lastCookie = $cookie;
-		}
+		$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
+		$this->cookies[$cacheKey] = $cookie;
+		$this->lastCookie = $cookie;
 	}
 
 	/**
@@ -1932,13 +1934,17 @@ class Access implements IUserTools {
 		$pagedSearchOK = false;
 		if ($this->connection->hasPagedResultSupport && ($limit !== 0)) {
 			$offset = (int)$offset; //can be null
+			$range = $offset . "-" . ($offset + $limit);
 			\OC::$server->getLogger()->debug(
 				"initializing paged search for  Filter $filter base ".\print_r($bases, true)
-				.' attr '.\print_r($attr, true). " limit $limit offset $offset",
+				.' attr '.\print_r($attr, true)." at $range",
 				['app' => 'user_ldap']);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach ($bases as $base) {
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+				\OC::$server->getLogger()->debug(
+					"Cookie for $base at $range is ".$this->cookie2str($cookie),
+					['app' => 'user_ldap']);
 				if (empty($cookie) && $cookie !== '0' && ($offset > 0)) {
 					// no cookie known, although the offset is not 0. Maybe cache run out. We need
 					// to start all over *sigh* (btw, Dear Reader, did you know LDAP paged
@@ -1950,12 +1956,8 @@ class Access implements IUserTools {
 					} else {
 						$reOffset = $offset - $limit;
 					}
-					//a bit recursive, $offset of 0 is the exit
-					\OC::$server->getLogger()->debug(
-						"Looking for cookie L/O $limit/$reOffset",
-						['app' => 'user_ldap']);
-					$this->search($filter, [$base], $attr, $limit, $reOffset, true);
-					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+					// just try the previous one
+					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $reOffset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					//TODO: remember this, probably does not change in the next request...
 					if (empty($cookie) && $cookie !== '0') {
@@ -1964,20 +1966,26 @@ class Access implements IUserTools {
 					}
 				}
 				if ($cookie !== null) {
-					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
-					$this->abandonPagedSearch();
+					if (empty($offset)) {
+						//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+						$this->abandonPagedSearch();
+						\OC::$server->getLogger()->debug(
+							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']);
+					} else {
+						\OC::$server->getLogger()->debug(
+							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']);
+					}
 					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
 						$this->connection->getConnectionResource(), $limit,
 						false, $cookie);
 					if (!$pagedSearchOK) {
 						return false;
 					}
-					\OC::$server->getLogger()->debug(
-						'Ready for a paged search with cookie '.$this->cookie2str($cookie),
-						['app' => 'user_ldap']);
 				} else {
 					\OC::$server->getLogger()->debug(
-						"No paged search for us, Cpt., Limit $limit Offset $offset",
+						"No paged search for us at $range",
 						['app' => 'user_ldap']);
 				}
 			}
