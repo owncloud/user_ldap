@@ -1159,7 +1159,7 @@ class Access implements IUserTools {
 			/* ++ Fixing RHDS searches with pages with zero results ++
 			 * Continue now depends on $hasMorePages value
 			 */
-			$continue = $pagedSearchOK && $hasMorePages && count($base) > 0;
+			$continue = $pagedSearchOK && $hasMorePages && \count($base) > 0;
 		} while ($continue && ($limit === null || $limit <= 0 || $limit > $counter));
 
 		return $counter;
@@ -1256,6 +1256,10 @@ class Access implements IUserTools {
 			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
 		) {
 			$findings = \array_slice($findings, (int)$offset, $limit);
+		}
+
+		if (!$continue) {
+			$this->abandonPagedSearch();
 		}
 
 		if ($attr !== null) {
