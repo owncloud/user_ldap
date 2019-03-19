@@ -1056,7 +1056,7 @@ class Access implements IUserTools {
 			foreach ($sr as $key => $res) {
 				if ($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
 					$range = $offset . "-" . ($offset + $limit);
-					$estimates[] = $estimated;
+					$estimates[$key] = $estimated;
 					\OC::$server->getLogger()->debug(
 						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
 						['app' => 'user_ldap']);
@@ -1144,7 +1144,7 @@ class Access implements IUserTools {
 
 			foreach ($counts as $i => $count) {
 				$estimate = $estimates[$i];
-				if ($count === $estimate) {
+				if ($estimate > 0) {
 					// estimate reported for complete result, use it
 					$counter += $estimate;
 					// stop counting entries on subsequent pages for the base with an estimate
@@ -1174,9 +1174,9 @@ class Access implements IUserTools {
 		$cr = $this->connection->getConnectionResource();
 		$counts = [];
 
-		foreach ($searchResults as $res) {
+		foreach ($searchResults as $key => $res) {
 			$count = (int)$this->getLDAP()->countEntries($cr, $res);
-			$counts[] = $count;
+			$counts[$key] = $count;
 		}
 
 		return $counts;
