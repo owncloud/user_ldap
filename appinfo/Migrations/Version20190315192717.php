@@ -175,7 +175,7 @@ class Version20190315192717 implements ISimpleMigration {
 		$converted = 0;
 		foreach ($configPrefixes as $prefix) {
 			$config = $this->getTranslatedLegacyConfig($prefix);
-			$this->convertConfig($prefix, $config);
+			$this->storeConfig($prefix, $config);
 			$converted++;
 			$out->advance($converted, $prefix);
 			$this->deleteLegacyConfig($prefix);
@@ -191,7 +191,7 @@ class Version20190315192717 implements ISimpleMigration {
 	 *
 	 * @return string[]
 	 */
-	protected function getLegacyConfigPrefixes() {
+	private function getLegacyConfigPrefixes() {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->selectDistinct('configkey')
 			->from('appconfig')
@@ -218,7 +218,7 @@ class Version20190315192717 implements ISimpleMigration {
 	 *
 	 * @return array
 	 */
-	protected function getTranslatedLegacyConfig($prefix) {
+	private function getTranslatedLegacyConfig($prefix) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('configkey', 'configvalue')
 			->from('appconfig')
@@ -246,26 +246,26 @@ class Version20190315192717 implements ISimpleMigration {
 			$translatedKey = $this->translations[$key];
 			$current[$translatedKey] = $row['configvalue'];
 		}
-		\ksort($this->translations);
-		\ksort($this->knownLegacyKeys);
-		$defaults = \array_combine(
-			\array_values($this->translations),
-			\array_values($this->knownLegacyKeys)
-		);
-		return \array_merge($defaults, $current);
+		foreach ($this->translations as $legacyKey => $newKey) {
+			if (!isset($current[$newKey])) {
+				$current[$newKey] = $this->knownLegacyKeys[$legacyKey];
+			}
+		}
+
+		return $current;
 	}
 
 	/**
 	 * Store config as json
 	 *
 	 * @param string $prefix
-	 * @param array $legacyConfig
+	 * @param array $configData
 	 */
-	protected function convertConfig($prefix, $legacyConfig) {
+	private function storeConfig($prefix, $configData) {
 		$this->config->setAppValue(
 			'user_ldap',
 			Configuration::CONFIG_PREFIX . $prefix,
-			\json_encode($legacyConfig)
+			\json_encode($configData)
 		);
 	}
 
@@ -274,9 +274,8 @@ class Version20190315192717 implements ISimpleMigration {
 	 *
 	 * @param string $prefix the configuration prefix of the config to delete
 	 *
-	 * @return bool true on success, false otherwise
 	 */
-	public function deleteLegacyConfig($prefix) {
+	private function deleteLegacyConfig($prefix) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('appconfig')
 			->where(
@@ -291,7 +290,6 @@ class Version20190315192717 implements ISimpleMigration {
 			)
 			->setParameter('keys', $this->getPrefixedLegacyKeys($prefix), IQueryBuilder::PARAM_STR_ARRAY);
 		$qb->execute();
-		return true;
 	}
 
 	/**
@@ -301,14 +299,12 @@ class Version20190315192717 implements ISimpleMigration {
 	 *
 	 * @return array
 	 */
-	protected function getPrefixedLegacyKeys($prefix) {
-		$keys = \array_keys($this->knownLegacyKeys);
-		\array_walk(
-			$keys,
-			function (&$key) use ($prefix) {
-				$key = "{$prefix}{$key}";
-			}
-		);
-		return $keys;
+	private function getPrefixedLegacyKeys($prefix) {
+		$prefixed = [];
+		foreach ($this->knownLegacyKeys as $key => $value) {
+			$prefixedKey = "{$prefix}{$key}";
+			$prefixed[] = $prefixedKey;
+		}
+		return $prefixed;
 	}
 }
