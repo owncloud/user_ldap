@@ -26,8 +26,7 @@
  *
  */
 
-namespace OCA\User_LDAP\AppInfo;
-
-$application = new Application();
+$application = new OCA\User_LDAP\AppInfo\Application();
+$application->checkCompatibility();
 $application->registerBackends();
 $application->registerHooks();

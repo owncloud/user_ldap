@@ -23,7 +23,6 @@ namespace OCA\User_LDAP\AppInfo;
 
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 
@@ -34,7 +33,6 @@ class Application extends \OCP\AppFramework\App {
 	public function __construct($urlParams = []) {
 		parent::__construct('user_ldap', $urlParams);
 		$this->registerService();
-		$this->checkCompatability();
 	}
 
 	private function registerService() {
@@ -52,7 +50,7 @@ class Application extends \OCP\AppFramework\App {
 		);
 	}
 
-	private function checkCompatability() {
+	public function checkCompatibility() {
 		$server = $this->getContainer()->getServer();
 		if ($server->getAppManager()->isEnabledForUser('user_webdavauth')) {
 			$server->getLogger()->warning(
@@ -65,13 +63,14 @@ class Application extends \OCP\AppFramework\App {
 		$helper = new Helper();
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		if (\count($configPrefixes) > 0) {
+			$server = $this->getContainer()->getServer();
 			$ldapWrapper = new LDAP();
-			$ocConfig = \OC::$server->getConfig();
+			$ocConfig = $server->getConfig();
 			$userBackend  = new User_Proxy($configPrefixes, $ldapWrapper, $ocConfig);
 			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper);
 			// register user backend
 			\OC_User::useBackend($userBackend);
-			\OC::$server->getGroupManager()->addBackend($groupBackend);
+			$server->getGroupManager()->addBackend($groupBackend);
 		}
 	}
 
