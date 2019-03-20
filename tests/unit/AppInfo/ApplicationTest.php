@@ -1,15 +1,8 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2019, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,7 +19,13 @@
  *
  */
 
-$application = new OCA\User_LDAP\AppInfo\Application();
-$application->checkCompatibility();
-$application->registerBackends();
-$application->registerHooks();
+namespace OCA\User_LDAP\AppInfo;
+
+use Test\TestCase;
+
+class ApplicationTest extends TestCase {
+	public function testConstruct() {
+		$app = new Application();
+		$app->checkCompatibility();
+	}
+}
