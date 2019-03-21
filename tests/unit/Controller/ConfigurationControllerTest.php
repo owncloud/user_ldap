@@ -21,11 +21,12 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Config\Config;
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -41,16 +42,14 @@ class ConfigurationControllerTest extends TestCase {
 
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	/** @var ConfigMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $configMapper;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldap;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	private $helper;
 
 	/** @var ConfigurationController */
 	private $controller;
@@ -59,31 +58,28 @@ class ConfigurationControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->configMapper = $this->createMock(ConfigMapper::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->ldap = $this->createMock(LDAP::class);
-		$this->helper = $this->createMock(Helper::class);
 
 		$this->controller = new ConfigurationController(
 			'user_ldap',
 			$this->request,
-			$this->config,
+			$this->configMapper,
 			$this->session,
 			$this->l10n,
-			$this->ldap,
-			$this->helper
+			$this->ldap
 		);
 	}
 
 	public function testCreate() {
-		$this->helper->expects($this->once())
+		$this->configMapper->expects($this->once())
 			->method('nextPossibleConfigurationPrefix')
 			->will($this->returnValue('tcr'));
 
-		$this->config->expects($this->any())
-			->method('setAppValue')
-			->with('user_ldap', Configuration::CONFIG_PREFIX . 'tcr', $this->anything());
+		$this->configMapper->expects($this->once())
+			->method('insert');
 
 		$result = $this->controller->create();
 
@@ -97,46 +93,32 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testCreateWithCopy() {
-		$this->helper->expects($this->once())
+		$this->configMapper->expects($this->once())
 			->method('nextPossibleConfigurationPrefix')
 			->will($this->returnValue('tgt'));
 
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->will($this->returnCallback(function ($app, $key, $default) {
-				switch ($key) {
-					case 'srcldap_host':
-						return 'example.org';
-					case 'srcldap_agent_password':
-						return \base64_encode('secret');
-					default:
-						return $default;
+		$this->configMapper->expects($this->once())
+			->method('find')
+			->willReturn(
+				new Config(
+					[
+						'id' => 'src',
+						'ldapHost' => 'example.org',
+						'ldapAgentPassword' => \base64_encode('secret')
+					]
+				)
+			);
+		$this->configMapper->expects($this->once())
+			->method('insert')
+			->with($this->callback(
+				function (Config $config) {
+					$data = $config->getData();
+					return $config->getId() === 'tgt'
+						&& $data['ldapHost'] === 'example.org'
+						&& $data['ldapAgentPassword'] === 'secret';
+					// TODO: fix double encoded password
 				}
-			}));
-
-		$expectedValue = null;
-		$this->config->expects($this->any())
-			->method('setAppValue')
-			->with(
-				'user_ldap',
-				$this->callback(function ($key) use (&$expectedValue) {
-					switch ($key) {
-						case 'tgtldap_host':
-							$expectedValue = 'example.org';
-							break;
-						case 'tgtldap_agent_password':
-							$expectedValue = \base64_encode('secret');
-							break;
-						default: $expectedValue = null;
-					};
-					return $this->stringStartsWith('tgt');
-				}),
-				$this->callback(function ($value) use (&$expectedValue) {
-					if ($expectedValue !== null) {
-						return $expectedValue === $value;
-					};
-					return true;
-				}));
+			));
 
 		$result = $this->controller->create('src');
 
@@ -149,15 +131,13 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testRead() {
-		$config = $this->getLdapConfig(
-			[
+		$config = [
 				'ldapHost' => 'example.org',
 				'ldapAgentPassword' => \base64_encode('secret')
-			]
-		);
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturn(\json_encode($config));
+			];
+		$this->configMapper->expects($this->any())
+			->method('find')
+			->willReturn(new Config($config));
 
 		$result = $this->controller->read('t01');
 
@@ -174,8 +154,7 @@ class ConfigurationControllerTest extends TestCase {
 
 	public function testTest() {
 		// use valid looking config to pass critical validation
-		$config = $this->getLdapConfig(
-			[
+		$config = [
 				'ldapHost' => 'example.org',
 				'ldapPort' => '389',
 				'ldapDisplayName' => 'displayName',
@@ -185,11 +164,10 @@ class ConfigurationControllerTest extends TestCase {
 				'ldapAgentName' => 'cn=admin',
 				'ldapBase' => 'dc=example,dc=org',
 				'ldapAgentPassword' => \base64_encode('secret')
-			]
-		);
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturn(\json_encode($config));
+		];
+		$this->configMapper->expects($this->any())
+			->method('find')
+			->willReturn(new Config($config));
 
 		$this->ldap->expects($this->any())
 			->method('areLDAPFunctionsAvailable')
@@ -227,18 +205,12 @@ class ConfigurationControllerTest extends TestCase {
 	//}
 
 	public function testDeleteNotExisting() {
-		$result = $this->controller->delete('na');
+		$this->configMapper->method('delete')
+			->willThrowException(new DoesNotExistException(''));
 
+		$result = $this->controller->delete('na');
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
 		$this->assertArraySubset(['status' => 'error'], $data, true);
-	}
-
-	protected function getLdapConfig($values) {
-		$config = \array_merge(
-			(new Configuration($this->config, ''))->getDefaults(),
-			$values
-		);
-		return $config;
 	}
 }

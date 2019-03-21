@@ -29,6 +29,7 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
@@ -36,6 +37,7 @@ use OCA\User_LDAP\User\Manager;
 abstract class Proxy {
 	private static $accesses = [];
 	private $ldap = null;
+	private $mapper;
 
 	/** @var \OCP\ICache|null */
 	private $cache;
@@ -43,8 +45,9 @@ abstract class Proxy {
 	/**
 	 * @param ILDAPWrapper $ldap
 	 */
-	public function __construct(ILDAPWrapper $ldap) {
+	public function __construct(ILDAPWrapper $ldap, ConfigMapper $mapper) {
 		$this->ldap = $ldap;
+		$this->mapper = $mapper;
 		$memcache = \OC::$server->getMemCacheFactory();
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
@@ -78,8 +81,8 @@ abstract class Proxy {
 		$userManager =
 			new Manager($coreConfig, $fs, $logger, $avatarM, $db, $coreUserManager);
 
-		$configuration = new Configuration($coreConfig, $configPrefix);
-		$connector = new Connection($this->ldap, $configuration);
+		$config = $this->mapper->find($configPrefix);
+		$connector = new Connection($this->ldap, $this->mapper, $config);
 
 		$access = new Access($connector, $userManager);
 		$access->setUserMapper($userMap);

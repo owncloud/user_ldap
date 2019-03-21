@@ -24,36 +24,29 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Config\Config;
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\LDAP;
-use OCP\IConfig;
+use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
-
-	/** @var IConfig */
-	protected $coreConfig;
-
-	/** @var Helper */
-	protected $helper;
+	/** @var ConfigMapper */
+	protected $mapper;
 
 	/** @var LDAP */
 	protected $ldap;
 
 	/**
-	 * @param IConfig $coreConfig
-	 * @param Helper $helper
 	 * @param LDAP $ldap
 	 */
-	public function __construct(IConfig $coreConfig, Helper $helper, LDAP $ldap) {
+	public function __construct(ConfigMapper $configMapper, LDAP $ldap) {
 		parent::__construct();
-		$this->coreConfig = $coreConfig;
-		$this->helper = $helper;
+		$this->mapper = $configMapper;
 		$this->ldap = $ldap;
 	}
 
@@ -70,33 +63,31 @@ class TestConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configId = $input->getArgument('configID');
-		if (!\in_array($configId, $availableConfigs, true)) {
-			$output->writeln("Invalid configID");
-			return;
-		}
-
-		$result = $this->testConfig($configId);
-		if ($result === 0) {
-			$output->writeln('The configuration is valid and the connection could be established!');
-		} elseif ($result === 1) {
-			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-		} elseif ($result === 2) {
-			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
-		} else {
-			$output->writeln('Your LDAP server was kidnapped by aliens.');
+		try {
+			$config = $this->mapper->find($configId);
+			$result = $this->testConfig($config);
+			if ($result === 0) {
+				$output->writeln('The configuration is valid and the connection could be established!');
+			} elseif ($result === 1) {
+				$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
+			} elseif ($result === 2) {
+				$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
+			} else {
+				$output->writeln('Your LDAP server was kidnapped by aliens.');
+			}
+		} catch (DoesNotExistException $e) {
+			$output->writeln("Configuration with configID '$configId' does not exist");
 		}
 	}
 
 	/**
 	 * tests the specified connection
-	 * @param string $configId
+	 * @param Config $config
 	 * @return int
 	 */
-	protected function testConfig($configId) {
-		$configuration = new Configuration($this->coreConfig, $configId);
-		$connection = new Connection($this->ldap, $configuration);
+	protected function testConfig($config) {
+		$connection = new Connection($this->ldap, $this->mapper, $config);
 
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();

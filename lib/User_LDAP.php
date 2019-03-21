@@ -70,7 +70,7 @@ use OCP\UserInterface;
  * ^
  * |
  * v
- * OCA\User_LDAP\Configuration
+ * OCA\User_LDAP\Config\Config
  *
  * @package OCA\User_LDAP
  */

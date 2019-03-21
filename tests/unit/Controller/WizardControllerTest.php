@@ -21,10 +21,10 @@
 
 namespace OCA\User_LDAP\Controller;
 
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use Test\TestCase;
@@ -38,8 +38,8 @@ class WizardControllerTest extends TestCase {
 
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	/** @var ConfigMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $mapper;
 	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
@@ -54,7 +54,7 @@ class WizardControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->mapper = $this->createMock(ConfigMapper::class);
 		$this->manager = $this->createMock(Manager::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->ldap = $this->createMock(LDAP::class);
@@ -62,7 +62,7 @@ class WizardControllerTest extends TestCase {
 		$this->controller = new WizardController(
 			'user_ldap',
 			$this->request,
-			$this->config,
+			$this->mapper,
 			$this->manager,
 			$this->l10n,
 			$this->ldap
