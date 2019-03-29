@@ -25,7 +25,6 @@ use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\Util;
 
 /**
  * UserEntry is a wrapper around an ldap search array.
