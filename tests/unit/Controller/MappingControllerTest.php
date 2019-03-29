@@ -23,14 +23,10 @@ namespace OCA\User_LDAP\Controller;
 
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ISession;
 use Test\TestCase;
 
 /**

@@ -23,7 +23,6 @@
  */
 
 namespace OCA\User_LDAP;
-use OCP\IConfig;
 
 /**
  * Class Test_Connection
