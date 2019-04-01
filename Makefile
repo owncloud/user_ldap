@@ -15,6 +15,7 @@ endif
 
 NODE_PREFIX=$(shell pwd)
 
+# bin file definitions
 PHPUNIT=php -d zend.enable_gc=0  "$(PWD)/../../lib/composer/bin/phpunit"
 PHPUNITDBG=phpdbg -qrr -d memory_limit=4096M -d zend.enable_gc=0 "$(PWD)/../../lib/composer/bin/phpunit"
 PHP_CS_FIXER=php -d zend.enable_gc=0 vendor-bin/owncloud-codestyle/vendor/bin/php-cs-fixer
@@ -34,8 +35,7 @@ build_dir=$(CURDIR)/build
 dist_dir=$(build_dir)/dist
 
 # internal aliases
-composer_deps=vendor/
-composer_dev_deps=lib/composer/phpunit
+composer_deps=
 acceptance_test_deps=vendor-bin/behat/vendor
 nodejs_deps=node_modules
 bower_deps=vendor/ui-multiselect
@@ -56,8 +56,14 @@ endif
 #
 # Catch-all rules
 #
+.DEFAULT_GOAL := help
+
+# start with displaying help
+help:
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's/  */ /' | column -t -s :
+
 .PHONY: all
-all: $(composer_dev_deps) $(bower_deps)
+all: $(bower_deps)
 
 .PHONY: clean
 clean: clean-composer-deps clean-dist clean-build
@@ -65,24 +71,9 @@ clean: clean-composer-deps clean-dist clean-build
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-#
-# ownCloud ldap PHP dependencies
-#
-$(composer_deps): $(COMPOSER_BIN) composer.json composer.lock
-	php $(COMPOSER_BIN) install --no-dev
-
-$(composer_dev_deps): $(COMPOSER_BIN) composer.json composer.lock
-	php $(COMPOSER_BIN) install --dev
-
 .PHONY: clean-composer-deps
 clean-composer-deps:
-	rm -Rf $(composer_deps)
 	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
-
-.PHONY: update-composer
-update-composer: $(COMPOSER_BIN)
-	rm -f composer.lock
-	php $(COMPOSER_BIN) install --prefer-dist
 
 #
 # Node JS dependencies for tools
@@ -100,7 +91,7 @@ $(bower_deps): $(BOWER)
 # dist
 #
 
-$(dist_dir)/user_ldap: $(composer_deps) $(bower_deps)
+$(dist_dir)/user_ldap: $(bower_deps)
 	rm -Rf $@; mkdir -p $@
 	cp -R $(ldap_all_src) $@
 	find $@/vendor -type d -iname Test? -print | xargs rm -Rf
@@ -158,35 +149,35 @@ test-php-unit-dbg: ## Run php unit tests using phpdbg
 test-php-unit-dbg: $(composer_dev_deps)
 	$(PHPUNITDBG) --configuration ./phpunit.xml --testsuite unit
 
-.PHONY: test-acceptance-api
-test-acceptance-api: ## Run core API acceptance tests
-test-acceptance-api: $(acceptance_test_deps)
+.PHONY: test-acceptance-core-api
+test-acceptance-core-api: ## Run core API acceptance tests
+test-acceptance-core-api: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
-.PHONY: test-acceptance-cli
-test-acceptance-cli: ## Run core CLI acceptance tests
-test-acceptance-cli: $(acceptance_test_deps)
+.PHONY: test-acceptance-core-cli
+test-acceptance-core-cli: ## Run core CLI acceptance tests
+test-acceptance-core-cli: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
-.PHONY: test-acceptance-webui
-test-acceptance-webui: ## Run core webUI acceptance tests
-test-acceptance-webui: $(acceptance_test_deps)
+.PHONY: test-acceptance-core-webui
+test-acceptance-core-webui: ## Run core webUI acceptance tests
+test-acceptance-core-webui: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui --tags '@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip'
 
-.PHONY: test-acceptance-ldap-cli
-test-acceptance-ldap-cli: ## Run LDAP CLI acceptance tests
-test-acceptance-ldap-cli: $(acceptance_test_deps)
+.PHONY: test-acceptance-api
+test-acceptance-api: ## Run LDAP API acceptance tests
+test-acceptance-api: $(acceptance_test_deps)
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api
+
+.PHONY: test-acceptance-cli
+test-acceptance-cli: ## Run LDAP CLI acceptance tests
+test-acceptance-cli: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli
 
-.PHONY: test-acceptance-ldap-webui
-test-acceptance-ldap-webui: ## Run LDAP webUI acceptance tests
-test-acceptance-ldap-webui: $(acceptance_test_deps)
+.PHONY: test-acceptance-webui
+test-acceptance-webui: ## Run LDAP webUI acceptance tests
+test-acceptance-webui: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui
-
-.PHONY: test-acceptance-ldap-api
-test-acceptance-ldap-api: ## Run LDAP API acceptance tests
-test-acceptance-ldap-api: $(acceptance_test_deps)
-	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api
 
 #
 # Dependency management
