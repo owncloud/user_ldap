@@ -37,22 +37,22 @@ use OCA\User_LDAP\User\Manager;
 class AccessTest extends \Test\TestCase {
 
 	/**
-	 * @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $ldapWrapper;
 
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $connection;
 
 	/**
-	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $manager;
 
 	/**
-	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Access|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $access;
 

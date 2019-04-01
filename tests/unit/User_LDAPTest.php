@@ -40,15 +40,15 @@ use OCP\IConfig;
  */
 class User_LDAPTest extends \Test\TestCase {
 	/**
-	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $config;
 	/**
-	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $manager;
 	/**
-	 * @var User_LDAP|\PHPUnit_Framework_MockObject_MockObject
+	 * @var User_LDAP|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $backend;
 

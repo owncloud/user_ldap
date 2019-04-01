@@ -39,11 +39,11 @@ use OCA\User_LDAP\User\Manager;
  */
 class Group_LDAPTest extends \Test\TestCase {
 	/**
-	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Access|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $access;
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $connection;
 
