@@ -28,15 +28,15 @@ use OCP\ILogger;
 
 class UserEntryTest extends \Test\TestCase {
 	/**
-	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $config;
 	/**
-	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILogger|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $logger;
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $connection;
 

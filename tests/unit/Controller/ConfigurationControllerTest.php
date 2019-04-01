@@ -39,17 +39,17 @@ use Test\TestCase;
  */
 class ConfigurationControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldap;
-	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
 
 	/** @var ConfigurationController */
