@@ -26,6 +26,6 @@ use Test\TestCase;
 class ApplicationTest extends TestCase {
 	public function testConstruct() {
 		$app = new Application();
-		$app->checkCompatibility();
+		$this->assertNull($app->checkCompatibility());
 	}
 }
