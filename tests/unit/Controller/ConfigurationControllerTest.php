@@ -222,9 +222,9 @@ class ConfigurationControllerTest extends TestCase {
 		$this->assertArraySubset(['status' => 'success'], $data, true);
 	}
 
-	public function testDelete() {
-		// TODO implement me!
-	}
+	//public function testDelete() {
+	// TODO implement me!
+	//}
 
 	public function testDeleteNotExisting() {
 		$result = $this->controller->delete('na');
