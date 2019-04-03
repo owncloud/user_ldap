@@ -68,9 +68,6 @@ all: $(bower_deps)
 .PHONY: clean
 clean: clean-composer-deps clean-dist clean-build
 
-help:
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
-
 .PHONY: clean-composer-deps
 clean-composer-deps:
 	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
