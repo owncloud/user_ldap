@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+- Add network timeout setting - [#324](https://github.com/owncloud/user_ldap/issues/324)
+
+### Changed
+
+- Allow avatars to be changed by users if not provided by LDAP - [#188](https://github.com/owncloud/user_ldap/issues/188)
+- Remove PHP 5.6 support - [#388](https://github.com/owncloud/user_ldap/issues/388)
+- LDAP configuration is now stored JSON encoded - [#393](https://github.com/owncloud/user_ldap/issues/393)
+- Clean up Application initialization code - [#396](https://github.com/owncloud/user_ldap/issues/396)
+- Remove unused use statements - [#399](https://github.com/owncloud/user_ldap/issues/399) [#400](https://github.com/owncloud/user_ldap/issues/400)
+
+### Fixed
+
+- Only return users valid for ownCloud when getting LDAP group members - [#12](https://github.com/owncloud/user_ldap/issues/12)
+- Fix paging when limit is used - [#315](https://github.com/owncloud/user_ldap/issues/315)
+
 ## [0.13.0] - 2018-12-11
 
 ### Changed
@@ -16,6 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 - Remove legacy table and resolve dn encoding issues - [#248](https://github.com/owncloud/user_ldap/issues/248)
 - Suppress "invalid quota" message if quota isn't set for the user - [#237](https://github.com/owncloud/user_ldap/issues/237)
+- Make "loginName2UserName" an instance method, not static - [#398](https://github.com/owncloud/user_ldap/issues/398)
 
 ## [0.12.0] - 2018-11-05
 
