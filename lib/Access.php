@@ -2013,13 +2013,7 @@ class Access implements IUserTools {
 						['app' => 'user_ldap']);
 				}
 			}
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We coudn't get paged searches working with our RHDS for login ($limit = 0),
-			 * due to pages with zero results.
-			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-			 * if we don't have a previous paged search.
-			 */
-		} elseif ($this->connection->hasPagedResultSupport && $limit === 0 && !empty($this->lastCookie)) {
+		} elseif ($this->connection->hasPagedResultSupport && $limit === 0) {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.
