@@ -37,7 +37,7 @@ OCA = OCA || {};
 			params = params || {};
 			params = OC.buildQueryString($.extend({
 				action: this.wizardMethod,
-				ldap_serverconfig_chooser: configID
+				id: configID
 			}, params));
 			if(!this.isLegacy) {
 				return model.callWizard(params, this.processResult, this);

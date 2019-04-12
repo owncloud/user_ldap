@@ -62,7 +62,7 @@ OCA = OCA || {};
 
 			this.configID = configID;
 			var url = OC.generateUrl('apps/user_ldap/ajax/getConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
+			var params = OC.buildQueryString({id: configID});
 			this.loadingConfig = true;
 			var model = this;
 			$.post(url, params, function (result) { model._processLoadConfig(model, result) });
@@ -96,7 +96,7 @@ OCA = OCA || {};
 		 */
 		deleteConfig: function(configID) {
 			var url = OC.generateUrl('apps/user_ldap/ajax/deleteConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
+			var params = OC.buildQueryString({id: configID});
 			var model = this;
 			$.post(url, params, function (result) { model._processDeleteConfig(model, result, configID) });
 		},
@@ -173,7 +173,7 @@ OCA = OCA || {};
 			this._broadcast('setRequested', {});
 			var url = OC.generateUrl('apps/user_ldap/ajax/wizard.php');
 			var objParams = {
-				ldap_serverconfig_chooser: this.configID,
+				id: this.configID,
 				action: 'save',
 				cfgkey: key,
 				cfgval: value
@@ -344,7 +344,7 @@ OCA = OCA || {};
 		 */
 		requestConfigurationTest: function() {
 			var url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: this.configID});
+			var params = OC.buildQueryString({id: this.configID});
 			var model = this;
 			this.executeAfterSet(function(){
 				$.post(url, params, function(result) { model._processTestResult(model, result) });
