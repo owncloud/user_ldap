@@ -21,9 +21,11 @@
 
 namespace OCA\User_LDAP\Controller;
 
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -43,6 +45,8 @@ class ConfigurationControllerTest extends TestCase {
 	private $request;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var ConfigMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $mapper;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
@@ -60,6 +64,7 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->mapper = $this->createMock(ConfigMapper::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->ldap = $this->createMock(LDAP::class);
@@ -69,6 +74,7 @@ class ConfigurationControllerTest extends TestCase {
 			'user_ldap',
 			$this->request,
 			$this->config,
+			$this->mapper,
 			$this->session,
 			$this->l10n,
 			$this->ldap,
@@ -227,9 +233,10 @@ class ConfigurationControllerTest extends TestCase {
 	//}
 
 	public function testDeleteNotExisting() {
+		$this->mapper->method('delete')->willThrowException(new DoesNotExistException(''));
 		$result = $this->controller->delete('na');
-
 		$this->assertInstanceOf(DataResponse::class, $result);
+
 		$data = $result->getData();
 		$this->assertArraySubset(['status' => 'error'], $data, true);
 	}

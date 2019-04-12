@@ -85,39 +85,6 @@ class Helper {
 	}
 
 	/**
-	 * deletes a given saved LDAP/AD server configuration.
-	 * @param string $prefix the configuration prefix of the config to delete
-	 * @return bool true on success, false otherwise
-	 */
-	public function deleteServerConfiguration($prefix) {
-		if (!\in_array($prefix, self::getServerConfigurationPrefixes())) {
-			return false;
-		}
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		try {
-			$qb->delete('appconfig')
-				->where(
-					$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
-				)
-				->andWhere(
-					$qb->expr()->like(
-						'configkey',
-						$qb->expr()->literal(Configuration::CONFIG_PREFIX . $prefix)
-					)
-				);
-			$result = $qb->execute();
-		} catch (\Exception $e) {
-			return false;
-		}
-
-		if ($result === 0) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * checks whether there is one or more disabled LDAP configurations
 	 * @return bool
 	 */

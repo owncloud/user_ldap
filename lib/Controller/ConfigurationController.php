@@ -22,6 +22,7 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -42,6 +43,9 @@ class ConfigurationController extends Controller {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var ConfigMapper */
+	protected $mapper;
+
 	/** @var ISession */
 	protected $session;
 
@@ -58,6 +62,7 @@ class ConfigurationController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IConfig $config
+	 * @param ConfigMapper $configMapper
 	 * @param ISession $session
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
@@ -66,6 +71,7 @@ class ConfigurationController extends Controller {
 	public function __construct($appName,
 								IRequest $request,
 								IConfig $config,
+								ConfigMapper $configMapper,
 								ISession $session,
 								IL10N $l10n,
 								LDAP $ldapWrapper,
@@ -73,6 +79,7 @@ class ConfigurationController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
+		$this->mapper = $configMapper;
 		$this->session = $session;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
@@ -204,12 +211,15 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function delete($id) {
-		if ($this->helper->deleteServerConfiguration($id)) {
-			return new DataResponse(['status' => 'success']);
+		try {
+			$this->mapper->delete($id);
+			$data = ['status' => 'success'];
+		} catch (\Exception $e) {
+			$data = [
+				'status' => 'error',
+				'message' => $this->l10n->t('Failed to delete the server configuration')
+			];
 		}
-		return new DataResponse([
-			'status' => 'error',
-			'message' => $this->l10n->t('Failed to delete the server configuration')
-		]);
+		return new DataResponse($data);
 	}
 }
