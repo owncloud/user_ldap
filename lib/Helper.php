@@ -110,7 +110,7 @@ class Helper {
 			return false;
 		}
 
-		if ($result->rowCount() === 0) {
+		if ($result === 0) {
 			return false;
 		}
 
