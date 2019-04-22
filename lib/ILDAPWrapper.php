@@ -166,7 +166,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Search LDAP tree
-	 * @param resource|resource[] $link LDAP link resource
+	 * @param resource $link LDAP link resource
 	 * @param string $baseDN The DN of the entry to read from
 	 * @param string $filter An LDAP filter
 	 * @param array $attr array of the attributes to read
