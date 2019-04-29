@@ -102,6 +102,19 @@ class Configuration {
 		'ldapDynamicGroupMemberURL' => null,
 	];
 
+	protected $arrayConfigKeys = [
+		'ldapBase',
+		'ldapBaseUsers',
+		'ldapBaseGroups',
+		'ldapAttributesForUserSearch',
+		'ldapAttributesForGroupSearch',
+		'ldapUserFilterObjectclass',
+		'ldapUserFilterGroups',
+		'ldapGroupFilterObjectclass',
+		'ldapGroupFilterGroups',
+		'ldapLoginFilterAttributes'
+	];
+
 	protected $rawConnData;
 
 	/**
@@ -233,18 +246,6 @@ class Configuration {
 					continue;
 				}
 				switch ($key) {
-					case 'ldapBase':
-					case 'ldapBaseUsers':
-					case 'ldapBaseGroups':
-					case 'ldapAttributesForUserSearch':
-					case 'ldapAttributesForGroupSearch':
-					case 'ldapUserFilterObjectclass':
-					case 'ldapUserFilterGroups':
-					case 'ldapGroupFilterObjectclass':
-					case 'ldapGroupFilterGroups':
-					case 'ldapLoginFilterAttributes':
-						$readMethod = 'getMultiLine';
-						break;
 					case 'ldapIgnoreNamingRules':
 						$readMethod = 'getSystemValue';
 						break;
@@ -255,6 +256,16 @@ class Configuration {
 					case 'ldapGroupDisplayName':
 						$readMethod = 'getLcValue';
 						break;
+					case 'ldapBase':
+					case 'ldapBaseUsers':
+					case 'ldapBaseGroups':
+					case 'ldapAttributesForUserSearch':
+					case 'ldapAttributesForGroupSearch':
+					case 'ldapUserFilterObjectclass':
+					case 'ldapUserFilterGroups':
+					case 'ldapGroupFilterObjectclass':
+					case 'ldapGroupFilterGroups':
+					case 'ldapLoginFilterAttributes':
 					case 'ldapUserDisplayName':
 					default:
 						// user display name does not lower case because
@@ -275,20 +286,6 @@ class Configuration {
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = \base64_encode($value);
-					break;
-				case 'ldapBase':
-				case 'ldapBaseUsers':
-				case 'ldapBaseGroups':
-				case 'ldapAttributesForUserSearch':
-				case 'ldapAttributesForGroupSearch':
-				case 'ldapUserFilterObjectclass':
-				case 'ldapUserFilterGroups':
-				case 'ldapGroupFilterObjectclass':
-				case 'ldapGroupFilterGroups':
-				case 'ldapLoginFilterAttributes':
-					if (\is_array($value)) {
-						$value = \implode("\n", $value);
-					}
 					break;
 				//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
@@ -316,23 +313,17 @@ class Configuration {
 	}
 
 	public function isDefault() {
-		$diff = \array_diff_assoc($this->getTranslatedConfig(), $this->getDefaults());
-		return \count($diff) === 0;
-	}
-
-	/**
-	 * @param string $varName
-	 * @return array|string
-	 */
-	protected function getMultiLine($varName) {
-		$value = $this->getValue($varName);
-		if (empty($value)) {
-			$value = '';
-		} else {
-			$value = \preg_split('/\r\n|\r|\n/', $value);
+		$c = $this->getTranslatedConfig();
+		// multiple values means the config is not default
+		foreach ($this->arrayConfigKeys as $arrayConfigKey) {
+			if (\array_key_exists($arrayConfigKey, $c) === false
+				|| \is_array($c[$arrayConfigKey])
+			) {
+				return false;
+			}
 		}
-
-		return $value;
+		$diff = \array_diff_assoc($c, $this->getDefaults());
+		return \count($diff) === 0;
 	}
 
 	/**
