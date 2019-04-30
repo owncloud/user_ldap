@@ -293,7 +293,7 @@ class WizardTest extends \Test\TestCase {
 
 		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
-			$result['changes']['ldap_email_attr']);
+			$result['changes']['ldapEmailAttribute']);
 	}
 
 	public function testDetectEmailAttributeFind() {
@@ -332,7 +332,7 @@ class WizardTest extends \Test\TestCase {
 		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->access, $this->l10n);
 		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
-			$result['changes']['ldap_email_attr']);
+			$result['changes']['ldapEmailAttribute']);
 	}
 
 	public function testDetectEmailAttributeFindNothing() {

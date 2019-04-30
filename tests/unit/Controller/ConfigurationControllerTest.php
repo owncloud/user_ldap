@@ -166,8 +166,8 @@ class ConfigurationControllerTest extends TestCase {
 		$this->assertArraySubset([
 			'status' => 'success',
 			'configuration' => [
-				'ldap_host' => 'example.org',
-				'ldap_agent_password' => '**PASSWORD SET**'
+				'ldapHost' => 'example.org',
+				'ldapAgentPassword' => '**PASSWORD SET**'
 			]
 		], $data, true);
 	}
