@@ -140,6 +140,24 @@ class Version20190315192717 implements ISimpleMigration {
 		'ldap_paging_size'                  => 'ldapPagingSize',
 		'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 		'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
+		'ldap_uuid_user_attribute'          => 'ldapUuidUserAttribute',
+		'ldap_uuid_group_attribute'         => 'ldapUuidGroupAttribute'
+	];
+
+	/**
+	 * @var string[] - config keys that should be converted into an array
+	 */
+	private $arrayConfigKeys = [
+		'ldapBase',
+		'ldapBaseUsers',
+		'ldapBaseGroups',
+		'ldapAttributesForUserSearch',
+		'ldapAttributesForGroupSearch',
+		'ldapUserFilterObjectclass',
+		'ldapUserFilterGroups',
+		'ldapGroupFilterObjectclass',
+		'ldapGroupFilterGroups',
+		'ldapLoginFilterAttributes'
 	];
 
 	/**
@@ -252,7 +270,51 @@ class Version20190315192717 implements ISimpleMigration {
 			}
 		}
 
+		foreach ($this->arrayConfigKeys as $arrayConfigKey) {
+			if (isset($current[$arrayConfigKey])) {
+				$current[$arrayConfigKey] = $this->convertToArray($current[$arrayConfigKey]);
+			}
+		}
+
 		return $current;
+	}
+
+	/**
+	 * @param  mixed $value
+	 * @return string | string[]
+	 */
+	private function convertToArray($value) {
+		// try to split the value by all known separators
+		if (empty($value)) {
+			$value = '';
+		} elseif (!\is_array($value)) {
+			$value = \preg_split('/\r\n|\r|\n|;/', $value);
+			if ($value === false) {
+				$value = '';
+			}
+		}
+
+		if (!\is_array($value)) {
+			// if the value is not an array - store it as is
+			$finalValue = \trim($value);
+		} else {
+			// if the value is an array - clean all empty values
+			$finalValue = [];
+			foreach ($value as $key => $val) {
+				if (\is_string($val)) {
+					$val = \trim($val);
+					if ($val !== '') {
+						//accidental line breaks are not wanted and can cause
+						// odd behaviour. Thus, away with them.
+						$finalValue[] = $val;
+					}
+				} else {
+					$finalValue[] = $val;
+				}
+			}
+		}
+
+		return $finalValue;
 	}
 
 	/**

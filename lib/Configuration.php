@@ -46,61 +46,7 @@ class Configuration {
 	protected $read = false;
 
 	/** @var array */
-	protected $data = [
-		'ldapHost' => null,
-		'ldapPort' => null,
-		'ldapBackupHost' => null,
-		'ldapBackupPort' => null,
-		'ldapBase' => null,
-		'ldapBaseUsers' => null,
-		'ldapBaseGroups' => null,
-		'ldapAgentName' => null,
-		'ldapAgentPassword' => null,
-		'ldapTLS' => null,
-		'turnOffCertCheck' => null,
-		'ldapIgnoreNamingRules' => null,
-		'ldapUserName' => null,
-		'ldapUserDisplayName' => null,
-		'ldapUserDisplayName2' => null,
-		'ldapUserFilterObjectclass' => null,
-		'ldapUserFilterGroups' => null,
-		'ldapUserFilter' => null,
-		'ldapUserFilterMode' => null,
-		'ldapGroupFilter' => null,
-		'ldapGroupFilterMode' => null,
-		'ldapGroupFilterObjectclass' => null,
-		'ldapGroupFilterGroups' => null,
-		'ldapGroupDisplayName' => null,
-		'ldapGroupMemberAssocAttr' => null,
-		'ldapLoginFilter' => null,
-		'ldapLoginFilterMode' => null,
-		'ldapLoginFilterEmail' => null,
-		'ldapLoginFilterUsername' => null,
-		'ldapLoginFilterAttributes' => null,
-		'ldapQuotaAttribute' => null,
-		'ldapQuotaDefault' => null,
-		'ldapEmailAttribute' => null,
-		'ldapCacheTTL' => null,
-		'ldapNetworkTimeout' => null,
-		'ldapUuidUserAttribute' => 'auto',
-		'ldapUuidGroupAttribute' => 'auto',
-		'ldapOverrideMainServer' => false,
-		'ldapConfigurationActive' => false,
-		'ldapAttributesForUserSearch' => null,
-		'ldapAttributesForGroupSearch' => null,
-		'ldapExperiencedAdmin' => false,
-		'homeFolderNamingRule' => null,
-		'hasPagedResultSupport' => false,
-		'hasMemberOfFilterSupport' => false,
-		'useMemberOfToDetectMembership' => true,
-		'ldapExpertUsernameAttr' => null,
-		'ldapExpertUUIDUserAttr' => null,
-		'ldapExpertUUIDGroupAttr' => null,
-		'lastJpegPhotoLookup' => null,
-		'ldapNestedGroups' => false,
-		'ldapPagingSize' => null,
-		'ldapDynamicGroupMemberURL' => null,
-	];
+	protected $data = [];
 
 	protected $rawConnData;
 
@@ -112,6 +58,7 @@ class Configuration {
 	public function __construct(IConfig $coreConfig, $prefix, $autoRead = true) {
 		$this->coreConfig = $coreConfig;
 		$this->prefix = $prefix;
+		$this->data = $this->getDefaults();
 		if ($autoRead) {
 			$this->readConfiguration();
 		}
@@ -177,11 +124,8 @@ class Configuration {
 			return false;
 		}
 
-		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
-			if (\strpos($inputKey, '_') !== false && \array_key_exists($inputKey, $cta)) {
-				$key = $cta[$inputKey];
-			} elseif (\array_key_exists($inputKey, $this->data)) {
+			if (\array_key_exists($inputKey, $this->data)) {
 				$key = $inputKey;
 			} else {
 				continue;
@@ -226,25 +170,13 @@ class Configuration {
 			);
 			$this->rawConnData = \json_decode($conn, true);
 
-			$cta = \array_flip($this->getConfigTranslationArray());
+			$defaults = $this->getDefaults();
 			foreach ($this->data as $key => $val) {
-				if (!isset($cta[$key])) {
+				if (!\array_key_exists($key, $defaults)) {
 					//some are determined
 					continue;
 				}
 				switch ($key) {
-					case 'ldapBase':
-					case 'ldapBaseUsers':
-					case 'ldapBaseGroups':
-					case 'ldapAttributesForUserSearch':
-					case 'ldapAttributesForGroupSearch':
-					case 'ldapUserFilterObjectclass':
-					case 'ldapUserFilterGroups':
-					case 'ldapGroupFilterObjectclass':
-					case 'ldapGroupFilterGroups':
-					case 'ldapLoginFilterAttributes':
-						$readMethod = 'getMultiLine';
-						break;
 					case 'ldapIgnoreNamingRules':
 						$readMethod = 'getSystemValue';
 						break;
@@ -255,6 +187,16 @@ class Configuration {
 					case 'ldapGroupDisplayName':
 						$readMethod = 'getLcValue';
 						break;
+					case 'ldapBase':
+					case 'ldapBaseUsers':
+					case 'ldapBaseGroups':
+					case 'ldapAttributesForUserSearch':
+					case 'ldapAttributesForGroupSearch':
+					case 'ldapUserFilterObjectclass':
+					case 'ldapUserFilterGroups':
+					case 'ldapGroupFilterObjectclass':
+					case 'ldapGroupFilterGroups':
+					case 'ldapLoginFilterAttributes':
 					case 'ldapUserDisplayName':
 					default:
 						// user display name does not lower case because
@@ -275,20 +217,6 @@ class Configuration {
 			switch ($key) {
 				case 'ldapAgentPassword':
 					$value = \base64_encode($value);
-					break;
-				case 'ldapBase':
-				case 'ldapBaseUsers':
-				case 'ldapBaseGroups':
-				case 'ldapAttributesForUserSearch':
-				case 'ldapAttributesForGroupSearch':
-				case 'ldapUserFilterObjectclass':
-				case 'ldapUserFilterGroups':
-				case 'ldapGroupFilterObjectclass':
-				case 'ldapGroupFilterGroups':
-				case 'ldapLoginFilterAttributes':
-					if (\is_array($value)) {
-						$value = \implode("\n", $value);
-					}
 					break;
 				//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
@@ -316,23 +244,15 @@ class Configuration {
 	}
 
 	public function isDefault() {
-		$diff = \array_diff_assoc($this->getTranslatedConfig(), $this->getDefaults());
-		return \count($diff) === 0;
-	}
-
-	/**
-	 * @param string $varName
-	 * @return array|string
-	 */
-	protected function getMultiLine($varName) {
-		$value = $this->getValue($varName);
-		if (empty($value)) {
-			$value = '';
-		} else {
-			$value = \preg_split('/\r\n|\r|\n/', $value);
+		$defaults = $this->getDefaults();
+		foreach ($this->getTranslatedConfig() as $key=>$value) {
+			if (\array_key_exists($key, $defaults) === false
+				|| $defaults[$key] !== $value
+			) {
+				return false;
+			}
 		}
-
-		return $value;
+		return true;
 	}
 
 	/**
@@ -472,8 +392,8 @@ class Configuration {
 			'ldapGroupMemberAssocAttr'       => 'uniqueMember',
 			'ldapCacheTTL'                   => 600,
 			'ldapNetworkTimeout'             => 2,
-			'ldap_uuid_user_attribute'       => 'auto',
-			'ldap_uuid_group_attribute'      => 'auto',
+			'ldapUuidUserAttribute'          => 'auto',
+			'ldapUuidGroupAttribute'         => 'auto',
 			'homeFolderNamingRule'           => '',
 			'turnOffCertCheck'               => 0,
 			'ldapConfigurationActive'        => 0,
@@ -489,65 +409,7 @@ class Configuration {
 			'ldapPagingSize'                 => 500,
 			'ldapExperiencedAdmin'           => 0,
 			'ldapDynamicGroupMemberURL'      => '',
+			'ldapIgnoreNamingRules'          => false
 		];
-	}
-
-	/**
-	 * @return array that maps internal variable names to database fields
-	 */
-	public function getConfigTranslationArray() {
-		//TODO: merge them into one representation
-		static $array = [
-			'ldap_host'                         => 'ldapHost',
-			'ldap_port'                         => 'ldapPort',
-			'ldap_backup_host'                  => 'ldapBackupHost',
-			'ldap_backup_port'                  => 'ldapBackupPort',
-			'ldap_override_main_server'         => 'ldapOverrideMainServer',
-			'ldap_dn'                           => 'ldapAgentName',
-			'ldap_agent_password'               => 'ldapAgentPassword',
-			'ldap_base'                         => 'ldapBase',
-			'ldap_base_users'                   => 'ldapBaseUsers',
-			'ldap_base_groups'                  => 'ldapBaseGroups',
-			'ldap_userfilter_objectclass'       => 'ldapUserFilterObjectclass',
-			'ldap_userfilter_groups'            => 'ldapUserFilterGroups',
-			'ldap_userlist_filter'              => 'ldapUserFilter',
-			'ldap_user_filter_mode'             => 'ldapUserFilterMode',
-			'ldap_login_filter'                 => 'ldapLoginFilter',
-			'ldap_login_filter_mode'            => 'ldapLoginFilterMode',
-			'ldap_loginfilter_email'            => 'ldapLoginFilterEmail',
-			'ldap_loginfilter_username'         => 'ldapLoginFilterUsername',
-			'ldap_loginfilter_attributes'       => 'ldapLoginFilterAttributes',
-			'ldap_group_filter'                 => 'ldapGroupFilter',
-			'ldap_group_filter_mode'            => 'ldapGroupFilterMode',
-			'ldap_groupfilter_objectclass'      => 'ldapGroupFilterObjectclass',
-			'ldap_groupfilter_groups'           => 'ldapGroupFilterGroups',
-			'ldap_user_name'                    => 'ldapUserName',
-			'ldap_display_name'                 => 'ldapUserDisplayName',
-			'ldap_user_display_name_2'			=> 'ldapUserDisplayName2',
-			'ldap_group_display_name'           => 'ldapGroupDisplayName',
-			'ldap_tls'                          => 'ldapTLS',
-			'ldap_quota_def'                    => 'ldapQuotaDefault',
-			'ldap_quota_attr'                   => 'ldapQuotaAttribute',
-			'ldap_email_attr'                   => 'ldapEmailAttribute',
-			'ldap_group_member_assoc_attribute' => 'ldapGroupMemberAssocAttr',
-			'ldap_cache_ttl'                    => 'ldapCacheTTL',
-			'ldap_network_timeout'              => 'ldapNetworkTimeout',
-			'home_folder_naming_rule'           => 'homeFolderNamingRule',
-			'ldap_turn_off_cert_check'          => 'turnOffCertCheck',
-			'ldap_configuration_active'         => 'ldapConfigurationActive',
-			'ldap_attributes_for_user_search'   => 'ldapAttributesForUserSearch',
-			'ldap_attributes_for_group_search'  => 'ldapAttributesForGroupSearch',
-			'ldap_expert_username_attr'         => 'ldapExpertUsernameAttr',
-			'ldap_expert_uuid_user_attr'        => 'ldapExpertUUIDUserAttr',
-			'ldap_expert_uuid_group_attr'       => 'ldapExpertUUIDGroupAttr',
-			'has_memberof_filter_support'       => 'hasMemberOfFilterSupport',
-			'use_memberof_to_detect_membership' => 'useMemberOfToDetectMembership',
-			'last_jpegPhoto_lookup'             => 'lastJpegPhotoLookup',
-			'ldap_nested_groups'                => 'ldapNestedGroups',
-			'ldap_paging_size'                  => 'ldapPagingSize',
-			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
-			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
-		];
-		return $array;
 	}
 }
