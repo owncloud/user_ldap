@@ -243,18 +243,6 @@ class Configuration {
 		);
 	}
 
-	public function isDefault() {
-		$defaults = $this->getDefaults();
-		foreach ($this->getTranslatedConfig() as $key=>$value) {
-			if (\array_key_exists($key, $defaults) === false
-				|| $defaults[$key] !== $value
-			) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * Sets multi-line values as arrays
 	 *
