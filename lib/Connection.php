@@ -466,9 +466,10 @@ class Connection extends LDAPUtility {
 	 * @return bool true if configuration seems OK, false otherwise
 	 */
 	private function validateConfiguration() {
-		if ($this->configuration->isDefault()) {
-			//don't do a validation if it is a new configuration with pure
-			//default values.
+		if ($this->configuration->ldapHost === ''
+			&& $this->configuration->ldapPort === ''
+		) {
+			//don't do a validation if both host and port are default (empty)
 			return false;
 		}
 
