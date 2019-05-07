@@ -85,3 +85,72 @@ Feature: add users
     Then user "user0" should exist
     And user "user0" using password "webui_password" should not be able to download file "textfile0.txt"
     And the content of file "textfile0.txt" for user "user0" using password "ldap_password" should be "ownCloud test text file 0" plus end-of-line
+
+  @issue-core-33186
+  Scenario: admin tries to modify quota of user for which an LDAP attribute is specified
+    #to set Quota we can just misuse any LDAP text field
+    Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user0,ou=TestUsers" to "10 MB"
+    And the administrator sets the quota of user "user0" to "13 MB" using the webUI
+    Then the quota definition of user "user0" should be "13 MB"
+    And the quota of user "user0" should be set to "13 MB" on the webUI
+    #And the quota definition of user "user0" should be "10 MB"
+    When the LDAP users are resynced
+    And the administrator reloads the users page
+    Then the quota definition of user "user0" should be "10 MB"
+    And the quota of user "user0" should be set to "10 MB" on the webUI
+
+  Scenario: admin sets quota of user for which no LDAP quota attribute is specified
+    #to set Quota we can just misuse any LDAP text field
+    Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And the LDAP users have been resynced
+    And the administrator sets the quota of user "user0" to "13 MB" using the webUI
+    Then the quota definition of user "user0" should be "13 MB"
+    And the quota of user "user0" should be set to "13 MB" on the webUI
+    When the LDAP users are resynced
+    And the administrator reloads the users page
+    Then the quota definition of user "user0" should be "13 MB"
+    And the quota of user "user0" should be set to "13 MB" on the webUI
+
+  @issue-core-33186
+  Scenario: admin sets quota of user for which no LDAP quota attribute is specified but a default quota is set in the LDAP settings
+    #to set Quota we can just misuse any LDAP text field
+    Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    And the LDAP users have been resynced
+    When the administrator sets the quota of user "user0" to "13 MB" using the webUI
+    Then the quota definition of user "user0" should be "13 MB"
+    And the quota of user "user0" should be set to "13 MB" on the webUI
+    #Then the administrator should not be able to set the quota for user "user0" using the webUI
+    When the LDAP users are resynced
+    And the administrator reloads the users page
+    Then the quota definition of user "user0" should be "10MB"
+    And the quota of user "user0" should be set to "10MB" on the webUI
+
+  Scenario: admin sets quota of user in LDAP when a default quota is set in the LDAP settings
+    #to set Quota we can just misuse any LDAP text field
+    Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    And the LDAP users have been resynced
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user0,ou=TestUsers" to "13 MB"
+    And the administrator reloads the users page
+    Then the quota of user "user0" should be set to "10MB" on the webUI
+    When the LDAP users are resynced
+    And the administrator reloads the users page
+    Then the quota of user "user0" should be set to "13 MB" on the webUI
+
+  @issue-core-33186
+  Scenario: admin sets quota of user when the quota LDAP attribute is specified and a default quota is set in the LDAP settings
+    #to set Quota we can just misuse any LDAP text field
+    Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user0,ou=TestUsers" to "11 MB"
+    And the LDAP users are resynced
+    And the administrator sets the quota of user "user0" to "13 MB" using the webUI
+    #Then the administrator should not be able to set the quota for user "user0" using the webUI
+    Then the quota definition of user "user0" should be "13 MB"
+    And the quota of user "user0" should be set to "13 MB" on the webUI
+    When the LDAP users are resynced
+    And the administrator reloads the users page
+    Then the quota definition of user "user0" should be "11 MB"
+    And the quota of user "user0" should be set to "11 MB" on the webUI
