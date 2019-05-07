@@ -118,8 +118,10 @@ Feature: Manage users using the Provisioning API
     And the administrator changes the email of user "user1" to "apiuser@example.com" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
-    # And the email address of user "user1" should be "ldapuser@example.com"
+    # And the email address of user "user1" should be "ldapuser@oc.com"
     And the email address of user "user1" should be "apiuser@example.com"
+    And the LDAP users are resynced
+    And the email address of user "user1" should be "ldapuser@oc.com"
     Examples:
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
