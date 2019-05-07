@@ -79,13 +79,15 @@ Feature: add a user using the using the occ command
     And the content of file "textfile0.txt" for user "user1" using password "ldap_password" should be "ownCloud test text file 0" plus end-of-line
     But user "user1" using password "occ_password" should not be able to download file "textfile0.txt"
 
-  @skip @issue-core-33186
+  @issue-core-33186
   Scenario: admin tries to modify mail of user for which an LDAP attribute is specified
     When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "ldapuser@oc.com"
     And the LDAP users are resynced
     And the administrator changes the email of user "user1" to "occuser@oc.com" using the occ command
-    Then the command should have failed with exit code 1
+    Then the command should have been successful
+    #Then the command should have failed with exit code 1
     And user "user1" should exist
     And the user attributes returned by the API should include
-    | email | ldapuser@oc.com|
+    #| email | ldapuser@oc.com|
+    | email | occuser@oc.com|
 
