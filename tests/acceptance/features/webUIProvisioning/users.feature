@@ -58,6 +58,7 @@ Feature: add users
     And user "user0" logs in using the webUI
     Then the user should be redirected to a webUI page with the title "Files - %productname%"
 
+  @issue-core-33186
   Scenario: admin tries to modify displayname of user for which an LDAP attribute is specified
     When the administrator sets the ldap attribute "displayname" of the entry "uid=user0,ou=TestUsers" to "ldap user"
     And the administrator changes the display name of user "user0" to "New User" using the webUI
@@ -68,6 +69,7 @@ Feature: add users
     And the user attributes returned by the API should include
     | displayname | ldap user |
 
+  @issue-core-33186
   Scenario: admin tries to modify email of user for which an LDAP attribute is specified
     When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "ldapuser@oc.com"
     And the administrator changes the email of user "user1" to "webuiemail@oc.com" using the webUI
@@ -75,6 +77,7 @@ Feature: add users
     Then user "user1" should exist
     But the email address of user "user1" should be "ldapuser@oc.com"
 
+  @issue-core-33186
   Scenario: admin tries to modify password of user for which an LDAP attribute is specified
     Given the administrator has browsed to the users page
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=user0,ou=TestUsers" to "ldap_password"
