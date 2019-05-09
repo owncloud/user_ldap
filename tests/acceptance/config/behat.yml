@@ -45,6 +45,15 @@ default:
         - FeatureContext: *common_feature_context_params
         - CorsContext:
 
+    apiAuthOcs:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiAuthOcs'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CorsContext:
+
     apiCapabilities:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiCapabilities'
@@ -115,6 +124,17 @@ default:
         - TrashbinContext:
         - WebDavPropertiesContext:
 
+    apiShareManagementBasic:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareManagementBasic'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
     apiShareOperations:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiShareOperations'
@@ -167,6 +187,17 @@ default:
     apiWebdavLocks:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavLocks'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
+        - WebDavLockingContext:
+        - WebDavPropertiesContext:
+
+    apiWebdavLocks2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavLocks2'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
