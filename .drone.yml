@@ -6,14 +6,13 @@ branches: [master, release*]
 
 pipeline:
   ldap:
-    image: dinkel/openldap
+    image: osixia/openldap
     detach: true
     pull: true
     environment:
-      - SLAPD_DOMAIN=owncloud.com
-      - SLAPD_ORGANIZATION=ownCloud
-      - SLAPD_PASSWORD=admin
-      - SLAPD_ADDITIONAL_MODULES=memberof
+      - LDAP_DOMAIN=owncloud.com
+      - LDAP_ORGANISATION=ownCloud
+      - LDAP_ADMIN_PASSWORD=admin
 
   install-core:
     image: owncloudci/core
