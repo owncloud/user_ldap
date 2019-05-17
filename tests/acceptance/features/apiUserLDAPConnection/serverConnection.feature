@@ -12,7 +12,7 @@ Feature: connect to LDAP serer
     And the last lines of the log file should contain log-entries with these attributes:
      | app       | message                                                      |
      | user_ldap | Configuration Error (prefix LDAPTestId): No LDAP Port given! |
-    When the administrator sets the LDAP config "LDAPTestId" key "ldapPort" to "389" using the occ command
+    When the administrator sets the LDAP config "LDAPTestId" key "ldapPort" to "%ldap_port%" using the occ command
     And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
@@ -25,12 +25,12 @@ Feature: connect to LDAP serer
      | user_ldap | Error when searching: Can't contact LDAP server code -1 |
      | user_ldap | Attempt for Paging?                                     |
      | core      | Login failed: 'user0' (Remote IP:                       |
-    When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host_without_scheme%" using the occ command
+    When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host%" using the occ command
     And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication works when the hostname contains the protocol
-    Given LDAP config "LDAPTestId" has key "ldapHost" set to "ldap://%ldap_host_without_scheme%"
+    Given LDAP config "LDAPTestId" has key "ldapHost" set to "%ldap_host%"
     When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
@@ -71,7 +71,7 @@ Feature: connect to LDAP serer
      | ldapLoginFilterUsername      | 1 |
      | ldapNestedGroups             | 0 |
      | ldapPagingSize               | 500 |
-     | ldapPort                     | 389 |
+     | ldapPort                     | %ldap_port% |
      | ldapTLS                      | 0 |
      | ldapUserDisplayName          | displayName |
      | ldapUserFilter               | (\|(objectclass=inetOrgPerson)) |
@@ -92,7 +92,7 @@ Feature: connect to LDAP serer
     And a new LDAP config with the name "SecondaryLdapConfig" has been created
     And LDAP config "SecondaryLdapConfig" has these settings:
      | key                          | value |
-     | ldapHost                     | %ldap_host_without_scheme% |
+     | ldapHost                     | %ldap_host% |
      | ldapAgentName                | cn=admin,dc=owncloud,dc=com |
      | ldapAgentPassword            | admin |
      | ldapBase                     | dc=owncloud,dc=com |
@@ -110,7 +110,7 @@ Feature: connect to LDAP serer
      | ldapLoginFilterUsername      | 1 |
      | ldapNestedGroups             | 0 |
      | ldapPagingSize               | 500 |
-     | ldapPort                     | 389 |
+     | ldapPort                     | %ldap_port% |
      | ldapTLS                      | 0 |
      | ldapUserDisplayName          | displayName |
      | ldapUserFilter               | (\|(objectclass=inetOrgPerson)) |
@@ -129,7 +129,7 @@ Feature: connect to LDAP serer
     Given a new LDAP config with the name "SecondaryLdapConfig" has been created
     And LDAP config "SecondaryLdapConfig" has these settings:
      | key                          | value |
-     | ldapHost                     | %ldap_host_without_scheme% |
+     | ldapHost                     | %ldap_host% |
      | ldapAgentName                | cn=admin,dc=owncloud,dc=com |
      | ldapAgentPassword            | admin |
      | ldapBase                     | dc=owncloud,dc=com |
@@ -147,7 +147,7 @@ Feature: connect to LDAP serer
      | ldapLoginFilterUsername      | 1 |
      | ldapNestedGroups             | 0 |
      | ldapPagingSize               | 500 |
-     | ldapPort                     | 389 |
+     | ldapPort                     | %ldap_port% |
      | ldapTLS                      | 0 |
      | ldapUserDisplayName          | displayName |
      | ldapUserFilter               | (\|(objectclass=inetOrgPerson)) |
@@ -184,7 +184,7 @@ Feature: connect to LDAP serer
      | ldapLoginFilterUsername      | 1 |
      | ldapNestedGroups             | 0 |
      | ldapPagingSize               | 500 |
-     | ldapPort                     | 389 |
+     | ldapPort                     | %ldap_port% |
      | ldapTLS                      | 0 |
      | ldapUserDisplayName          | displayName |
      | ldapUserFilter               | (\|(objectclass=inetOrgPerson)) |
