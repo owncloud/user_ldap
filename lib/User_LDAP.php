@@ -189,6 +189,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return true;
 		}
 
+		// TODO username might be a uuid ... instead of looking it up in the db talk to ldap?
 		$dn = $this->userManager->username2dn($uid);
 		if ($dn === false) {
 			return false;
