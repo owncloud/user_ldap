@@ -607,7 +607,7 @@ class Access implements IUserTools {
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if (($isUser && $this->shouldMapToUsername($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
+			|| (!$isUser && $this->shouldMapToGroupname($intName))) {
 			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud UUID: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
 			if ($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
@@ -639,6 +639,26 @@ class Access implements IUserTools {
 
 		// Account exists, but is from a different backend, don't use this mapping!
 		\OC::$server->getLogger()->error("Cannot reuse account with username: $username because it is from a different backend: {$user->getBackendClassName()}", ['app' => 'user_ldap']);
+		return false;
+	}
+
+	public function shouldMapToGroupname($groupname) {
+		$group = \OC::$server->getGroupManager()->get($groupname);
+		if ($group === null) {
+			\OC::$server->getLogger()->info("No account exists with groupname: $groupname so cannot reuse mapping", ['app' => 'user_ldap']);
+			// No account exists with this groupname, use this mapping
+			return true;
+		}
+		$groupBackend = $group->getBackend();
+		$groupBackendClass = \get_class($groupBackend);
+		if (($groupBackendClass === \OCA\User_LDAP\Group_LDAP::class || $groupBackendClass === \OCA\User_LDAP\Group_Proxy::class)
+				&& \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
+			// Account with same groupname exists, and matching backend, we can use this - merge
+			return true;
+		}
+
+		// Account exists, but is from a different backend, don't use this mapping!
+		\OC::$server->getLogger()->error("Cannot reuse account with groupname: $groupname because it is from a different backend: {$groupBackendClass}", ['app' => 'user_ldap']);
 		return false;
 	}
 
