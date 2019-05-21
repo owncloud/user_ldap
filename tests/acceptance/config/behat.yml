@@ -8,11 +8,7 @@ default:
         - '%paths.base%/../../../../../tests/acceptance/features'
       context: &common_ldap_suite_context
         parameters:
-          ldapAdminUser: cn=admin,dc=owncloud,dc=com
           ldapAdminPassword: admin
-          ldapBaseDN: dc=owncloud,dc=com
-          ldapHost: localhost
-          ldapHostDrone: ldap
           ldapUsersOU: TestUsers
           ldapGroupsOU: TestGroups
           ldapInitialUserFilePath: /../../config/ldap-users.ldif
