@@ -608,14 +608,14 @@ class Access implements IUserTools {
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if (($isUser && $this->shouldMapToUsername($intName))
 			|| (!$isUser && $this->shouldMapToGroupname($intName))) {
-			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud UUID: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
+			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud identifer: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
 			if ($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 				return $intName;
 			}
 		}
 		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-		\OC::$server->getLogger()->error("Mapping collision for DN $fdn and UUID $uuid. Couldn't map to: $intName", ['app' => 'user_ldap']);
+		\OC::$server->getLogger()->error("Mapping collision for DN $fdn and UUID $uuid. Couldn't map to identifer: $intName", ['app' => 'user_ldap']);
 		//if everything else did not help..
 		return false;
 	}
