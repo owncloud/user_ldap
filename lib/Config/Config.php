@@ -22,7 +22,8 @@
 namespace OCA\User_LDAP\Config;
 
 class Config implements \JsonSerializable {
-	private $rawData = [];
+	/** @var string  */
+	private $id = '';
 
 	private $data = [
 		'ldapHost'                       => '',
@@ -79,20 +80,19 @@ class Config implements \JsonSerializable {
 		'ldapIgnoreNamingRules'          => false
 	];
 
-	public function __construct($data) {
-		$this->rawData = $data;
-		$this->parseData();
+	public function __construct(array $data) {
+		$this->parseData($data);
 	}
 
 	/**
 	 * @return string the configuration prefix
 	 */
 	public function getId() {
-		return $this->rawData['id'];
+		return $this->id;
 	}
 
 	public function setId($id) {
-		$this->rawData['id'] = $id;
+		$this->id = $id;
 	}
 
 	public function getData() {
@@ -157,22 +157,14 @@ class Config implements \JsonSerializable {
 		}
 
 		foreach ($config as $inputKey => $val) {
-			if (\array_key_exists($inputKey, $this->data)) {
-				$key = $inputKey;
-			} else {
+			// unlike array_key_exists isset will return false for null values
+			if (\array_key_exists($inputKey, $this->data) === false) {
 				continue;
 			}
 
-			$setMethod = 'setValue';
-			switch ($key) {
+			switch ($inputKey) {
 				case 'ldapAgentPassword':
-					$setMethod = 'setRawValue';
-					break;
-				case 'homeFolderNamingRule':
-					$trimmedVal = \trim($val);
-					if ($trimmedVal !== '' && \strpos($val, 'attr:') === false) {
-						$val = 'attr:' . $trimmedVal;
-					}
+					$this->setRawValue($inputKey, $val);
 					break;
 				case 'ldapBase':
 				case 'ldapBaseUsers':
@@ -184,10 +176,17 @@ class Config implements \JsonSerializable {
 				case 'ldapGroupFilterObjectclass':
 				case 'ldapGroupFilterGroups':
 				case 'ldapLoginFilterAttributes':
-					$setMethod = 'setMultiLine';
+					$this->setMultiLine($inputKey, $val);
 					break;
+				case 'homeFolderNamingRule':
+					$trimmedVal = \trim($val);
+					if ($trimmedVal !== '' && \strpos($val, 'attr:') === false) {
+						$val = 'attr:' . $trimmedVal;
+					}
+				// no break
+				default:
+					$this->setValue($inputKey, $val);
 			}
-			$this->$setMethod($key, $val);
 			if (\is_array($applied)) {
 				$applied[] = $inputKey;
 			}
@@ -238,19 +237,19 @@ class Config implements \JsonSerializable {
 	}
 
 	/**
-	 * @param string $varName
+	 * @param string $value
 	 * @return string
 	 */
-	private function getPwd($varName) {
-		return \base64_decode($this->getValue($varName));
+	private function toPwd($value) {
+		return \base64_decode($value);
 	}
 
 	/**
-	 * @param string $varName
+	 * @param string $value
 	 * @return string
 	 */
-	private function getLcValue($varName) {
-		return \mb_strtolower($this->getValue($varName), 'UTF-8');
+	private function toLcValue($value) {
+		return \mb_strtolower($value, 'UTF-8');
 	}
 
 	/**
@@ -260,17 +259,6 @@ class Config implements \JsonSerializable {
 	private function getSystemValue($varName) {
 		//FIXME: if another system value is added, softcode the default value
 		return $this->getCoreConfig()->getSystemValue($varName, false);
-	}
-
-	/**
-	 * @param string $varName
-	 * @return mixed
-	 */
-	private function getValue($varName) {
-		if (isset($this->rawData[$varName])) {
-			return $this->rawData[$varName];
-		}
-		return null;
 	}
 
 	/**
@@ -296,22 +284,22 @@ class Config implements \JsonSerializable {
 		$this->data[$varName] = $value;
 	}
 
-	private function parseData() {
-		if (!isset($this->rawData['id'])) {
-			$this->rawData['id'] = null;
+	private function parseData($data) {
+		if (isset($data['id'])) {
+			$this->id = $data['id'];
 		}
 		foreach (\array_keys($this->data) as $key) {
-			if (isset($this->rawData[$key])) {
+			if (isset($data[$key])) {
 				switch ($key) {
 					case 'ldapIgnoreNamingRules':
-						$readMethod = 'getSystemValue';
+						$this->data[$key] = $this->getSystemValue($key);
 						break;
 					case 'ldapAgentPassword':
-						$readMethod = 'getPwd';
+						$this->data[$key] = $this->toPwd($data[$key]);
 						break;
 					case 'ldapUserDisplayName2':
 					case 'ldapGroupDisplayName':
-						$readMethod = 'getLcValue';
+						$this->data[$key] = $this->toLcValue($data[$key]);
 						break;
 					case 'ldapUserDisplayName':
 					case 'ldapBase':
@@ -328,10 +316,9 @@ class Config implements \JsonSerializable {
 						// user display name does not lower case because
 						// we rely on an upper case N as indicator whether to
 						// auto-detect it or not. FIXME
-						$readMethod = 'getValue';
+						$this->data[$key] = $data[$key];
 						break;
 				}
-				$this->data[$key] = $this->$readMethod($key);
 			}
 		}
 	}
