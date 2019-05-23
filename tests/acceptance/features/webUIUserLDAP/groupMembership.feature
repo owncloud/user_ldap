@@ -34,22 +34,18 @@ Feature: group membership
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should be listed on the webUI
 
+  Scenario: simple sharing with a group but user no in it
+    When the user shares folder "simple-folder" with group "grp1" using the webUI
+    #ToDo use API calls
+    When the user re-logs in as "user3" using the webUI
+    Then folder "simple-folder (2)" should not be listed on the webUI
+
   Scenario: deleting a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
     And the administrator deletes ldap group "grp1"
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
-
-  @issue-268
-  Scenario: sharing with non unique group name (using unique oC group name)
-    Given the administrator creates group "grp1" in ldap OU "TestUsers"
-    And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
-    And the administrator has invoked occ command "group:list"
-    When the user shares folder "simple-folder" with group "grp1_2" using the webUI
-    #ToDo use API calls
-    When the user re-logs in as "user3" using the webUI
-    Then folder "simple-folder (2)" should be listed on the webUI
 
   Scenario: sharing with non unique group name (using non-unique group name)
     Given the administrator creates group "grp1" in ldap OU "TestUsers"

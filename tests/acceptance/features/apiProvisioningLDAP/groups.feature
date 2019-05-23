@@ -126,7 +126,7 @@ Feature: manage groups
       """
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     And the administrator has invoked occ command "group:list"
-    Then group "db-group_2" should exist
+    Then group "db-group_2" should not exist
 
   Scenario Outline: Add database group with same name as existing ldap group
     Given using OCS API version "<ocs-api-version>"
