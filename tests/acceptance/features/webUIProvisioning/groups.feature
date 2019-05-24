@@ -31,8 +31,8 @@ Feature: add group
       objectclass: posixGroup
       """
     And the administrator reloads the users page
-    Then the group name "db-group_2" should be listed on the webUI
-    And group "db-group_2" should exist
+    Then the group name "db-group_2" should not be listed on the webUI
+    And group "db-group_2" should not exist
 
   Scenario: delete group
     Given group "simple group" has been created in the database user backend
