@@ -116,7 +116,7 @@ Feature: manage groups
 
   Scenario: Add ldap group with same name as existing database group
     Given group "db-group" has been created in the database user backend
-    And user "user1" has been added to group "db-group"
+    And user "user1" has been added to database backend group "db-group"
     When the administrator imports this ldif data:
       """
       dn: cn=db-group,ou=TestGroups,dc=owncloud,dc=com

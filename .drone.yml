@@ -104,6 +104,7 @@ pipeline:
       - php occ config:system:set trusted_domains 2 --value=federated
       - php occ log:manage --level 0
       - php occ config:system:set --value true --type boolean integrity.check.disabled
+      - php occ config:app:set user_ldap reuse_accounts --value=yes
     when:
       matrix:
         NEED_INSTALL_APP: true
