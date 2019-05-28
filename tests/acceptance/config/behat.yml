@@ -263,6 +263,17 @@ default:
         - OccContext:
         - TrashbinContext:
 
+    apiUserLDAP:
+      paths:
+        - '%paths.base%/../features/apiUserLDAP'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+        - OccContext:
+
     apiProvisioningLDAP:
       paths:
         - '%paths.base%/../features/apiProvisioningLDAP'

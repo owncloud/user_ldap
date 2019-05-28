@@ -116,17 +116,57 @@ Feature: manage groups
 
   Scenario: Add ldap group with same name as existing database group
     Given group "db-group" has been created in the database user backend
+    And user "user1" has been added to group "db-group"
     When the administrator imports this ldif data:
       """
       dn: cn=db-group,ou=TestGroups,dc=owncloud,dc=com
       cn: db-group
       gidnumber: 4700
+      memberuid: user2
       objectclass: top
       objectclass: posixGroup
       """
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     And the administrator has invoked occ command "group:list"
     Then group "db-group_2" should not exist
+    And user "user2" should not belong to group "db-group"
+    But user "user1" should belong to group "db-group"
+
+  Scenario: creating a group in an OU that is different to the other groups
+    When the administrator creates group "new-group-in-other-ou" in ldap OU "TestUsers"
+    And the administrator adds user "user3" to group "new-group-in-other-ou" in ldap OU "TestUsers"
+    And the administrator invokes occ command "group:list"
+    Then user "user3" should belong to group "new-group-in-other-ou"
+
+  Scenario: creating a group with a name that already exists in LDAP but in a other OU
+    When the administrator creates group "grp1" in ldap OU "TestUsers"
+    And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
+    And the administrator invokes occ command "group:list"
+    Then user "user2" should belong to group "grp1"
+    But user "user3" should not belong to group "grp1"
+    And group "grp1_2" should not exist
+
+  Scenario: creating two groups with the same name in different LDAP OUs at the same time
+    When the administrator imports this ldif data:
+      """
+      dn: cn=so-far-unused-group-name,ou=TestUsers,dc=owncloud,dc=com
+      cn: so-far-unused-group-name
+      gidnumber: 4700
+      memberuid: user2
+      objectclass: top
+      objectclass: posixGroup
+
+      dn: cn=so-far-unused-group-name,ou=TestGroups,dc=owncloud,dc=com
+      cn: so-far-unused-group-name
+      gidnumber: 4700
+      memberuid: user1
+      objectclass: top
+      objectclass: posixGroup
+      """
+    And the administrator invokes occ command "group:list"
+    Then group "so-far-unused-group-name" should exist
+    And user "user2" should belong to group "so-far-unused-group-name"
+    But user "user1" should not belong to group "so-far-unused-group-name"
 
   Scenario Outline: Add database group with same name as existing ldap group
     Given using OCS API version "<ocs-api-version>"
