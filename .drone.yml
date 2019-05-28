@@ -635,6 +635,16 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiProvisioningLDAP
 
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
+
     # acceptance tests - ldap specific
     # with php 7.2 and core master
     - TEST_SUITE: web-acceptance
@@ -723,6 +733,16 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiProvisioningLDAP
 
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: pgsql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
+
     # acceptance tests - ldap specific
     # with php 7.2 and core stable10
     - TEST_SUITE: web-acceptance
@@ -797,6 +817,16 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiProvisioningLDAP
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
 
     # acceptance tests - ldap specific
     # with php 7.0 and core stable10
@@ -906,6 +936,16 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiProvisioningLDAP
 
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
+
     # acceptance tests - ldap specific
     # with LDAPS
     - TEST_SUITE: web-acceptance
@@ -974,6 +1014,17 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiProvisioningLDAP
+      USE_LDAPS: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
       USE_LDAPS: true
 
     # acceptance tests - UI tests from core

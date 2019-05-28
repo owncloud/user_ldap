@@ -226,6 +226,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: Administrator deletes a ldap user and resyncs again
     Given using OCS API version "<ocs-api-version>"
+    And user "user0" has uploaded file with content "new file that should be overwritten after user deletion" to "textfile0.txt"
     When the administrator deletes user "user0" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
