@@ -23,6 +23,7 @@
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Config\ConfigMapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,13 +37,17 @@ use OCA\User_LDAP\LDAP;
 use OCP\IConfig;
 
 class Search extends Command {
+	/** @var ConfigMapper */
+	protected $mapper;
+
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
 
 	/**
 	 * @param \OCP\IConfig $ocConfig
 	 */
-	public function __construct(IConfig $ocConfig) {
+	public function __construct(ConfigMapper $mapper, IConfig $ocConfig) {
+		$this->mapper = $mapper;
 		$this->ocConfig = $ocConfig;
 		parent::__construct();
 	}
@@ -110,7 +115,7 @@ class Search extends Command {
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper);
+			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, $this->mapper);
 			$getMethod = 'getGroups';
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
@@ -119,7 +124,7 @@ class Search extends Command {
 				$limit = null;
 			}
 		} else {
-			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig);
+			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->mapper, $this->ocConfig);
 			$getMethod = 'getDisplayNames';
 			$printID = true;
 		}

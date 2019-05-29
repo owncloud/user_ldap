@@ -24,6 +24,9 @@
 
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\Config\Config;
+use OCA\User_LDAP\Config\ConfigMapper;
+
 /**
  * Class Test_Connection
  *
@@ -38,17 +41,21 @@ class ConnectionTest extends \Test\TestCase {
 	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
 
+	/** @var  ConfigMapper | \PHPUnit\Framework\MockObject\MockObject */
+	private $configMapper;
+
 	public function setUp() {
 		parent::setUp();
-		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
-
-		$configuration = new Configuration($coreConfig, 'test', false);
 
 		$this->ldap       = $this->createMock(ILDAPWrapper::class);
+		$this->configMapper = $this->createMock(ConfigMapper::class);
+		$configuration = new Config(['id' => 'test']);
+
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder(Connection::class)
 			->setMethods(['getFromCache', 'writeToCache'])
-			->setConstructorArgs([$this->ldap, $configuration, null])
+			->setConstructorArgs(
+				[$this->ldap, $this->configMapper, $configuration, null])
 			->getMock();
 
 		$this->ldap->expects($this->any())
@@ -60,10 +67,9 @@ class ConnectionTest extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
-		$configuration = new Configuration($coreConfig, 'test', false);
-		$connection = new Connection($this->ldap, $configuration, null);
+		$config = new Config(['id' => 'test']);
+		$connection = new Connection($this->ldap, $this->configMapper, $config, null);
 		$agent = [
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',
