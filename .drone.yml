@@ -18,7 +18,7 @@ pipeline:
   install-core:
     image: owncloudci/core
     pull: true
-    version: ${OC_VERSION}
+    git_reference: fixSearchTests
     core_path: /var/www/owncloud/server
     db_type: ${DB_TYPE}
     db_name: ${DB_NAME}
