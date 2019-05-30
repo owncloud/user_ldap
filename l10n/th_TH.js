@@ -8,7 +8,7 @@ OC.L10N.register(
     "Configuration OK" : "กำหนดค่าเสร็จสมบูรณ์",
     "Select groups" : "เลือกกลุ่ม",
     "Select object classes" : "เลือกคลาสวัตถุ",
-    "Please check the credentials, they seem to be wrong." : "กรุณาตรวจสอบข้อมูลประจำตัวของพวกเขาดูเหมือนจะมีข้อผิดพลาด",
+    "Please check the credentials, they seem to be wrong." : "กรุณาตรวจสอบหนังสือรับรองของพวกเขาดูเหมือนจะมีข้อผิดพลาด",
     "Please specify the port, it could not be auto-detected." : "กรุณาระบุพอร์ต มันไม่สามารถตรวจพบอัตโนมัติ",
     "Base DN could not be auto-detected, please revise credentials, host and port." : "Base DN ไม่สามารถตรวจพบโดยอัตโนมัติกรุณาแก้ไขข้อมูลของโฮสต์และพอร์ต",
     "Could not detect Base DN, please enter it manually." : "ไม่สามารถตรวจสอบ Base DN โปรดเลือกด้วยตนเอง",
