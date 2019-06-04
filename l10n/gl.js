@@ -51,7 +51,7 @@ OC.L10N.register(
     "Action does not exist" : "Non existe esta acción",
     "_%s group found_::_%s groups found_" : ["Atopouse %s grupo","Atopáronse %s grupos"],
     "_%s user found_::_%s users found_" : ["Atopouse %s usuario","Atopáronse %s usuarios"],
-    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Non foi posíbel detectar o atributo nome de usuario que mostrar. Especifíqueo vostede mesmo nos axustes avanzados de LDAP.",
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Non foi posíbel detectar o atributo nome de usuario que amosar. Especifíqueo vostede mesmo nos axustes avanzados de LDAP.",
     "Could not find the desired feature" : "Non foi posíbel atopar a función desexada",
     "Invalid Host" : "Máquina incorrecta",
     "Test Configuration" : "Probar a configuración",
