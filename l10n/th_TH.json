@@ -70,7 +70,7 @@
     "LDAP / AD Email Address:" : "ที่อยู่อีเมล LDAP/AD:",
     "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "อนุญาตให้เข้าสู่ระบบด้วยอีเมล Mail และ mailPrimaryAddress จะได้รับอนุญาต",
     "Other Attributes:" : "คุณลักษณะอื่นๆ:",
-    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "กำหนดตัวกรองที่จะใช้ เมื่อพยายามเข้าสู่ระบบจะใช้ %%uid แทนชื่อผู้ใช้ในการดำเนินการเข้าสู่ระบบ ตัวอย่าง: \"uid=%%uid\"",
+    "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "กำหนดตัวกรองที่ใช้ เมื่อพยายามเข้าสู่ระบบจะใช้ %%uid แทนชื่อผู้ใช้ในการดำเนินการเข้าสู่ระบบ ตัวอย่าง: \"uid=%%uid\"",
     "Test Loginname" : "ทดสอบชื่อที่ใช้ในการเข้าสู่ระบบ",
     "Verify settings" : "ตรวจสอบการตั้งค่า",
     "1. Server" : "1. เซิร์ฟเวอร์",
