@@ -119,7 +119,7 @@ OC.L10N.register(
     "Cache Time-To-Live" : "Speichere Time-To-Live zwischen",
     "in seconds. A change empties the cache." : "in Sekunden. Eine Änderung leert den Cache.",
     "Network Timeout" : "Netzwerk-Zeitüberschreitung",
-    "timeout for all the ldap network operations, in seconds." : "Timeout für alle ldap-Netzwerkoperationen in Sekunden.",
+    "timeout for all the ldap network operations, in seconds." : "Timeout für alle LDAP-Netzwerkoperationen in Sekunden.",
     "Directory Settings" : "Ordnereinstellungen",
     "User Display Name Field" : "Feld für den Anzeigenamen des Benutzers",
     "The LDAP attribute to use to generate the user's display name." : "Das LDAP-Attribut zur Generierung des Anzeigenamens des Benutzers.",
