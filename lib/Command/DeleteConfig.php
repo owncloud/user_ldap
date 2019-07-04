@@ -4,8 +4,9 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Martin Konrad <info@martin-konrad.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
+ * @copyright Copyright (c) 2019, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,7 +25,7 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\ServerMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,15 +33,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Command {
-	/** @var ConfigMapper */
+
+	/** @var ServerMapper */
 	protected $mapper;
 
 	/**
-	 * @param ConfigMapper $mapper
+	 * @param ServerMapper $mapper
 	 */
-	public function __construct(ConfigMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(ServerMapper $mapper) {
 		parent::__construct();
+		$this->mapper = $mapper;
 	}
 
 	protected function configure() {

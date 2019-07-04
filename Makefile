@@ -38,7 +38,6 @@ dist_dir=$(build_dir)/dist
 composer_deps=
 acceptance_test_deps=vendor-bin/behat/vendor
 nodejs_deps=node_modules
-bower_deps=vendor/ui-multiselect
 
 occ=$(CURDIR)/../../occ
 private_key=$(HOME)/.owncloud/certificates/$(app_name).key
@@ -57,13 +56,9 @@ endif
 # Catch-all rules
 #
 .DEFAULT_GOAL := help
-
 # start with displaying help
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | sed -e 's/  */ /' | column -t -s :
-
-.PHONY: all
-all: $(bower_deps)
 
 .PHONY: clean
 clean: clean-composer-deps clean-dist clean-build
@@ -78,17 +73,13 @@ clean-composer-deps:
 $(nodejs_deps): package.json
 	$(NPM) install --prefix $(NODE_PREFIX) && touch $@
 
-$(BOWER): $(nodejs_deps)
 $(JSDOC): $(nodejs_deps)
-
-$(bower_deps): $(BOWER)
-	$(BOWER) install --allow-root && touch $@
 
 #
 # dist
 #
 
-$(dist_dir)/user_ldap: $(bower_deps)
+$(dist_dir)/user_ldap:
 	rm -Rf $@; mkdir -p $@
 	cp -R $(ldap_all_src) $@
 	find $@/vendor -type d -iname Test? -print | xargs rm -Rf

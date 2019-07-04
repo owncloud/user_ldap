@@ -26,7 +26,9 @@
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Config\UserTree;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Connection\FilterBuilder;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
@@ -65,6 +67,14 @@ class ManagerTest extends \Test\TestCase {
 	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $manager;
+	/**
+	 * @var FilterBuilder|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $filterBuilder;
+	/**
+	 * @var UserTree|\PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $userTree;
 
 	protected function setUp() {
 		parent::setUp();
@@ -82,32 +92,36 @@ class ManagerTest extends \Test\TestCase {
 		$userMgr = $this->createMock(IUserManager::class);
 		$this->access     = $this->createMock(Access::class);
 		$this->connection     = $this->createMock(Connection::class);
+		$this->filterBuilder     = $this->createMock(FilterBuilder::class);
+		$this->userTree     = $this->createMock(UserTree::class);
 
-		$this->connection->expects($this->any())
-			->method('__get')
-			->will($this->returnCallback(function ($method) {
-				switch ($method) {
-					case 'ldapUserFilter':
-						return '(objectclass=inetorgperson)';
-					case 'ldapUserDisplayName':
-						return 'displayName';
-					case 'ldapQuotaAttribute':
-					case 'ldapUserDisplayName2':
-					case 'ldapUuidUserAttribute':
-						return '';
-					case 'ldapEmailAttribute':
-						return 'mail';
-					case 'homeFolderNamingRule':
-					case 'ldapExpertUsernameAttr':
-						return null;
-					case 'ldapAttributesForUserSearch':
-						return ['uidNumber'];
-					case 'ldapBaseUsers':
-						return 'dc=foobar,dc=bar';
-					default:
-						return false;
-				}
-			}));
+		$this->userTree->expects($this->any())
+			->method('getFilter')
+			->will($this->returnValue('(objectclass=inetorgperson)'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayNameAttribute')
+			->will($this->returnValue('displayName'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayName2Attribute')
+			->will($this->returnValue(''));
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue(''));
+		$this->userTree->expects($this->any())
+			->method('getEmailAttribute')
+			->will($this->returnValue('mail'));
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getExpertUsernameAttr')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getAdditionalSearchAttributes')
+			->will($this->returnValue(['uidNumber']));
+		$this->userTree->expects($this->any())
+			->method('getBaseDN')
+			->will($this->returnValue(['dc=foobar,dc=bar']));
 
 		$this->access
 			->method('getConnection')
@@ -115,9 +129,8 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->manager = new Manager(
 			$this->config, $filesystem, $logger, $avatarManager,
-			$dbConn, $userMgr
+			$dbConn, $userMgr, $this->access, $this->filterBuilder, $this->userTree
 		);
-		$this->manager->setLdapAccess($this->access);
 	}
 
 	public function testGetAttributesAll() {
@@ -177,13 +190,13 @@ class ManagerTest extends \Test\TestCase {
 				return $search;
 			}));
 
-		$this->access
+		$this->filterBuilder->expects($this->any())
 			->method('getFilterPartForUserSearch')
-			->will($this->returnCallback(function ($search) {
+			->will($this->returnCallback(function ($userTree, $search) {
 				return $search;
 			}));
 
-		$this->access
+		$this->filterBuilder->expects($this->any())
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($param) {
 				return $param[2];
@@ -191,7 +204,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->access
 			->method('fetchListOfUsers')
-			->will($this->returnCallback(function ($search, $a, $l, $o) {
+			->will($this->returnCallback(function ($userTree, $search, $a, $l, $o) {
 				$users = [
 					[ 'dn' => ['cn=alice,dc=foobar,dc=bar'] ],
 					[ 'dn' => ['cn=bob,dc=foobar,dc=bar'] ],
@@ -215,7 +228,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->access
 			->method('fetchUsersByLoginName')
-			->will($this->returnCallback(function ($uid) {
+			->will($this->returnCallback(function ($userTree, $uid, $attributes) {
 				switch ($uid) {
 					case 'alice':
 						return [['dn' => ['cn=alice,dc=foobar,dc=bar']]];
@@ -248,8 +261,8 @@ class ManagerTest extends \Test\TestCase {
 			->method('areCredentialsValid')
 			->will($this->returnValue(true));
 
-		$this->access
-			->method('isDNPartOfBase')
+		$this->access->expects($this->any())
+			->method('isDNPartOfUserBases')
 			->with($this->stringEndsWith('dc=foobar,dc=bar'))
 			->will($this->returnValue(true));
 
@@ -273,27 +286,33 @@ class ManagerTest extends \Test\TestCase {
 			->method('getUserMapper')
 			->will($this->returnValue($mapper));
 
-		$this->connection
-			->method('__get')
-			->will($this->returnCallback(function ($method) {
-				switch ($method) {
-					case 'ldapUserFilter':
-						return '(objectclass=inetorgperson)';
-					case 'ldapUserDisplayName':
-						return 'displayName';
-					case 'ldapQuotaAttribute':
-					case 'ldapUserDisplayName2':
-						return '';
-					case 'ldapEmailAttribute':
-					case 'homeFolderNamingRule':
-					case 'ldapAttributesForUserSearch':
-						return null;
-					case 'ldapBaseUsers':
-						return 'dc=foobar,dc=bar';
-					default:
-						return false;
-				}
-			}));
+		$this->userTree->expects($this->any())
+			->method('getFilter')
+			->will($this->returnValue('(objectclass=inetorgperson)'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayNameAttribute')
+			->will($this->returnValue('displayName'));
+		$this->userTree->expects($this->any())
+			->method('getDisplayName2Attribute')
+			->will($this->returnValue(''));
+		$this->userTree->expects($this->any())
+			->method('getQuotaAttribute')
+			->will($this->returnValue(''));
+		$this->userTree->expects($this->any())
+			->method('getEmailAttribute')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getHomeFolderNamingRule')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getExpertUsernameAttr')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getAdditionalSearchAttributes')
+			->will($this->returnValue(null));
+		$this->userTree->expects($this->any())
+			->method('getBaseDN')
+			->will($this->returnValue(['dc=foobar,dc=bar']));
 	}
 
 	public function testGetUsersNoParam() {
@@ -345,7 +364,7 @@ class ManagerTest extends \Test\TestCase {
 			->will($this->returnValue($mapper));
 
 		$this->access->expects($this->once())
-			->method('isDNPartOfBase')
+			->method('isDNPartOfUserBases')
 			->will($this->returnValue(true));
 
 		$this->assertInstanceOf(UserEntry::class, $this->manager->getUserEntryByDn('cn=foo,ou=users,dc=foobar,dc=bar'));
@@ -362,7 +381,7 @@ class ManagerTest extends \Test\TestCase {
 				'dn' => ['cn=foo,ou=users,dc=foobar,dc=bar'], // all ldap array values are multivalue
 			]));
 		$this->access->expects($this->once())
-			->method('isDNPartOfBase')
+			->method('isDNPartOfUserBases')
 			->will($this->returnValue(false));
 
 		$this->manager->getUserEntryByDn('cn=foo,ou=users,dc=foobar,dc=bar');
@@ -438,7 +457,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getUserMapper')
 			->will($this->returnValue($mapper));
 
-		$this->access->method('isDNPartOfBase')
+		$this->access->method('isDNPartOfUserBases')
 			->willReturn(true);
 
 		$cachedEntry = $this->manager->getCachedEntry('usertest');
@@ -507,7 +526,7 @@ class ManagerTest extends \Test\TestCase {
 				],
 			]);
 
-		$this->access->method('isDNPartOfBase')
+		$this->access->method('isDNPartOfUserBases')
 			->willReturn(false);
 
 		$this->assertNull($this->manager->getCachedEntry('usertest'));

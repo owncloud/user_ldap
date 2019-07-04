@@ -28,63 +28,23 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\AppInfo\Application;
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\ServerMapper;
 
 class Helper {
-	/**
-	 * FIXME use public AppConfig API
-	 * returns prefixes for each saved LDAP/AD server configuration.
-	 * @param bool $activeConfigurations optional, whether only active configuration shall be
-	 * retrieved, defaults to false
-	 * @return array with a list of the available prefixes
-	 *
-	 * Configuration prefixes are used to set up configurations for n LDAP or
-	 * AD servers. Since configuration is stored in the database, table
-	 * appconfig under appid user_ldap, the common identifiers in column
-	 * 'configkey' have a prefix. The prefix for the very first server
-	 * configuration is empty.
-	 * Configkey Examples:
-	 * Server 1: ldap_login_filter
-	 * Server 2: s1_ldap_login_filter
-	 * Server 3: s2_ldap_login_filter
-	 *
-	 * The prefix needs to be passed to the constructor of Connection class,
-	 * except the default (first) server shall be connected to.
-	 *
-	 */
-	public function getServerConfigurationPrefixes($activeConfigurations = false) {
-		$serverConfigs = $this->getAllConfigurations();
-		$prefixes = [];
-		foreach ($serverConfigs as $serverConfig) {
-			if ($activeConfigurations === true) {
-				$c = \json_decode($serverConfig['configvalue'], true);
-				if (\intval($c['ldapConfigurationActive']) !== 1) {
-					continue;
-				}
-			}
-			$prefixes[] = $this->stripPrefix($serverConfig['configkey']);
-		}
 
-		return $prefixes;
-	}
+	/** @var ServerMapper */
+	protected $mapper;
+
+	/** @var User_Proxy */
+	protected $userProxy;
 
 	/**
-	 *
-	 * determines the host for every configured connection
-	 * @return array an array with configprefix as keys
-	 *
+	 * @param ServerMapper $mapper
+	 * @param User_Proxy $userProxy
 	 */
-	public function getServerConfigurationHosts() {
-		$serverConfigs = $this->getAllConfigurations();
-		$result = [];
-		foreach ($serverConfigs as $serverConfig) {
-			$prefix = $this->stripPrefix($serverConfig['configkey']);
-			$c = \json_decode($serverConfig['configvalue'], true);
-			$result[$prefix] = $c['ldapHost'];
-		}
-
-		return $result;
+	public function __construct(ServerMapper $mapper, User_Proxy $userProxy) {
+		$this->mapper = $mapper;
+		$this->userProxy = $userProxy;
 	}
 
 	/**
@@ -92,14 +52,13 @@ class Helper {
 	 * @return bool
 	 */
 	public function haveDisabledConfigurations() {
-		$all = $this->getAllConfigurations();
-		foreach ($all as $serverConfig) {
-			$c = \json_decode($serverConfig['configvalue'], true);
-			if (\intval($c['ldapConfigurationActive']) !== 1) {
+		$servers = $this->mapper->listAll();
+		foreach ($servers as $server) {
+			if ($server->isActive() === false) {
 				return true;
 			}
 		}
-		return \count($all) === 0;
+		return \count($servers) === 0;
 	}
 
 	/**
@@ -135,17 +94,7 @@ class Helper {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		$configPrefixes = $this->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-		$app = new Application();
-
-		$userBackend  = new User_Proxy(
-			$configPrefixes,
-			$ldapWrapper,
-			$app->getContainer()->query(ConfigMapper::class),
-			\OC::$server->getConfig()
-		);
-		$uid = $userBackend->loginName2UserName($param['uid']);
+		$uid = $this->userProxy->loginName2UserName($param['uid']);
 		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
@@ -263,27 +212,5 @@ class Helper {
 		$dn = \str_replace(\array_keys($replacements), \array_values($replacements), $dn);
 
 		return $dn;
-	}
-
-	protected function getAllConfigurations() {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$qb->select('configkey', 'configvalue')
-			->from('appconfig')
-			->where(
-				$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
-			)
-			->andWhere(
-				$qb->expr()->like('configkey', $qb->expr()->literal(ConfigMapper::PREFIX . '%'))
-			);
-
-		$result = $qb->execute();
-		return $result->fetchAll();
-	}
-
-	protected function stripPrefix($configurationId) {
-		return \implode(
-			'',
-			\explode(ConfigMapper::PREFIX, $configurationId, 2)
-		);
 	}
 }

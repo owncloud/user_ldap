@@ -23,15 +23,21 @@
 namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Config\Server;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
+use OCP\ICacheFactory;
 
 require_once __DIR__  . '/../../../../lib/base.php';
 require_once __DIR__ . '/FakeManager.php';
 
 abstract class AbstractIntegrationTest {
+
+	/** @var  ICacheFactory */
+	protected $cf;
+
 	/** @var  LDAP */
 	protected $ldap;
 
@@ -69,10 +75,18 @@ abstract class AbstractIntegrationTest {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('accounts')->execute();
 
+		$this->initCacheFactory();
 		$this->initLDAPWrapper();
 		$this->initConnection();
 		$this->initUserManager();
 		$this->initAccess();
+	}
+
+	/**
+	 * initializes the test cache factory
+	 */
+	protected function initCacheFactory() {
+		$this->cf = \OC::$server->getMemCacheFactory();
 	}
 
 	/**
@@ -86,9 +100,14 @@ abstract class AbstractIntegrationTest {
 	 * sets up the LDAP configuration to be used for the test
 	 */
 	protected function initConnection() {
-		$coreConfig = \OC::$server->getConfig();
-		$configuration = new Configuration($coreConfig, 'test');
-		$this->connection = new Connection($this->ldap, $configuration);
+		$server = new Server([
+			'id' => 'test'
+		]);
+		$this->connection = new Connection(
+			$this->cf,
+			$this->ldap,
+			$server
+		);
 		// use the defaults to make sure we don't use any remnants
 		$this->connection->setConfiguration($configuration->getDefaults());
 		$this->connection->setConfiguration([
@@ -117,7 +136,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->userManager);
+		$this->access = new Access($this->cf, $this->connection, $this->userManager);
 	}
 
 	/**

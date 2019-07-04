@@ -22,33 +22,43 @@
 return [
 	'routes' => [
 		[
+			'name' => 'configuration#listAll',
+			'url' => 'configurations',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'configuration#create',
-			'url' => 'ajax/getNewServerConfigPrefix.php',
+			'url' => 'configurations',
 			'verb' => 'POST'
 		],
 		[
 			'name' => 'configuration#read',
-			'url' => 'ajax/getConfiguration.php',
-			'verb' => 'POST'
+			'url' => 'configurations/{id}',
+			'verb' => 'GET'
 		],
 		[
 			'name' => 'configuration#test',
-			'url' => 'ajax/testConfiguration.php',
+			'url' => 'configuration/test',
+			'verb' => 'POST'
+		],
+		[
+			'name' => 'configuration#update',
+			'url' => 'configurations/{id}',
 			'verb' => 'POST'
 		],
 		[
 			'name' => 'configuration#delete',
-			'url' => 'ajax/deleteConfiguration.php',
+			'url' => 'configurations/{id}',
+			'verb' => 'DELETE'
+		],
+		[
+			'name' => 'configuration#discover',
+			'url' => 'configuration/discover/{query}',
 			'verb' => 'POST'
 		],
 		[
 			'name' => 'mapping#clear',
 			'url' => 'ajax/clearMappings.php',
-			'verb' => 'POST'
-		],
-		[
-			'name' => 'wizard#cast',
-			'url' => 'ajax/wizard.php',
 			'verb' => 'POST'
 		],
 	]

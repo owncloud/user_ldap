@@ -2,6 +2,7 @@
 /**
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2016, ownCloud GmbH.
@@ -32,8 +33,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Group_Proxy;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCP\IConfig;
 
 class Search extends Command {
@@ -42,14 +41,21 @@ class Search extends Command {
 
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
+	/** @var User_Proxy */
+	protected $userProxy;
+	/** @var Group_Proxy */
+	protected $groupProxy;
 
 	/**
 	 * @param \OCP\IConfig $ocConfig
+	 * @param User_Proxy $userProxy
+	 * @param Group_Proxy $groupProxy
 	 */
-	public function __construct(ConfigMapper $mapper, IConfig $ocConfig) {
-		$this->mapper = $mapper;
-		$this->ocConfig = $ocConfig;
+	public function __construct(IConfig $ocConfig, User_Proxy $userProxy, Group_Proxy $groupProxy) {
 		parent::__construct();
+		$this->ocConfig = $ocConfig;
+		$this->userProxy = $userProxy;
+		$this->groupProxy = $groupProxy;
 	}
 
 	protected function configure() {
@@ -106,17 +112,12 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-
-		$offset = \intval($input->getOption('offset'));
-		$limit = \intval($input->getOption('limit'));
+		$offset = (int)$input->getOption('offset');
+		$limit = (int)$input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, $this->mapper);
-			$getMethod = 'getGroups';
+			$result = $this->groupProxy->getGroups($input->getArgument('search'), $limit, $offset);
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
 			// nothing, and will match the same behaviour the search for users has.
@@ -124,12 +125,10 @@ class Search extends Command {
 				$limit = null;
 			}
 		} else {
-			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->mapper, $this->ocConfig);
-			$getMethod = 'getDisplayNames';
+			$result = $this->userProxy->getDisplayNames($input->getArgument('search'), $limit, $offset);
 			$printID = true;
 		}
 
-		$result = $proxy->$getMethod($input->getArgument('search'), $limit, $offset);
 		foreach ($result as $id => $name) {
 			$line = $name . ($printID ? ' ('.$id.')' : '');
 			$output->writeln($line);

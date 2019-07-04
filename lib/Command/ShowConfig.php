@@ -25,9 +25,9 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Config\LegacyConfig;
+use OCA\User_LDAP\Config\ServerMapper;
 use OC\Core\Command\Base;
-use OCA\User_LDAP\Exceptions\ConfigException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,18 +37,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
 
-	/** @var ConfigMapper */
+	/** @var ServerMapper */
 	protected $mapper;
+
+	/** @var LegacyConfig  */
+	protected $legacyConfig;
 
 	/** @var bool */
 	protected $showPassword;
 
 	/**
-	 * @param ConfigMapper $configMapper
+	 * @param ServerMapper $mapper
+	 * @param LegacyConfig $legacyConfig
 	 */
-	public function __construct(ConfigMapper $configMapper) {
+	public function __construct(ServerMapper $mapper, LegacyConfig $legacyConfig) {
 		parent::__construct();
-		$this->mapper = $configMapper;
+		$this->mapper = $mapper;
+		$this->legacyConfig = $legacyConfig;
 	}
 
 	protected function configure() {
@@ -68,51 +73,103 @@ class ShowConfig extends Base {
 					InputOption::VALUE_NONE,
 					'show ldap bind password'
 					 )
+			->addOption(
+				'legacy',
+				null,
+				InputOption::VALUE_NONE,
+				'show legacy config'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->showPassword = $input->getOption('show-password');
 		$configId = $input->getArgument('configID');
-		try {
-			$configIds = $configId ? [$this->mapper->find($configId)] : $this->mapper->listAll();
-			foreach ($configIds as $config) {
-				try {
-					$this->showConfig($config->getId(), $input, $output);
-				} catch (ConfigException $e) {
-					$output->writeln("Configuration with configID '$configId' is broken");
-				}
+		$legacy = $input->getOption('legacy');
+		if ($legacy) {
+			$allPrefixes = $this->legacyConfig->getAllPrefixes();
+			if ($configId && !\in_array($configId, $allPrefixes)) {
+				$output->writeln("prefix $configId does not exist");
+				return;
 			}
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$configId' does not exist");
+			$configIds = $configId ? [$configId] : $allPrefixes;
+			foreach ($configIds as $configId) {
+				$this->showLegacyConfig($configId, $input, $output);
+			}
+		} else {
+			try {
+				$configIds = $configId ? [$this->mapper->find($configId)] : $this->mapper->listAll();
+				foreach ($configIds as $config) {
+					$this->showConfig($config->getId(), $input, $output);
+				}
+			} catch (DoesNotExistException $e) {
+				$output->writeln("Configuration with configID '$configId' does not exist");
+			}
+		}
+	}
+
+	protected function showConfig($configId, InputInterface $input, OutputInterface $output) {
+		$config = $this->mapper->find($configId);
+		if ($this->showPassword === false) {
+			$config->setPassword('***');
+		}
+		switch ($input->getOption('output')) {
+			case self::OUTPUT_FORMAT_JSON:
+				$output->writeln(\json_encode($config));
+				break;
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$output->writeln(\json_encode($config, JSON_PRETTY_PRINT));
+				break;
+			default:
+				$table = new Table($output);
+				$table->setHeaders(['Configuration', $configId]);
+				$rows = [];
+				foreach ($config->jsonSerialize() as $key => $value) {
+					if ($key === 'groupTrees' || $key === 'userTrees') {
+						foreach ($value as $mappingDN => $mapping) {
+							foreach ($mapping as $mappingKey => $mappingValue) {
+								if (\is_array($mappingValue)) {
+									$mappingValue = \implode(';', $mappingValue);
+								}
+								$rows[] = [$mappingKey, $mappingValue];
+							}
+						}
+						continue;
+					}
+					if (\is_array($value)) {
+						$value = \implode(';', $value);
+					} elseif (\is_bool($value)) {
+						$value = \var_export($value, true);
+					}
+					$rows[] = [$key, $value];
+				}
+				$table->setRows($rows);
+				$table->render();
 		}
 	}
 
 	/**
-	 * Prints LDAP configuration
+	 * Prints legacy LDAP configuration(s)
 	 *
-	 * @param string $configId
+	 * @param string $prefix
+	 * @param string[] $config
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 *
-	 * @throws DoesNotExistException
-	 * @throws ConfigException
 	 */
-	protected function showConfig($configId, InputInterface $input, OutputInterface $output) {
-		$config = $this->mapper->find($configId);
+	protected function showLegacyConfig($prefix, InputInterface $input, OutputInterface $output) {
+		$config = $this->legacyConfig->getConfig($prefix);
+		\ksort($config);
 		if ($this->showPassword === false) {
-			$config->ldapAgentPassword = '***';
+			$config['ldapAgentPassword'] = '***';
 		}
-		$configData = $config->jsonSerialize();
 		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 			$table = new Table($output);
-			$table->setHeaders(['Configuration', $configId]);
+			$table->setHeaders(['Configuration', $prefix]);
 			$rows = [];
-			foreach ($configData as $key => $value) {
+			foreach ($config as $key => $value) {
 				if (\is_array($value)) {
 					$value = \implode(';', $value);
-				} elseif ($key === 'ldapAgentPassword') {
-					$value = $config->ldapAgentPassword;
+
 				}
 				$rows[] = [$key, $value];
 			}
@@ -123,7 +180,7 @@ class ShowConfig extends Base {
 			parent::writeArrayInOutputFormat(
 				$input,
 				$output,
-				\array_merge($configData, ['id' => $configId]),
+				$config,
 				self::DEFAULT_OUTPUT_PREFIX,
 				true
 			);

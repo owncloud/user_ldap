@@ -169,7 +169,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * @param integer $offset
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = 10, $offset = 0) {
+	public function getUsers($search = '', $limit = 10, $offset = 0, $options = []) {
+		// FIXME well if the caller uses a limit of 500 he may still get more than that if multiple base dns / user trees are configured
 		return $this->userManager->getUsers($search, $limit, $offset);
 	}
 
