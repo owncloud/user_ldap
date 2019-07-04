@@ -1115,6 +1115,16 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiComments
+
+    - TEST_SUITE: core-api-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiFavorites
 
     - TEST_SUITE: core-api-acceptance
@@ -1126,16 +1136,6 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiFederation
-
-    - TEST_SUITE: core-api-acceptance
-      OC_VERSION: daily-master-qa
-      DB_TYPE: mysql
-      DB_NAME: owncloud
-      PHP_VERSION: 7.1
-      NEED_SERVER: true
-      NEED_CORE: true
-      NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiComments
 
     - TEST_SUITE: core-api-acceptance
       OC_VERSION: daily-master-qa
@@ -1195,6 +1195,26 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiShareReshare
+
+    - TEST_SUITE: core-api-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiShareUpdate
+
+    - TEST_SUITE: core-api-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
       BEHAT_SUITE: apiSharingNotifications
 
     - TEST_SUITE: core-api-acceptance
@@ -1205,7 +1225,7 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiTrashbin
+      BEHAT_SUITE: apiTags
 
     - TEST_SUITE: core-api-acceptance
       OC_VERSION: daily-master-qa
@@ -1215,7 +1235,7 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
-      BEHAT_SUITE: apiTags
+      BEHAT_SUITE: apiTrashbin
 
     - TEST_SUITE: core-api-acceptance
       OC_VERSION: daily-master-qa
@@ -1398,6 +1418,26 @@ matrix:
       NEED_CORE: true
       NEED_INSTALL_APP: true
       BEHAT_SUITE: apiShareOperations
+
+    - TEST_SUITE: core-api-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiShareReshare
+
+    - TEST_SUITE: core-api-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiShareUpdate
 
     - TEST_SUITE: core-api-acceptance
       OC_VERSION: daily-stable10-qa

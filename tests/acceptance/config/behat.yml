@@ -142,6 +142,28 @@ default:
         - TrashbinContext:
         - WebDavPropertiesContext:
 
+    apiShareReshare:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareUpdate:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareUpdate'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
     apiSharingNotifications:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiSharingNotifications'
