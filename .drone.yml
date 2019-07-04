@@ -246,7 +246,7 @@ pipeline:
       - TEST_SERVER_FED_URL=http://federated
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
-      - BEHAT_SUITE=webUICore
+      - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
       - make test-acceptance-core-webui
     when:
@@ -1039,6 +1039,20 @@ matrix:
       NEED_SELENIUM: true
       USE_FEDERATED_SERVER: true
       FEDERATION_OC_VERSION: daily-stable10-qa
+      BEHAT_SUITE: webUICore1
+
+    - TEST_SUITE: core-web-acceptance
+      OC_VERSION: daily-master-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.1
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      NEED_SELENIUM: true
+      USE_FEDERATED_SERVER: true
+      FEDERATION_OC_VERSION: daily-stable10-qa
+      BEHAT_SUITE: webUICore2
 
     - TEST_SUITE: core-web-acceptance
       OC_VERSION: daily-stable10-qa
@@ -1051,6 +1065,20 @@ matrix:
       NEED_SELENIUM: true
       USE_FEDERATED_SERVER: true
       FEDERATION_OC_VERSION: daily-stable10-qa
+      BEHAT_SUITE: webUICore1
+
+    - TEST_SUITE: core-web-acceptance
+      OC_VERSION: daily-stable10-qa
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.0
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      NEED_SELENIUM: true
+      USE_FEDERATED_SERVER: true
+      FEDERATION_OC_VERSION: daily-stable10-qa
+      BEHAT_SUITE: webUICore2
 
     #acceptance tests - CLI tests from core
     # with php 7.1 and core master

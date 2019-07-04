@@ -3,16 +3,27 @@ default:
     '': '%paths.base%/../features/bootstrap'
 
   suites:
-    webUICore:
+    webUICore1:
       paths:
-        - '%paths.base%/../../../../../tests/acceptance/features'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIAdminSettings'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIComments'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUICreateDelete'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIFavorites'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIFiles'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUILogin'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIMoveFilesFolders'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIPersonalSettings'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFiles'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFolders'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRestrictSharing'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAcceptShares'
       context: &common_ldap_suite_context
         parameters:
           ldapAdminPassword: admin
           ldapUsersOU: TestUsers
           ldapGroupsOU: TestGroups
           ldapInitialUserFilePath: /../../config/ldap-users.ldif
-      contexts:
+      contexts: &common_webui_core_contexts
         - UserLdapGeneralContext:
         - FeatureContext: &common_feature_context_params
             baseUrl:  http://localhost:8080
@@ -31,6 +42,22 @@ default:
         - WebUISearchContext:
         - WebUISharingContext:
         - WebUIUserContext:
+
+    webUICore2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingExternal'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingNotifications'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITags'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITrashbin'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIUpload'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLockProtection'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLocks'
+      context: *common_ldap_suite_context
+      contexts: *common_webui_core_contexts
 
     apiAuth:
       paths:
