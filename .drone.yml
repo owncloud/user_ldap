@@ -38,6 +38,19 @@ pipeline:
       matrix:
         USE_FEDERATED_SERVER: true
 
+  install-testrunner:
+    image: owncloudci/php:${PHP_VERSION}
+    pull: true
+    commands:
+      - git clone -b stable10 --depth=1 https://github.com/owncloud/core.git /var/www/owncloud/testrunner
+      - cp -r /var/www/owncloud/server/apps/user_ldap /var/www/owncloud/testrunner/apps/
+      - cd /var/www/owncloud/testrunner
+      - make install-composer-deps
+      - make vendor-bin-deps
+    when:
+      matrix:
+        USE_RELEASE_TARBALL: true
+
   configure-federation-server:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -159,9 +172,15 @@ pipeline:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
     commands:
-      - chown www-data /var/www/owncloud/ -R
-      - chmod 777 /var/www/owncloud/server/tests/acceptance/filesForUpload -R
-      - chmod +x /var/www/owncloud/server/tests/acceptance/run.sh
+      - chown www-data /var/www/owncloud -R
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ];
+        then
+        chmod 777 /var/www/owncloud/testrunner/tests/acceptance/filesForUpload -R;
+        chmod +x /var/www/owncloud/testrunner/tests/acceptance/run.sh;
+        else
+        chmod 777 /var/www/owncloud/server/tests/acceptance/filesForUpload -R;
+        chmod +x /var/www/owncloud/server/tests/acceptance/run.sh;
+        fi
     when:
       matrix:
         NEED_SERVER: true
@@ -174,6 +193,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-api
     when:
       matrix:
@@ -187,6 +207,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-cli
     when:
       matrix:
@@ -204,6 +225,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-webui
     when:
       matrix:
@@ -217,6 +239,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-api
     when:
       matrix:
@@ -230,6 +253,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-cli
     when:
       matrix:
@@ -248,6 +272,7 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-webui
     when:
       matrix:
@@ -1765,3 +1790,175 @@ matrix:
       INTEGRATION_TEST_SCRIPT: IntegrationTestPaging.php
       NEED_CORE: true
       NEED_INSTALL_APP: true
+
+    # Release Tarball
+    # acceptance tests - ldap specific
+    # with php 7.2 and core 10.2.1
+    - TEST_SUITE: web-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIUserLDAP
+      NEED_SELENIUM: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: web-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      NEED_USER_MANAGEMENT_APP: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: cli-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: cliProvisioning
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAPConnection
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAPSharing
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiProvisioningLDAP
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
+      USE_RELEASE_TARBALL: true
+
+    # Release Tarball
+    # acceptance tests - ldap specific
+    # with LDAPS
+    - TEST_SUITE: web-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIUserLDAP
+      NEED_SELENIUM: true
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: web-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: webUIProvisioning
+      NEED_SELENIUM: true
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: cli-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: cliProvisioning
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAPConnection
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAPSharing
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiProvisioningLDAP
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
+
+    - TEST_SUITE: api-acceptance
+      OC_VERSION: 10.2.1
+      DB_TYPE: mysql
+      DB_NAME: owncloud
+      PHP_VERSION: 7.2
+      NEED_SERVER: true
+      NEED_CORE: true
+      NEED_INSTALL_APP: true
+      BEHAT_SUITE: apiUserLDAP
+      USE_LDAPS: true
+      USE_RELEASE_TARBALL: true
