@@ -315,18 +315,18 @@ class LDAP implements ILDAPWrapper {
 		if ($this->isResource($this->curArgs[0])) {
 			$errorCode = \ldap_errno($this->curArgs[0]);
 			$errorMsg  = \ldap_error($this->curArgs[0]);
-			if ($errorCode !== 0) {
+			if ($errorCode !== self::LDAP_SUCCESS) {
 				if ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
-				} elseif ($errorCode === 32) {
+				} elseif ($errorCode === self::LDAP_NO_SUCH_OBJECT) {
 					//for now
-				} elseif ($errorCode === 10) {
+				} elseif ($errorCode === self::LDAP_REFERRAL) {
 					//referrals, we switch them off, but then there is AD :)
 				} elseif ($errorCode === -1) {
 					throw new ServerNotAvailableException('Lost connection to LDAP server.');
-				} elseif ($errorCode === 48) {
+				} elseif ($errorCode === self::LDAP_INAPPROPRIATE_AUTH) {
 					throw new \Exception('LDAP authentication method rejected', $errorCode);
-				} elseif ($errorCode === 1) {
+				} elseif ($errorCode === self::LDAP_OPERATIONS_ERROR) {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {
 					\OCP\Util::writeLog('user_ldap',
