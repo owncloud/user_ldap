@@ -165,29 +165,15 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * initializes the LDAP backend
-	 * @param bool $force read the config settings no matter what
-	 * @throws \OC\ServerNotAvailableException
-	 */
-	public function init($force = false) {
-		$this->readConfiguration($force);
-		$this->establishConnection();
-	}
-
-	/**
 	 * Returns the LDAP handler
+	 * @return resource | null
+	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function getConnectionResource() {
-		if (!$this->ldapConnectionRes) {
-			$this->init();
-		} elseif (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
-			$this->ldapConnectionRes = null;
-			$this->establishConnection();
-		}
 		if ($this->ldapConnectionRes === null) {
-			Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->config->ldapHost, Util::ERROR);
-			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
+			$this->readConfiguration();
+			$this->establishConnection();
 		}
 		return $this->ldapConnectionRes;
 	}

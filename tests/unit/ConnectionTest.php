@@ -139,10 +139,10 @@ class ConnectionTest extends \Test\TestCase {
 				return true;
 			}));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 		$this->connection->resetConnectionResource();
-		// with the second init() we test whether caching works
-		$this->connection->init();
+		// with the second getConnectionResource() we test whether caching works
+		$this->connection->getConnectionResource();
 	}
 
 	/**
@@ -173,7 +173,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 
 	public function testBind() {
@@ -205,7 +205,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 
 	/**
@@ -240,6 +240,6 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(false));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 }
