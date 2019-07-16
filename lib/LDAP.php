@@ -316,7 +316,15 @@ class LDAP implements ILDAPWrapper {
 			$errorCode = \ldap_errno($this->curArgs[0]);
 			$errorMsg  = \ldap_error($this->curArgs[0]);
 			if ($errorCode !== self::LDAP_SUCCESS) {
-				if ($this->curFunc === 'ldap_get_entries'
+				if ($this->curFunc === 'ldap_bind') {
+					$errDiag = "";
+					\ldap_get_option($this->curArgs[0], LDAP_OPT_DIAGNOSTIC_MESSAGE, $errDiag);
+					if ($errDiag === "") {
+						$errDiag = 'no extended diagnostics';
+					}
+					$logMessage = "Bind failed: (), $errDiag, " . \var_export($this->curArgs[0], true);
+					\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
+				} elseif ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
 				} elseif ($errorCode === self::LDAP_NO_SUCH_OBJECT) {
 					//for now
@@ -329,11 +337,10 @@ class LDAP implements ILDAPWrapper {
 				} elseif ($errorCode === self::LDAP_OPERATIONS_ERROR) {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-										'LDAP error '.$errorMsg.' (' .
-											$errorCode.') after calling '.
-											$this->curFunc,
-										\OCP\Util::DEBUG);
+					\OC::$server->getLogger()->debug(
+						"LDAP error {$errorMsg} ({$errorCode}) after calling {$this->curFunc}",
+						[ 'app' => 'user_ldap']
+					);
 				}
 			}
 		}
