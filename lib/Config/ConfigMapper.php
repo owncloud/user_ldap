@@ -25,7 +25,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCA\User_LDAP\Exceptions\ConfigException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\ILogger;
 
 class ConfigMapper {
@@ -36,11 +35,6 @@ class ConfigMapper {
 	 */
 	private $config;
 	/**
-	 * @var IDBConnection
-	 */
-	private $dbConnection;
-
-	/**
 	 * @var $logger
 	 */
 	private $logger;
@@ -49,12 +43,10 @@ class ConfigMapper {
 	 * ServerMapper constructor.
 	 *
 	 * @param IConfig $config
-	 * @param IDBConnection $dbConnection
 	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $config, IDBConnection $dbConnection, ILogger $logger) {
+	public function __construct(IConfig $config, ILogger $logger) {
 		$this->config = $config;
-		$this->dbConnection = $dbConnection;
 		$this->logger = $logger;
 	}
 
@@ -141,7 +133,7 @@ class ConfigMapper {
 	}
 
 	public function nextPossibleConfigurationPrefix() {
-		$qb = $this->dbConnection->getQueryBuilder();
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->select('configkey')
 			->from('appconfig')
 			->where(
