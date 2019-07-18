@@ -33,6 +33,7 @@ default:
             regularUserPassword: 123456
         - EmailContext:
         - FederationContext:
+        - WebUIAdminSharingSettingsContext:
         - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
