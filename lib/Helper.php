@@ -29,6 +29,7 @@
 namespace OCA\User_LDAP;
 
 class Helper {
+
 	/**
 	 * FIXME use public AppConfig API
 	 * returns prefixes for each saved LDAP/AD server configuration.
@@ -51,16 +52,32 @@ class Helper {
 	 *
 	 */
 	public function getServerConfigurationPrefixes($activeConfigurations = false) {
-		$serverConfigs = $this->getAllConfigurations();
-		$prefixes = [];
-		foreach ($serverConfigs as $serverConfig) {
-			if ($activeConfigurations === true) {
-				$c = \json_decode($serverConfig['configvalue'], true);
-				if (\intval($c['ldapConfigurationActive']) !== 1) {
-					continue;
-				}
+		$referenceConfigkey = 'ldap_configuration_active';
+
+		$sql = '
+			SELECT DISTINCT `configkey`
+			FROM `*PREFIX*appconfig`
+			WHERE `appid` = \'user_ldap\'
+				AND `configkey` LIKE ?
+		';
+
+		if ($activeConfigurations) {
+			if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+				//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+				$sql .= ' AND to_char(`configvalue`)=\'1\'';
+			} else {
+				$sql .= ' AND `configvalue` = \'1\'';
 			}
-			$prefixes[] = $this->stripPrefix($serverConfig['configkey']);
+		}
+
+		$stmt = \OCP\DB::prepare($sql);
+
+		$serverConfigs = $stmt->execute(['%'.$referenceConfigkey])->fetchAll();
+		$prefixes = [];
+
+		foreach ($serverConfigs as $serverConfig) {
+			$len = \strlen($serverConfig['configkey']) - \strlen($referenceConfigkey);
+			$prefixes[] = \substr($serverConfig['configkey'], 0, $len);
 		}
 
 		return $prefixes;
@@ -73,12 +90,22 @@ class Helper {
 	 *
 	 */
 	public function getServerConfigurationHosts() {
-		$serverConfigs = $this->getAllConfigurations();
+		$referenceConfigkey = 'ldap_host';
+
+		$query = '
+			SELECT DISTINCT `configkey`, `configvalue`
+			FROM `*PREFIX*appconfig`
+			WHERE `appid` = \'user_ldap\'
+				AND `configkey` LIKE ?
+		';
+		$query = \OCP\DB::prepare($query);
+		$configHosts = $query->execute(['%'.$referenceConfigkey])->fetchAll();
 		$result = [];
-		foreach ($serverConfigs as $serverConfig) {
-			$prefix = $this->stripPrefix($serverConfig['configkey']);
-			$c = \json_decode($serverConfig['configvalue'], true);
-			$result[$prefix] = $c['ldapHost'];
+
+		foreach ($configHosts as $configHost) {
+			$len = \strlen($configHost['configkey']) - \strlen($referenceConfigkey);
+			$prefix = \substr($configHost['configkey'], 0, $len);
+			$result[$prefix] = $configHost['configvalue'];
 		}
 
 		return $result;
@@ -93,24 +120,27 @@ class Helper {
 		if (!\in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		try {
-			$qb->delete('appconfig')
-				->where(
-					$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
-				)
-				->andWhere(
-					$qb->expr()->like(
-						'configkey',
-						$qb->expr()->literal(Configuration::CONFIG_PREFIX . $prefix)
-					)
-				);
-			$result = $qb->execute();
-		} catch (\Exception $e) {
+
+		$saveOtherConfigurations = '';
+		if (empty($prefix)) {
+			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
+		}
+
+		$query = \OCP\DB::prepare('
+			DELETE
+			FROM `*PREFIX*appconfig`
+			WHERE `configkey` LIKE ?
+				'.$saveOtherConfigurations.'
+				AND `appid` = \'user_ldap\'
+				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
+		');
+		$delRows = $query->execute([$prefix.'%']);
+
+		if (\OCP\DB::isError($delRows)) {
 			return false;
 		}
 
-		if ($result->rowCount() === 0) {
+		if ($delRows === 0) {
 			return false;
 		}
 
@@ -119,17 +149,18 @@ class Helper {
 
 	/**
 	 * checks whether there is one or more disabled LDAP configurations
+	 * @throws \Exception
 	 * @return bool
 	 */
 	public function haveDisabledConfigurations() {
-		$all = $this->getAllConfigurations();
-		foreach ($all as $serverConfig) {
-			$c = \json_decode($serverConfig['configvalue'], true);
-			if (\intval($c['ldapConfigurationActive']) !== 1) {
-				return true;
-			}
+		$all = $this->getServerConfigurationPrefixes(false);
+		$active = $this->getServerConfigurationPrefixes(true);
+
+		if (!\is_array($all) || !\is_array($active)) {
+			throw new \Exception('Unexpected Return Value');
 		}
-		return \count($all) === 0;
+
+		return \count($all) !== \count($active) || \count($all) === 0;
 	}
 
 	/**
@@ -298,27 +329,5 @@ class Helper {
 		$dn = \str_replace(\array_keys($replacements), \array_values($replacements), $dn);
 
 		return $dn;
-	}
-
-	protected function getAllConfigurations() {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$qb->select('configkey', 'configvalue')
-			->from('appconfig')
-			->where(
-				$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
-			)
-			->andWhere(
-				$qb->expr()->like('configkey', $qb->expr()->literal(Configuration::CONFIG_PREFIX . '%'))
-			);
-
-		$result = $qb->execute();
-		return $result->fetchAll();
-	}
-
-	protected function stripPrefix($configurationId) {
-		return \implode(
-			'',
-			\explode(Configuration::CONFIG_PREFIX, $configurationId, 2)
-		);
 	}
 }

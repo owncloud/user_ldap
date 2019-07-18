@@ -21,7 +21,6 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Http\DataResponse;
@@ -83,7 +82,7 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->config->expects($this->any())
 			->method('setAppValue')
-			->with('user_ldap', Configuration::CONFIG_PREFIX . 'tcr', $this->anything());
+			->with('user_ldap', $this->stringStartsWith('tcr'), $this->anything());
 
 		$result = $this->controller->create();
 
@@ -149,15 +148,18 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testRead() {
-		$config = $this->getLdapConfig(
-			[
-				'ldapHost' => 'example.org',
-				'ldapAgentPassword' => \base64_encode('secret')
-			]
-		);
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->willReturn(\json_encode($config));
+			->will($this->returnCallback(function ($app, $key, $default) {
+				switch ($key) {
+					case 't01ldap_host':
+						return 'example.org';
+					case 't01ldap_agent_password':
+						return  \base64_encode('secret');
+					default:
+						return $default;
+				}
+			}));
 
 		$result = $this->controller->read('t01');
 
@@ -173,23 +175,34 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testTest() {
+
 		// use valid looking config to pass critical validation
-		$config = $this->getLdapConfig(
-			[
-				'ldapHost' => 'example.org',
-				'ldapPort' => '389',
-				'ldapDisplayName' => 'displayName',
-				'ldapGroupDisplayName' => 'cn',
-				'ldapLoginFilter' => '(uid=%uid)',
-				'ldapConfigurationActive' => 1,
-				'ldapAgentName' => 'cn=admin',
-				'ldapBase' => 'dc=example,dc=org',
-				'ldapAgentPassword' => \base64_encode('secret')
-			]
-		);
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->willReturn(\json_encode($config));
+			->will($this->returnCallback(function ($app, $key, $default) {
+				switch ($key) {
+					case 't01ldap_host':
+						return 'example.org';
+					case 't01ldap_port':
+						return '389';
+					case 't01ldap_display_name':
+						return 'displayName';
+					case 't01ldap_group_display_name':
+						return 'cn';
+					case 't01ldap_login_filter':
+						return '(uid=%uid)';
+					case 't01ldap_configuration_active':
+						return '1';
+					case 't01ldap_dn':
+						return  'cn=admin';
+					case 't01ldap_base':
+						return  'dc=example,dc=org';
+					case 't01ldap_agent_password':
+						return  \base64_encode('secret');
+					default:
+						return $default;
+				}
+			}));
 
 		$this->ldap->expects($this->any())
 			->method('areLDAPFunctionsAvailable')
@@ -232,13 +245,5 @@ class ConfigurationControllerTest extends TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
 		$this->assertArraySubset(['status' => 'error'], $data, true);
-	}
-
-	protected function getLdapConfig($values) {
-		$config = \array_merge(
-			(new Configuration($this->config, ''))->getDefaults(),
-			$values
-		);
-		return $config;
 	}
 }
