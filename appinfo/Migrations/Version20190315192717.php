@@ -143,22 +143,6 @@ class Version20190315192717 implements ISimpleMigration {
 	];
 
 	/**
-	 * @var string[] - config keys that should be converted into an array
-	 */
-	private $arrayConfigKeys = [
-		'ldapBase',
-		'ldapBaseUsers',
-		'ldapBaseGroups',
-		'ldapAttributesForUserSearch',
-		'ldapAttributesForGroupSearch',
-		'ldapUserFilterObjectclass',
-		'ldapUserFilterGroups',
-		'ldapGroupFilterObjectclass',
-		'ldapGroupFilterGroups',
-		'ldapLoginFilterAttributes'
-	];
-
-	/**
 	 * @var IConfig
 	 */
 	private $config;
@@ -268,48 +252,7 @@ class Version20190315192717 implements ISimpleMigration {
 			}
 		}
 
-		foreach ($this->arrayConfigKeys as $arrayConfigKey) {
-			if (isset($current[$arrayConfigKey])) {
-				$current[$arrayConfigKey] = $this->convertToArray($current[$arrayConfigKey]);
-			}
-		}
-
 		return $current;
-	}
-
-	/**
-	 * @param  mixed $value
-	 * @return string[]
-	 */
-	private function convertToArray($value) {
-		if (empty($value)) {
-			$value = '';
-		} elseif (!\is_array($value)) {
-			$value = \preg_split('/\r\n|\r|\n|;/', $value);
-			if ($value === false) {
-				$value = '';
-			}
-		}
-
-		if (!\is_array($value)) {
-			$finalValue = \trim($value);
-		} else {
-			$finalValue = [];
-			foreach ($value as $key => $val) {
-				if (\is_string($val)) {
-					$val = \trim($val);
-					if ($val !== '') {
-						//accidental line breaks are not wanted and can cause
-						// odd behaviour. Thus, away with them.
-						$finalValue[] = $val;
-					}
-				} else {
-					$finalValue[] = $val;
-				}
-			}
-		}
-
-		return $finalValue;
 	}
 
 	/**
