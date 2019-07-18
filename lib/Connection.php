@@ -280,15 +280,15 @@ class Connection extends LDAPUtility {
 	public function getConfiguration() {
 		$this->readConfiguration();
 		$config = $this->configuration->getConfiguration();
-		$defaults = $this->configuration->getDefaults();
+		$cta = $this->configuration->getConfigTranslationArray();
 		$result = [];
-		foreach (\array_keys($defaults) as $configkey) {
+		foreach ($cta as $dbkey => $configkey) {
 			switch ($configkey) {
 				case 'homeFolderNamingRule':
 					if (\strpos($config[$configkey], 'attr:') === 0) {
-						$result[$configkey] = \substr($config[$configkey], 5);
+						$result[$dbkey] = \substr($config[$configkey], 5);
 					} else {
-						$result[$configkey] = '';
+						$result[$dbkey] = '';
 					}
 					break;
 				case 'ldapBase':
@@ -297,12 +297,12 @@ class Connection extends LDAPUtility {
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
 					if (\is_array($config[$configkey])) {
-						$result[$configkey] = \implode("\n", $config[$configkey]);
+						$result[$dbkey] = \implode("\n", $config[$configkey]);
 						break;
 					} //else follows default
 					// no break
 				default:
-					$result[$configkey] = $config[$configkey];
+					$result[$dbkey] = $config[$configkey];
 			}
 		}
 		return $result;

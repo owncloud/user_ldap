@@ -45,8 +45,8 @@ class IntegrationTestBackupServer extends AbstractIntegrationTest {
 		$this->connection->setConfiguration([
 			'ldapHost' => 'qwertz.uiop',
 			'ldapPort' => '32123',
-			'ldapBackupHost' => $originalHost,
-			'ldapBackupPort' => $originalPort,
+			'ldap_backup_host' => $originalHost,
+			'ldap_backup_port' => $originalPort,
 		]);
 	}
 
@@ -80,8 +80,8 @@ class IntegrationTestBackupServer extends AbstractIntegrationTest {
 		$this->initConnection();
 		try {
 			$this->connection->setConfiguration([
-				'ldapBackupHost' => 'qwertz.uiop',
-				'ldapBackupPort' => '32123',
+				'ldap_backup_host' => 'qwertz.uiop',
+				'ldap_backup_port' => '32123',
 			]);
 			$this->connection->getConnectionResource();
 		} catch (\OC\ServerNotAvailableException $e) {
@@ -101,8 +101,8 @@ class IntegrationTestBackupServer extends AbstractIntegrationTest {
 		$this->initConnection();
 		try {
 			$this->connection->setConfiguration([
-				'ldapBackupHost' => '',
-				'ldapBackupPort' => '',
+				'ldap_backup_host' => '',
+				'ldap_backup_port' => '',
 			]);
 			$this->connection->getConnectionResource();
 		} catch (\OC\ServerNotAvailableException $e) {

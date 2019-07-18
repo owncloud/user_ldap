@@ -118,9 +118,9 @@ class ConfigurationController extends Controller {
 		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		$configuration = $connection->getConfiguration();
-		if (isset($configuration['ldapAgentPassword']) && $configuration['ldapAgentPassword'] !== '') {
+		if (isset($configuration['ldap_agent_password']) && $configuration['ldap_agent_password'] !== '') {
 			// hide password
-			$configuration['ldapAgentPassword'] = '**PASSWORD SET**';
+			$configuration['ldap_agent_password'] = '**PASSWORD SET**';
 		}
 		return new DataResponse([
 			'status' => 'success',
@@ -141,9 +141,9 @@ class ConfigurationController extends Controller {
 		try {
 			$configurationOk = true;
 			$conf = $connection->getConfiguration();
-			if ($conf['ldapConfigurationActive'] === '0') {
+			if ($conf['ldap_configuration_active'] === '0') {
 				//needs to be true, otherwise it will also fail with an irritating message
-				$conf['ldapConfigurationActive'] = '1';
+				$conf['ldap_configuration_active'] = '1';
 				$configurationOk = $connection->setConfiguration($conf);
 			}
 			if ($configurationOk) {

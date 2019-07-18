@@ -232,7 +232,7 @@ class Wizard extends LDAPUtility {
 			if ($count > 0) {
 				//no change, but we sent it back to make sure the user interface
 				//is still correct, even if the ajax call was cancelled meanwhile
-				$this->result->addChange('ldapUserDisplayName', $attr);
+				$this->result->addChange('ldap_display_name', $attr);
 				return $this->result;
 			}
 		}
@@ -243,7 +243,7 @@ class Wizard extends LDAPUtility {
 			$count = (int)$this->countUsersWithAttribute($attr, true);
 
 			if ($count > 0) {
-				$this->applyFind('ldapUserDisplayName', $attr);
+				$this->applyFind('ldap_display_name', $attr);
 				return $this->result;
 			}
 		};
@@ -289,7 +289,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		if ($winner !== '') {
-			$this->applyFind('ldapEmailAttribute', $winner);
+			$this->applyFind('ldap_email_attr', $winner);
 			if ($writeLog) {
 				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
 					'automatically been reset, because the original value ' .
@@ -318,11 +318,11 @@ class Wizard extends LDAPUtility {
 		\natcasesort($attributes);
 		$attributes = \array_values($attributes);
 
-		$this->result->addOptions('ldapLoginFilterAttributes', $attributes);
+		$this->result->addOptions('ldap_loginfilter_attributes', $attributes);
 
 		$selected = $this->configuration->ldapLoginFilterAttributes;
 		if (\is_array($selected) && !empty($selected)) {
-			$this->result->addChange('ldapLoginFilterAttributes', $selected);
+			$this->result->addChange('ldap_loginfilter_attributes', $selected);
 		}
 
 		return $this->result;
@@ -367,7 +367,7 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForGroups() {
-		return $this->determineGroups('ldapGroupFilterGroups',
+		return $this->determineGroups('ldap_groupfilter_groups',
 									  'ldapGroupFilterGroups',
 									  false);
 	}
@@ -377,7 +377,7 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForUsers() {
-		return $this->determineGroups('ldapUserFilterGroups',
+		return $this->determineGroups('ldap_userfilter_groups',
 									  'ldapUserFilterGroups');
 	}
 
@@ -481,7 +481,7 @@ class Wizard extends LDAPUtility {
 			return false;
 		}
 		$this->configuration->setConfiguration(['ldapGroupMemberAssocAttr' => $attribute]);
-		$this->result->addChange('ldapGroupMemberAssocAttr', $attribute);
+		$this->result->addChange('ldap_group_member_assoc_attribute', $attribute);
 
 		return $this->result;
 	}
@@ -506,7 +506,7 @@ class Wizard extends LDAPUtility {
 		$obclasses = ['groupOfNames', 'group', 'posixGroup', 'groupOfUniqueNames', '*'];
 		$this->determineFeature($obclasses,
 								'objectclass',
-								'ldapGroupFilterObjectclass',
+								'ldap_groupfilter_objectclass',
 								'ldapGroupFilterObjectclass',
 								false);
 
@@ -537,7 +537,7 @@ class Wizard extends LDAPUtility {
 		//then, apply suggestions.
 		$this->determineFeature($obclasses,
 								'objectclass',
-								'ldapUserFilterObjectclass',
+								'ldap_userfilter_objectclass',
 								'ldapUserFilterObjectclass',
 								empty($filter));
 
@@ -559,12 +559,12 @@ class Wizard extends LDAPUtility {
 		$displayName = $this->configuration->ldapGroupDisplayName;
 		if ($displayName === '') {
 			$d = $this->configuration->getDefaults();
-			$this->applyFind('ldapGroupDisplayName',
-							 $d['ldapGroupDisplayName']);
+			$this->applyFind('ldap_group_display_name',
+							 $d['ldap_group_display_name']);
 		}
 		$filter = $this->composeLdapFilter(self::LFILTER_GROUP_LIST);
 
-		$this->applyFind('ldapGroupFilter', $filter);
+		$this->applyFind('ldap_group_filter', $filter);
 		return $this->result;
 	}
 
@@ -583,14 +583,14 @@ class Wizard extends LDAPUtility {
 		$displayName = $this->configuration->ldapUserDisplayName;
 		if ($displayName === '') {
 			$d = $this->configuration->getDefaults();
-			$this->applyFind('ldapUserDisplayName', $d['ldapUserDisplayName']);
+			$this->applyFind('ldap_display_name', $d['ldap_display_name']);
 		}
 		$filter = $this->composeLdapFilter(self::LFILTER_USER_LIST);
 		if (!$filter) {
 			throw new \Exception('Cannot create filter');
 		}
 
-		$this->applyFind('ldapUserFilter', $filter);
+		$this->applyFind('ldap_userlist_filter', $filter);
 		return $this->result;
 	}
 
@@ -612,7 +612,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Cannot create filter');
 		}
 
-		$this->applyFind('ldapLoginFilter', $filter);
+		$this->applyFind('ldap_login_filter', $filter);
 		return $this->result;
 	}
 
@@ -697,7 +697,7 @@ class Wizard extends LDAPUtility {
 				];
 				$this->configuration->setConfiguration($config);
 				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
-				$this->result->addChange('ldapPort', $p);
+				$this->result->addChange('ldap_port', $p);
 				return $this->result;
 			}
 		}
@@ -723,7 +723,7 @@ class Wizard extends LDAPUtility {
 		if ($i !== false) {
 			$base = \substr($this->configuration->ldapAgentName, $i);
 			if ($this->testBaseDN($base)) {
-				$this->applyFind('ldapBase', $base);
+				$this->applyFind('ldap_base', $base);
 				return $this->result;
 			}
 		}
@@ -741,7 +741,7 @@ class Wizard extends LDAPUtility {
 		while (\count($dparts) > 0) {
 			$base2 = 'dc=' . \implode(',dc=', $dparts);
 			if ($base !== $base2 && $this->testBaseDN($base2)) {
-				$this->applyFind('ldapBase', $base2);
+				$this->applyFind('ldap_base', $base2);
 				return $this->result;
 			}
 			\array_shift($dparts);
@@ -775,8 +775,8 @@ class Wizard extends LDAPUtility {
 		if (\is_array($hostInfo) && isset($hostInfo['port'])) {
 			$port = $hostInfo['port'];
 			$host = \str_replace(':'.$port, '', $host);
-			$this->applyFind('ldapHost', $host);
-			$this->applyFind('ldapPort', $port);
+			$this->applyFind('ldap_host', $host);
+			$this->applyFind('ldap_port', $port);
 		}
 	}
 

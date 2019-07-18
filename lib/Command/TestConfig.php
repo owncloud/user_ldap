@@ -102,7 +102,7 @@ class TestConfig extends Command {
 		$connection->getConfiguration();
 
 		if (!$connection->setConfiguration([
-			'ldapConfigurationActive' => 1,
+			'ldap_configuration_active' => 1,
 		])) {
 			return 1;
 		}

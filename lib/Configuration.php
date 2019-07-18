@@ -124,8 +124,11 @@ class Configuration {
 			return false;
 		}
 
+		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
-			if (\array_key_exists($inputKey, $this->data)) {
+			if (\strpos($inputKey, '_') !== false && \array_key_exists($inputKey, $cta)) {
+				$key = $cta[$inputKey];
+			} elseif (\array_key_exists($inputKey, $this->data)) {
 				$key = $inputKey;
 			} else {
 				continue;
@@ -170,9 +173,9 @@ class Configuration {
 			);
 			$this->rawConnData = \json_decode($conn, true);
 
-			$defaults = $this->getDefaults();
+			$cta = \array_flip($this->getConfigTranslationArray());
 			foreach ($this->data as $key => $val) {
-				if (!\array_key_exists($key, $defaults)) {
+				if (!isset($cta[$key])) {
 					//some are determined
 					continue;
 				}
@@ -411,5 +414,64 @@ class Configuration {
 			'ldapDynamicGroupMemberURL'      => '',
 			'ldapIgnoreNamingRules'          => false
 		];
+	}
+
+	/**
+	 * @return array that maps internal variable names to database fields
+	 */
+	public function getConfigTranslationArray() {
+		//TODO: merge them into one representation
+		static $array = [
+			'ldap_host'                         => 'ldapHost',
+			'ldap_port'                         => 'ldapPort',
+			'ldap_backup_host'                  => 'ldapBackupHost',
+			'ldap_backup_port'                  => 'ldapBackupPort',
+			'ldap_override_main_server'         => 'ldapOverrideMainServer',
+			'ldap_dn'                           => 'ldapAgentName',
+			'ldap_agent_password'               => 'ldapAgentPassword',
+			'ldap_base'                         => 'ldapBase',
+			'ldap_base_users'                   => 'ldapBaseUsers',
+			'ldap_base_groups'                  => 'ldapBaseGroups',
+			'ldap_userfilter_objectclass'       => 'ldapUserFilterObjectclass',
+			'ldap_userfilter_groups'            => 'ldapUserFilterGroups',
+			'ldap_userlist_filter'              => 'ldapUserFilter',
+			'ldap_user_filter_mode'             => 'ldapUserFilterMode',
+			'ldap_login_filter'                 => 'ldapLoginFilter',
+			'ldap_login_filter_mode'            => 'ldapLoginFilterMode',
+			'ldap_loginfilter_email'            => 'ldapLoginFilterEmail',
+			'ldap_loginfilter_username'         => 'ldapLoginFilterUsername',
+			'ldap_loginfilter_attributes'       => 'ldapLoginFilterAttributes',
+			'ldap_group_filter'                 => 'ldapGroupFilter',
+			'ldap_group_filter_mode'            => 'ldapGroupFilterMode',
+			'ldap_groupfilter_objectclass'      => 'ldapGroupFilterObjectclass',
+			'ldap_groupfilter_groups'           => 'ldapGroupFilterGroups',
+			'ldap_user_name'                    => 'ldapUserName',
+			'ldap_display_name'                 => 'ldapUserDisplayName',
+			'ldap_user_display_name_2'			=> 'ldapUserDisplayName2',
+			'ldap_group_display_name'           => 'ldapGroupDisplayName',
+			'ldap_tls'                          => 'ldapTLS',
+			'ldap_quota_def'                    => 'ldapQuotaDefault',
+			'ldap_quota_attr'                   => 'ldapQuotaAttribute',
+			'ldap_email_attr'                   => 'ldapEmailAttribute',
+			'ldap_group_member_assoc_attribute' => 'ldapGroupMemberAssocAttr',
+			'ldap_cache_ttl'                    => 'ldapCacheTTL',
+			'ldap_network_timeout'              => 'ldapNetworkTimeout',
+			'home_folder_naming_rule'           => 'homeFolderNamingRule',
+			'ldap_turn_off_cert_check'          => 'turnOffCertCheck',
+			'ldap_configuration_active'         => 'ldapConfigurationActive',
+			'ldap_attributes_for_user_search'   => 'ldapAttributesForUserSearch',
+			'ldap_attributes_for_group_search'  => 'ldapAttributesForGroupSearch',
+			'ldap_expert_username_attr'         => 'ldapExpertUsernameAttr',
+			'ldap_expert_uuid_user_attr'        => 'ldapExpertUUIDUserAttr',
+			'ldap_expert_uuid_group_attr'       => 'ldapExpertUUIDGroupAttr',
+			'has_memberof_filter_support'       => 'hasMemberOfFilterSupport',
+			'use_memberof_to_detect_membership' => 'useMemberOfToDetectMembership',
+			'last_jpegPhoto_lookup'             => 'lastJpegPhotoLookup',
+			'ldap_nested_groups'                => 'ldapNestedGroups',
+			'ldap_paging_size'                  => 'ldapPagingSize',
+			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
+			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
+		];
+		return $array;
 	}
 }
