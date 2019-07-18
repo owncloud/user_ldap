@@ -94,15 +94,17 @@ class WizardController extends Controller {
 	/**
 	 * do your magic
 	 *
-	 * @param string $id config id
+	 * @param string $ldap_serverconfig_chooser config id
 	 * @param string $action the spell to cast
 	 * @param string $cfgkey optional
 	 * @param string $cfgval optional
 	 * @param string $ldap_test_loginname optional
 	 * @return DataResponse
 	 */
-	public function cast($id, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
-		$config = new Configuration($this->config, $id);
+	public function cast($ldap_serverconfig_chooser, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+
+		$config = new Configuration($this->config, $prefix);
 
 		switch ($action) {
 			case 'guessPortAndTLS':
@@ -177,7 +179,7 @@ class WizardController extends Controller {
 				}
 				$config->saveConfiguration();
 				//clear the cache on save
-				$configuration = new Configuration($this->config, $id);
+				$configuration = new Configuration($this->config, $prefix);
 				$connection = new Connection($this->ldapWrapper, $configuration);
 				$connection->clearCache();
 				return new DataResponse(['status' => 'success']);

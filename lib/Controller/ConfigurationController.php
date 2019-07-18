@@ -106,15 +106,16 @@ class ConfigurationController extends Controller {
 		$resultData['status'] = 'success';
 		return new DataResponse($resultData);
 	}
-
 	/**
 	 * get the given ldap config
 	 *
-	 * @param string $id config id
+	 * @param string $ldap_serverconfig_chooser config id
 	 * @return DataResponse
 	 */
-	public function read($id) {
-		$configuration = new Configuration($this->config, $id);
+	public function read($ldap_serverconfig_chooser) {
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+
+		$configuration = new Configuration($this->config, $prefix);
 		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		$configuration = $connection->getConfiguration();
@@ -131,11 +132,13 @@ class ConfigurationController extends Controller {
 	/**
 	 * test the given ldap config
 	 *
-	 * @param string $id config id
+	 * @param string $ldap_serverconfig_chooser config id
 	 * @return DataResponse
 	 */
-	public function test($id) {
-		$configuration = new Configuration($this->config, $id);
+	public function test($ldap_serverconfig_chooser) {
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+
+		$configuration = new Configuration($this->config, $prefix);
 		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		try {
@@ -198,13 +201,14 @@ class ConfigurationController extends Controller {
 	}
 
 	/**
-	 * delete the given ldap config
+	 * get the given ldap config
 	 *
-	 * @param string $id config id
+	 * @param string $ldap_serverconfig_chooser config id
 	 * @return DataResponse
 	 */
-	public function delete($id) {
-		if ($this->helper->deleteServerConfiguration($id)) {
+	public function delete($ldap_serverconfig_chooser) {
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+		if ($this->helper->deleteServerConfiguration($prefix)) {
 			return new DataResponse(['status' => 'success']);
 		}
 		return new DataResponse([

@@ -27,7 +27,7 @@ OCA = OCA || {};
 			model.notifyAboutDetectionStart(this.getTargetKey());
 			var params = OC.buildQueryString({
 				action: this.wizardMethod,
-				id: configID
+				ldap_serverconfig_chooser: configID
 			});
 			return model.callWizard(params, this.processResult, this);
 		},
