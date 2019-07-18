@@ -2,7 +2,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\Config;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
@@ -66,8 +65,9 @@ class AdminPanel implements ISettings {
 		$tmpl->assign('settingControls', $sControls);
 
 		// assign default values
-		$config = new Config([]);
-		foreach ($config->jsonSerialize() as $key => $default) {
+		$config = new Configuration($this->config, '', false);
+		$defaults = $config->getDefaults();
+		foreach ($defaults as $key => $default) {
 			$tmpl->assign($key.'_default', $default);
 		}
 

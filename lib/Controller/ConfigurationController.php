@@ -21,12 +21,13 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -38,8 +39,8 @@ use OCP\ISession;
  */
 class ConfigurationController extends Controller {
 
-	/** @var ConfigMapper */
-	protected $mapper;
+	/** @var IConfig */
+	protected $config;
 
 	/** @var ISession */
 	protected $session;
@@ -50,26 +51,32 @@ class ConfigurationController extends Controller {
 	/** @var LDAP */
 	protected $ldapWrapper;
 
+	/** @var Helper */
+	protected $helper;
+
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param ConfigMapper $mapper
+	 * @param IConfig $config
 	 * @param ISession $session
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
+	 * @param Helper $helper
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								ConfigMapper $mapper,
+								IConfig $config,
 								ISession $session,
 								IL10N $l10n,
-								LDAP $ldapWrapper
+								LDAP $ldapWrapper,
+								Helper $helper
 	) {
 		parent::__construct($appName, $request);
-		$this->mapper = $mapper;
+		$this->config = $config;
 		$this->session = $session;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -79,28 +86,22 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function create($copyConfig = null) {
-		$newPrefix = $this->mapper->nextPossibleConfigurationPrefix();
+		$newPrefix = $this->helper->nextPossibleConfigurationPrefix();
 
 		$resultData = ['configPrefix' => $newPrefix];
 
+		$newConfig = new Configuration($this->config, $newPrefix, false);
 		if ($copyConfig === null) {
 			// create empty config
-			$newConfig = new Config(['id' => $newPrefix]);
-			$resultData['defaults'] = $newConfig->jsonSerialize();
+			$configuration = new Configuration($this->config, $newPrefix, false);
+			$newConfig->setConfiguration($configuration->getDefaults());
+			$resultData['defaults'] = $configuration->getDefaults();
 		} else {
 			// copy existing config
-			$originalConfig = $this->mapper->find($copyConfig);
-			$newConfig = new Config(
-				\array_merge(
-					$originalConfig->jsonSerialize(),
-					[
-						'id' => $newPrefix
-					]
-				)
-			);
-			$newConfig->getData();
+			$originalConfig = new Configuration($this->config, $copyConfig);
+			$newConfig->setConfiguration($originalConfig->getConfiguration());
 		}
-		$this->mapper->insert($newConfig);
+		$newConfig->saveConfiguration();
 
 		$resultData['status'] = 'success';
 		return new DataResponse($resultData);
@@ -113,8 +114,8 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function read($id) {
-		$config = $this->mapper->find($id);
-		$connection = new Connection($this->ldapWrapper, $this->mapper, $config);
+		$configuration = new Configuration($this->config, $id);
+		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		$configuration = $connection->getConfiguration();
 		if (isset($configuration['ldapAgentPassword']) && $configuration['ldapAgentPassword'] !== '') {
@@ -134,8 +135,8 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function test($id) {
-		$config = $this->mapper->find($id);
-		$connection = new Connection($this->ldapWrapper, $this->mapper, $config);
+		$configuration = new Configuration($this->config, $id);
+		$connection = new Connection($this->ldapWrapper, $configuration);
 
 		try {
 			$configurationOk = true;
@@ -203,15 +204,12 @@ class ConfigurationController extends Controller {
 	 * @return DataResponse
 	 */
 	public function delete($id) {
-		try {
-			$this->mapper->delete($id);
-		} catch (\Exception $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'message' => $this->l10n->t('Failed to delete the server configuration')
-			]);
+		if ($this->helper->deleteServerConfiguration($id)) {
+			return new DataResponse(['status' => 'success']);
 		}
-
-		return new DataResponse(['status' => 'success']);
+		return new DataResponse([
+			'status' => 'error',
+			'message' => $this->l10n->t('Failed to delete the server configuration')
+		]);
 	}
 }

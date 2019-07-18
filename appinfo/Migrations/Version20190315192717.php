@@ -21,7 +21,7 @@
 
 namespace OCA\User_LDAP\Migrations;
 
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Configuration;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -326,7 +326,7 @@ class Version20190315192717 implements ISimpleMigration {
 	private function storeConfig($prefix, $configData) {
 		$this->config->setAppValue(
 			'user_ldap',
-			ConfigMapper::PREFIX . $prefix,
+			Configuration::CONFIG_PREFIX . $prefix,
 			\json_encode($configData)
 		);
 	}

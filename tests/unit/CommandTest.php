@@ -22,8 +22,6 @@
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Command\ShowConfig;
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -34,9 +32,6 @@ use Test\TestCase;
 class CommandTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
-
-	/** @var ConfigMapper | \PHPUnit\Framework\MockObject\MockObject */
-	private $mapper;
 	
 	/**
 	 *
@@ -45,25 +40,14 @@ class CommandTest extends TestCase {
 	 */
 	protected function setUp() {
 		parent::setUp();
-		$this->mapper = $this->createMock(ConfigMapper::class);
+		$this->helper = $this->createMock(Helper::class);
 		$coreConfig = \OC::$server->getConfig();
-		$command = new ShowConfig($this->mapper);
+		$command = new ShowConfig($coreConfig, $this->helper);
 		$this->commandTester = new CommandTester($command);
-		$this->mapper
-		->method("listAll")
-		->willReturn(
-			[
-				new Config(['id' => 'configId1']),
-				new Config(['id' => 'configId2']),
-			]
-		);
-		$this->mapper
-			->method("find")
-			->willReturnCallback(
-				function ($id) {
-					return new Config(['id' => $id]);
-				}
-			);
+		$this->helper
+		->expects($this->once())
+		->method("getServerConfigurationPrefixes")
+		->willReturn(["configId1","configId2"]);
 	}
 
 	/**

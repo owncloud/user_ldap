@@ -25,8 +25,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
 use OCP\IL10N;
 
 /**
@@ -37,10 +35,8 @@ use OCP\IL10N;
  * @package OCA\User_LDAP
  */
 class WizardTest extends \Test\TestCase {
-	/** @var ConfigMapper|\PHPUnit\Framework\MockObject\MockObject */
-	private $mapper;
 
-	/** @var Config */
+	/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject */
 	protected $configuration;
 
 	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
@@ -68,29 +64,50 @@ class WizardTest extends \Test\TestCase {
 				\define($const, 42);
 			}
 		}
-		$this->configuration = new Config(
-			[
-				'ldapBase' => ['dc=foobar,dc=bar'],
-				'ldapBaseUsers' => ['dc=foobar,dc=bar'],
-				'ldapAttributesForUserSearch' => [],
-				'ldapHost' => 'localhost',
-				'ldapPort' => 369,
-				'ldapEmailAttribute' => 'myEmailAttribute',
-				'homeFolderNamingRule' => null,
-				'ldapQuotaAttribute' => '(objectclass=*)',
-				'ldapUserDisplayName2' => '(objectclass=*)',
-				'ldapGroupFilter' => '(objectclass=*)',
-				'ldapDynamicGroupMemberURL' => '',
-				'ldapUserFilter' => '(objectclass=inetorgperson)',
-				'ldapUserDisplayName' => 'displayName',
-				'ldapGroupMemberAssocAttr' => 'uniqueMember',
-				'hasMemberOfFilterSupport' => 1,
-				'useMemberOfToDetectMembership' => 1,
-				'ldapNestedGroups' => 1
-			]
-		);
+		$this->configuration = $this->createMock(Configuration::class);
 
-		$this->mapper = $this->createMock(ConfigMapper::class);
+		// TODO refactor Configuration class as a POPO with defaults, then use it instead of building a mock?
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($method) {
+				switch ($method) {
+					// multiline attributes are arrays
+					case 'ldapBase':
+						return ['dc=foobar,dc=bar'];
+					case 'ldapBaseUsers':
+						return ['dc=foobar,dc=bar'];
+					case 'ldapAttributesForUserSearch':
+						return [];
+					// other attributes
+					case 'ldapHost':
+						return 'localhost';
+					case 'ldapPort':
+						return 369;
+					case 'ldapEmailAttribute':
+						return 'myEmailAttribute';
+					case 'homeFolderNamingRule':
+						return null;
+					case 'ldapQuotaAttribute':
+					case 'ldapUserDisplayName2':
+					case 'ldapGroupFilter':
+						return '(objectclass=*)';
+					case 'ldapDynamicGroupMemberURL':
+						return '';
+					case 'ldapUserFilter':
+						return '(objectclass=inetorgperson)';
+					case 'ldapUserDisplayName':
+						return 'displayName';
+					case 'ldapGroupMemberAssocAttr':
+						return 'uniqueMember';
+					case 'hasMemberOfFilterSupport':
+					case 'useMemberOfToDetectMembership':
+					case 'ldapNestedGroups':
+						return 1;
+					default:
+						return false;
+				}
+			}));
+
 		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		$this->ldap->expects($this->any())
 			->method('hasPagedResultSupport')
@@ -99,7 +116,7 @@ class WizardTest extends \Test\TestCase {
 		$this->access = $this->createMock(Access::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
-		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->mapper, $this->access, $this->l10n);
+		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->access, $this->l10n);
 	}
 
 	private function prepareLdapWrapperForConnections() {
@@ -225,6 +242,16 @@ class WizardTest extends \Test\TestCase {
 	}
 
 	public function testDetectEmailAttributeAlreadySet() {
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				}
+				//for requirement checks
+				return 'let me pass';
+			}));
+
 		$this->access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(42));
@@ -233,6 +260,16 @@ class WizardTest extends \Test\TestCase {
 	}
 
 	public function testDetectEmailAttributeOverrideSet() {
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				}
+				//for requirement checks
+				return 'let me pass';
+			}));
+
 		$this->access->expects($this->exactly(3))
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($filterParts) {
@@ -260,7 +297,16 @@ class WizardTest extends \Test\TestCase {
 	}
 
 	public function testDetectEmailAttributeFind() {
-		$this->configuration->setConfiguration(['ldapEmailAttribute' => '']);
+		$this->configuration = $this->createMock(Configuration::class);
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapEmailAttribute') {
+					return '';
+				}
+				//for requirement checks
+				return 'let me pass';
+			}));
 
 		$this->access->expects($this->exactly(2))
 			->method('combineFilterWithAnd')
@@ -283,13 +329,23 @@ class WizardTest extends \Test\TestCase {
 				throw new \Exception('Untested filter: ' . $filter);
 			}));
 
-		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->mapper, $this->access, $this->l10n);
+		$this->wizard = new Wizard($this->ldap, $this->configuration, $this->access, $this->l10n);
 		$result = $this->wizard->detectEmailAttribute()->getResultArray();
 		$this->assertSame('mailPrimaryAddress',
 			$result['changes']['ldapEmailAttribute']);
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				}
+				//for requirement checks
+				return 'let me pass';
+			}));
+
 		$this->access->expects($this->exactly(3))
 			->method('combineFilterWithAnd')
 			->will($this->returnCallback(function ($filterParts) {
@@ -318,6 +374,15 @@ class WizardTest extends \Test\TestCase {
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
 		// tests that there is no infinite loop, when skipping already processed
 		// DNs (they can be returned multiple times for multiple filters )
+
+		$this->configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if ($name === 'ldapBase') {
+					return ['base'];
+				}
+				return null;
+			}));
 
 		$this->prepareLdapWrapperForConnections();
 

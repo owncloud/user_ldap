@@ -24,22 +24,21 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
-use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use \OCA\User_LDAP\Helper;
 
 class DeleteConfig extends Command {
-	/** @var ConfigMapper */
-	protected $mapper;
+	/** @var \OCA\User_LDAP\Helper */
+	protected $helper;
 
 	/**
-	 * @param ConfigMapper $mapper
+	 * @param Helper $helper
 	 */
-	public function __construct(ConfigMapper $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(Helper $helper) {
+		$this->helper = $helper;
 		parent::__construct();
 	}
 
@@ -56,12 +55,14 @@ class DeleteConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$id = $input->getArgument('configID');
-		try {
-			$this->mapper->delete($id);
-			$output->writeln("Deleted configuration with configID '{$id}'");
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$id' does not exist");
+		$configPrefix = $input->getArgument('configID');
+
+		$success = $this->helper->deleteServerConfiguration($configPrefix);
+
+		if ($success) {
+			$output->writeln("Deleted configuration with configID '{$configPrefix}'");
+		} else {
+			$output->writeln("Cannot delete configuration with configID '{$configPrefix}'");
 		}
 	}
 }

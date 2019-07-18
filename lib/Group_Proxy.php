@@ -25,8 +25,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Config\ConfigMapper;
-
 class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	private $backends = [];
 	private $refBackend = null;
@@ -35,8 +33,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 * Constructor
 	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
-	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap, ConfigMapper $mapper) {
-		parent::__construct($ldap, $mapper);
+	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
+		parent::__construct($ldap);
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix));

@@ -4,9 +4,8 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Laurens Post <Crote@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Viktar Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2019, ownCloud GmbH.
+ * @copyright Copyright (c) 2016, ownCloud GmbH.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,10 +24,10 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Helper;
 use OC\Core\Command\Base;
-use OCA\User_LDAP\Exceptions\ConfigException;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\IConfig;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,18 +36,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
 
-	/** @var ConfigMapper */
-	protected $mapper;
+	/** @var IConfig */
+	protected $config;
 
-	/** @var bool */
-	protected $showPassword;
+	/** @var Helper */
+	protected $helper;
 
 	/**
-	 * @param ConfigMapper $configMapper
+	 * @param IConfig $config
+	 * @param Helper $helper
 	 */
-	public function __construct(ConfigMapper $configMapper) {
+	public function __construct(IConfig $config, Helper $helper) {
 		parent::__construct();
-		$this->mapper = $configMapper;
+		$this->config = $config;
+		$this->helper = $helper;
 	}
 
 	protected function configure() {
@@ -72,61 +73,57 @@ class ShowConfig extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->showPassword = $input->getOption('show-password');
-		$configId = $input->getArgument('configID');
-		try {
-			$configIds = $configId ? [$this->mapper->find($configId)] : $this->mapper->listAll();
-			foreach ($configIds as $config) {
-				try {
-					$this->showConfig($config->getId(), $input, $output);
-				} catch (ConfigException $e) {
-					$output->writeln("Configuration with configID '$configId' is broken");
-				}
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
+		$configID = $input->getArgument('configID');
+		if ($configID !== null) {
+			$configIDs[] = $configID;
+			if (!\in_array($configIDs[0], $availableConfigs)) {
+				$output->writeln("Invalid configID");
+				return;
 			}
-		} catch (DoesNotExistException $e) {
-			$output->writeln("Configuration with configID '$configId' does not exist");
+		} else {
+			$configIDs = $availableConfigs;
 		}
+		$this->renderConfigs($configIDs, $input, $output, $input->getOption('show-password'));
 	}
 
 	/**
-	 * Prints LDAP configuration
-	 *
-	 * @param string $configId
+	 * prints the LDAP configuration(s)
+	 * @param string[] configID(s)
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 *
-	 * @throws DoesNotExistException
-	 * @throws ConfigException
+	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
 	 */
-	protected function showConfig($configId, InputInterface $input, OutputInterface $output) {
-		$config = $this->mapper->find($configId);
-		if ($this->showPassword === false) {
-			$config->ldapAgentPassword = '***';
-		}
-		$configData = $config->jsonSerialize();
-		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-			$table = new Table($output);
-			$table->setHeaders(['Configuration', $configId]);
-			$rows = [];
-			foreach ($configData as $key => $value) {
-				if (\is_array($value)) {
-					$value = \implode(';', $value);
-				} elseif ($key === 'ldapAgentPassword') {
-					$value = $config->ldapAgentPassword;
-				}
-				$rows[] = [$key, $value];
+	protected function renderConfigs($configIDs, InputInterface $input, OutputInterface $output, $withPassword) {
+		foreach ($configIDs as $id) {
+			$configHolder = new Configuration($this->config, $id);
+			$configuration = $configHolder->getConfiguration();
+			\ksort($configuration);
+			if (!$withPassword) {
+				$configuration ['ldapAgentPassword'] = '***';
 			}
-
-			$table->setRows($rows);
-			$table->render();
-		} else {
-			parent::writeArrayInOutputFormat(
-				$input,
-				$output,
-				\array_merge($configData, ['id' => $configId]),
-				self::DEFAULT_OUTPUT_PREFIX,
-				true
-			);
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
+				$table = new Table($output);
+				$table->setHeaders(['Configuration', $id]);
+				$rows = [];
+				foreach ($configuration as $key => $value) {
+					if (\is_array($value)) {
+						$value = \implode(';', $value);
+					}
+					$rows[] = [$key, $value];
+				}
+			
+				$table->setRows($rows);
+				$table->render();
+			} else {
+				parent::writeArrayInOutputFormat(
+					$input,
+					$output,
+					$configuration,
+					self::DEFAULT_OUTPUT_PREFIX,
+					true
+				);
+			}
 		}
 	}
 }

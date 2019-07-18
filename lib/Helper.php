@@ -28,9 +28,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\AppInfo\Application;
-use OCA\User_LDAP\Config\ConfigMapper;
-
 class Helper {
 	/**
 	 * FIXME use public AppConfig API
@@ -88,6 +85,39 @@ class Helper {
 	}
 
 	/**
+	 * deletes a given saved LDAP/AD server configuration.
+	 * @param string $prefix the configuration prefix of the config to delete
+	 * @return bool true on success, false otherwise
+	 */
+	public function deleteServerConfiguration($prefix) {
+		if (!\in_array($prefix, self::getServerConfigurationPrefixes())) {
+			return false;
+		}
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		try {
+			$qb->delete('appconfig')
+				->where(
+					$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
+				)
+				->andWhere(
+					$qb->expr()->like(
+						'configkey',
+						$qb->expr()->literal(Configuration::CONFIG_PREFIX . $prefix)
+					)
+				);
+			$result = $qb->execute();
+		} catch (\Exception $e) {
+			return false;
+		}
+
+		if ($result === 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * checks whether there is one or more disabled LDAP configurations
 	 * @return bool
 	 */
@@ -137,18 +167,23 @@ class Helper {
 
 		$configPrefixes = $this->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
-		$app = new Application();
+		$ocConfig = \OC::$server->getConfig();
 
 		$userBackend  = new User_Proxy(
-			$configPrefixes,
-			$ldapWrapper,
-			$app->getContainer()->query(ConfigMapper::class),
-			\OC::$server->getConfig()
+			$configPrefixes, $ldapWrapper, $ocConfig
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
+	}
+
+	public function nextPossibleConfigurationPrefix() {
+		$prefixes = $this->getServerConfigurationPrefixes();
+		\sort($prefixes);
+		$maxPrefix = \array_pop($prefixes);
+		$count = (int)\ltrim($maxPrefix, 's');
+		return 's'.\str_pad($count+1, 2, '0', STR_PAD_LEFT);
 	}
 
 	/**
@@ -273,7 +308,7 @@ class Helper {
 				$qb->expr()->eq('appid', $qb->expr()->literal('user_ldap'))
 			)
 			->andWhere(
-				$qb->expr()->like('configkey', $qb->expr()->literal(ConfigMapper::PREFIX . '%'))
+				$qb->expr()->like('configkey', $qb->expr()->literal(Configuration::CONFIG_PREFIX . '%'))
 			);
 
 		$result = $qb->execute();
@@ -283,7 +318,7 @@ class Helper {
 	protected function stripPrefix($configurationId) {
 		return \implode(
 			'',
-			\explode(ConfigMapper::PREFIX, $configurationId, 2)
+			\explode(Configuration::CONFIG_PREFIX, $configurationId, 2)
 		);
 	}
 }
