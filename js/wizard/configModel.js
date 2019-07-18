@@ -205,14 +205,6 @@ OCA = OCA || {};
 					});
 					result['changes'] = changes;
 				}
-				if (result['options']) {
-					var options = {};
-					$.each(result['options'], function(key, value) {
-						key = model.mappings[key] || key;
-						options[key] = value;
-					});
-					result['options'] = options;
-				}
 				callback(model, detector, result);
 			});
 		},
