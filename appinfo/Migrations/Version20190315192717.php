@@ -140,8 +140,6 @@ class Version20190315192717 implements ISimpleMigration {
 		'ldap_paging_size'                  => 'ldapPagingSize',
 		'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 		'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
-		'ldap_uuid_user_attribute'          => 'ldapUuidUserAttribute',
-		'ldap_uuid_group_attribute'         => 'ldapUuidGroupAttribute'
 	];
 
 	/**
@@ -281,10 +279,9 @@ class Version20190315192717 implements ISimpleMigration {
 
 	/**
 	 * @param  mixed $value
-	 * @return string | string[]
+	 * @return string[]
 	 */
 	private function convertToArray($value) {
-		// try to split the value by all known separators
 		if (empty($value)) {
 			$value = '';
 		} elseif (!\is_array($value)) {
@@ -295,10 +292,8 @@ class Version20190315192717 implements ISimpleMigration {
 		}
 
 		if (!\is_array($value)) {
-			// if the value is not an array - store it as is
 			$finalValue = \trim($value);
 		} else {
-			// if the value is an array - clean all empty values
 			$finalValue = [];
 			foreach ($value as $key => $val) {
 				if (\is_string($val)) {

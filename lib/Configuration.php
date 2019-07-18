@@ -46,7 +46,74 @@ class Configuration {
 	protected $read = false;
 
 	/** @var array */
-	protected $data = [];
+	protected $data = [
+		'ldapHost' => null,
+		'ldapPort' => null,
+		'ldapBackupHost' => null,
+		'ldapBackupPort' => null,
+		'ldapBase' => null,
+		'ldapBaseUsers' => null,
+		'ldapBaseGroups' => null,
+		'ldapAgentName' => null,
+		'ldapAgentPassword' => null,
+		'ldapTLS' => null,
+		'turnOffCertCheck' => null,
+		'ldapIgnoreNamingRules' => null,
+		'ldapUserName' => null,
+		'ldapUserDisplayName' => null,
+		'ldapUserDisplayName2' => null,
+		'ldapUserFilterObjectclass' => null,
+		'ldapUserFilterGroups' => null,
+		'ldapUserFilter' => null,
+		'ldapUserFilterMode' => null,
+		'ldapGroupFilter' => null,
+		'ldapGroupFilterMode' => null,
+		'ldapGroupFilterObjectclass' => null,
+		'ldapGroupFilterGroups' => null,
+		'ldapGroupDisplayName' => null,
+		'ldapGroupMemberAssocAttr' => null,
+		'ldapLoginFilter' => null,
+		'ldapLoginFilterMode' => null,
+		'ldapLoginFilterEmail' => null,
+		'ldapLoginFilterUsername' => null,
+		'ldapLoginFilterAttributes' => null,
+		'ldapQuotaAttribute' => null,
+		'ldapQuotaDefault' => null,
+		'ldapEmailAttribute' => null,
+		'ldapCacheTTL' => null,
+		'ldapNetworkTimeout' => null,
+		'ldapUuidUserAttribute' => 'auto',
+		'ldapUuidGroupAttribute' => 'auto',
+		'ldapOverrideMainServer' => false,
+		'ldapConfigurationActive' => false,
+		'ldapAttributesForUserSearch' => null,
+		'ldapAttributesForGroupSearch' => null,
+		'ldapExperiencedAdmin' => false,
+		'homeFolderNamingRule' => null,
+		'hasPagedResultSupport' => false,
+		'hasMemberOfFilterSupport' => false,
+		'useMemberOfToDetectMembership' => true,
+		'ldapExpertUsernameAttr' => null,
+		'ldapExpertUUIDUserAttr' => null,
+		'ldapExpertUUIDGroupAttr' => null,
+		'lastJpegPhotoLookup' => null,
+		'ldapNestedGroups' => false,
+		'ldapPagingSize' => null,
+		'ldapDynamicGroupMemberURL' => null,
+	];
+
+	protected $arrayConfigKeys = [
+		'ldapBase',
+		'ldapBaseUsers',
+		'ldapBaseGroups',
+		'ldapAttributesForUserSearch',
+		'ldapAttributesForGroupSearch',
+		'ldapUserFilterObjectclass',
+		'ldapUserFilterGroups',
+		'ldapGroupFilterObjectclass',
+		'ldapGroupFilterGroups',
+		'ldapLoginFilterAttributes'
+	];
 
 	protected $rawConnData;
 
@@ -58,7 +125,6 @@ class Configuration {
 	public function __construct(IConfig $coreConfig, $prefix, $autoRead = true) {
 		$this->coreConfig = $coreConfig;
 		$this->prefix = $prefix;
-		$this->data = $this->getDefaults();
 		if ($autoRead) {
 			$this->readConfiguration();
 		}
@@ -247,15 +313,17 @@ class Configuration {
 	}
 
 	public function isDefault() {
-		$defaults = $this->getDefaults();
-		foreach ($this->getTranslatedConfig() as $key=>$value) {
-			if (\array_key_exists($key, $defaults) === false
-				|| $defaults[$key] !== $value
+		$c = $this->getTranslatedConfig();
+		// multiple values means the config is not default
+		foreach ($this->arrayConfigKeys as $arrayConfigKey) {
+			if (\array_key_exists($arrayConfigKey, $c) === false
+				|| \is_array($c[$arrayConfigKey])
 			) {
 				return false;
 			}
 		}
-		return true;
+		$diff = \array_diff_assoc($c, $this->getDefaults());
+		return \count($diff) === 0;
 	}
 
 	/**
@@ -395,8 +463,8 @@ class Configuration {
 			'ldapGroupMemberAssocAttr'       => 'uniqueMember',
 			'ldapCacheTTL'                   => 600,
 			'ldapNetworkTimeout'             => 2,
-			'ldapUuidUserAttribute'          => 'auto',
-			'ldapUuidGroupAttribute'         => 'auto',
+			'ldap_uuid_user_attribute'       => 'auto',
+			'ldap_uuid_group_attribute'      => 'auto',
 			'homeFolderNamingRule'           => '',
 			'turnOffCertCheck'               => 0,
 			'ldapConfigurationActive'        => 0,
@@ -412,7 +480,6 @@ class Configuration {
 			'ldapPagingSize'                 => 500,
 			'ldapExperiencedAdmin'           => 0,
 			'ldapDynamicGroupMemberURL'      => '',
-			'ldapIgnoreNamingRules'          => false
 		];
 	}
 
