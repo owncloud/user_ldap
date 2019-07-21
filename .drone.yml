@@ -61,7 +61,8 @@ pipeline:
       - php occ a:l
       - php occ config:system:set trusted_domains 1 --value=server
       - php occ config:system:set trusted_domains 2 --value=federated
-      - php occ log:manage --level 0
+      - php occ log:manage --level 2
+      - echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh
       - php occ config:list
     when:
       matrix:
@@ -114,7 +115,7 @@ pipeline:
       - php occ a:l
       - php occ config:system:set trusted_domains 1 --value=server
       - php occ config:system:set trusted_domains 2 --value=federated
-      - php occ log:manage --level 0
+      - php occ log:manage --level 2
       - php occ config:system:set --value true --type boolean integrity.check.disabled
     when:
       matrix:
@@ -193,6 +194,8 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-api
     when:
@@ -207,6 +210,8 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-cli
     when:
@@ -225,6 +230,8 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-webui
     when:
@@ -239,6 +246,8 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-api
     when:
@@ -253,6 +262,8 @@ pipeline:
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-cli
     when:
@@ -267,11 +278,12 @@ pipeline:
       - SELENIUM_HOST=selenium
       - SELENIUM_PORT=4444
       - TEST_SERVER_URL=http://server
-      - TEST_SERVER_FED_URL=http://federated
       - PLATFORM=Linux
       - TEST_EXTERNAL_USER_BACKENDS=true
       - BEHAT_SUITE=${BEHAT_SUITE}
     commands:
+      - touch /var/www/owncloud/saved-settings.sh
+      - . /var/www/owncloud/saved-settings.sh
       - if [ "${USE_RELEASE_TARBALL}" = "true" ]; then cd /var/www/owncloud/testrunner/apps/user_ldap; fi
       - make test-acceptance-core-webui
     when:
@@ -1188,6 +1200,8 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      USE_FEDERATED_SERVER: true
+      FEDERATION_OC_VERSION: daily-stable10-qa
       BEHAT_SUITE: apiFederation
 
     - TEST_SUITE: core-api-acceptance
@@ -1420,6 +1434,8 @@ matrix:
       NEED_SERVER: true
       NEED_CORE: true
       NEED_INSTALL_APP: true
+      USE_FEDERATED_SERVER: true
+      FEDERATION_OC_VERSION: daily-stable10-qa
       BEHAT_SUITE: apiFederation
 
     - TEST_SUITE: core-api-acceptance
