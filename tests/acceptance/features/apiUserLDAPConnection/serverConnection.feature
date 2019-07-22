@@ -21,11 +21,10 @@ Feature: connect to LDAP serer
     When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
-     | app       | message                                                 |
-     | user_ldap | Error when searching: Can't contact LDAP server code -1 |
-     | user_ldap | Attempt for Paging?                                     |
-     | core      | Login failed: 'user0' (Remote IP:                       |
-    When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host%" using the occ command
+     | app       | message                                                                           |
+     | user_ldap | Bind to user_ldap main server not-existent failed: (-1) Can't contact LDAP server |
+     | core      | Login failed: 'user0' (Remote IP:                                                 |
+    When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host_without_scheme%" using the occ command
     And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
@@ -198,7 +197,7 @@ Feature: connect to LDAP serer
     When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
-     | app       | message                                                 |
-     | user_ldap | Error when searching: Can't contact LDAP server code -1 |
-     | user_ldap | Attempt for Paging?                                     |
-     | core      | Login failed: 'user0' (Remote IP:                       |   
+     | app       | message                                                                                 |
+     | user_ldap | Bind to user_ldap main server not-existent failed: (-1) Can't contact LDAP server   |
+     | user_ldap | Bind to user_ldap main server also-not-there failed: (-1) Can't contact LDAP server |
+     | core      | Login failed: 'user0' (Remote IP:                                                       |

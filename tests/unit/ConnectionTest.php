@@ -209,7 +209,7 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
+	 * @expectedException \OC\ServerNotAvailableException
 	 */
 	public function testBindFails() {
 		$mainHost = 'ldap://nixda.ldap';
@@ -240,6 +240,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(false));
 
-		$this->connection->getConnectionResource();
+		$resource = $this->connection->getConnectionResource();
+		$this->assertNull($resource);
 	}
 }
