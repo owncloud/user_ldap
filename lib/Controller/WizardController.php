@@ -22,8 +22,7 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Access;
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
+use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
@@ -31,6 +30,7 @@ use OCA\User_LDAP\Wizard;
 use OCA\User_LDAP\WizardResult;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -41,8 +41,8 @@ use OCP\IRequest;
  */
 class WizardController extends Controller {
 
-	/** @var ConfigMapper */
-	protected $mapper;
+	/** @var IConfig */
+	protected $config;
 
 	/** @var Manager */
 	protected $manager;
@@ -56,20 +56,20 @@ class WizardController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param ConfigMapper $mapper
+	 * @param IConfig $config
 	 * @param Manager $manager
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								ConfigMapper $mapper,
+								IConfig $config,
 								Manager $manager,
 								IL10N $l10n,
 								LDAP $ldapWrapper
 	) {
 		parent::__construct($appName, $request);
-		$this->mapper = $mapper;
+		$this->config = $config;
 		$this->manager = $manager;
 		$this->l10n = $l10n;
 		$this->ldapWrapper = $ldapWrapper;
@@ -77,32 +77,34 @@ class WizardController extends Controller {
 
 	/**
 	 * TODO allow to change config of wizard at runtime, DI wizard and mock it
-	 * @param Config $config
+	 * @param Configuration $configuration
 	 * @return Wizard
 	 */
-	private function getWizard(Config $config) {
-		$con = new Connection($this->ldapWrapper, $this->mapper, $config);
-		$con->setConfiguration($config->jsonSerialize());
+	private function getWizard(Configuration $configuration) {
+		$con = new Connection($this->ldapWrapper, $configuration);
+		$con->setConfiguration($configuration->getConfiguration());
 		$con->ldapConfigurationActive = true;
 		$con->setIgnoreValidation(true);
 
 		$access = new Access($con, $this->manager);
 
-		return new Wizard($this->ldapWrapper, $config, $this->mapper, $access, $this->l10n);
+		return new Wizard($this->ldapWrapper, $configuration, $access, $this->l10n);
 	}
 
 	/**
 	 * do your magic
 	 *
-	 * @param string $id config id
+	 * @param string $ldap_serverconfig_chooser config id
 	 * @param string $action the spell to cast
 	 * @param string $cfgkey optional
 	 * @param string $cfgval optional
 	 * @param string $ldap_test_loginname optional
 	 * @return DataResponse
 	 */
-	public function cast($id, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
-		$config = $this->mapper->find($id);
+	public function cast($ldap_serverconfig_chooser, $action, $cfgkey = null, $cfgval = null, $ldap_test_loginname = null) {
+		$prefix = $ldap_serverconfig_chooser; // TODO if possible make JS send as 'prefix' right away
+
+		$config = new Configuration($this->config, $prefix);
 
 		switch ($action) {
 			case 'guessPortAndTLS':
@@ -175,9 +177,10 @@ class WizardController extends Controller {
 						'message' => $this->l10n->t($key.' Could not set configuration %s', $setParameters[0])
 					]);
 				}
-				$this->mapper->update($config);
+				$config->saveConfiguration();
 				//clear the cache on save
-				$connection = new Connection($this->ldapWrapper, $this->mapper, $config);
+				$configuration = new Configuration($this->config, $prefix);
+				$connection = new Connection($this->ldapWrapper, $configuration);
 				$connection->clearCache();
 				return new DataResponse(['status' => 'success']);
 

@@ -34,7 +34,7 @@ OCA = OCA || {};
 			model.notifyAboutDetectionStart('ldap_port');
 			var params = OC.buildQueryString({
 				action: 'guessPortAndTLS',
-				id: configID
+				ldap_serverconfig_chooser: configID
 			});
 			return model.callWizard(params, this.processResult, this);
 		}

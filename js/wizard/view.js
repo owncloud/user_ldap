@@ -271,7 +271,7 @@ OCA = OCA || {};
 		 * requests a configuration test
 		 */
 		onTestButtonClick: function() {
-			this.configModel.requestWizard('ldap_action_test_connection', {id: this.configModel.configID});
+			this.configModel.requestWizard('ldap_action_test_connection', {ldap_serverconfig_chooser: this.configModel.configID});
 		},
 
 		/**

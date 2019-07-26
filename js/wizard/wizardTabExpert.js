@@ -97,14 +97,14 @@ OCA = OCA || {};
 		 * requests clearing of all user mappings
 		 */
 		onClearUserMappingsClick: function() {
-			this.configModel.requestWizard('ldap_action_clear_user_mappings', {subject: 'user'});
+			this.configModel.requestWizard('ldap_action_clear_user_mappings', {ldap_clear_mapping: 'user'});
 		},
 
 		/**
 		 * requests clearing of all group mappings
 		 */
 		onClearGroupMappingsClick: function() {
-			this.configModel.requestWizard('ldap_action_clear_group_mappings', {subject: 'group'});
+			this.configModel.requestWizard('ldap_action_clear_group_mappings', {ldap_clear_mapping: 'group'});
 		},
 
 		/**

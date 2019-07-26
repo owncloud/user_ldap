@@ -21,7 +21,6 @@
 
 namespace OCA\User_LDAP\AppInfo;
 
-use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -45,7 +44,6 @@ class Application extends \OCP\AppFramework\App {
 				return new User_Proxy(
 					$helper->getServerConfigurationPrefixes(true),
 					new LDAP(),
-					$c->query(ConfigMapper::class),
 					$c->getServer()->getConfig()
 				);
 			}
@@ -65,12 +63,11 @@ class Application extends \OCP\AppFramework\App {
 		$helper = new Helper();
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		if (\count($configPrefixes) > 0) {
-			$container = $this->getContainer();
-			$server = $container->getServer();
+			$server = $this->getContainer()->getServer();
 			$ldapWrapper = new LDAP();
 			$ocConfig = $server->getConfig();
-			$userBackend  = new User_Proxy($configPrefixes, $ldapWrapper, $container->query(ConfigMapper::class), $ocConfig);
-			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper, $container->query(ConfigMapper::class));
+			$userBackend  = new User_Proxy($configPrefixes, $ldapWrapper, $ocConfig);
+			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper);
 			// register user backend
 			\OC_User::useBackend($userBackend);
 			$server->getGroupManager()->addBackend($groupBackend);

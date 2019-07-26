@@ -33,60 +33,6 @@ OCA = OCA || {};
 		 * @param {OCA.LDAP.Wizard.WizardDetectorQueue} detectorQueue
 		 */
 		init: function (detectorQueue) {
-			this.mappings = {
-				'ldapHost'                      : 'ldap_host',
-				'ldapPort'                      : 'ldap_port',
-				'ldapBackupHost'                : 'ldap_backup_host',
-				'ldapBackupPort'                : 'ldap_backup_port',
-				'ldapOverrideMainServer'        : 'ldap_override_main_server',
-				'ldapAgentName'                 : 'ldap_dn',
-				'ldapAgentPassword'             : 'ldap_agent_password',
-				'ldapBase'                      : 'ldap_base',
-				'ldapBaseUsers'                 : 'ldap_base_users',
-				'ldapBaseGroups'                : 'ldap_base_groups',
-				'ldapUserFilterObjectclass'     : 'ldap_userfilter_objectclass',
-				'ldapUserFilterGroups'          : 'ldap_userfilter_groups',
-				'ldapUserFilter'                : 'ldap_userlist_filter',
-				'ldapUserFilterMode'            : 'ldap_user_filter_mode',
-				'ldapLoginFilter'               : 'ldap_login_filter',
-				'ldapLoginFilterMode'           : 'ldap_login_filter_mode',
-				'ldapLoginFilterEmail'          : 'ldap_loginfilter_email',
-				'ldapLoginFilterUsername'       : 'ldap_loginfilter_username',
-				'ldapLoginFilterAttributes'     : 'ldap_loginfilter_attributes',
-				'ldapGroupFilter'               : 'ldap_group_filter',
-				'ldapGroupFilterMode'           : 'ldap_group_filter_mode',
-				'ldapGroupFilterObjectclass'    : 'ldap_groupfilter_objectclass',
-				'ldapGroupFilterGroups'         : 'ldap_groupfilter_groups',
-				'ldapUserName'                  : 'ldap_user_name',
-				'ldapUserDisplayName'           : 'ldap_display_name',
-				'ldapUserDisplayName2'          : 'ldap_user_display_name_2',
-				'ldapGroupDisplayName'          : 'ldap_group_display_name',
-				'ldapTLS'                       : 'ldap_tls',
-				'ldapQuotaDefault'              : 'ldap_quota_def',
-				'ldapQuotaAttribute'            : 'ldap_quota_attr',
-				'ldapEmailAttribute'            : 'ldap_email_attr',
-				'ldapGroupMemberAssocAttr'      : 'ldap_group_member_assoc_attribute',
-				'ldapCacheTTL'                  : 'ldap_cache_ttl',
-				'ldapNetworkTimeout'            : 'ldap_network_timeout',
-				'homeFolderNamingRule'          : 'home_folder_naming_rule',
-				'turnOffCertCheck'              : 'ldap_turn_off_cert_check',
-				'ldapConfigurationActive'       : 'ldap_configuration_active',
-				'ldapAttributesForUserSearch'   : 'ldap_attributes_for_user_search',
-				'ldapAttributesForGroupSearch'  : 'ldap_attributes_for_group_search',
-				'ldapExpertUsernameAttr'        : 'ldap_expert_username_attr',
-				'ldapExpertUUIDUserAttr'        : 'ldap_expert_uuid_user_attr',
-				'ldapExpertUUIDGroupAttr'       : 'ldap_expert_uuid_group_attr',
-				'hasMemberOfFilterSupport'      : 'has_memberof_filter_support',
-				'useMemberOfToDetectMembership' : 'use_memberof_to_detect_membership',
-				'lastJpegPhotoLookup'           : 'last_jpegPhoto_lookup',
-				'ldapNestedGroups'              : 'ldap_nested_groups',
-				'ldapPagingSize'                : 'ldap_paging_size',
-				'ldapExperiencedAdmin'          : 'ldap_experienced_admin',
-				'ldapDynamicGroupMemberURL'     : 'ldap_dynamic_group_member_url',
-				'ldapUuidUserAttribute'         : 'ldap_uuid_user_attribute',
-				'ldapUuidGroupAttribute'        : 'ldap_uuid_group_attribute'
-			};
-
 			this.modifyingAjaxCalls = [];
 			/** @type {object} holds the configuration in key-value-pairs */
 			this.configuration     = {};
@@ -103,14 +49,6 @@ OCA = OCA || {};
 			}
 		},
 
-		translateForBackend : function (key) {
-			for (var i in this.mappings){
-				if (this.mappings[i] == key){
-					return i;
-				}
-			}
-		},
-
 		/**
 		 * loads a specified configuration
 		 *
@@ -124,7 +62,7 @@ OCA = OCA || {};
 
 			this.configID = configID;
 			var url = OC.generateUrl('apps/user_ldap/ajax/getConfiguration.php');
-			var params = OC.buildQueryString({id: configID});
+			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
 			this.loadingConfig = true;
 			var model = this;
 			$.post(url, params, function (result) { model._processLoadConfig(model, result) });
@@ -158,7 +96,7 @@ OCA = OCA || {};
 		 */
 		deleteConfig: function(configID) {
 			var url = OC.generateUrl('apps/user_ldap/ajax/deleteConfiguration.php');
-			var params = OC.buildQueryString({id: configID});
+			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
 			var model = this;
 			$.post(url, params, function (result) { model._processDeleteConfig(model, result, configID) });
 		},
@@ -197,23 +135,7 @@ OCA = OCA || {};
 			var url = OC.generateUrl('apps/user_ldap/ajax/' + destination);
 			var model = this;
 			return $.post(url, params, function (result) {
-				if (result['changes']) {
-					var changes = {};
-					$.each(result['changes'], function(key, value) {
-						key = model.mappings[key] || key;
-						changes[key] = value;
-					});
-					result['changes'] = changes;
-				}
-				if (result['options']) {
-					var options = {};
-					$.each(result['options'], function(key, value) {
-						key = model.mappings[key] || key;
-						options[key] = value;
-					});
-					result['options'] = options;
-				}
-				callback(model, detector, result);
+				callback(model, detector,result);
 			});
 		},
 
@@ -251,15 +173,14 @@ OCA = OCA || {};
 			this._broadcast('setRequested', {});
 			var url = OC.generateUrl('apps/user_ldap/ajax/wizard.php');
 			var objParams = {
-				id: this.configID,
+				ldap_serverconfig_chooser: this.configID,
 				action: 'save',
-				cfgkey: this.translateForBackend(key) || key,
+				cfgkey: key,
 				cfgval: value
 			};
 			var strParams = OC.buildQueryString(objParams);
 			var model = this;
 			var ajaxCall = $.post(url, strParams, function(result) {
-				objParams.cfgkey = key;
 				model._processSetResult(model, result, objParams);
 				// remove this ajax call from the list to clean up
 				model.modifyingAjaxCalls = _.without(model.modifyingAjaxCalls, ajaxCall);
@@ -423,7 +344,7 @@ OCA = OCA || {};
 		 */
 		requestConfigurationTest: function() {
 			var url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php');
-			var params = OC.buildQueryString({id: this.configID});
+			var params = OC.buildQueryString({ldap_serverconfig_chooser: this.configID});
 			var model = this;
 			this.executeAfterSet(function(){
 				$.post(url, params, function(result) { model._processTestResult(model, result) });
@@ -526,7 +447,6 @@ OCA = OCA || {};
 			model.configuration = {};
 			if(result['status'] === 'success') {
 				$.each(result['configuration'], function(key, value) {
-					key = model.mappings[key] || key;
 					model.configuration[key] = value;
 				});
 			}
@@ -675,7 +595,6 @@ OCA = OCA || {};
 				if(!copyCurrent) {
 					model.configuration = {};
 					$.each(result['defaults'], function(key, value) {
-						key = model.mappings[key] || key;
 						model.configuration[key] = value;
 					});
 					// view / tabs need to update with new blank config

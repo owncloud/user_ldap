@@ -24,24 +24,30 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Config\Config;
-use OCA\User_LDAP\Config\ConfigMapper;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use \OCA\User_LDAP\Helper;
+use \OCA\User_LDAP\Configuration;
 
 class CreateEmptyConfig extends Command {
-	/** @var ConfigMapper */
-	protected $mapper;
+
+	/** @var IConfig */
+	protected $config;
+
+	/** @var Helper */
+	protected $helper;
 
 	/**
-	 * @param ConfigMapper $mapper
+	 * @param IConfig $config
+	 * @param Helper $helper
 	 */
-	public function __construct(ConfigMapper $mapper) {
+	public function __construct(IConfig $config, Helper $helper) {
 		parent::__construct();
-		$this->mapper = $mapper;
+		$this->config = $config;
+		$this->helper = $helper;
 	}
 
 	protected function configure() {
@@ -64,25 +70,25 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configID = $input->getArgument('configID');
 		if ($configID === null) {
-			$configID = $this->mapper->nextPossibleConfigurationPrefix();
+			$configPrefix = $this->helper->nextPossibleConfigurationPrefix();
 		} else {
 			// Check we are not trying to create an empty configid
 			if ($configID === '') {
 				$output->writeln('configID cannot be empty');
 				return 1;
 			}
-		}
-		$newConfig = new Config(['id' => $configID]);
-
-		try {
 			// Check if we are not already using this configid
-			$this->mapper->find($newConfig->getId());
-			$output->writeln("configID '$configID' already exists");
-			return 1;
-		} catch (DoesNotExistException $e) {
-			$this->mapper->insert($newConfig);
-			$output->writeln("Created new configuration with configID '{$configID}'");
+			$availableConfigs = $this->helper->getServerConfigurationPrefixes();
+			if (\in_array($configID, $availableConfigs, true)) {
+				$output->writeln('configID already exists');
+				return 1;
+			}
+			$configPrefix = $configID;
 		}
+		$output->writeln("Created new configuration with configID '{$configPrefix}'");
+
+		$configHolder = new Configuration($this->config, $configPrefix);
+		$configHolder->saveConfiguration();
 		return 0;
 	}
 }
