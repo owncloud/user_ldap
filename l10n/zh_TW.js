@@ -126,6 +126,7 @@ OC.L10N.register(
     "Internal Username Attribute:" : "內部使用者名稱屬性:",
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
-    "UUID Attribute for Groups:" : "群組的UUID值:"
+    "UUID Attribute for Groups:" : "群組的UUID值:",
+    "Username-LDAP User Mapping" : "LDAP-使用者名稱 對應 使用者"
 },
 "nplurals=1; plural=0;");
