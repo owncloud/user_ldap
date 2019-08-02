@@ -62,12 +62,11 @@ class MappingController extends Controller {
 	/**
 	 * test the given ldap config
 	 *
-	 * @param string $ldap_clear_mapping subject, 'group' or 'user'
-	 * @param string $ldap_serverconfig_chooser config id // FIXME remove in JS, is unneeded
+	 * @param string $subject, 'group' or 'user'
+	 *
 	 * @return DataResponse
 	 */
-	public function clear($ldap_clear_mapping, $ldap_serverconfig_chooser = null) {
-		$subject = $ldap_clear_mapping; // TODO if possible make JS send as 'subject' right away
+	public function clear($subject) {
 		$mapping = null;
 		if ($subject === 'user') {
 			$mapping = new UserMapping($this->connection);

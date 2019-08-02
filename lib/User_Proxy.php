@@ -28,6 +28,7 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Config\ConfigMapper;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCP\IConfig;
 use OCP\IUserBackend;
@@ -55,8 +56,8 @@ class User_Proxy extends Proxy implements
 	 * Constructor
 	 * @param array $serverConfigPrefixes array containing the config Prefixes
 	 */
-	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
-		parent::__construct($ldap);
+	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, ConfigMapper $mapper, IConfig $ocConfig) {
+		parent::__construct($ldap, $mapper);
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());

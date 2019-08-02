@@ -24,25 +24,25 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCP\IConfig;
+use OCA\User_LDAP\Config\Config;
+use OCA\User_LDAP\Config\ConfigMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Configuration;
 
 class SetConfig extends Command {
 
-	/** @var IConfig */
-	protected $config;
+	/** @var ConfigMapper */
+	protected $mapper;
 
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(ConfigMapper $configMapper) {
 		parent::__construct();
-		$this->config = $config;
+		$this->mapper = $configMapper;
 	}
 
 	protected function configure() {
@@ -68,30 +68,30 @@ class SetConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper();
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
-		$configID = $input->getArgument('configID');
-		if (!\in_array($configID, $availableConfigs)) {
-			$output->writeln("Invalid configID");
+		$configId = $input->getArgument('configID');
+		try {
+			$config = $this->mapper->find($configId);
+		} catch (DoesNotExistException $e) {
+			$output->writeln("Configuration with configID '$configId' does not exist");
 			return;
 		}
 
 		$this->setValue(
-			$configID,
+			$config,
 			$input->getArgument('configKey'),
 			$input->getArgument('configValue')
 		);
+
+		$this->mapper->update($config);
 	}
 
 	/**
 	 * save the configuration value as provided
-	 * @param string $configID
-	 * @param string $configKey
-	 * @param string $configValue
+	 * @param Config $config
+	 * @param string $key
+	 * @param string $value
 	 */
-	protected function setValue($configID, $key, $value) {
-		$configHolder = new Configuration($this->config, $configID);
-		$configHolder->$key = $value;
-		$configHolder->saveConfiguration();
+	protected function setValue($config, $key, $value) {
+		$config->$key = $value;
 	}
 }

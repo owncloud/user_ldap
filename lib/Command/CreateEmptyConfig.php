@@ -24,30 +24,24 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCP\IConfig;
+use OCA\User_LDAP\Config\Config;
+use OCA\User_LDAP\Config\ConfigMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use \OCA\User_LDAP\Helper;
-use \OCA\User_LDAP\Configuration;
 
 class CreateEmptyConfig extends Command {
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var Helper */
-	protected $helper;
+	/** @var ConfigMapper */
+	protected $mapper;
 
 	/**
-	 * @param IConfig $config
-	 * @param Helper $helper
+	 * @param ConfigMapper $mapper
 	 */
-	public function __construct(IConfig $config, Helper $helper) {
+	public function __construct(ConfigMapper $mapper) {
 		parent::__construct();
-		$this->config = $config;
-		$this->helper = $helper;
+		$this->mapper = $mapper;
 	}
 
 	protected function configure() {
@@ -70,25 +64,25 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$configID = $input->getArgument('configID');
 		if ($configID === null) {
-			$configPrefix = $this->helper->nextPossibleConfigurationPrefix();
+			$configID = $this->mapper->nextPossibleConfigurationPrefix();
 		} else {
 			// Check we are not trying to create an empty configid
 			if ($configID === '') {
 				$output->writeln('configID cannot be empty');
 				return 1;
 			}
-			// Check if we are not already using this configid
-			$availableConfigs = $this->helper->getServerConfigurationPrefixes();
-			if (\in_array($configID, $availableConfigs, true)) {
-				$output->writeln('configID already exists');
-				return 1;
-			}
-			$configPrefix = $configID;
 		}
-		$output->writeln("Created new configuration with configID '{$configPrefix}'");
+		$newConfig = new Config(['id' => $configID]);
 
-		$configHolder = new Configuration($this->config, $configPrefix);
-		$configHolder->saveConfiguration();
+		try {
+			// Check if we are not already using this configid
+			$this->mapper->find($newConfig->getId());
+			$output->writeln("configID '$configID' already exists");
+			return 1;
+		} catch (DoesNotExistException $e) {
+			$this->mapper->insert($newConfig);
+			$output->writeln("Created new configuration with configID '{$configID}'");
+		}
 		return 0;
 	}
 }
