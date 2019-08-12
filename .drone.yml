@@ -154,7 +154,6 @@ pipeline:
       - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
     when:
       matrix:
-        NEED_SERVER: true
         USE_LDAPS: true
 
   ldap-check-config:
