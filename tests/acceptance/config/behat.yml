@@ -144,6 +144,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -155,6 +156,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -166,6 +168,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -177,6 +180,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -188,6 +192,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -237,6 +242,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - WebDavLockingContext:
         - WebDavPropertiesContext:
@@ -248,6 +254,7 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - WebDavLockingContext:
         - WebDavPropertiesContext:
@@ -271,6 +278,7 @@ default:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
         - SearchContext:
+        - OccContext:
         - PublicWebDavContext:
 
     apiWebdavProperties:
@@ -291,6 +299,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - OccContext:
         - PublicWebDavContext:
 
 
