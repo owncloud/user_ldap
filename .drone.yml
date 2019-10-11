@@ -5,17 +5,6 @@ workspace:
 branches: [ master, release*, next* ]
 
 pipeline:
-  ldap:
-    image: osixia/openldap
-    detach: true
-    pull: true
-    environment:
-      - LDAP_DOMAIN=owncloud.com
-      - LDAP_ORGANISATION=ownCloud
-      - LDAP_ADMIN_PASSWORD=admin
-      - HOSTNAME=ldap
-      - LDAP_TLS_VERIFY_CLIENT=never
-
   install-core:
     image: owncloudci/core
     pull: true
@@ -121,19 +110,6 @@ pipeline:
     when:
       matrix:
         NEED_INSTALL_APP: true
-
-  install-user-management-app:
-    image: owncloudci/php:${PHP_VERSION}
-    pull: true
-    commands:
-      - git clone https://github.com/owncloud/user_management.git /var/www/owncloud/server/apps/user_management
-      - cd /var/www/owncloud/server
-      - php occ a:l
-      - php occ a:e user_management
-      - php occ a:l
-    when:
-      matrix:
-        NEED_USER_MANAGEMENT_APP: true
 
   ldap-config-for-acceptance-tests:
     image: owncloudci/php:${PHP_VERSION}
@@ -351,6 +327,17 @@ pipeline:
       event: [ push, tag ]
 
 services:
+  ldap:
+    image: osixia/openldap
+    detach: true
+    pull: true
+    environment:
+      - LDAP_DOMAIN=owncloud.com
+      - LDAP_ORGANISATION=ownCloud
+      - LDAP_ADMIN_PASSWORD=admin
+      - HOSTNAME=ldap
+      - LDAP_TLS_VERIFY_CLIENT=never
+
   server:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
@@ -589,7 +576,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
 
     - TEST_SUITE: web-acceptance
       OC_VERSION: daily-master-qa
@@ -601,7 +587,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
 
     - TEST_SUITE: web-acceptance
       OC_VERSION: daily-master-qa
@@ -613,7 +598,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
 
     - TEST_SUITE: cli-acceptance
       OC_VERSION: daily-master-qa
@@ -699,7 +683,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
 
     - TEST_SUITE: web-acceptance
       OC_VERSION: daily-master-qa
@@ -711,7 +694,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
 
     - TEST_SUITE: cli-acceptance
       OC_VERSION: daily-master-qa
@@ -1386,7 +1368,6 @@ matrix:
       NEED_INSTALL_APP: true
       BEHAT_SUITE: webUIProvisioning
       NEED_SELENIUM: true
-      NEED_USER_MANAGEMENT_APP: true
       USE_RELEASE_TARBALL: true
 
     - TEST_SUITE: cli-acceptance
