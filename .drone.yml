@@ -5,17 +5,6 @@ workspace:
 branches: [ master, release*, next* ]
 
 pipeline:
-  ldap:
-    image: osixia/openldap
-    detach: true
-    pull: true
-    environment:
-      - LDAP_DOMAIN=owncloud.com
-      - LDAP_ORGANISATION=ownCloud
-      - LDAP_ADMIN_PASSWORD=admin
-      - HOSTNAME=ldap
-      - LDAP_TLS_VERIFY_CLIENT=never
-
   install-core:
     image: owncloudci/core
     pull: true
@@ -351,6 +340,17 @@ pipeline:
       event: [ push, tag ]
 
 services:
+  ldap:
+    image: osixia/openldap
+    detach: true
+    pull: true
+    environment:
+      - LDAP_DOMAIN=owncloud.com
+      - LDAP_ORGANISATION=ownCloud
+      - LDAP_ADMIN_PASSWORD=admin
+      - HOSTNAME=ldap
+      - LDAP_TLS_VERIFY_CLIENT=never
+
   server:
     image: owncloudci/php:${PHP_VERSION}
     pull: true
