@@ -38,6 +38,24 @@ config = {
 		},
 	},
 
+	'ldapIntegration': {
+		'integration-tests' : {
+			'tests': [
+				'IntegrationBackupServer',
+				'IntegrationConnect',
+				'IntegrationTestAccessGroupsMatchFilter',
+				'IntegrationTestBackupServer',
+				'IntegrationTestBatchApplyUserAttributes',
+				'IntegrationTestConnect',
+				'IntegrationTestCountUsersByLoginName',
+				'IntegrationTestFetchUsersByLoginName',
+				'IntegrationTestPaging',
+				'User/IntegrationTestUserAvatar',
+				'User/IntegrationTestUserDisplayName',
+			],
+		},
+	},
+
 	'acceptance': {
 		'api-with-core-master-mysql': {
 			'suites': [
@@ -484,11 +502,12 @@ def stagePipelines():
 	jsPipelines = javascript()
 	phpunitPipelines = phptests('phpunit')
 	phpintegrationPipelines = phptests('phpintegration')
+	ldapIntegrationPipelines = ldapIntegration()
 	acceptancePipelines = acceptance()
-	if (buildPipelines == False) or (jsPipelines == False) or (phpunitPipelines == False) or (phpintegrationPipelines == False) or (acceptancePipelines == False):
+	if (buildPipelines == False) or (jsPipelines == False) or (phpunitPipelines == False) or (phpintegrationPipelines == False) or (ldapIntegrationPipelines == False) or (acceptancePipelines == False):
 		return False
 
-	return buildPipelines + jsPipelines + phpunitPipelines + phpintegrationPipelines + acceptancePipelines
+	return buildPipelines + jsPipelines + phpunitPipelines + phpintegrationPipelines + ldapIntegrationPipelines + acceptancePipelines
 
 def afterPipelines():
 	return [
@@ -1697,3 +1716,103 @@ def dependsOn(earlierStages, nextStages):
 	for earlierStage in earlierStages:
 		for nextStage in nextStages:
 			nextStage['depends_on'].append(earlierStage['name'])
+
+# This is custom starlark code added just for user_ldap
+# It is not committed to the starlark "standard" code in other apps because
+# it is just an unusual way that integration tests have been structured here
+def ldapIntegration():
+	pipelines = []
+
+	if 'ldapIntegration' not in config:
+		return pipelines
+
+	if type(config['ldapIntegration']) == "bool":
+		if not config['ldapIntegration']:
+			return pipelines
+
+	errorFound = False
+
+	default = {
+		'servers': ['daily-master-qa'],
+		'phpVersions': ['7.1'],
+		'databases': ['mysql:5.7'],
+		'ldapNeeded': True,
+		'logLevel': '2',
+	}
+
+	if 'defaults' in config:
+		if 'ldapIntegration' in config['defaults']:
+			for item in config['defaults']['ldapIntegration']:
+				default[item] = config['defaults']['ldapIntegration'][item]
+
+	for category, matrix in config['ldapIntegration'].items():
+		if type(matrix['tests']) == "list":
+			tests = {}
+			for test in matrix['tests']:
+				tests[test] = test
+		else:
+			tests = matrix['tests']
+
+		for test, alternateTestName in tests.items():
+			params = {}
+			for item in default:
+				params[item] = matrix[item] if item in matrix else default[item]
+
+			for server in params['servers']:
+				for phpVersion in params['phpVersions']:
+					for db in params['databases']:
+						name = 'unknown'
+
+						name = alternateTestName
+						maxLength = 50
+						nameLength = len(name)
+						if nameLength > maxLength:
+							print("Error: generated stage name of length", nameLength, "is not supported. The maximum length is " + str(maxLength) + ".", name)
+							errorFound = True
+
+						result = {
+							'kind': 'pipeline',
+							'type': 'docker',
+							'name': name,
+							'workspace' : {
+								'base': '/var/www/owncloud',
+								'path': 'server/apps/%s' % config['app']
+							},
+							'steps':
+								installCore(server, db, False) +
+								installApp(phpVersion) +
+								setupServerAndApp(phpVersion, params['logLevel']) +
+							[
+								({
+									'name': 'ldap-integration-tests',
+									'image': 'owncloudci/php:%s' % phpVersion,
+									'pull': 'always',
+									'environment': {
+										'LDAP_HOST': 'ldap'
+									},
+									'commands': [
+										'php -f ./tests/integration/Lib/%s.php' % test,
+									]
+								}),
+							],
+							'services':
+								databaseService(db) +
+								ldapService(params['ldapNeeded']),
+							'depends_on': [],
+							'trigger': {
+								'ref': [
+									'refs/pull/**',
+									'refs/tags/**'
+								]
+							}
+						}
+
+						for branch in config['branches']:
+							result['trigger']['ref'].append('refs/heads/%s' % branch)
+
+						pipelines.append(result)
+
+	if errorFound:
+		return False
+
+	return pipelines
