@@ -138,16 +138,15 @@ class User_LDAP implements IUserBackend, UserInterface {
 	public function checkPassword($uid, $password) {
 		try {
 			$userEntry = $this->userManager->getLDAPUserByLoginName($uid);
+			//are the credentials OK?
+			if (!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
+				return false;
+			}
 		} catch (DoesNotExistOnLDAPException $e) {
 			return false;
 		} catch (\Exception $e) {
 			// Something more serious than not found occured
 			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
-			return false;
-		}
-		
-		//are the credentials OK?
-		if (!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
 			return false;
 		}
 

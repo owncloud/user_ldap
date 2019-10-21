@@ -528,6 +528,7 @@ class Manager {
 	/**
 	 * @param string $name
 	 * @param string $password
+	 * @throws ServerNotAvailableException
 	 * @return bool
 	 */
 	public function areCredentialsValid($name, $password) {

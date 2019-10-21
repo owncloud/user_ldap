@@ -528,7 +528,7 @@ class Connection extends LDAPUtility {
 					}
 					Util::writeLog('user_ldap',
 						'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-						Util::DEBUG); // log only in debug mod because this is triggered by wrong passwords
+						Util::DEBUG);
 					throw new BindFailedException();
 				}
 			} catch (ServerNotAvailableException $e) {
@@ -574,6 +574,9 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
+	 * This method will perform some setup required to connect to the LDAP server,
+	 * but it won't connect to the LDAP server unless ldap_start_tls is activated
+	 *
 	 * @param string $host
 	 * @param string $port
 	 * @return bool
