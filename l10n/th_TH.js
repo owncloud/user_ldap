@@ -104,7 +104,7 @@ OC.L10N.register(
     "LDAP" : "LDAP",
     "Expert" : "ผู้เชี่ยวชาญ",
     "Advanced" : "ขั้นสูง",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>คำเตือน:</b> แอพฯ user_ldap และ user_webdavauth เข้ากันไม่ได้ คุณอาจจะพบเหตุการณ์ที่ไม่คาดคิด กรุณาขอให้ผู้ดูแลระบบของคุณปิดการใช้งานบางอย่างของพวกเขา",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>คำเตือน:</b> แอปฯ user_ldap และ user_webdavauth เข้ากันไม่ได้ คุณอาจจะพบเหตุการณ์ที่ไม่คาดคิด กรุณาขอให้ผู้ดูแลระบบของคุณปิดการใช้งานบางอย่างของพวกเขา",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>คำเตือน:</b> โมดูล PHP LDAP ยังไม่ได้ถูกติดตั้ง, ระบบด้านหลังจะไม่สามารถทำงานได้ กรุณาติดต่อผู้ดูแลระบบของคุณเพื่อทำการติดตั้งโมดูลดังกล่าว",
     "Connection Settings" : "ตั้งค่าการเชื่อมต่อ",
     "Configuration Active" : "ตั้งค่าการใช้งาน",

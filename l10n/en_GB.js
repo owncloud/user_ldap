@@ -118,6 +118,8 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server.",
     "Cache Time-To-Live" : "Cache Time-To-Live",
     "in seconds. A change empties the cache." : "in seconds. A change empties the cache.",
+    "Network Timeout" : "Network Timeout",
+    "timeout for all the ldap network operations, in seconds." : "timeout for all the ldap network operations, in seconds.",
     "Directory Settings" : "Directory Settings",
     "User Display Name Field" : "User Display Name Field",
     "The LDAP attribute to use to generate the user's display name." : "The LDAP attribute to use to generate the user's display name.",
