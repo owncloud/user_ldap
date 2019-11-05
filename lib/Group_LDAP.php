@@ -467,7 +467,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
 			$groupsToMatch = $this->access->fetchListOfGroups(
-				$this->access->getConnection()->ldapGroupFilter, ['dn',$dynamicGroupMemberURL]);
+				$this->access->getConnection()->ldapGroupFilter, ['dn',$dynamicGroupMemberURL], 1000);
 			foreach ($groupsToMatch as $dynamicGroup) {
 				if (!\array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
 					continue;
@@ -579,7 +579,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$escapedDn
 		]);
 		$groups = $this->access->fetchListOfGroups($filter,
-			[$this->access->getConnection()->ldapGroupDisplayName, 'dn']);
+			[$this->access->getConnection()->ldapGroupDisplayName, 'dn'], 1000);
 		if (\is_array($groups)) {
 			foreach ($groups as $groupobj) {
 				$groupDN = $groupobj['dn'][0];
@@ -797,9 +797,10 @@ class Group_LDAP implements \OCP\GroupInterface {
 		}
 
 		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
-		// error. With a limit of 0, we get 0 results. So we pass null.
+		// error. With a limit of 0, we get 0 results. With a limit of
+		// null, we get 1 result. So we pass 1000.
 		if ($limit <= 0) {
-			$limit = null;
+			$limit = 1000;
 		}
 		$filter = $this->access->combineFilterWithAnd([
 			$this->access->getConnection()->ldapGroupFilter,
