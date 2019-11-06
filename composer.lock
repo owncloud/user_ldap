@@ -48,16 +48,16 @@
         },
         {
             "name": "zendframework/zend-ldap",
-            "version": "2.10.0",
+            "version": "2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-ldap.git",
-                "reference": "b63c7884a08d3a6bda60ebcf7d6238cf8ad89f49"
+                "reference": "525ec97cd18a42a953c6a78c1019f967d2539b88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-ldap/zipball/b63c7884a08d3a6bda60ebcf7d6238cf8ad89f49",
-                "reference": "b63c7884a08d3a6bda60ebcf7d6238cf8ad89f49",
+                "url": "https://api.github.com/repos/zendframework/zend-ldap/zipball/525ec97cd18a42a953c6a78c1019f967d2539b88",
+                "reference": "525ec97cd18a42a953c6a78c1019f967d2539b88",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "ldap",
                 "zf"
             ],
-            "time": "2018-07-05T05:05:12+00:00"
+            "time": "2019-10-17T16:26:26+00:00"
         }
     ],
     "aliases": [],
