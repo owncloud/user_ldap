@@ -280,6 +280,7 @@ default:
         - SearchContext:
         - OccContext:
         - PublicWebDavContext:
+        - WebDavPropertiesContext:
 
     apiWebdavProperties:
       paths:
