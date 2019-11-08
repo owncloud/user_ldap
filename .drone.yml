@@ -27,6 +27,162 @@ trigger:
 ---
 kind: pipeline
 type: docker
+name: phan-php7.0
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: phan
+  pull: always
+  image: owncloudci/php:7.0
+  commands:
+  - make test-php-phan
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+---
+kind: pipeline
+type: docker
+name: phan-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: phan
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - make test-php-phan
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+---
+kind: pipeline
+type: docker
+name: phan-php7.2
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: phan
+  pull: always
+  image: owncloudci/php:7.2
+  commands:
+  - make test-php-phan
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+---
+kind: pipeline
+type: docker
+name: phan-php7.3
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: phan
+  pull: always
+  image: owncloudci/php:7.3
+  commands:
+  - make test-php-phan
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+---
+kind: pipeline
+type: docker
 name: phpunit-php7.0-sqlite
 
 platform:
@@ -86,6 +242,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -159,6 +319,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -232,6 +396,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -305,6 +473,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -377,6 +549,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -450,6 +626,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -514,6 +694,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -577,6 +761,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -641,6 +829,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -705,6 +897,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -768,6 +964,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -832,6 +1032,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -896,6 +1100,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -959,6 +1167,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1023,6 +1235,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1099,6 +1315,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1175,6 +1395,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1251,6 +1475,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1327,6 +1555,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1403,6 +1635,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1479,6 +1715,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1555,6 +1795,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1631,6 +1875,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1707,6 +1955,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1783,6 +2035,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1859,6 +2115,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -1986,6 +2246,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2113,6 +2377,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2240,6 +2508,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2367,6 +2639,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2494,6 +2770,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2621,6 +2901,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2748,6 +3032,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -2875,6 +3163,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3002,6 +3294,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3129,6 +3425,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3256,6 +3556,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3383,6 +3687,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3510,6 +3818,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3637,6 +3949,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3764,6 +4080,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -3891,6 +4211,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4017,6 +4341,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4144,6 +4472,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4270,6 +4602,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4397,6 +4733,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4523,6 +4863,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4650,6 +4994,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4776,6 +5124,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -4903,6 +5255,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5030,6 +5386,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5156,6 +5516,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5283,6 +5647,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5410,6 +5778,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5536,6 +5908,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5663,6 +6039,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5790,6 +6170,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -5916,6 +6300,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6043,6 +6431,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6170,6 +6562,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6296,6 +6692,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6423,6 +6823,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6552,6 +6956,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6681,6 +7089,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6810,6 +7222,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -6939,6 +7355,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7068,6 +7488,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7197,6 +7621,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7326,6 +7754,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7455,6 +7887,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7582,6 +8018,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7709,6 +8149,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7836,6 +8280,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -7963,6 +8411,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8089,6 +8541,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8216,6 +8672,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8343,6 +8803,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8469,6 +8933,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8596,6 +9064,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8725,6 +9197,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8854,6 +9330,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -8991,6 +9471,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9128,6 +9612,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9265,6 +9753,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9402,6 +9894,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9539,6 +10035,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9676,6 +10176,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9813,6 +10317,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -9950,6 +10458,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10086,6 +10598,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10223,6 +10739,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10359,6 +10879,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10496,6 +11020,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10633,6 +11161,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10769,6 +11301,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -10906,6 +11442,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11043,6 +11583,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11179,6 +11723,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11316,6 +11864,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11455,6 +12007,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11594,6 +12150,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11733,6 +12293,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11872,6 +12436,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -11999,6 +12567,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12126,6 +12698,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12253,6 +12829,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12380,6 +12960,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12507,6 +13091,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12634,6 +13222,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12761,6 +13353,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -12888,6 +13484,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13015,6 +13615,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13142,6 +13746,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13269,6 +13877,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13396,6 +14008,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13523,6 +14139,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13650,6 +14270,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13777,6 +14401,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -13904,6 +14532,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14031,6 +14663,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14158,6 +14794,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14285,6 +14925,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14412,6 +15056,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14539,6 +15187,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14666,6 +15318,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14845,6 +15501,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -14972,6 +15632,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -15161,6 +15825,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
@@ -15350,6 +16018,10 @@ trigger:
 
 depends_on:
 - coding-standard-php7.0
+- phan-php7.0
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
 
 ---
 kind: pipeline
