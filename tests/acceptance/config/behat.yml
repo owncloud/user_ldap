@@ -234,6 +234,7 @@ default:
         - FeatureContext: *common_feature_context_params
         - ChecksumContext:
         - FilesVersionsContext:
+        - WebDavPropertiesContext:
 
     apiWebdavLocks:
       paths:
