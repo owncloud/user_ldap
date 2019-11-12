@@ -228,6 +228,10 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('getUserEntryByDn')
 			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
 			->will($this->throwException($e));
+		$this->manager->expects($this->once())
+			->method('resolveMissingDN')
+			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
+			->willReturn(false);
 
 		$result = $this->backend->userExists('563418fc-423b-1033-8d1c-ad5f418ee02e');
 		$this->assertFalse($result);

@@ -550,4 +550,74 @@ class ManagerTest extends \Test\TestCase {
 
 		self::assertSame('lastname', $this->manager->resolveUID($entry));
 	}
+
+	public function testDnUpdatedWhenUuidMatches() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$newDn = 'cn=newdn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willReturn($newDn);
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturn([]);
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertTrue($isRemapped);
+	}
+
+	public function testDnNotUpdatedWhenUuidNotFound() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$newDn = 'cn=newdn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willReturn($newDn);
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturn(null);
+
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertFalse($isRemapped);
+	}
+
+	public function testDnNotUpdatedWhenNewDnNotFound() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willThrowException(new \OutOfBoundsException());
+
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertFalse($isRemapped);
+	}
 }

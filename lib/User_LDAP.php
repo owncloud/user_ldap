@@ -199,7 +199,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 			$this->userManager->getUserEntryByDn($dn);
 			return true;
 		} catch (DoesNotExistOnLDAPException $e) {
-			return false;
+			// Was DN moved? Try to find a new DN by UUID
+			return $this->userManager->resolveMissingDN($dn);
 		}
 	}
 
