@@ -349,6 +349,43 @@ config = {
 			],
 			'runCoreTests': True,
 		},
+		'core-api-acceptance-latest-nightly': {
+			'suites': [
+				'apiAuth',
+				'apiAuthOcs',
+				'apiCapabilities',
+				'apiComments',
+				'apiFavorites',
+				'apiMain',
+				'apiSharees',
+				'apiShareManagement',
+				'apiShareManagementBasic',
+				'apiShareOperations',
+				'apiShareReshare',
+				'apiShareUpdate',
+				'apiSharingNotifications',
+				'apiTags',
+				'apiTrashbin',
+				'apiVersions',
+				'apiWebdavLocks',
+				'apiWebdavLocks2',
+				'apiWebdavMove',
+				'apiWebdavOperations',
+				'apiWebdavProperties',
+				'apiWebdavUpload',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+		},
 		'core-api-federation': {
 			'suites': [
 				'apiFederation',
@@ -394,6 +431,52 @@ config = {
 				}
 			],
 		},
+		'core-api-federation-latest-nightly': {
+			'suites': [
+				'apiFederation',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
 		'core-cli-acceptance': {
 			'suites': [
 				'cliTrashbin',
@@ -408,6 +491,22 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
+		},
+		'core-cli-acceptance-latest-nightly': {
+			'suites': [
+				'cliTrashbin',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
 		},
 		'core-webui-acceptance': {
 			'suites': [
@@ -425,6 +524,53 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-latest-nightly': {
+			'suites': [
+				'webUICore1',
+				'webUICore2',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -1130,6 +1276,7 @@ def acceptance():
 		'runAllSuites': False,
 		'runCoreTests': False,
 		'numberOfParts': 1,
+		'cron': '',
 	}
 
 	if 'defaults' in config:
@@ -1303,16 +1450,18 @@ def acceptance():
 										owncloudService(server, phpVersion, 'server', '/var/www/owncloud/server', False) +
 										(owncloudService(server, phpVersion, 'federated', '/var/www/owncloud/federated', False) if params['federatedServerNeeded'] else []),
 									'depends_on': [],
-									'trigger': {
-										'ref': [
-											'refs/pull/**',
-											'refs/tags/**'
-										]
-									}
+									'trigger': {}
 								}
 
-								for branch in config['branches']:
-									result['trigger']['ref'].append('refs/heads/%s' % branch)
+								if (params['cron'] == ''):
+									result['trigger']['ref'] = [
+										'refs/pull/**',
+										'refs/tags/**'
+									]
+									for branch in config['branches']:
+										result['trigger']['ref'].append('refs/heads/%s' % branch)
+								else:
+									result['trigger']['cron'] = params['cron']
 
 								pipelines.append(result)
 
@@ -1452,37 +1601,49 @@ def ldapService(ldapNeeded):
 
 	return []
 
-def scalityService(scalityS3):
-	if not scalityS3:
-		return []
+def scalityService(serviceParams):
+	serviceEnvironment = {
+		'HOST_NAME': 'scality'
+	}
+
+	if type(serviceParams) == "bool":
+		if not serviceParams:
+			return []
+	else:
+		if 'extraEnvironment' in serviceParams:
+			for env in serviceParams['extraEnvironment']:
+				serviceEnvironment[env] = serviceParams['extraEnvironment'][env]
 
 	return [{
 		'name': 'scality',
 		'image': 'owncloudci/scality-s3server',
 		'pull': 'always',
-		'environment': {
-			'HOST_NAME': 'scality'
-		}
+		'environment': serviceEnvironment
 	}]
 
+def cephService(serviceParams):
+	serviceEnvironment = {
+		'NETWORK_AUTO_DETECT': '4',
+		'RGW_NAME': 'ceph',
+		'CEPH_DEMO_UID': 'owncloud',
+		'CEPH_DEMO_ACCESS_KEY': 'owncloud123456',
+		'CEPH_DEMO_SECRET_KEY': 'secret123456',
+	}
 
-def cephService(cephS3):
-	if not cephS3:
-		return []
+	if type(serviceParams) == "bool":
+		if not serviceParams:
+			return []
+	else:
+		if 'extraEnvironment' in serviceParams:
+			for env in serviceParams['extraEnvironment']:
+				serviceEnvironment[env] = serviceParams['extraEnvironment'][env]
 
 	return [{
 		'name': 'ceph',
 		'image': 'owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04',
 		'pull': 'always',
-		'environment': {
-			'NETWORK_AUTO_DETECT': '4',
-			'RGW_NAME': 'ceph',
-			'CEPH_DEMO_UID': 'owncloud',
-			'CEPH_DEMO_ACCESS_KEY': 'owncloud123456',
-			'CEPH_DEMO_SECRET_KEY': 'secret123456',
-		}
+		'environment': serviceEnvironment
 	}]
-
 
 def owncloudService(version, phpVersion, name = 'server', path = '/var/www/owncloud/server', ssl = True):
 	if ssl:
@@ -1649,9 +1810,15 @@ def setupServerAndApp(phpVersion, logLevel):
 		]
 	}]
 
-def setupCeph(cephS3):
-	if not cephS3:
-		return []
+def setupCeph(serviceParams):
+	if type(serviceParams) == "bool":
+		if serviceParams:
+			# specify an empty dict that will get the defaults
+			serviceParams = {}
+		else:
+			return []
+
+	createFirstBucket = serviceParams['createFirstBucket'] if 'createFirstBucket' in serviceParams else True
 
 	return [{
 		'name': 'setup-ceph',
@@ -1662,21 +1829,23 @@ def setupCeph(cephS3):
 			'cd /var/www/owncloud/server/apps/files_primary_s3',
 			'cp tests/drone/ceph.config.php /var/www/owncloud/server/config',
 			'cd /var/www/owncloud/server',
+		] + ([
 			'./apps/files_primary_s3/tests/drone/create-bucket.sh',
-		]
+		] if createFirstBucket else [])
 	}]
 
-def setupScality(scalityS3):
-	if type(scalityS3) == "bool":
-		if scalityS3:
+def setupScality(serviceParams):
+	if type(serviceParams) == "bool":
+		if serviceParams:
 			# specify an empty dict that will get the defaults
-			scalityS3 = {}
+			serviceParams = {}
 		else:
 			return []
 
-	specialConfig = '.' + scalityS3['config'] if 'config' in scalityS3 else ''
+	specialConfig = '.' + serviceParams['config'] if 'config' in serviceParams else ''
 	configFile = 'scality%s.config.php' % specialConfig
-	createExtraBuckets = scalityS3['createExtraBuckets'] if 'createExtraBuckets' in scalityS3 else False
+	createFirstBucket = serviceParams['createFirstBucket'] if 'createFirstBucket' in serviceParams else True
+	createExtraBuckets = serviceParams['createExtraBuckets'] if 'createExtraBuckets' in serviceParams else False
 
 	return [{
 		'name': 'setup-scality',
@@ -1686,9 +1855,10 @@ def setupScality(scalityS3):
 			'wait-for-it -t 60 scality:8000',
 			'cd /var/www/owncloud/server/apps/files_primary_s3',
 			'cp tests/drone/%s /var/www/owncloud/server/config' % configFile,
-			'cd /var/www/owncloud/server',
-			'php occ s3:create-bucket owncloud --accept-warning'
+			'cd /var/www/owncloud/server'
 		] + ([
+			'php occ s3:create-bucket owncloud --accept-warning'
+		] if createFirstBucket else []) + ([
 			'for I in $(seq 1 9); do php ./occ s3:create-bucket  owncloud$I --accept-warning; done',
 		] if createExtraBuckets else [])
 	}]
