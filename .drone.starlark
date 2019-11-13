@@ -349,6 +349,43 @@ config = {
 			],
 			'runCoreTests': True,
 		},
+		'core-api-acceptance-latest-nightly': {
+			'suites': [
+				'apiAuth',
+				'apiAuthOcs',
+				'apiCapabilities',
+				'apiComments',
+				'apiFavorites',
+				'apiMain',
+				'apiSharees',
+				'apiShareManagement',
+				'apiShareManagementBasic',
+				'apiShareOperations',
+				'apiShareReshare',
+				'apiShareUpdate',
+				'apiSharingNotifications',
+				'apiTags',
+				'apiTrashbin',
+				'apiVersions',
+				'apiWebdavLocks',
+				'apiWebdavLocks2',
+				'apiWebdavMove',
+				'apiWebdavOperations',
+				'apiWebdavProperties',
+				'apiWebdavUpload',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+		},
 		'core-api-federation': {
 			'suites': [
 				'apiFederation',
@@ -394,6 +431,52 @@ config = {
 				}
 			],
 		},
+		'core-api-federation-latest-nightly': {
+			'suites': [
+				'apiFederation',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
 		'core-cli-acceptance': {
 			'suites': [
 				'cliTrashbin',
@@ -408,6 +491,22 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
+		},
+		'core-cli-acceptance-latest-nightly': {
+			'suites': [
+				'cliTrashbin',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
 		},
 		'core-webui-acceptance': {
 			'suites': [
@@ -425,6 +524,53 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-latest-nightly': {
+			'suites': [
+				'webUICore1',
+				'webUICore2',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
