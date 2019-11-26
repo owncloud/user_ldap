@@ -601,6 +601,470 @@ config = {
 				}
 			],
 		},
+		'core-api-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'apiAuth': 'apiAuth-enc-UK',
+				'apiAuthOcs': 'apiAuthOcs-enc-UK',
+				'apiCapabilities': 'apiCapabilities-enc-UK',
+				'apiComments': 'apiComments-enc-UK',
+				'apiFavorites': 'apiFavorites-enc-UK',
+				'apiMain': 'apiMain-enc-UK',
+				'apiSharees': 'apiSharees-enc-UK',
+				'apiShareManagement': 'apiShareManagement-enc-UK',
+				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-UK',
+				'apiShareOperations': 'apiShareOperations-enc-UK',
+				'apiShareReshare': 'apiShareReshare-enc-UK',
+				'apiShareUpdate': 'apiShareUpdate-enc-UK',
+				'apiSharingNotifications': 'apiSharingNot-enc-UK',
+				'apiTags': 'apiTags-enc-UK',
+				'apiTrashbin': 'apiTrashbin-enc-UK',
+				'apiVersions': 'apiVersions-enc-UK',
+				'apiWebdavLocks': 'apiWebdavLocks-enc-UK',
+				'apiWebdavLocks2': 'apiWebdavLocks2-enc-UK',
+				'apiWebdavMove': 'apiWebdavMove-enc-UK',
+				'apiWebdavOperations': 'apiWebdavOperations-enc-UK',
+				'apiWebdavProperties': 'apiWebdavProperties-enc-UK',
+				'apiWebdavUpload': 'apiWebdavUpload-enc-UK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-federation-encryption-userkeys-nightly': {
+			'suites': {
+				'apiFederation': 'Federation-enc-UK'
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-cli-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-enc-UK'
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'webUICore1': 'webUICore1-enc-UK',
+				'webUICore2': 'webUICore2-enc-UK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'extraApps': {
+				'encryption': ''
+			},
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'apiAuth': 'apiAuth-enc-MK',
+				'apiAuthOcs': 'apiAuthOcs-enc-MK',
+				'apiCapabilities': 'apiCapabilities-enc-MK',
+				'apiComments': 'apiComments-enc-MK',
+				'apiFavorites': 'apiFavorites-enc-MK',
+				'apiMain': 'apiMain-enc-MK',
+				'apiSharees': 'apiSharees-enc-MK',
+				'apiShareManagement': 'apiShareManagement-enc-MK',
+				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-MK',
+				'apiShareOperations': 'apiShareOperations-enc-MK',
+				'apiShareReshare': 'apiShareReshare-enc-MK',
+				'apiShareUpdate': 'apiShareUpdate-enc-MK',
+				'apiSharingNotifications': 'apiSharingNot-enc-MK',
+				'apiTags': 'apiTags-enc-MK',
+				'apiTrashbin': 'apiTrashbin-enc-MK',
+				'apiVersions': 'apiVersions-enc-MK',
+				'apiWebdavLocks': 'apiWebdavLocks-enc-MK',
+				'apiWebdavLocks2': 'apiWebdavLocks2-enc-MK',
+				'apiWebdavMove': 'apiWebdavMove-enc-MK',
+				'apiWebdavOperations': 'apiWebdavOperations-enc-MK',
+				'apiWebdavProperties': 'apiWebdavProperties-enc-MK',
+				'apiWebdavUpload': 'apiWebdavUpload-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-federation-encryption-masterkey-nightly': {
+			'suites': {
+				'apiFederation': 'Federation-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-cli-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-enc-MK'
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'webUICore1': 'webUICore1-enc-MK',
+				'webUICore2': 'webUICore2-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'extraApps': {
+				'encryption': ''
+			},
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.0',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
 	},
 
 	'defaults': {
