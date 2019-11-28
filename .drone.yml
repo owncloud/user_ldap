@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: docker
-name: coding-standard-php7.0
+name: coding-standard-php7.1
 
 platform:
   os: linux
@@ -14,48 +14,9 @@ workspace:
 steps:
 - name: coding-standard
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - make test-php-style
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
----
-kind: pipeline
-type: docker
-name: phan-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: server/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: sqlite
-    db_name: owncloud
-    db_password: owncloud
-    db_type: sqlite
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: phan
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - make test-php-phan
 
 trigger:
   ref:
@@ -183,7 +144,7 @@ trigger:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.0-sqlite
+name: phpunit-php7.1-sqlite
 
 platform:
   os: linux
@@ -209,7 +170,7 @@ steps:
 
 - name: setup-server-user_ldap
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - php occ a:l
@@ -221,7 +182,7 @@ steps:
 
 - name: phpunit-tests
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - make test-php-unit-dbg
 
@@ -241,8 +202,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -250,7 +210,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.0-mariadb10.2
+name: phpunit-php7.1-mariadb10.2
 
 platform:
   os: linux
@@ -276,7 +236,7 @@ steps:
 
 - name: setup-server-user_ldap
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - php occ a:l
@@ -288,7 +248,7 @@ steps:
 
 - name: phpunit-tests
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - make test-php-unit-dbg
 
@@ -318,8 +278,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -327,7 +286,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.0-mysql5.5
+name: phpunit-php7.1-mysql5.5
 
 platform:
   os: linux
@@ -353,7 +312,7 @@ steps:
 
 - name: setup-server-user_ldap
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - php occ a:l
@@ -365,7 +324,7 @@ steps:
 
 - name: phpunit-tests
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - make test-php-unit-dbg
 
@@ -395,238 +354,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: phpunit-php7.0-mysql5.7
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: server/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: phpunit-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - make test-php-unit-dbg
-
-- name: codecov-upload
-  pull: always
-  image: plugins/codecov:2
-  settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: phpunit-php7.0-postgres9.4
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: server/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: postgres
-    db_name: owncloud
-    db_password: owncloud
-    db_type: pgsql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: phpunit-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - make test-php-unit-dbg
-
-- name: codecov-upload
-  pull: always
-  image: plugins/codecov:2
-  settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
-
-services:
-- name: postgres
-  pull: always
-  image: postgres:9.4
-  environment:
-    POSTGRES_DB: owncloud
-    POSTGRES_PASSWORD: owncloud
-    POSTGRES_USER: owncloud
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: phpunit-php7.0-oracle
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: server/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: oracle
-    db_name: XE
-    db_password: oracle
-    db_type: oci
-    db_username: system
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: phpunit-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - make test-php-unit-dbg
-
-- name: codecov-upload
-  pull: always
-  image: plugins/codecov:2
-  settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
-
-services:
-- name: oracle
-  pull: always
-  image: deepdiver/docker-oracle-xe-11g:latest
-  environment:
-    ORACLE_DB: XE
-    ORACLE_DISABLE_ASYNCH_IO: true
-    ORACLE_PASSWORD: oracle
-    ORACLE_USER: system
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -674,7 +402,16 @@ steps:
   pull: always
   image: owncloudci/php:7.1
   commands:
-  - make test-php-unit
+  - make test-php-unit-dbg
+
+- name: codecov-upload
+  pull: always
+  image: plugins/codecov:2
+  settings:
+    paths:
+    - tests/output/clover.xml
+    token:
+      from_secret: codecov_token
 
 services:
 - name: mysql
@@ -693,8 +430,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -742,7 +478,16 @@ steps:
   pull: always
   image: owncloudci/php:7.1
   commands:
-  - make test-php-unit
+  - make test-php-unit-dbg
+
+- name: codecov-upload
+  pull: always
+  image: plugins/codecov:2
+  settings:
+    paths:
+    - tests/output/clover.xml
+    token:
+      from_secret: codecov_token
 
 services:
 - name: postgres
@@ -760,8 +505,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -809,7 +553,16 @@ steps:
   pull: always
   image: owncloudci/php:7.1
   commands:
-  - make test-php-unit
+  - make test-php-unit-dbg
+
+- name: codecov-upload
+  pull: always
+  image: plugins/codecov:2
+  settings:
+    paths:
+    - tests/output/clover.xml
+    token:
+      from_secret: codecov_token
 
 services:
 - name: oracle
@@ -828,8 +581,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -896,8 +648,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -963,8 +714,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1031,8 +781,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1099,8 +848,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1166,8 +914,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1234,8 +981,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1314,8 +1060,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1394,8 +1139,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1474,8 +1218,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1554,8 +1297,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1634,8 +1376,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1714,8 +1455,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1794,8 +1534,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1874,8 +1613,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -1954,8 +1692,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2034,8 +1771,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2114,139 +1850,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: apiProvisioningLDAP-master-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-api
-  environment:
-    BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2310,7 +1914,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -2376,8 +1980,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2441,7 +2044,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -2507,8 +2110,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2572,7 +2174,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -2638,139 +2240,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: apiUserLDAP-master-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-api
-  environment:
-    BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2834,7 +2304,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -2900,8 +2370,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -2965,7 +2434,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3031,8 +2500,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -3096,7 +2564,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3162,139 +2630,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: apiUserLDAPConnection-master-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-api
-  environment:
-    BEHAT_SUITE: apiUserLDAPConnection
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -3358,7 +2694,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3424,8 +2760,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -3489,7 +2824,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3555,8 +2890,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -3620,7 +2954,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3686,139 +3020,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: apiUserLDAPSharing-master-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-api
-  environment:
-    BEHAT_SUITE: apiUserLDAPSharing
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -3882,7 +3084,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -3948,8 +3150,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4013,7 +3214,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4079,8 +3280,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4144,7 +3344,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4210,8 +3410,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4275,7 +3474,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4340,8 +3539,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4405,7 +3603,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4471,8 +3669,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4536,7 +3733,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4601,8 +3798,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4666,7 +3862,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4732,8 +3928,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4797,7 +3992,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4862,8 +4057,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -4927,7 +4121,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -4993,8 +4187,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5058,7 +4251,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5123,8 +4316,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5188,7 +4380,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5254,8 +4446,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5319,7 +4510,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5385,8 +4576,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5450,7 +4640,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5515,8 +4705,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5580,7 +4769,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5646,8 +4835,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5711,7 +4899,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5777,8 +4965,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5842,7 +5029,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -5907,8 +5094,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -5972,7 +5158,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6038,8 +5224,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6103,7 +5288,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6169,8 +5354,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6234,7 +5418,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6299,8 +5483,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6364,7 +5547,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6430,8 +5613,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6495,7 +5677,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6561,8 +5743,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6626,7 +5807,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6691,8 +5872,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6756,7 +5936,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6822,8 +6002,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -6887,7 +6066,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -6955,8 +6134,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7020,7 +6198,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7088,8 +6266,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7153,7 +6330,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7221,8 +6398,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7286,7 +6462,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7354,8 +6530,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7419,7 +6594,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7487,8 +6662,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7552,7 +6726,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7620,8 +6794,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7685,7 +6858,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7753,8 +6926,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -7818,7 +6990,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -7886,139 +7058,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: cliProvisioning-master-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-cli
-  environment:
-    BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8082,7 +7122,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8148,8 +7188,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8213,7 +7252,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8279,8 +7318,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8344,7 +7382,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8410,8 +7448,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8475,7 +7512,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8540,8 +7577,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8605,7 +7641,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8671,8 +7707,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8736,7 +7771,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8802,8 +7837,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8867,7 +7901,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -8932,8 +7966,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -8997,7 +8030,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9063,8 +8096,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -9128,7 +8160,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9196,8 +8228,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -9261,7 +8292,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9329,149 +8360,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: webUIUserLDAP-master-chrome-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-webui
-  environment:
-    BEHAT_SUITE: webUIUserLDAP
-    BROWSER: chrome
-    PLATFORM: Linux
-    SELENIUM_HOST: selenium
-    SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: selenium
-  pull: always
-  image: selenium/standalone-chrome-debug:3.141.59-oxygen
-  environment:
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -9535,7 +8424,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9611,8 +8500,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -9676,7 +8564,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9752,8 +8640,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -9817,7 +8704,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -9893,149 +8780,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
-- phan-php7.1
-- phan-php7.2
-- phan-php7.3
-
----
-kind: pipeline
-type: docker
-name: webUIProvisioning-master-chrome-mysql5.7-php7.0
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: testrunner/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: install-testrunner
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
-  - rsync -aIX /tmp/testrunner /var/www/owncloud
-  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
-  - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: owncloud-log-server
-  pull: always
-  image: owncloud/ubuntu:18.04
-  detach: true
-  commands:
-  - tail -f /var/www/owncloud/server/data/owncloud.log
-
-- name: configure-app
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - cd /var/www/owncloud/server
-  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:show-config
-  - php occ ldap:test-config "LDAPTestId"
-  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
-  - php occ user:list
-
-- name: fix-permissions
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - chown -R www-data /var/www/owncloud/server
-
-- name: acceptance-tests
-  pull: always
-  image: owncloudci/php:7.0
-  commands:
-  - touch /var/www/owncloud/saved-settings.sh
-  - . /var/www/owncloud/saved-settings.sh
-  - make test-acceptance-webui
-  environment:
-    BEHAT_SUITE: webUIProvisioning
-    BROWSER: chrome
-    PLATFORM: Linux
-    SELENIUM_HOST: selenium
-    SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
-    TEST_SERVER_URL: http://server
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-- name: selenium
-  pull: always
-  image: selenium/standalone-chrome-debug:3.141.59-oxygen
-  environment:
-    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-
-- name: ldap
-  pull: always
-  image: osixia/openldap
-  environment:
-    HOSTNAME: ldap
-    LDAP_ADMIN_PASSWORD: admin
-    LDAP_DOMAIN: owncloud.com
-    LDAP_ORGANISATION: owncloud
-    LDAP_TLS_VERIFY_CLIENT: never
-
-- name: server
-  pull: always
-  image: owncloudci/php:7.0
-  command:
-  - /usr/local/bin/apachectl
-  - -e
-  - debug
-  - -D
-  - FOREGROUND
-  environment:
-    APACHE_WEBROOT: /var/www/owncloud/server
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10099,7 +8844,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10175,8 +8920,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10240,7 +8984,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10316,8 +9060,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10381,7 +9124,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10457,8 +9200,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10522,7 +9264,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10597,8 +9339,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10662,7 +9403,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10738,8 +9479,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10803,7 +9543,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -10878,8 +9618,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -10943,7 +9682,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11019,8 +9758,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11084,7 +9822,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11160,8 +9898,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11225,7 +9962,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11300,8 +10037,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11365,7 +10101,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11441,8 +10177,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11506,7 +10241,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11582,8 +10317,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11647,7 +10381,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11722,8 +10456,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11787,7 +10520,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -11863,8 +10596,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -11928,7 +10660,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12006,8 +10738,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12071,7 +10802,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12149,8 +10880,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12214,7 +10944,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12292,8 +11022,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12357,7 +11086,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12435,8 +11164,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12500,7 +11228,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12566,8 +11294,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12631,7 +11358,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12697,8 +11424,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12762,7 +11488,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12828,8 +11554,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -12893,7 +11618,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -12959,8 +11684,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13024,7 +11748,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13090,8 +11814,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13155,7 +11878,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13221,8 +11944,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13286,7 +12008,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13352,8 +12074,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13417,7 +12138,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13483,8 +12204,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13548,7 +12268,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13614,8 +12334,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13679,7 +12398,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13745,8 +12464,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13810,7 +12528,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -13876,8 +12594,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -13941,7 +12658,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14007,8 +12724,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14072,7 +12788,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14138,8 +12854,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14203,7 +12918,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14269,8 +12984,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14334,7 +13048,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14400,8 +13114,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14465,7 +13178,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14531,8 +13244,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14596,7 +13308,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14662,8 +13374,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14727,7 +13438,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14793,8 +13504,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14858,7 +13568,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -14924,8 +13634,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -14989,7 +13698,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15055,8 +13764,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15120,7 +13828,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15186,8 +13894,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15251,7 +13958,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15317,8 +14024,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15382,7 +14088,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15446,8 +14152,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15511,7 +14216,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15575,8 +14280,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15640,7 +14344,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15704,8 +14408,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15769,7 +14472,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15833,8 +14536,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -15898,7 +14600,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -15962,8 +14664,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16027,7 +14728,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16091,8 +14792,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16156,7 +14856,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16220,8 +14920,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16285,7 +14984,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16349,8 +15048,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16414,7 +15112,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16478,8 +15176,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16543,7 +15240,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16607,8 +15304,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16672,7 +15368,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16736,8 +15432,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16801,7 +15496,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16865,8 +15560,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -16930,7 +15624,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -16994,8 +15688,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17059,7 +15752,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17123,8 +15816,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17188,7 +15880,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17252,8 +15944,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17317,7 +16008,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17381,8 +16072,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17446,7 +16136,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17510,8 +16200,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17575,7 +16264,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17639,8 +16328,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17704,7 +16392,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17768,8 +16456,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17833,7 +16520,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -17897,8 +16584,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -17962,7 +16648,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18026,8 +16712,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18091,7 +16776,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18155,8 +16840,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18247,7 +16931,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18258,7 +16942,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -18338,8 +17022,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18430,7 +17113,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18441,7 +17124,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -18519,8 +17202,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18584,7 +17266,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18650,8 +17332,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18715,7 +17396,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18779,8 +17460,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -18871,7 +17551,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -18882,7 +17562,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -18972,8 +17652,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19064,7 +17743,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19075,7 +17754,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -19165,8 +17844,7 @@ trigger:
   - refs/heads/master
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19257,7 +17935,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19268,7 +17946,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -19356,8 +18034,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19448,7 +18125,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19459,7 +18136,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -19547,8 +18224,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19623,7 +18299,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19696,8 +18372,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19772,7 +18447,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19845,8 +18520,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -19921,7 +18595,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -19994,8 +18668,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20070,7 +18743,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20143,8 +18816,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20219,7 +18891,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20292,8 +18964,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20368,7 +19039,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20441,8 +19112,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20517,7 +19187,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20590,8 +19260,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20666,7 +19335,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20739,8 +19408,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20815,7 +19483,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -20888,8 +19556,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -20964,7 +19631,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21037,8 +19704,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21113,7 +19779,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21186,8 +19852,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21262,7 +19927,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21335,8 +20000,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21411,7 +20075,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21484,8 +20148,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21560,7 +20223,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21633,8 +20296,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21709,7 +20371,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21782,8 +20444,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -21858,7 +20519,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -21931,8 +20592,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22007,7 +20667,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22080,8 +20740,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22156,7 +20815,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22229,8 +20888,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22305,7 +20963,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22378,8 +21036,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22454,7 +21111,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22527,8 +21184,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22603,7 +21259,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22676,8 +21332,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22752,7 +21407,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22825,8 +21480,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -22928,7 +21582,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -22939,7 +21593,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -23026,8 +21680,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23102,7 +21755,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -23175,8 +21828,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23278,7 +21930,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -23289,7 +21941,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -23386,8 +22038,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23489,7 +22140,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -23500,7 +22151,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -23597,8 +22248,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23673,7 +22323,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -23746,8 +22396,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23822,7 +22471,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -23895,8 +22544,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -23971,7 +22619,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24044,8 +22692,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24120,7 +22767,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24193,8 +22840,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24269,7 +22915,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24342,8 +22988,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24418,7 +23063,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24491,8 +23136,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24567,7 +23211,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24640,8 +23284,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24716,7 +23359,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24789,8 +23432,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -24865,7 +23507,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -24938,8 +23580,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25014,7 +23655,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25087,8 +23728,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25163,7 +23803,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25236,8 +23876,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25312,7 +23951,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25385,8 +24024,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25461,7 +24099,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25534,8 +24172,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25610,7 +24247,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25683,8 +24320,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25759,7 +24395,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25832,8 +24468,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -25908,7 +24543,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -25981,8 +24616,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26057,7 +24691,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26130,8 +24764,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26206,7 +24839,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26279,8 +24912,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26355,7 +24987,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26428,8 +25060,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26504,7 +25135,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26577,8 +25208,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26653,7 +25283,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26726,8 +25356,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26802,7 +25431,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26875,8 +25504,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -26978,7 +25606,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -26989,7 +25617,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -27076,8 +25704,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -27152,7 +25779,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -27225,8 +25852,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -27328,7 +25954,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -27339,7 +25965,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -27436,8 +26062,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -27539,7 +26164,7 @@ steps:
 
 - name: configure-app
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
@@ -27550,7 +26175,7 @@ steps:
 
 - name: configure-app-on-federated-server
   pull: always
-  image: owncloudci/php:7.0
+  image: owncloudci/php:7.1
   commands:
   - cd /var/www/owncloud/federated
   - php occ market:install user_ldap
@@ -27647,8 +26272,7 @@ trigger:
   - nightly
 
 depends_on:
-- coding-standard-php7.0
-- phan-php7.0
+- coding-standard-php7.1
 - phan-php7.1
 - phan-php7.2
 - phan-php7.3
@@ -27683,12 +26307,9 @@ trigger:
   - failure
 
 depends_on:
-- phpunit-php7.0-sqlite
-- phpunit-php7.0-mariadb10.2
-- phpunit-php7.0-mysql5.5
-- phpunit-php7.0-mysql5.7
-- phpunit-php7.0-postgres9.4
-- phpunit-php7.0-oracle
+- phpunit-php7.1-sqlite
+- phpunit-php7.1-mariadb10.2
+- phpunit-php7.1-mysql5.5
 - phpunit-php7.1-mysql5.7
 - phpunit-php7.1-postgres9.4
 - phpunit-php7.1-oracle
@@ -27709,19 +26330,15 @@ depends_on:
 - IntegrationTestPaging
 - User/IntegrationTestUserAvatar
 - User/IntegrationTestUserDisplayName
-- apiProvisioningLDAP-master-mysql5.7-php7.0
 - apiProvisioningLDAP-master-mysql5.7-php7.1
 - apiProvisioningLDAP-master-mysql5.7-php7.2
 - apiProvisioningLDAP-master-mysql5.7-php7.3
-- apiUserLDAP-master-mysql5.7-php7.0
 - apiUserLDAP-master-mysql5.7-php7.1
 - apiUserLDAP-master-mysql5.7-php7.2
 - apiUserLDAP-master-mysql5.7-php7.3
-- apiUserLDAPConnection-master-mysql5.7-php7.0
 - apiUserLDAPConnection-master-mysql5.7-php7.1
 - apiUserLDAPConnection-master-mysql5.7-php7.2
 - apiUserLDAPConnection-master-mysql5.7-php7.3
-- apiUserLDAPSharing-master-mysql5.7-php7.0
 - apiUserLDAPSharing-master-mysql5.7-php7.1
 - apiUserLDAPSharing-master-mysql5.7-php7.2
 - apiUserLDAPSharing-master-mysql5.7-php7.3
@@ -27753,7 +26370,6 @@ depends_on:
 - apiUserLDAPConnectionS-latest-mysql5.7-php7.2
 - apiUserLDAPSharingS-master-mysql5.7-php7.2
 - apiUserLDAPSharingS-latest-mysql5.7-php7.2
-- cliProvisioning-master-mysql5.7-php7.0
 - cliProvisioning-master-mysql5.7-php7.1
 - cliProvisioning-master-mysql5.7-php7.2
 - cliProvisioning-master-mysql5.7-php7.3
@@ -27764,11 +26380,9 @@ depends_on:
 - cliProvisioning-latest-oracle-php7.2
 - cliProvisioningLDAPS-master-mysql5.7-php7.2
 - cliProvisioningLDAPS-latest-mysql5.7-php7.2
-- webUIUserLDAP-master-chrome-mysql5.7-php7.0
 - webUIUserLDAP-master-chrome-mysql5.7-php7.1
 - webUIUserLDAP-master-chrome-mysql5.7-php7.2
 - webUIUserLDAP-master-chrome-mysql5.7-php7.3
-- webUIProvisioning-master-chrome-mysql5.7-php7.0
 - webUIProvisioning-master-chrome-mysql5.7-php7.1
 - webUIProvisioning-master-chrome-mysql5.7-php7.2
 - webUIProvisioning-master-chrome-mysql5.7-php7.3
