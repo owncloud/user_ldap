@@ -636,6 +636,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -682,6 +683,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -741,6 +743,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -787,6 +790,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'cron': 'nightly',
 			'extraSetup': [
 				{
@@ -868,6 +872,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -914,6 +919,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -973,6 +979,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -1019,6 +1026,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'cron': 'nightly',
 			'extraSetup': [
 				{

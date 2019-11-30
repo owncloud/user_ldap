@@ -18331,6 +18331,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiAuth
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -18479,6 +18480,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiAuthOcs
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -18627,6 +18629,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiCapabilities
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -18775,6 +18778,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiComments
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -18923,6 +18927,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiFavorites
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19071,6 +19076,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiMain
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19219,6 +19225,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiSharees
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19367,6 +19374,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiShareManagement
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19515,6 +19523,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiShareManagementBasic
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19663,6 +19672,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiShareOperations
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19811,6 +19821,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiShareReshare
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -19959,6 +19970,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiShareUpdate
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20107,6 +20119,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiSharingNotifications
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20255,6 +20268,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiTags
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20403,6 +20417,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiTrashbin
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20551,6 +20566,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiVersions
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20699,6 +20715,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavLocks
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20847,6 +20864,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavLocks2
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -20995,6 +21013,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavMove
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21143,6 +21162,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavOperations
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21291,6 +21311,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavProperties
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21439,6 +21460,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiWebdavUpload
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21627,6 +21649,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiFederation
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21787,6 +21810,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: cliTrashbin
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -21975,6 +21999,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
     PLATFORM: Linux
@@ -22185,6 +22210,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
     PLATFORM: Linux
@@ -22355,6 +22381,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiAuth
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -22503,6 +22530,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiAuthOcs
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -22651,6 +22679,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiCapabilities
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -22799,6 +22828,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiComments
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -22947,6 +22977,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiFavorites
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23095,6 +23126,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiMain
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23243,6 +23275,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiSharees
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23391,6 +23424,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiShareManagement
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23539,6 +23573,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiShareManagementBasic
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23687,6 +23722,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiShareOperations
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23835,6 +23871,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiShareReshare
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -23983,6 +24020,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiShareUpdate
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24131,6 +24169,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiSharingNotifications
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24279,6 +24318,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiTags
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24427,6 +24467,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiTrashbin
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24575,6 +24616,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiVersions
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24723,6 +24765,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavLocks
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -24871,6 +24914,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavLocks2
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25019,6 +25063,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavMove
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25167,6 +25212,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavOperations
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25315,6 +25361,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavProperties
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25463,6 +25510,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiWebdavUpload
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25651,6 +25699,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiFederation
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25811,6 +25860,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: cliTrashbin
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
@@ -25999,6 +26049,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
     PLATFORM: Linux
@@ -26209,6 +26260,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
     PLATFORM: Linux
