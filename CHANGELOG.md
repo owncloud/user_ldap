@@ -3,7 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
+## [0.15.0] - 2019-12-04
+
+### Fixed
+
+- Don't delete / disable Users if the Change the DN - [#470](https://github.com/owncloud/user_ldap/issues/470)
+
+### Changed
+
+- Drop PHP 7.0 - [#474](https://github.com/owncloud/user_ldap/issues/474)
 
 ## [0.14.0] - 2019-11-11
 
@@ -102,10 +110,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.14.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.0...master
+[0.15.0]: https://github.com/owncloud/user_ldap/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/owncloud/user_ldap/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/owncloud/user_ldap/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/owncloud/user_ldap/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/owncloud/user_ldap/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/owncloud/user_ldap/compare/0.9.1...v0.10.0
-
