@@ -161,6 +161,41 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 	
 	/**
+	 * @param string $attribute
+	 * @param string $entry
+	 *
+	 * @return array
+	 */
+	public function getLdapAttributeOfEntry($attribute, $entry) {
+		$ldapEntry = $this->ldap->getEntry($entry . "," . $this->ldapBaseDN, ['*', '+']);
+		$value = Zend\Ldap\Attribute::getAttribute($ldapEntry, $attribute);
+		return $value;
+	}
+
+	/**
+	 * @param string $entry
+	 *
+	 * @return array
+	 */
+	public function getUuidOfEntry($entry) {
+		return $this->getLdapAttributeOfEntry('entryUUID', $entry);
+	}
+
+	/**
+	 * @When the administrator uses the UUID to sync entry :entry using the OCS API
+	 *
+	 * @param string $entry
+	 *
+	 * @return void
+	 */
+	public function theAdminUsesUUIDToSyncUser($entry) {
+		$value = $this->getUuidOfEntry($entry);
+		$uuid = $value[0];
+		\var_dump($uuid);
+		$this->featureContext->sendUserSyncRequest($uuid);
+	}
+
+	/**
 	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to
 	 *
 	 * @param string $attribute
