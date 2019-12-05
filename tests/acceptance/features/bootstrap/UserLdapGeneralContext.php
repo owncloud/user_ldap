@@ -190,7 +190,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 */
 	public function theAdminUsesUUIDToSyncUser($entry) {
 		$value = $this->getUuidOfEntry($entry);
-		$uuid = $value[0];
+		$uuid = "{" . $value[0] . "}";
 		\var_dump($uuid);
 		$this->featureContext->sendUserSyncRequest($uuid);
 	}
