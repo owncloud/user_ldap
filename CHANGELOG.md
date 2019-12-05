@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 
-- Don't delete / disable Users if the Change the DN - [#470](https://github.com/owncloud/user_ldap/issues/470)
+- Don't delete / disable Users if they change their DN - [#470](https://github.com/owncloud/user_ldap/issues/470)
 
 ### Changed
 
