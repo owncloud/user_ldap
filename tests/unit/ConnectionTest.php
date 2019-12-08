@@ -38,7 +38,7 @@ class ConnectionTest extends \Test\TestCase {
 	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 

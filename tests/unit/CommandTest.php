@@ -38,7 +38,7 @@ class CommandTest extends TestCase {
 	 * {@inheritDoc}
 	 * @see \Test\TestCase::setUp()
 	 */
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = $this->createMock(Helper::class);
 		$coreConfig = \OC::$server->getConfig();

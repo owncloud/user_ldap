@@ -50,7 +50,7 @@ class WizardControllerTest extends TestCase {
 	/** @var WizardController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

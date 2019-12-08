@@ -56,7 +56,7 @@ class AccessTest extends \Test\TestCase {
 	 */
 	private $access;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->ldapWrapper  = $this->createMock(ILDAPWrapper::class);
 		$this->connection  = $this->createMock(Connection::class);
 		$this->manager  = $this->createMock(Manager::class);
