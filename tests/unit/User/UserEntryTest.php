@@ -40,7 +40,7 @@ class UserEntryTest extends \Test\TestCase {
 	 */
 	protected $connection;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
 		$this->logger     = $this->createMock(ILogger::class);

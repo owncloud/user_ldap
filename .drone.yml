@@ -1891,7 +1891,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2021,7 +2021,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2151,7 +2151,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2281,7 +2281,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2411,7 +2411,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2541,7 +2541,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2671,7 +2671,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2801,7 +2801,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -2931,7 +2931,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3061,7 +3061,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3191,7 +3191,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3321,7 +3321,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3451,7 +3451,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3580,7 +3580,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3710,7 +3710,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3839,7 +3839,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -3969,7 +3969,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4098,7 +4098,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4228,7 +4228,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4357,7 +4357,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4487,7 +4487,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4617,7 +4617,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4746,7 +4746,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -4876,7 +4876,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5006,7 +5006,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5135,7 +5135,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5265,7 +5265,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5395,7 +5395,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5524,7 +5524,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5654,7 +5654,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5784,7 +5784,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -5913,7 +5913,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6043,7 +6043,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6175,7 +6175,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6307,7 +6307,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6439,7 +6439,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6571,7 +6571,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6703,7 +6703,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6835,7 +6835,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -6967,7 +6967,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7099,7 +7099,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7229,7 +7229,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7359,7 +7359,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7489,7 +7489,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7618,7 +7618,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7748,7 +7748,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -7878,7 +7878,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8007,7 +8007,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8137,7 +8137,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8269,7 +8269,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8401,7 +8401,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8541,7 +8541,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8681,7 +8681,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8821,7 +8821,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -8961,7 +8961,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9101,7 +9101,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9241,7 +9241,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9380,7 +9380,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9520,7 +9520,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9659,7 +9659,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9799,7 +9799,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -9939,7 +9939,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10078,7 +10078,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10218,7 +10218,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10358,7 +10358,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10497,7 +10497,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10637,7 +10637,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10779,7 +10779,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -10921,7 +10921,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11063,7 +11063,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11205,7 +11205,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11335,7 +11335,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11465,7 +11465,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11595,7 +11595,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11725,7 +11725,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11855,7 +11855,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -11985,7 +11985,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12115,7 +12115,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12245,7 +12245,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12375,7 +12375,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12505,7 +12505,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12635,7 +12635,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12765,7 +12765,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -12895,7 +12895,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13025,7 +13025,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13155,7 +13155,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13285,7 +13285,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13415,7 +13415,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13545,7 +13545,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13675,7 +13675,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13805,7 +13805,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -13935,7 +13935,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14065,7 +14065,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14193,7 +14193,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14321,7 +14321,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14449,7 +14449,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14577,7 +14577,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14705,7 +14705,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14833,7 +14833,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -14961,7 +14961,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15089,7 +15089,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15217,7 +15217,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15345,7 +15345,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15473,7 +15473,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15601,7 +15601,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15729,7 +15729,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15857,7 +15857,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -15985,7 +15985,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16113,7 +16113,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16241,7 +16241,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16369,7 +16369,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16497,7 +16497,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16625,7 +16625,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16753,7 +16753,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -16881,7 +16881,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -17063,7 +17063,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -17243,7 +17243,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -17373,7 +17373,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: setup-server-user_ldap
   pull: always
@@ -17501,7 +17501,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -17693,7 +17693,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -17885,7 +17885,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -18075,7 +18075,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -18265,7 +18265,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -18414,7 +18414,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -18563,7 +18563,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -18712,7 +18712,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -18861,7 +18861,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19010,7 +19010,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19159,7 +19159,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19308,7 +19308,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19457,7 +19457,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19606,7 +19606,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19755,7 +19755,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -19904,7 +19904,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20053,7 +20053,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20202,7 +20202,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20351,7 +20351,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20500,7 +20500,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20649,7 +20649,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20798,7 +20798,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -20947,7 +20947,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -21096,7 +21096,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -21245,7 +21245,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -21394,7 +21394,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -21543,7 +21543,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -21744,7 +21744,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -21893,7 +21893,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -22104,7 +22104,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -22315,7 +22315,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -22464,7 +22464,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -22613,7 +22613,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -22762,7 +22762,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -22911,7 +22911,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23060,7 +23060,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23209,7 +23209,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23358,7 +23358,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23507,7 +23507,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23656,7 +23656,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23805,7 +23805,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -23954,7 +23954,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24103,7 +24103,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24252,7 +24252,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24401,7 +24401,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24550,7 +24550,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24699,7 +24699,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24848,7 +24848,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -24997,7 +24997,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -25146,7 +25146,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -25295,7 +25295,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -25444,7 +25444,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -25593,7 +25593,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -25794,7 +25794,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-extra-apps
   pull: always
@@ -25943,7 +25943,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always
@@ -26154,7 +26154,7 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
   - cd /var/www/owncloud/testrunner
-  - make install-composer-deps vendor-bin-deps
+  - make install-composer-deps
 
 - name: install-federation
   pull: always

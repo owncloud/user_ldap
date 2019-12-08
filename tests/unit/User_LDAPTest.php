@@ -52,7 +52,7 @@ class User_LDAPTest extends \Test\TestCase {
 	 */
 	protected $backend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config  = $this->createMock(IConfig::class);

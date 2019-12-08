@@ -86,6 +86,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - CapabilitiesContext:
+        - OccContext:
 
     apiComments:
       paths:
