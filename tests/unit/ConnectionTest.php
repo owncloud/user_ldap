@@ -140,9 +140,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\ServerNotAvailableException
 	 */
 	public function testConnectFails() {
+		$this->expectException(\OC\ServerNotAvailableException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,
@@ -203,9 +204,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
 	 */
 	public function testBindFails() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\BindFailedException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,

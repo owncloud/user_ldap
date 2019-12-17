@@ -352,9 +352,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUserEntryByDnNotPartOfBase() {
+		$this->expectException(\OutOfBoundsException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue([
@@ -369,9 +370,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
 	 */
 	public function testGetUserEntryByDnNotFound() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue([
@@ -382,9 +384,10 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * FIXME the ldap error should bubble up ... and not be converted to a DoesNotExistOnLDAPException
-	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
 	 */
 	public function testGetUserEntryByDnLDAPError() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue(false));
