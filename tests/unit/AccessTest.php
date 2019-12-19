@@ -64,6 +64,27 @@ class AccessTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @dataProvider sanitizeUsernameDataProvider
+	 * @param $input string
+	 * @param $expected string
+	 */
+	public function testSanitizeUsername($input, $expected) {
+		$this->assertSame($expected, $this->access->sanitizeUsername($input));
+	}
+
+	public function sanitizeUsernameDataProvider() {
+		return [
+			['John-Smith', 'John-Smith'],
+			['John.Smith@example.com', 'John.Smith@example.com'],
+			['John+Smith@example.com', 'John+Smith@example.com'],
+			['John_Smith', 'John_Smith'],
+			['John Smith', 'John_Smith'],
+			['John#Smith', 'JohnSmith'],
+			['John.Smith(CEO)', 'John.SmithCEO'],
+		];
+	}
+
+	/**
 	 * @dataProvider escapeFilterPartDataProvider
 	 * @param $input string
 	 * @param $expected string
