@@ -129,6 +129,17 @@ default:
         - CardDavContext:
         - CalDavContext:
 
+    apiShareCreateSpecial:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareCreateSpecial'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
     apiSharees:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiSharees'
@@ -174,9 +185,45 @@ default:
         - TrashbinContext:
         - WebDavPropertiesContext:
 
-    apiShareReshare:
+    apiSharePublicLink1:
       paths:
-        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare'
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharePublicLink1'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiSharePublicLink2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharePublicLink2'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareReshare1:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare1'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareReshare2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare2'
       context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
@@ -269,6 +316,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - OccContext:
         - WebDavPropertiesContext:
 
     apiWebdavOperations:
