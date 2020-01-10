@@ -17669,11 +17669,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: daily-master-qa
 
 - name: configure-federation
@@ -17801,6 +17806,15 @@ services:
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
 
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
 trigger:
   ref:
   - refs/pull/**
@@ -17849,11 +17863,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -17980,6 +17999,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
@@ -18281,11 +18309,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: daily-master-qa
 
 - name: configure-federation
@@ -18422,6 +18455,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   ref:
@@ -18471,11 +18513,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: daily-master-qa
 
 - name: configure-federation
@@ -18613,6 +18660,15 @@ services:
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
 
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
 trigger:
   ref:
   - refs/pull/**
@@ -18661,11 +18717,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -18803,6 +18864,15 @@ services:
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
 
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
 trigger:
   cron:
   - nightly
@@ -18849,11 +18919,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -18990,6 +19065,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
@@ -22859,11 +22943,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -23011,6 +23100,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
@@ -23205,11 +23303,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -23368,6 +23471,15 @@ services:
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
 
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
 trigger:
   cron:
   - nightly
@@ -23414,11 +23526,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -23576,6 +23693,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
@@ -27445,11 +27571,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -27597,6 +27728,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
@@ -27791,11 +27931,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -27954,6 +28099,15 @@ services:
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
 
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
 trigger:
   cron:
   - nightly
@@ -28000,11 +28154,16 @@ steps:
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
-- name: install-federation
+- name: install-federated
   pull: always
   image: owncloudci/core
   settings:
     core_path: /var/www/owncloud/federated
+    db_host: mysql-federated
+    db_name: owncloud-federated
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
     version: latest
 
 - name: configure-federation
@@ -28162,6 +28321,15 @@ services:
   - FOREGROUND
   environment:
     APACHE_WEBROOT: /var/www/owncloud/federated
+
+- name: mysql-federated
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud-federated
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
 
 trigger:
   cron:
