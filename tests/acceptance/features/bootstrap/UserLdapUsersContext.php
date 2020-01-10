@@ -36,7 +36,12 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @var UserLdapGeneralContext
 	 */
 	private $userLdapGeneralContext;
-	
+
+	/**
+	 * @var FeatureContext
+	 */
+	private $featureContext;
+
 	/**
 	 * @When the administrator creates group :group in ldap OU :ou
 	 *
@@ -44,14 +49,15 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
+	 * @throws \Zend\Ldap\Exception\LdapException
 	 */
 	public function createLdapGroup($group, $ou = null) {
 		if ($ou === null) {
-			$ou = $this->userLdapGeneralContext->getLdapGroupsOU();
+			$ou = $this->featureContext->getLdapGroupsOU();
 		}
 		
 		$newDN = 'cn=' . $group . ',ou=' . $ou . ',' .
-				 $this->userLdapGeneralContext->getLdapBaseDN();
+				 $this->featureContext->getLdapBaseDN();
 		
 		$entry = [];
 		$entry['cn'] = $group;
@@ -59,9 +65,9 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		$entry['objectclass'][] = 'top';
 		$entry['gidNumber'] = 5000;
 		
-		$this->userLdapGeneralContext->getLdap()->add($newDN, $entry);
+		$this->featureContext->getLdap()->add($newDN, $entry);
 	}
-	
+
 	/**
 	 * @When the administrator adds user :user to ldap group :group
 	 * @When the administrator adds user :user to group :group in ldap OU :ou
@@ -71,17 +77,18 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
+	 * @throws \Zend\Ldap\Exception\LdapException
 	 */
 	public function addUserToLdapGroup($user, $group, $ou = null) {
 		if ($ou === null) {
-			$ou = $this->userLdapGeneralContext->getLdapGroupsOU();
+			$ou = $this->featureContext->getLdapGroupsOU();
 		}
 		
 		$this->userLdapGeneralContext->addValueToLdapAttributeOfTheEntry(
 			$user, "memberUid", "cn=$group,ou=$ou"
 		);
 	}
-	
+
 	/**
 	 * @When the administrator removes user :user from ldap group :group
 	 * @When the administrator removes user :user from group :group in ldap OU :ou
@@ -91,10 +98,11 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
+	 * @throws \Zend\Ldap\Exception\LdapException
 	 */
 	public function removeUserFromLdapGroup($user, $group, $ou = null) {
 		if ($ou === null) {
-			$ou = $this->userLdapGeneralContext->getLdapGroupsOU();
+			$ou = $this->featureContext->getLdapGroupsOU();
 		}
 		$this->userLdapGeneralContext->deleteValueFromLdapAttribute(
 			$user, "memberUid", "cn=$group,ou=$ou"
@@ -109,10 +117,11 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
+	 * @throws \Zend\Ldap\Exception\LdapException
 	 */
 	public function deleteLdapGroup($group, $ou = null) {
 		if ($ou === null) {
-			$ou = $this->userLdapGeneralContext->getLdapGroupsOU();
+			$ou = $this->featureContext->getLdapGroupsOU();
 		}
 		$this->userLdapGeneralContext->deleteTheLdapEntry("cn=$group,ou=$ou");
 	}
@@ -129,6 +138,9 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		// Get all the contexts you need in this context
 		$this->userLdapGeneralContext = $environment->getContext(
 			'UserLdapGeneralContext'
+		);
+		$this->featureContext = $environment->getContext(
+			'FeatureContext'
 		);
 	}
 }

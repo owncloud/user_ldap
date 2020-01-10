@@ -32,7 +32,7 @@ default:
           ldapAdminPassword: admin
           ldapUsersOU: TestUsers
           ldapGroupsOU: TestGroups
-          ldapInitialUserFilePath: /../../config/ldap-users.ldif
+          ldapInitialUserFilePath: '%paths.base%/../../../../../tests/acceptance/config/ldap-users.ldif'
       contexts: &common_webui_core_contexts
         - UserLdapGeneralContext:
         - FeatureContext: &common_feature_context_params

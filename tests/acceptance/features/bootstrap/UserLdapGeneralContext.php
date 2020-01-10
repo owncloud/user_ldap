@@ -26,6 +26,8 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use TestHelpers\SetupHelper;
+use Zend\Ldap\Exception\LdapException;
+use PHPUnit\Framework\Assert;
 
 require_once 'bootstrap.php';
 
@@ -36,33 +38,17 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $oldConfig = [];
 	/**
 	 *
-	 * @var Zend\Ldap\Ldap
-	 */
-	private $ldap;
-	private $ldapAdminUser;
-	private $ldapAdminPassword;
-	private $ldapBaseDN;
-	private $ldapHost;
-	private $ldapPort;
-	private $ldapUsersOU;
-	private $ldapGroupsOU;
-	private $toDeleteDNs = [];
-	private $toDeleteLdapConfigs = [];
-	private $ldapCreatedUsers = [];
-	private $ldapCreatedGroups = [];
-
-	/**
-	 *
 	 * @var FeatureContext
 	 */
 	private $featureContext;
-	
+
 	/**
 	 * @Given a new LDAP config with the name :configId has been created
 	 *
 	 * @param string $configId
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function createNewLdapConfig($configId) {
 		$occResult = SetupHelper::runOcc(
@@ -73,9 +59,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				"could not create empty LDAP config " . $occResult['stdErr']
 			);
 		}
-		$this->toDeleteLdapConfigs[] = $configId;
+		$this->featureContext->setToDeleteLdapConfigs($configId);
 	}
-	
+
 	/**
 	 * @Given LDAP config :configId has key :configKey set to :configValue
 	 * @When the administrator sets the LDAP config :configId key :configKey to :configValue using the occ command
@@ -85,11 +71,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $configValue
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function ldapConfigHasKeySetTo(
 		$configId, $configKey, $configValue
 	) {
-		if (!isset($this->oldConfig[$configId][$configKey])) {
+		$oldConfig = $this->featureContext->getOldConfig();
+		if (!isset($oldConfig[$configId][$configKey])) {
 			//remember old settings to be able to set them back after test run
 			$occResult = SetupHelper::runOcc(
 				['ldap:show-config', $configId, "--output=json"]
@@ -101,12 +89,20 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			}
 			$originalConfig = \json_decode($occResult['stdOut'], true);
 			if (isset($originalConfig[$configKey])) {
-				$this->oldConfig[$configId][$configKey] = $originalConfig[$configKey];
+				$this->featureContext->setOldConfig(
+					$configId,
+					$configKey,
+					$originalConfig[$configKey]
+				);
 			} else {
-				$this->oldConfig[$configId][$configKey] = "";
+				$this->featureContext->setOldConfig(
+					$configId,
+					$configKey,
+					""
+				);
 			}
 		}
-		$this->setLdapSetting($configId, $configKey, $configValue);
+		$this->featureContext->setLdapSetting($configId, $configKey, $configValue);
 	}
 
 	/**
@@ -117,28 +113,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param TableNode $table with the headings |key | value |
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function ldapConfigHasTheseSettings($configId, TableNode $table) {
 		foreach ($table as $line) {
 			$this->ldapConfigHasKeySetTo(
 				$configId, $line['key'], $line['value']
 			);
-		}
-	}
-
-	/**
-	 * @Given the LDAP users have been resynced
-	 * @When the LDAP users are resynced
-	 *
-	 * @throws Exception
-	 * @return void
-	 */
-	public function theLdapUsersHaveBeenResynced() {
-		$occResult = SetupHelper::runOcc(
-			['user:sync', 'OCA\User_LDAP\User_Proxy', '-m', 'remove']
-		);
-		if ($occResult['code'] !== "0") {
-			throw new \Exception("could not sync LDAP users " . $occResult['stdErr']);
 		}
 	}
 
@@ -151,15 +132,17 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param bool $append
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function setTheLdapAttributeOfTheEntryTo(
 		$attribute, $entry, $value, $append=false
 	) {
-		$ldapEntry = $this->ldap->getEntry($entry . "," . $this->ldapBaseDN);
+		$ldap = $this->featureContext->getLdap();
+		$ldapEntry = $ldap->getEntry($entry . "," . $this->featureContext->getLdapBaseDN());
 		Zend\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, $append);
-		$this->ldap->update($entry . "," . $this->ldapBaseDN, $ldapEntry);
+		$ldap->update($entry . "," . $this->featureContext->getLdapBaseDN(), $ldapEntry);
 	}
-	
+
 	/**
 	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to
 	 *
@@ -168,6 +151,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param TableNode $table
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function theLdapAttributeOfTheEntryToTable($attribute, $entry, $table) {
 		$first = true;
@@ -193,6 +177,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $filename
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function theLdapAttributeOfTheEntryToContentOfFile(
 		$attribute, $entry, $filename
@@ -212,6 +197,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $entry
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function addValueToLdapAttributeOfTheEntry($value, $attribute, $entry) {
 		$this->setTheLdapAttributeOfTheEntryTo($attribute, $entry, $value, true);
@@ -223,9 +209,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $entry
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function deleteTheLdapEntry($entry) {
-		$this->ldap->delete($entry . "," . $this->ldapBaseDN);
+		$ldap = $this->featureContext->getLdap();
+		$ldap->delete($entry . "," . $this->featureContext->getLdapBaseDN());
 	}
 
 	/**
@@ -236,10 +224,12 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $entry DN, not containing baseDN
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function deleteValueFromLdapAttribute($value, $attribute, $entry) {
-		$this->ldap->deleteAttributes(
-			$entry . "," . $this->ldapBaseDN, [$attribute => [$value]]
+		$ldap = $this->featureContext->getLdap();
+		$ldap->deleteAttributes(
+			$entry . "," . $this->featureContext->getLdapBaseDN(), [$attribute => [$value]]
 		);
 	}
 
@@ -252,70 +242,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
-		$this->importLdifData($ldifData->getRaw());
-	}
-
-	/**
-	 * @return \Zend\Ldap\Ldap
-	 */
-	public function getLdap() {
-		return $this->ldap;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapAdminUser() {
-		return $this->ldapAdminUser;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapAdminPassword() {
-		return $this->ldapAdminPassword;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapBaseDN() {
-		return $this->ldapBaseDN;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapHost() {
-		return $this->ldapHost;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapHostWithoutScheme() {
-		return $this->featureContext->removeSchemeFromUrl($this->ldapHost);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapUsersOU() {
-		return $this->ldapUsersOU;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapGroupsOU() {
-		return $this->ldapGroupsOU;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLdapPort() {
-		return $this->ldapPort;
+		$this->featureContext->importLdifData($ldifData->getRaw());
 	}
 
 	/**
@@ -330,9 +257,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param string $ou
 	 *
 	 * @return void
+	 * @throws LdapException
 	 */
 	public function createLDAPUsers($amount, $prefix, $ou) {
-		$uidNumberSearch = $this->ldap->searchEntries(
+		$ldap = $this->featureContext->getLdap();
+		$uidNumberSearch = $ldap->searchEntries(
 			'objectClass=posixAccount', null, 0, ['uidNumber']
 		);
 		$maxUidNumber = 0;
@@ -342,20 +271,20 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			}
 		}
 		$entry = [];
-		$ouDN = 'ou=' . $ou . ',' . $this->ldapBaseDN;
-		$ouExists = $this->ldap->exists($ouDN);
+		$ouDN = 'ou=' . $ou . ',' . $this->featureContext->getLdapBaseDN();
+		$ouExists = $ldap->exists($ouDN);
 		if (!$ouExists) {
 			$entry['objectclass'][] = 'top';
 			$entry['objectclass'][] = 'organizationalunit';
 			$entry['ou'] = $ou;
-			$this->ldap->add($ouDN, $entry);
-			$this->toDeleteDNs[] = $ouDN;
+			$ldap->add($ouDN, $entry);
+			$this->featureContext->setToDeleteDNs($ouDN);
 		}
 		
 		$lenOfSuffix = \strlen((string)$amount);
 		for ($i = 0; $i < $amount; $i++) {
 			$uid = $prefix . \str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
-			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->ldapBaseDN;
+			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->featureContext->getLdapBaseDN();
 			
 			$entry = [];
 			$entry['cn'] = $uid;
@@ -368,7 +297,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$entry['gidNumber'] = 5000;
 			$entry['uidNumber'] = $maxUidNumber + $i + 1;
 			
-			$this->ldap->add($newDN, $entry);
+			$ldap->add($newDN, $entry);
 			$this->featureContext->addUserToCreatedUsersList(
 				$uid, $uid, $uid, null, false
 			);
@@ -377,11 +306,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				//if the OU did not exist, we have created it,
 				//and we will delete the OU recursive.
 				//No need to remember the entries to delete
-				$this->toDeleteDNs[] = $newDN;
+				$this->featureContext->setToDeleteDNs($newDN);
 			}
 		}
 	}
-	
+
 	/**
 	 * We need to make sure that the setup routines are called in the correct order
 	 * So this is the main function for setUp
@@ -391,222 +320,29 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @param BeforeScenarioScope $scope
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
 		// Get all the contexts you need in this context
 		$this->featureContext = $environment->getContext('FeatureContext');
-		
-		$suiteParameters = SetupHelper::getSuiteParameters($scope);
-		$this->connectToLdap($suiteParameters);
-		$this->importLdifFile(
-			__DIR__ . (string)$suiteParameters['ldapInitialUserFilePath']
-		);
-		$this->theLdapUsersHaveBeenResynced();
 	}
 
 	/**
-	 * @param array $suiteParameters
+	 * @Then /^the users returned by the API should have$/
+	 *
+	 * @param TableNode $usersList
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
-	public function connectToLdap($suiteParameters) {
-		SetupHelper::init(
-			$this->featureContext->getAdminUsername(),
-			$this->featureContext->getAdminPassword(),
-			$this->featureContext->getBaseUrl(),
-			$this->featureContext->getOcPath()
-		);
-		$occResult = SetupHelper::runOcc(
-			['ldap:show-config', 'LDAPTestId', '--output=json']
-		);
-		PHPUnit\Framework\Assert::assertSame(
-			'0', $occResult['code'],
-			"could not read current LDAP config. stdOut: " .
-			$occResult['stdOut'] .
-			" stdErr: " . $occResult['stdErr']
-		);
-
-		$ldapConfig = \json_decode(
-			$occResult['stdOut'], true
-		);
-		PHPUnit\Framework\Assert::assertNotNull(
-			$ldapConfig,
-			"could not json decode current LDAP config. stdOut: " . $occResult['stdOut']
-		);
-		$this->ldapBaseDN = (string)$ldapConfig['ldapBase'][0];
-		$this->ldapHost = (string)$ldapConfig['ldapHost'];
-		$this->ldapPort = (string)$ldapConfig['ldapPort'];
-		$this->ldapAdminUser = (string)$ldapConfig['ldapAgentName'];
-
-		$this->ldapAdminPassword = (string)$suiteParameters['ldapAdminPassword'];
-		$this->ldapUsersOU = (string)$suiteParameters['ldapUsersOU'];
-		$this->ldapGroupsOU = (string)$suiteParameters['ldapGroupsOU'];
-
-		$options = [
-			'host' => $this->ldapHost,
-			'port' => $this->ldapPort,
-			'password' => $this->ldapAdminPassword,
-			'bindRequiresDn' => true,
-			'baseDn' => $this->ldapBaseDN,
-			'username' => $this->ldapAdminUser
-		];
-		$this->ldap = new Zend\Ldap\Ldap($options);
-		$this->ldap->bind();
-	}
-
-	/**
-	 * imports an ldif string
-	 *
-	 * @param string $ldifData
-	 *
-	 * @return void
-	 */
-	public function importLdifData($ldifData) {
-		$items = Zend\Ldap\Ldif\Encoder::decode($ldifData);
-		if (isset($items['dn'])) {
-			//only one item in the ldif data
-			$this->ldap->add($items['dn'], $items);
-			if (isset($items['uid'])) {
-				$this->featureContext->addUserToCreatedUsersList(
-					$items['uid'][0],
-					$items['userpassword'][0]
-				);
-				\array_push($this->ldapCreatedUsers, $items['uid'][0]);
-			}
-			if (isset($items['objectclass']) && $items['objectclass'][0] === 'posixGroup') {
-				$this->featureContext->addGroupToCreatedGroupsList($items['cn'][0]);
-				\array_push($this->ldapCreatedGroups, $items['cn'][0]);
-			}
-		} else {
-			foreach ($items as $item) {
-				$this->ldap->add($item['dn'], $item);
-				if (isset($item['uid'])) {
-					$this->featureContext->addUserToCreatedUsersList(
-						$item['uid'][0],
-						$item['userpassword'][0]
-					);
-					\array_push($this->ldapCreatedUsers, $item['uid'][0]);
-				}
-				if (isset($item['objectclass']) && \in_array('posixGroup', $item['objectclass'])) {
-					$this->featureContext->addGroupToCreatedGroupsList($item['cn'][0]);
-					\array_push($this->ldapCreatedGroups, $item['cn'][0]);
-				}
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param string $path
-	 *
-	 * @return void
-	 */
-	public function importLdifFile($path) {
-		$ldifData = \file_get_contents($path);
-		$this->importLdifData($ldifData);
-	}
-
-	/**
-	 * @AfterScenario
-	 * @return void
-	 */
-	public function afterScenario() {
-		$this->resetOldConfig();
-		$this->deleteUserAndGroups();
-	}
-
-	/**
-	 * delete all imported ldap users and groups
-	 *
-	 * @return void
-	 */
-	public function deleteUserAndGroups() {
-		$this->ldap->delete(
-			"ou=" . $this->ldapUsersOU . "," . $this->ldapBaseDN, true
-		);
-		$this->ldap->delete(
-			"ou=" . $this->ldapGroupsOU . "," . $this->ldapBaseDN, true
-		);
-		foreach ($this->toDeleteDNs as $dn) {
-			$this->ldap->delete($dn, true);
-		}
-
-		foreach ($this->ldapCreatedUsers as $user) {
-			$this->featureContext->rememberThatUserIsNotExpectedToExist($user);
-		}
-		foreach ($this->ldapCreatedGroups as $group) {
-			$this->featureContext->rememberThatGroupIsNotExpectedToExist($group);
-		}
-
-		$this->theLdapUsersHaveBeenResynced();
-	}
-
-	/**
-	 * Sets back old settings
-	 *
-	 * @return void
-	 */
-	public function resetOldConfig() {
-		foreach ($this->toDeleteLdapConfigs as $configId) {
-			SetupHelper::runOcc(['ldap:delete-config', $configId]);
-		}
-		foreach ($this->oldConfig as $configId => $settings) {
-			foreach ($settings as $configKey => $configValue) {
-				$this->setLdapSetting($configId, $configKey, $configValue);
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param string $configId
-	 * @param string $configKey
-	 * @param string $configValue
-	 *
-	 * @throws \Exception
-	 * @return void
-	 */
-	public function setLdapSetting($configId, $configKey, $configValue) {
-		if ($configValue === "") {
-			$configValue = "''";
-		}
-		$substitutions = [
-			[
-				"code" => "%ldap_host_without_scheme%",
-				"function" => [
-					$this,
-					"getLdapHostWithoutScheme"
-				],
-				"parameter" => []
-			],
-			[
-				"code" => "%ldap_host%",
-				"function" => [
-					$this,
-					"getLdapHost"
-				],
-				"parameter" => []
-			],
-			[
-				"code" => "%ldap_port%",
-				"function" => [
-					$this,
-					"getLdapPort"
-				],
-				"parameter" => []
-			]
-		];
-		$configValue = $this->featureContext->substituteInLineCodes(
-			$configValue, [], $substitutions
-		);
-		$occResult = SetupHelper::runOcc(
-			['ldap:set-config', $configId, $configKey, $configValue]
-		);
-		if ($occResult['code'] !== "0") {
-			throw new \Exception(
-				"could not set LDAP setting " . $occResult['stdErr']
-			);
+	public function theUsersShouldHave($usersList) {
+		$this->featureContext->verifyTableNodeColumnsCount($usersList, 1);
+		$users = $usersList->getRows();
+		$usersSimplified = $this->featureContext->simplifyArray($users);
+		$respondedArray = $this->featureContext->getArrayOfUsersResponded($this->featureContext->getResponse());
+		foreach ($usersSimplified as $user) {
+			Assert::assertTrue(\in_array($user, $respondedArray));
 		}
 	}
 }
