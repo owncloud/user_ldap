@@ -5,6 +5,7 @@ Feature: move users between OUs
     Given the owncloud log level has been set to "info"
     And the owncloud log backend has been set to "owncloud"
     And the owncloud log has been cleared
+    And user "user0" has been created with default attributes and without skeleton files
     And user "user0" has uploaded file with content "new file that should still exist" to "textfile_new.txt"
     When the administrator deletes the ldap entry "uid=user0,ou=TestUsers"
     And the administrator imports this ldif data:
