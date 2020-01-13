@@ -2361,9 +2361,11 @@ def fixPermissions(phpVersion, federatedServerNeeded):
 		'image': 'owncloudci/php:%s' % phpVersion,
 		'pull': 'always',
 		'commands': [
-			'chown -R www-data /var/www/owncloud/server'
+			'chown -R www-data /var/www/owncloud/server',
+			'wait-for-it -t 600 server:80'
 		] + ([
-			'chown -R www-data /var/www/owncloud/federated'
+			'chown -R www-data /var/www/owncloud/federated',
+			'wait-for-it -t 600 federated:80'
 		] if federatedServerNeeded else [])
 	}]
 
@@ -2382,6 +2384,72 @@ def dependsOn(earlierStages, nextStages):
 	for earlierStage in earlierStages:
 		for nextStage in nextStages:
 			nextStage['depends_on'].append(earlierStage['name'])
+
+def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix = '-federated'):
+	host = getDbName(db)
+	dbType = host
+
+	username = getDbUsername(db)
+	password = getDbPassword(db)
+	database = getDbDatabase(db) + dbSuffix
+
+	if host == 'mariadb':
+		dbType = 'mysql'
+	elif host == 'postgres':
+		dbType = 'pgsql'
+	elif host == 'oracle':
+		dbType = 'oci'
+	return [
+		{
+			'name': 'install-federated',
+			'image': 'owncloudci/core',
+			'pull': 'always',
+			'settings': {
+				'version': federatedServerVersion,
+				'core_path': '/var/www/owncloud/federated',
+				'db_type': 'mysql',
+				'db_name': database,
+				'db_host': host + dbSuffix,
+				'db_username': username,
+				'db_password': password
+			},
+		},
+		{
+			'name': 'configure-federation',
+			'image': 'owncloudci/php:%s' % phpVersion,
+			'pull': 'always',
+			'commands': [
+				'echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh',
+				'cd /var/www/owncloud/federated',
+				'php occ a:l',
+				'php occ a:e testing',
+				'php occ a:l',
+				'php occ config:system:set trusted_domains 1 --value=federated',
+				'php occ log:manage --level %s' % logLevel,
+				'php occ config:list'
+			]
+		}
+	]
+
+def databaseServiceForFederation(db, suffix):
+	dbName = getDbName(db)
+
+	if dbName not in ['mariadb', 'mysql']:
+		print('Not implemented federated database for ', dbName)
+		return []
+
+	return [{
+		'name': dbName + suffix,
+		'image': db,
+		'pull': 'always',
+		'environment': {
+			'MYSQL_USER': getDbUsername(db),
+			'MYSQL_PASSWORD': getDbPassword(db),
+			'MYSQL_DATABASE': getDbDatabase(db) + suffix,
+			'MYSQL_ROOT_PASSWORD': getDbRootPassword()
+		}
+	}]
+
 # This is custom starlark code added just for user_ldap
 # It is not committed to the starlark "standard" code in other apps because
 # it is just an unusual way that integration tests have been structured here
@@ -2481,68 +2549,3 @@ def ldapIntegration():
 		return False
 
 	return pipelines
-
-def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix = '-federated'):
-	host = getDbName(db)
-	dbType = host
-
-	username = getDbUsername(db)
-	password = getDbPassword(db)
-	database = getDbDatabase(db) + dbSuffix
-
-	if host == 'mariadb':
-		dbType = 'mysql'
-	elif host == 'postgres':
-		dbType = 'pgsql'
-	elif host == 'oracle':
-		dbType = 'oci'
-	return [
-		{
-			'name': 'install-federated',
-			'image': 'owncloudci/core',
-			'pull': 'always',
-			'settings': {
-				'version': federatedServerVersion,
-				'core_path': '/var/www/owncloud/federated',
-				'db_type': 'mysql',
-				'db_name': database,
-				'db_host': host + dbSuffix,
-				'db_username': username,
-				'db_password': password
-			},
-		},
-		{
-			'name': 'configure-federation',
-			'image': 'owncloudci/php:%s' % phpVersion,
-			'pull': 'always',
-			'commands': [
-				'echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh',
-				'cd /var/www/owncloud/federated',
-				'php occ a:l',
-				'php occ a:e testing',
-				'php occ a:l',
-				'php occ config:system:set trusted_domains 1 --value=federated',
-				'php occ log:manage --level %s' % logLevel,
-				'php occ config:list'
-			]
-		}
-	]
-
-def databaseServiceForFederation(db, suffix):
-	dbName = getDbName(db)
-
-	if dbName not in ['mariadb', 'mysql']:
-		print('Not implemented federated database for ', dbName)
-		return []
-
-	return [{
-		'name': dbName + suffix,
-		'image': db,
-		'pull': 'always',
-		'environment': {
-			'MYSQL_USER': getDbUsername(db),
-			'MYSQL_PASSWORD': getDbPassword(db),
-			'MYSQL_DATABASE': getDbDatabase(db) + suffix,
-			'MYSQL_ROOT_PASSWORD': getDbRootPassword()
-		}
-	}]
