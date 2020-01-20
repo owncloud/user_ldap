@@ -246,6 +246,17 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
+	 * @When the LDAP users are resynced
+	 * @Given the LDAP users have been resynced
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function theLdapUsersAreResynced() {
+		$this->featureContext->theLdapUsersHaveBeenReSynced();
+	}
+
+	/**
 	 * creates users in LDAP named: "<prefix>-0000" till "<prefix>-(<amount>-1)"
 	 * e.g.with $amount=2000; and $prefix="my-user-"; "my-user-0000" till "my-user-1999"
 	 * password is the username
