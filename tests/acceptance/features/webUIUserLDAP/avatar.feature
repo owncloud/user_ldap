@@ -5,6 +5,9 @@ Feature: providing an avatar by LDAP
   I want to see my avatar from LDAP being used in owncloud
   So that other users can recognize me by my picture
 
+  Background:
+    Given default LDIF user-groups set has been imported, created and synced
+
   @skip @issue-198 #we cannot revert this even with deleting the user
   Scenario: upload an avatar to the LDAP server
     When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=user2,ou=TestUsers" to the content of the file "testavatar.jpg"

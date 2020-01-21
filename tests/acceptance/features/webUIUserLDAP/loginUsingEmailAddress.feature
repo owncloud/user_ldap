@@ -5,6 +5,9 @@ Feature: login users
   I want users to login with their email address stored on a LDAP server
   So that they only need to remember one username and password (SSO)
 
+  Background:
+    Given default LDIF user-groups set has been imported, created and synced
+
   Scenario: login with default settings
     When the LDAP users have been resynced
     Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI

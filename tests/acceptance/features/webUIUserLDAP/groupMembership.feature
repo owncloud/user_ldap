@@ -6,7 +6,8 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given these users have been created with default attributes and skeleton files:
+    Given default LDIF user-groups set has been imported, created and synced
+    And these users have been created with default attributes and skeleton files:
       | username |
       | user1    |
       | user2    |
