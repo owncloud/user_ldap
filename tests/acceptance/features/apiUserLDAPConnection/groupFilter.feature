@@ -4,9 +4,6 @@ Feature: filter groups
   I want to be able to filter LDAP groups
   So that only groups meeting specific criteria are available in ownCloud
 
-  Background:
-    Given default LDIF user-groups set has been imported, created and synced
-
   Scenario: single group filter
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                        |

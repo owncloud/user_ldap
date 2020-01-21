@@ -6,8 +6,7 @@ I want to be able to set up a backup LDAP server
 So that user authentication still works when the main LDAP server is not reachable
 
   Background:
-    Given default LDIF user-groups set has been imported, created and synced
-    And the owncloud log level has been set to "warning"
+    Given the owncloud log level has been set to "warning"
     And the owncloud log has been cleared
 
   Scenario: authentication works when the main server is not reachable but the backup server is

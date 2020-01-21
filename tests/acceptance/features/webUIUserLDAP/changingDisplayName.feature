@@ -5,9 +5,6 @@ Feature: changing display name
   I want the display name in owncloud to correspond with the one in LDAP
   So that users can be found by their LDAP names
 
-  Background:
-    Given default LDIF user-groups set has been imported, created and synced
-
   Scenario Outline: change display name on the LDAP server
     Given the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "<new-displayname>"
     When user "user1" logs in using the webUI

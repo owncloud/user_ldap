@@ -6,13 +6,7 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given default LDIF user-groups set has been imported, created and synced
-    And these users have been created with default attributes and skeleton files:
-      | username |
-      | user1    |
-      | user2    |
-      | user3    |
-    And user "user1" has logged in using the webUI
+    Given user "user1" has logged in using the webUI
 
   @skipOnOcV10.2
   Scenario: adding a new user to a group after a folder was shared with that group

@@ -4,8 +4,7 @@ Feature: Sharing between local and LDAP users
   I want to be able to share files and folders with any user regardless of the backend
 
   Background:
-    Given default LDIF user-groups set has been imported, created and synced
-    And user "local-user" has been created with default attributes in the database user backend
+    Given user "local-user" has been created with default attributes in the database user backend
     And these users have been initialized:
     #these are LDAP users and are not initialized yet
       | username |

@@ -5,8 +5,7 @@ Feature: add users
   So that I can easily manage users when user LDAP is enabled
 
   Background:
-    Given default LDIF user-groups set has been imported, created and synced
-    And user admin has logged in using the webUI
+    Given user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
   Scenario: use the webUI to create a simple user

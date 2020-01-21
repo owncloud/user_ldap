@@ -2,8 +2,7 @@
 Feature: connect to LDAP serer
 
   Background:
-    Given default LDIF user-groups set has been imported, created and synced
-    And the owncloud log level has been set to "warning"
+    Given the owncloud log level has been set to "warning"
     And the owncloud log has been cleared
 
   Scenario: authentication fails when the configuration does not contain an ldap port
