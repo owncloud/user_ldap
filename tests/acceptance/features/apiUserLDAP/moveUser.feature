@@ -1,6 +1,9 @@
 @api
 Feature: move users between OUs
 
+  Background:
+    Given default LDIF user-groups set has been imported, created and synced
+
   Scenario: Moving a user between OUs by deleting an recreating the user
     Given the owncloud log level has been set to "info"
     And the owncloud log backend has been set to "owncloud"

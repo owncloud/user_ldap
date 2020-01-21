@@ -1,0 +1,229 @@
+dn: cn=ShareeGroup,ou=TestGroups,dc=owncloud,dc=com
+cn: ShareeGroup
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=ShareeGroup2,ou=TestGroups,dc=owncloud,dc=com
+cn: ShareeGroup2
+gidnumber: 500
+memberuid: user1
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group1,ou=TestGroups,dc=owncloud,dc=com
+cn: group1
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group2,ou=TestGroups,dc=owncloud,dc=com
+cn: group2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group3,ou=TestGroups,dc=owncloud,dc=com
+cn: group3
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=groupuser,ou=TestGroups,dc=owncloud,dc=com
+cn: groupuser
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=grp1,ou=TestGroups,dc=owncloud,dc=com
+cn: grp1
+gidnumber: 500
+memberuid: user1
+memberuid: user2
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=grp2,ou=TestGroups,dc=owncloud,dc=com
+cn: grp2
+gidnumber: 500
+memberuid: user3
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=grp3,ou=TestGroups,dc=owncloud,dc=com
+cn: grp3
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=grp4,ou=TestGroups,dc=owncloud,dc=com
+cn: grp4
+memberuid: user1
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=grpuser,ou=TestGroups,dc=owncloud,dc=com
+cn: grpuser
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+# Additional groups for core tests on ldap users
+dn: cn=hash#group,ou=TestGroups,dc=owncloud,dc=com
+cn: hash#group
+memberuid: user0
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=ordinary-group,ou=TestGroups,dc=owncloud,dc=com
+cn: ordinary-group
+memberuid: user1
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=group-3,ou=TestGroups,dc=owncloud,dc=com
+cn: group-3
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: cn=😀 😁,ou=TestGroups,dc=owncloud,dc=com
+cn: 😀 😁
+memberuid: user1
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
+dn: uid=regularuser,ou=TestUsers,dc=owncloud,dc=com
+cn: Regular User
+sn: User
+displayname: Regular User
+gecos: Regular User
+gidnumber: 5000
+givenname: Regular
+homedirectory: /home/openldap/regularuser
+loginshell: /bin/bash
+mail: regularuser@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: regularuser
+uidnumber: 40000
+userpassword: 123456
+
+dn: uid=user0,ou=TestUsers,dc=owncloud,dc=com
+cn: User0
+sn: One
+displayname: User Zero
+gecos: User0
+gidnumber: 5000
+givenname: User0
+homedirectory: /home/openldap/user0
+loginshell: /bin/bash
+mail: user0@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user0
+uidnumber: 30000
+userpassword: 123456
+
+dn: uid=user1,ou=TestUsers,dc=owncloud,dc=com
+cn: User1
+sn: One
+displayname: User One
+gecos: User1
+gidnumber: 5000
+givenname: User1
+homedirectory: /home/openldap/user1
+loginshell: /bin/bash
+mail: user1@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user1
+uidnumber: 30001
+userpassword: 1234
+
+dn: uid=user2,ou=TestUsers,dc=owncloud,dc=com
+cn: User2
+sn: Two
+displayname: User Two
+gecos: User2
+gidnumber: 5000
+givenname: User2
+homedirectory: /home/openldap/user2
+loginshell: /bin/bash
+mail: user2@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user2
+uidnumber: 30002
+userpassword: AaBb2Cc3Dd4
+
+dn: uid=user3,ou=TestUsers,dc=owncloud,dc=com
+cn: User3
+sn: Three
+displayname: User Three
+gecos: User3
+gidnumber: 5000
+givenname: User3
+homedirectory: /home/openldap/user3
+loginshell: /bin/bash
+mail: user3@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user3
+uidnumber: 30003
+userpassword: aVeryLongPassword42TheMeaningOfLife
+
+dn: uid=user4,ou=TestUsers,dc=owncloud,dc=com
+cn: User4
+sn: Four
+displayname: User Four
+gecos: User4
+gidnumber: 5000
+givenname: User4
+homedirectory: /home/openldap/user4
+loginshell: /bin/bash
+mail: user4@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: user4
+uidnumber: 30004
+userpassword: ThisIsThe4thAlternatePwd
+
+dn: uid=usergrp,ou=TestUsers,dc=owncloud,dc=com
+cn: usergrp
+sn: usergrp
+displayname: User Grp
+gecos: usergrp
+gidnumber: 5000
+givenname: User Grp
+homedirectory: /home/openldap/usergrp
+loginshell: /bin/bash
+mail: usergrp@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: usergrp
+uidnumber: 30005
+userpassword: 123456
+
+dn: uid=sharee1,ou=TestUsers,dc=owncloud,dc=com
+cn: Sharee1
+sn: Sharee1
+displayname: Sharee One
+gecos: sharee1
+gidnumber: 5000
+givenname: Sharee One
+homedirectory: /home/openldap/sharee1
+loginshell: /bin/bash
+mail: sharee1@example.org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+uid: sharee1
+uidnumber: 30006
+userpassword: 123456

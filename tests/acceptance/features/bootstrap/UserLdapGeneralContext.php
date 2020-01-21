@@ -63,6 +63,18 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
+	 * @Given default LDIF user-groups set has been imported, created and synced
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function importDefaultLdifUsersGroups() {
+		$path = __DIR__ . "/../../config/ldap-users.ldif";
+		$this->featureContext->importLdifFile($path);
+		$this->featureContext->theLdapUsersHaveBeenReSynced();
+	}
+
+	/**
 	 * @Given LDAP config :configId has key :configKey set to :configValue
 	 * @When the administrator sets the LDAP config :configId key :configKey to :configValue using the occ command
 	 *

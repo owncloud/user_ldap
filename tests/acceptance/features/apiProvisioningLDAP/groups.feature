@@ -5,7 +5,8 @@ Feature: manage groups
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
-    Given user "brand-new-user" has been created with default attributes in the database user backend
+    Given default LDIF user-groups set has been imported, created and synced
+    And user "brand-new-user" has been created with default attributes in the database user backend
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     And the administrator has invoked occ command "group:list"
 

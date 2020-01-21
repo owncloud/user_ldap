@@ -4,6 +4,9 @@ Feature: Manage users using the Provisioning API
   I want to be able to add, delete and modify users via the Provisioning API
   So that I can easily manage users when user LDAP is enabled
 
+  Background:
+    Given default LDIF user-groups set has been imported, created and synced
+
   Scenario Outline: Admin creates a regular user
     Given using OCS API version "<ocs-api-version>"
     And user "brand-new-user" has been deleted
