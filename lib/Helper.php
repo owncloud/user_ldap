@@ -191,15 +191,12 @@ class Helper {
 	 * @param array $param
 	 * @throws \Exception
 	 */
-	public static function loginName2UserName($param) {
+	public function loginName2UserName($param) {
 		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		//ain't it ironic?
-		$helper = new Helper();
-
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+		$configPrefixes = $this->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		$ocConfig = \OC::$server->getConfig();
 

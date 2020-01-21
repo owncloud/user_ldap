@@ -37,26 +37,26 @@ use OCA\User_LDAP\User\Manager;
 class AccessTest extends \Test\TestCase {
 
 	/**
-	 * @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $ldapWrapper;
 
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $connection;
 
 	/**
-	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $manager;
 
 	/**
-	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Access|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $access;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->ldapWrapper  = $this->createMock(ILDAPWrapper::class);
 		$this->connection  = $this->createMock(Connection::class);
 		$this->manager  = $this->createMock(Manager::class);

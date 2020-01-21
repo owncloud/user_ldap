@@ -5,7 +5,9 @@ Feature: add group
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
-    Given user admin has logged in using the webUI
+    # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
+    Given the administrator has invoked occ command "group:list"
+    And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
   Scenario: Adding a simple database group should be possible
@@ -29,8 +31,8 @@ Feature: add group
       objectclass: posixGroup
       """
     And the administrator reloads the users page
-    Then the group name "db-group_2" should be listed on the webUI
-    And group "db-group_2" should exist
+    Then the group name "db-group_2" should not be listed on the webUI
+    And group "db-group_2" should not exist
 
   Scenario: delete group
     Given group "simple group" has been created in the database user backend

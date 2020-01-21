@@ -23,7 +23,6 @@
  */
 
 namespace OCA\User_LDAP;
-use OCP\IConfig;
 
 /**
  * Class Test_Connection
@@ -33,13 +32,13 @@ use OCP\IConfig;
  * @package OCA\User_LDAP
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
 	protected $ldap;
 
-	/** @var  Connection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
@@ -134,16 +133,17 @@ class ConnectionTest extends \Test\TestCase {
 				return true;
 			}));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 		$this->connection->resetConnectionResource();
-		// with the second init() we test whether caching works
-		$this->connection->init();
+		// with the second getConnectionResource() we test whether caching works
+		$this->connection->getConnectionResource();
 	}
 
 	/**
-	 * @expectedException \OC\ServerNotAvailableException
 	 */
 	public function testConnectFails() {
+		$this->expectException(\OC\ServerNotAvailableException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,
@@ -168,7 +168,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('setOption')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 
 	public function testBind() {
@@ -200,13 +200,14 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(true));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
 	 */
 	public function testBindFails() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\BindFailedException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,
@@ -235,6 +236,6 @@ class ConnectionTest extends \Test\TestCase {
 			->method('bind')
 			->will($this->returnValue(false));
 
-		$this->connection->init();
+		$this->connection->getConnectionResource();
 	}
 }

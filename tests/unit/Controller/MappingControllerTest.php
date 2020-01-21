@@ -23,14 +23,10 @@ namespace OCA\User_LDAP\Controller;
 
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ISession;
 use Test\TestCase;
 
 /**
@@ -40,17 +36,17 @@ use Test\TestCase;
  */
 class MappingControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $connection;
 
 	/** @var MappingController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

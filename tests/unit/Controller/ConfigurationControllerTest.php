@@ -38,23 +38,23 @@ use Test\TestCase;
  */
 class ConfigurationControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldap;
-	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
 
 	/** @var ConfigurationController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -128,7 +128,7 @@ class ConfigurationControllerTest extends TestCase {
 							break;
 						default: $expectedValue = null;
 					};
-					return $this->stringStartsWith('tgt');
+					return \strpos($key, 'tgt') === 0;
 				}),
 				$this->callback(function ($value) use (&$expectedValue) {
 					if ($expectedValue !== null) {
@@ -235,9 +235,9 @@ class ConfigurationControllerTest extends TestCase {
 		$this->assertArraySubset(['status' => 'success'], $data, true);
 	}
 
-	public function testDelete() {
-		// TODO implement me!
-	}
+	//public function testDelete() {
+	// TODO implement me!
+	//}
 
 	public function testDeleteNotExisting() {
 		$result = $this->controller->delete('na');

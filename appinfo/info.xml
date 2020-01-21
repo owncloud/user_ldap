@@ -14,7 +14,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	</description>
 	<licence>AGPL</licence>
 	<author>Jörn Friedrich Dreyer, Tom Needham, Juan Pablo Villafañez Ramos, Dominik Schmidt and Arthur Schiwon</author>
-	<version>0.13.0</version>
+	<version>0.15.0</version>
 	<types>
 		<authentication/>
 	</types>
@@ -25,14 +25,10 @@ More information is available in the [LDAP User and Group Backend documentation]
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/user_ldap/ownCloud-app-ldap-user-management.jpg</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
-		<owncloud min-version="10.0.10" max-version="10" />
+		<owncloud min-version="10.2" max-version="10" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>
-
-	<background-jobs>
-		<job>OCA\User_LDAP\Jobs\UpdateGroups</job>
-	</background-jobs>
 
 	<settings>
 		<admin>OCA\User_LDAP\AdminPanel</admin>
@@ -45,6 +41,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
 		<command>OCA\User_LDAP\Command\DeleteConfig</command>
 		<command>OCA\User_LDAP\Command\Search</command>
+		<command>OCA\User_LDAP\Command\CheckUser</command>
 	</commands>
 
 	<use-migrations>true</use-migrations>

@@ -6,13 +6,14 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given these users have been created with default attributes:
+    Given these users have been created with default attributes and skeleton files:
       | username |
       | user1    |
       | user2    |
       | user3    |
     And user "user1" has logged in using the webUI
 
+  @skipOnOcV10.2
   Scenario: adding a new user to a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
@@ -21,6 +22,7 @@ Feature: group membership
     Then folder "simple-folder (2)" should be listed on the webUI
     And folder "simple-folder (2)" should be marked as shared with "grp1" by "User One" on the webUI
 
+  @skipOnOcV10.2
   Scenario: deleting a user from a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
@@ -28,12 +30,21 @@ Feature: group membership
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
+  @skipOnOcV10.2
   Scenario: simple sharing with a group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should be listed on the webUI
 
+  @skipOnOcV10.2
+  Scenario: simple sharing with a group but user no in it
+    When the user shares folder "simple-folder" with group "grp1" using the webUI
+    #ToDo use API calls
+    When the user re-logs in as "user3" using the webUI
+    Then folder "simple-folder (2)" should not be listed on the webUI
+
+  @skipOnOcV10.2
   Scenario: deleting a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
@@ -41,16 +52,7 @@ Feature: group membership
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
-  @issue-268
-  Scenario: sharing with non unique group name (using unique oC group name)
-    Given the administrator creates group "grp1" in ldap OU "TestUsers"
-    And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
-    And the administrator has invoked occ command "group:list"
-    When the user shares folder "simple-folder" with group "grp1_2" using the webUI
-    #ToDo use API calls
-    When the user re-logs in as "user3" using the webUI
-    Then folder "simple-folder (2)" should be listed on the webUI
-
+  @skipOnOcV10.2
   Scenario: sharing with non unique group name (using non-unique group name)
     Given the administrator creates group "grp1" in ldap OU "TestUsers"
     And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
@@ -59,6 +61,7 @@ Feature: group membership
     When the user re-logs in as "user3" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
+  @skipOnOcV10.2
   Scenario: sharing with a group that is filtered out
     #ToDo use API calls
     When the user shares folder "simple-folder" with group "grp1" using the webUI
@@ -69,13 +72,14 @@ Feature: group membership
     When the user re-logs in as "user2" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
+  @skipOnOcV10.2
   Scenario: search for groups by alternative attribute
     #ToDo use API calls
     Given LDAP config "LDAPTestId" has these settings:
       | key                          | value       |
       | ldapAttributesForGroupSearch | description |
     # Ensure that the test code is aware of the users and groups that exist
-    Given these users have been created with default attributes but not initialized:
+    Given these users have been created with default attributes and skeleton files but not initialized:
       | username |
       | user1    |
       | user2    |

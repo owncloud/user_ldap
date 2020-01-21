@@ -57,6 +57,7 @@ Feature: login users
     When the user logs out of the webUI
     Then it should be possible to login with the username "user2@example.org" and password "%alt2%" using the WebUI
 
+  @skipOnOcV10.2
   Scenario: login with a new user
     When the administrator imports this ldif data:
       """

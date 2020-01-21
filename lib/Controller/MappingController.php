@@ -22,7 +22,6 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\AppFramework\Controller;

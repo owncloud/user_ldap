@@ -54,7 +54,9 @@ class LDAP implements ILDAPWrapper {
 		}
 		if (\strpos($host, ':', \strpos($host, '://') + 1) === false) {
 			//ldap_connect ignores port parameter when URLs are passed
-			$host .= ':' . $port;
+			if ($port !== '') {
+				$host .= ':' . $port;
+			}
 		}
 		return $this->invokeLDAPMethod('connect', $host);
 	}
@@ -313,25 +315,32 @@ class LDAP implements ILDAPWrapper {
 		if ($this->isResource($this->curArgs[0])) {
 			$errorCode = \ldap_errno($this->curArgs[0]);
 			$errorMsg  = \ldap_error($this->curArgs[0]);
-			if ($errorCode !== 0) {
-				if ($this->curFunc === 'ldap_get_entries'
+			if ($errorCode !== self::LDAP_SUCCESS) {
+				if ($this->curFunc === 'ldap_bind') {
+					$errDiag = "";
+					\ldap_get_option($this->curArgs[0], LDAP_OPT_DIAGNOSTIC_MESSAGE, $errDiag);
+					if ($errDiag === "") {
+						$errDiag = 'no extended diagnostics';
+					}
+					$logMessage = "Bind failed: (), $errDiag, " . \var_export($this->curArgs[0], true);
+					\OC::$server->getLogger()->debug($logMessage, ['app' => 'user_ldap']);
+				} elseif ($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
-				} elseif ($errorCode === 32) {
+				} elseif ($errorCode === self::LDAP_NO_SUCH_OBJECT) {
 					//for now
-				} elseif ($errorCode === 10) {
+				} elseif ($errorCode === self::LDAP_REFERRAL) {
 					//referrals, we switch them off, but then there is AD :)
 				} elseif ($errorCode === -1) {
 					throw new ServerNotAvailableException('Lost connection to LDAP server.');
-				} elseif ($errorCode === 48) {
+				} elseif ($errorCode === self::LDAP_INAPPROPRIATE_AUTH) {
 					throw new \Exception('LDAP authentication method rejected', $errorCode);
-				} elseif ($errorCode === 1) {
+				} elseif ($errorCode === self::LDAP_OPERATIONS_ERROR) {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {
-					\OCP\Util::writeLog('user_ldap',
-										'LDAP error '.$errorMsg.' (' .
-											$errorCode.') after calling '.
-											$this->curFunc,
-										\OCP\Util::DEBUG);
+					\OC::$server->getLogger()->debug(
+						"LDAP error {$errorMsg} ({$errorCode}) after calling {$this->curFunc}",
+						[ 'app' => 'user_ldap']
+					);
 				}
 			}
 		}

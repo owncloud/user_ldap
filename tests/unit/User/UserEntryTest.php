@@ -28,19 +28,19 @@ use OCP\ILogger;
 
 class UserEntryTest extends \Test\TestCase {
 	/**
-	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $config;
 	/**
-	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILogger|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $logger;
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $connection;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
 		$this->logger     = $this->createMock(ILogger::class);
@@ -48,9 +48,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testInvalidNew() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		new UserEntry($this->config, $this->logger, $this->connection, []);
 	}
 
@@ -120,9 +121,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUserIdUndetermined() {
+		$this->expectException(\OutOfBoundsException::class);
+
 		$this->connection->expects($this->exactly(1))
 			->method('__get')
 			->with($this->equalTo('ldapExpertUsernameAttr'))
@@ -199,9 +201,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUUIDUndetermined() {
+		$this->expectException(\OutOfBoundsException::class);
+
 		$this->connection->expects($this->once())
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
@@ -215,9 +218,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUUIDInvalidBinaryUUID() {
+		$this->expectException(\OutOfBoundsException::class);
+
 		$this->connection->expects($this->exactly(2))
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
@@ -464,9 +468,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
 	 */
 	public function testGetHomeUnsetButRequired() {
+		$this->expectException(\Exception::class);
+
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->will($this->returnValue(true));

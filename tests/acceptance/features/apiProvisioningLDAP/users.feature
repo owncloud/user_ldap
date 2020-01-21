@@ -118,8 +118,105 @@ Feature: Manage users using the Provisioning API
     And the administrator changes the email of user "user1" to "apiuser@example.com" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
-    # And the email address of user "user1" should be "ldapuser@example.com"
+    # And the email address of user "user1" should be "ldapuser@oc.com"
     And the email address of user "user1" should be "apiuser@example.com"
+    And the LDAP users are resynced
+    And the email address of user "user1" should be "ldapuser@oc.com"
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
+    # | 1               | 102             | 200              |
+    # | 2               | 400             | 400              |
+
+  @issue-core-33186
+  Scenario Outline: admin tries to modify quota of user for which an LDAP attribute is specified
+    Given using OCS API version "<ocs-api-version>"
+    #to set Quota we can just misuse any LDAP text field
+    And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user1,ou=TestUsers" to "10 MB"
+    And the LDAP users are resynced
+    And the administrator changes the quota of user "user1" to "13MB" using the provisioning API
+    Then the OCS status code should be "<ocs-status-code>"
+    And the HTTP status code should be "<http-status-code>"
+    And the quota definition of user "user1" should be "13 MB"
+    #And the quota definition of user "user1" should be "10 MB"
+    When the LDAP users are resynced
+    Then the quota definition of user "user1" should be "10 MB"
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
+    # | 1               | 102             | 200              |
+    # | 2               | 400             | 400              |
+
+  Scenario Outline: admin sets quota of user for which no LDAP quota attribute is specified
+    Given using OCS API version "<ocs-api-version>"
+    #to set Quota we can just misuse any LDAP text field
+    And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And the LDAP users have been resynced
+    When the administrator changes the quota of user "user1" to "13MB" using the provisioning API
+    Then the OCS status code should be "<ocs-status-code>"
+    And the HTTP status code should be "<http-status-code>"
+    And the quota definition of user "user1" should be "13 MB"
+    When the LDAP users are resynced
+    Then the quota definition of user "user1" should be "13 MB"
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
+
+  @issue-core-33186
+  Scenario Outline: admin sets quota of user for which no LDAP quota attribute is specified but a default quota is set in the LDAP settings
+    Given using OCS API version "<ocs-api-version>"
+    #to set Quota we can just misuse any LDAP text field
+    And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    And the LDAP users have been resynced
+    When the administrator changes the quota of user "user1" to "13MB" using the provisioning API
+    Then the OCS status code should be "<ocs-status-code>"
+    And the HTTP status code should be "<http-status-code>"
+    And the quota definition of user "user1" should be "13 MB"
+    #And the quota definition of user "user1" should be "10MB"
+    And the LDAP users are resynced
+    And the quota definition of user "user1" should be "10MB"
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
+    # | 1               | 102             | 200              |
+    # | 2               | 400             | 400              |
+
+  Scenario Outline: admin sets quota of user in LDAP when a default quota is set in the LDAP settings
+    Given using OCS API version "<ocs-api-version>"
+    #to set Quota we can just misuse any LDAP text field
+    And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    And the LDAP users have been resynced
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user1,ou=TestUsers" to "13 MB"
+    Then the quota definition of user "user1" should be "10MB"
+    And the LDAP users are resynced
+    And the quota definition of user "user1" should be "13 MB"
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
+
+  @issue-core-33186
+  Scenario Outline: admin sets quota of user when the quota LDAP attribute is specified and a default quota is set in the LDAP settings
+    Given using OCS API version "<ocs-api-version>"
+    #to set Quota we can just misuse any LDAP text field
+    And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
+    And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
+    When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user1,ou=TestUsers" to "11 MB"
+    And the LDAP users are resynced
+    And the administrator changes the quota of user "user1" to "13MB" using the provisioning API
+    Then the OCS status code should be "<ocs-status-code>"
+    And the HTTP status code should be "<http-status-code>"
+    And the quota definition of user "user1" should be "13 MB"
+    #And the quota definition of user "user1" should be "11 MB"
+    And the LDAP users are resynced
+    And the quota definition of user "user1" should be "11 MB"
     Examples:
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
@@ -129,6 +226,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: Administrator deletes a ldap user and resyncs again
     Given using OCS API version "<ocs-api-version>"
+    And user "user0" has uploaded file with content "new file that should be overwritten after user deletion" to "textfile0.txt"
     When the administrator deletes user "user0" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"

@@ -33,6 +33,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
@@ -137,16 +138,15 @@ class User_LDAP implements IUserBackend, UserInterface {
 	public function checkPassword($uid, $password) {
 		try {
 			$userEntry = $this->userManager->getLDAPUserByLoginName($uid);
+			//are the credentials OK?
+			if (!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
+				return false;
+			}
 		} catch (DoesNotExistOnLDAPException $e) {
 			return false;
 		} catch (\Exception $e) {
 			// Something more serious than not found occured
 			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap']);
-			return false;
-		}
-		
-		//are the credentials OK?
-		if (!$this->userManager->areCredentialsValid($userEntry->getDN(), $password)) {
 			return false;
 		}
 
@@ -174,9 +174,13 @@ class User_LDAP implements IUserBackend, UserInterface {
 
 	/**
 	 * check if a user exists
+	 *
 	 * @param string $uid the username
 	 * @return boolean
-	 * @throws \Exception when connection could not be established
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws ServerNotAvailableException when connection could not be established
 	 */
 	public function userExists($uid) {
 		// check if an LdapEntry has been cached already
@@ -184,6 +188,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return true;
 		}
 
+		// TODO username might be a uuid ... instead of looking it up in the db talk to ldap?
 		$dn = $this->userManager->username2dn($uid);
 		if ($dn === false) {
 			return false;
@@ -194,7 +199,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 			$this->userManager->getUserEntryByDn($dn);
 			return true;
 		} catch (DoesNotExistOnLDAPException $e) {
-			return false;
+			// Was DN moved? Try to find a new DN by UUID
+			return $this->userManager->resolveMissingDN($dn);
 		}
 	}
 

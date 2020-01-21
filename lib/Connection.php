@@ -31,7 +31,6 @@ namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\BindFailedException;
-use OCP\IConfig;
 use OCP\Util;
 
 /**
@@ -98,7 +97,7 @@ class Connection extends LDAPUtility {
 
 		$this->hasPagedResultSupport =
 			(int)$this->configuration->ldapPagingSize !== 0
-			|| $this->getLDAP()->hasPagedResultSupport();
+			&& $this->getLDAP()->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
@@ -160,29 +159,15 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * initializes the LDAP backend
-	 * @param bool $force read the config settings no matter what
-	 * @throws \OC\ServerNotAvailableException
-	 */
-	public function init($force = false) {
-		$this->readConfiguration($force);
-		$this->establishConnection();
-	}
-
-	/**
 	 * Returns the LDAP handler
+	 * @return resource | null
+	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function getConnectionResource() {
-		if (!$this->ldapConnectionRes) {
-			$this->init();
-		} elseif (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
-			$this->ldapConnectionRes = null;
-			$this->establishConnection();
-		}
 		if ($this->ldapConnectionRes === null) {
-			Util::writeLog('user_ldap', 'No LDAP Connection to server ' . $this->configuration->ldapHost, Util::ERROR);
-			throw new ServerNotAvailableException('Connection to LDAP server could not be established');
+			$this->readConfiguration();
+			$this->establishConnection();
 		}
 		return $this->ldapConnectionRes;
 	}
@@ -543,7 +528,7 @@ class Connection extends LDAPUtility {
 					}
 					Util::writeLog('user_ldap',
 						'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-						Util::DEBUG); // log only in debug mod because this is triggered by wrong passwords
+						Util::DEBUG);
 					throw new BindFailedException();
 				}
 			} catch (ServerNotAvailableException $e) {
@@ -589,6 +574,9 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
+	 * This method will perform some setup required to connect to the LDAP server,
+	 * but it won't connect to the LDAP server unless ldap_start_tls is activated
+	 *
 	 * @param string $host
 	 * @param string $port
 	 * @return bool

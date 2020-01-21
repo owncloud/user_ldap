@@ -118,6 +118,8 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "אינו מומלץ, לשימוש לניסיון בלבד! אם החיבור עובד רק עם אפשרות זו, יבוא של תעודת SSL של שרת LDAP בשרת %s שלך.",
     "Cache Time-To-Live" : "מטמון זמן חיים - TTL",
     "in seconds. A change empties the cache." : "בשניות. שינוי מרוקן את המטמון.",
+    "Network Timeout" : "פסק זמן רשת",
+    "timeout for all the ldap network operations, in seconds." : "פסק זמן לכל פעילויות רשת ה- Idap, בשניות.",
     "Directory Settings" : "הגדרות תיקייה",
     "User Display Name Field" : "שדה שם תצוגה למשתמש",
     "The LDAP attribute to use to generate the user's display name." : "תכונת LDAP לשימוש כדי להפיק את שם התצוגה של המשתמש.",

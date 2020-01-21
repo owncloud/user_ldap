@@ -27,7 +27,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/** @var Configuration */
 	private $configuration;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$config = \OC::$server->getConfig(); // TODO use mock
 		$this->configuration = new Configuration($config, 't01', false);

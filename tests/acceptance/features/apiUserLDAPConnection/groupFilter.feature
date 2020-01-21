@@ -57,5 +57,4 @@ Feature: filter groups
         | group  |
         | admin  |
         | grp1   |
-        | grp1_2 |
 

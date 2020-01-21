@@ -26,6 +26,7 @@
 namespace OCA\User_LDAP\User;
 
 use OC\Cache\CappedMemoryCache;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
@@ -117,11 +118,11 @@ class Manager {
 
 	/**
 	 * @brief checks whether the Access instance has been set
-	 * @throws \Exception if Access has not been set
+	 * @throws \BadMethodCallException if Access has not been set
 	 */
 	private function checkAccess() {
 		if ($this->access === null) {
-			throw new \Exception('LDAP Access instance must be set first');
+			throw new \BadMethodCallException('LDAP Access instance must be set first');
 		}
 	}
 
@@ -188,9 +189,14 @@ class Manager {
 
 	/**
 	 * Gets an UserEntry from the LDAP server from a distinguished name
+	 *
 	 * @param $dn
 	 * @return UserEntry
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
 	 * @throws DoesNotExistOnLDAPException when the dn supplied cannot be found on LDAP
+	 * @throws ServerNotAvailableException
 	 */
 	public function getUserEntryByDn($dn) {
 		$result = $this->access->executeRead(
@@ -211,7 +217,7 @@ class Manager {
 	 * @brief returns a User object by the DN in an ldap entry
 	 * @param array $ldapEntry the ldap entry used to prefill the user properties
 	 * @return \OCA\User_LDAP\User\UserEntry
-	 * @throws \Exception when connection could not be established
+	 * @throws \BadMethodCallException when access object has not been set
 	 * @throws \InvalidArgumentException if entry does not contain a dn
 	 * @throws \OutOfBoundsException when username could not be determined
 	 */
@@ -261,27 +267,19 @@ class Manager {
 	}
 
 	/**
-	 * checks whether a user is still available on LDAP
+	 * Try to resolve missing DN by UUID
 	 *
 	 * @param string $dn
 	 * @return bool
-	 * @throws \Exception
-	 * @throws \OC\ServerNotAvailableException
+	 *          - false if there is no UUID matching DN
+	 *          - true if there is at least one UUID matching DN
+	 *
+	 * @throws ServerNotAvailableException
 	 */
-	public function dnExistsOnLDAP($dn) {
-
-		//check if user really still exists by reading its entry
-		if (!\is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
-			$lcr = $this->getConnection()->getConnectionResource();
-			if ($lcr === null) {
-				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
-			}
-
-			try {
-				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
-				if (!$uuid) {
-					return false;
-				}
+	public function resolveMissingDN($dn) {
+		try {
+			$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
+			if ($uuid) {
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
 				if (!\is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
@@ -289,14 +287,19 @@ class Manager {
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
-			} catch (\Exception $e) {
-				$this->logger->logException($e, ['app' => self::class]);
-				return false;
 			}
+		} catch (\LengthException $e) {
+			// UUID attribute matches multiple DNs - requires an action from LDAP administrator
+			$this->logger->warning($e->getMessage(), ['app' => 'user_ldap']);
+			// Keep user account until duplication is resolved
+			return true;
+		} catch (\OutOfBoundsException $e) {
+			// UUID attribute can't be detected this means that we need to drop the user on sync
+			$this->logger->info("DN '$dn' does not exist any more and can not be resolved using uuid attribute", ['app' => 'user_ldap']);
 		}
-
-		return true;
+		return false;
 	}
+
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 * @param UserEntry $userEntry user entry object backed by an ldap entry
@@ -356,28 +359,13 @@ class Manager {
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		$intName = \trim($this->access->sanitizeUsername($userEntry->getUserId()));
-		if ($intName !== '' && !\OCP\User::userExists($intName)) {
-			$this->logger->debug(
-				'creating new mapping for {name}, uuid {uuid}, dn {dn}',
-				[
-					'app'  => __METHOD__,
-					'name' => $intName,
-					'uuid' => $uuid,
-					'dn'   => $dn
-				]
-			);
+		if ($intName !== '' && $this->access->shouldMapToUsername($intName)) {
 			if ($mapper->map($dn, $intName, $uuid)) {
 				return $intName;
 			}
 		}
 
-		// FIXME move to a better place, naming related. eg DistinguishedNameUtils
-		$altName = $this->access->createAltInternalOwnCloudName($intName, true);
-		if (\is_string($altName) && $mapper->map($dn, $altName, $uuid)) {
-			return $altName;
-		}
-
-		throw new \OutOfBoundsException("Could not create unique name for $dn.");
+		throw new \OutOfBoundsException("Mapping collision for DN $dn and UUID $uuid. Couldnt map to: $intName");
 	}
 
 	/**
@@ -537,6 +525,7 @@ class Manager {
 	/**
 	 * @param string $name
 	 * @param string $password
+	 * @throws ServerNotAvailableException
 	 * @return bool
 	 */
 	public function areCredentialsValid($name, $password) {

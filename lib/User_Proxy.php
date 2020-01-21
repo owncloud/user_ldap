@@ -27,6 +27,8 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -224,11 +226,22 @@ class User_Proxy extends Proxy implements
 
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
+	 *
 	 * @param string $uid the ownCloud user name
 	 * @return bool either the user can or cannot
+	 * @throws \OutOfBoundsException
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 * @throws ServerNotAvailableException
+	 * @throws DoesNotExistOnLDAPException
 	 */
 	public function canChangeAvatar($uid) {
-		return $this->handleRequest($uid, 'canChangeAvatar', [$uid]);
+		foreach ($this->backends as $backend) {
+			if ($backend->userExists($uid)) {
+				return $backend->canChangeAvatar($uid);
+			}
+		}
+		throw new DoesNotExistOnLDAPException($uid);
 	}
 
 	/**

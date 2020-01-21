@@ -40,19 +40,19 @@ use OCP\IConfig;
  */
 class User_LDAPTest extends \Test\TestCase {
 	/**
-	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $config;
 	/**
-	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $manager;
 	/**
-	 * @var User_LDAP|\PHPUnit_Framework_MockObject_MockObject
+	 * @var User_LDAP|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $backend;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config  = $this->createMock(IConfig::class);
@@ -228,6 +228,10 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('getUserEntryByDn')
 			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
 			->will($this->throwException($e));
+		$this->manager->expects($this->once())
+			->method('resolveMissingDN')
+			->with($this->equalTo('cn=foo,dc=foobar,dc=bar'))
+			->willReturn(false);
 
 		$result = $this->backend->userExists('563418fc-423b-1033-8d1c-ad5f418ee02e');
 		$this->assertFalse($result);

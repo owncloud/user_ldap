@@ -38,7 +38,7 @@ class CommandTest extends TestCase {
 	 * {@inheritDoc}
 	 * @see \Test\TestCase::setUp()
 	 */
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->helper = $this->createMock(Helper::class);
 		$coreConfig = \OC::$server->getConfig();
@@ -62,13 +62,13 @@ class CommandTest extends TestCase {
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();
 		foreach ($expectedToBeContained as $expected) {
-			\PHPUnit_Framework_Assert::assertContains(
+			\PHPUnit\Framework\Assert::assertContains(
 				$expected,
 				$output
 			);
 		}
 		foreach ($expectedNotToBeContained as $expected) {
-			\PHPUnit_Framework_Assert::assertNotContains(
+			\PHPUnit\Framework\Assert::assertNotContains(
 				$expected,
 				$output
 			);
@@ -86,8 +86,8 @@ class CommandTest extends TestCase {
 		);
 		$output = $this->commandTester->getDisplay();
 		$decodedOutput = \json_decode($output);
-		\PHPUnit_Framework_Assert::assertNotNull($decodedOutput);
-		\PHPUnit_Framework_Assert::arrayHasKey("ldapBase");
+		\PHPUnit\Framework\Assert::assertNotNull($decodedOutput);
+		\PHPUnit\Framework\Assert::arrayHasKey("ldapBase");
 	}
 
 	/**

@@ -102,6 +102,14 @@ gidnumber: 500
 objectclass: top
 objectclass: posixGroup
 
+dn: cn=😀 😁,ou=TestGroups,dc=owncloud,dc=com
+cn: 😀 😁
+memberuid: user1
+memberuid: user2
+gidnumber: 500
+objectclass: top
+objectclass: posixGroup
+
 dn: uid=regularuser,ou=TestUsers,dc=owncloud,dc=com
 cn: Regular User
 sn: User

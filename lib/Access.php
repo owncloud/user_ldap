@@ -606,25 +606,59 @@ class Access implements IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		// FIXME DI User and Group Managers
-		if (($isUser && !\OC::$server->getUserManager()->userExists($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
+		if (($isUser && $this->shouldMapToUsername($intName))
+			|| (!$isUser && $this->shouldMapToGroupname($intName))) {
+			\OC::$server->getLogger()->info("Reusing existing mapping for ownCloud identifer: $intName to LDAP UUID: $uuid", ['app' => 'user_ldap']);
 			if ($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 				return $intName;
 			}
 		}
 		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+		\OC::$server->getLogger()->error("Mapping collision for DN $fdn and UUID $uuid. Couldn't map to identifer: $intName", ['app' => 'user_ldap']);
+		//if everything else did not help..
+		return false;
+	}
 
-		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (\is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			return $altName;
+	/**
+	 * Determines if we should store a mapping to this ownCloud account or not
+	 * @param $username
+	 * @return bool
+	 */
+	public function shouldMapToUsername($username) {
+		$user = \OC::$server->getUserManager()->get($username);
+		if ($user === null) {
+			\OC::$server->getLogger()->info("No account exists with username: $username so cannot reuse mapping", ['app' => 'user_ldap']);
+			// No account exists with this username, use this mapping
+			return true;
+		}
+		if ($user->getBackendClassName() === 'LDAP' && \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
+			// Account with same username exists, and matching backend, we can use this - merge
+			return true;
 		}
 
-		//if everything else did not help..
-		\OC::$server->getLogger()->error(
-			"Could not create unique name for $fdn.",
-			['app' => 'user_ldap']);
+		// Account exists, but is from a different backend, don't use this mapping!
+		\OC::$server->getLogger()->error("Cannot reuse account with username: $username because it is from a different backend: {$user->getBackendClassName()}", ['app' => 'user_ldap']);
+		return false;
+	}
+
+	public function shouldMapToGroupname($groupname) {
+		$group = \OC::$server->getGroupManager()->get($groupname);
+		if ($group === null) {
+			\OC::$server->getLogger()->info("No account exists with groupname: $groupname so cannot reuse mapping", ['app' => 'user_ldap']);
+			// No account exists with this groupname, use this mapping
+			return true;
+		}
+		$groupBackend = $group->getBackend();
+		$groupBackendClass = \get_class($groupBackend);
+		if (($groupBackendClass === \OCA\User_LDAP\Group_LDAP::class || $groupBackendClass === \OCA\User_LDAP\Group_Proxy::class)
+				&& \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
+			// Account with same groupname exists, and matching backend, we can use this - merge
+			return true;
+		}
+
+		// Account exists, but is from a different backend, don't use this mapping!
+		\OC::$server->getLogger()->error("Cannot reuse account with groupname: $groupname because it is from a different backend: {$groupBackendClass}", ['app' => 'user_ldap']);
 		return false;
 	}
 
@@ -702,87 +736,7 @@ class Access implements IUserTools {
 		$this->connection->writeToCache("userExists$ocName", true);
 	}
 
-	/**
-	 * creates a unique name for internal ownCloud use for users. Don't call it directly.
-	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
-	 *
-	 * Instead of using this method directly, call
-	 * createAltInternalOwnCloudName($name, true)
-	 */
-	private function _createAltInternalOwnCloudNameForUsers($name) {
-		$attempts = 0;
-		//while loop is just a precaution. If a name is not generated within
-		//20 attempts, something else is very wrong. Avoids infinite loop.
-		while ($attempts < 20) {
-			$altName = "{$name}_" . \mt_rand(1000, 9999);
-			if (!\OC::$server->getUserManager()->userExists($altName)) {
-				return $altName;
-			}
-			$attempts++;
-		}
-		return false;
-	}
-
-	/**
-	 * creates a unique name for internal ownCloud use for groups. Don't call it directly.
-	 * @param string $name the display name of the object
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful.
-	 *
-	 * Instead of using this method directly, call
-	 * createAltInternalOwnCloudName($name, false)
-	 *
-	 * Group names are also used as display names, so we do a sequential
-	 * numbering, e.g. Developers_42 when there are 41 other groups called
-	 * "Developers"
-	 */
-	private function _createAltInternalOwnCloudNameForGroups($name) {
-		$usedNames = $this->groupMapper->getNamesBySearch($name, '', '_%');
-		if (!$usedNames || \count($usedNames) === 0) {
-			$lastNo = 1; //will become name_2
-		} else {
-			\natsort($usedNames);
-			$lastName = \array_pop($usedNames);
-			$lastNo = (int)\substr($lastName, \strrpos($lastName, '_') + 1);
-		}
-		$altName = "{$name}_" . (string)($lastNo+1);
-		unset($usedNames);
-
-		$attempts = 1;
-		while ($attempts < 21) {
-			// Check to be really sure it is unique
-			// while loop is just a precaution. If a name is not generated within
-			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if (!\OC::$server->getGroupManager()->groupExists($altName)) {
-				return $altName;
-			}
-			$altName = "{$name}_" . ($lastNo + $attempts);
-			$attempts++;
-		}
-		return false;
-	}
-
-	/**
-	 * FIXME was private
-	 * creates a unique name for internal ownCloud use.
-	 * @param string $name the display name of the object
-	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
-	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
-	 */
-	public function createAltInternalOwnCloudName($name, $isUser) {
-		$originalTTL = $this->connection->ldapCacheTTL;
-		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if ($isUser) {
-			$altName = $this->_createAltInternalOwnCloudNameForUsers($name);
-		} else {
-			$altName = $this->_createAltInternalOwnCloudNameForGroups($name);
-		}
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-
-		return $altName;
-	}
-
-	/**
+	/*
 	 * fetches a list of users according to a provided loginName and utilizing
 	 * the login filter.
 	 *
@@ -995,7 +949,7 @@ class Access implements IUserTools {
 	 * second | false if not successful
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
+	private function executeSearch($filter, array $base, &$attr = null, $limit = null, $offset = null) {
 		if ($attr !== null && !\is_array($attr)) {
 			$attr = [\mb_strtolower($attr, 'UTF-8')];
 		}
@@ -1043,18 +997,22 @@ class Access implements IUserTools {
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
-	 * @return bool cookie validity, true if we have more pages, false otherwise.
+	 * @return array 0 => bool cookie validity, true if we have more pages, false otherwise.
+	 *               1 => estimate for every result. if 0 server just might not support estimates
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		$cookie = null;
-		$estimated = '';
+		$estimated = 0;
+		$estimates = [];
 		if ($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
 			foreach ($sr as $key => $res) {
 				if ($this->getLDAP()->controlPagedResultResponse($cr, $res, $cookie, $estimated)) {
+					$range = $offset . "-" . ($offset + $limit);
+					$estimates[$key] = $estimated;
 					\OC::$server->getLogger()->debug(
-						'Page response cookie '.$this->cookie2str($cookie).", estimated<$estimated>",
+						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
 						['app' => 'user_ldap']);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
@@ -1062,7 +1020,7 @@ class Access implements IUserTools {
 
 			//browsing through prior pages to get the cookie for the new one
 			if ($skipHandling) {
-				return false;
+				return [false, $estimates];
 			}
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
@@ -1082,7 +1040,9 @@ class Access implements IUserTools {
 		 * cookie is null, with openldap cookie is an empty string and
 		 * to 386ds '0' is a valid cookie. Even if $iFoundItems == 0
 		 */
-		return !empty($cookie) || $cookie === '0';
+		$validCookie = !empty($cookie) || $cookie === '0';
+
+		return [$validCookie, $estimates];
 	}
 
 	/**
@@ -1100,7 +1060,7 @@ class Access implements IUserTools {
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function count($filter, array $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OC::$server->getLogger()->debug(
 			'Count filter:  '.\print_r($filter, true),
 			['app' => 'user_ldap']);
@@ -1129,16 +1089,31 @@ class Access implements IUserTools {
 			 * countEntriesInSearchResults() method signature changed
 			 * by removing $limit and &$hasHitLimit parameters
 			 */
-			$count = $this->countEntriesInSearchResults($sr);
-			$counter += $count;
+			$counts = $this->countEntriesInSearchResults($sr);
 
-			$hasMorePages = $this->processPagedSearchStatus($sr, $filter, $base, $count, $limitPerPage,
-										$offset, $pagedSearchOK, $skipHandling);
+			list($hasMorePages, $estimates) = $this->processPagedSearchStatus(
+				$sr, $filter, $base, $count, $limitPerPage,
+				$offset, $pagedSearchOK, $skipHandling
+			);
+
+			foreach ($counts as $i => $count) {
+				$estimate = $estimates[$i];
+				if ($estimate > 0) {
+					// estimate reported for complete result, use it
+					$counter += $estimate;
+					// stop counting entries on subsequent pages for the base with an estimate
+					// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
+					unset($base[$i]);
+				} else {
+					$counter += $count;
+				}
+			}
+
 			$offset += $limitPerPage;
 			/* ++ Fixing RHDS searches with pages with zero results ++
 			 * Continue now depends on $hasMorePages value
 			 */
-			$continue = $pagedSearchOK && $hasMorePages;
+			$continue = $pagedSearchOK && $hasMorePages && \count($base) > 0;
 		} while ($continue && ($limit === null || $limit <= 0 || $limit > $counter));
 
 		return $counter;
@@ -1146,19 +1121,19 @@ class Access implements IUserTools {
 
 	/**
 	 * @param array $searchResults
-	 * @return int
+	 * @return int[]
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($searchResults) {
 		$cr = $this->connection->getConnectionResource();
-		$counter = 0;
+		$counts = [];
 
-		foreach ($searchResults as $res) {
+		foreach ($searchResults as $key => $res) {
 			$count = (int)$this->getLDAP()->countEntries($cr, $res);
-			$counter += $count;
+			$counts[$key] = $count;
 		}
 
-		return $counter;
+		return $counts;
 	}
 
 	/**
@@ -1212,7 +1187,7 @@ class Access implements IUserTools {
 				$findings = \array_merge($findings, $this->getLDAP()->getEntries($cr, $res));
 			}
 
-			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+			list($continue, ) = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
 								$limit, $offset, $pagedSearchOK,
 										$skipHandling);
 			$offset += $limit;
@@ -1224,6 +1199,21 @@ class Access implements IUserTools {
 		// to make ownCloud behave nicely, we simply give back an empty array.
 		if ($findings === null) {
 			return [];
+		}
+
+		unset($findings['count']);
+
+		//we slice the findings, when
+		//a) paged search unsuccessful, though attempted
+		//b) no paged search, but limit set
+		if ((!$pagedSearchOK && $limit !== null)
+			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
+		) {
+			$findings = \array_slice($findings, (int)$offset, $limit);
+		}
+
+		if (!$continue) {
+			$this->abandonPagedSearch();
 		}
 
 		if ($attr !== null) {
@@ -1254,14 +1244,6 @@ class Access implements IUserTools {
 				$i++;
 			}
 			$findings = $selection;
-		}
-		//we slice the findings, when
-		//a) paged search unsuccessful, though attempted
-		//b) no paged search, but limit set
-		if ((!$pagedSearchOK && $limit !== null)
-			|| (!$this->getPagedSearchResultState() && $pagedSearchOK)
-		) {
-			$findings = \array_slice($findings, (int)$offset, $limit);
 		}
 		return $findings;
 	}
@@ -1498,8 +1480,9 @@ class Access implements IUserTools {
 	 *
 	 * @param string $uuid
 	 * @return string
-	 * @throws \OutOfBoundsException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws \LengthException when more than one DN matches given UUID
+	 * @throws \OutOfBoundsException when there is no DN matching given UUID
+	 * @throws \OC\ServerNotAvailableException on any LDAP connection error
 	 */
 	public function getUserDnByUuid($uuid) {
 		$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -1533,9 +1516,13 @@ class Access implements IUserTools {
 
 		$filter = $uuidAttr . '=' . $uuid;
 		$result = $this->searchUsers($filter, ['dn'], 2);
-		if (isset($result[0]['dn']) && \count($result) === 1) {
-			// we put the count into account to make sure that this is
-			// really unique
+
+		// we put the count into account to make sure that this is really unique
+		if (\count($result) > 1) {
+			throw new \LengthException($uuidAttr . " is specified as UUID attribute but has a value '{$uuid}' for multiple entries");
+		}
+
+		if (isset($result[0]['dn'])) {
 			return $result[0]['dn'][0];
 		}
 
@@ -1900,11 +1887,9 @@ class Access implements IUserTools {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		// allow '0' for 389ds
-		if (!empty($cookie) || $cookie === '0') {
-			$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
-			$this->cookies[$cacheKey] = $cookie;
-			$this->lastCookie = $cookie;
-		}
+		$cacheKey = 'lc' . \crc32($base) . '-' . \crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
+		$this->cookies[$cacheKey] = $cookie;
+		$this->lastCookie = $cookie;
 	}
 
 	/**
@@ -1932,13 +1917,17 @@ class Access implements IUserTools {
 		$pagedSearchOK = false;
 		if ($this->connection->hasPagedResultSupport && ($limit !== 0)) {
 			$offset = (int)$offset; //can be null
+			$range = $offset . "-" . ($offset + $limit);
 			\OC::$server->getLogger()->debug(
 				"initializing paged search for  Filter $filter base ".\print_r($bases, true)
-				.' attr '.\print_r($attr, true). " limit $limit offset $offset",
+				.' attr '.\print_r($attr, true)." at $range",
 				['app' => 'user_ldap']);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach ($bases as $base) {
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+				\OC::$server->getLogger()->debug(
+					"Cookie for $base at $range is ".$this->cookie2str($cookie),
+					['app' => 'user_ldap']);
 				if (empty($cookie) && $cookie !== '0' && ($offset > 0)) {
 					// no cookie known, although the offset is not 0. Maybe cache run out. We need
 					// to start all over *sigh* (btw, Dear Reader, did you know LDAP paged
@@ -1950,12 +1939,8 @@ class Access implements IUserTools {
 					} else {
 						$reOffset = $offset - $limit;
 					}
-					//a bit recursive, $offset of 0 is the exit
-					\OC::$server->getLogger()->debug(
-						"Looking for cookie L/O $limit/$reOffset",
-						['app' => 'user_ldap']);
-					$this->search($filter, [$base], $attr, $limit, $reOffset, true);
-					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+					// just try the previous one
+					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $reOffset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					//TODO: remember this, probably does not change in the next request...
 					if (empty($cookie) && $cookie !== '0') {
@@ -1964,30 +1949,30 @@ class Access implements IUserTools {
 					}
 				}
 				if ($cookie !== null) {
-					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
-					$this->abandonPagedSearch();
+					if (empty($offset)) {
+						//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+						$this->abandonPagedSearch();
+						\OC::$server->getLogger()->debug(
+							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']);
+					} else {
+						\OC::$server->getLogger()->debug(
+							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']);
+					}
 					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
 						$this->connection->getConnectionResource(), $limit,
 						false, $cookie);
 					if (!$pagedSearchOK) {
 						return false;
 					}
-					\OC::$server->getLogger()->debug(
-						'Ready for a paged search with cookie '.$this->cookie2str($cookie),
-						['app' => 'user_ldap']);
 				} else {
 					\OC::$server->getLogger()->debug(
-						"No paged search for us, Cpt., Limit $limit Offset $offset",
+						"No paged search for us at $range",
 						['app' => 'user_ldap']);
 				}
 			}
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We coudn't get paged searches working with our RHDS for login ($limit = 0),
-			 * due to pages with zero results.
-			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-			 * if we don't have a previous paged search.
-			 */
-		} elseif ($this->connection->hasPagedResultSupport && $limit === 0 && !empty($this->lastCookie)) {
+		} elseif ($this->connection->hasPagedResultSupport && $limit === 0) {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.

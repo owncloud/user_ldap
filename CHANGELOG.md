@@ -5,6 +5,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.15.0] - 2019-12-20
+
+### Fixed
+
+- Don't delete / disable Users if they change their DN - [#470](https://github.com/owncloud/user_ldap/issues/470)
+
+### Changed
+
+- Drop PHP 7.0 - [#474](https://github.com/owncloud/user_ldap/issues/474)
+
+## [0.14.0] - 2019-11-11
+
+### Added
+
+- Add network timeout setting - [#324](https://github.com/owncloud/user_ldap/issues/324)
+- Log bind errors [#436](https://github.com/owncloud/user_ldap/pull/436)
+- Reuse existing LDAP accounts if available [#165](https://github.com/owncloud/user_ldap/pull/165)
+
+### Changed
+
+- Allow avatars to be changed by users if not provided by LDAP - [#188](https://github.com/owncloud/user_ldap/issues/188)
+- Remove PHP 5.6 support - [#388](https://github.com/owncloud/user_ldap/issues/388)
+- Clean up Application initialization code - [#396](https://github.com/owncloud/user_ldap/issues/396)
+- Remove unused use statements - [#399](https://github.com/owncloud/user_ldap/issues/399) [#400](https://github.com/owncloud/user_ldap/issues/400)
+- Simplify connection: Get rid of init method [#437](https://github.com/owncloud/user_ldap/pull/437)
+- Replace magic numbers with constants [#435](https://github.com/owncloud/user_ldap/pull/435)
+
+### Fixed
+
+- Only return users valid for ownCloud when getting LDAP group members - [#12](https://github.com/owncloud/user_ldap/issues/12)
+- Fix paging when limit is used - [#315](https://github.com/owncloud/user_ldap/issues/315)
+- Extract housekeeping part from new LDAP wizard - [#396](https://github.com/owncloud/user_ldap/pull/396)
+- loginName2UserName is already called for an object, not a class - [#398](https://github.com/owncloud/user_ldap/pull/398)
+- Remove unused use statements - [#400](https://github.com/owncloud/user_ldap/pull/400) - [#399](https://github.com/owncloud/user_ldap/pull/399)
+- Include port only if there is port [#425](https://github.com/owncloud/user_ldap/pull/425)
+- Remove no longer existing job from appinfo [#430](https://github.com/owncloud/user_ldap/pull/430)
+
+
 ## [0.13.0] - 2018-12-11
 
 ### Changed
@@ -16,6 +54,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 - Remove legacy table and resolve dn encoding issues - [#248](https://github.com/owncloud/user_ldap/issues/248)
 - Suppress "invalid quota" message if quota isn't set for the user - [#237](https://github.com/owncloud/user_ldap/issues/237)
+
 
 ## [0.12.0] - 2018-11-05
 
@@ -73,9 +112,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.13.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.0...master
+[0.15.0]: https://github.com/owncloud/user_ldap/compare/v0.14.0...v0.15.0
+[0.14.0]: https://github.com/owncloud/user_ldap/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/owncloud/user_ldap/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/owncloud/user_ldap/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/owncloud/user_ldap/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/owncloud/user_ldap/compare/0.9.1...v0.10.0
-

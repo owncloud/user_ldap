@@ -43,6 +43,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	private $ldapAdminPassword;
 	private $ldapBaseDN;
 	private $ldapHost;
+	private $ldapPort;
 	private $ldapUsersOU;
 	private $ldapGroupsOU;
 	private $toDeleteDNs = [];
@@ -311,6 +312,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getLdapPort() {
+		return $this->ldapPort;
+	}
+
+	/**
 	 * creates users in LDAP named: "<prefix>-0000" till "<prefix>-(<amount>-1)"
 	 * e.g.with $amount=2000; and $prefix="my-user-"; "my-user-0000" till "my-user-1999"
 	 * password is the username
@@ -403,20 +411,41 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function connectToLdap($suiteParameters) {
-		$this->ldapAdminUser = (string)$suiteParameters['ldapAdminUser'];
+		SetupHelper::init(
+			$this->featureContext->getAdminUsername(),
+			$this->featureContext->getAdminPassword(),
+			$this->featureContext->getBaseUrl(),
+			$this->featureContext->getOcPath()
+		);
+		$occResult = SetupHelper::runOcc(
+			['ldap:show-config', 'LDAPTestId', '--output=json']
+		);
+		PHPUnit\Framework\Assert::assertSame(
+			'0', $occResult['code'],
+			"could not read current LDAP config. stdOut: " .
+			$occResult['stdOut'] .
+			" stdErr: " . $occResult['stdErr']
+		);
+
+		$ldapConfig = \json_decode(
+			$occResult['stdOut'], true
+		);
+		PHPUnit\Framework\Assert::assertNotNull(
+			$ldapConfig,
+			"could not json decode current LDAP config. stdOut: " . $occResult['stdOut']
+		);
+		$this->ldapBaseDN = (string)$ldapConfig['ldapBase'][0];
+		$this->ldapHost = (string)$ldapConfig['ldapHost'];
+		$this->ldapPort = (string)$ldapConfig['ldapPort'];
+		$this->ldapAdminUser = (string)$ldapConfig['ldapAgentName'];
+
 		$this->ldapAdminPassword = (string)$suiteParameters['ldapAdminPassword'];
-		$this->ldapBaseDN = (string)$suiteParameters['ldapBaseDN'];
 		$this->ldapUsersOU = (string)$suiteParameters['ldapUsersOU'];
 		$this->ldapGroupsOU = (string)$suiteParameters['ldapGroupsOU'];
-		$ci = \getenv("CI");
-		if ($ci === "drone") {
-			$this->ldapHost = (string)$suiteParameters['ldapHostDrone'];
-		} else {
-			$this->ldapHost = (string)$suiteParameters['ldapHost'];
-		}
-		
+
 		$options = [
 			'host' => $this->ldapHost,
+			'port' => $this->ldapPort,
 			'password' => $this->ldapAdminPassword,
 			'bindRequiresDn' => true,
 			'baseDn' => $this->ldapBaseDN,
@@ -424,12 +453,6 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		];
 		$this->ldap = new Zend\Ldap\Ldap($options);
 		$this->ldap->bind();
-		SetupHelper::init(
-			$this->featureContext->getAdminUsername(),
-			$this->featureContext->getAdminPassword(),
-			$this->featureContext->getBaseUrl(),
-			$this->featureContext->getOcPath()
-		);
 	}
 
 	/**
@@ -554,6 +577,22 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				"function" => [
 					$this,
 					"getLdapHostWithoutScheme"
+				],
+				"parameter" => []
+			],
+			[
+				"code" => "%ldap_host%",
+				"function" => [
+					$this,
+					"getLdapHost"
+				],
+				"parameter" => []
+			],
+			[
+				"code" => "%ldap_port%",
+				"function" => [
+					$this,
+					"getLdapPort"
 				],
 				"parameter" => []
 			]

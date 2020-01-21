@@ -36,16 +36,16 @@ use OCP\IL10N;
  */
 class WizardTest extends \Test\TestCase {
 
-	/** @var Configuration|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject */
 	protected $configuration;
 
-	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10n;
 
 	/**
@@ -53,7 +53,7 @@ class WizardTest extends \Test\TestCase {
 	 */
 	protected $wizard;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap

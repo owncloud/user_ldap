@@ -21,17 +21,12 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use Doctrine\DBAL\Driver\Statement;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ISession;
 use Test\TestCase;
 
 /**
@@ -41,21 +36,21 @@ use Test\TestCase;
  */
 class WizardControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldap;
 
 	/** @var WizardController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);

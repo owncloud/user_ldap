@@ -46,39 +46,39 @@ use OCP\IUserManager;
  */
 class ManagerTest extends \Test\TestCase {
 	/**
-	 * @var IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $config;
 	/**
-	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILogger|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $logger;
 	/**
-	 * @var Connection|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Connection|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $connection;
 	/**
-	 * @var Access|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Access|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $access;
 	/**
-	 * @var Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config     = $this->createMock(IConfig::class);
 
-		/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject $filesystem */
+		/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject $filesystem */
 		$filesystem = $this->createMock(FilesystemHelper::class);
-		/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject $logger */
+		/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject $logger */
 		$logger     = $this->createMock(ILogger::class);
-		/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject $avatarManager */
+		/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject $avatarManager */
 		$avatarManager = $this->createMock(IAvatarManager::class);
-		/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject $dbConn */
+		/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject $dbConn */
 		$dbConn = $this->createMock(IDBConnection::class);
-		/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject $userMgr */
+		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userMgr */
 		$userMgr = $this->createMock(IUserManager::class);
 		$this->access     = $this->createMock(Access::class);
 		$this->connection     = $this->createMock(Connection::class);
@@ -352,9 +352,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OutOfBoundsException
 	 */
 	public function testGetUserEntryByDnNotPartOfBase() {
+		$this->expectException(\OutOfBoundsException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue([
@@ -369,9 +370,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
 	 */
 	public function testGetUserEntryByDnNotFound() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue([
@@ -382,9 +384,10 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * FIXME the ldap error should bubble up ... and not be converted to a DoesNotExistOnLDAPException
-	 * @expectedException \OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException
 	 */
 	public function testGetUserEntryByDnLDAPError() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException::class);
+
 		$this->access->expects($this->once())
 			->method('executeRead')
 			->will($this->returnValue(false));
@@ -543,11 +546,81 @@ class ManagerTest extends \Test\TestCase {
 			->method('getAppValue')
 			->willReturn('1');
 
-		/** @var UserEntry|\PHPUnit_Framework_MockObject_MockObject $entry */
+		/** @var UserEntry|\PHPUnit\Framework\MockObject\MockObject $entry */
 		$entry =  $this->createMock(UserEntry::class);
 		$entry->method('getDN')->willReturn('cn=lastname\, firstname,ou=development,dc=owncloud,dc=com');
 		$entry->method('getUUID')->willReturn('a-b-c-d');
 
 		self::assertSame('lastname', $this->manager->resolveUID($entry));
+	}
+
+	public function testDnUpdatedWhenUuidMatches() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$newDn = 'cn=newdn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willReturn($newDn);
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturn([]);
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertTrue($isRemapped);
+	}
+
+	public function testDnNotUpdatedWhenUuidNotFound() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$newDn = 'cn=newdn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willReturn($newDn);
+		$this->access->expects($this->any())
+			->method('readAttribute')
+			->willReturn(null);
+
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertFalse($isRemapped);
+	}
+
+	public function testDnNotUpdatedWhenNewDnNotFound() {
+		$oldDn = 'cn=olddn,ou=users,dc=example,dc=com';
+		$uuid = 'aaaa-bbbb-cccc-dddd';
+		$mapper = $this->createMock(UserMapping::class);
+		$mapper->expects($this->once())
+			->method('getUUIDByDN')
+			->with($oldDn)
+			->willReturn($uuid);
+
+		$this->access->expects($this->any())
+			->method('getUserMapper')
+			->willReturn($mapper);
+		$this->access->expects($this->any())
+			->method('getUserDnByUuid')
+			->with($uuid)
+			->willThrowException(new \OutOfBoundsException());
+
+		$isRemapped = $this->manager->resolveMissingDN($oldDn);
+		$this->assertFalse($isRemapped);
 	}
 }

@@ -3,20 +3,37 @@ default:
     '': '%paths.base%/../features/bootstrap'
 
   suites:
-    webUICore:
+    webUICore1:
       paths:
-        - '%paths.base%/../../../../../tests/acceptance/features'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIAdminSettings'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIComments'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUICreateDelete'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIFavorites'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIFiles'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUILogin'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIMoveFilesFolders'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIPersonalSettings'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFiles'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFolders'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIRestrictSharing'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAcceptShares'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingNotifications'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITags'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITrashbin'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIUpload'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLockProtection'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLocks'
       context: &common_ldap_suite_context
         parameters:
-          ldapAdminUser: cn=admin,dc=owncloud,dc=com
           ldapAdminPassword: admin
-          ldapBaseDN: dc=owncloud,dc=com
-          ldapHost: localhost
-          ldapHostDrone: ldap
           ldapUsersOU: TestUsers
           ldapGroupsOU: TestGroups
           ldapInitialUserFilePath: /../../config/ldap-users.ldif
-      contexts:
+      contexts: &common_webui_core_contexts
         - UserLdapGeneralContext:
         - FeatureContext: &common_feature_context_params
             baseUrl:  http://localhost:8080
@@ -26,14 +43,40 @@ default:
             regularUserPassword: 123456
         - EmailContext:
         - FederationContext:
+        - WebUIAdminSharingSettingsContext:
         - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIPersonalGeneralSettingsContext:
         - WebUIPersonalSecuritySettingsContext:
+        - WebUIPersonalSharingSettingsContext:
         - WebUISearchContext:
         - WebUISharingContext:
         - WebUIUserContext:
+
+    webUICore2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingExternal'
+      context: *common_ldap_suite_context
+      contexts: *common_webui_core_contexts
+
+    apiAuth:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiAuth'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CorsContext:
+
+    apiAuthOcs:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiAuthOcs'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - CorsContext:
 
     apiCapabilities:
       paths:
@@ -43,6 +86,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - CapabilitiesContext:
+        - OccContext:
 
     apiComments:
       paths:
@@ -85,6 +129,17 @@ default:
         - CardDavContext:
         - CalDavContext:
 
+    apiShareCreateSpecial:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareCreateSpecial'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
     apiSharees:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiSharees'
@@ -101,6 +156,19 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareManagementBasic:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareManagementBasic'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -112,6 +180,67 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiSharePublicLink1:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharePublicLink1'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiSharePublicLink2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiSharePublicLink2'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareReshare1:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare1'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareReshare2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareReshare2'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - TrashbinContext:
+        - WebDavPropertiesContext:
+
+    apiShareUpdate:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiShareUpdate'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - TrashbinContext:
         - WebDavPropertiesContext:
@@ -153,6 +282,7 @@ default:
         - FeatureContext: *common_feature_context_params
         - ChecksumContext:
         - FilesVersionsContext:
+        - WebDavPropertiesContext:
 
     apiWebdavLocks:
       paths:
@@ -161,6 +291,19 @@ default:
       contexts:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
+        - PublicWebDavContext:
+        - WebDavLockingContext:
+        - WebDavPropertiesContext:
+
+    apiWebdavLocks2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiWebdavLocks2'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - FeatureContext: *common_feature_context_params
+        - OccContext:
         - PublicWebDavContext:
         - WebDavLockingContext:
         - WebDavPropertiesContext:
@@ -173,6 +316,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - OccContext:
         - WebDavPropertiesContext:
 
     apiWebdavOperations:
@@ -184,7 +328,9 @@ default:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
         - SearchContext:
+        - OccContext:
         - PublicWebDavContext:
+        - WebDavPropertiesContext:
 
     apiWebdavProperties:
       paths:
@@ -204,6 +350,7 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - LoggingContext:
+        - OccContext:
         - PublicWebDavContext:
 
 
@@ -225,6 +372,17 @@ default:
         - FeatureContext: *common_feature_context_params
         - OccContext:
         - TrashbinContext:
+
+    apiUserLDAP:
+      paths:
+        - '%paths.base%/../features/apiUserLDAP'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+        - OccContext:
 
     apiProvisioningLDAP:
       paths:
@@ -279,6 +437,7 @@ default:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
+        - OccContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
         - WebUIUserContext:
