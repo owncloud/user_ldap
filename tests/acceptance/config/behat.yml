@@ -377,12 +377,7 @@ default:
     apiUserLDAP:
       paths:
         - '%paths.base%/../features/apiUserLDAP'
-      context: &ldap_ldap_suite_context
-        parameters:
-          ldapAdminPassword: admin
-          ldapUsersOU: TestUsers
-          ldapGroupsOU: TestGroups
-          ldapInitialUserFilePath: /../../../../apps/user_ldap/tests/acceptance/config/ldap-users.ldif
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -393,7 +388,7 @@ default:
     apiProvisioningLDAP:
       paths:
         - '%paths.base%/../features/apiProvisioningLDAP'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -403,7 +398,7 @@ default:
     apiUserLDAPConnection:
       paths:
         - '%paths.base%/../features/apiUserLDAPConnection'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -415,7 +410,7 @@ default:
     apiUserLDAPSharing:
       paths:
         - '%paths.base%/../features/apiUserLDAPSharing'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -426,7 +421,7 @@ default:
     cliProvisioning:
       paths:
         - '%paths.base%/../features/cliProvisioning'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -438,7 +433,7 @@ default:
     webUIProvisioning:
       paths:
         - '%paths.base%/../features/webUIProvisioning'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
@@ -454,7 +449,7 @@ default:
     webUIUserLDAP:
       paths:
         - '%paths.base%/../features/webUIUserLDAP'
-      context: *ldap_ldap_suite_context
+      context: *common_ldap_suite_context
       contexts:
         - UserLdapGeneralContext:
         - UserLdapUsersContext:
