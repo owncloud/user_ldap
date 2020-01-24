@@ -5,8 +5,7 @@ Feature: Sharing between local and LDAP users
 
   Background:
     Given user "local-user" has been created with default attributes in the database user backend
-    And these users have been initialized:
-    #these are LDAP users and are not initialized yet
+    And these users have been created with default attributes and skeleton files:
       | username |
       | user0    |
       | user1    |
