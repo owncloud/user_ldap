@@ -1,3 +1,13 @@
+dn: ou=TestUsers,dc=owncloud,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: TestUsers
+
+dn: ou=TestGroups,dc=owncloud,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: TestGroups
+
 dn: cn=ShareeGroup,ou=TestGroups,dc=owncloud,dc=com
 cn: ShareeGroup
 gidnumber: 500
