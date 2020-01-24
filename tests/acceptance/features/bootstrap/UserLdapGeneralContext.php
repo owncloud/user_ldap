@@ -35,7 +35,6 @@ require_once 'bootstrap.php';
  * context that holds all general steps for the user_ldap app
  */
 class UserLdapGeneralContext extends RawMinkContext implements Context {
-	private $oldConfig = [];
 	/**
 	 *
 	 * @var FeatureContext
@@ -76,7 +75,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function ldapConfigHasKeySetTo(
 		$configId, $configKey, $configValue
 	) {
-		$oldConfig = $this->featureContext->getOldConfig();
+		$oldConfig = $this->featureContext->getOldLdapConfig();
 		if (!isset($oldConfig[$configId][$configKey])) {
 			//remember old settings to be able to set them back after test run
 			$occResult = SetupHelper::runOcc(
@@ -89,13 +88,13 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			}
 			$originalConfig = \json_decode($occResult['stdOut'], true);
 			if (isset($originalConfig[$configKey])) {
-				$this->featureContext->setOldConfig(
+				$this->featureContext->setOldLdapConfig(
 					$configId,
 					$configKey,
 					$originalConfig[$configKey]
 				);
 			} else {
-				$this->featureContext->setOldConfig(
+				$this->featureContext->setOldLdapConfig(
 					$configId,
 					$configKey,
 					""
@@ -243,17 +242,6 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 */
 	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
 		$this->featureContext->importLdifData($ldifData->getRaw());
-	}
-
-	/**
-	 * @When the LDAP users are resynced
-	 * @Given the LDAP users have been resynced
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	public function theLdapUsersAreResynced() {
-		$this->featureContext->theLdapUsersHaveBeenReSynced();
 	}
 
 	/**

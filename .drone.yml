@@ -49,7 +49,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: phan
   pull: always
@@ -88,7 +88,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: phan
   pull: always
@@ -127,7 +127,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: phan
   pull: always
@@ -166,7 +166,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -232,7 +232,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -308,7 +308,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -384,7 +384,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -460,7 +460,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -535,7 +535,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -611,7 +611,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -678,7 +678,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -744,7 +744,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -811,7 +811,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -878,7 +878,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -944,7 +944,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1011,7 +1011,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1090,7 +1090,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1169,7 +1169,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1248,7 +1248,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1327,7 +1327,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1406,7 +1406,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1485,7 +1485,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1564,7 +1564,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1643,7 +1643,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1722,7 +1722,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1801,7 +1801,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: setup-server-user_ldap
   pull: always
@@ -1880,7 +1880,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2009,7 +2009,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2138,7 +2138,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2267,7 +2267,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2396,7 +2396,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2525,7 +2525,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2654,7 +2654,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2783,7 +2783,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -2912,7 +2912,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3041,7 +3041,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3170,7 +3170,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3299,7 +3299,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3428,7 +3428,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3556,7 +3556,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3685,7 +3685,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3813,7 +3813,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -3942,7 +3942,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -4070,7 +4070,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -4199,7 +4199,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -4327,7 +4327,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -4456,7 +4456,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -4585,7 +4585,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -4713,7 +4713,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -4842,7 +4842,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -4971,7 +4971,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5099,7 +5099,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5228,7 +5228,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5357,7 +5357,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5485,7 +5485,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5614,7 +5614,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5743,7 +5743,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -5871,7 +5871,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -6000,7 +6000,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -6131,7 +6131,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -6262,7 +6262,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -6393,7 +6393,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -6524,7 +6524,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -6655,7 +6655,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -6786,7 +6786,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -6917,7 +6917,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -7048,7 +7048,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -7177,7 +7177,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -7306,7 +7306,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -7435,7 +7435,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -7563,7 +7563,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -7692,7 +7692,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -7821,7 +7821,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -7949,7 +7949,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -8078,7 +8078,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -8209,7 +8209,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -8340,7 +8340,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -8479,7 +8479,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -8618,7 +8618,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -8757,7 +8757,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -8896,7 +8896,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9035,7 +9035,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9174,7 +9174,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9312,7 +9312,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9451,7 +9451,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9589,7 +9589,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -9728,7 +9728,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -9867,7 +9867,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10005,7 +10005,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10144,7 +10144,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10283,7 +10283,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10421,7 +10421,7 @@ steps:
     db_type: oci
     db_username: system
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10560,7 +10560,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -10701,7 +10701,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -10842,7 +10842,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -10983,7 +10983,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -11124,7 +11124,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11253,7 +11253,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11382,7 +11382,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11511,7 +11511,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11640,7 +11640,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11769,7 +11769,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -11898,7 +11898,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12027,7 +12027,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12156,7 +12156,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12285,7 +12285,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12414,7 +12414,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12543,7 +12543,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12672,7 +12672,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12801,7 +12801,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -12930,7 +12930,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13059,7 +13059,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13188,7 +13188,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13317,7 +13317,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13446,7 +13446,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13575,7 +13575,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13704,7 +13704,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13833,7 +13833,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -13962,7 +13962,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -14091,7 +14091,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -14220,7 +14220,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -14349,7 +14349,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -14478,7 +14478,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -14605,7 +14605,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -14732,7 +14732,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -14859,7 +14859,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -14986,7 +14986,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15113,7 +15113,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15240,7 +15240,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15367,7 +15367,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15494,7 +15494,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15621,7 +15621,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15748,7 +15748,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -15875,7 +15875,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16002,7 +16002,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16129,7 +16129,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16256,7 +16256,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16383,7 +16383,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16510,7 +16510,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16637,7 +16637,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16764,7 +16764,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -16891,7 +16891,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17018,7 +17018,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17145,7 +17145,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17272,7 +17272,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17399,7 +17399,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17526,7 +17526,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17653,7 +17653,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -17780,7 +17780,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -17976,7 +17976,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -18170,7 +18170,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -18299,7 +18299,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -18426,7 +18426,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -18632,7 +18632,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: daily-master-qa
 
 - name: install-testrunner
   pull: always
@@ -18838,7 +18838,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19042,7 +19042,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19246,7 +19246,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19394,7 +19394,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19542,7 +19542,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19690,7 +19690,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19838,7 +19838,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -19986,7 +19986,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20134,7 +20134,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20282,7 +20282,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20430,7 +20430,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20578,7 +20578,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20726,7 +20726,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -20874,7 +20874,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21022,7 +21022,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21170,7 +21170,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21318,7 +21318,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21466,7 +21466,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21614,7 +21614,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21762,7 +21762,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -21910,7 +21910,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22058,7 +22058,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22206,7 +22206,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22354,7 +22354,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22502,7 +22502,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22650,7 +22650,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22798,7 +22798,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -22946,7 +22946,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23094,7 +23094,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23309,7 +23309,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23457,7 +23457,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23682,7 +23682,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23907,7 +23907,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24055,7 +24055,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24203,7 +24203,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24351,7 +24351,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24499,7 +24499,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24647,7 +24647,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24795,7 +24795,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24943,7 +24943,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25091,7 +25091,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25239,7 +25239,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25387,7 +25387,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25535,7 +25535,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25683,7 +25683,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25831,7 +25831,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25979,7 +25979,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26127,7 +26127,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26275,7 +26275,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26423,7 +26423,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26571,7 +26571,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26719,7 +26719,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26867,7 +26867,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27015,7 +27015,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27163,7 +27163,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27311,7 +27311,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27459,7 +27459,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27607,7 +27607,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27755,7 +27755,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27970,7 +27970,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28118,7 +28118,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28343,7 +28343,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git_reference: ldap-auto-complete
+    version: latest
 
 - name: install-testrunner
   pull: always

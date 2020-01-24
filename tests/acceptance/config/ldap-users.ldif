@@ -1,8 +1,3 @@
-dn: ou=TestUsers,dc=owncloud,dc=com
-objectclass: top
-objectclass: organizationalUnit
-ou: TestUsers
-
 dn: ou=TestGroups,dc=owncloud,dc=com
 objectclass: top
 objectclass: organizationalUnit
@@ -78,6 +73,11 @@ cn: grpuser
 gidnumber: 500
 objectclass: top
 objectclass: posixGroup
+
+dn: ou=TestUsers,dc=owncloud,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: TestUsers
 
 # Additional groups for core tests on ldap users
 dn: cn=hash#group,ou=TestGroups,dc=owncloud,dc=com
