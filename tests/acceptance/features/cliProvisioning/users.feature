@@ -5,6 +5,12 @@ Feature: add a user using the using the occ command
   I want to be able to add, delete and modify users via the command line
   So that I can easily manage users when user LDAP is enabled
 
+  Background:
+    And these users have been created with default attributes and skeleton files:
+      | username |
+      | user0    |
+      | user1    |
+
   Scenario: admin creates an ordinary user using the occ command
     When the administrator creates this user using the occ command:
       | username  |

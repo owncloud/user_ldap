@@ -10,6 +10,9 @@ Feature: Sharing between local and LDAP users
       | user0    |
       | user1    |
       | user2    |
+    And group "grp1" has been created
+    And user "user1" has been added to group "grp1"
+    And user "user2" has been added to group "grp1"
 
   Scenario: Share a folder from an LDAP user to a local user
     When user "user0" shares folder "/PARENT" with user "local-user" using the sharing API
