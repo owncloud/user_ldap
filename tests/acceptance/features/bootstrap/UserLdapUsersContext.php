@@ -87,6 +87,9 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		$this->userLdapGeneralContext->addValueToLdapAttributeOfTheEntry(
 			$user, "memberUid", "cn=$group,ou=$ou"
 		);
+		$this->featureContext->theLdapUsersHaveBeenReSynced();
+		// To sync new ldap groups
+		$this->featureContext->runOcc(['group:list -vvv']);
 	}
 
 	/**
