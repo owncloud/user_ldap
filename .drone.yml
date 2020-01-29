@@ -1887,7 +1887,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2016,7 +2016,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2145,7 +2145,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2274,7 +2274,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2403,7 +2403,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2532,7 +2532,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2661,7 +2661,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2790,7 +2790,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -2919,7 +2919,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3048,7 +3048,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3177,7 +3177,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3306,7 +3306,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3435,7 +3435,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3563,7 +3563,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3692,7 +3692,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3820,7 +3820,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -3949,7 +3949,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4077,7 +4077,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4206,7 +4206,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4334,7 +4334,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4463,7 +4463,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4592,7 +4592,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4720,7 +4720,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4849,7 +4849,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -4978,7 +4978,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5106,7 +5106,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5235,7 +5235,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5364,7 +5364,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5492,7 +5492,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5621,7 +5621,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5750,7 +5750,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -5878,7 +5878,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6007,7 +6007,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6138,7 +6138,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6269,7 +6269,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6400,7 +6400,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6531,7 +6531,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6662,7 +6662,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6793,7 +6793,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -6924,7 +6924,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7055,7 +7055,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7184,7 +7184,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7313,7 +7313,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7442,7 +7442,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7570,7 +7570,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7699,7 +7699,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7828,7 +7828,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -7956,7 +7956,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8085,7 +8085,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8216,7 +8216,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8347,7 +8347,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8486,7 +8486,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8625,7 +8625,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8764,7 +8764,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -8903,7 +8903,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9042,7 +9042,7 @@ steps:
   image: owncloudci/php:7.3
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9181,7 +9181,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9319,7 +9319,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9458,7 +9458,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9596,7 +9596,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9735,7 +9735,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -9874,7 +9874,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10012,7 +10012,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10151,7 +10151,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10290,7 +10290,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10428,7 +10428,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10567,7 +10567,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10708,7 +10708,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10849,7 +10849,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -10990,7 +10990,7 @@ steps:
   image: owncloudci/php:7.2
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11131,7 +11131,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11260,7 +11260,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11389,7 +11389,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11518,7 +11518,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11647,7 +11647,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11776,7 +11776,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -11905,7 +11905,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12034,7 +12034,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12163,7 +12163,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12292,7 +12292,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12421,7 +12421,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12550,7 +12550,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12679,7 +12679,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12808,7 +12808,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -12937,7 +12937,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13066,7 +13066,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13195,7 +13195,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13324,7 +13324,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13453,7 +13453,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13582,7 +13582,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13711,7 +13711,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13840,7 +13840,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -13969,7 +13969,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14098,7 +14098,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14227,7 +14227,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14356,7 +14356,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14485,7 +14485,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14612,7 +14612,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14739,7 +14739,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14866,7 +14866,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -14993,7 +14993,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15120,7 +15120,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15247,7 +15247,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15374,7 +15374,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15501,7 +15501,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15628,7 +15628,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15755,7 +15755,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -15882,7 +15882,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16009,7 +16009,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16136,7 +16136,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16263,7 +16263,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16390,7 +16390,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16517,7 +16517,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16644,7 +16644,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16771,7 +16771,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -16898,7 +16898,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17025,7 +17025,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17152,7 +17152,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17279,7 +17279,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17406,7 +17406,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17533,7 +17533,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17660,7 +17660,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17787,7 +17787,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -17983,7 +17983,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -18177,7 +18177,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -18306,7 +18306,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -18433,7 +18433,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -18639,7 +18639,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -18845,7 +18845,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19049,7 +19049,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19253,7 +19253,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19401,7 +19401,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19549,7 +19549,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19697,7 +19697,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19845,7 +19845,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -19993,7 +19993,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20141,7 +20141,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20289,7 +20289,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20437,7 +20437,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20585,7 +20585,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20733,7 +20733,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -20881,7 +20881,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21029,7 +21029,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21177,7 +21177,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21325,7 +21325,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21473,7 +21473,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21621,7 +21621,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21769,7 +21769,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -21917,7 +21917,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22065,7 +22065,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22213,7 +22213,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22361,7 +22361,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22509,7 +22509,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22657,7 +22657,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22805,7 +22805,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -22953,7 +22953,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -23101,7 +23101,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -23316,7 +23316,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -23464,7 +23464,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -23689,7 +23689,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -23914,7 +23914,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24062,7 +24062,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24210,7 +24210,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24358,7 +24358,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24506,7 +24506,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24654,7 +24654,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24802,7 +24802,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -24950,7 +24950,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25098,7 +25098,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25246,7 +25246,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25394,7 +25394,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25542,7 +25542,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25690,7 +25690,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25838,7 +25838,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -25986,7 +25986,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26134,7 +26134,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26282,7 +26282,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26430,7 +26430,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26578,7 +26578,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26726,7 +26726,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -26874,7 +26874,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27022,7 +27022,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27170,7 +27170,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27318,7 +27318,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27466,7 +27466,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27614,7 +27614,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27762,7 +27762,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -27977,7 +27977,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -28125,7 +28125,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
@@ -28350,7 +28350,7 @@ steps:
   image: owncloudci/php:7.1
   commands:
   - mkdir /tmp/testrunner
-  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - git clone -b ldap-fixes --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
   - rsync -aIX /tmp/testrunner /var/www/owncloud
   - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
 
