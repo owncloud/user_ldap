@@ -5,7 +5,11 @@ Feature: add users
   So that I can easily manage users when user LDAP is enabled
 
   Background:
-    Given user admin has logged in using the webUI
+    Given these users have been created with default attributes and skeleton files:
+      | username |
+      | user0    |
+      | user1    |
+    And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
   Scenario: use the webUI to create a simple user

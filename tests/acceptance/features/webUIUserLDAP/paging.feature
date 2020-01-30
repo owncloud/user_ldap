@@ -1,4 +1,4 @@
-@insulated @disablePreviews
+@insulated @disablePreviews @webUI
 Feature: paging
 
   As an admin

@@ -5,6 +5,9 @@ Feature: login users
   I want users to login with their email address stored on a LDAP server
   So that they only need to remember one username and password (SSO)
 
+  Background:
+    Given user "user1" has been created with default attributes and without skeleton files
+
   Scenario: login with default settings
     When the LDAP users have been resynced
     Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
@@ -50,6 +53,7 @@ Feature: login users
     Then it should be possible to login with the username "user1-change@example.org" and password "%alt1%" using the WebUI
 
   Scenario: delete the Email address
+    Given user "user2" has been created with default attributes and without skeleton files
     When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to ""
     And the LDAP users have been resynced
     Then it should not be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI

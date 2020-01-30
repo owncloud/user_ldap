@@ -5,12 +5,14 @@ Feature: Sharing between local and LDAP users
 
   Background:
     Given user "local-user" has been created with default attributes in the database user backend
-    And these users have been initialized:
-    #these are LDAP users and are not initialized yet
+    And these users have been created with default attributes and skeleton files:
       | username |
       | user0    |
       | user1    |
       | user2    |
+    And group "grp1" has been created
+    And user "user1" has been added to group "grp1"
+    And user "user2" has been added to group "grp1"
 
   Scenario: Share a folder from an LDAP user to a local user
     When user "user0" shares folder "/PARENT" with user "local-user" using the sharing API

@@ -5,8 +5,16 @@ Feature: add group
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
+    And these users have been created with default attributes and skeleton files:
+      | username |
+      | user0    |
+      | user1    |
+      | user2    |
+    And group "grp1" has been created
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
-    Given the administrator has invoked occ command "group:list"
+    And the administrator has invoked occ command "group:list"
+    And user "user1" has been added to group "grp1"
+    And user "user2" has been added to group "grp1"
     And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
