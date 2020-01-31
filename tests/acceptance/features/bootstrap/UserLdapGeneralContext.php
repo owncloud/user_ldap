@@ -123,6 +123,33 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	}
 
 	/**
+	 * @When LDAP user :user is resynced
+	 *
+	 * @param string $user
+	 *
+	 * @throws Exception
+	 * @return void
+	 */
+	public function ldapUserIsSynced($user) {
+		$occResult = SetupHelper::runOcc(
+			['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
+		);
+		if ($occResult['code'] !== "0") {
+			throw new \Exception("could not sync LDAP user {$user} " . $occResult['stdErr']);
+		}
+	}
+
+	/**
+	 * @When the admin lists the enabled user backends using the occ command
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function theAdminListsTheEnabledBackendsUsingTheOccCommand() {
+		$this->featureContext->runOcc(["user:sync -l"]);
+	}
+	
+	/**
 	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to :value
 	 *
 	 * @param string $attribute
