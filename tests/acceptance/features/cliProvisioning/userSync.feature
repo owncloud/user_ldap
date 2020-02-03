@@ -1,8 +1,8 @@
 @cli
-Feature: sync a user using occ command
+Feature: sync user using occ command
 
   As an administrator
-  I want to be able to sync a user via the command line
+  I want to be able to sync user/users via the command line
   So that I can easily manage users when user LDAP is enabled
 
   Background:
@@ -39,3 +39,19 @@ Feature: sync a user using occ command
       OC\User\Database
       OCA\User_LDAP\User_Proxy
       """
+
+  Scenario: admin deletes ldap users and performs full sync
+    When the administrator deletes user "user0" using the occ command
+    And the administrator deletes user "user1" using the occ command
+    Then user "user0" should not exist
+    And user "user1" should not exist
+    When the LDAP users have been resynced
+    Then user "user0" should exist
+    And user "user1" should exist
+
+  Scenario: sync a local user
+    Given user "local-user" has been created with default attributes in the database user backend
+    When the administrator changes the display name of user "local-user" to "Test User" using the occ command
+    And LDAP user "local-user" is resynced
+    Then the command should have been successful
+    And user "local-user" should not exist
