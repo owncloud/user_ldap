@@ -80,6 +80,21 @@ default:
         - FeatureContext: *common_feature_context_params
         - CorsContext:
 
+    apiAuthWebDav:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/apiAuthWebDav'
+      context: *common_ldap_suite_context
+      contexts:
+        - UserLdapGeneralContext:
+        - UserLdapUsersContext:
+        - FeatureContext: *common_feature_context_params
+        - LoggingContext:
+        - OccContext:
+        - SearchContext:
+        - PublicWebDavContext:
+        - WebDavPropertiesContext:
+        - AuthContext:
+
     apiCapabilities:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/apiCapabilities'
@@ -364,6 +379,11 @@ default:
         - UserLdapGeneralContext:
         - FeatureContext: *common_feature_context_params
         - OccContext:
+        - TransferOwnershipContext:
+        - FederationContext:
+        - WebDavPropertiesContext:
+        - FilesVersionsContext:
+        - PublicWebDavContext:
 
     cliTrashbin:
       paths:

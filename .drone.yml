@@ -11360,6 +11360,135 @@ depends_on:
 ---
 kind: pipeline
 type: docker
+name: apiAuthWebDav-master-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-api
+  environment:
+    BEHAT_SUITE: apiAuthWebDav
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
 name: apiCapabilities-master-mysql5.7-php7.1
 
 platform:
@@ -14662,6 +14791,133 @@ steps:
   - make test-acceptance-core-api
   environment:
     BEHAT_SUITE: apiAuthOcs
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
+name: apiAuthWebDav-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-api
+  environment:
+    BEHAT_SUITE: apiAuthWebDav
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
 
@@ -18277,7 +18533,136 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliTrashbin-latest-mysql5.7-php7.1
+name: cliMain-master-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-cli
+  environment:
+    BEHAT_SUITE: cliMain
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
+name: cliTrashbin-Nightly-latest-mysql5.7-php7.1
 
 platform:
   os: linux
@@ -18356,6 +18741,133 @@ steps:
   - make test-acceptance-core-cli
   environment:
     BEHAT_SUITE: cliTrashbin
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
+name: cliMain-Nightly-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-cli
+  environment:
+    BEHAT_SUITE: cliMain
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
 
@@ -19472,6 +19984,154 @@ steps:
   environment:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: apiAuthOcs
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
+name: apiAuthWebDav-enc-UK-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: install-extra-apps
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - git clone https://github.com/owncloud/encryption.git /var/www/owncloud/testrunner/apps/encryption
+  - cp -r /var/www/owncloud/testrunner/apps/encryption /var/www/owncloud/server/apps/
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e encryption
+  - php occ a:l
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: configure-encryption
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ encryption:enable
+  - php occ encryption:select-encryption-type user-keys --yes
+  - php occ config:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-api
+  environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_SUITE: apiAuthWebDav
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
 
@@ -23435,6 +24095,154 @@ depends_on:
 ---
 kind: pipeline
 type: docker
+name: cliMain-enc-UK-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: install-extra-apps
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - git clone https://github.com/owncloud/encryption.git /var/www/owncloud/testrunner/apps/encryption
+  - cp -r /var/www/owncloud/testrunner/apps/encryption /var/www/owncloud/server/apps/
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e encryption
+  - php occ a:l
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: configure-encryption
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ encryption:enable
+  - php occ encryption:select-encryption-type user-keys --yes
+  - php occ config:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-cli
+  environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_SUITE: cliMain
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
 name: webUICore1-enc-UK-latest-chrome-mysql5.7-php7.1
 
 platform:
@@ -24133,6 +24941,154 @@ steps:
   environment:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: apiAuthOcs
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
+name: apiAuthWebDav-enc-MK-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: install-extra-apps
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - git clone https://github.com/owncloud/encryption.git /var/www/owncloud/testrunner/apps/encryption
+  - cp -r /var/www/owncloud/testrunner/apps/encryption /var/www/owncloud/server/apps/
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e encryption
+  - php occ a:l
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: configure-encryption
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ encryption:enable
+  - php occ encryption:select-encryption-type masterkey --yes
+  - php occ config:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-api
+  environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_SUITE: apiAuthWebDav
     TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
 
@@ -28096,6 +29052,154 @@ depends_on:
 ---
 kind: pipeline
 type: docker
+name: cliMain-enc-MK-latest-mysql5.7-php7.1
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: testrunner/apps/user_ldap
+
+steps:
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: mysql
+    db_name: owncloud
+    db_password: owncloud
+    db_type: mysql
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: latest
+
+- name: install-testrunner
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - mkdir /tmp/testrunner
+  - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
+  - rsync -aIX /tmp/testrunner /var/www/owncloud
+  - cp -r /var/www/owncloud/testrunner/apps/user_ldap /var/www/owncloud/server/apps/
+
+- name: install-extra-apps
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - git clone https://github.com/owncloud/encryption.git /var/www/owncloud/testrunner/apps/encryption
+  - cp -r /var/www/owncloud/testrunner/apps/encryption /var/www/owncloud/server/apps/
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e encryption
+  - php occ a:l
+
+- name: setup-server-user_ldap
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ a:l
+  - php occ a:e user_ldap
+  - php occ a:e testing
+  - php occ a:l
+  - php occ config:system:set trusted_domains 1 --value=server
+  - php occ log:manage --level 2
+
+- name: owncloud-log-server
+  pull: always
+  image: owncloud/ubuntu:18.04
+  detach: true
+  commands:
+  - tail -f /var/www/owncloud/server/data/owncloud.log
+
+- name: configure-app
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
+  - php occ ldap:show-config
+  - php occ ldap:test-config "LDAPTestId"
+  - php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove
+  - php occ user:list
+
+- name: configure-encryption
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - cd /var/www/owncloud/server
+  - php occ encryption:enable
+  - php occ encryption:select-encryption-type masterkey --yes
+  - php occ config:list
+
+- name: fix-permissions
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - chown -R www-data /var/www/owncloud/server
+  - wait-for-it -t 600 server:80
+
+- name: acceptance-tests
+  pull: always
+  image: owncloudci/php:7.1
+  commands:
+  - touch /var/www/owncloud/saved-settings.sh
+  - . /var/www/owncloud/saved-settings.sh
+  - make test-acceptance-core-cli
+  environment:
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_SUITE: cliMain
+    TEST_EXTERNAL_USER_BACKENDS: true
+    TEST_SERVER_URL: http://server
+
+services:
+- name: mysql
+  pull: always
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: owncloud
+    MYSQL_PASSWORD: owncloud
+    MYSQL_ROOT_PASSWORD: owncloud
+    MYSQL_USER: owncloud
+
+- name: ldap
+  pull: always
+  image: osixia/openldap
+  environment:
+    HOSTNAME: ldap
+    LDAP_ADMIN_PASSWORD: admin
+    LDAP_DOMAIN: owncloud.com
+    LDAP_ORGANISATION: owncloud
+    LDAP_TLS_VERIFY_CLIENT: never
+
+- name: server
+  pull: always
+  image: owncloudci/php:7.1
+  command:
+  - /usr/local/bin/apachectl
+  - -e
+  - debug
+  - -D
+  - FOREGROUND
+  environment:
+    APACHE_WEBROOT: /var/www/owncloud/server
+
+trigger:
+  cron:
+  - nightly
+
+depends_on:
+- coding-standard-php7.1
+- phan-php7.1
+- phan-php7.2
+- phan-php7.3
+
+---
+kind: pipeline
+type: docker
 name: webUICore1-enc-MK-latest-chrome-mysql5.7-php7.1
 
 platform:
@@ -28668,6 +29772,7 @@ depends_on:
 - webUIProvisioningS-latest-chrome-mysql5.7-php7.2
 - apiAuth-master-mysql5.7-php7.1
 - apiAuthOcs-master-mysql5.7-php7.1
+- apiAuthWebDav-master-mysql5.7-php7.1
 - apiCapabilities-master-mysql5.7-php7.1
 - apiComments-master-mysql5.7-php7.1
 - apiFavorites-master-mysql5.7-php7.1
@@ -28694,6 +29799,7 @@ depends_on:
 - apiWebdavUpload-master-mysql5.7-php7.1
 - apiAuth-latest-mysql5.7-php7.1
 - apiAuthOcs-latest-mysql5.7-php7.1
+- apiAuthWebDav-latest-mysql5.7-php7.1
 - apiCapabilities-latest-mysql5.7-php7.1
 - apiComments-latest-mysql5.7-php7.1
 - apiFavorites-latest-mysql5.7-php7.1
@@ -28721,13 +29827,16 @@ depends_on:
 - apiFederation-master-mysql5.7-php7.1
 - apiFederation-latest-mysql5.7-php7.1
 - cliTrashbin-master-mysql5.7-php7.1
-- cliTrashbin-latest-mysql5.7-php7.1
+- cliMain-master-mysql5.7-php7.1
+- cliTrashbin-Nightly-latest-mysql5.7-php7.1
+- cliMain-Nightly-latest-mysql5.7-php7.1
 - webUICore1-master-chrome-mysql5.7-php7.1
 - webUICore2-master-chrome-mysql5.7-php7.1
 - webUICore1-latest-chrome-mysql5.7-php7.1
 - webUICore2-latest-chrome-mysql5.7-php7.1
 - apiAuth-enc-UK-latest-mysql5.7-php7.1
 - apiAuthOcs-enc-UK-latest-mysql5.7-php7.1
+- apiAuthWebDav-enc-UK-latest-mysql5.7-php7.1
 - apiCapabilities-enc-UK-latest-mysql5.7-php7.1
 - apiComments-enc-UK-latest-mysql5.7-php7.1
 - apiFavorites-enc-UK-latest-mysql5.7-php7.1
@@ -28754,10 +29863,12 @@ depends_on:
 - apiWebdavUpload-enc-UK-latest-mysql5.7-php7.1
 - Federation-enc-UK-latest-mysql5.7-php7.1
 - cliTrashbin-enc-UK-latest-mysql5.7-php7.1
+- cliMain-enc-UK-latest-mysql5.7-php7.1
 - webUICore1-enc-UK-latest-chrome-mysql5.7-php7.1
 - webUICore2-enc-UK-latest-chrome-mysql5.7-php7.1
 - apiAuth-enc-MK-latest-mysql5.7-php7.1
 - apiAuthOcs-enc-MK-latest-mysql5.7-php7.1
+- apiAuthWebDav-enc-MK-latest-mysql5.7-php7.1
 - apiCapabilities-enc-MK-latest-mysql5.7-php7.1
 - apiComments-enc-MK-latest-mysql5.7-php7.1
 - apiFavorites-enc-MK-latest-mysql5.7-php7.1
@@ -28784,6 +29895,7 @@ depends_on:
 - apiWebdavUpload-enc-MK-latest-mysql5.7-php7.1
 - Federation-enc-MK-latest-mysql5.7-php7.1
 - cliTrashbin-enc-MK-latest-mysql5.7-php7.1
+- cliMain-enc-MK-latest-mysql5.7-php7.1
 - webUICore1-enc-MK-latest-chrome-mysql5.7-php7.1
 - webUICore2-enc-MK-latest-chrome-mysql5.7-php7.1
 

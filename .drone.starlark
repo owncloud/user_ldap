@@ -313,6 +313,7 @@ config = {
 			'suites': [
 				'apiAuth',
 				'apiAuthOcs',
+				'apiAuthWebDav',
 				'apiCapabilities',
 				'apiComments',
 				'apiFavorites',
@@ -353,6 +354,7 @@ config = {
 			'suites': [
 				'apiAuth',
 				'apiAuthOcs',
+				'apiAuthWebDav',
 				'apiCapabilities',
 				'apiComments',
 				'apiFavorites',
@@ -484,6 +486,7 @@ config = {
 		'core-cli-acceptance': {
 			'suites': [
 				'cliTrashbin',
+				'cliMain',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -497,9 +500,10 @@ config = {
 			'runCoreTests': True,
 		},
 		'core-cli-acceptance-latest-nightly': {
-			'suites': [
-				'cliTrashbin',
-			],
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-Nightly',
+				'cliMain' : 'cliMain-Nightly',
+			},
 			'databases': [
 				'mysql:5.7',
 			],
@@ -609,6 +613,7 @@ config = {
 			'suites': {
 				'apiAuth': 'apiAuth-enc-UK',
 				'apiAuthOcs': 'apiAuthOcs-enc-UK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-UK',
 				'apiCapabilities': 'apiCapabilities-enc-UK',
 				'apiComments': 'apiComments-enc-UK',
 				'apiFavorites': 'apiFavorites-enc-UK',
@@ -739,7 +744,8 @@ config = {
 		},
 		'core-cli-acceptance-encryption-userkeys-nightly': {
 			'suites': {
-				'cliTrashbin': 'cliTrashbin-enc-UK'
+				'cliTrashbin': 'cliTrashbin-enc-UK',
+				'cliMain': 'cliMain-enc-UK',
 			},
 			'databases': [
 				'mysql:5.7',
@@ -849,6 +855,7 @@ config = {
 			'suites': {
 				'apiAuth': 'apiAuth-enc-MK',
 				'apiAuthOcs': 'apiAuthOcs-enc-MK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-MK',
 				'apiCapabilities': 'apiCapabilities-enc-MK',
 				'apiComments': 'apiComments-enc-MK',
 				'apiFavorites': 'apiFavorites-enc-MK',
@@ -979,7 +986,8 @@ config = {
 		},
 		'core-cli-acceptance-encryption-masterkey-nightly': {
 			'suites': {
-				'cliTrashbin': 'cliTrashbin-enc-MK'
+				'cliTrashbin': 'cliTrashbin-enc-MK',
+				'cliMain': 'cliMain-enc-MK',
 			},
 			'databases': [
 				'mysql:5.7',
