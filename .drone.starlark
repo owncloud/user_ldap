@@ -313,11 +313,13 @@ config = {
 			'suites': [
 				'apiAuth',
 				'apiAuthOcs',
+				'apiAuthWebDav',
 				'apiCapabilities',
 				'apiComments',
 				'apiFavorites',
 				'apiMain',
-				'apiShareCreateSpecial',
+				'apiShareCreateSpecial1',
+				'apiShareCreateSpecial2',
 				'apiSharees',
 				'apiShareManagement',
 				'apiShareManagementBasic',
@@ -333,10 +335,12 @@ config = {
 				'apiVersions',
 				'apiWebdavLocks',
 				'apiWebdavLocks2',
-				'apiWebdavMove',
+				'apiWebdavMove1',
+				'apiWebdavMove2',
 				'apiWebdavOperations',
 				'apiWebdavProperties',
-				'apiWebdavUpload',
+				'apiWebdavUpload1',
+				'apiWebdavUpload2',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -353,11 +357,13 @@ config = {
 			'suites': [
 				'apiAuth',
 				'apiAuthOcs',
+				'apiAuthWebDav',
 				'apiCapabilities',
 				'apiComments',
 				'apiFavorites',
 				'apiMain',
-				'apiShareCreateSpecial',
+				'apiShareCreateSpecial1',
+				'apiShareCreateSpecial2',
 				'apiSharees',
 				'apiShareManagement',
 				'apiShareManagementBasic',
@@ -373,10 +379,12 @@ config = {
 				'apiVersions',
 				'apiWebdavLocks',
 				'apiWebdavLocks2',
-				'apiWebdavMove',
+				'apiWebdavMove1',
+				'apiWebdavMove2',
 				'apiWebdavOperations',
 				'apiWebdavProperties',
-				'apiWebdavUpload',
+				'apiWebdavUpload1',
+				'apiWebdavUpload2',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -484,6 +492,7 @@ config = {
 		'core-cli-acceptance': {
 			'suites': [
 				'cliTrashbin',
+				'cliMain',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -497,9 +506,10 @@ config = {
 			'runCoreTests': True,
 		},
 		'core-cli-acceptance-latest-nightly': {
-			'suites': [
-				'cliTrashbin',
-			],
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-Nightly',
+				'cliMain' : 'cliMain-Nightly',
+			},
 			'databases': [
 				'mysql:5.7',
 			],
@@ -609,11 +619,13 @@ config = {
 			'suites': {
 				'apiAuth': 'apiAuth-enc-UK',
 				'apiAuthOcs': 'apiAuthOcs-enc-UK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-UK',
 				'apiCapabilities': 'apiCapabilities-enc-UK',
 				'apiComments': 'apiComments-enc-UK',
 				'apiFavorites': 'apiFavorites-enc-UK',
 				'apiMain': 'apiMain-enc-UK',
-				'apiShareCreateSpecial': 'apiShareCreateSp-enc-UK',
+				'apiShareCreateSpecial1': 'apiShareCreateSp1-enc-UK',
+				'apiShareCreateSpecial2': 'apiShareCreateSp2-enc-UK',
 				'apiSharees': 'apiSharees-enc-UK',
 				'apiShareManagement': 'apiShareManagement-enc-UK',
 				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-UK',
@@ -629,10 +641,12 @@ config = {
 				'apiVersions': 'apiVersions-enc-UK',
 				'apiWebdavLocks': 'apiWebdavLocks-enc-UK',
 				'apiWebdavLocks2': 'apiWebdavLocks2-enc-UK',
-				'apiWebdavMove': 'apiWebdavMove-enc-UK',
+				'apiWebdavMove1': 'apiWebdavMove1-enc-UK',
+				'apiWebdavMove2': 'apiWebdavMove2-enc-UK',
 				'apiWebdavOperations': 'apiWebdavOperations-enc-UK',
 				'apiWebdavProperties': 'apiWebdavProperties-enc-UK',
-				'apiWebdavUpload': 'apiWebdavUpload-enc-UK',
+				'apiWebdavUpload1': 'apiWebdavUpload1-enc-UK',
+				'apiWebdavUpload2': 'apiWebdavUpload2-enc-UK',
 			},
 			'databases': [
 				'mysql:5.7',
@@ -739,7 +753,8 @@ config = {
 		},
 		'core-cli-acceptance-encryption-userkeys-nightly': {
 			'suites': {
-				'cliTrashbin': 'cliTrashbin-enc-UK'
+				'cliTrashbin': 'cliTrashbin-enc-UK',
+				'cliMain': 'cliMain-enc-UK',
 			},
 			'databases': [
 				'mysql:5.7',
@@ -849,11 +864,13 @@ config = {
 			'suites': {
 				'apiAuth': 'apiAuth-enc-MK',
 				'apiAuthOcs': 'apiAuthOcs-enc-MK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-MK',
 				'apiCapabilities': 'apiCapabilities-enc-MK',
 				'apiComments': 'apiComments-enc-MK',
 				'apiFavorites': 'apiFavorites-enc-MK',
 				'apiMain': 'apiMain-enc-MK',
-				'apiShareCreateSpecial': 'apiShareCreateSp-enc-MK',
+				'apiShareCreateSpecial1': 'apiShareCreateSp1-enc-MK',
+				'apiShareCreateSpecial2': 'apiShareCreateSp2-enc-MK',
 				'apiSharees': 'apiSharees-enc-MK',
 				'apiShareManagement': 'apiShareManagement-enc-MK',
 				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-MK',
@@ -869,10 +886,12 @@ config = {
 				'apiVersions': 'apiVersions-enc-MK',
 				'apiWebdavLocks': 'apiWebdavLocks-enc-MK',
 				'apiWebdavLocks2': 'apiWebdavLocks2-enc-MK',
-				'apiWebdavMove': 'apiWebdavMove-enc-MK',
+				'apiWebdavMove1': 'apiWebdavMove1-enc-MK',
+				'apiWebdavMove2': 'apiWebdavMove2-enc-MK',
 				'apiWebdavOperations': 'apiWebdavOperations-enc-MK',
 				'apiWebdavProperties': 'apiWebdavProperties-enc-MK',
-				'apiWebdavUpload': 'apiWebdavUpload-enc-MK',
+				'apiWebdavUpload1': 'apiWebdavUpload1-enc-MK',
+				'apiWebdavUpload2': 'apiWebdavUpload2-enc-MK',
 			},
 			'databases': [
 				'mysql:5.7',
@@ -979,7 +998,8 @@ config = {
 		},
 		'core-cli-acceptance-encryption-masterkey-nightly': {
 			'suites': {
-				'cliTrashbin': 'cliTrashbin-enc-MK'
+				'cliTrashbin': 'cliTrashbin-enc-MK',
+				'cliMain': 'cliMain-enc-MK',
 			},
 			'databases': [
 				'mysql:5.7',
