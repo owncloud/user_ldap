@@ -55,3 +55,29 @@ Feature: sync user using occ command
     And LDAP user "local-user" is resynced
     Then the command should have been successful
     And user "local-user" should not exist
+
+  @skipOnOcV10.3
+  Scenario: sync a ldap user that is substring of some other ldap users
+    Given these users have been created with default attributes and without skeleton files:
+      | username    |
+      | regularuser |
+      | regular     |
+    When the administrator sets the ldap attribute "displayname" of the entry "uid=regular,ou=TestUsers" to "Test User"
+    And LDAP user "regular" is resynced
+    Then user "regular" should exist
+    And user "regularuser" should exist
+    And the display name of user "regular" should be "Test User"
+    And the display name of user "regularuser" should be "Regular User"
+
+  @skipOnOcV10.3
+  Scenario: sync a ldap user that is superstring of some other ldap users
+    Given these users have been created with default attributes and without skeleton files:
+      | username    |
+      | regularuser |
+      | regular     |
+    When the administrator sets the ldap attribute "displayname" of the entry "uid=regularuser,ou=TestUsers" to "Test User"
+    And LDAP user "regularuser" is resynced
+    Then user "regular" should exist
+    And user "regularuser" should exist
+    And the display name of user "regularuser" should be "Test User"
+    And the display name of user "regular" should be "Regular User"
