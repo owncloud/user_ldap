@@ -41,6 +41,10 @@ OCA = OCA || {};
 					setMethod: 'setPort',
 					$relatedElements: $('.ldapDetectPort')
 				},
+				ldap_tls: {
+					$element: $('#ldap_tls'),
+					setMethod: 'setTLS'
+				},
 				ldap_dn: {
 					$element: $('#ldap_dn'),
 					setMethod: 'setAgentDN'
@@ -117,6 +121,13 @@ OCA = OCA || {};
 		 */
 		setPort: function(port) {
 			this.setElementValue(this.managedItems.ldap_port.$element, port);
+		},
+
+		/**
+		 * updates the TLS configuration
+		 */
+		setTLS: function(tls) {
+			this.setElementValue(this.managedItems.ldap_tls.$element, tls);
 		},
 
 		/**
