@@ -18,7 +18,6 @@ script('user_ldap', [
 	'wizard/wizardTabExpert',
 	'wizard/wizardDetectorQueue',
 	'wizard/wizardDetectorGeneric',
-	'wizard/wizardDetectorPort',
 	'wizard/wizardDetectorBaseDN',
 	'wizard/wizardDetectorFeatureAbstract',
 	'wizard/wizardDetectorUserObjectClasses',

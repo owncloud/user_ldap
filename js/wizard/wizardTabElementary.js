@@ -38,8 +38,7 @@ OCA = OCA || {};
 				},
 				ldap_port: {
 					$element: $('#ldap_port'),
-					setMethod: 'setPort',
-					$relatedElements: $('.ldapDetectPort')
+					setMethod: 'setPort'
 				},
 				ldap_tls: {
 					$element: $('#ldap_tls'),
@@ -69,8 +68,7 @@ OCA = OCA || {};
 				}
 			};
 			this.setManagedItems(items);
-			_.bindAll(this, 'onPortButtonClick', 'onBaseDNButtonClick', 'onBaseDNTestButtonClick');
-			this.managedItems.ldap_port.$relatedElements.click(this.onPortButtonClick);
+			_.bindAll(this, 'onBaseDNButtonClick', 'onBaseDNTestButtonClick');
 			this.managedItems.ldap_base.$detectButton.click(this.onBaseDNButtonClick);
 			this.managedItems.ldap_base.$testButton.click(this.onBaseDNTestButtonClick);
 		},
@@ -107,11 +105,6 @@ OCA = OCA || {};
 		 */
 		setHost: function(host) {
 			this.setElementValue(this.managedItems.ldap_host.$element, host);
-			if(host) {
-				this.enableElement(this.managedItems.ldap_port.$relatedElements);
-			} else {
-				this.disableElement(this.managedItems.ldap_port.$relatedElements);
-			}
 		},
 
 		/**
@@ -216,7 +209,6 @@ OCA = OCA || {};
 		 */
 		onConfigSwitch: function(view, configuration) {
 			this.baseDNTestTriggered = false;
-			view.disableElement(view.managedItems.ldap_port.$relatedElements);
 			view.onConfigLoaded(view, configuration);
 		},
 
@@ -299,17 +291,6 @@ OCA = OCA || {};
 				}
 				OC.Notification.showTemporary(message);
 			}
-		},
-
-		/**
-		 * request to count the users with the current filter
-		 *
-		 * @param {Event} event
-		 */
-		onPortButtonClick: function(event) {
-			event.preventDefault();
-			this.configModel.executeAfterSet(this.configModel.requestWizard, this.configModel, 'ldap_port');
-			// this.configModel.requestWizard('ldap_port');
 		},
 
 		/**

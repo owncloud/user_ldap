@@ -653,60 +653,6 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * Tries to determine the port, requires given Host, User DN and Password
-	 * @return WizardResult|false WizardResult on success, false otherwise
-	 * @throws \Exception
-	 */
-	public function guessPortAndTLS() {
-		if (!$this->checkRequirements(['ldapHost',
-										   ])) {
-			return false;
-		}
-		$this->checkHost();
-		$portSettings = $this->getPortSettingsToTry();
-
-		if (!\is_array($portSettings)) {
-			throw new \Exception(\print_r($portSettings, true));
-		}
-
-		//proceed from the best configuration and return on first success
-		foreach ($portSettings as $setting) {
-			$p = $setting['port'];
-			$t = $setting['tls'];
-			\OCP\Util::writeLog('user_ldap', 'Wiz: trying port '. $p . ', TLS '. $t, \OCP\Util::DEBUG);
-			//connectAndBind may throw Exception, it needs to be catched by the
-			//callee of this method
-
-			try {
-				$settingsFound = $this->connectAndBind($p, $t);
-			} catch (\Exception $e) {
-				// any reply other than -1 (= cannot connect) is already okay,
-				// because then we found the server
-				// unavailable startTLS returns -11
-				if ($e->getCode() > 0) {
-					$settingsFound = true;
-				} else {
-					throw $e;
-				}
-			}
-
-			if ($settingsFound === true) {
-				$config = [
-					'ldapPort' => $p,
-					'ldapTLS' => (int)$t
-				];
-				$this->configuration->setConfiguration($config);
-				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, \OCP\Util::DEBUG);
-				$this->result->addChange('ldap_port', $p);
-				return $this->result;
-			}
-		}
-
-		//custom port, undetected (we do not brute force)
-		return false;
-	}
-
-	/**
 	 * tries to determine a base dn from User DN or LDAP Host
 	 * @return WizardResult|false WizardResult on success, false otherwise
 	 */
@@ -1024,80 +970,6 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * Connects and Binds to an LDAP Server
-	 * @param int $port the port to connect with
-	 * @param bool $tls whether startTLS is to be used
-	 * @param bool $ncc
-	 * @return bool
-	 * @throws \Exception
-	 */
-	private function connectAndBind($port = 389, $tls = false, $ncc = false) {
-		if ($ncc) {
-			//No certificate check
-			//FIXME: undo afterwards
-			\putenv('LDAPTLS_REQCERT=never');
-		}
-
-		//connect, does not really trigger any server communication
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Checking Host Info ', \OCP\Util::DEBUG);
-		$host = $this->configuration->ldapHost;
-		$hostInfo = \parse_url($host);
-		if (!$hostInfo) {
-			throw new \Exception($this->l->t('Invalid Host'));
-		}
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', \OCP\Util::DEBUG);
-		$cr = $this->getLDAP()->connect($host, $port);
-		if (!\is_resource($cr)) {
-			throw new \Exception($this->l->t('Invalid Host'));
-		}
-
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);
-		//set LDAP options
-		$this->getLDAP()->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-		$this->getLDAP()->setOption($cr, LDAP_OPT_REFERRALS, 0);
-		$this->getLDAP()->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
-
-		try {
-			if ($tls) {
-				$isTlsWorking = @$this->getLDAP()->startTls($cr);
-				if (!$isTlsWorking) {
-					return false;
-				}
-			}
-
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', \OCP\Util::DEBUG);
-			//interesting part: do the bind!
-			$login = $this->getLDAP()->bind($cr,
-				$this->configuration->ldapAgentName,
-				$this->configuration->ldapAgentPassword
-			);
-			$errNo = $this->getLDAP()->errno($cr);
-			$error = \ldap_error($cr);
-			$this->getLDAP()->unbind($cr);
-		} catch (ServerNotAvailableException $e) {
-			return false;
-		}
-
-		if ($login === true) {
-			$this->getLDAP()->unbind($cr);
-			if ($ncc) {
-				throw new \Exception('Certificate cannot be validated.');
-			}
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . \intval($tls), \OCP\Util::DEBUG);
-			return true;
-		}
-
-		if ($errNo === -1 || ($errNo === 2 && $ncc)) {
-			//host, port or TLS wrong
-			return false;
-		}
-		if ($errNo === 2) {
-			return $this->connectAndBind($port, $tls, true);
-		}
-		throw new \Exception($error, $errNo);
-	}
-
-	/**
 	 * checks whether a valid combination of agent and password has been
 	 * provided (either two values or nothing for anonymous connect)
 	 * @return bool, true if everything is fine, false otherwise
@@ -1317,49 +1189,5 @@ class Wizard extends LDAPUtility {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @return array
-	 */
-	private function getDefaultLdapPortSettings() {
-		static $settings = [
-								['port' => 7636, 'tls' => false],
-								['port' =>  636, 'tls' => false],
-								['port' => 7389, 'tls' => true],
-								['port' =>  389, 'tls' => true],
-								['port' => 7389, 'tls' => false],
-								['port' =>  389, 'tls' => false],
-						  ];
-		return $settings;
-	}
-
-	/**
-	 * @return array
-	 */
-	private function getPortSettingsToTry() {
-		//389 ← LDAP / Unencrypted or StartTLS
-		//636 ← LDAPS / SSL
-		//7xxx ← UCS. need to be checked first, because both ports may be open
-		$host = $this->configuration->ldapHost;
-		$port = (int)$this->configuration->ldapPort;
-		$portSettings = [];
-
-		//In case the port is already provided, we will check this first
-		if ($port > 0) {
-			$hostInfo = \parse_url($host);
-			if (!(\is_array($hostInfo)
-				&& isset($hostInfo['scheme'])
-				&& \stripos($hostInfo['scheme'], 'ldaps') !== false)) {
-				$portSettings[] = ['port' => $port, 'tls' => true];
-			}
-			$portSettings[] =['port' => $port, 'tls' => false];
-		}
-
-		//default ports
-		$portSettings = \array_merge($portSettings,
-									$this->getDefaultLdapPortSettings());
-
-		return $portSettings;
 	}
 }

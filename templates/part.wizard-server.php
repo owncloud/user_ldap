@@ -48,16 +48,13 @@
 						<span class="hostPortCombinatorSpan">
 							<input type="number" id="ldap_port" name="ldap_port"
 								placeholder="<?php p($l->t('Port'));?>" />
-							<button class="ldapDetectPort" name="ldapDetectPort" type="button">
-								<?php p($l->t('Detect Port'));?>
-							</button>
 						</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="tablerow">
-				<input type="checkbox" id="ldap_tls" name="ldap_tls" title="<?php p($l->t('Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn\'t need this checkbox checked. You\'ll need to import the LDAP server\'s certificate in your %s server.', $theme->getName()));?>" data-default="<?php p($_['ldap_tls']); ?>" value="1">
+				<input type="checkbox" id="ldap_tls" name="ldap_tls" title="<?php p($l->t('Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn\'t need this checkbox checked. You\'ll need to import the LDAP server\'s certificate in your %s server.', $theme->getName()));?>" value="1">
 				<label for="ldap_tls"><?php p($l->t('Use StartTLS support'));?></label>
 			</div>
 
