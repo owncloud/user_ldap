@@ -125,8 +125,7 @@ class WizardTest extends \Test\TestCase {
 			//dummy value, usually invalid
 			->will($this->returnValue(true));
 
-		$this->ldap->expects($this->exactly(3))
-			->method('setOption')
+		$this->ldap->method('setOption')
 			->will($this->returnValue(true));
 
 		$this->ldap->expects($this->once())
