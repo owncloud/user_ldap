@@ -49,6 +49,7 @@ Feature: sync user using occ command
     Then user "user0" should exist
     And user "user1" should exist
 
+  @issue-511
   Scenario: sync a local user
     Given user "local-user" has been created with default attributes in the database user backend
     When the administrator changes the display name of user "local-user" to "Test User" using the occ command
