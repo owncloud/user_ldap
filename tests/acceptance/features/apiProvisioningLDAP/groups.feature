@@ -63,6 +63,7 @@ Feature: manage groups
 
   Scenario Outline: Administrator tries to delete a ldap group
     Given using OCS API version "<ocs-api-version>"
+    And group "grp1" has been created
     When the LDAP users are resynced
     And the administrator deletes group "grp1" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
@@ -76,6 +77,7 @@ Feature: manage groups
   @issue-core-25224
   Scenario Outline: Add database user to ldap group
     Given using OCS API version "<ocs-api-version>"
+    And group "grp1" has been created
     And user "db-user" has been created with default attributes in the database user backend
     When the administrator adds user "db-user" to group "grp1" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
@@ -91,6 +93,7 @@ Feature: manage groups
   Scenario Outline: Add ldap user to database group
     Given using OCS API version "<ocs-api-version>"
     And group "db-group" has been created in the database user backend
+    And user "user1" has been created with default attributes and without skeleton files
     When the administrator adds user "user1" to group "db-group" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
@@ -103,6 +106,8 @@ Feature: manage groups
   @issue-core-25224
   Scenario Outline: Add ldap user to ldap group
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
+    And group "grp2" has been created
     When the administrator adds user "user1" to group "grp2" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
@@ -116,6 +121,10 @@ Feature: manage groups
 
   Scenario: Add ldap group with same name as existing database group
     Given group "db-group" has been created in the database user backend
+    And these users have been created with default attributes and without skeleton files:
+      | username |
+      | user1    |
+      | user2    |
     And user "user1" has been added to database backend group "db-group"
     When the administrator imports this ldif data:
       """
@@ -133,12 +142,21 @@ Feature: manage groups
     But user "user1" should belong to group "db-group"
 
   Scenario: creating a group in an OU that is different to the other groups
+    Given user "user3" has been created with default attributes and without skeleton files
     When the administrator creates group "new-group-in-other-ou" in ldap OU "TestUsers"
     And the administrator adds user "user3" to group "new-group-in-other-ou" in ldap OU "TestUsers"
     And the administrator invokes occ command "group:list"
     Then user "user3" should belong to group "new-group-in-other-ou"
 
   Scenario: creating a group with a name that already exists in LDAP but in a other OU
+    Given these users have been created with default attributes and without skeleton files:
+      | username |
+      | user2    |
+      | user3    |
+    And these groups have been created:
+      | groupname     |
+      | grp1          |
+    And user "user2" has been added to group "grp1"
     When the administrator creates group "grp1" in ldap OU "TestUsers"
     And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
     And the administrator invokes occ command "group:list"
@@ -147,6 +165,10 @@ Feature: manage groups
     And group "grp1_2" should not exist
 
   Scenario: creating two groups with the same name in different LDAP OUs at the same time
+    Given these users have been created with default attributes and without skeleton files:
+      | username |
+      | user1    |
+      | user2    |
     When the administrator imports this ldif data:
       """
       dn: cn=so-far-unused-group-name,ou=TestUsers,dc=owncloud,dc=com
@@ -170,6 +192,7 @@ Feature: manage groups
 
   Scenario Outline: Add database group with same name as existing ldap group
     Given using OCS API version "<ocs-api-version>"
+    And group "grp1" has been created
     When the administrator sends a group creation request for group "grp1" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"

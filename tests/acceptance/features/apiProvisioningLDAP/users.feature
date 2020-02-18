@@ -80,6 +80,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin tries to modify displayname of user for which an LDAP attribute is specified
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     When the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "ldap user"
     And the LDAP users are resynced
     When the administrator changes the display of user "user1" to "A New User" using the provisioning API
@@ -96,6 +97,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin tries to modify password of user for which an LDAP attribute is specified
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and skeleton files
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=user1,ou=TestUsers" to "ldap_password"
     And the LDAP users are resynced
     And the administrator resets the password of user "user1" to "api_password" using the provisioning API
@@ -113,6 +115,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin tries to modify mail of user for which an LDAP attribute is specified
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "ldapuser@oc.com"
     And the LDAP users are resynced
     And the administrator changes the email of user "user1" to "apiuser@example.com" using the provisioning API
@@ -132,6 +135,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin tries to modify quota of user for which an LDAP attribute is specified
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=user1,ou=TestUsers" to "10 MB"
@@ -152,6 +156,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: admin sets quota of user for which no LDAP quota attribute is specified
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     And the LDAP users have been resynced
@@ -169,6 +174,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin sets quota of user for which no LDAP quota attribute is specified but a default quota is set in the LDAP settings
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
@@ -189,6 +195,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: admin sets quota of user in LDAP when a default quota is set in the LDAP settings
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
@@ -205,6 +212,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin sets quota of user when the quota LDAP attribute is specified and a default quota is set in the LDAP settings
     Given using OCS API version "<ocs-api-version>"
+    And user "user1" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     And LDAP config "LDAPTestId" has key "ldapQuotaDefault" set to "10MB"
@@ -226,6 +234,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: Administrator deletes a ldap user and resyncs again
     Given using OCS API version "<ocs-api-version>"
+    And user "user0" has been created with default attributes and without skeleton files
     And user "user0" has uploaded file with content "new file that should be overwritten after user deletion" to "textfile0.txt"
     When the administrator deletes user "user0" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
@@ -241,6 +250,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: Administrator tries to create a user with same name as existing ldap user
     Given using OCS API version "<ocs-api-version>"
+    And user "user0" has been created with default attributes and skeleton files
     When the administrator sends a user creation request for user "user0" password "%alt1%" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"

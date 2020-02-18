@@ -1480,8 +1480,9 @@ class Access implements IUserTools {
 	 *
 	 * @param string $uuid
 	 * @return string
-	 * @throws \OutOfBoundsException
-	 * @throws \OC\ServerNotAvailableException
+	 * @throws \LengthException when more than one DN matches given UUID
+	 * @throws \OutOfBoundsException when there is no DN matching given UUID
+	 * @throws \OC\ServerNotAvailableException on any LDAP connection error
 	 */
 	public function getUserDnByUuid($uuid) {
 		$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -1515,9 +1516,13 @@ class Access implements IUserTools {
 
 		$filter = $uuidAttr . '=' . $uuid;
 		$result = $this->searchUsers($filter, ['dn'], 2);
-		if (isset($result[0]['dn']) && \count($result) === 1) {
-			// we put the count into account to make sure that this is
-			// really unique
+
+		// we put the count into account to make sure that this is really unique
+		if (\count($result) > 1) {
+			throw new \LengthException($uuidAttr . " is specified as UUID attribute but has a value '{$uuid}' for multiple entries");
+		}
+
+		if (isset($result[0]['dn'])) {
 			return $result[0]['dn'][0];
 		}
 

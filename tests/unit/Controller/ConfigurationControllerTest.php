@@ -54,7 +54,7 @@ class ConfigurationControllerTest extends TestCase {
 	/** @var ConfigurationController */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -128,7 +128,7 @@ class ConfigurationControllerTest extends TestCase {
 							break;
 						default: $expectedValue = null;
 					};
-					return $this->stringStartsWith('tgt');
+					return \strpos($key, 'tgt') === 0;
 				}),
 				$this->callback(function ($value) use (&$expectedValue) {
 					if ($expectedValue !== null) {

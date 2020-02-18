@@ -267,27 +267,19 @@ class Manager {
 	}
 
 	/**
-	 * checks whether a user is still available on LDAP
+	 * Try to resolve missing DN by UUID
 	 *
 	 * @param string $dn
 	 * @return bool
-	 * @throws \Exception
-	 * @throws \OC\ServerNotAvailableException
+	 *          - false if there is no UUID matching DN
+	 *          - true if there is at least one UUID matching DN
+	 *
+	 * @throws ServerNotAvailableException
 	 */
-	public function dnExistsOnLDAP($dn) {
-
-		//check if user really still exists by reading its entry
-		if (!\is_array($this->access->readAttribute($dn, '', $this->getConnection()->ldapUserFilter))) {
-			$lcr = $this->getConnection()->getConnectionResource();
-			if ($lcr === null) {
-				throw new \Exception('No LDAP Connection to server ' . $this->getConnection()->ldapHost);
-			}
-
-			try {
-				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
-				if (!$uuid) {
-					return false;
-				}
+	public function resolveMissingDN($dn) {
+		try {
+			$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
+			if ($uuid) {
 				$newDn = $this->access->getUserDnByUuid($uuid);
 				//check if renamed user is still valid by reapplying the ldap filter
 				if (!\is_array($this->access->readAttribute($newDn, '', $this->getConnection()->ldapUserFilter))) {
@@ -295,14 +287,19 @@ class Manager {
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
-			} catch (\Exception $e) {
-				$this->logger->logException($e, ['app' => self::class]);
-				return false;
 			}
+		} catch (\LengthException $e) {
+			// UUID attribute matches multiple DNs - requires an action from LDAP administrator
+			$this->logger->warning($e->getMessage(), ['app' => 'user_ldap']);
+			// Keep user account until duplication is resolved
+			return true;
+		} catch (\OutOfBoundsException $e) {
+			// UUID attribute can't be detected this means that we need to drop the user on sync
+			$this->logger->info("DN '$dn' does not exist any more and can not be resolved using uuid attribute", ['app' => 'user_ldap']);
 		}
-
-		return true;
+		return false;
 	}
+
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 * @param UserEntry $userEntry user entry object backed by an ldap entry

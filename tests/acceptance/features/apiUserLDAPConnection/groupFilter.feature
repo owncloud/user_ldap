@@ -4,7 +4,18 @@ Feature: filter groups
   I want to be able to filter LDAP groups
   So that only groups meeting specific criteria are available in ownCloud
 
-    Scenario: single group filter
+  Background:
+    Given these groups have been created:
+      | groupname    |
+      | grp1         |
+      | grp2         |
+      | group1       |
+      | group2       |
+      | ShareeGroup  |
+      | ShareeGroup2 |
+
+
+  Scenario: single group filter
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                        |
       | ldapGroupFilter | (&(\|(objectclass=posixGroup))(\|(cn=grp2))) |
@@ -15,7 +26,7 @@ Feature: filter groups
       | admin   |
       | grp2    |
 
-    Scenario: filter with asterisk 
+  Scenario: filter with asterisk
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                           |
       | ldapGroupFilter | (&(\|(objectclass=posixGroup))(\|(cn=Sharee*))) |
@@ -27,7 +38,7 @@ Feature: filter groups
       | ShareeGroup  |
       | ShareeGroup2 |
 
-    Scenario: filter for multiple groups
+  Scenario: filter for multiple groups
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                                     |
       | ldapGroupFilter | (&(\|(objectclass=posixGroup))(\|(cn=group1)(cn=group2))) |
@@ -57,4 +68,3 @@ Feature: filter groups
         | group  |
         | admin  |
         | grp1   |
-

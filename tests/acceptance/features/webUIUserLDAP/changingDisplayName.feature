@@ -5,6 +5,9 @@ Feature: changing display name
   I want the display name in owncloud to correspond with the one in LDAP
   So that users can be found by their LDAP names
 
+  Background:
+    Given user "user1" has been created with default attributes and without skeleton files
+
   Scenario Outline: change display name on the LDAP server
     Given the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "<new-displayname>"
     When user "user1" logs in using the webUI
@@ -22,7 +25,8 @@ Feature: changing display name
     Then "0" should be shown as the name of the current user on the WebUI
 
   Scenario: delete display name on the LDAP server
-    Given the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to ""
+    Given user "user2" has been created with default attributes and without skeleton files
+    And the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to ""
     When user "user1" logs in using the webUI
     Then "user1" should be shown as the name of the current user on the WebUI
     When the user re-logs in as "user2" using the webUI

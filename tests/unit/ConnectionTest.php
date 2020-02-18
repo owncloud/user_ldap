@@ -38,7 +38,7 @@ class ConnectionTest extends \Test\TestCase {
 	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$coreConfig  = \OC::$server->getConfig(); // TODO use Mock
 
@@ -140,9 +140,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\ServerNotAvailableException
 	 */
 	public function testConnectFails() {
+		$this->expectException(\OC\ServerNotAvailableException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,
@@ -203,9 +204,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\User_LDAP\Exceptions\BindFailedException
 	 */
 	public function testBindFails() {
+		$this->expectException(\OCA\User_LDAP\Exceptions\BindFailedException::class);
+
 		$mainHost = 'ldap://nixda.ldap';
 		$config = [
 			'ldapConfigurationActive' => true,

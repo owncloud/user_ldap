@@ -11,6 +11,12 @@ Feature: group membership
       | user1    |
       | user2    |
       | user3    |
+      | user4    |
+    And group "grp1" has been created
+    And group "grp3" has been created
+    And user "user1" has been added to group "grp1"
+    And user "user2" has been added to group "grp1"
+    And user "user3" has been added to group "grp3"
     And user "user1" has logged in using the webUI
 
   @skipOnOcV10.2
@@ -81,10 +87,6 @@ Feature: group membership
     # Ensure that the test code is aware of the users and groups that exist
     Given these users have been created with default attributes and skeleton files but not initialized:
       | username |
-      | user1    |
-      | user2    |
-      | user3    |
-      | user4    |
       | usergrp  |
     And these groups have been created:
       | groupname |
@@ -92,9 +94,7 @@ Feature: group membership
       | group2    |
       | group3    |
       | groupuser |
-      | grp1      |
       | grp2      |
-      | grp3      |
       | grpuser   |
     And the administrator sets the ldap attribute "description" of the entry "cn=grp1,ou=TestGroups" to "my first group"
     And the user has opened the share dialog for folder "simple-folder"

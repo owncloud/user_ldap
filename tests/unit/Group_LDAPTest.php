@@ -47,7 +47,7 @@ class Group_LDAPTest extends \Test\TestCase {
 	 */
 	protected $connection;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->connection = $this->createMock(Connection::class);
 

@@ -20,12 +20,11 @@ config = {
 	'phpunit': {
 		'allDatabases' : {
 			'phpVersions': [
-				'7.0',
+				'7.1',
 			]
 		},
 		'reducedDatabases' : {
 			'phpVersions': [
-				'7.1',
 				'7.2',
 				'7.3',
 			],
@@ -71,7 +70,6 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.0',
 				'7.1',
 				'7.2',
 				'7.3',
@@ -134,7 +132,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -160,7 +158,6 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.0',
 				'7.1',
 				'7.2',
 				'7.3',
@@ -214,7 +211,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -241,7 +238,6 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.0',
 				'7.1',
 				'7.2',
 				'7.3',
@@ -298,7 +294,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -317,15 +313,21 @@ config = {
 			'suites': [
 				'apiAuth',
 				'apiAuthOcs',
+				'apiAuthWebDav',
 				'apiCapabilities',
 				'apiComments',
 				'apiFavorites',
 				'apiMain',
+				'apiShareCreateSpecial1',
+				'apiShareCreateSpecial2',
 				'apiSharees',
 				'apiShareManagement',
 				'apiShareManagementBasic',
 				'apiShareOperations',
-				'apiShareReshare',
+				'apiSharePublicLink1',
+				'apiSharePublicLink2',
+				'apiShareReshare1',
+				'apiShareReshare2',
 				'apiShareUpdate',
 				'apiSharingNotifications',
 				'apiTags',
@@ -333,10 +335,12 @@ config = {
 				'apiVersions',
 				'apiWebdavLocks',
 				'apiWebdavLocks2',
-				'apiWebdavMove',
+				'apiWebdavMove1',
+				'apiWebdavMove2',
 				'apiWebdavOperations',
 				'apiWebdavProperties',
-				'apiWebdavUpload',
+				'apiWebdavUpload1',
+				'apiWebdavUpload2',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -348,6 +352,51 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
+		},
+		'core-api-acceptance-latest-nightly': {
+			'suites': [
+				'apiAuth',
+				'apiAuthOcs',
+				'apiAuthWebDav',
+				'apiCapabilities',
+				'apiComments',
+				'apiFavorites',
+				'apiMain',
+				'apiShareCreateSpecial1',
+				'apiShareCreateSpecial2',
+				'apiSharees',
+				'apiShareManagement',
+				'apiShareManagementBasic',
+				'apiShareOperations',
+				'apiSharePublicLink1',
+				'apiSharePublicLink2',
+				'apiShareReshare1',
+				'apiShareReshare2',
+				'apiShareUpdate',
+				'apiSharingNotifications',
+				'apiTags',
+				'apiTrashbin',
+				'apiVersions',
+				'apiWebdavLocks',
+				'apiWebdavLocks2',
+				'apiWebdavMove1',
+				'apiWebdavMove2',
+				'apiWebdavOperations',
+				'apiWebdavProperties',
+				'apiWebdavUpload1',
+				'apiWebdavUpload2',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
 		},
 		'core-api-federation': {
 			'suites': [
@@ -367,7 +416,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -380,7 +429,53 @@ config = {
 				},
 				{
 					'name': 'configure-app-on-federated-server',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
+		'core-api-federation-latest-nightly': {
+			'suites': [
+				'apiFederation',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
@@ -397,6 +492,7 @@ config = {
 		'core-cli-acceptance': {
 			'suites': [
 				'cliTrashbin',
+				'cliMain',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -408,6 +504,23 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
+		},
+		'core-cli-acceptance-latest-nightly': {
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-Nightly',
+				'cliMain' : 'cliMain-Nightly',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
 		},
 		'core-webui-acceptance': {
 			'suites': [
@@ -428,7 +541,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -441,7 +554,7 @@ config = {
 				},
 				{
 					'name': 'configure-app-on-federated-server',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
@@ -455,6 +568,543 @@ config = {
 				}
 			],
 		},
+		'core-webui-acceptance-latest-nightly': {
+			'suites': [
+				'webUICore1',
+				'webUICore2',
+			],
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				}
+			],
+		},
+		'core-api-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'apiAuth': 'apiAuth-enc-UK',
+				'apiAuthOcs': 'apiAuthOcs-enc-UK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-UK',
+				'apiCapabilities': 'apiCapabilities-enc-UK',
+				'apiComments': 'apiComments-enc-UK',
+				'apiFavorites': 'apiFavorites-enc-UK',
+				'apiMain': 'apiMain-enc-UK',
+				'apiShareCreateSpecial1': 'apiShareCreateSp1-enc-UK',
+				'apiShareCreateSpecial2': 'apiShareCreateSp2-enc-UK',
+				'apiSharees': 'apiSharees-enc-UK',
+				'apiShareManagement': 'apiShareManagement-enc-UK',
+				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-UK',
+				'apiShareOperations': 'apiShareOperations-enc-UK',
+				'apiSharePublicLink1': 'apiSharePublicLink1-enc-UK',
+				'apiSharePublicLink2': 'apiSharePublicLink2-enc-UK',
+				'apiShareReshare1': 'apiShareReshare1-enc-UK',
+				'apiShareReshare2': 'apiShareReshare2-enc-UK',
+				'apiShareUpdate': 'apiShareUpdate-enc-UK',
+				'apiSharingNotifications': 'apiSharingNot-enc-UK',
+				'apiTags': 'apiTags-enc-UK',
+				'apiTrashbin': 'apiTrashbin-enc-UK',
+				'apiVersions': 'apiVersions-enc-UK',
+				'apiWebdavLocks': 'apiWebdavLocks-enc-UK',
+				'apiWebdavLocks2': 'apiWebdavLocks2-enc-UK',
+				'apiWebdavMove1': 'apiWebdavMove1-enc-UK',
+				'apiWebdavMove2': 'apiWebdavMove2-enc-UK',
+				'apiWebdavOperations': 'apiWebdavOperations-enc-UK',
+				'apiWebdavProperties': 'apiWebdavProperties-enc-UK',
+				'apiWebdavUpload1': 'apiWebdavUpload1-enc-UK',
+				'apiWebdavUpload2': 'apiWebdavUpload2-enc-UK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-federation-encryption-userkeys-nightly': {
+			'suites': {
+				'apiFederation': 'Federation-enc-UK'
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-cli-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-enc-UK',
+				'cliMain': 'cliMain-enc-UK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-encryption-userkeys-nightly': {
+			'suites': {
+				'webUICore1': 'webUICore1-enc-UK',
+				'webUICore2': 'webUICore2-enc-UK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type user-keys --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'apiAuth': 'apiAuth-enc-MK',
+				'apiAuthOcs': 'apiAuthOcs-enc-MK',
+				'apiAuthWebDav': 'apiAuthWebDav-enc-MK',
+				'apiCapabilities': 'apiCapabilities-enc-MK',
+				'apiComments': 'apiComments-enc-MK',
+				'apiFavorites': 'apiFavorites-enc-MK',
+				'apiMain': 'apiMain-enc-MK',
+				'apiShareCreateSpecial1': 'apiShareCreateSp1-enc-MK',
+				'apiShareCreateSpecial2': 'apiShareCreateSp2-enc-MK',
+				'apiSharees': 'apiSharees-enc-MK',
+				'apiShareManagement': 'apiShareManagement-enc-MK',
+				'apiShareManagementBasic': 'apiShareMgmtBasic-enc-MK',
+				'apiShareOperations': 'apiShareOperations-enc-MK',
+				'apiSharePublicLink1': 'apiSharePublicLink1-enc-MK',
+				'apiSharePublicLink2': 'apiSharePublicLink2-enc-MK',
+				'apiShareReshare1': 'apiShareReshare1-enc-MK',
+				'apiShareReshare2': 'apiShareReshare2-enc-MK',
+				'apiShareUpdate': 'apiShareUpdate-enc-MK',
+				'apiSharingNotifications': 'apiSharingNot-enc-MK',
+				'apiTags': 'apiTags-enc-MK',
+				'apiTrashbin': 'apiTrashbin-enc-MK',
+				'apiVersions': 'apiVersions-enc-MK',
+				'apiWebdavLocks': 'apiWebdavLocks-enc-MK',
+				'apiWebdavLocks2': 'apiWebdavLocks2-enc-MK',
+				'apiWebdavMove1': 'apiWebdavMove1-enc-MK',
+				'apiWebdavMove2': 'apiWebdavMove2-enc-MK',
+				'apiWebdavOperations': 'apiWebdavOperations-enc-MK',
+				'apiWebdavProperties': 'apiWebdavProperties-enc-MK',
+				'apiWebdavUpload1': 'apiWebdavUpload1-enc-MK',
+				'apiWebdavUpload2': 'apiWebdavUpload2-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-api-federation-encryption-masterkey-nightly': {
+			'suites': {
+				'apiFederation': 'Federation-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-cli-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'cliTrashbin': 'cliTrashbin-enc-MK',
+				'cliMain': 'cliMain-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'cron': 'nightly',
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
+		'core-webui-acceptance-encryption-masterkey-nightly': {
+			'suites': {
+				'webUICore1': 'webUICore1-enc-MK',
+				'webUICore2': 'webUICore2-enc-MK',
+			},
+			'databases': [
+				'mysql:5.7',
+			],
+			'servers': [
+				'latest',
+			],
+			'phpVersions': [
+				'7.1',
+			],
+			'runCoreTests': True,
+			'federatedServerNeeded': True,
+			'extraApps': {
+				'encryption': ''
+			},
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'cron': 'nightly',
+			'extraSetup': [
+				{
+					'name': 'configure-app',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-app-on-federated-server',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/federated',
+						'php occ market:install user_ldap',
+						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
+						'php occ ldap:show-config',
+						'php occ ldap:test-config "LDAPTestId"',
+						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:list',
+					]
+				},
+				{
+					'name': 'configure-encryption',
+					'image': 'owncloudci/php:7.1',
+					'pull': 'always',
+					'commands': [
+						'cd /var/www/owncloud/server',
+						'php occ encryption:enable',
+						'php occ encryption:select-encryption-type masterkey --yes',
+						'php occ config:list'
+					]
+				}
+			],
+		},
 	},
 
 	'defaults': {
@@ -463,7 +1113,7 @@ config = {
 			'extraSetup': [
 				{
 					'name': 'configure-app',
-					'image': 'owncloudci/php:7.0',
+					'image': 'owncloudci/php:7.1',
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/server',
@@ -521,7 +1171,7 @@ def codestyle():
 		return pipelines
 
 	default = {
-		'phpVersions': ['7.0'],
+		'phpVersions': ['7.1'],
 	}
 
 	if 'defaults' in config:
@@ -710,7 +1360,7 @@ def phan():
 		return pipelines
 
 	default = {
-		'phpVersions': ['7.0', '7.1', '7.2', '7.3'],
+		'phpVersions': ['7.1', '7.2', '7.3'],
 	}
 
 	if 'defaults' in config:
@@ -782,7 +1432,7 @@ def build():
 		return pipelines
 
 	default = {
-		'phpVersions': ['7.0'],
+		'phpVersions': ['7.1'],
 		'commands': [
 			'make dist'
 		],
@@ -907,13 +1557,13 @@ def javascript():
 		},
 		'steps':
 			installCore('daily-master-qa', 'sqlite', False) +
-			installApp('7.0') +
-			setupServerAndApp('7.0', params['logLevel']) +
+			installApp('7.1') +
+			setupServerAndApp('7.1', params['logLevel']) +
 			params['extraSetup'] +
 		[
 			{
 				'name': 'js-tests',
-				'image': 'owncloudci/php:7.0',
+				'image': 'owncloudci/php:7.1',
 				'pull': 'always',
 				'environment': params['extraEnvironment'],
 				'commands': params['extraCommandsBeforeTestRun'] + [
@@ -960,7 +1610,7 @@ def phptests(testType):
 	errorFound = False
 
 	default = {
-		'phpVersions': ['7.0', '7.1', '7.2', '7.3'],
+		'phpVersions': ['7.1', '7.2', '7.3'],
 		'databases': [
 			'sqlite', 'mariadb:10.2', 'mysql:5.5', 'mysql:5.7', 'postgres:9.4', 'oracle'
 		],
@@ -999,7 +1649,23 @@ def phptests(testType):
 		for item in default:
 			params[item] = matrix[item] if item in matrix else default[item]
 
-		if ((config['app'] != 'files_primary_s3') and ((params['cephS3'] != False) or (params['scalityS3'] != False))):
+		cephS3Params = params['cephS3']
+		if type(cephS3Params) == "bool":
+			cephS3Needed = cephS3Params
+			filesPrimaryS3NeededForCeph = cephS3Params
+		else:
+			cephS3Needed = True
+			filesPrimaryS3NeededForCeph = cephS3Params['filesPrimaryS3Needed'] if 'filesPrimaryS3Needed' in cephS3Params else True
+
+		scalityS3Params = params['scalityS3']
+		if type(scalityS3Params) == "bool":
+			scalityS3Needed = scalityS3Params
+			filesPrimaryS3NeededForScality = scalityS3Params
+		else:
+			scalityS3Needed = True
+			filesPrimaryS3NeededForScality = scalityS3Params['filesPrimaryS3Needed'] if 'filesPrimaryS3Needed' in scalityS3Params else True
+
+		if ((config['app'] != 'files_primary_s3') and (filesPrimaryS3NeededForCeph or filesPrimaryS3NeededForScality)):
 			# If we are not already 'files_primary_s3' and we need S3 storage, then install the 'files_primary_s3' app
 			extraAppsDict  = {
 				'files_primary_s3': 'composer install'
@@ -1111,7 +1777,7 @@ def acceptance():
 	default = {
 		'servers': ['daily-master-qa', 'latest'],
 		'browsers': ['chrome'],
-		'phpVersions': ['7.0'],
+		'phpVersions': ['7.1'],
 		'databases': ['mariadb:10.2'],
 		'federatedServerNeeded': False,
 		'filterTags': '',
@@ -1120,6 +1786,8 @@ def acceptance():
 		'ldapNeeded': False,
 		'cephS3': False,
 		'scalityS3': False,
+		'ssl': False,
+		'xForwardedFor': False,
 		'extraSetup': [],
 		'extraServices': [],
 		'extraEnvironment': {},
@@ -1130,6 +1798,7 @@ def acceptance():
 		'runAllSuites': False,
 		'runCoreTests': False,
 		'numberOfParts': 1,
+		'cron': '',
 	}
 
 	if 'defaults' in config:
@@ -1157,9 +1826,23 @@ def acceptance():
 			if isAPI or isCLI:
 				params['browsers'] = ['']
 
-			needObjectStore = (params['cephS3'] != False) or (params['scalityS3'] != False)
+			cephS3Params = params['cephS3']
+			if type(cephS3Params) == "bool":
+				cephS3Needed = cephS3Params
+				filesPrimaryS3NeededForCeph = cephS3Params
+			else:
+				cephS3Needed = True
+				filesPrimaryS3NeededForCeph = cephS3Params['filesPrimaryS3Needed'] if 'filesPrimaryS3Needed' in cephS3Params else True
 
-			if ((config['app'] != 'files_primary_s3') and (needObjectStore)):
+			scalityS3Params = params['scalityS3']
+			if type(scalityS3Params) == "bool":
+				scalityS3Needed = scalityS3Params
+				filesPrimaryS3NeededForScality = scalityS3Params
+			else:
+				scalityS3Needed = True
+				filesPrimaryS3NeededForScality = scalityS3Params['filesPrimaryS3Needed'] if 'filesPrimaryS3Needed' in scalityS3Params else True
+
+			if ((config['app'] != 'files_primary_s3') and (filesPrimaryS3NeededForCeph or filesPrimaryS3NeededForScality)):
 				# If we are not already 'files_primary_s3' and we need S3 object storage, then install the 'files_primary_s3' app
 				extraAppsDict  = {
 					'files_primary_s3': 'composer install'
@@ -1227,12 +1910,13 @@ def acceptance():
 								if params['ldapNeeded']:
 									environment['TEST_EXTERNAL_USER_BACKENDS'] = True
 
-								if (needObjectStore):
+								if (cephS3Needed or scalityS3Needed):
 									environment['OC_TEST_ON_OBJECTSTORE'] = '1'
 									if (params['cephS3'] != False):
 										environment['S3_TYPE'] = 'ceph'
 									if (params['scalityS3'] != False):
 										environment['S3_TYPE'] = 'scality'
+								federationDbSuffix = '-federated'
 
 								result = {
 									'kind': 'pipeline',
@@ -1245,32 +1929,7 @@ def acceptance():
 									'steps':
 										installCore(server, db, params['useBundledApp']) +
 										installTestrunner(phpVersion, params['useBundledApp']) +
-									([
-										{
-											'name': 'install-federation',
-											'image': 'owncloudci/core',
-											'pull': 'always',
-											'settings': {
-												'version': server,
-												'core_path': '/var/www/owncloud/federated'
-											}
-										},
-										{
-											'name': 'configure-federation',
-											'image': 'owncloudci/php:%s' % phpVersion,
-											'pull': 'always',
-											'commands': [
-												'echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh',
-												'cd /var/www/owncloud/federated',
-												'php occ a:l',
-												'php occ a:e testing',
-												'php occ a:l',
-												'php occ config:system:set trusted_domains 1 --value=federated',
-												'php occ log:manage --level %s' % params['logLevel'],
-												'php occ config:list'
-											]
-										}
-									] + owncloudLog('federated') if params['federatedServerNeeded'] else []) +
+										(installFederated(server, phpVersion, params['logLevel'], db, federationDbSuffix) + owncloudLog('federated') if params['federatedServerNeeded'] else []) +
 										installApp(phpVersion) +
 										installExtraApps(phpVersion, params['extraApps']) +
 										setupServerAndApp(phpVersion, params['logLevel']) +
@@ -1300,19 +1959,24 @@ def acceptance():
 										cephService(params['cephS3']) +
 										scalityService(params['scalityS3']) +
 										params['extraServices'] +
-										owncloudService(server, phpVersion, 'server', '/var/www/owncloud/server', False) +
-										(owncloudService(server, phpVersion, 'federated', '/var/www/owncloud/federated', False) if params['federatedServerNeeded'] else []),
+										owncloudService(server, phpVersion, 'server', '/var/www/owncloud/server', params['ssl'], params['xForwardedFor']) +
+										((
+											owncloudService(server, phpVersion, 'federated', '/var/www/owncloud/federated', params['ssl'], params['xForwardedFor']) +
+											databaseServiceForFederation(db, federationDbSuffix)
+										) if params['federatedServerNeeded'] else [] ),
 									'depends_on': [],
-									'trigger': {
-										'ref': [
-											'refs/pull/**',
-											'refs/tags/**'
-										]
-									}
+									'trigger': {}
 								}
 
-								for branch in config['branches']:
-									result['trigger']['ref'].append('refs/heads/%s' % branch)
+								if (params['cron'] == ''):
+									result['trigger']['ref'] = [
+										'refs/pull/**',
+										'refs/tags/**'
+									]
+									for branch in config['branches']:
+										result['trigger']['ref'].append('refs/heads/%s' % branch)
+								else:
+									result['trigger']['cron'] = params['cron']
 
 								pipelines.append(result)
 
@@ -1389,7 +2053,7 @@ def databaseService(db):
 	if dbName == 'oracle':
 		return [{
 			'name': dbName,
-			'image': 'deepdiver/docker-oracle-xe-11g:latest',
+			'image': 'owncloudci/oracle-xe:latest',
 			'pull': 'always',
 			'environment': {
 				'ORACLE_USER': getDbUsername(db),
@@ -1452,39 +2116,51 @@ def ldapService(ldapNeeded):
 
 	return []
 
-def scalityService(scalityS3):
-	if not scalityS3:
-		return []
+def scalityService(serviceParams):
+	serviceEnvironment = {
+		'HOST_NAME': 'scality'
+	}
+
+	if type(serviceParams) == "bool":
+		if not serviceParams:
+			return []
+	else:
+		if 'extraEnvironment' in serviceParams:
+			for env in serviceParams['extraEnvironment']:
+				serviceEnvironment[env] = serviceParams['extraEnvironment'][env]
 
 	return [{
 		'name': 'scality',
 		'image': 'owncloudci/scality-s3server',
 		'pull': 'always',
-		'environment': {
-			'HOST_NAME': 'scality'
-		}
+		'environment': serviceEnvironment
 	}]
 
+def cephService(serviceParams):
+	serviceEnvironment = {
+		'NETWORK_AUTO_DETECT': '4',
+		'RGW_NAME': 'ceph',
+		'CEPH_DEMO_UID': 'owncloud',
+		'CEPH_DEMO_ACCESS_KEY': 'owncloud123456',
+		'CEPH_DEMO_SECRET_KEY': 'secret123456',
+	}
 
-def cephService(cephS3):
-	if not cephS3:
-		return []
+	if type(serviceParams) == "bool":
+		if not serviceParams:
+			return []
+	else:
+		if 'extraEnvironment' in serviceParams:
+			for env in serviceParams['extraEnvironment']:
+				serviceEnvironment[env] = serviceParams['extraEnvironment'][env]
 
 	return [{
 		'name': 'ceph',
 		'image': 'owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04',
 		'pull': 'always',
-		'environment': {
-			'NETWORK_AUTO_DETECT': '4',
-			'RGW_NAME': 'ceph',
-			'CEPH_DEMO_UID': 'owncloud',
-			'CEPH_DEMO_ACCESS_KEY': 'owncloud123456',
-			'CEPH_DEMO_SECRET_KEY': 'secret123456',
-		}
+		'environment': serviceEnvironment
 	}]
 
-
-def owncloudService(version, phpVersion, name = 'server', path = '/var/www/owncloud/server', ssl = True):
+def owncloudService(version, phpVersion, name = 'server', path = '/var/www/owncloud/server', ssl = True, xForwardedFor = False):
 	if ssl:
 		environment = {
 			'APACHE_WEBROOT': path,
@@ -1503,12 +2179,16 @@ def owncloudService(version, phpVersion, name = 'server', path = '/var/www/owncl
 		'image': 'owncloudci/php:%s' % phpVersion,
 		'pull': 'always',
 		'environment': environment,
-		'command': [
-			'/usr/local/bin/apachectl',
-			'-e',
-			'debug',
-			'-D',
-			'FOREGROUND'
+		'commands': ([
+			'a2enmod remoteip',
+			'cd /etc/apache2',
+			'echo "RemoteIPHeader X-Forwarded-For" >> apache2.conf',
+			# This replaces the first occurrence of "%h with "%a in apache2.conf file telling Apache to log the client
+			# IP as recorded by mod_remoteip (%a) rather than hostname (%h). For more info check this out:
+			# https://www.digitalocean.com/community/questions/get-client-public-ip-on-apache-server-used-behind-load-balancer
+			'sed -i \'0,/"%h/s//"%a/\' apache2.conf',
+		] if xForwardedFor else []) + [
+			'/usr/local/bin/apachectl -e debug -D FOREGROUND',
 		]
 	}]
 
@@ -1590,10 +2270,7 @@ def installTestrunner(phpVersion, useBundledApp):
 			'rsync -aIX /tmp/testrunner /var/www/owncloud',
 		] + ([
 			'cp -r /var/www/owncloud/testrunner/apps/%s /var/www/owncloud/server/apps/' % config['app']
-		] if not useBundledApp else []) + [
-			'cd /var/www/owncloud/testrunner',
-			'make install-composer-deps vendor-bin-deps'
-		]
+		] if not useBundledApp else [])
 	}]
 
 def installExtraApps(phpVersion, extraApps):
@@ -1649,46 +2326,57 @@ def setupServerAndApp(phpVersion, logLevel):
 		]
 	}]
 
-def setupCeph(cephS3):
-	if not cephS3:
-		return []
-
-	return [{
-		'name': 'setup-ceph',
-		'image': 'owncloudci/php:7.0',
-		'pull': 'always',
-		'commands': [
-			'wait-for-it -t 60 ceph:80',
-			'cd /var/www/owncloud/server/apps/files_primary_s3',
-			'cp tests/drone/ceph.config.php /var/www/owncloud/server/config',
-			'cd /var/www/owncloud/server',
-			'./apps/files_primary_s3/tests/drone/create-bucket.sh',
-		]
-	}]
-
-def setupScality(scalityS3):
-	if type(scalityS3) == "bool":
-		if scalityS3:
+def setupCeph(serviceParams):
+	if type(serviceParams) == "bool":
+		if serviceParams:
 			# specify an empty dict that will get the defaults
-			scalityS3 = {}
+			serviceParams = {}
 		else:
 			return []
 
-	specialConfig = '.' + scalityS3['config'] if 'config' in scalityS3 else ''
+	createFirstBucket = serviceParams['createFirstBucket'] if 'createFirstBucket' in serviceParams else True
+	setupCommands = serviceParams['setupCommands'] if 'setupCommands' in serviceParams else [
+		'wait-for-it -t 600 ceph:80',
+		'cd /var/www/owncloud/server/apps/files_primary_s3',
+		'cp tests/drone/ceph.config.php /var/www/owncloud/server/config',
+		'cd /var/www/owncloud/server',
+	]
+
+	return [{
+		'name': 'setup-ceph',
+		'image': 'owncloudci/php:7.1',
+		'pull': 'always',
+		'commands': setupCommands + ([
+			'./apps/files_primary_s3/tests/drone/create-bucket.sh',
+		] if createFirstBucket else [])
+	}]
+
+def setupScality(serviceParams):
+	if type(serviceParams) == "bool":
+		if serviceParams:
+			# specify an empty dict that will get the defaults
+			serviceParams = {}
+		else:
+			return []
+
+	specialConfig = '.' + serviceParams['config'] if 'config' in serviceParams else ''
 	configFile = 'scality%s.config.php' % specialConfig
-	createExtraBuckets = scalityS3['createExtraBuckets'] if 'createExtraBuckets' in scalityS3 else False
+	createFirstBucket = serviceParams['createFirstBucket'] if 'createFirstBucket' in serviceParams else True
+	createExtraBuckets = serviceParams['createExtraBuckets'] if 'createExtraBuckets' in serviceParams else False
+	setupCommands = serviceParams['setupCommands'] if 'setupCommands' in serviceParams else [
+		'wait-for-it -t 600 scality:8000',
+		'cd /var/www/owncloud/server/apps/files_primary_s3',
+		'cp tests/drone/%s /var/www/owncloud/server/config' % configFile,
+		'cd /var/www/owncloud/server'
+	]
 
 	return [{
 		'name': 'setup-scality',
-		'image': 'owncloudci/php:7.0',
+		'image': 'owncloudci/php:7.1',
 		'pull': 'always',
-		'commands': [
-			'wait-for-it -t 60 scality:8000',
-			'cd /var/www/owncloud/server/apps/files_primary_s3',
-			'cp tests/drone/%s /var/www/owncloud/server/config' % configFile,
-			'cd /var/www/owncloud/server',
+		'commands': setupCommands + ([
 			'php occ s3:create-bucket owncloud --accept-warning'
-		] + ([
+		] if createFirstBucket else []) + ([
 			'for I in $(seq 1 9); do php ./occ s3:create-bucket  owncloud$I --accept-warning; done',
 		] if createExtraBuckets else [])
 	}]
@@ -1699,9 +2387,11 @@ def fixPermissions(phpVersion, federatedServerNeeded):
 		'image': 'owncloudci/php:%s' % phpVersion,
 		'pull': 'always',
 		'commands': [
-			'chown -R www-data /var/www/owncloud/server'
+			'chown -R www-data /var/www/owncloud/server',
+			'wait-for-it -t 600 server:80'
 		] + ([
-			'chown -R www-data /var/www/owncloud/federated'
+			'chown -R www-data /var/www/owncloud/federated',
+			'wait-for-it -t 600 federated:80'
 		] if federatedServerNeeded else [])
 	}]
 
@@ -1720,6 +2410,71 @@ def dependsOn(earlierStages, nextStages):
 	for earlierStage in earlierStages:
 		for nextStage in nextStages:
 			nextStage['depends_on'].append(earlierStage['name'])
+
+def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix = '-federated'):
+	host = getDbName(db)
+	dbType = host
+
+	username = getDbUsername(db)
+	password = getDbPassword(db)
+	database = getDbDatabase(db) + dbSuffix
+
+	if host == 'mariadb':
+		dbType = 'mysql'
+	elif host == 'postgres':
+		dbType = 'pgsql'
+	elif host == 'oracle':
+		dbType = 'oci'
+	return [
+		{
+			'name': 'install-federated',
+			'image': 'owncloudci/core',
+			'pull': 'always',
+			'settings': {
+				'version': federatedServerVersion,
+				'core_path': '/var/www/owncloud/federated',
+				'db_type': 'mysql',
+				'db_name': database,
+				'db_host': host + dbSuffix,
+				'db_username': username,
+				'db_password': password
+			},
+		},
+		{
+			'name': 'configure-federation',
+			'image': 'owncloudci/php:%s' % phpVersion,
+			'pull': 'always',
+			'commands': [
+				'echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh',
+				'cd /var/www/owncloud/federated',
+				'php occ a:l',
+				'php occ a:e testing',
+				'php occ a:l',
+				'php occ config:system:set trusted_domains 1 --value=federated',
+				'php occ log:manage --level %s' % logLevel,
+				'php occ config:list'
+			]
+		}
+	]
+
+def databaseServiceForFederation(db, suffix):
+	dbName = getDbName(db)
+
+	if dbName not in ['mariadb', 'mysql']:
+		print('Not implemented federated database for ', dbName)
+		return []
+
+	return [{
+		'name': dbName + suffix,
+		'image': db,
+		'pull': 'always',
+		'environment': {
+			'MYSQL_USER': getDbUsername(db),
+			'MYSQL_PASSWORD': getDbPassword(db),
+			'MYSQL_DATABASE': getDbDatabase(db) + suffix,
+			'MYSQL_ROOT_PASSWORD': getDbRootPassword()
+		}
+	}]
 
 # This is custom starlark code added just for user_ldap
 # It is not committed to the starlark "standard" code in other apps because
