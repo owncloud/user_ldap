@@ -520,7 +520,7 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',
 		},
 		'core-webui-acceptance': {
 			'suites': [
@@ -766,7 +766,7 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',
 			'extraApps': {
 				'encryption': ''
 			},
@@ -1011,7 +1011,7 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',
 			'extraApps': {
 				'encryption': ''
 			},
