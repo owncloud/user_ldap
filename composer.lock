@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25b73f5b1488e415d8f3e643c09eb1eb",
+    "content-hash": "0668b30f02641c0716b0a3b3bae64a6e",
     "packages": [],
     "packages-dev": [
         {
@@ -47,33 +47,37 @@
             "time": "2019-03-17T12:38:04+00:00"
         },
         {
-            "name": "zendframework/zend-ldap",
+            "name": "laminas/laminas-ldap",
             "version": "2.10.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zendframework/zend-ldap.git",
-                "reference": "525ec97cd18a42a953c6a78c1019f967d2539b88"
+                "url": "https://github.com/laminas/laminas-ldap.git",
+                "reference": "52d67bbe6095da4e7e3578407e44322a6d7874ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-ldap/zipball/525ec97cd18a42a953c6a78c1019f967d2539b88",
-                "reference": "525ec97cd18a42a953c6a78c1019f967d2539b88",
+                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/52d67bbe6095da4e7e3578407e44322a6d7874ce",
+                "reference": "52d67bbe6095da4e7e3578407e44322a6d7874ce",
                 "shasum": ""
             },
             "require": {
                 "ext-ldap": "*",
+                "laminas/laminas-zendframework-bridge": "^1.0",
                 "php": "^5.6 || ^7.0"
             },
+            "replace": {
+                "zendframework/zend-ldap": "self.version"
+            },
             "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-config": "^2.5",
+                "laminas/laminas-eventmanager": "^2.6.3 || ^3.0.1",
+                "laminas/laminas-stdlib": "^2.7 || ^3.0",
                 "php-mock/php-mock-phpunit": "^1.1.2 || ^2.1.1",
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
-                "zendframework/zend-coding-standard": "~1.0.0",
-                "zendframework/zend-config": "^2.5",
-                "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
-                "zendframework/zend-stdlib": "^2.7 || ^3.0"
+                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2"
             },
             "suggest": {
-                "zendframework/zend-eventmanager": "Zend\\EventManager component"
+                "laminas/laminas-eventmanager": "Laminas\\EventManager component"
             },
             "type": "library",
             "extra": {
@@ -84,7 +88,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Zend\\Ldap\\": "src/"
+                    "Laminas\\Ldap\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -92,12 +96,64 @@
                 "BSD-3-Clause"
             ],
             "description": "Provides support for LDAP operations including but not limited to binding, searching and modifying entries in an LDAP directory",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "ldap"
+            ],
+            "time": "2019-12-31T17:15:47+00:00"
+        },
+        {
+            "name": "laminas/laminas-zendframework-bridge",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
+                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/0fb9675b84a1666ab45182b6c5b29956921e818d",
+                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.1",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev",
+                    "dev-develop": "1.1.x-dev"
+                },
+                "laminas": {
+                    "module": "Laminas\\ZendFrameworkBridge"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\ZendFrameworkBridge\\": "src//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
             "keywords": [
                 "ZendFramework",
-                "ldap",
+                "autoloading",
+                "laminas",
                 "zf"
             ],
-            "time": "2019-10-17T16:26:26+00:00"
+            "time": "2020-01-07T22:58:31+00:00"
         }
     ],
     "aliases": [],
