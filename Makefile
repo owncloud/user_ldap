@@ -70,6 +70,7 @@ clean: clean-composer-deps clean-dist clean-build
 
 .PHONY: clean-composer-deps
 clean-composer-deps:
+	rm -Rf vendor
 	rm -Rf vendor-bin/**/vendor vendor-bin/**/composer.lock
 
 #
