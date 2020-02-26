@@ -49,7 +49,10 @@ default:
         - EmailContext:
         - FederationContext:
         - OccContext:
+        - CapabilitiesContext:
         - WebUIAdminSharingSettingsContext:
+        - WebUIAdminAppsSettingsContext:
+        - WebUIAdminGeneralSettingsContext:
         - WebUIFilesContext:
         - WebUIGeneralContext:
         - WebUILoginContext:
