@@ -150,6 +150,7 @@ default:
         - AppManagementContext:
         - CardDavContext:
         - CalDavContext:
+        - ChecksumContext:
 
     apiShareCreateSpecial1:
       paths:
