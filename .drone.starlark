@@ -538,6 +538,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'emailNeeded': True,
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -584,6 +585,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'emailNeeded': True,
 			'cron': 'nightly',
 			'extraSetup': [
 				{
@@ -814,6 +816,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'emailNeeded': True,
 			'extraApps': {
 				'encryption': ''
 			},
@@ -1059,6 +1062,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'emailNeeded': True,
 			'extraApps': {
 				'encryption': ''
 			},

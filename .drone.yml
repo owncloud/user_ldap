@@ -19258,6 +19258,7 @@ steps:
   environment:
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -19279,6 +19280,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -19456,6 +19461,7 @@ steps:
   environment:
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -19477,6 +19483,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -19654,6 +19664,7 @@ steps:
   environment:
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -19675,6 +19686,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -19850,6 +19865,7 @@ steps:
   environment:
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -19871,6 +19887,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -24882,6 +24902,7 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -24903,6 +24924,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -25099,6 +25124,7 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -25120,6 +25146,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -30131,6 +30161,7 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: webUICore1
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -30152,6 +30183,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
@@ -30348,6 +30383,7 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     BEHAT_SUITE: webUICore2
     BROWSER: chrome
+    MAILHOG_HOST: email
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
@@ -30369,6 +30405,10 @@ services:
   image: selenium/standalone-chrome-debug:3.141.59-oxygen
   environment:
     JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+- name: email
+  pull: always
+  image: mailhog/mailhog
 
 - name: ldap
   pull: always
