@@ -598,6 +598,7 @@ class Connection extends LDAPUtility {
 		}
 		// Set network timeout threshold to avoid long delays when ldap server cannot be resolved
 		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
+		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
 		if (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null; // to indicate it really is not set, connect() might have set it to false
 			throw new ServerNotAvailableException("Connect to $host:$port failed");
