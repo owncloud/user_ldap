@@ -526,6 +526,8 @@ config = {
 			'suites': [
 				'webUICore1',
 				'webUICore2',
+				'webUICore3',
+				'webUICore4',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -573,6 +575,8 @@ config = {
 			'suites': [
 				'webUICore1',
 				'webUICore2',
+				'webUICore3',
+				'webUICore4',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -804,6 +808,8 @@ config = {
 			'suites': {
 				'webUICore1': 'webUICore1-enc-UK',
 				'webUICore2': 'webUICore2-enc-UK',
+				'webUICore3': 'webUICore3-enc-UK',
+				'webUICore4': 'webUICore4-enc-UK',
 			},
 			'databases': [
 				'mysql:5.7',
@@ -1050,6 +1056,8 @@ config = {
 			'suites': {
 				'webUICore1': 'webUICore1-enc-MK',
 				'webUICore2': 'webUICore2-enc-MK',
+				'webUICore3': 'webUICore3-enc-MK',
+				'webUICore4': 'webUICore4-enc-MK',
 			},
 			'databases': [
 				'mysql:5.7',

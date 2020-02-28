@@ -16,21 +16,6 @@ default:
         - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFiles'
         - '%paths.base%/../../../../../tests/acceptance/features/webUIRenameFolders'
         - '%paths.base%/../../../../../tests/acceptance/features/webUIRestrictSharing'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAcceptShares'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion1'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion2'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups1'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups2'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers1'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers2'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingNotifications'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic1'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic2'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUITags'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUITrashbin'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUIUpload'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLockProtection'
-        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLocks'
       context: &common_ldap_suite_context
         parameters:
           ldapAdminPassword: admin
@@ -64,6 +49,31 @@ default:
         - WebUIUserContext:
 
     webUICore2:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAcceptShares'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion1'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingAutocompletion2'
+      context: *common_ldap_suite_context
+      contexts: *common_webui_core_contexts
+
+    webUICore3:
+      paths:
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups1'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalGroups2'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers1'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingInternalUsers2'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingNotifications'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic1'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUISharingPublic2'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITags'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUITrashbin'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIUpload'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLockProtection'
+        - '%paths.base%/../../../../../tests/acceptance/features/webUIWebdavLocks'
+      context: *common_ldap_suite_context
+      contexts: *common_webui_core_contexts
+
+    webUICore4:
       paths:
         - '%paths.base%/../../../../../tests/acceptance/features/webUISharingExternal1'
         - '%paths.base%/../../../../../tests/acceptance/features/webUISharingExternal2'
