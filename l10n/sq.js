@@ -82,6 +82,8 @@ OC.L10N.register(
     "Host" : "Strehë",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Protokollin mund ta lini pa vënë, hiq rastin kur ju duhet SSL. Në atë rast filloni me ldaps://",
     "Port" : "Portë",
+    "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "Aktivizoni për lidhjen mbulimin e StartTLS-së (e njohur edhe si LDAP nëpër TLS).  Kini parasysh që kjo është tjetër nga LDAPS (LDAP nëpër SSL) e cila s’ka nevojë që kësaj kutize t’i vihet shenjë. Do t’ju duhet të importoni në shërbyesin tuaj %s dëshminë e shërbyesit LDAP.",
+    "Use StartTLS support" : "Përdor mbulim StartTLS-je",
     "User DN" : "DN Përdoruesi",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN -ja e klientit të përdoruesit për të cilin duhet kryer bind, p.sh,uid=agent,dc=example,dc=com. Për hyrje anonime, DN-në dhe Fjalëkalimin lëreni të zbrazët.",
     "Password" : "Fjalëkalim",
