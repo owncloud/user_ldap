@@ -80,6 +80,7 @@
     "Host" : "โฮสต์",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "คุณสามารถปล่อยช่องโปรโตคอลเว้นไว้ได้, ยกเว้นกรณีที่คุณต้องการใช้ SSL จากนั้นเริ่มต้นด้วย ldaps://",
     "Port" : "พอร์ต",
+    "Use StartTLS support" : "ใช้การสนับสนุน StartTLS",
     "User DN" : "DN ของผู้ใช้งาน",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN ของผู้ใช้ไคลเอ็นต์อะไรก็ตามที่ผูกอยู่ด้วย เช่น uid=agent, dc=example, dc=com, สำหรับการเข้าถึงโดยบุคคลนิรนาม, ให้เว้นว่าง DN และรหัสผ่านเอาไว้",
     "Password" : "รหัสผ่าน",

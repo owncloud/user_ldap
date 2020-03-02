@@ -82,6 +82,8 @@ OC.L10N.register(
     "Host" : "Máquina",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Pode omitir o protocolo agás que precise de SSL. Nese caso comece con ldaps://",
     "Port" : "Porto",
+    "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "Activa o servicio de StartTLS (tamén coñecido como LDAP sobre TLS) para a conexión. Teña en conta que isto é diferente do LDAPS (LDAP sobre SSL) que non precisa esta caixa de verificación. Deberá importar o certificado do servidor LDAP no  seu servidor %s.",
+    "Use StartTLS support" : "Usar o servicio de StartTLS",
     "User DN" : "DN do usuario",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "O DN do cliente do usuario co que hai que estabelecer unha conexión, p.ex uid=axente, dc=exemplo, dc=com. Para o acceso anónimo deixe o DN e o contrasinal baleiros.",
     "Password" : "Contrasinal",
