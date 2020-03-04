@@ -80,6 +80,8 @@
     "Host" : "Host",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Você pode omitir o protocolo, exceto quando requerer SSL. Então inicie com ldaps://",
     "Port" : "Porta",
+    "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "Ative o suporte ao StartTLS (também conhecido como LDAP sobre TLS) para a conexão. Observe que isso é diferente de LDAPS (LDAP sobre SSL), que não precisa dessa caixa de seleção marcada. Você precisará importar o certificado %s do servidor LDAP para o seu servidor.",
+    "Use StartTLS support" : "Use o suporte ao StartTLS",
     "User DN" : "DN Usuário",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "O DN do cliente usuário com qual a ligação deverá ser feita, ex. uid=agent,dc=example,dc=com. Para acesso anônimo, deixe DN e Senha vazios.",
     "Password" : "Senha",
