@@ -373,7 +373,7 @@ config = {
 			'federatedServerNeeded': True,
 			'runAllSuites': True,
 			'numberOfParts': 40,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -439,7 +439,7 @@ config = {
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 		},
 		'core-webui-acceptance': {
 			'suites': {
@@ -460,7 +460,7 @@ config = {
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'filterTags': '@smokeTest&&~@skip',
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -507,7 +507,7 @@ config = {
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'filterTags': '@smokeTest&&~@skip',
@@ -556,7 +556,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 40,
 			'extraApps': {
@@ -618,7 +618,7 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
@@ -669,7 +669,7 @@ config = {
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
@@ -732,7 +732,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 40,
 			'extraApps': {
@@ -794,7 +794,7 @@ config = {
 				'7.1',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
@@ -845,7 +845,7 @@ config = {
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
+			# 'cron': 'nightly',,
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'extraApps': {
