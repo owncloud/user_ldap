@@ -1264,8 +1264,8 @@ class Access implements IUserTools {
 		// Replacements
 		$name = \str_replace(' ', '_', $name);
 
-		// Every remaining disallowed characters will be removed
-		$name = \preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
+		// All remaining disallowed characters will be removed
+		$name = \preg_replace('/[^a-zA-Z0-9+_.@-]/u', '', $name);
 
 		return $name;
 	}
