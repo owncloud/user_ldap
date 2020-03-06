@@ -2,6 +2,7 @@ default:
   autoload:
     '': '%paths.base%/../features/bootstrap'
 
+  suites:
     apiUserLDAP:
       paths:
         - '%paths.base%/../features/apiUserLDAP'
