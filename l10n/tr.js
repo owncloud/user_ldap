@@ -82,6 +82,7 @@ OC.L10N.register(
     "Host" : "Sunucu",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "SSL gerekmediği takdirde protokol belirtmeyebilirsiniz. Gerekiyorsa ldaps:// ile başlayın",
     "Port" : "Port",
+    "Use StartTLS support" : "StartTLS desteğini kullan",
     "User DN" : "Kullanıcı DN",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "İstemci kullanıcısının yapılacağı atamanın DN'si. Örn. uid=agent,dc=örnek,dc=com. Anonim erişim için DN ve Parolayı boş bırakın.",
     "Password" : "Parola",
