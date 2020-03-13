@@ -23,6 +23,8 @@ default:
             regularUserPassword: 123456
         - LoggingContext:
         - OccContext:
+        - OccUsersGroupsContext:
+        - WebDavPropertiesContext:
 
     apiProvisioningLDAP:
       paths:
@@ -33,29 +35,6 @@ default:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
         - OccContext:
-
-    apiUserLDAPConnection:
-      paths:
-        - '%paths.base%/../features/apiUserLDAPConnection'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - FeatureContext: *common_feature_context_params
-        - LoggingContext:
-        - OccContext:
-        - OccUsersGroupsContext:
-
-    apiUserLDAPSharing:
-      paths:
-        - '%paths.base%/../features/apiUserLDAPSharing'
-      context: *common_ldap_suite_context
-      contexts:
-        - UserLdapGeneralContext:
-        - UserLdapUsersContext:
-        - OccContext:
-        - WebDavPropertiesContext:
-        - FeatureContext: *common_feature_context_params
 
     cliProvisioning:
       paths:
