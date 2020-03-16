@@ -48,16 +48,16 @@
         },
         {
             "name": "laminas/laminas-ldap",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-ldap.git",
-                "reference": "52d67bbe6095da4e7e3578407e44322a6d7874ce"
+                "reference": "7410927ff02ddc8e5d0e1c0e93079599d7788d8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/52d67bbe6095da4e7e3578407e44322a6d7874ce",
-                "reference": "52d67bbe6095da4e7e3578407e44322a6d7874ce",
+                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/7410927ff02ddc8e5d0e1c0e93079599d7788d8d",
+                "reference": "7410927ff02ddc8e5d0e1c0e93079599d7788d8d",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
                 "laminas/laminas-eventmanager": "^2.6.3 || ^3.0.1",
                 "laminas/laminas-stdlib": "^2.7 || ^3.0",
                 "php-mock/php-mock-phpunit": "^1.1.2 || ^2.1.1",
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2"
+                "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.20"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component"
@@ -101,7 +101,7 @@
                 "laminas",
                 "ldap"
             ],
-            "time": "2019-12-31T17:15:47+00:00"
+            "time": "2020-03-15T11:24:38+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
