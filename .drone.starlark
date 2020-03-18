@@ -60,8 +60,6 @@ config = {
 			'suites': [
 				'apiProvisioningLDAP',
 				'apiUserLDAP',
-				'apiUserLDAPConnection',
-				'apiUserLDAPSharing',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -79,8 +77,6 @@ config = {
 			'suites': [
 				'apiProvisioningLDAP',
 				'apiUserLDAP',
-				'apiUserLDAPConnection',
-				'apiUserLDAPSharing',
 			],
 			'databases': [
 				'postgres:9.4',
@@ -97,8 +93,6 @@ config = {
 			'suites': [
 				'apiProvisioningLDAP',
 				'apiUserLDAP',
-				'apiUserLDAPConnection',
-				'apiUserLDAPSharing',
 			],
 			'databases': [
 				'mysql:5.7',
@@ -116,8 +110,6 @@ config = {
 			'suites': {
 				'apiProvisioningLDAP': 'apiProvisioningLDAPS',
 				'apiUserLDAP': 'apiUserLDAPS',
-				'apiUserLDAPConnection': 'apiUserLDAPConnectionS',
-				'apiUserLDAPSharing': 'apiUserLDAPSharingS',
 			},
 			'databases': [
 				'mysql:5.7',
