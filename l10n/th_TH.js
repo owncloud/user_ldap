@@ -82,6 +82,7 @@ OC.L10N.register(
     "Host" : "โฮสต์",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "คุณสามารถปล่อยช่องโปรโตคอลเว้นไว้ได้, ยกเว้นกรณีที่คุณต้องการใช้ SSL จากนั้นเริ่มต้นด้วย ldaps://",
     "Port" : "พอร์ต",
+    "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "เปิดใช้งานการสนับสนุน StartTLS (LDAP ผ่าน TLS) สำหรับการเชื่อมต่อนี้ แต่ถ้าคุณใช้ LDAPS (LDAP ผ่าน SSL) ไม่ต้องติ๊กช่องนี้แต่จะต้องนำเข้าใบรับรองของเซิร์ฟเวอร์ LDAP ในเซิร์ฟเวอร์ %s ของคุณ",
     "Use StartTLS support" : "ใช้การสนับสนุน StartTLS",
     "User DN" : "DN ของผู้ใช้งาน",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN ของผู้ใช้ไคลเอ็นต์อะไรก็ตามที่ผูกอยู่ด้วย เช่น uid=agent, dc=example, dc=com, สำหรับการเข้าถึงโดยบุคคลนิรนาม, ให้เว้นว่าง DN และรหัสผ่านเอาไว้",

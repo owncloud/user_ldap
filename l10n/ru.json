@@ -80,6 +80,8 @@
     "Host" : "Сервер",
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "Можно пренебречь протоколом, за исключением использования SSL. В этом случае укажите ldaps://",
     "Port" : "Порт",
+    "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "Включить для соединения поддержку StartTLS (это LDAP поверх TLS). Учтите, что это не LDAPS (LDAP поверх SSL), для которого не требуется включать данный режим. Вам понадобится импортировать сертификат сервера LDAP на ваш сервер  %s .",
+    "Use StartTLS support" : "Использовать поддержку StartTLS",
     "User DN" : "DN пользователя",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN пользователя, под которым выполняется подключение, например, uid=agent,dc=example,dc=com. Для анонимного доступа оставьте DN и пароль пустыми.",
     "Password" : "Пароль",
