@@ -48,16 +48,16 @@
         },
         {
             "name": "laminas/laminas-ldap",
-            "version": "2.10.2",
+            "version": "2.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-ldap.git",
-                "reference": "7410927ff02ddc8e5d0e1c0e93079599d7788d8d"
+                "reference": "649fae8982149b93071c4a7d56f2c4efeed51aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/7410927ff02ddc8e5d0e1c0e93079599d7788d8d",
-                "reference": "7410927ff02ddc8e5d0e1c0e93079599d7788d8d",
+                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/649fae8982149b93071c4a7d56f2c4efeed51aa8",
+                "reference": "649fae8982149b93071c4a7d56f2c4efeed51aa8",
                 "shasum": ""
             },
             "require": {
@@ -66,7 +66,7 @@
                 "php": "^5.6 || ^7.0"
             },
             "replace": {
-                "zendframework/zend-ldap": "self.version"
+                "zendframework/zend-ldap": "^2.10.1"
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~1.0.0",
@@ -101,20 +101,20 @@
                 "laminas",
                 "ldap"
             ],
-            "time": "2020-03-15T11:24:38+00:00"
+            "time": "2020-03-29T13:06:47+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d"
+                "reference": "faf68f6109ceeff24241226033ab59640c7eb63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/0fb9675b84a1666ab45182b6c5b29956921e818d",
-                "reference": "0fb9675b84a1666ab45182b6c5b29956921e818d",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/faf68f6109ceeff24241226033ab59640c7eb63b",
+                "reference": "faf68f6109ceeff24241226033ab59640c7eb63b",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 "laminas",
                 "zf"
             ],
-            "time": "2020-01-07T22:58:31+00:00"
+            "time": "2020-03-26T16:07:12+00:00"
         }
     ],
     "aliases": [],
