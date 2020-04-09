@@ -1210,7 +1210,7 @@ def installCore(version, db, useBundledApp):
 		'image': 'owncloudci/core',
 		'pull': 'always',
 		'settings': {
-			'version': version,
+			'git_reference': 'escape-plus-in-uid-when-creating-ldap-user',
 			'core_path': '/var/www/owncloud/server',
 			'db_type': dbType,
 			'db_name': database,
@@ -1232,7 +1232,7 @@ def installTestrunner(phpVersion, useBundledApp):
 		'pull': 'always',
 		'commands': [
 			'mkdir /tmp/testrunner',
-			'git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner',
+			'git clone -b escape-plus-in-uid-when-creating-ldap-user --depth=1 https://github.com/owncloud/core.git /tmp/testrunner',
 			'rsync -aIX /tmp/testrunner /var/www/owncloud',
 		] + ([
 			'cp -r /var/www/owncloud/testrunner/apps/%s /var/www/owncloud/server/apps/' % config['app']
@@ -1397,7 +1397,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
 			'image': 'owncloudci/core',
 			'pull': 'always',
 			'settings': {
-				'version': federatedServerVersion,
+				'git_reference': 'escape-plus-in-uid-when-creating-ldap-user',
 				'core_path': '/var/www/owncloud/federated',
 				'db_type': 'mysql',
 				'db_name': database,
