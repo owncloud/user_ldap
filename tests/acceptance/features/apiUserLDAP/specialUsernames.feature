@@ -20,7 +20,7 @@ Feature: User names that are valid in ownCloud can be created and used from LDAP
       | jack+jill             |
       | jack+jill@example.com |
 
-  Scenario Outline: Valid ownCloud user names can be used from LDAP
+  Scenario: Valid ownCloud user names can be used from LDAP
     Given user "anne" has been created with default attributes and without skeleton files
     When user "anne" uploads file with content "uploaded content" to "test.txt" using the WebDAV API
     Then the HTTP status code should be "201"
