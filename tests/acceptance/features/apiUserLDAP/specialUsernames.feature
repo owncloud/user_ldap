@@ -9,8 +9,8 @@ Feature: User names that are valid in ownCloud can be created and used from LDAP
     When user "<username>" uploads file with content "uploaded content" to "test.txt" using the WebDAV API
     Then the HTTP status code should be "201"
     And user "<username>" should exist
-    #And the content of file "test.txt" for user "<username>" should be "uploaded content"
-    #And user "user0" should be able to delete file "test.txt"
+    And the content of file "test.txt" for user "<username>" should be "uploaded content"
+    And user "<username>" should be able to delete file "test.txt"
     Examples:
       | username              |
       | JohnSmith             |
@@ -19,3 +19,11 @@ Feature: User names that are valid in ownCloud can be created and used from LDAP
       | some.one@example.com  |
       | jack+jill             |
       | jack+jill@example.com |
+
+  Scenario Outline: Valid ownCloud user names can be used from LDAP
+    Given user "anne" has been created with default attributes and without skeleton files
+    When user "anne" uploads file with content "uploaded content" to "test.txt" using the WebDAV API
+    Then the HTTP status code should be "201"
+    And user "anne" should exist
+    And the content of file "test.txt" for user "anne" should be "uploaded content"
+    And user "anne" should be able to delete file "test.txt"
