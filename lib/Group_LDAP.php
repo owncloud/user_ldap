@@ -42,12 +42,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 	protected $enabled = false;
 
 	/**
-	 * @var string[] $cachedGroupMembers array of users with gid as key
+	 * @var CappedMemoryCache $cachedGroupMembers array of users with gid as key
 	 */
 	protected $cachedGroupMembers;
 
 	/**
-	 * @var string[] $cachedGroupsByMember array of groups with uid as key
+	 * @var CappedMemoryCache $cachedGroupsByMember array of groups with uid as key
 	 */
 	protected $cachedGroupsByMember;
 
@@ -200,7 +200,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 	/**
 	 * @param string $dnGroup
-	 * @param array|null &$seen
+	 * @param array|null $seen
 	 * @return array|mixed|null
 	 */
 	private function _groupMembers($dnGroup, &$seen = null) {
@@ -244,7 +244,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 	/**
 	 * @param string $DN
-	 * @param array|null &$seen
+	 * @param array|null $seen
 	 * @return array
 	 */
 	private function _getGroupDNsFromMemberOf($DN, &$seen = null) {
@@ -433,7 +433,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	/**
 	 * gets the primary group of a user
 	 * @param string $dn
-	 * @return string
+	 * @return string|boolean
 	 */
 	public function getUserPrimaryGroup($dn) {
 		$groupID = $this->getUserPrimaryGroupIDs($dn);
@@ -577,7 +577,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 	/**
 	 * @param string $dn
-	 * @param array|null &$seen
+	 * @param array|null $seen
 	 * @return array
 	 */
 	private function getGroupsByMember($dn, &$seen = null) {
@@ -812,7 +812,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 * support this kind of parallel paging.
 	 *
 	 * @param string $search
-	 * @param $limit
+	 * @param int $limit
 	 * @param int $offset
 	 * @return array with group names
 	 *

@@ -116,7 +116,7 @@ interface ILDAPWrapper {
 	/**
 	 * Splits DN into its component parts
 	 * @param string $dn
-	 * @param int @withAttrib
+	 * @param int $withAttrib
 	 * @return array|false
 	 * @link http://www.php.net/manual/en/function.ldap-explode-dn.php
 	 */
@@ -180,7 +180,7 @@ interface ILDAPWrapper {
 	 * @param array $attr array of the attributes to read
 	 * @param int $attrsOnly optional, 1 if only attribute types shall be returned
 	 * @param int $limit optional, limits the result entries
-	 * @return resource|false an LDAP search result resource, false on error
+	 * @return resource|false|array an LDAP search result resource, false on error
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0);
 

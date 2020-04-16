@@ -67,6 +67,11 @@ class SetConfig extends Command {
 		;
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int|void|null
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$helper = new Helper();
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
@@ -86,8 +91,8 @@ class SetConfig extends Command {
 	/**
 	 * save the configuration value as provided
 	 * @param string $configID
-	 * @param string $configKey
-	 * @param string $configValue
+	 * @param string $key
+	 * @param string $value
 	 */
 	protected function setValue($configID, $key, $value) {
 		$configHolder = new Configuration($this->config, $configID);

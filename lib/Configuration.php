@@ -31,7 +31,59 @@ namespace OCA\User_LDAP;
 use OCP\IConfig;
 
 /**
- * @property int ldapPagingSize holds an integer
+ * @property int $ldapPagingSize holds an integer
+ * @property string $ldapHost,
+ * @property string $ldapPort,
+ * @property string $ldapBackupHost,
+ * @property string $ldapBackupPort,
+ * @property string $ldapBase,
+ * @property string[] $ldapBaseUsers,
+ * @property string $ldapBaseGroups,
+ * @property string $ldapAgentName,
+ * @property string $ldapAgentPassword,
+ * @property bool $ldapTLS,
+ * @property string $turnOffCertCheck,
+ * @property string $ldapIgnoreNamingRules,
+ * @property string $ldapUserName,
+ * @property string $ldapUserDisplayName,
+ * @property string $ldapUserDisplayName2,
+ * @property string $ldapUserFilterObjectclass,
+ * @property string $ldapUserFilterGroups,
+ * @property string $ldapUserFilter,
+ * @property string $ldapUserFilterMode,
+ * @property string $ldapGroupFilter,
+ * @property string $ldapGroupFilterMode,
+ * @property string $ldapGroupFilterObjectclass,
+ * @property string $ldapGroupFilterGroups,
+ * @property string $ldapGroupDisplayName,
+ * @property string $ldapGroupMemberAssocAttr,
+ * @property string $ldapLoginFilter,
+ * @property string $ldapLoginFilterMode,
+ * @property string $ldapLoginFilterEmail,
+ * @property string $ldapLoginFilterUsername,
+ * @property string $ldapLoginFilterAttributes,
+ * @property string $ldapQuotaAttribute,
+ * @property string $ldapQuotaDefault,
+ * @property string $ldapEmailAttribute,
+ * @property string $ldapCacheTTL,
+ * @property string $ldapNetworkTimeout,
+ * @property string $ldapUuidUserAttribute,
+ * @property string $ldapUuidGroupAttribute,
+ * @property string $ldapOverrideMainServer,
+ * @property string $ldapConfigurationActive,
+ * @property string $ldapAttributesForUserSearch,
+ * @property string $ldapAttributesForGroupSearch,
+ * @property string $ldapExperiencedAdmin,
+ * @property string $homeFolderNamingRule,
+ * @property string $hasPagedResultSupport,
+ * @property string $hasMemberOfFilterSupport,
+ * @property string $useMemberOfToDetectMembership,
+ * @property string $ldapExpertUsernameAttr,
+ * @property string $ldapExpertUUIDUserAttr,
+ * @property string $ldapExpertUUIDGroupAttr,
+ * @property string $lastJpegPhotoLookup,
+ * @property string $ldapNestedGroups,
+ * @property string $ldapDynamicGroupMemberURL
  */
 class Configuration {
 
@@ -166,7 +218,7 @@ class Configuration {
 	 * must call saveConfiguration afterwards.
 	 * @param array $config array that holds the config parameters in an associated
 	 * array
-	 * @param array &$applied optional; array where the set fields will be given to
+	 * @param array $applied optional; array where the set fields will be given to
 	 * @return false|null
 	 */
 	public function setConfiguration($config, &$applied = null) {

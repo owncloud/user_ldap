@@ -93,7 +93,7 @@ class UserEntry {
 	 * Returns the username or null if none defined or
 	 * if no such LDAP attribute was configured.
 	 *
-	 * @return string username for this user
+	 * @return string|null username for this user
 	 */
 	public function getUserName() {
 		$attr = $this->getAttributeName('ldapUserName');
@@ -158,9 +158,9 @@ class UserEntry {
 			if ($uuid === null) {
 				continue;
 			}
-			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
+			if ($this->connection->getConfiguration()['ldapExpertUUIDUserAttr'] !== $uuidAttribute) {
 				// remember autodetected uuid attribute
-				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
+				$this->connection->getConfiguration()['ldapExpertUUIDUserAttr'] = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
 			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
@@ -230,10 +230,10 @@ class UserEntry {
 		}
 
 		if ($quota === null) {
-			if (!$this->connection->ldapQuotaDefault) {
+			if (!$this->connection->getConfiguration()['ldapQuotaDefault']) {
 				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
 			} else {
-				$quota = $this->connection->ldapQuotaDefault;
+				$quota = $this->connection->getConfiguration()['ldapQuotaDefault'];
 				if (!$this->verifyQuotaValue($quota)) {
 					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
@@ -249,7 +249,7 @@ class UserEntry {
 	}
 
 	private function verifyQuotaValue($quotaValue) {
-		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false; /** @phpstan-ignore-line */
 	}
 
 	/**
@@ -266,7 +266,7 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
-		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		$attr = $this->getAttributeName('homeFolderNamingRule', '');
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -316,7 +316,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
-		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
+		$rawAttributes = $this->connection->getConfiguration()['ldapAttributesForUserSearch'];
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];
@@ -336,8 +336,8 @@ class UserEntry {
 	}
 
 	/**
-	 * @param $configOption string
-	 * @param $default string
+	 * @param string $configOption
+	 * @param string $default
 	 * @return string
 	 */
 	private function getAttributeName($configOption, $default = '') {
@@ -353,9 +353,9 @@ class UserEntry {
 	/**
 	 * Read first value from a single value Attribute of an ldap entry
 	 * TODO allow passing in a verification function, eg for quota or uuid values
-	 * @param $attributeName string
-	 * @param $default string
-	 * @param $trim bool don't trim value, eg for binary data
+	 * @param string $attributeName
+	 * @param string $default
+	 * @param bool $trim  don't trim value, eg for binary data
 	 * @return string|null
 	 */
 	private function getAttributeValue($attributeName, $default = null, $trim = true) {

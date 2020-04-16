@@ -15,3 +15,7 @@ vendor-bin/**/composer.lock
 
 # SonarCloud scanner
 .scannerwork
+
+# IDE Cache
+.idea/
+.vscode/
