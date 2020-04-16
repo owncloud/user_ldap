@@ -37,15 +37,23 @@ use OCP\Util;
  * magic properties (incomplete)
  * responsible for LDAP connections in context with the provided configuration
  *
- * @property string ldapHost
- * @property string ldapPort holds the port number
- * @property string ldapUserFilter
- * @property string ldapUserDisplayName
- * @property string ldapUserDisplayName2
- * @property boolean hasPagedResultSupport
- * @property string[] ldapBaseUsers
- * @property int|string ldapPagingSize holds an integer
- * @property bool|mixed|void ldapGroupMemberAssocAttr
+ * @property string $ldapHost
+ * @property string $ldapPort holds the port number
+ * @property string $ldapUserFilter
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property boolean $hasPagedResultSupport
+ * @property string[] $ldapBaseUsers
+ * @property int|string $ldapPagingSize holds an integer
+ * @property bool|mixed|void $ldapGroupMemberAssocAttr
+ * @property bool $ldapConfigurationActive
+ * @property string $ldapGroupFilter
+ * @property string $ldapLoginFilter
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapNestedGroups
+ * @property bool $hasMemberOfFilterSupport
+ * @property bool $useMemberOfToDetectMembership
+ * @property string $ldapGroupDisplayName
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes;
@@ -81,7 +89,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Constructor
 	 * @param ILDAPWrapper $ldap
-	 * @param Configuration
+	 * @param Configuration $configuration
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections // TODO might be obsolete
 	 */
 	public function __construct(ILDAPWrapper $ldap, Configuration $configuration, $configID = 'user_ldap') {
@@ -251,7 +259,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
-	 * @param array &$setParameters optional; array where the set fields will be given to
+	 * @param array $setParameters optional; array where the set fields will be given to
 	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
 	public function setConfiguration($config, &$setParameters = null) {
@@ -355,7 +363,7 @@ class Connection extends LDAPUtility {
 
 		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
-			$this->configuration->backupPort = $this->configuration->ldapPort;
+			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
@@ -625,8 +633,8 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
-		if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+		if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_REFERRALS, 0)) {
 				if ($this->configuration->ldapTLS) {
 					$this->getLDAP()->startTls($this->ldapConnectionRes);
 				}
@@ -635,8 +643,8 @@ class Connection extends LDAPUtility {
 			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
 		// Set network timeout threshold to avoid long delays when ldap server cannot be resolved
-		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
-		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
+		$this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_NETWORK_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
+		$this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
 		if (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null; // to indicate it really is not set, connect() might have set it to false
 			throw new ServerNotAvailableException("Connect to $host:$port failed");

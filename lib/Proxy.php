@@ -194,7 +194,7 @@ abstract class Proxy {
 		}
 		$key   = $this->getCacheKey($key);
 		$value = \base64_encode(\json_encode($value));
-		$this->cache->set($key, $value, '2592000');
+		$this->cache->set($key, $value, 2592000);
 	}
 
 	public function clearCache() {
