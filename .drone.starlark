@@ -68,10 +68,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
-				'7.3',
 				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'api-with-core-master-other-db': {
 			'suites': [
@@ -86,8 +87,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'api-with-core-latest': {
 			'suites': [
@@ -103,8 +107,11 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'api-with-ldaps': {
 			'suites': {
@@ -119,7 +126,7 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'extraSetup': [
 				{
@@ -138,6 +145,9 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'cli-with-core-master-mysql': {
 			'suites': [
@@ -150,10 +160,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
-				'7.3',
 				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'cli-with-core-master-other-db': {
 			'suites': [
@@ -167,8 +178,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'cli-with-core-latest': {
 			'suites': [
@@ -183,8 +197,11 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'cli-with-ldaps': {
 			'suites': {
@@ -198,7 +215,7 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'extraSetup': [
 				{
@@ -217,6 +234,9 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'webUI-with-core-master-mysql': {
 			'suites': [
@@ -230,10 +250,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
-				'7.3',
 				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'webUI-with-core-master-other-db': {
 			'suites': [
@@ -248,8 +269,11 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'webUI-with-core-latest': {
 			'suites': [
@@ -265,8 +289,11 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'webUI-with-ldaps': {
 			'suites': {
@@ -281,7 +308,7 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'extraSetup': [
 				{
@@ -300,6 +327,9 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-api-acceptance': {
 			'suites': {
@@ -312,7 +342,7 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
@@ -338,7 +368,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -347,8 +378,12 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-api-acceptance-latest-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'apiAll': 'core-apiAll-latest',
 			},
@@ -359,13 +394,12 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
 			'runAllSuites': True,
 			'numberOfParts': 30,
-			'cron': 'nightly',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -386,7 +420,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -395,6 +430,9 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-cli-acceptance': {
 			'suites': {
@@ -407,14 +445,18 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-cli-acceptance-latest-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'cliAll': 'core-cliAll-latest',
 			},
@@ -425,13 +467,15 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
-			'cron': 'nightly',
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-webui-acceptance': {
 			'suites': {
@@ -444,7 +488,7 @@ config = {
 				'daily-master-qa',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'emailNeeded': True,
 			'runCoreTests': True,
@@ -472,7 +516,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -481,8 +526,12 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-webui-acceptance-latest-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'webUIall': 'core-wUI-latest',
 			},
@@ -493,12 +542,11 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'filterTags': '@smokeTest&&~@skip',
@@ -522,7 +570,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -531,8 +580,12 @@ config = {
 					]
 				}
 			],
+			'extraApps': {
+				'notifications': ''
+			},
 		},
 		'core-api-acceptance-encryption-userkeys-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'apiAll': 'core-apiAll-enc-UK',
 			},
@@ -543,15 +596,15 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 30,
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': '',
 			},
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraSetup': [
@@ -574,7 +627,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -596,6 +650,7 @@ config = {
 			],
 		},
 		'core-cli-acceptance-encryption-userkeys-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'cliAll': 'core-cliAll-enc-UK',
 			},
@@ -606,15 +661,15 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': ''
 			},
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraSetup': [
@@ -645,6 +700,7 @@ config = {
 			],
 		},
 		'core-webui-acceptance-encryption-userkeys-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'webUIall': 'core-wUI-enc-UK',
 			},
@@ -655,17 +711,17 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': ''
 			},
 			'extraSetup': [
 				{
@@ -687,7 +743,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -709,6 +766,7 @@ config = {
 			],
 		},
 		'core-api-acceptance-encryption-masterkey-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'apiAll': 'core-apiAll-enc-MK',
 			},
@@ -719,15 +777,15 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 30,
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': ''
 			},
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
@@ -750,7 +808,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -772,6 +831,7 @@ config = {
 			],
 		},
 		'core-cli-acceptance-encryption-masterkey-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'cliAll': 'core-cliAll-enc-MK',
 			},
@@ -782,15 +842,15 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'runCoreTests': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': ''
 			},
 			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
@@ -821,6 +881,7 @@ config = {
 			],
 		},
 		'core-webui-acceptance-encryption-masterkey-nightly': {
+			'cron': 'nightly',
 			'suites': {
 				'webUIall': 'core-wUI-enc-MK',
 			},
@@ -831,16 +892,16 @@ config = {
 				'latest',
 			],
 			'phpVersions': [
-				'7.2',
+				'7.4',
 			],
 			'emailNeeded': True,
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
-			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
 			'extraApps': {
-				'encryption': ''
+				'encryption': '',
+				'notifications': ''
 			},
 			'filterTags': '@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
 			'extraSetup': [
@@ -863,7 +924,8 @@ config = {
 					'pull': 'always',
 					'commands': [
 						'cd /var/www/owncloud/federated',
-						'php occ market:install user_ldap',
+						'git clone https://github.com/owncloud/user_ldap.git /var/www/owncloud/federated/apps/user_ldap',
+						'php occ a:e user_ldap',
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -2029,7 +2091,7 @@ def installCore(version, db, useBundledApp):
 		'image': 'owncloudci/core',
 		'pull': 'always',
 		'settings': {
-			'version': version,
+			'git_reference': 'master',
 			'core_path': '/var/www/owncloud/server',
 			'db_type': dbType,
 			'db_name': database,
@@ -2216,7 +2278,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
 			'image': 'owncloudci/core',
 			'pull': 'always',
 			'settings': {
-				'version': federatedServerVersion,
+				'git_reference': 'master',
 				'core_path': '/var/www/owncloud/federated',
 				'db_type': 'mysql',
 				'db_name': database,
@@ -2233,6 +2295,8 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
 				'echo "export TEST_SERVER_FED_URL=http://federated" > /var/www/owncloud/saved-settings.sh',
 				'cd /var/www/owncloud/federated',
 				'php occ a:l',
+				'git clone https://github.com/owncloud/notifications.git /var/www/owncloud/federated/apps/notifications',
+				'php occ a:e notifications',
 				'php occ a:e testing',
 				'php occ a:l',
 				'php occ config:system:set trusted_domains 1 --value=federated',
