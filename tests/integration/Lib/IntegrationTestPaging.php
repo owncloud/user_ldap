@@ -53,7 +53,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		$limit = 1;
+		$limit = 2;
 		$offset = 0;
 
 		$filter = 'objectclass=inetorgperson';
@@ -67,11 +67,44 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 			$offset += $limit;
 		} while ($this->access->hasMoreResults());
 
-		if (\count($users) === 2) {
+		if (\count($users) === 3) {
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * tests that paging can retry for missing cookie for continued paged search
+	 *
+	 * @return bool
+	 */
+	protected function case2() {
+		$filter = 'objectclass=inetorgperson';
+		$attributes = ['cn', 'dn'];
+
+		// start paged search from offset 0 with limit 2
+		// and thus sets cookie so search can continue
+		$result = $this->access->searchUsers($filter, $attributes, 2, 0);
+		if (\count($result) !== 2) {
+			return false;
+		}
+
+		// interrupt previous paged search with paged search that returns complete result
+		// and thus sets '' cookie indicating completion
+		$result = $this->access->searchUsers($filter, $attributes, 4, 0);
+		if (\count($result) !== 3) {
+			return false;
+		}
+
+		// we should be able to continue previous paged search when interrupted
+		// by retrying search to repopulate cookie
+		$result = $this->access->searchUsers($filter, $attributes, 2, 2);
+		if (\count($result) !== 1) {
+			return false;
+		}
+
+		return true;
 	}
 }
 
