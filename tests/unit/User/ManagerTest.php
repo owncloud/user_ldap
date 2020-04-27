@@ -128,12 +128,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertContains('dn', $attributes);
-		$this->assertContains('mail', $attributes);
-		$this->assertContains('displayName', $attributes);
-		$this->assertContains('jpegphoto', $attributes);
-		$this->assertContains('thumbnailphoto', $attributes);
-		$this->assertContains('uidNumber', $attributes);
+		$this->assertStringContainsString('dn', $attributes);
+		$this->assertStringContainsString('mail', $attributes);
+		$this->assertStringContainsString('displayName', $attributes);
+		$this->assertStringContainsString('jpegphoto', $attributes);
+		$this->assertStringContainsString('thumbnailphoto', $attributes);
+		$this->assertStringContainsString('uidNumber', $attributes);
 	}
 
 	public function testGetAttributesAvatarsDisabled() {
@@ -144,12 +144,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes();
 
-		$this->assertContains('dn', $attributes);
-		$this->assertContains('mail', $attributes);
-		$this->assertContains('displayName', $attributes);
+		$this->assertStringContainsString('dn', $attributes);
+		$this->assertStringContainsString('mail', $attributes);
+		$this->assertStringContainsString('displayName', $attributes);
 		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
 		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
-		$this->assertContains('uidNumber', $attributes);
+		$this->assertStringContainsString('uidNumber', $attributes);
 	}
 
 	public function testGetAttributesMinimal() {
@@ -160,8 +160,8 @@ class ManagerTest extends \Test\TestCase {
 
 		$attributes = $this->manager->getAttributes(true);
 
-		$this->assertContains('dn', $attributes);
-		$this->assertContains('mail', $attributes);
+		$this->assertStringContainsString('dn', $attributes);
+		$this->assertStringContainsString('mail', $attributes);
 		$this->assertFalse(\in_array('jpegphoto', $attributes, true));
 		$this->assertFalse(\in_array('thumbnailphoto', $attributes, true));
 	}

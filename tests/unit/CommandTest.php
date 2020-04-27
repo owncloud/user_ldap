@@ -62,7 +62,7 @@ class CommandTest extends TestCase {
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();
 		foreach ($expectedToBeContained as $expected) {
-			\PHPUnit\Framework\Assert::assertContains(
+			\PHPUnit\Framework\Assert::assertStringContainsString(
 				$expected,
 				$output
 			);
