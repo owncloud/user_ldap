@@ -75,6 +75,30 @@ class ConfigurationControllerTest extends TestCase {
 		);
 	}
 
+	/**
+	 * asserts whether array is subset of another array
+	 *
+	 * @param array $subset
+	 * @param array $array
+	 *
+	 * @return void
+	 * @throws \InvalidArgumentException
+	 */
+	private function assertArrayIsSubsetOf($subset, $array) {
+		foreach ($subset as $key => $value) {
+			$this->assertArrayHasKey($key, $array);
+			if (\is_array($value)) {
+				$this->assertArrayIsSubsetOf($value, $array[$key]);
+			} else {
+				$this->assertEquals(
+					$value,
+					$array[$key],
+					"Expected $value but found: $array[$key]"
+				);
+			}
+		}
+	}
+
 	public function testCreate() {
 		$this->helper->expects($this->once())
 			->method('nextPossibleConfigurationPrefix')
@@ -88,11 +112,11 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset([
+		$this->assertArrayIsSubsetOf([
 			'status' => 'success',
 			'configPrefix' => 'tcr',
 			'defaults' => []
-		], $data, true);
+		], $data);
 	}
 
 	public function testCreateWithCopy() {
@@ -141,7 +165,7 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset([
+		$this->assertArrayIsSubsetOf([
 			'status' => 'success',
 			'configPrefix' => 'tgt'
 		], $data, true);
@@ -165,7 +189,7 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset([
+		$this->assertArrayIsSubsetOf([
 			'status' => 'success',
 			'configuration' => [
 				'ldap_host' => 'example.org',
@@ -232,7 +256,7 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset(['status' => 'success'], $data, true);
+		$this->assertArrayIsSubsetOf(['status' => 'success'], $data, true);
 	}
 
 	//public function testDelete() {
@@ -244,6 +268,6 @@ class ConfigurationControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset(['status' => 'error'], $data, true);
+		$this->assertArrayIsSubsetOf(['status' => 'error'], $data, true);
 	}
 }

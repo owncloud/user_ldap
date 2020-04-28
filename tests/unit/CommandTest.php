@@ -62,13 +62,13 @@ class CommandTest extends TestCase {
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();
 		foreach ($expectedToBeContained as $expected) {
-			\PHPUnit\Framework\Assert::assertContains(
+			$this->assertStringContainsString(
 				$expected,
 				$output
 			);
 		}
 		foreach ($expectedNotToBeContained as $expected) {
-			\PHPUnit\Framework\Assert::assertNotContains(
+			$this->assertStringNotContainsString(
 				$expected,
 				$output
 			);
@@ -86,8 +86,8 @@ class CommandTest extends TestCase {
 		);
 		$output = $this->commandTester->getDisplay();
 		$decodedOutput = \json_decode($output);
-		\PHPUnit\Framework\Assert::assertNotNull($decodedOutput);
-		\PHPUnit\Framework\Assert::arrayHasKey("ldapBase");
+		$this->assertNotNull($decodedOutput);
+		$this->arrayHasKey("ldapBase");
 	}
 
 	/**

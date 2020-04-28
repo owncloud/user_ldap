@@ -443,7 +443,9 @@ class Group_LDAPTest extends \Test\TestCase {
 
 		$ldap = $this->createMock(ILDAPWrapper::class);
 		$ldap->method('escape')
-			->willReturnCallback('ldap_escape');
+			->willReturnCallback(function ($string) {
+				return \ldap_escape($string);
+			});
 
 		$this->connection
 			->method('getLDAP')
