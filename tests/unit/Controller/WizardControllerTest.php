@@ -74,8 +74,10 @@ class WizardControllerTest extends TestCase {
 
 		$this->assertInstanceOf(DataResponse::class, $result);
 		$data = $result->getData();
-		$this->assertArraySubset([
-			'status' => 'error',
-		], $data, true);
+		$this->assertArrayHasKey('status', $data);
+		$this->assertEquals(
+			'error',
+			$data['status']
+		);
 	}
 }
