@@ -71,7 +71,7 @@ class LDAP implements ILDAPWrapper {
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
 		$this->preFunctionCall('ldap_control_paged_result_response',
 			[$link, $result, $cookie, $estimated]);
-		$result = \ldap_control_paged_result_response($link, $result, $cookie, $estimated);
+		$result = @\ldap_control_paged_result_response($link, $result, $cookie, $estimated);  // suppress deprecation for 7.4
 		$this->postFunctionCall();
 
 		return $result;
@@ -85,7 +85,7 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed|true
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
-		return $this->invokeLDAPMethod('control_paged_result', $link, $pageSize,
+		return @$this->invokeLDAPMethod('control_paged_result', $link, $pageSize,  // suppress deprecation for 7.4
 										$isCritical, $cookie);
 	}
 
