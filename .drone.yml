@@ -49,7 +49,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: phan
   pull: always
@@ -88,7 +88,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: phan
   pull: always
@@ -127,7 +127,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: phan
   pull: always
@@ -166,7 +166,7 @@ steps:
     db_type: sqlite
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -232,7 +232,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -308,7 +308,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -384,7 +384,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -460,7 +460,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -535,7 +535,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -611,7 +611,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -678,7 +678,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -744,7 +744,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -811,7 +811,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -878,7 +878,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -944,7 +944,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1011,7 +1011,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1090,7 +1090,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1169,7 +1169,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1248,7 +1248,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1327,7 +1327,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1406,7 +1406,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1485,7 +1485,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1564,7 +1564,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1643,7 +1643,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1722,7 +1722,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1801,7 +1801,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: setup-server-user_ldap
   pull: always
@@ -1880,7 +1880,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2005,7 +2005,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2130,7 +2130,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2255,7 +2255,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2380,7 +2380,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2505,7 +2505,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2630,7 +2630,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2754,7 +2754,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -2879,7 +2879,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3003,7 +3003,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3128,7 +3128,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3253,7 +3253,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3377,7 +3377,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3502,7 +3502,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3627,7 +3627,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3751,7 +3751,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -3876,7 +3876,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4003,7 +4003,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4130,7 +4130,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4257,7 +4257,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4384,7 +4384,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4509,7 +4509,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4634,7 +4634,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4759,7 +4759,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -4883,7 +4883,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5008,7 +5008,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5133,7 +5133,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5257,7 +5257,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5382,7 +5382,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5509,7 +5509,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5636,7 +5636,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5771,7 +5771,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -5906,7 +5906,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6041,7 +6041,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6176,7 +6176,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6311,7 +6311,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6446,7 +6446,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6580,7 +6580,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6715,7 +6715,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6849,7 +6849,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -6984,7 +6984,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7119,7 +7119,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7253,7 +7253,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7388,7 +7388,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7523,7 +7523,7 @@ steps:
     db_type: pgsql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7657,7 +7657,7 @@ steps:
     db_type: oci
     db_username: autotest
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7792,7 +7792,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -7929,7 +7929,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8066,7 +8066,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8203,7 +8203,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8340,7 +8340,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8529,7 +8529,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8718,7 +8718,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -8907,7 +8907,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -9096,7 +9096,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -9285,7 +9285,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -9474,7 +9474,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -9663,7 +9663,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -9852,7 +9852,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10041,7 +10041,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10230,7 +10230,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10419,7 +10419,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10608,7 +10608,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10797,7 +10797,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -10986,7 +10986,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -11175,7 +11175,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -11364,7 +11364,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -11553,7 +11553,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -11742,7 +11742,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -11931,7 +11931,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -12120,7 +12120,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -12309,7 +12309,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -12498,7 +12498,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -12687,7 +12687,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -12876,7 +12876,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -13065,7 +13065,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -13254,7 +13254,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -13443,7 +13443,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -13632,7 +13632,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -13821,7 +13821,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14010,7 +14010,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14197,7 +14197,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14384,7 +14384,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14571,7 +14571,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14758,7 +14758,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -14945,7 +14945,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -15132,7 +15132,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -15319,7 +15319,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -15506,7 +15506,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -15693,7 +15693,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -15880,7 +15880,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -16067,7 +16067,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -16254,7 +16254,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -16441,7 +16441,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -16628,7 +16628,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -16815,7 +16815,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17002,7 +17002,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17189,7 +17189,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17376,7 +17376,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17563,7 +17563,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17750,7 +17750,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -17937,7 +17937,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -18124,7 +18124,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -18311,7 +18311,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -18498,7 +18498,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -18685,7 +18685,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -18872,7 +18872,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19059,7 +19059,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19246,7 +19246,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19433,7 +19433,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19620,7 +19620,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19751,7 +19751,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -19882,7 +19882,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20013,7 +20013,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20142,7 +20142,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20271,7 +20271,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20400,7 +20400,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20605,7 +20605,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -20810,7 +20810,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -21015,7 +21015,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -21220,7 +21220,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -21425,7 +21425,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -21628,7 +21628,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -21831,7 +21831,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -22034,7 +22034,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -22237,7 +22237,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -22440,7 +22440,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -22648,7 +22648,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -22856,7 +22856,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -23064,7 +23064,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -23272,7 +23272,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -23480,7 +23480,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -23688,7 +23688,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -23896,7 +23896,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -24104,7 +24104,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -24312,7 +24312,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -24520,7 +24520,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -24728,7 +24728,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -24936,7 +24936,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -25144,7 +25144,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -25352,7 +25352,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -25560,7 +25560,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -25768,7 +25768,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -25976,7 +25976,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -26184,7 +26184,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -26392,7 +26392,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -26600,7 +26600,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -26808,7 +26808,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -27016,7 +27016,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -27224,7 +27224,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -27432,7 +27432,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -27640,7 +27640,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -27848,7 +27848,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28056,7 +28056,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28264,7 +28264,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28472,7 +28472,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28680,7 +28680,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28830,7 +28830,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -28980,7 +28980,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -29130,7 +29130,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -29353,7 +29353,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -29576,7 +29576,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -29799,7 +29799,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -30022,7 +30022,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -30245,7 +30245,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -30453,7 +30453,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -30661,7 +30661,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -30869,7 +30869,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -31077,7 +31077,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -31285,7 +31285,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -31493,7 +31493,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -31701,7 +31701,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -31909,7 +31909,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -32117,7 +32117,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -32325,7 +32325,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -32533,7 +32533,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -32741,7 +32741,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -32949,7 +32949,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -33157,7 +33157,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -33365,7 +33365,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -33573,7 +33573,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -33781,7 +33781,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -33989,7 +33989,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -34197,7 +34197,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -34405,7 +34405,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -34613,7 +34613,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -34821,7 +34821,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -35029,7 +35029,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -35237,7 +35237,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -35445,7 +35445,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -35653,7 +35653,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -35861,7 +35861,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36069,7 +36069,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36277,7 +36277,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36485,7 +36485,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36635,7 +36635,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36785,7 +36785,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -36935,7 +36935,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -37158,7 +37158,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -37381,7 +37381,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -37604,7 +37604,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
@@ -37827,7 +37827,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    git-reference: cleanUpDbGroupsFix
+    git_reference: cleanUpDbGroupsFix
 
 - name: install-testrunner
   pull: always
