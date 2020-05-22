@@ -138,6 +138,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$stdErrOutput = $this->featureContext->getStdErrOfOccCommand();
 			throw new \Exception("could not sync LDAP user {$user} " . $stdErrOutput);
 		}
+		$text = $this->featureContext->getStdErrOfOccCommand();
+		echo "ldapUserIsSynced success. stdErr output was: $text\n";
+		$text = $this->featureContext->getStdOutOfOccCommand();
+		echo "ldapUserIsSynced success. stdOut output was: $text\n";
 	}
 
 	/**
