@@ -135,8 +135,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
 		);
 		if ($this->featureContext->getExitStatusCodeOfOccCommand() !== 0) {
-			throw new \Exception("could not sync LDAP user {$user} " .
-				$this->featureContext->getStdErrOfOccCommand());
+			throw new \Exception(
+				"could not sync LDAP user {$user} " .
+				$this->featureContext->getStdErrOfOccCommand()
+			);
 		}
 	}
 
