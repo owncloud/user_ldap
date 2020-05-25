@@ -84,12 +84,14 @@ Feature: sync user using occ command
     And the display name of user "regular" should be "Regular User"
 
   @issue-515
+  @skipOnOcV10.3 @skipOnOcV10.4
   Scenario: sync a user that does not exist
     When LDAP user "regularuser" is resynced
     Then the command should have been successful
     And the command output should be:
       """
-      Syncing regularuser ...
+      Searching for regularuser ...
+      Exact match for user regularuser not found in the backend.
       Deleting accounts:
       regularuser, ,  (no longer exists in the backend)
       """
