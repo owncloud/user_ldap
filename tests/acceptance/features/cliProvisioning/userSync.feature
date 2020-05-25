@@ -89,7 +89,8 @@ Feature: sync user using occ command
     Then the command should have been successful
     And the command output should be:
       """
-      Syncing regularuser ...
+      Searching for regularuser ...
+      Exact match for user regularuser not found in the backend.
       Deleting accounts:
       regularuser, ,  (no longer exists in the backend)
       """
