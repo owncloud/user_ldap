@@ -135,7 +135,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
 		);
 		if ($this->featureContext->getExitStatusCodeOfOccCommand() !== 0) {
-			throw new \Exception("could not sync LDAP user {$user} " . $occResult['stdErr']);
+			throw new \Exception(
+				"could not sync LDAP user {$user} " .
+				$this->featureContext->getStdErrOfOccCommand()
+			);
 		}
 	}
 
@@ -148,7 +151,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function theAdminListsTheEnabledBackendsUsingTheOccCommand() {
 		$this->featureContext->runOcc(["user:sync -l"]);
 	}
-	
+
 	/**
 	 * @When the administrator sets the ldap attribute :attribute of the entry :entry to :value
 	 *
@@ -209,7 +212,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		$attribute, $entry, $filename
 	) {
 		$value = \file_get_contents(\getenv("FILES_FOR_UPLOAD") . $filename);
-		
+
 		$this->setTheLdapAttributeOfTheEntryTo(
 			$attribute, $entry, $value
 		);
@@ -306,12 +309,12 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$ldap->add($ouDN, $entry);
 			$this->featureContext->setToDeleteDNs($ouDN);
 		}
-		
+
 		$lenOfSuffix = \strlen((string)$amount);
 		for ($i = 0; $i < $amount; $i++) {
 			$uid = $prefix . \str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
 			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->featureContext->getLdapBaseDN();
-			
+
 			$entry = [];
 			$entry['cn'] = $uid;
 			$entry['sn'] = $i;
@@ -322,7 +325,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 			$entry['displayName'] = $uid;
 			$entry['gidNumber'] = 5000;
 			$entry['uidNumber'] = $maxUidNumber + $i + 1;
-			
+
 			$ldap->add($newDN, $entry);
 			$this->featureContext->addUserToCreatedUsersList(
 				$uid, $uid, $uid, null, false
