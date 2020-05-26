@@ -114,6 +114,7 @@
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "推奨されません、テストにおいてのみ使用してください！このオプションでのみ接続が動作する場合は、LDAP サーバーのSSL証明書を %s サーバーにインポートしてください。",
     "Cache Time-To-Live" : "キャッシュのTTL",
     "in seconds. A change empties the cache." : "秒。変更後にキャッシュがクリアされます。",
+    "Network Timeout" : "ネットワークタイムアウト",
     "Directory Settings" : "ディレクトリ設定",
     "User Display Name Field" : "ユーザー表示名のフィールド",
     "The LDAP attribute to use to generate the user's display name." : "ユーザーの表示名の生成に利用するLDAP属性",
