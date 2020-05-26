@@ -8,8 +8,8 @@ Feature: add group
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
     And this user has been created using the occ command:
-      | username       |
-      | brand-new-user |
+      | username       | displayname    |
+      | brand-new-user | Brand New User |
 
   Scenario Outline: admin creates a group
     When the administrator creates group "<group_id>" using the occ command
