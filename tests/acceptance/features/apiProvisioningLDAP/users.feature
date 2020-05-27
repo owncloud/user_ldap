@@ -7,7 +7,7 @@ Feature: Manage users using the Provisioning API
   Scenario Outline: Admin creates a regular user
     Given using OCS API version "<ocs-api-version>"
     And user "brand-new-user" has been deleted
-    When the administrator sends a user creation request with following attributes using the provisioning API:
+    When the administrator sends a user creation request with the following attributes using the provisioning API:
       | username    | brand-new-user |
       | password    | %alt1%         |
       | displayname | Brand New User |
@@ -254,7 +254,7 @@ Feature: Manage users using the Provisioning API
   Scenario Outline: Administrator tries to create a user with same name as existing ldap user
     Given using OCS API version "<ocs-api-version>"
     And user "user0" has been created with default attributes and skeleton files
-    When the administrator sends a user creation request with following attributes using the provisioning API:
+    When the administrator sends a user creation request with the following attributes using the provisioning API:
       | username    | user0     |
       | password    | %alt1%    |
       | displayname | User Zero |
