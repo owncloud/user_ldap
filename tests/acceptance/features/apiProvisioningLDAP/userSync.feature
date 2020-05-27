@@ -22,3 +22,29 @@ Feature: Single user sync using the OCS API
       | ocs-api-version | ocs-status-code |
       | 1               | 100             |
       | 2               | 200             |
+
+  Scenario Outline: admin syncs after changing display name of a ldap user
+    Given using OCS API version "<ocs-api-version>"
+    When the administrator sets the ldap attribute "displayname" of the entry "uid=user0,ou=TestUsers" to "ldap user"
+    And the administrator tries to sync user "user0" using the OCS API
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "<ocs-status-code>"
+    And user "user0" should exist
+    And the display name of user "user0" should be "ldap user"
+    Examples:
+      | ocs-api-version | ocs-status-code |
+      | 1               | 100             |
+      | 2               | 200             |
+
+  Scenario Outline: admin syncs after changing email address of a ldap user
+    Given using OCS API version "<ocs-api-version>"
+    When the administrator sets the ldap attribute "mail" of the entry "uid=user0,ou=TestUsers" to "ldapuser@example.com"
+    And the administrator tries to sync user "user0" using the OCS API
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "<ocs-status-code>"
+    And user "user0" should exist
+    And the email address of user "user0" should be "ldapuser@example.com"
+    Examples:
+      | ocs-api-version | ocs-status-code |
+      | 1               | 100             |
+      | 2               | 200             |
