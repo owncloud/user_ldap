@@ -90,6 +90,7 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Pole soovitatav, kasuta seda ainult testimiseks! Kui ühendus toimib ainult selle valikuga, siis impordi LDAP serveri SSL sertifikaat oma %s serverisse.",
     "Cache Time-To-Live" : "Puhvri iga",
     "in seconds. A change empties the cache." : "sekundites. Muudatus tühjendab vahemälu.",
+    "Network Timeout" : "Võrguühenduse aegumine",
     "Directory Settings" : "Kausta seaded",
     "User Display Name Field" : "Kasutaja näidatava nime väli",
     "The LDAP attribute to use to generate the user's display name." : "LDAP atribuut, mida kasutatakse kasutaja kuvatava nime loomiseks.",
