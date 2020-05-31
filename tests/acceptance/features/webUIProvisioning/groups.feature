@@ -7,14 +7,14 @@ Feature: add group
   Background:
     And these users have been created with default attributes and skeleton files:
       | username |
-      | user0    |
-      | user1    |
-      | user2    |
+      | Alice    |
+      | Brian    |
+      | Carol    |
     And group "grp1" has been created
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     And the administrator has invoked occ command "group:list"
-    And user "user1" has been added to group "grp1"
-    And user "user2" has been added to group "grp1"
+    And user "Brian" has been added to group "grp1"
+    And user "Carol" has been added to group "grp1"
     And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
@@ -77,13 +77,13 @@ Feature: add group
   Scenario: Adding LDAP user to database group should be possible
     Given group "db-group" has been created in the database user backend
     And the administrator has browsed to the users page
-    When the administrator adds user "user0" to group "db-group" using the webUI
-    Then user "user0" should exist
-    And user "user0" should belong to group "db-group"
+    When the administrator adds user "Alice" to group "db-group" using the webUI
+    Then user "Alice" should exist
+    And user "Alice" should belong to group "db-group"
 
   @issue-core-25224
   Scenario: Adding LDAP user to LDAP group should not be possible
     Given the administrator has browsed to the users page
-    When the administrator adds user "user0" to group "grp1" using the webUI
-    Then user "user0" should exist
-    And user "user0" should not belong to group "grp1"
+    When the administrator adds user "Alice" to group "grp1" using the webUI
+    Then user "Alice" should exist
+    And user "Alice" should not belong to group "grp1"
