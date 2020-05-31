@@ -14,7 +14,6 @@ Feature: filter groups
       | ShareeGroup  |
       | ShareeGroup2 |
 
-
   Scenario: single group filter
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                        |

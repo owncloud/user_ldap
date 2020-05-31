@@ -4,45 +4,45 @@ Feature: connect to LDAP serer
   Background:
     Given the owncloud log level has been set to "warning"
     And the owncloud log has been cleared
-    And user "user0" has been created with default attributes and skeleton files
+    And user "Alice" has been created with default attributes and skeleton files
 
   Scenario: authentication fails when the configuration does not contain an ldap port
     Given LDAP config "LDAPTestId" has key "ldapPort" set to ""
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries with these attributes:
       | app       | message                                                      |
       | user_ldap | Configuration Error (prefix LDAPTestId): No LDAP Port given! |
     When the administrator sets the LDAP config "LDAPTestId" key "ldapPort" to "%ldap_port%" using the occ command
-    And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    And user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication fails when the configuration has a wrong hostname
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
       | app       | message                                                 |
       | user_ldap | Error when searching: Can't contact LDAP server code -1 |
       | user_ldap | Attempt for Paging?                                     |
-      | core      | Login failed: 'user0' (Remote IP:                       |
+      | core      | Login failed: 'Alice' (Remote IP:                       |
     When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host%" using the occ command
-    And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    And user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication works when the hostname contains the protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "%ldap_host%"
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication works when the hostname does not contain the protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "%ldap_host_without_scheme%"
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication does not work when the hostname contains a wrong protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "http://%ldap_host_without_scheme%"
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
       | app | message                                                                              |
@@ -83,7 +83,7 @@ Feature: connect to LDAP serer
       | turnOffCertCheck              | 0                                                                                        |
       | useMemberOfToDetectMembership | 1                                                                                        |
       | ldapConfigurationActive       | 1                                                                                        |
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "500"
     #Then the HTTP status code should be "200"
 
@@ -122,7 +122,7 @@ Feature: connect to LDAP serer
       | turnOffCertCheck              | 0                                                                                        |
       | useMemberOfToDetectMembership | 1                                                                                        |
       | ldapConfigurationActive       | 1                                                                                        |
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "500"
     #Then the HTTP status code should be "200"
 
@@ -159,7 +159,7 @@ Feature: connect to LDAP serer
       | turnOffCertCheck              | 0                                                                                        |
       | useMemberOfToDetectMembership | 1                                                                                        |
       | ldapConfigurationActive       | 1                                                                                        |
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
   Scenario: authentication fails when both configurations have an unreachable host configured
@@ -196,10 +196,10 @@ Feature: connect to LDAP serer
       | turnOffCertCheck              | 0                                                                                        |
       | useMemberOfToDetectMembership | 1                                                                                        |
       | ldapConfigurationActive       | 1                                                                                        |
-    When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
+    When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
       | app       | message                                                 |
       | user_ldap | Error when searching: Can't contact LDAP server code -1 |
       | user_ldap | Attempt for Paging?                                     |
-      | core      | Login failed: 'user0' (Remote IP:                       |
+      | core      | Login failed: 'Alice' (Remote IP:                       |

@@ -8,8 +8,8 @@ Feature: add a user using the using the occ command
   Background:
     And these users have been created with default attributes and skeleton files:
       | username |
-      | user0    |
-      | user1    |
+      | Alice    |
+      | Brian    |
 
   Scenario: admin creates an ordinary user using the occ command
     When the administrator creates this user using the occ command:
@@ -60,39 +60,39 @@ Feature: add a user using the using the occ command
       | displayname | A New User |
 
   Scenario: admin deletes ldap defined user and syncs again
-    When the administrator deletes user "user0" using the occ command
+    When the administrator deletes user "Alice" using the occ command
     Then the command should have been successful
-    And the command output should contain the text "User with uid 'user0', display name 'User Zero', email 'user0@example.org' was deleted"
-    And user "user0" should not exist
+    And the command output should contain the text "User with uid 'Alice', display name 'Alice Hansen', email 'alice@example.org' was deleted"
+    And user "Alice" should not exist
     When the LDAP users are resynced
-    Then user "user0" should exist
+    Then user "Alice" should exist
 
   Scenario: admin tries to modify displayname of user for which an LDAP attribute is specified
-    When the administrator sets the ldap attribute "displayname" of the entry "uid=user1,ou=TestUsers" to "ldap user"
+    When the administrator sets the ldap attribute "displayname" of the entry "uid=Brian,ou=TestUsers" to "ldap user"
     And the LDAP users are resynced
-    And the administrator changes the display name of user "user1" to "occ user" using the occ command
+    And the administrator changes the display name of user "Brian" to "occ user" using the occ command
     Then the command should have failed with exit code 1
-    And user "user1" should exist
+    And user "Brian" should exist
     And the user attributes returned by the API should include
       | displayname | ldap user |
 
   Scenario: admin tries to modify password of user for which an LDAP attribute is specified
-    When the administrator sets the ldap attribute "userpassword" of the entry "uid=user1,ou=TestUsers" to "ldap_password"
+    When the administrator sets the ldap attribute "userpassword" of the entry "uid=Brian,ou=TestUsers" to "ldap_password"
     And the LDAP users are resynced
-    And the administrator resets the password of user "user1" to "occ_password" using the occ command
+    And the administrator resets the password of user "Brian" to "occ_password" using the occ command
     Then the command should have failed with exit code 1
-    And user "user1" should exist
-    And the content of file "textfile0.txt" for user "user1" using password "ldap_password" should be "ownCloud test text file 0" plus end-of-line
-    But user "user1" using password "occ_password" should not be able to download file "textfile0.txt"
+    And user "Brian" should exist
+    And the content of file "textfile0.txt" for user "Brian" using password "ldap_password" should be "ownCloud test text file 0" plus end-of-line
+    But user "Brian" using password "occ_password" should not be able to download file "textfile0.txt"
 
   @issue-core-33186
   Scenario: admin tries to modify mail of user for which an LDAP attribute is specified
-    When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "ldapuser@oc.com"
+    When the administrator sets the ldap attribute "mail" of the entry "uid=Brian,ou=TestUsers" to "ldapuser@oc.com"
     And the LDAP users are resynced
-    And the administrator changes the email of user "user1" to "occuser@oc.com" using the occ command
+    And the administrator changes the email of user "Brian" to "occuser@oc.com" using the occ command
     Then the command should have been successful
     #Then the command should have failed with exit code 1
-    And user "user1" should exist
+    And user "Brian" should exist
     And the user attributes returned by the API should include
     #| email | ldapuser@oc.com|
       | email | occuser@oc.com |
