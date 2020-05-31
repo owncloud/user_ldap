@@ -30,13 +30,13 @@ Feature: Sharing between local and LDAP users
     And the content of file "/PARENT/parent.txt" for user "user0" should be "changed file"
 
   Scenario: Share a folder from an LDAP user to a local user read only
-   Given user "user0" has shared folder "/PARENT" with user "local-user" with permissions "read"
-   When user "local-user" uploads file with content "new file" to "PARENT (2)/new-file.txt" using the WebDAV API
-   Then the HTTP status code should be "403"
-   And as "user0" file "/PARENT/new-file.txt" should not exist
-   When user "local-user" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
-   Then the HTTP status code should be "403"
-   And the content of file "/PARENT/parent.txt" for user "user0" should be:
+    Given user "user0" has shared folder "/PARENT" with user "local-user" with permissions "read"
+    When user "local-user" uploads file with content "new file" to "PARENT (2)/new-file.txt" using the WebDAV API
+    Then the HTTP status code should be "403"
+    And as "user0" file "/PARENT/new-file.txt" should not exist
+    When user "local-user" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
+    Then the HTTP status code should be "403"
+    And the content of file "/PARENT/parent.txt" for user "user0" should be:
     """
     ownCloud test text file parent
     
@@ -58,13 +58,13 @@ Feature: Sharing between local and LDAP users
     And the content of file "/PARENT/parent.txt" for user "local-user" should be "changed file"
 
   Scenario: Share a folder from a local user to an LDAP user without write permissions
-   Given user "local-user" has shared folder "/PARENT" with user "user0" with permissions "read"
-   When user "user0" uploads file with content "new file" to "PARENT (2)/new-file.txt" using the WebDAV API
-   Then the HTTP status code should be "403"
-   And as "local-user" file "/PARENT/new-file.txt" should not exist
-   When user "user0" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
-   Then the HTTP status code should be "403"
-   And the content of file "/PARENT/parent.txt" for user "local-user" should be:
+    Given user "local-user" has shared folder "/PARENT" with user "user0" with permissions "read"
+    When user "user0" uploads file with content "new file" to "PARENT (2)/new-file.txt" using the WebDAV API
+    Then the HTTP status code should be "403"
+    And as "local-user" file "/PARENT/new-file.txt" should not exist
+    When user "user0" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
+    Then the HTTP status code should be "403"
+    And the content of file "/PARENT/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
     

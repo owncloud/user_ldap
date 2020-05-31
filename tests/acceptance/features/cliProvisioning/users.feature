@@ -22,16 +22,16 @@ Feature: add a user using the using the occ command
 
   Scenario: admin tries to create an existing user
     Given this user has been created using the occ command:
-      | username       | displayname      |
-      | brand-new-user | Brand New User   |
+      | username       | displayname    |
+      | brand-new-user | Brand New User |
     When the administrator tries to create a user "brand-new-user" using the occ command
     Then the command should have failed with exit code 1
     And the command output should contain the text 'The user "brand-new-user" already exists.'
 
   Scenario: admin deletes a user
     Given this user has been created using the occ command:
-      | username       | displayname      |
-      | brand-new-user | Brand New User   |
+      | username       | displayname    |
+      | brand-new-user | Brand New User |
     When the administrator deletes user "brand-new-user" using the occ command
     Then the command should have been successful
     And the command output should contain the text "User with uid 'brand-new-user', display name 'Brand New User', email '' was deleted"
@@ -39,8 +39,8 @@ Feature: add a user using the using the occ command
 
   Scenario: the administrator can edit a user email
     Given this user has been created using the occ command:
-      | username       | displayname      |
-      | brand-new-user | Brand New User   |
+      | username       | displayname    |
+      | brand-new-user | Brand New User |
     When the administrator changes the email of user "brand-new-user" to "brand-new-user@example.com" using the occ command
     Then the command should have been successful
     And the command output should contain the text 'The email address of brand-new-user updated to brand-new-user@example.com'
@@ -50,8 +50,8 @@ Feature: add a user using the using the occ command
 
   Scenario: the administrator can edit a user display name
     Given this user has been created using the occ command:
-      | username       | displayname      |
-      | brand-new-user | Brand New User   |
+      | username       | displayname    |
+      | brand-new-user | Brand New User |
     When the administrator changes the display name of user "brand-new-user" to "A New User" using the occ command
     Then the command should have been successful
     And the command output should contain the text 'The displayname of brand-new-user updated to A New User'
@@ -96,4 +96,3 @@ Feature: add a user using the using the occ command
     And the user attributes returned by the API should include
     #| email | ldapuser@oc.com|
       | email | occuser@oc.com |
-

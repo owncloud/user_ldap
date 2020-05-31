@@ -154,8 +154,8 @@ Feature: manage groups
       | user2    |
       | user3    |
     And these groups have been created:
-      | groupname     |
-      | grp1          |
+      | groupname |
+      | grp1      |
     And user "user2" has been added to group "grp1"
     When the administrator creates group "grp1" in ldap OU "TestUsers"
     And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
