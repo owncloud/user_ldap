@@ -30,5 +30,3 @@ Feature: move users between OUs
     And the log file should contain at least one entry matching each of these lines:
       | user | app                                    | method | message                                                                                               |
       | --   | OCA\User_LDAP\User\Manager::resolveUID | GET    | DN changed! Found user user0 by uuid user0, updating dn to uid=user0,ou=testgroups,dc=owncloud,dc=com |
-
-

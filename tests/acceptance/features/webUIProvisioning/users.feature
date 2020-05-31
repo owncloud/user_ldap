@@ -35,7 +35,7 @@ Feature: add users
     Then "New User" should be shown as the name of the current user on the WebUI
     And user "new-user" should exist
     And the user attributes returned by the API should include
-    | displayname | New User |
+      | displayname | New User |
 
   Scenario: Admin changes the password of the user
     Given user "new-user" has been created with default attributes in the database user backend
@@ -71,7 +71,7 @@ Feature: add users
     Then "ldap user" should be shown as the name of the current user on the WebUI
     And user "user0" should exist
     And the user attributes returned by the API should include
-    | displayname | ldap user |
+      | displayname | ldap user |
 
   @issue-core-33186
   Scenario: admin tries to modify email of user for which an LDAP attribute is specified

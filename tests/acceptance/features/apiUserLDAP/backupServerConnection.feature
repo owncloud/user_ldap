@@ -1,9 +1,9 @@
 @api
 Feature: connect to a backup LDAP serer
 
-As an administrator
-I want to be able to set up a backup LDAP server
-So that user authentication still works when the main LDAP server is not reachable
+  As an administrator
+  I want to be able to set up a backup LDAP server
+  So that user authentication still works when the main LDAP server is not reachable
 
   Background:
     Given the owncloud log level has been set to "warning"
@@ -36,10 +36,10 @@ So that user authentication still works when the main LDAP server is not reachab
     When user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
-     | app       | message                                                 |
-     | user_ldap | Error when searching: Can't contact LDAP server code -1 |
-     | user_ldap | Attempt for Paging?                                     |
-     | core      | Login failed: 'user0' (Remote IP:                       |
+      | app       | message                                                 |
+      | user_ldap | Error when searching: Can't contact LDAP server code -1 |
+      | user_ldap | Attempt for Paging?                                     |
+      | core      | Login failed: 'user0' (Remote IP:                       |
     When the administrator sets the LDAP config "LDAPTestId" key "<server-that-comes-back>" to "%ldap_host%" using the occ command
     And user "user0" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"

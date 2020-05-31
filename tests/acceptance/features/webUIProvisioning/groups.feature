@@ -54,8 +54,8 @@ Feature: add group
   Scenario: delete ldap defined group
     When the administrator deletes the group named "grp1" using the webUI and confirms the deletion using the webUI
     Then dialog should be displayed on the webUI
-    | title                       | content                     |
-    | Unable to delete grp1       | Unable to delete group.     |
+      | title                 | content                 |
+      | Unable to delete grp1 | Unable to delete group. |
     And group "grp1" should exist
 
   Scenario: Adding database user to database group should be possible

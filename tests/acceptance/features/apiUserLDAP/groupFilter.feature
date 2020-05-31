@@ -22,9 +22,9 @@ Feature: filter groups
     And the administrator gets the groups in JSON format using the occ command
     Then the command should have been successful
     And the groups returned by the occ command should be
-      | group   |
-      | admin   |
-      | grp2    |
+      | group |
+      | admin |
+      | grp2  |
 
   Scenario: filter with asterisk
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
@@ -50,8 +50,8 @@ Feature: filter groups
       | group1 |
       | group2 |
 
-    Scenario: filter groups that are in multiple OUs but have the same CN
-      Given the administrator has imported this ldif data:
+  Scenario: filter groups that are in multiple OUs but have the same CN
+    Given the administrator has imported this ldif data:
       """
       dn: cn=grp1,ou=TestUsers,dc=owncloud,dc=com
       cn: grp1
@@ -59,12 +59,12 @@ Feature: filter groups
       objectclass: top
       objectclass: posixGroup
       """
-      When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
-        | key             | value                                                     |
-        | ldapGroupFilter | (&(\|(objectclass=posixGroup))(\|(cn=grp1))) |
-      And the administrator gets the groups in JSON format using the occ command
-      Then the command should have been successful
-      And the groups returned by the occ command should be
-        | group  |
-        | admin  |
-        | grp1   |
+    When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
+      | key             | value                                        |
+      | ldapGroupFilter | (&(\|(objectclass=posixGroup))(\|(cn=grp1))) |
+    And the administrator gets the groups in JSON format using the occ command
+    Then the command should have been successful
+    And the groups returned by the occ command should be
+      | group |
+      | admin |
+      | grp1  |
