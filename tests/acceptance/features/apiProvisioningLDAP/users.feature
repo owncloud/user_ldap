@@ -136,24 +136,24 @@ Feature: Manage users using the Provisioning API
     # | 2               | 400             | 400              |
 
   @issue-core-33186
-  Scenario: admin tries to modify quota of user for which an LDAP attribute is specified
-    Given using OCS API version "1"
+  Scenario Outline: admin tries to modify quota of user for which an LDAP attribute is specified
+    Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes and without skeleton files
     #to set Quota we can just misuse any LDAP text field
     And LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
     When the administrator sets the ldap attribute "employeeNumber" of the entry "uid=Alice,ou=TestUsers" to "10 MB"
     And the LDAP users are resynced
     And the administrator changes the quota of user "Alice" to "13MB" using the provisioning API
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
+    Then the OCS status code should be "<ocs-status-code>"
+    And the HTTP status code should be "<http-status-code>"
     And the quota definition of user "Alice" should be "13 MB"
     #And the quota definition of user "Alice" should be "10 MB"
     When the LDAP users are resynced
     Then the quota definition of user "Alice" should be "10 MB"
-#    Examples:
-#      | ocs-api-version | ocs-status-code | http-status-code |
-#      | 1               | 100             | 200              |
-#      | 2               | 200             | 200              |
+    Examples:
+      | ocs-api-version | ocs-status-code | http-status-code |
+      | 1               | 100             | 200              |
+      | 2               | 200             | 200              |
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
 
