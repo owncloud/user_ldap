@@ -1675,6 +1675,7 @@ def acceptance():
 										makeParameter = 'test-acceptance-webui'
 
 								if isAPI:
+								    environment['SKELETON_DIR'] = '/var/www/owncloud/testrunner/apps/testing/data/apiSkeleton'
 									if (params['runCoreTests']):
 										makeParameter = 'test-acceptance-core-api'
 									else:
