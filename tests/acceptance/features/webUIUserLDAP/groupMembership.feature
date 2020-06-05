@@ -26,7 +26,7 @@ Feature: group membership
     And the administrator adds user "Carol" to ldap group "grp1"
     When the user re-logs in as "Carol" using the webUI
     Then folder "simple-folder (2)" should be listed on the webUI
-    And folder "simple-folder (2)" should be marked as shared with "grp1" by "Alice Hansen" on the webUI
+    And folder "simple-folder (2)" should be marked as shared with "grp1" by "Alice" on the webUI
 
   @skipOnOcV10.2
   Scenario: deleting a user from a group after a folder was shared with that group
