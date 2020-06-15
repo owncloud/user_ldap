@@ -1148,7 +1148,7 @@ class Access implements IUserTools {
 	 * @return array with the search result
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function search($filter, $base, $attr = null, $limit = null, $offset = null) {
 		if ($attr !== null && !\is_array($attr)) {
 			$attr = [\mb_strtolower($attr, 'UTF-8')];
 		}
@@ -1165,6 +1165,7 @@ class Access implements IUserTools {
 		 */
 		$findings = [];
 		$savedoffset = $offset;
+		$shouldRetryForMissingCookie = true;
 		do {
 			$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
 			if ($search === false) {
@@ -1173,25 +1174,53 @@ class Access implements IUserTools {
 			list($sr, $pagedSearchOK) = $search;
 			$cr = $this->connection->getConnectionResource();
 
-			if ($skipHandling) {
-				//i.e. result do not need to be fetched, we just need the cookie
-				//thus pass 1 or any other value as $iFoundItems because it is not
-				//used
-				$this->processPagedSearchStatus($sr, $filter, $base, 1, $limit,
-								$offset, $pagedSearchOK,
-								$skipHandling);
-				return [];
-			}
-
 			foreach ($sr as $res) {
 				$findings = \array_merge($findings, $this->getLDAP()->getEntries($cr, $res));
 			}
 
-			list($continue, ) = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+			list($hasMorePages, ) = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
 								$limit, $offset, $pagedSearchOK,
-										$skipHandling);
-			$offset += $limit;
-		} while ($continue && $pagedSearchOK && $findings['count'] < $limit);
+										false);
+
+			// according to LDAP documentation, when cookie is missing for
+			// continued paged search, we should retry search from scratch
+			// up to required offset. Do not try reissuing cache next
+			// time as it could be another issue
+			if (!$pagedSearchOK && $shouldRetryForMissingCookie && $limit !== null && $offset > 0) {
+				// abandon paged searches to start missing paged search
+				$this->abandonPagedSearch();
+
+				\OC::$server->getLogger()->info(
+					"Reissuing paged search at range 0-$offset with limit $limit to retrieve missing cookie"
+				);
+				$shouldRetryForMissingCookie = false;
+
+				// reoffset to 0
+				$reOffset = 0;
+				do {
+					$retrySearch = $this->executeSearch($filter, $base, $attr, $limit, $reOffset);
+					if ($retrySearch === false) {
+						$retryPagedSearchOK = false;
+					} else {
+						list($retrySr, $retryPagedSearchOK) = $retrySearch;
+
+						// i.e. result does not need to be fetched, we just need the cookie
+						// thus pass 1 or any other value as $iFoundItems because it is not
+						// used
+						$this->processPagedSearchStatus($retrySr, $filter, $base, 1, $limit,
+							$reOffset, $retryPagedSearchOK,
+							true);
+					}
+
+					// do not continue both retry and original query on error
+					$continue = $retryPagedSearchOK;
+					$reOffset += $limit;
+				} while ($continue && $reOffset < $offset);
+			} else {
+				$continue = $hasMorePages && $pagedSearchOK;
+				$offset += $limit;
+			}
+		} while ($continue && $findings['count'] < $limit);
 		// resetting offset
 		$offset = $savedoffset;
 
@@ -1810,7 +1839,7 @@ class Access implements IUserTools {
 	private function abandonPagedSearch() {
 		if ($this->connection->hasPagedResultSupport) {
 			\OC::$server->getLogger()->debug(
-				'abandoning paged search. last cookie: '.$this->cookie2str($this->lastCookie).', cookies: <'.\implode(',', \array_map([$this, 'cookie2str'], $this->cookies)).'>',
+				'Abandoning paged search - last cookie: '.$this->cookie2str($this->lastCookie).', cookies: <'.\implode(',', \array_map([$this, 'cookie2str'], $this->cookies)).'>',
 				['app' => 'user_ldap']);
 			$cr = $this->connection->getConnectionResource();
 			$this->getLDAP()->controlPagedResult($cr, 0, false, $this->lastCookie);
@@ -1919,7 +1948,7 @@ class Access implements IUserTools {
 			$offset = (int)$offset; //can be null
 			$range = $offset . "-" . ($offset + $limit);
 			\OC::$server->getLogger()->debug(
-				"initializing paged search for  Filter $filter base ".\print_r($bases, true)
+				"Initializing paged search for Filter $filter base ".\print_r($bases, true)
 				.' attr '.\print_r($attr, true)." at $range",
 				['app' => 'user_ldap']);
 			//get the cookie from the search for the previous search, required by LDAP
@@ -1928,25 +1957,16 @@ class Access implements IUserTools {
 				\OC::$server->getLogger()->debug(
 					"Cookie for $base at $range is ".$this->cookie2str($cookie),
 					['app' => 'user_ldap']);
+
+				// '0' is valid, because 389ds
 				if (empty($cookie) && $cookie !== '0' && ($offset > 0)) {
-					// no cookie known, although the offset is not 0. Maybe cache run out. We need
-					// to start all over *sigh* (btw, Dear Reader, did you know LDAP paged
-					// searching was designed by MSFT?)
-					// 		Lukas: No, but thanks to reading that source I finally know!
-					// '0' is valid, because 389ds
-					if (($offset - $limit) < 0) {
-						$reOffset = 0;
-					} else {
-						$reOffset = $offset - $limit;
-					}
-					// just try the previous one
-					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $reOffset);
-					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
-					//TODO: remember this, probably does not change in the next request...
-					if (empty($cookie) && $cookie !== '0') {
-						// '0' is valid, because 389ds
-						$cookie = null;
-					}
+					// Abandon - no cookie known although the offset is not 0.
+					// Maybe cache run out (abandoned paged search or cookie deletion).
+					$this->abandonPagedSearch();
+					\OC::$server->getLogger()->debug(
+						"Cache not available for continued paged search at $range, aborting.",
+						['app' => 'user_ldap']);
+					return false;
 				}
 				if ($cookie !== null) {
 					if (empty($offset)) {
