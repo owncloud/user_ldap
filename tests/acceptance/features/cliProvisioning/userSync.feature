@@ -8,28 +8,28 @@ Feature: sync user using occ command
   Background:
     Given these users have been created with default attributes and without skeleton files:
       | username |
-      | user0    |
-      | user1    |
+      | Alice    |
+      | Brian    |
 
   @skipOnOcV10.3
   Scenario: admin deletes ldap users and syncs only one of them
-    When the administrator deletes user "user0" using the occ command
-    And the administrator deletes user "user1" using the occ command
-    Then user "user0" should not exist
-    And user "user1" should not exist
-    When LDAP user "user0" is resynced
-    Then user "user0" should exist
-    And user "user1" should not exist
+    When the administrator deletes user "Alice" using the occ command
+    And the administrator deletes user "Brian" using the occ command
+    Then user "Alice" should not exist
+    And user "Brian" should not exist
+    When LDAP user "Alice" is resynced
+    Then user "Alice" should exist
+    And user "Brian" should not exist
 
   @skipOnOcV10.3
   Scenario: admin edits ldap users email and syncs only one of them
-    When the administrator changes the email of user "user0" to "user0@example0.com" using the occ command
-    And the administrator changes the email of user "user1" to "user1@example1.com" using the occ command
-    Then user "user0" should exist
-    And user "user1" should exist
-    When LDAP user "user0" is resynced
-    Then the email address of user "user0" should be "user0@example.org"
-    And the email address of user "user1" should be "user1@example1.com"
+    When the administrator changes the email of user "Alice" to "alice@example0.com" using the occ command
+    And the administrator changes the email of user "Brian" to "brian@example1.com" using the occ command
+    Then user "Alice" should exist
+    And user "Brian" should exist
+    When LDAP user "Alice" is resynced
+    Then the email address of user "Alice" should be "alice@example.org"
+    And the email address of user "Brian" should be "brian@example1.com"
 
   Scenario: admin lists all the enabled backends
     When the admin lists the enabled user backends using the occ command
@@ -41,13 +41,13 @@ Feature: sync user using occ command
       """
 
   Scenario: admin deletes ldap users and performs full sync
-    When the administrator deletes user "user0" using the occ command
-    And the administrator deletes user "user1" using the occ command
-    Then user "user0" should not exist
-    And user "user1" should not exist
+    When the administrator deletes user "Alice" using the occ command
+    And the administrator deletes user "Brian" using the occ command
+    Then user "Alice" should not exist
+    And user "Brian" should not exist
     When the LDAP users have been resynced
-    Then user "user0" should exist
-    And user "user1" should exist
+    Then user "Alice" should exist
+    And user "Brian" should exist
 
   @issue-511
   Scenario: sync a local user

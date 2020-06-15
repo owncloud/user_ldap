@@ -6,25 +6,25 @@ Feature: login users
   So that they only need to remember one username and password (SSO)
 
   Background:
-    Given user "user1" has been created with default attributes and without skeleton files
+    Given user "Alice" has been created with default attributes and without skeleton files
 
   Scenario: login with default settings
     When the LDAP users have been resynced
-    Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
+    Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
   Scenario: using ldap filter including email field
     When LDAP config "LDAPTestId" has these settings:
       | key                | value                                                                            |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(\|(uid=%uid)(mailPrimaryAddress=%uid)(mail=%uid))) |
       | ldapEmailAttribute |                                                                                  |
-    Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
+    Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
   Scenario: using ldapEmailAttribute but loginFilter lacks email field
     When LDAP config "LDAPTestId" has these settings:
       | key                | value                                    |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(uid=%uid)) |
       | ldapEmailAttribute | mail                                     |
-    Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
+    Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
   Scenario: no ldapEmailAttribute and loginFilter lacks email field
     When LDAP config "LDAPTestId" has these settings:
@@ -32,34 +32,34 @@ Feature: login users
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(uid=%uid)) |
       | ldapEmailAttribute |                                          |
     And the LDAP users have been resynced
-    Then it should not be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
+    Then it should not be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
   Scenario: change Email address on LDAP server
-    When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "user1-change@example.org"
+    When the administrator sets the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers" to "Alice-change@example.org"
     And the LDAP users have been resynced
     #need a sync here because the automatic sync only happens after login
     #so after changing the email address one last login is possible with the old address
-    Then it should not be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
-    But it should be possible to login with the username "user1-change@example.org" and password "%alt1%" using the WebUI
+    Then it should not be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
+    But it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
 
   Scenario: change Email address on LDAP server, do not sync
-    When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to "user1-change@example.org"
-    Then it should be possible to login with the username "user1-change@example.org" and password "%alt1%" using the WebUI
+    When the administrator sets the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers" to "Alice-change@example.org"
+    Then it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
 
   Scenario: add a second Email address
-    When the administrator adds "user1-change@example.org" to the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers"
-    Then it should be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
+    When the administrator adds "Alice-change@example.org" to the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers"
+    Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
     When the user logs out of the webUI
-    Then it should be possible to login with the username "user1-change@example.org" and password "%alt1%" using the WebUI
+    Then it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
 
   Scenario: delete the Email address
-    Given user "user2" has been created with default attributes and without skeleton files
-    When the administrator sets the ldap attribute "mail" of the entry "uid=user1,ou=TestUsers" to ""
+    Given user "Brian" has been created with default attributes and without skeleton files
+    When the administrator sets the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers" to ""
     And the LDAP users have been resynced
-    Then it should not be possible to login with the username "user1@example.org" and password "%alt1%" using the WebUI
-    But it should be possible to login with the username "user1" and password "%alt1%" using the WebUI
+    Then it should not be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
+    But it should be possible to login with the username "Alice" and password "%regular%" using the WebUI
     When the user logs out of the webUI
-    Then it should be possible to login with the username "user2@example.org" and password "%alt2%" using the WebUI
+    Then it should be possible to login with the username "brian@example.org" and password "%alt1%" using the WebUI
 
   @skipOnOcV10.2
   Scenario: login with a new user

@@ -8,8 +8,8 @@ Feature: add group
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     Given the administrator has invoked occ command "group:list"
     And this user has been created using the occ command:
-      | username       |
-      | brand-new-user |
+      | username | displayname  |
+      | Alice    | Alice Hansen |
 
   Scenario Outline: admin creates a group
     When the administrator creates group "<group_id>" using the occ command
@@ -25,12 +25,12 @@ Feature: add group
   Scenario Outline: admin removes a user from a group
     When the administrator creates group "<group_id>" using the occ command
     Then the command should have been successful
-    When the administrator adds user "brand-new-user" to group "<group_id>" using the occ command
+    When the administrator adds user "Alice" to group "<group_id>" using the occ command
     Then the command should have been successful
-    When the administrator removes user "brand-new-user" from group "<group_id>" using the occ command
+    When the administrator removes user "Alice" from group "<group_id>" using the occ command
     Then the command should have been successful
-    And the command output should contain the text 'Member "brand-new-user" removed from group "<group_id>"'
-    And user "brand-new-user" should not belong to group "<group_id>"
+    And the command output should contain the text 'Member "Alice" removed from group "<group_id>"'
+    And user "Alice" should not belong to group "<group_id>"
     Examples:
       | group_id    | comment                     |
       | simplegroup | nothing special here        |
@@ -41,10 +41,10 @@ Feature: add group
   Scenario Outline: adding a user to a group
     When the administrator creates group "<group_id>" using the occ command
     Then the command should have been successful
-    When the administrator adds user "brand-new-user" to group "<group_id>" using the occ command
+    When the administrator adds user "Alice" to group "<group_id>" using the occ command
     Then the command should have been successful
-    And the command output should contain the text 'User "brand-new-user" added to group "<group_id>"'
-    And user "brand-new-user" should belong to group "<group_id>"
+    And the command output should contain the text 'User "Alice" added to group "<group_id>"'
+    And user "Alice" should belong to group "<group_id>"
     Examples:
       | group_id    | comment                     |
       | simplegroup | nothing special here        |

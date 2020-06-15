@@ -8,46 +8,46 @@ Feature: group membership
   Background:
     Given these users have been created with default attributes and skeleton files:
       | username |
-      | user1    |
-      | user2    |
-      | user3    |
-      | user4    |
+      | Alice    |
+      | Brian    |
+      | Carol    |
+      | David    |
     And group "grp1" has been created
     And group "grp3" has been created
-    And user "user1" has been added to group "grp1"
-    And user "user2" has been added to group "grp1"
-    And user "user3" has been added to group "grp3"
-    And user "user1" has logged in using the webUI
+    And user "Alice" has been added to group "grp1"
+    And user "Brian" has been added to group "grp1"
+    And user "Carol" has been added to group "grp3"
+    And user "Alice" has logged in using the webUI
 
   @skipOnOcV10.2
   Scenario: adding a new user to a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
-    And the administrator adds user "user3" to ldap group "grp1"
-    When the user re-logs in as "user3" using the webUI
+    And the administrator adds user "Carol" to ldap group "grp1"
+    When the user re-logs in as "Carol" using the webUI
     Then folder "simple-folder (2)" should be listed on the webUI
-    And folder "simple-folder (2)" should be marked as shared with "grp1" by "User One" on the webUI
+    And folder "simple-folder (2)" should be marked as shared with "grp1" by "Alice" on the webUI
 
   @skipOnOcV10.2
   Scenario: deleting a user from a group after a folder was shared with that group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
-    And the administrator removes user "user2" from ldap group "grp1"
-    When the user re-logs in as "user2" using the webUI
+    And the administrator removes user "Brian" from ldap group "grp1"
+    When the user re-logs in as "Brian" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
   @skipOnOcV10.2
   Scenario: simple sharing with a group
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
-    When the user re-logs in as "user2" using the webUI
+    When the user re-logs in as "Brian" using the webUI
     Then folder "simple-folder (2)" should be listed on the webUI
 
   @skipOnOcV10.2
   Scenario: simple sharing with a group but user no in it
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
-    When the user re-logs in as "user3" using the webUI
+    When the user re-logs in as "Carol" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
   @skipOnOcV10.2
@@ -55,16 +55,16 @@ Feature: group membership
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
     And the administrator deletes ldap group "grp1"
-    When the user re-logs in as "user2" using the webUI
+    When the user re-logs in as "Brian" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
   @skipOnOcV10.2
   Scenario: sharing with non unique group name (using non-unique group name)
     Given the administrator creates group "grp1" in ldap OU "TestUsers"
-    And the administrator adds user "user3" to group "grp1" in ldap OU "TestUsers"
+    And the administrator adds user "Carol" to group "grp1" in ldap OU "TestUsers"
     When the user shares folder "simple-folder" with group "grp1" using the webUI
     #ToDo use API calls
-    When the user re-logs in as "user3" using the webUI
+    When the user re-logs in as "Carol" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
   @skipOnOcV10.2
@@ -75,7 +75,7 @@ Feature: group membership
       | key                   | value                                        |
       | ldapGroupFilter       | (&(\|(objectclass=posixGroup))(\|(cn=grp2))) |
       | ldapGroupFilterGroups | grp2                                         |
-    When the user re-logs in as "user2" using the webUI
+    When the user re-logs in as "Brian" using the webUI
     Then folder "simple-folder (2)" should not be listed on the webUI
 
   @skipOnOcV10.2

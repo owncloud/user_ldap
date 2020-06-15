@@ -39,4 +39,3 @@ Feature: paging
     When the user types "12" in the share-with-field
     Then all users and groups that contain the string "12" in their name should be listed in the autocomplete list on the webUI
     And the users own name should not be listed in the autocomplete list on the webUI
-
