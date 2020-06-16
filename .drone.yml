@@ -188,7 +188,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -254,7 +254,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -330,7 +330,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -406,7 +406,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -482,7 +482,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -557,7 +557,7 @@ steps:
 
 - name: codecov-upload
   pull: always
-  image: plugins/codecov:2
+  image: plugins/codecov:latest
   settings:
     paths:
     - tests/output/clover.xml
@@ -1051,6 +1051,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1130,6 +1131,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1209,6 +1211,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1288,6 +1291,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1367,6 +1371,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1446,6 +1451,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1525,6 +1531,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1604,6 +1611,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1683,6 +1691,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1762,6 +1771,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1841,6 +1851,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 trigger:
@@ -1958,6 +1969,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2083,6 +2095,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2208,6 +2221,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2333,6 +2347,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2458,6 +2473,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2583,6 +2599,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2707,6 +2724,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2832,6 +2850,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -2956,6 +2975,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3081,6 +3101,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3206,6 +3227,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3330,6 +3352,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3455,6 +3478,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3580,6 +3604,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3704,6 +3729,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3829,6 +3855,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -3956,6 +3983,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4083,6 +4111,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4210,6 +4239,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4337,6 +4367,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4462,6 +4493,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4587,6 +4619,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4712,6 +4745,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4836,6 +4870,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -4961,6 +4996,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5086,6 +5122,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5210,6 +5247,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5335,6 +5373,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5462,6 +5501,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5589,6 +5629,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5724,6 +5765,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5859,6 +5901,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -5994,6 +6037,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6129,6 +6173,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6264,6 +6309,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6399,6 +6445,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6533,6 +6580,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6668,6 +6716,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6802,6 +6851,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -6937,6 +6987,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7072,6 +7123,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7206,6 +7258,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7341,6 +7394,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7476,6 +7530,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7610,6 +7665,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7745,6 +7801,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -7882,6 +7939,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8019,6 +8077,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8156,6 +8215,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8293,6 +8353,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8465,6 +8526,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8654,6 +8716,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -8843,6 +8906,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9032,6 +9096,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9221,6 +9286,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9410,6 +9476,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9599,6 +9666,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9788,6 +9856,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -9977,6 +10046,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -10166,6 +10236,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -10355,6 +10426,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -10544,6 +10616,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -10733,6 +10806,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -10922,6 +10996,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -11111,6 +11186,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -11300,6 +11376,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -11489,6 +11566,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -11678,6 +11756,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -11867,6 +11946,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -12056,6 +12136,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -12245,6 +12326,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -12434,6 +12516,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -12623,6 +12706,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -12812,6 +12896,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13001,6 +13086,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13190,6 +13276,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13379,6 +13466,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13568,6 +13656,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13757,6 +13846,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -13946,6 +14036,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -14135,6 +14226,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -14322,6 +14414,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -14509,6 +14602,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -14696,6 +14790,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -14883,6 +14978,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -15070,6 +15166,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -15257,6 +15354,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -15444,6 +15542,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -15631,6 +15730,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -15818,6 +15918,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16005,6 +16106,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16192,6 +16294,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16379,6 +16482,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16566,6 +16670,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16753,6 +16858,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -16940,6 +17046,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -17127,6 +17234,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -17314,6 +17422,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -17501,6 +17610,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -17688,6 +17798,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -17875,6 +17986,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18062,6 +18174,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18249,6 +18362,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18436,6 +18550,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18623,6 +18738,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18810,6 +18926,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -18997,6 +19114,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19184,6 +19302,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19371,6 +19490,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19558,6 +19678,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19704,6 +19825,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19835,6 +19957,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -19966,6 +20089,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20097,6 +20221,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20226,6 +20351,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20355,6 +20481,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20541,6 +20668,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20746,6 +20874,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -20951,6 +21080,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -21156,6 +21286,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -21361,6 +21492,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -21566,6 +21698,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -21769,6 +21902,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -21972,6 +22106,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -22175,6 +22310,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -22378,6 +22514,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -22586,6 +22723,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -22794,6 +22932,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -23002,6 +23141,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -23210,6 +23350,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -23418,6 +23559,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -23626,6 +23768,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -23834,6 +23977,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -24042,6 +24186,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -24250,6 +24395,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -24458,6 +24604,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -24666,6 +24813,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -24874,6 +25022,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -25082,6 +25231,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -25290,6 +25440,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -25498,6 +25649,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -25706,6 +25858,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -25914,6 +26067,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -26122,6 +26276,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -26330,6 +26485,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -26538,6 +26694,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -26746,6 +26903,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -26954,6 +27112,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -27162,6 +27321,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -27370,6 +27530,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -27578,6 +27739,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -27786,6 +27948,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -27994,6 +28157,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -28202,6 +28366,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -28410,6 +28575,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -28618,6 +28784,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -28785,6 +28952,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -28935,6 +29103,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -29085,6 +29254,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -29291,6 +29461,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -29514,6 +29685,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -29737,6 +29909,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -29960,6 +30133,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -30183,6 +30357,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -30391,6 +30566,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -30599,6 +30775,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -30807,6 +30984,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -31015,6 +31193,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -31223,6 +31402,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -31431,6 +31611,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -31639,6 +31820,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -31847,6 +32029,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -32055,6 +32238,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -32263,6 +32447,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -32471,6 +32656,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -32679,6 +32865,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -32887,6 +33074,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -33095,6 +33283,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -33303,6 +33492,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -33511,6 +33701,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -33719,6 +33910,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -33927,6 +34119,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -34135,6 +34328,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -34343,6 +34537,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -34551,6 +34746,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -34759,6 +34955,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -34967,6 +35164,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -35175,6 +35373,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -35383,6 +35582,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -35591,6 +35791,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -35799,6 +36000,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36007,6 +36209,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36215,6 +36418,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36423,6 +36627,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36590,6 +36795,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36740,6 +36946,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -36890,6 +37097,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -37096,6 +37304,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -37319,6 +37528,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -37542,6 +37752,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -37765,6 +37976,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server
@@ -37988,6 +38200,7 @@ services:
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
+    LDAP_PORT: 9008
     LDAP_TLS_VERIFY_CLIENT: never
 
 - name: server

@@ -201,5 +201,3 @@ Feature: manage groups
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 102             | 200              |
       | 2               | 400             | 400              |
-
-    
