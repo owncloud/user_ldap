@@ -1048,6 +1048,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1128,6 +1129,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1208,6 +1210,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1288,6 +1291,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1368,6 +1372,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1448,6 +1453,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1528,6 +1534,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1608,6 +1615,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1688,6 +1696,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1768,6 +1777,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1848,6 +1858,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1966,6 +1977,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2092,6 +2104,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2218,6 +2231,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2344,6 +2358,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2470,6 +2485,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2596,6 +2612,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2721,6 +2738,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2847,6 +2865,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2972,6 +2991,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3098,6 +3118,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3224,6 +3245,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3349,6 +3371,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3475,6 +3498,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3601,6 +3625,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3726,6 +3751,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3852,6 +3878,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3939,7 +3966,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -3980,6 +4007,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4067,7 +4095,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -4108,6 +4136,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4195,7 +4224,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -4236,6 +4265,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4323,7 +4353,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -4364,6 +4394,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4490,6 +4521,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4616,6 +4648,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4742,6 +4775,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4867,6 +4901,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4993,6 +5028,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5119,6 +5155,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5244,6 +5281,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5370,6 +5408,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5457,7 +5496,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -5498,6 +5537,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5585,7 +5625,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -5626,6 +5666,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5762,6 +5803,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5898,6 +5940,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6034,6 +6077,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6170,6 +6214,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6306,6 +6351,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6442,6 +6488,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6577,6 +6624,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6713,6 +6761,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6848,6 +6897,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6984,6 +7034,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7120,6 +7171,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7255,6 +7307,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7391,6 +7444,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7527,6 +7581,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7662,6 +7717,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7798,6 +7854,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7885,7 +7942,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -7936,6 +7993,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8023,7 +8081,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -8074,6 +8132,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8161,7 +8220,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -8212,6 +8271,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8299,7 +8359,7 @@ steps:
   commands:
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
-  - php occ ldap:set-config LDAPTestId ldapPort "636"
+  - php occ ldap:set-config LDAPTestId ldapPort "8008"
   - php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"
   - php occ ldap:show-config
   - php occ ldap:test-config "LDAPTestId"
@@ -8350,6 +8410,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8523,6 +8584,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8713,6 +8775,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8903,6 +8966,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9093,6 +9157,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9283,6 +9348,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9473,6 +9539,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9663,6 +9730,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9853,6 +9921,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10043,6 +10112,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10233,6 +10303,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10423,6 +10494,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10613,6 +10685,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10803,6 +10876,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10993,6 +11067,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11183,6 +11258,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11373,6 +11449,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11563,6 +11640,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11753,6 +11831,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11943,6 +12022,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12133,6 +12213,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12323,6 +12404,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12513,6 +12595,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12703,6 +12786,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12893,6 +12977,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13083,6 +13168,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13273,6 +13359,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13463,6 +13550,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13653,6 +13741,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13843,6 +13932,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14033,6 +14123,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14223,6 +14314,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14411,6 +14503,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14599,6 +14692,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14787,6 +14881,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14975,6 +15070,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15163,6 +15259,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15351,6 +15448,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15539,6 +15637,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15727,6 +15826,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15915,6 +16015,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16103,6 +16204,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16291,6 +16393,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16479,6 +16582,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16667,6 +16771,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16855,6 +16960,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17043,6 +17149,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17231,6 +17338,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17419,6 +17527,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17607,6 +17716,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17795,6 +17905,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17983,6 +18094,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18171,6 +18283,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18359,6 +18472,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18547,6 +18661,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18735,6 +18850,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18923,6 +19039,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19111,6 +19228,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19299,6 +19417,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19487,6 +19606,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19675,6 +19795,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19822,6 +19943,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19954,6 +20076,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20086,6 +20209,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20218,6 +20342,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20348,6 +20473,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20478,6 +20604,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20665,6 +20792,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20871,6 +20999,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21077,6 +21206,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21283,6 +21413,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21489,6 +21620,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21695,6 +21827,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21899,6 +22032,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22103,6 +22237,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22307,6 +22442,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22511,6 +22647,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22720,6 +22857,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22929,6 +23067,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23138,6 +23277,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23347,6 +23487,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23556,6 +23697,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23765,6 +23907,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23974,6 +24117,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24183,6 +24327,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24392,6 +24537,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24601,6 +24747,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24810,6 +24957,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25019,6 +25167,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25228,6 +25377,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25437,6 +25587,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25646,6 +25797,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25855,6 +26007,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26064,6 +26217,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26273,6 +26427,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26482,6 +26637,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26691,6 +26847,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26900,6 +27057,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27109,6 +27267,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27318,6 +27477,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27527,6 +27687,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27736,6 +27897,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27945,6 +28107,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28154,6 +28317,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28363,6 +28527,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28572,6 +28737,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28781,6 +28947,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28949,6 +29116,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29100,6 +29268,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29251,6 +29420,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29458,6 +29628,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29682,6 +29853,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29906,6 +30078,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30130,6 +30303,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30354,6 +30528,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30563,6 +30738,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30772,6 +30948,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30981,6 +31158,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31190,6 +31368,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31399,6 +31578,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31608,6 +31788,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31817,6 +31998,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32026,6 +32208,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32235,6 +32418,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32444,6 +32628,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32653,6 +32838,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32862,6 +33048,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33071,6 +33258,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33280,6 +33468,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33489,6 +33678,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33698,6 +33888,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33907,6 +34098,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34116,6 +34308,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34325,6 +34518,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34534,6 +34728,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34743,6 +34938,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34952,6 +35148,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35161,6 +35358,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35370,6 +35568,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35579,6 +35778,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35788,6 +35988,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35997,6 +36198,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36206,6 +36408,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36415,6 +36618,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36624,6 +36828,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36792,6 +36997,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36943,6 +37149,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37094,6 +37301,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37301,6 +37509,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37525,6 +37734,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37749,6 +37959,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37973,6 +38184,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -38197,6 +38409,7 @@ services:
   image: osixia/openldap
   environment:
     HOSTNAME: ldap
+    LDAPS_PORT: 8008
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud

@@ -129,7 +129,7 @@ config = {
 					'commands': [
 						'cd /var/www/owncloud/server',
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
-						'php occ ldap:set-config LDAPTestId ldapPort "636"',
+						'php occ ldap:set-config LDAPTestId ldapPort "8008"',
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -208,7 +208,7 @@ config = {
 					'commands': [
 						'cd /var/www/owncloud/server',
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
-						'php occ ldap:set-config LDAPTestId ldapPort "636"',
+						'php occ ldap:set-config LDAPTestId ldapPort "8008"',
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -291,7 +291,7 @@ config = {
 					'commands': [
 						'cd /var/www/owncloud/server',
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
-						'php occ ldap:set-config LDAPTestId ldapPort "636"',
+						'php occ ldap:set-config LDAPTestId ldapPort "8008"',
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
@@ -1894,6 +1894,7 @@ def ldapService(ldapNeeded):
 				'LDAP_TLS_VERIFY_CLIENT': 'never',
 				'HOSTNAME': 'ldap',
 				'LDAP_PORT': '9008',
+				'LDAPS_PORT': '8008'
 			}
 		}]
 
