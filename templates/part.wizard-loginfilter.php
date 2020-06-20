@@ -18,7 +18,7 @@
 			</label>
 
 			<input type="checkbox" id="ldap_loginfilter_email"
-				   title="<?php p($l->t('Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed.'));?>"
+				   title="<?php p($l->t('Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!'));?>"
 				   name="ldap_loginfilter_email" value="1" />
 		</p>
 		<p>
