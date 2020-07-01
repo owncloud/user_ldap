@@ -150,17 +150,17 @@ test-php-unit-dbg: $(composer_dev_deps)
 .PHONY: test-acceptance-core-api
 test-acceptance-core-api: ## Run core API acceptance tests
 test-acceptance-core-api: $(acceptance_test_deps)
-	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api --tags "@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type api --tags "~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
 
 .PHONY: test-acceptance-core-cli
 test-acceptance-core-cli: ## Run core CLI acceptance tests
 test-acceptance-core-cli: $(acceptance_test_deps)
-	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli --tags "@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type cli --tags "~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
 
 .PHONY: test-acceptance-core-webui
 test-acceptance-core-webui: ## Run core webUI acceptance tests
 test-acceptance-core-webui: $(acceptance_test_deps)
-	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui --tags "@TestAlsoOnExternalUserBackend&&~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
+	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui --tags "~@skipOnLDAP&&~@skip&&${BEHAT_FILTER_TAGS}" -c ../../tests/acceptance/config/behat.yml
 
 .PHONY: test-acceptance-api
 test-acceptance-api: ## Run LDAP API acceptance tests
