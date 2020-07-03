@@ -29252,7 +29252,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29475,7 +29475,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29698,7 +29698,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29921,7 +29921,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -30144,7 +30144,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
