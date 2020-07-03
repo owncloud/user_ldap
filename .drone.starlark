@@ -663,7 +663,7 @@ config = {
 			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
-			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'filterTags': '@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
 			'extraApps': {
 				'encryption': ''
 			},
