@@ -1045,9 +1045,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1124,9 +1123,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1203,9 +1201,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1282,9 +1279,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1361,9 +1357,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1440,9 +1435,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1519,9 +1513,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1598,9 +1591,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1677,9 +1669,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1756,9 +1747,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1835,9 +1825,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -1952,9 +1941,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2077,9 +2065,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2202,9 +2189,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2327,9 +2313,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2452,9 +2437,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2577,9 +2561,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2701,9 +2684,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2826,9 +2808,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -2950,9 +2931,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3075,9 +3055,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3200,9 +3179,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3324,9 +3302,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3449,9 +3426,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3574,9 +3550,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3698,9 +3673,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3823,9 +3797,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -3950,9 +3923,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4077,9 +4049,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4204,9 +4175,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4331,9 +4301,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4456,9 +4425,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4581,9 +4549,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4706,9 +4673,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4830,9 +4796,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -4955,9 +4920,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5080,9 +5044,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5204,9 +5167,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5329,9 +5291,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5456,9 +5417,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5583,9 +5543,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5718,9 +5677,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5853,9 +5811,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -5988,9 +5945,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6123,9 +6079,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6258,9 +6213,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6393,9 +6347,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6527,9 +6480,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6662,9 +6614,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6796,9 +6747,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -6931,9 +6881,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7066,9 +7015,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7200,9 +7148,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7335,9 +7282,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7470,9 +7416,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7604,9 +7549,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7739,9 +7683,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -7876,9 +7819,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8013,9 +7955,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8150,9 +8091,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8287,9 +8227,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8459,9 +8398,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8648,9 +8586,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -8837,9 +8774,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9026,9 +8962,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9215,9 +9150,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9404,9 +9338,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9593,9 +9526,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9782,9 +9714,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -9971,9 +9902,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10160,9 +10090,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10349,9 +10278,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10538,9 +10466,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10727,9 +10654,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -10916,9 +10842,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11105,9 +11030,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11294,9 +11218,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11483,9 +11406,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11672,9 +11594,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -11861,9 +11782,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12050,9 +11970,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12239,9 +12158,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12428,9 +12346,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12617,9 +12534,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12806,9 +12722,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -12995,9 +12910,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13184,9 +13098,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13373,9 +13286,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13562,9 +13474,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13751,9 +13662,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -13940,9 +13850,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14129,9 +14038,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14316,9 +14224,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14503,9 +14410,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14690,9 +14596,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -14877,9 +14782,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15064,9 +14968,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15251,9 +15154,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15438,9 +15340,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15625,9 +15526,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15812,9 +15712,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -15999,9 +15898,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16186,9 +16084,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16373,9 +16270,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16560,9 +16456,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16747,9 +16642,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -16934,9 +16828,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17121,9 +17014,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17308,9 +17200,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17495,9 +17386,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17682,9 +17572,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -17869,9 +17758,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18056,9 +17944,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18243,9 +18130,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18430,9 +18316,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18617,9 +18502,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18804,9 +18688,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -18991,9 +18874,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19178,9 +19060,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19365,9 +19246,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19552,9 +19432,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19698,9 +19577,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19829,9 +19707,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -19960,9 +19837,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20091,9 +19967,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20220,9 +20095,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20349,9 +20223,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20535,9 +20408,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20740,9 +20612,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -20945,9 +20816,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21150,9 +21020,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21355,9 +21224,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21560,9 +21428,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21763,9 +21630,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -21966,9 +21832,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22169,9 +22034,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22372,9 +22236,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22580,9 +22443,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22788,9 +22650,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -22996,9 +22857,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23204,9 +23064,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23412,9 +23271,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23620,9 +23478,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -23828,9 +23685,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24036,9 +23892,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24244,9 +24099,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24452,9 +24306,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24660,9 +24513,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -24868,9 +24720,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25076,9 +24927,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25284,9 +25134,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25492,9 +25341,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25700,9 +25548,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -25908,9 +25755,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26116,9 +25962,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26324,9 +26169,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26532,9 +26376,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26740,9 +26583,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -26948,9 +26790,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27156,9 +26997,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27364,9 +27204,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27572,9 +27411,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27780,9 +27618,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -27988,9 +27825,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28196,9 +28032,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28404,9 +28239,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28612,9 +28446,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28779,9 +28612,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -28929,9 +28761,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29079,9 +28910,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29285,9 +29115,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29508,9 +29337,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29731,9 +29559,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -29954,9 +29781,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30177,9 +30003,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30385,9 +30210,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30593,9 +30417,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -30801,9 +30624,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31009,9 +30831,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31217,9 +31038,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31425,9 +31245,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31633,9 +31452,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -31841,9 +31659,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32049,9 +31866,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32257,9 +32073,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32465,9 +32280,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32673,9 +32487,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -32881,9 +32694,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33089,9 +32901,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33297,9 +33108,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33505,9 +33315,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33713,9 +33522,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -33921,9 +33729,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34129,9 +33936,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34337,9 +34143,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34545,9 +34350,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34753,9 +34557,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -34961,9 +34764,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35169,9 +34971,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35377,9 +35178,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35585,9 +35385,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -35793,9 +35592,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36001,9 +35799,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36209,9 +36006,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36417,9 +36213,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36584,9 +36379,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36734,9 +36528,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -36884,9 +36677,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37090,9 +36882,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37313,9 +37104,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37536,9 +37326,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37759,9 +37548,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
@@ -37982,9 +37770,8 @@ services:
 
 - name: ldap
   pull: always
-  image: osixia/openldap:1.3.0
+  image: osixia/openldap
   environment:
-    HOSTNAME: ldap
     LDAP_ADMIN_PASSWORD: admin
     LDAP_DOMAIN: owncloud.com
     LDAP_ORGANISATION: owncloud
