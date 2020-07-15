@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+## [0.15.2] - 2020-06-16
+
+### Fixed
+- Reissue search in case of missing cookie in continued paged search - [#551](https://github.com/owncloud/user_ldap/issues/551)
+
+### Changed
+- Bump libraries
+
 ## [0.15.1] - 2020-03-09
 
 ### Fixed
@@ -119,7 +127,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.1...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.2...master
+[0.15.2]: https://github.com/owncloud/user_ldap/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/owncloud/user_ldap/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/owncloud/user_ldap/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/owncloud/user_ldap/compare/v0.13.0...v0.14.0
