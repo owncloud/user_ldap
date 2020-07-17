@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Reissue search in case of missing cookie in continued paged search - [#551](https://github.com/owncloud/user_ldap/issues/551)
 
 ### Changed
+
+- Set owncloud min-version to 10.4
 - Bump libraries
 
 ## [0.15.1] - 2020-03-09
