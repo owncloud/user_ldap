@@ -1903,6 +1903,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2027,6 +2028,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2151,6 +2153,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2275,6 +2278,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2399,6 +2403,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2523,6 +2528,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2647,6 +2653,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2770,6 +2777,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -2894,6 +2902,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3017,6 +3026,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3141,6 +3151,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3265,6 +3276,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3388,6 +3400,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3512,6 +3525,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3636,6 +3650,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3759,6 +3774,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -3883,6 +3899,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -4009,6 +4026,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -4135,6 +4153,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -4261,6 +4280,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -4387,6 +4407,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -4511,6 +4532,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -4635,6 +4657,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -4759,6 +4782,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -4882,6 +4906,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5006,6 +5031,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5130,6 +5156,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5253,6 +5280,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5377,6 +5405,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -5503,6 +5532,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -5629,6 +5659,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5763,6 +5794,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -5897,6 +5929,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6031,6 +6064,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6165,6 +6199,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6299,6 +6334,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6433,6 +6469,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6566,6 +6603,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6700,6 +6738,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6833,6 +6872,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -6967,6 +7007,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7101,6 +7142,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7234,6 +7276,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7368,6 +7411,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7502,6 +7546,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7635,6 +7680,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -7769,6 +7815,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -7905,6 +7952,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -8041,6 +8089,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -8177,6 +8226,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:set-config LDAPTestId ldapPort "636"
@@ -8345,6 +8395,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -8533,6 +8584,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -8721,6 +8773,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -8909,6 +8962,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -9097,6 +9151,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -9285,6 +9340,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -9473,6 +9529,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -9661,6 +9718,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -9849,6 +9907,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10037,6 +10096,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10225,6 +10285,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10413,6 +10474,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10601,6 +10663,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10789,6 +10852,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -10977,6 +11041,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -11165,6 +11230,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -11353,6 +11419,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -11541,6 +11608,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -11729,6 +11797,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -11917,6 +11986,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -12105,6 +12175,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -12293,6 +12364,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -12481,6 +12553,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -12669,6 +12742,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -12857,6 +12931,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13045,6 +13120,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13233,6 +13309,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13421,6 +13498,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13609,6 +13687,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13797,6 +13876,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -13985,6 +14065,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -14171,6 +14252,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -14357,6 +14439,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -14543,6 +14626,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -14729,6 +14813,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -14915,6 +15000,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -15101,6 +15187,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -15287,6 +15374,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -15473,6 +15561,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -15659,6 +15748,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -15845,6 +15935,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16031,6 +16122,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16217,6 +16309,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16403,6 +16496,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16589,6 +16683,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16775,6 +16870,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -16961,6 +17057,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -17147,6 +17244,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -17333,6 +17431,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -17519,6 +17618,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -17705,6 +17805,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -17891,6 +17992,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -18077,6 +18179,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -18263,6 +18366,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -18449,6 +18553,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -18635,6 +18740,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -18821,6 +18927,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19007,6 +19114,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19193,6 +19301,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19379,6 +19488,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19533,6 +19643,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19663,6 +19774,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19793,6 +19905,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -19923,6 +20036,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20051,6 +20165,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20179,6 +20294,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20339,6 +20455,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20543,6 +20660,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20747,6 +20865,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -20951,6 +21070,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -21155,6 +21275,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -21359,6 +21480,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -21561,6 +21683,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -21763,6 +21886,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -21965,6 +22089,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -22167,6 +22292,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -22380,6 +22506,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -22587,6 +22714,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -22794,6 +22922,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -23001,6 +23130,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -23208,6 +23338,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -23415,6 +23546,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -23622,6 +23754,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -23829,6 +23962,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -24036,6 +24170,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -24243,6 +24378,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -24450,6 +24586,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -24657,6 +24794,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -24864,6 +25002,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -25071,6 +25210,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -25278,6 +25418,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -25485,6 +25626,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -25692,6 +25834,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -25899,6 +26042,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -26106,6 +26250,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -26313,6 +26458,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -26520,6 +26666,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -26727,6 +26874,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -26934,6 +27082,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -27141,6 +27290,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -27348,6 +27498,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -27555,6 +27706,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -27762,6 +27914,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -27969,6 +28122,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -28176,6 +28330,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -28383,6 +28538,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -28558,6 +28714,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -28707,6 +28864,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -28856,6 +29014,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -29037,6 +29196,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -29259,6 +29419,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -29481,6 +29642,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -29703,6 +29865,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -29925,6 +30088,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -30147,6 +30311,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -30354,6 +30519,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -30561,6 +30727,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -30768,6 +30935,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -30975,6 +31143,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -31182,6 +31351,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -31389,6 +31559,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -31596,6 +31767,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -31803,6 +31975,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -32010,6 +32183,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -32217,6 +32391,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -32424,6 +32599,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -32631,6 +32807,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -32838,6 +33015,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -33045,6 +33223,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -33252,6 +33431,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -33459,6 +33639,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -33666,6 +33847,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -33873,6 +34055,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -34080,6 +34263,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -34287,6 +34471,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -34494,6 +34679,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -34701,6 +34887,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -34908,6 +35095,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -35115,6 +35303,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -35322,6 +35511,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -35529,6 +35719,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -35736,6 +35927,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -35943,6 +36135,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -36150,6 +36343,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -36325,6 +36519,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -36474,6 +36669,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -36623,6 +36819,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -36804,6 +37001,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -37026,6 +37224,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -37248,6 +37447,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -37470,6 +37670,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
@@ -37692,6 +37893,7 @@ steps:
   pull: always
   image: owncloudci/php:7.2
   commands:
+  - wait-for-it -t 600 ldap:636
   - cd /var/www/owncloud/server
   - bash ./apps/user_ldap/tests/acceptance/setConfig.sh
   - php occ ldap:show-config
