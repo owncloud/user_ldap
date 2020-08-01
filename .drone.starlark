@@ -2348,6 +2348,7 @@ def ldapIntegration():
 										'LDAP_HOST': 'ldap'
 									},
 									'commands': [
+										'wait-for-it -t 600 ldap:636',
 										'php -f ./tests/integration/Lib/%s.php' % test,
 									]
 								}),
