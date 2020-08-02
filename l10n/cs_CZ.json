@@ -66,7 +66,6 @@
     "LDAP / AD Username:" : "LDAP / AD uživatelské jméno:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Umožňuje přihlášení s LDAP / AD uživatelským jménem, které má rozpoznatelnou hodnotu pro uid nebo samaccountname.",
     "LDAP / AD Email Address:" : "LDAP / AD emailová adresa:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Umožňuje přihlášení s atributem emailu. Jsou povoleny Mail a mailPrimaryAddress.",
     "Other Attributes:" : "Další atributy:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad: \"uid=%%uid\"",
     "Test Loginname" : "Testovací přihlašovací jméno",

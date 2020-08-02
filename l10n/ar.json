@@ -67,7 +67,6 @@
     "LDAP / AD Username:" : "اسم مستخدم LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "يسمح بتسجيل الدخول باسم المستخدم LDAP / AD، الذي سيكون إمّا uid وإمّا samaccountname، وسيتم الكشف عنه.",
     "LDAP / AD Email Address:" : "عنوان البريد الإلكتروني لـ LDAP / AD:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "يسمح بتسجيل الدخول بسمة البريد الإلكتروني. سيتم السماح بعنوان البريد وmailPrimaryAddress.",
     "Other Attributes:" : "سمات أخرى:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "يحدد عامل التصفية الذي يتم استخدامه، عند محاولة تسجيل الدخول. %%uid يستبدل اسم المستخدم في إجراء تسجيل الدخول. على سبيل المثال: \"uid=%%uid\"",
     "Test Loginname" : "اختبار اسم تسجيل الدخول",

@@ -69,7 +69,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "LDAP/AD用户名:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "允许是能被检测到的UID或SAM帐户LDAP/ AD用户名登录。",
     "LDAP / AD Email Address:" : "LDAP/AD邮箱地址：",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "允许email属性登录。邮件和邮件主地址将被允许。",
     "Other Attributes:" : "其他属性：",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "当尝试登录时定义应用的过滤器。 %%uid替换登录操作的用户名。例如：“uid =%%uid”",
     "Test Loginname" : "测试登录名",

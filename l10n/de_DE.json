@@ -67,7 +67,6 @@
     "LDAP / AD Username:" : "LDAP-/AD-Benutzername:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Erlaubt das Anmelden gegen den LDAP / AD Nutzernamen, welcher entweder eine UID oder samaccountname ist und automatisch erkannt wird.",
     "LDAP / AD Email Address:" : "LDAP-/AD-E-Mail-Adresse:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Erlaubt das Anmelden gegen ein E-Mail Attribut. Mail und mailPrimaryAddress sind erlaubt.",
     "Other Attributes:" : "Andere Attribute:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. %%uid ersetzt den Benutzernamen bei der Anmeldung. Beispiel: \"uid=%%uid\"",
     "Test Loginname" : "Loginnamen testen",

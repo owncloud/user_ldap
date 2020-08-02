@@ -64,7 +64,6 @@
     "When logging in, %s will find the user based on the following attributes:" : "هنگام ورود، %s کاربر را براساس مشخصه های مقابل پیدا خواهد کرد: ",
     "LDAP / AD Username:" : "نام‌کاربری LDAP / AD :",
     "LDAP / AD Email Address:" : " آدرس ایمیل LDAP / AD :",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "ورود های مجاز با مشخصه ایمیل. نامه و  mailPrimaryAddress مجاز خواهد بود.",
     "Other Attributes:" : "مشخصه های دیگر:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "فیلتری تعریف کنید برای هنگام تلاش برای ورود. %%uid نام کاربری را در هنگام ورود جایگزین میکند. مثال: \"uid=%%uid\"",
     "Test Loginname" : "امتحان نام ورود",

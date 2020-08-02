@@ -65,7 +65,6 @@
     "LDAP / AD Username:" : "ЛДАП / АД корисничко име:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Дозволи пријаву уз ЛДАП / АД корисичко име које је или uid или samaccountname и биће откривено.",
     "LDAP / AD Email Address:" : "ЛДАП / АД е-адреса:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Дозволи пријаву уз атрибут е-поште. Mail и mailPrimaryAddress биће дозвољени.",
     "Other Attributes:" : "Остали параметри:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Одређује филтер који ће се применити при покушају пријављивања. %%uid замењује корисничко име при пријављивању. Пример: \"uid=%%uid\"",
     "Test Loginname" : "Испробај име за пријаву",

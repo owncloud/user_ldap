@@ -67,7 +67,6 @@
     "LDAP / AD Username:" : "שם משתמש LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "מאפשר התחברות אל מול שם משתמש LDAP / AD, שהוא רק uid או samaccountname ויזוהה.",
     "LDAP / AD Email Address:" : "כתובת דואר אלקטרוני LDAP / AD:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "מאפשר התחברות אל מול מאפיין דואר אלקטרוני. Mail וכן mailPrimaryAddress יהיו מותרים לשימוש.",
     "Other Attributes:" : "מאפיינים נוספים:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "מגדיר את הסינון הפעיל, כשיש ניסיון התחברות. %%uid מחליף את שם המשתמש בפעולת ההתחברות. לדוגמא: \"uid=%%uid\"",
     "Test Loginname" : "בדיקת שם התחברות",

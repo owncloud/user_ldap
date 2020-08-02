@@ -69,7 +69,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "Nom d'utilisateur LDAP / AD :",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Autoriser le login avec le nom d'utilisateur LDAP / AD (uid ou samaccountname, la détection est automatique). ",
     "LDAP / AD Email Address:" : "Adresse mail LDAP / AD :",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Autoriser le login avec une adresse mail. Mail et mailPrimaryAddress sont autorisés.",
     "Other Attributes:" : "Autres attributs :",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur. Exemple : \"uid=%%uid\"",
     "Test Loginname" : "Loginname de test",

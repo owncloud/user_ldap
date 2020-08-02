@@ -66,7 +66,6 @@
     "LDAP / AD Username:" : "Nom d'utilizaire LDAP / AD :",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Autorizar lo login amb lo nom d'utilizaire LDAP / AD (uid o samaccountname, la deteccion es automatica). ",
     "LDAP / AD Email Address:" : "Adreça mail LDAP / AD :",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Autorizar lo login amb una adreça mail. Mail e mailPrimaryAddress son autorizats.",
     "Other Attributes:" : "Autres atributs :",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definís lo filtre d'aplicar al moment d'una temptativa de connexion. %%uid remplaça lo nom d'utilizaire. Exemple : \"uid=%%uid\"",
     "Test Loginname" : "Loginname de tèst",

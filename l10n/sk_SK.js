@@ -68,7 +68,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "Používateľské meno LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Povoliť prihlásenie prostredníctvom LDAP / AD používateľského mena, ktoré má zadanú hodnotu v atribútoch uid alebo samaccountname.",
     "LDAP / AD Email Address:" : "LDAP / AD emailová adresa:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Povoliť prihlásenie prostredníctvom emailu. Povolené atribúty sú Mail a mailPrimaryAddress.",
     "Other Attributes:" : "Iné atribúty:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Určuje použitý filter, pri pokuse o prihlásenie. %%uid nahrádza používateľské meno v činnosti prihlásenia. Napríklad: \"uid=%%uid\"",
     "Test Loginname" : "Testovacie prihlasovacie meno",

@@ -69,7 +69,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "LDAP / AD brukernavn:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Tillater pålogging med LDAP / AD brukernavn, som er enten uid eller samaccountname og vil bli oppdaget.",
     "LDAP / AD Email Address:" : "LDAP / AD Epost-adresse:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Log alltid på med en epost-attributt. Mail og mailPrimaryAddress vil være tillatt.",
     "Other Attributes:" : "Andre attributter:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"uid=%%uid\"",
     "Test Loginname" : "Test påloggingsnavn",

@@ -69,7 +69,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "LDAP/ADユーザー名:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "LDAP / AD ユーザー名に対してログインが許可されています。uid か、samaccountname のどちらかが検出されました。",
     "LDAP / AD Email Address:" : "LDAP / AD メールアドレス:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "メール属性に対してログインが許可されています。メールや mailPrimaryAddress が許可されています。",
     "Other Attributes:" : "その他の属性:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "ログイン実行時に適用するフィルターを定義します。%%uid にはログイン操作におけるユーザー名が入ります。例： \"uid=%%uid\"",
     "Test Loginname" : "テスト用ログイン名",

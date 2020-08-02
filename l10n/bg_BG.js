@@ -69,7 +69,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "LDAP / AD потребителско име:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Позволява влизане с потребителското име на LDAP / AD, което е или uid или име на самия акаунт, което ще бъде открито.",
     "LDAP / AD Email Address:" : "LDAP / AD Имейл Aдрес:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Позволява влизане с имейл атрибут. Имейл и mailPrimaryAddress ще бъдат разрешени.",
     "Other Attributes:" : "Други Атрибути:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Заявява филтърът, който да бъде приложен при опит за вписване. %%uid замества потребителското име в полето login action. Пример: \"uid=%%uid\".",
     "Test Loginname" : "Проверка на Потребителско име",

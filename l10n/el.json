@@ -67,7 +67,6 @@
     "LDAP / AD Username:" : "Όνομα χρήστη LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Επιτρέπει σύνδεση με το όνομα χρήστη στο LDAP / AD, το οποίο είναι είτε uid ή samaccountname και θα ανιχνευθεί.",
     "LDAP / AD Email Address:" : "Διεύθυνση ηλ. ταχυδρομείου LDAP / AD:",
-    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed." : "Επιτρέπει με χρήση μια ιδιότητας ηλ. ταχυδρομείου. Τα mail και mailPrimaryAddress θα επιτραπούν.",
     "Other Attributes:" : "Άλλες Ιδιότητες:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειρηθεί σύνδεση. Το %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\"",
     "Test Loginname" : "Δοκιμή ονόματος σύνδεσης",
