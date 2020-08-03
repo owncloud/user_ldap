@@ -69,6 +69,7 @@ OC.L10N.register(
     "LDAP / AD Username:" : "Emër përdoruesi LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Lejon hyrje kundrejt emrin të përdoruesit LDAP / AD, që është ose uid, ose samaccountname, dhe do të zbulohet.",
     "LDAP / AD Email Address:" : "Adresë Email LDAP / AD:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "Lejon hyrje kundrejt një atributi email-i. Do të lejohen Mail dhe mailPrimaryAddress. KUJDES: Çaktivizimi i hyrjeve me email mund të dojë aktivizimin e kontrollit të hyrjeve që ky të jetë efektiv, për më tepër hollësi shihni dokumentimin e ownCloud-it!",
     "Other Attributes:" : "Atribute të Tjerë:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Përcakton filtrin që duhet zbatuar kur përpiqet të bëhet hyrje. %%uid zëvendëson emrin e përdoruesi te veprimi i hyrjes. Shembull: \"uid=%%uid\"",
     "Test Loginname" : "Testo Emër hyrjesh",
