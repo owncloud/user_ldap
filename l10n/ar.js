@@ -69,6 +69,7 @@ OC.L10N.register(
     "LDAP / AD Username:" : "اسم مستخدم LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "يسمح بتسجيل الدخول باسم المستخدم LDAP / AD، الذي سيكون إمّا uid وإمّا samaccountname، وسيتم الكشف عنه.",
     "LDAP / AD Email Address:" : "عنوان البريد الإلكتروني لـ LDAP / AD:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "يسمح بتسجيل الدخول مقابل سمة البريد الإلكتروني. سيتم السماح بـ Mail و mailPrimaryAddress. تحذير: قد يتطلب تعطيل تسجيل الدخول بالبريد الإلكتروني تمكين التحقق الصارم من تسجيل الدخول ليكون فعالاً ، يرجى الرجوع إلى توثيق ownCloud لمزيد من التفاصيل!",
     "Other Attributes:" : "سمات أخرى:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "يحدد عامل التصفية الذي يتم استخدامه، عند محاولة تسجيل الدخول. %%uid يستبدل اسم المستخدم في إجراء تسجيل الدخول. على سبيل المثال: \"uid=%%uid\"",
     "Test Loginname" : "اختبار اسم تسجيل الدخول",
