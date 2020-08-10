@@ -67,6 +67,7 @@
     "LDAP / AD Username:" : "שם משתמש LDAP / AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "מאפשר התחברות אל מול שם משתמש LDAP / AD, שהוא רק uid או samaccountname ויזוהה.",
     "LDAP / AD Email Address:" : "כתובת דואר אלקטרוני LDAP / AD:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "מאפשר התחברות כנגד מאפיין דואר אלקטרוני. דואר וכתובת דואר אלקטרוני ראשית יאושרו. אזהרה: השבתת ההתחברות באמצעות דואר אלקטרוני עשויה לדרוש הפעלת בדיקת כניסה קפדנית כדי להיות יעילה, יש לעיין בתיעוד ownCloud לקבלת פרטים נוספים!",
     "Other Attributes:" : "מאפיינים נוספים:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "מגדיר את הסינון הפעיל, כשיש ניסיון התחברות. %%uid מחליף את שם המשתמש בפעולת ההתחברות. לדוגמא: \"uid=%%uid\"",
     "Test Loginname" : "בדיקת שם התחברות",
