@@ -67,6 +67,7 @@
     "LDAP / AD Username:" : "Имя пользователя LDAP/AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Позволяет вход в LDAP / AD с помощью имени пользователя, которое может определяться как uid, так и samaccountname.",
     "LDAP / AD Email Address:" : "Адрес email LDAP / AD:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "Разрешает вход через атрибут электронной почты. Будут разрешены mail и mailPrimaryAddress. ПРЕДУПРЕЖДЕНИЕ:  Отключение входа через почту может потребовать включённости строгой проверки логина, пожалуйста обратитесь к документации ownCloud по поводу подробностей.",
     "Other Attributes:" : "Другие атрибуты:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Определяет фильтр для применения при попытке входа. %%uid заменяет имя пользователя при входе в систему. Например: \"uid=%%uid\"",
     "Test Loginname" : "Проверить логин",
