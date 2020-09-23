@@ -67,6 +67,7 @@
     "LDAP / AD Username:" : "ชื่อผู้ใช้ LDAP/AD:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "อนุญาตให้ผู้ใช้เข้าสู่ระบบ LDAP/AD ซึ่งเป็นทั้ง uid หรือ samAccountName และมันจะถูกตรวจพบ",
     "LDAP / AD Email Address:" : "ที่อยู่อีเมล LDAP/AD:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "อนุญาตให้เข้าสู่ระบบโดยใช้แอตทริบิวต์ Mail และ mailPrimaryAddress คำเตือน: การปิดใช้งานการเข้าสู่ระบบด้วยอีเมลอาจต้องเปิดใช้งาน 2FA เพื่อความปลอดภัย สามารถดูรายละเอียดเพิ่มเติมจากเอกสารของ ownCloud!",
     "Other Attributes:" : "คุณลักษณะอื่นๆ:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "กำหนดตัวกรองที่ใช้ เมื่อพยายามเข้าสู่ระบบจะใช้ %%uid แทนชื่อผู้ใช้ในการดำเนินการเข้าสู่ระบบ ตัวอย่าง: \"uid=%%uid\"",
     "Test Loginname" : "ทดสอบชื่อที่ใช้ในการเข้าสู่ระบบ",
