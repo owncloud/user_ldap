@@ -1,5 +1,6 @@
 { "translations": {
     "The Base DN appears to be wrong" : "Base DN 出現問題",
+    "Testing configuration…" : "測試中配置...",
     "Configuration incorrect" : "設定不正確",
     "Configuration incomplete" : "設定未完成",
     "Configuration OK" : "設定完成",
@@ -95,6 +96,7 @@
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "可以選擇性設定備用主機，必須是 LDAP/AD 中央伺服器的複本。",
     "Backup (Replica) Port" : "備用（複本）連接埠",
     "Disable Main Server" : "停用主伺服器",
+    "Only connect to the replica server." : "僅連接到副本伺服器。",
     "Turn off SSL certificate validation." : "關閉 SSL 憑證檢查",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "不建議，請僅在測試時使用！如果連線只能在此設定下工作，請匯入LDAP伺服器的SSL認證到您的伺服器%s上",
     "Cache Time-To-Live" : "快取的存活時間",
@@ -123,6 +125,8 @@
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
     "UUID Attribute for Groups:" : "群組的UUID值:",
-    "Username-LDAP User Mapping" : "LDAP-使用者名稱 對應 使用者"
+    "Username-LDAP User Mapping" : "LDAP-使用者名稱 對應 使用者",
+    "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP使用者映射",
+    "Clear Groupname-LDAP Group Mapping" : "清除組名-LDAP群組映射"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
