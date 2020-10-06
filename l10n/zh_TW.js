@@ -141,6 +141,7 @@ OC.L10N.register(
     "UUID Attribute for Users:" : "使用者的UUID值:",
     "UUID Attribute for Groups:" : "群組的UUID值:",
     "Username-LDAP User Mapping" : "LDAP-使用者名稱 對應 使用者",
+    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "用戶名用於存儲和分配（元）數據。 為了精確地識別和識別用戶，每個LDAP使用者將具有一個內部使用者名稱。 這需要從使用者名稱到LDAP使用者的映射。 創建的使用者名稱映射到LDAP使用者的UUID。 另外，DN也被緩存以減少LDAP交互，但是它不用於標識。 如果DN更改，將找到更改。 內部使用者名稱被全部使用。 清除映射將到處都有剩菜。 清除映射對配置不敏感，它會影響所有LDAP配置！ 僅在測試或實驗階段，切勿在生產環境中清除映射。",
     "Clear Username-LDAP User Mapping" : "清除使用者名稱-LDAP使用者映射",
     "Clear Groupname-LDAP Group Mapping" : "清除組名-LDAP群組映射"
 },
