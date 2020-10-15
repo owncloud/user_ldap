@@ -28,7 +28,7 @@ use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
-class IntegrationTestPaging extends AbstractIntegrationTest {
+class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 	/** @var  UserMapping */
 	protected $mapping;
 
@@ -47,64 +47,21 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * tests that paging having multiple bases returns limit at offset
+	 * for all bases in parallel
 	 *
 	 * @return bool
 	 */
 	protected function case1() {
-		$limit = 2;
-		$offset = 0;
-
-		$filter = 'objectclass=inetorgperson';
-		$attributes = ['cn', 'dn'];
-		$users = [];
-		do {
-			$result = $this->access->searchUsers($filter, $attributes, $limit, $offset);
-			foreach ($result as $user) {
-				$users[] = $user['cn'];
-			}
-			$offset += $limit;
-		} while ($this->access->hasMoreResults());
-
-		if (\count($users) === 5) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * tests that paging can retry for missing cookie for continued paged search
-	 *
-	 * @return bool
-	 */
-	protected function case2() {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
-		// start paged search from offset 0 with limit 2
-		// and thus sets cookie so search can continue
+		// having multiple bases there is currently an issue that:
+		// - having searchUsers with limit 2 and offset 2, expected resultset is 2
+		// - while having multiple base-dns specified, LDAP currently will return 4 results (while expected is 2 from range query)
 		$result = $this->access->searchUsers($filter, $attributes, 2, 0);
-		if (\count($result) !== 2) {
-			return false;
-		}
-
-		// interrupt previous paged search with paged search that returns complete result
-		// and thus sets '' cookie indicating completion
-		$result = $this->access->searchUsers($filter, $attributes, 6, 0);
-		if (\count($result) !== 5) {
-			return false;
-		}
-
-		// we should be able to continue previous paged search when interrupted
-		// by retrying search to repopulate cookie
-		$result = $this->access->searchUsers($filter, $attributes, 2, 2);
-		if (\count($result) !== 2) {
-			return false;
-		}
-		$result = $this->access->searchUsers($filter, $attributes, 2, 4);
-		if (\count($result) !== 1) {
+		echo(\count($result) . PHP_EOL);
+		if (\count($result) !== 4) {
 			return false;
 		}
 
@@ -118,8 +75,8 @@ require_once(__DIR__ . '/../setup-scripts/config.php');
 /** @global $adn string */
 /** @global $apwd string */
 /** @global $bdn string */
-$bdnUsers = $bdn;
+$bdnUsers = 'ou=users,' . $bdn . ';' .'ou=admins,' . $bdn;
 $bdnGroups = $bdn;
-$test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn, $bdnUsers, $bdnGroups);
+$test = new IntegrationTestPagingMultipleBase($host, $port, $adn, $apwd, $bdn, $bdnUsers, $bdnGroups);
 $test->init();
 $test->run();
