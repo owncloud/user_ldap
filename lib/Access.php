@@ -881,21 +881,25 @@ class Access implements IUserTools {
 	 */
 	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
 		$entries = [];
-		$bases = $this->connection->ldapBaseUsers;
-		// disable parallel paginated search on subsequent pages
 		if ($offset !== null && $offset > 0) {
-			foreach ($bases as $base) {
+			// when using paginated search on subsequent pages that require valid
+			// paging cookies, we need to use single base search - this behaviour is similar to
+			// using separate ldap backend and avoids cookie invalidation
+			foreach ($this->connection->ldapBaseUsers as $base) {
 				foreach ($this->search($filter, [$base], $attr, $limit, $offset) as $entry) {
 					$entries[] = $entry;
 				}
 			}
 		} else {
-			$entries = $this->search($filter, $bases, $attr, $limit, $offset);
+			// simple search without pagination
+			$entries = $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 		}
 		return $entries;
 	}
 
 	/**
+	 * executes an simplified LDAP search to count users, optimized for Users
+	 *
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -904,9 +908,10 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function countUsers($filter, $attr = ['dn'], $limit = null, $offset = null) {
+		// counting does not support multiple bases, we have to count each
+		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		$bases = $this->connection->ldapBaseUsers;
-		foreach ($bases as $base) {
+		foreach ($this->connection->ldapBaseUsers as $base) {
 			$e = $this->count($filter, [$base], $attr, $limit, $offset);
 			$entries += $e;
 		}
@@ -922,21 +927,22 @@ class Access implements IUserTools {
 	 * @param integer $offset
 	 * @return array with the search result
 	 *
-	 * Executes an LDAP search
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
-		$entries = [];
-		$bases = $this->connection->ldapBaseGroups;
-		// disable parallel paginated search on subsequent pages
 		if ($offset !== null && $offset > 0) {
-			foreach ($bases as $base) {
+			// when using paginated search on subsequent pages that require valid
+			// paging cookies, we need to use single base search - this behaviour is similar to
+			// using separate ldap backend and avoids cookie invalidation
+			$entries = [];
+			foreach ($this->connection->ldapBaseGroups as $base) {
 				foreach ($this->search($filter, [$base], $attr, $limit, $offset) as $entry) {
 					$entries[] = $entry;
 				}
 			}
 		} else {
-			$entries = $this->search($filter, $bases, $attr, $limit, $offset);
+			// simple search without pagination
+			$entries = $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
 		}
 		return $entries;
 	}
@@ -952,9 +958,10 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function countGroups($filter, $attr = ['dn'], $limit = null, $offset = null) {
+		// counting does not support multiple bases, we have to count each
+		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		$bases = $this->connection->ldapBaseGroups;
-		foreach ($bases as $base) {
+		foreach ($this->connection->ldapBaseGroups as $base) {
 			$e = $this->count($filter, [$base], $attr, $limit, $offset);
 			$entries += $e;
 		}
@@ -970,9 +977,10 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function countObjects($limit = null, $offset = null) {
+		// counting does not support multiple bases, we have to count each
+		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		$bases = $this->connection->ldapBase;
-		foreach ($bases as $base) {
+		foreach ($this->connection->ldapBase as $base) {
 			$e = $this->count('objectclass=*', [$base], ['dn'], $limit, $offset);
 			$entries += $e;
 		}
@@ -1182,15 +1190,14 @@ class Access implements IUserTools {
 	 * Executes an LDAP search
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
+	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
 	 * @param int $limit
 	 * @param int $offset
-	 * @param bool $skipHandling
 	 * @return array with the search result
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function search($filter, $base, $attr = null, $limit = null, $offset = null) {
+	private function search($filter, $bases, $attr = null, $limit = null, $offset = null) {
 		if ($attr !== null && !\is_array($attr)) {
 			$attr = [\mb_strtolower($attr, 'UTF-8')];
 		}
@@ -1209,7 +1216,7 @@ class Access implements IUserTools {
 		$savedoffset = $offset;
 		$shouldRetryForMissingCookie = true;
 		do {
-			$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
+			$search = $this->executeSearch($filter, $bases, $attr, $limit, $offset);
 			if ($search === false) {
 				return [];
 			}
@@ -1220,7 +1227,7 @@ class Access implements IUserTools {
 				$findings = \array_merge($findings, $this->getLDAP()->getEntries($cr, $res));
 			}
 
-			list($hasMorePages, ) = $this->processPagedSearchStatus($sr, $filter, $base, $findings['count'],
+			list($hasMorePages, ) = $this->processPagedSearchStatus($sr, $filter, $bases, $findings['count'],
 								$limit, $offset, $pagedSearchOK,
 										false);
 
@@ -1240,7 +1247,7 @@ class Access implements IUserTools {
 				// reoffset to 0
 				$reOffset = 0;
 				do {
-					$retrySearch = $this->executeSearch($filter, $base, $attr, $limit, $reOffset);
+					$retrySearch = $this->executeSearch($filter, $bases, $attr, $limit, $reOffset);
 					if ($retrySearch === false) {
 						$retryPagedSearchOK = false;
 					} else {
@@ -1249,7 +1256,7 @@ class Access implements IUserTools {
 						// i.e. result does not need to be fetched, we just need the cookie
 						// thus pass 1 or any other value as $iFoundItems because it is not
 						// used
-						$this->processPagedSearchStatus($retrySr, $filter, $base, 1, $limit,
+						$this->processPagedSearchStatus($retrySr, $filter, $bases, 1, $limit,
 							$reOffset, $retryPagedSearchOK,
 							true);
 					}

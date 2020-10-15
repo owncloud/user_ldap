@@ -45,13 +45,21 @@ abstract class AbstractIntegrationTest {
 	protected $userManager;
 
 	/** @var  string */
-	protected $base;
+	protected $bdn;
+
+	/** @var  string */
+	protected $bdnUsers;
+
+	/** @var  string */
+	protected $bdnGroups;
 
 	/** @var string[] */
 	protected $server;
 
-	public function __construct($host, $port, $bind, $pwd, $base) {
+	public function __construct($host, $port, $bind, $pwd, $base, $baseUsers = null, $baseGroups = null) {
 		$this->base = $base;
+		$this->bdnUsers = $baseUsers === null ? $base : $baseUsers;
+		$this->bdnGroups = $baseGroups === null ? $base : $baseGroups;
 		$this->server = [
 			'host' => $host,
 			'port' => $port,
@@ -94,7 +102,9 @@ abstract class AbstractIntegrationTest {
 		$this->connection->setConfiguration([
 			'ldapHost' => $this->server['host'],
 			'ldapPort' => $this->server['port'],
-			'ldapBase' => $this->base,
+			'ldapBase' => $this->bdn,
+			'ldapBaseUsers' => $this->bdnUsers,
+			'ldapBaseGroups' => $this->bdnGroups,
 			'ldapAgentName' => $this->server['dn'],
 			'ldapAgentPassword' => $this->server['pwd'],
 			'ldapUserFilter' => 'objectclass=inetOrgPerson',

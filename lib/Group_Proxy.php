@@ -157,10 +157,19 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	}
 
 	/**
-	 * get a list of all groups
-	 * @return string[] with group names
+	 * Get a list of all groups for LDAP base DNs across configured servers.
 	 *
-	 * Returns a list with all groups
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of gids returned by all base DNs queried
+	 * 					individually for specified search, limit and offset
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		$groups = [];
