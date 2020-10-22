@@ -47,10 +47,6 @@
 	height: auto;
 }
 
-#ldap .tablerow button.ui-multiselect {
-
-}
-
 #ldap .tablerow .inline > div {
 	display: inline-block;
 }
@@ -327,6 +323,7 @@ select[multiple=multiple] + button {
 @media all and (min-width: 768px) {
 	#ldap .ui-tabs .ui-tabs-nav li.stateIndicator {
 		display: block;
+	}
 }
 
 .ui-tabs .ui-tabs-panel {
@@ -357,8 +354,6 @@ select[multiple=multiple] + button {
     padding-right: 5px;
 	margin-top: 1em;
 }
-
-
 
 #ldap p {
 	margin-bottom: 1em;
