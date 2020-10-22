@@ -470,3 +470,10 @@ OCA = OCA || {};
 
 	OCA.LDAP.Wizard.WizardView = WizardView;
 })();
+
+$(document).ready(function () {
+	$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
+    $(window).on('resize', function(){
+		$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
+  	});
+});
