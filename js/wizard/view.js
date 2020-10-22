@@ -356,7 +356,6 @@ OCA = OCA || {};
 		 * first config
 		 */
 		render: function () {
-			$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 			this.$settings.tabs({});
 			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button();
 			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange });
