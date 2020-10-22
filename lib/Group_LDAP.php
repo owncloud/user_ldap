@@ -377,6 +377,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 	/**
 	 * returns a list of users that have the given group as primary group
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $groupDN
 	 * @param string $search
 	 * @param int $limit
@@ -400,6 +406,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 	/**
 	 * returns the number of users that have the given group as primary group
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
 	 *
 	 * @param string $groupDN
 	 * @param string $search
@@ -599,6 +611,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 	/**
 	 * get a list of all users in a group
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
@@ -776,6 +794,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 	/**
 	 * get a list of all groups
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $search
 	 * @param $limit
 	 * @param int $offset
@@ -819,15 +843,21 @@ class Group_LDAP implements \OCP\GroupInterface {
 	/**
 	 * get a list of all groups using a paged search
 	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array with group names
-	 *
 	 * Returns a list with all groups
 	 * Uses a paged search if available to override a
 	 * server side search limit.
 	 * (active directory has a limit of 1000 by default)
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with group names
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if (!$this->enabled) {

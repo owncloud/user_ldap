@@ -163,6 +163,12 @@ class User_LDAP implements IUserBackend, UserInterface {
 	/**
 	 * Get a list of all users
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $search
 	 * @param integer $limit
 	 * @param integer $offset
@@ -250,6 +256,12 @@ class User_LDAP implements IUserBackend, UserInterface {
 
 	/**
 	 * Get a list of all display names
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
 	 *
 	 * @param string $search
 	 * @param string|null $limit

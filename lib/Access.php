@@ -736,7 +736,7 @@ class Access implements IUserTools {
 		$this->connection->writeToCache("userExists$ocName", true);
 	}
 
-	/*
+	/**
 	 * fetches a list of users according to a provided loginName and utilizing
 	 * the login filter.
 	 *
@@ -766,6 +766,13 @@ class Access implements IUserTools {
 	}
 
 	/**
+	 * fetches a list of users according to a provided filter and attributes
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
 	 *
 	 * @param string $filter
 	 * @param string|string[] $attr
@@ -780,6 +787,14 @@ class Access implements IUserTools {
 	}
 
 	/**
+	 * fetches a list of groups according to a provided filter and attributes
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -870,6 +885,12 @@ class Access implements IUserTools {
 	/**
 	 * executes an LDAP search, optimized for Users
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -900,6 +921,12 @@ class Access implements IUserTools {
 	/**
 	 * executes an simplified LDAP search to count users, optimized for Users
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $filter
 	 * @param string|string[] $attr
 	 * @param int $limit
@@ -920,6 +947,12 @@ class Access implements IUserTools {
 
 	/**
 	 * executes an LDAP search, optimized for Groups
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
 	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
@@ -950,6 +983,12 @@ class Access implements IUserTools {
 	/**
 	 * returns the number of available groups
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $filter the LDAP search filter
 	 * @param string[] $attr optional
 	 * @param int|null $limit
@@ -971,6 +1010,12 @@ class Access implements IUserTools {
 	/**
 	 * returns the number of available objects on the base DN
 	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int|bool
@@ -988,7 +1033,8 @@ class Access implements IUserTools {
 	}
 
 	/**
-	 * retrieved. Results will according to the order in the array.
+	 * returns the available objects on the base DN,
+	 * results will according to the order in the array.
 	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string[] $base an array containing the LDAP subtree(s) that shall be searched
@@ -1110,7 +1156,7 @@ class Access implements IUserTools {
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function count($filter, array $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function count($filter, array $bases, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OC::$server->getLogger()->debug(
 			'Count filter:  '.\print_r($filter, true),
 			['app' => 'user_ldap']);
@@ -1124,8 +1170,9 @@ class Access implements IUserTools {
 		$count = null;
 		$this->connection->getConnectionResource();
 
+		$shouldRetryForMissingCookie = true;
 		do {
-			$search = $this->executeSearch($filter, $base, $attr,
+			$search = $this->executeSearch($filter, $bases, $attr,
 										   $limitPerPage, $offset);
 			if ($search === false) {
 				if ($counter > 0) {
@@ -1142,28 +1189,65 @@ class Access implements IUserTools {
 			$counts = $this->countEntriesInSearchResults($sr);
 
 			list($hasMorePages, $estimates) = $this->processPagedSearchStatus(
-				$sr, $filter, $base, $count, $limitPerPage,
+				$sr, $filter, $bases, $count, $limitPerPage,
 				$offset, $pagedSearchOK, $skipHandling
 			);
 
-			foreach ($counts as $i => $count) {
-				$estimate = $estimates[$i];
-				if ($estimate > 0) {
-					// estimate reported for complete result, use it
-					$counter += $estimate;
-					// stop counting entries on subsequent pages for the base with an estimate
-					// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
-					unset($base[$i]);
-				} else {
-					$counter += $count;
-				}
-			}
+			// according to LDAP documentation, when cookie is missing for
+			// continued paged search, we should retry search from scratch
+			// up to required offset. Do not try reissuing cache next
+			// time as it could be another issue
+			if (!$pagedSearchOK && $shouldRetryForMissingCookie && $limit !== null && $offset > 0) {
+				// abandon paged searches to start missing paged search
+				$this->abandonPagedSearch();
 
-			$offset += $limitPerPage;
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * Continue now depends on $hasMorePages value
-			 */
-			$continue = $pagedSearchOK && $hasMorePages && \count($base) > 0;
+				\OC::$server->getLogger()->info(
+					"Reissuing paged count at range 0-$offset with limit $limit to retrieve missing cookie"
+				);
+				$shouldRetryForMissingCookie = false;
+
+				// reoffset to 0
+				$reOffset = 0;
+				do {
+					$retrySearch = $this->executeSearch($filter, $bases, $attr, $limit, $reOffset);
+					if ($retrySearch === false) {
+						$retryPagedSearchOK = false;
+					} else {
+						list($retrySr, $retryPagedSearchOK) = $retrySearch;
+
+						// i.e. result does not need to be fetched, we just need the cookie
+						// thus pass 1 or any other value as $iFoundItems because it is not
+						// used
+						$this->countEntriesInSearchResults($sr);
+						$this->processPagedSearchStatus(
+							$retrySr, $filter, $bases, 1, $limitPerPage,
+							$reOffset, $retryPagedSearchOK,
+							true);
+					}
+
+					// do not continue both retry and original query on error
+					$continue = $retryPagedSearchOK;
+					$reOffset += $limit;
+				} while ($continue && $reOffset < $offset);
+			} else {
+				foreach ($counts as $i => $count) {
+					if (!empty($estimates) && $estimates[$i] > 0) {
+						// estimate reported for complete result, use it
+						$counter += $estimates[$i];
+						// stop counting entries on subsequent pages for the base with an estimate
+						// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
+						unset($bases[$i]);
+					} else {
+						$counter += $count;
+					}
+				}
+
+				$offset += $limitPerPage;
+				/* ++ Fixing RHDS searches with pages with zero results ++
+				 * Continue now depends on $hasMorePages value
+				 */
+				$continue = $pagedSearchOK && $hasMorePages && \count($bases) > 0;
+			}
 		} while ($continue && ($limit === null || $limit <= 0 || $limit > $counter));
 
 		return $counter;

@@ -152,7 +152,7 @@ class User_Proxy extends Proxy implements
 	 * Get a list of all users for all LDAP base DNs across configured servers.
 	 *
 	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
-	 * will search in parallel all provided base DNs,
+	 * will search in parallel all provided base DNs across configured servers,
 	 * and thus can return more then LIMIT $limit users. This function shall
 	 * be used with limit and offset by iterators that can
 	 * support this kind of parallel paging.
@@ -253,6 +253,13 @@ class User_Proxy extends Proxy implements
 
 	/**
 	 * Get a list of all display names and user ids.
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs across configured servers,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $search
 	 * @param string|null $limit
 	 * @param string|null $offset

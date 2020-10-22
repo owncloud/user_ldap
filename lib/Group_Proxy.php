@@ -130,6 +130,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 
 	/**
 	 * get a list of all users in a group
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs across configured servers,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
+	 * @param string $gid
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
 	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
