@@ -225,6 +225,12 @@ OCA = OCA || {};
 		 * @returns {boolean}
 		 */
 		onTabChange: function(event, ui) {
+			//check if it is hash link; else treat as regular link
+			if( $(ui.newTab).find('a').attr('href').indexOf('#') != 0 ){ 
+				window.open($(ui.newTab).find('a').attr('href'), '__blank');
+				return false
+			}
+
 			if(this.saveProcesses > 0) {
 				return false;
 			}
