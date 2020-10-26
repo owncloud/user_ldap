@@ -35,26 +35,42 @@ if (!$ok) {
 	die(1);
 }
 
-$ouName = 'users';
-$ouDN = 'ou=' . $ouName . ',' . $bdn;
+$ouNameUsers = 'users';
+$ouDNUsers = 'ou=' . $ouNameUsers . ',' . $bdn;
 
 //creates on OU
 if (true) {
 	$entry = [];
 	$entry['objectclass'][] = 'top';
 	$entry['objectclass'][] = 'organizationalunit';
-	$entry['ou'] = $ouName;
-	$b = \ldap_add($cr, $ouDN, $entry);
+	$entry['ou'] = $ouNameUsers;
+	$b = \ldap_add($cr, $ouDNUsers, $entry);
 	if (!$b) {
 		echo \ldap_error($cr);
 		die(1);
 	}
 }
 
-$users = ['alice', 'boris', 'carl'];
+$ouNameAdmins = 'admins';
+$ouDNAdmins = 'ou=' . $ouNameAdmins . ',' . $bdn;
 
-foreach ($users as $uid) {
-	$newDN = 'uid=' . $uid . ',' . $ouDN;
+//creates on OU
+if (true) {
+	$entry = [];
+	$entry['objectclass'][] = 'top';
+	$entry['objectclass'][] = 'organizationalunit';
+	$entry['ou'] = $ouNameAdmins;
+	$b = \ldap_add($cr, $ouDNAdmins, $entry);
+	if (!$b) {
+		echo \ldap_error($cr);
+		die(1);
+	}
+}
+
+$users = ['alice' => $ouDNUsers, 'boris' => $ouDNUsers, 'carl' => $ouDNUsers, 'admin1' => $ouDNAdmins, 'admin2' => $ouDNAdmins];
+
+foreach ($users as $uid => $userOU) {
+	$newDN = 'uid=' . $uid . ',' . $userOU;
 	$fn = \ucfirst($uid);
 	$sn = \ucfirst(\str_shuffle($uid));   // not so explicit but it's OK.
 

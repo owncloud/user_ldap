@@ -149,15 +149,22 @@ class User_Proxy extends Proxy implements
 	}
 
 	/**
-	 * Get a list of all users
+	 * Get a list of all users for all LDAP base DNs across configured servers.
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs across configured servers,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
 	 *
 	 * @param string $search
 	 * @param null|int $limit
 	 * @param null|int $offset
-	 * @return string[] an array of all uids
+	 * @return string[] an array of uids returned by all base DNs queried
+	 * 					individually for specified search, limit and offset
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
-		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
+		// we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
@@ -246,6 +253,13 @@ class User_Proxy extends Proxy implements
 
 	/**
 	 * Get a list of all display names and user ids.
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs across configured servers,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
 	 * @param string $search
 	 * @param string|null $limit
 	 * @param string|null $offset

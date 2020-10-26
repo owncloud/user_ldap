@@ -29,7 +29,7 @@ use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
-class IntegrationTestPaging extends AbstractIntegrationTest {
+class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 	/** @var  UserMapping */
 	protected $mapping;
 
@@ -48,31 +48,25 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * tests that paging having multiple bases returns limit at offset
+	 * for all bases in parallel
 	 *
 	 * @return bool
 	 */
 	protected function case1() {
-		$limit = 2;
-		$offset = 0;
-
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
-		$users = [];
-		do {
-			$result = $this->access->searchUsers($filter, $attributes, $limit, $offset);
-			foreach ($result as $user) {
-				$users[] = $user['cn'];
-			}
-			$offset += $limit;
-		} while ($this->access->hasMoreResults());
 
-		if (\count($users) === 5) {
-			return true;
+		// having multiple base DNs, we expect that each configured base DN
+		// for each server will return its results for given LIMIT and OFFSET.
+		// This means, that having 2 base DNs, and requestlist LIMIT 2, we expect
+		// to receive 4 entries
+		$result = $this->access->searchUsers($filter, $attributes, 2, 0);
+		if (\count($result) !== 4) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -84,16 +78,16 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
-		// start paged search from offset 0 with limit 2
+		// start paged search from offset 0 with limit 4
 		// and thus sets cookie so search can continue
 		$result = $this->access->searchUsers($filter, $attributes, 2, 0);
-		if (\count($result) !== 2) {
+		if (\count($result) !== 4) {
 			return false;
 		}
 
 		// interrupt previous paged search with paged search that returns complete result
 		// and thus sets '' cookie indicating completion
-		$result = $this->access->searchUsers($filter, $attributes, 6, 0);
+		$result = $this->access->searchUsers($filter, $attributes, 10, 0);
 		if (\count($result) !== 5) {
 			return false;
 		}
@@ -101,10 +95,6 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		// we should be able to continue previous paged search when interrupted
 		// by retrying search to repopulate cookie
 		$result = $this->access->searchUsers($filter, $attributes, 2, 2);
-		if (\count($result) !== 2) {
-			return false;
-		}
-		$result = $this->access->searchUsers($filter, $attributes, 2, 4);
 		if (\count($result) !== 1) {
 			return false;
 		}
@@ -113,29 +103,25 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * tests that paging having multiple bases returns limit at offset
+	 * for all bases in parallel
 	 *
 	 * @return bool
 	 */
 	protected function case3() {
-		$limit = 2;
-		$offset = 0;
-
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
-		$count = 0;
-		do {
-			$result = $this->access->countUsers($filter, $attributes, $limit, $offset);
-			$count = $count + $result;
-			$offset += $limit;
-		} while ($this->access->hasMoreResults());
 
-		if ($count === 5) {
-			return true;
+		// having multiple base DNs, we expect that each configured base DN
+		// for each server will return its results for given LIMIT and OFFSET.
+		// This means, that having 2 base DNs, and requestlist LIMIT 2, we expect
+		// to receive 4 entries
+		$result = $this->access->countUsers($filter, $attributes, 2, 0);
+		if ($result !== 4) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -147,16 +133,16 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
-		// start paged search from offset 0 with limit 2
+		// start paged search from offset 0 with limit 4
 		// and thus sets cookie so search can continue
 		$result = $this->access->countUsers($filter, $attributes, 2, 0);
-		if ($result !== 2) {
+		if ($result !== 4) {
 			return false;
 		}
 
 		// interrupt previous paged search with paged search that returns complete result
 		// and thus sets '' cookie indicating completion
-		$result = $this->access->countUsers($filter, $attributes, 6, 0);
+		$result = $this->access->countUsers($filter, $attributes, 10, 0);
 		if ($result !== 5) {
 			return false;
 		}
@@ -164,10 +150,6 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		// we should be able to continue previous paged search when interrupted
 		// by retrying search to repopulate cookie
 		$result = $this->access->countUsers($filter, $attributes, 2, 2);
-		if ($result !== 2) {
-			return false;
-		}
-		$result = $this->access->countUsers($filter, $attributes, 2, 4);
 		if ($result !== 1) {
 			return false;
 		}
@@ -182,8 +164,8 @@ require_once(__DIR__ . '/../setup-scripts/config.php');
 /** @global $adn string */
 /** @global $apwd string */
 /** @global $bdn string */
-$bdnUsers = $bdn;
+$bdnUsers = 'ou=users,' . $bdn . ';' .'ou=admins,' . $bdn;
 $bdnGroups = $bdn;
-$test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn, $bdnUsers, $bdnGroups);
+$test = new IntegrationTestPagingMultipleBase($host, $port, $adn, $apwd, $bdn, $bdnUsers, $bdnGroups);
 $test->init();
 $test->run();
