@@ -225,6 +225,12 @@ OCA = OCA || {};
 		 * @returns {boolean}
 		 */
 		onTabChange: function(event, ui) {
+			//check if it is hash link; else treat as regular link
+			if( $(ui.newTab).find('a').attr('href').indexOf('#') != 0 ){ 
+				window.open($(ui.newTab).find('a').attr('href'), '__blank');
+				return false
+			}
+
 			if(this.saveProcesses > 0) {
 				return false;
 			}
@@ -350,7 +356,6 @@ OCA = OCA || {};
 		 * first config
 		 */
 		render: function () {
-			$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 			this.$settings.tabs({});
 			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button();
 			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange });
@@ -464,3 +469,10 @@ OCA = OCA || {};
 
 	OCA.LDAP.Wizard.WizardView = WizardView;
 })();
+
+$(document).ready(function () {
+	$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
+    $(window).on('resize', function(){
+		$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
+  	});
+});

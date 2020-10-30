@@ -289,7 +289,7 @@ OCA = OCA || {};
 						console.warn(payload.data.message);
 					}
 				}
-				OC.Notification.showTemporary(message);
+				$('#ldapTestBaseResult span').html(message)
 			}
 		},
 
