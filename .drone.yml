@@ -1884,7 +1884,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -1931,7 +1931,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2009,7 +2009,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2056,7 +2056,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2259,7 +2259,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2306,7 +2306,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2384,7 +2384,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2431,7 +2431,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2634,7 +2634,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2681,7 +2681,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2758,7 +2758,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2805,7 +2805,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -2883,7 +2883,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -2930,7 +2930,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3007,7 +3007,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3054,7 +3054,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3132,7 +3132,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3179,7 +3179,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3257,7 +3257,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3304,7 +3304,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3381,7 +3381,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3428,7 +3428,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3506,7 +3506,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3553,7 +3553,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3631,7 +3631,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3678,7 +3678,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3755,7 +3755,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3802,7 +3802,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -3880,7 +3880,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -3929,7 +3929,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4007,7 +4007,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4056,7 +4056,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4134,7 +4134,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4183,7 +4183,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4261,7 +4261,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4310,7 +4310,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4388,7 +4388,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4435,7 +4435,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4513,7 +4513,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4560,7 +4560,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4763,7 +4763,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4810,7 +4810,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -4887,7 +4887,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -4934,7 +4934,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5012,7 +5012,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5059,7 +5059,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5137,7 +5137,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5184,7 +5184,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5261,7 +5261,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5308,7 +5308,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5386,7 +5386,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5435,7 +5435,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5513,7 +5513,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5562,7 +5562,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5640,7 +5640,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5687,7 +5687,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -5775,7 +5775,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -5822,7 +5822,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6045,7 +6045,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6092,7 +6092,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6180,7 +6180,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6227,7 +6227,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.3
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6450,7 +6450,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6497,7 +6497,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6584,7 +6584,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6631,7 +6631,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6719,7 +6719,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6766,7 +6766,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6853,7 +6853,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -6900,7 +6900,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -6988,7 +6988,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7035,7 +7035,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7123,7 +7123,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7170,7 +7170,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7257,7 +7257,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7304,7 +7304,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7392,7 +7392,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7439,7 +7439,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7527,7 +7527,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7574,7 +7574,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7661,7 +7661,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7708,7 +7708,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7796,7 +7796,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7845,7 +7845,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -7933,7 +7933,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -7982,7 +7982,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8070,7 +8070,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -8119,7 +8119,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8207,7 +8207,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -8256,7 +8256,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8344,7 +8344,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -8437,7 +8437,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8533,7 +8533,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -8626,7 +8626,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8722,7 +8722,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -8815,7 +8815,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -8911,7 +8911,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9004,7 +9004,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -9100,7 +9100,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9193,7 +9193,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -9289,7 +9289,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9382,7 +9382,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -9478,7 +9478,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9571,7 +9571,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -9667,7 +9667,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9760,7 +9760,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -9856,7 +9856,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -9949,7 +9949,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10045,7 +10045,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -10138,7 +10138,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10234,7 +10234,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -10327,7 +10327,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10423,7 +10423,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -10516,7 +10516,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10612,7 +10612,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -10705,7 +10705,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10801,7 +10801,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -10894,7 +10894,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -10990,7 +10990,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -11083,7 +11083,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -11179,7 +11179,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -11272,7 +11272,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -11368,7 +11368,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -11461,7 +11461,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -11557,7 +11557,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -11650,7 +11650,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -11746,7 +11746,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -11839,7 +11839,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -11935,7 +11935,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12028,7 +12028,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -12124,7 +12124,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12217,7 +12217,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -12313,7 +12313,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12406,7 +12406,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -12502,7 +12502,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12595,7 +12595,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -12691,7 +12691,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12784,7 +12784,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -12880,7 +12880,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -12973,7 +12973,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -13069,7 +13069,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -13162,7 +13162,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -13258,7 +13258,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -13351,7 +13351,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -13447,7 +13447,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -13540,7 +13540,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -13636,7 +13636,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -13729,7 +13729,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -13825,7 +13825,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -13918,7 +13918,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14014,7 +14014,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -14107,7 +14107,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14201,7 +14201,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -14294,7 +14294,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14388,7 +14388,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -14481,7 +14481,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14575,7 +14575,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -14668,7 +14668,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14762,7 +14762,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -14855,7 +14855,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -14949,7 +14949,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15042,7 +15042,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -15136,7 +15136,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15229,7 +15229,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -15323,7 +15323,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15416,7 +15416,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -15510,7 +15510,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15603,7 +15603,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -15697,7 +15697,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15790,7 +15790,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -15884,7 +15884,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -15977,7 +15977,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -16071,7 +16071,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -16164,7 +16164,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -16258,7 +16258,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -16351,7 +16351,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -16445,7 +16445,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -16538,7 +16538,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -16632,7 +16632,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -16725,7 +16725,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -16819,7 +16819,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -16912,7 +16912,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17006,7 +17006,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -17099,7 +17099,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17193,7 +17193,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -17286,7 +17286,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17380,7 +17380,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -17473,7 +17473,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17567,7 +17567,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -17660,7 +17660,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17754,7 +17754,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -17847,7 +17847,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -17941,7 +17941,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18034,7 +18034,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -18128,7 +18128,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18221,7 +18221,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -18315,7 +18315,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18408,7 +18408,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -18502,7 +18502,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18595,7 +18595,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -18689,7 +18689,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18782,7 +18782,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -18876,7 +18876,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -18969,7 +18969,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19063,7 +19063,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19156,7 +19156,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19250,7 +19250,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19343,7 +19343,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19437,7 +19437,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19530,7 +19530,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19624,7 +19624,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19671,7 +19671,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19755,7 +19755,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19802,7 +19802,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -19886,7 +19886,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -19933,7 +19933,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20017,7 +20017,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20064,7 +20064,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20146,7 +20146,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20193,7 +20193,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20275,7 +20275,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20322,7 +20322,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20404,7 +20404,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20497,7 +20497,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20609,7 +20609,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20702,7 +20702,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -20814,7 +20814,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -20907,7 +20907,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -21019,7 +21019,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -21112,7 +21112,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -21224,7 +21224,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -21317,7 +21317,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -21429,7 +21429,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -21522,7 +21522,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -21632,7 +21632,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -21725,7 +21725,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -21835,7 +21835,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -21928,7 +21928,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -22038,7 +22038,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -22131,7 +22131,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -22241,7 +22241,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -22334,7 +22334,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -22444,7 +22444,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -22557,7 +22557,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -22652,7 +22652,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -22765,7 +22765,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -22860,7 +22860,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -22973,7 +22973,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -23068,7 +23068,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -23181,7 +23181,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -23276,7 +23276,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -23389,7 +23389,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -23484,7 +23484,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -23597,7 +23597,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -23692,7 +23692,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -23805,7 +23805,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -23900,7 +23900,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -24013,7 +24013,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -24108,7 +24108,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -24221,7 +24221,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -24316,7 +24316,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -24429,7 +24429,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -24524,7 +24524,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -24637,7 +24637,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -24732,7 +24732,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -24845,7 +24845,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -24940,7 +24940,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -25053,7 +25053,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -25148,7 +25148,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -25261,7 +25261,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -25356,7 +25356,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -25469,7 +25469,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -25564,7 +25564,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -25677,7 +25677,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -25772,7 +25772,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -25885,7 +25885,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -25980,7 +25980,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -26093,7 +26093,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -26188,7 +26188,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -26301,7 +26301,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -26396,7 +26396,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -26509,7 +26509,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -26604,7 +26604,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -26717,7 +26717,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -26812,7 +26812,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -26925,7 +26925,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -27020,7 +27020,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -27133,7 +27133,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -27228,7 +27228,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -27341,7 +27341,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -27436,7 +27436,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -27549,7 +27549,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -27644,7 +27644,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -27757,7 +27757,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -27852,7 +27852,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -27965,7 +27965,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28060,7 +28060,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -28173,7 +28173,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28268,7 +28268,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -28381,7 +28381,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28476,7 +28476,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -28589,7 +28589,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28684,7 +28684,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -28751,7 +28751,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28834,7 +28834,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -28901,7 +28901,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -28984,7 +28984,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -29051,7 +29051,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -29134,7 +29134,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -29247,7 +29247,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -29357,7 +29357,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -29470,7 +29470,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -29580,7 +29580,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -29693,7 +29693,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -29803,7 +29803,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -29916,7 +29916,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -30026,7 +30026,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -30139,7 +30139,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -30249,7 +30249,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -30362,7 +30362,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -30457,7 +30457,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -30570,7 +30570,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -30665,7 +30665,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -30778,7 +30778,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -30873,7 +30873,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -30986,7 +30986,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -31081,7 +31081,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -31194,7 +31194,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -31289,7 +31289,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -31402,7 +31402,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -31497,7 +31497,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -31610,7 +31610,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -31705,7 +31705,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -31818,7 +31818,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -31913,7 +31913,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -32026,7 +32026,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -32121,7 +32121,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -32234,7 +32234,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -32329,7 +32329,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -32442,7 +32442,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -32537,7 +32537,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -32650,7 +32650,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -32745,7 +32745,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -32858,7 +32858,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -32953,7 +32953,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -33066,7 +33066,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -33161,7 +33161,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -33274,7 +33274,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -33369,7 +33369,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -33482,7 +33482,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -33577,7 +33577,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -33690,7 +33690,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -33785,7 +33785,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -33898,7 +33898,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -33993,7 +33993,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -34106,7 +34106,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -34201,7 +34201,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -34314,7 +34314,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -34409,7 +34409,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -34522,7 +34522,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -34617,7 +34617,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -34730,7 +34730,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -34825,7 +34825,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -34938,7 +34938,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -35033,7 +35033,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -35146,7 +35146,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -35241,7 +35241,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -35354,7 +35354,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -35449,7 +35449,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -35562,7 +35562,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -35657,7 +35657,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -35770,7 +35770,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -35865,7 +35865,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -35978,7 +35978,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36073,7 +36073,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -36186,7 +36186,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36281,7 +36281,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -36394,7 +36394,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36489,7 +36489,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -36556,7 +36556,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36639,7 +36639,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -36706,7 +36706,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36789,7 +36789,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -36856,7 +36856,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -36939,7 +36939,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -37052,7 +37052,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -37162,7 +37162,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -37275,7 +37275,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -37385,7 +37385,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -37498,7 +37498,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -37608,7 +37608,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -37721,7 +37721,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
@@ -37831,7 +37831,7 @@ steps:
 
 - name: install-testrunner
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - mkdir /tmp/testrunner
   - git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner
@@ -37944,7 +37944,7 @@ steps:
 
 - name: acceptance-tests
   pull: always
-  image: owncloudci/php:7.2
+  image: owncloudci/php:7.4
   commands:
   - touch /var/www/owncloud/saved-settings.sh
   - . /var/www/owncloud/saved-settings.sh
