@@ -1938,8 +1938,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2063,8 +2063,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2188,8 +2188,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2313,8 +2313,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2438,8 +2438,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2563,8 +2563,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -2688,8 +2688,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -2812,8 +2812,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -2937,8 +2937,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -3061,8 +3061,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -3186,8 +3186,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -3311,8 +3311,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -3435,8 +3435,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -3560,8 +3560,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -3685,8 +3685,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -3809,8 +3809,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -3936,8 +3936,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4063,8 +4063,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiProvisioningLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4190,8 +4190,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4317,8 +4317,8 @@ steps:
   - make test-acceptance-api
   environment:
     BEHAT_SUITE: apiUserLDAP
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4442,8 +4442,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4567,8 +4567,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4692,8 +4692,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -4817,8 +4817,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -4941,8 +4941,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -5066,8 +5066,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -5191,8 +5191,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -5315,8 +5315,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -5442,8 +5442,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -5569,8 +5569,8 @@ steps:
   - make test-acceptance-cli
   environment:
     BEHAT_SUITE: cliProvisioning
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -5698,8 +5698,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -5833,8 +5833,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -5968,8 +5968,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -6103,8 +6103,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -6238,8 +6238,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -6373,8 +6373,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -6508,8 +6508,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -6642,8 +6642,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -6777,8 +6777,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -6911,8 +6911,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -7046,8 +7046,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -7181,8 +7181,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -7315,8 +7315,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -7450,8 +7450,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -7585,8 +7585,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: postgres
@@ -7719,8 +7719,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: oracle
@@ -7856,8 +7856,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -7993,8 +7993,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -8130,8 +8130,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -8267,8 +8267,8 @@ steps:
     PLATFORM: Linux
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -8445,8 +8445,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -8634,8 +8634,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -8823,8 +8823,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9012,8 +9012,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9201,8 +9201,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9390,8 +9390,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9579,8 +9579,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9768,8 +9768,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -9957,8 +9957,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -10146,8 +10146,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -10335,8 +10335,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -10524,8 +10524,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -10713,8 +10713,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -10902,8 +10902,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -11091,8 +11091,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -11280,8 +11280,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -11469,8 +11469,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -11658,8 +11658,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -11847,8 +11847,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12036,8 +12036,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12225,8 +12225,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12414,8 +12414,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12603,8 +12603,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12792,8 +12792,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -12981,8 +12981,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -13170,8 +13170,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -13359,8 +13359,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -13548,8 +13548,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -13737,8 +13737,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -13926,8 +13926,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -14115,8 +14115,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -14302,8 +14302,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -14489,8 +14489,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -14676,8 +14676,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -14863,8 +14863,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15050,8 +15050,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15237,8 +15237,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15424,8 +15424,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15611,8 +15611,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15798,8 +15798,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -15985,8 +15985,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -16172,8 +16172,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -16359,8 +16359,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -16546,8 +16546,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -16733,8 +16733,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -16920,8 +16920,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -17107,8 +17107,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -17294,8 +17294,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -17481,8 +17481,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -17668,8 +17668,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -17855,8 +17855,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18042,8 +18042,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18229,8 +18229,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18416,8 +18416,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18603,8 +18603,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18790,8 +18790,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -18977,8 +18977,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19164,8 +19164,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19351,8 +19351,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19538,8 +19538,8 @@ steps:
   environment:
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19680,8 +19680,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19811,8 +19811,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -19942,8 +19942,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20073,8 +20073,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20202,8 +20202,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20331,8 +20331,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20511,8 +20511,8 @@ steps:
     RUN_PART: 1
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20716,8 +20716,8 @@ steps:
     RUN_PART: 2
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -20921,8 +20921,8 @@ steps:
     RUN_PART: 3
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -21126,8 +21126,8 @@ steps:
     RUN_PART: 4
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -21331,8 +21331,8 @@ steps:
     RUN_PART: 5
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -21536,8 +21536,8 @@ steps:
     RUN_PART: 1
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -21739,8 +21739,8 @@ steps:
     RUN_PART: 2
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -21942,8 +21942,8 @@ steps:
     RUN_PART: 3
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -22145,8 +22145,8 @@ steps:
     RUN_PART: 4
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -22348,8 +22348,8 @@ steps:
     RUN_PART: 5
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -22566,8 +22566,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -22774,8 +22774,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -22982,8 +22982,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -23190,8 +23190,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -23398,8 +23398,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -23606,8 +23606,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -23814,8 +23814,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -24022,8 +24022,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -24230,8 +24230,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -24438,8 +24438,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -24646,8 +24646,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -24854,8 +24854,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -25062,8 +25062,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -25270,8 +25270,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -25478,8 +25478,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -25686,8 +25686,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -25894,8 +25894,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -26102,8 +26102,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -26310,8 +26310,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -26518,8 +26518,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -26726,8 +26726,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -26934,8 +26934,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -27142,8 +27142,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -27350,8 +27350,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -27558,8 +27558,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -27766,8 +27766,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -27974,8 +27974,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -28182,8 +28182,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -28390,8 +28390,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -28598,8 +28598,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -28761,8 +28761,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -28911,8 +28911,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -29061,8 +29061,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -29261,8 +29261,8 @@ steps:
     RUN_PART: 1
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -29484,8 +29484,8 @@ steps:
     RUN_PART: 2
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -29707,8 +29707,8 @@ steps:
     RUN_PART: 3
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -29930,8 +29930,8 @@ steps:
     RUN_PART: 4
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -30153,8 +30153,8 @@ steps:
     RUN_PART: 5
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -30371,8 +30371,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -30579,8 +30579,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -30787,8 +30787,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -30995,8 +30995,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -31203,8 +31203,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -31411,8 +31411,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -31619,8 +31619,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -31827,8 +31827,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -32035,8 +32035,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -32243,8 +32243,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -32451,8 +32451,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -32659,8 +32659,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -32867,8 +32867,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -33075,8 +33075,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -33283,8 +33283,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -33491,8 +33491,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -33699,8 +33699,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -33907,8 +33907,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -34115,8 +34115,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -34323,8 +34323,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -34531,8 +34531,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -34739,8 +34739,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -34947,8 +34947,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -35155,8 +35155,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -35363,8 +35363,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -35571,8 +35571,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -35779,8 +35779,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -35987,8 +35987,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -36195,8 +36195,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -36403,8 +36403,8 @@ steps:
     BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -36566,8 +36566,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -36716,8 +36716,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -36866,8 +36866,8 @@ steps:
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -37066,8 +37066,8 @@ steps:
     RUN_PART: 1
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -37289,8 +37289,8 @@ steps:
     RUN_PART: 2
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -37512,8 +37512,8 @@ steps:
     RUN_PART: 3
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -37735,8 +37735,8 @@ steps:
     RUN_PART: 4
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
@@ -37958,8 +37958,8 @@ steps:
     RUN_PART: 5
     SELENIUM_HOST: selenium
     SELENIUM_PORT: 4444
-    TEST_EXTERNAL_USER_BACKENDS: true
     TEST_SERVER_URL: http://server
+    TEST_WITH_LDAP: true
 
 services:
 - name: mysql
