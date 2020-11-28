@@ -66,6 +66,7 @@
     "LDAP / AD Username:" : "LDAP-/AD-Benutzername:",
     "Allows login against the LDAP / AD username, which is either uid or samaccountname and will be detected." : "Erlaubt das Anmelden gegen den LDAP / AD Nutzernamen, welcher entweder eine UID oder samaccountname ist und automatisch erkannt wird.",
     "LDAP / AD Email Address:" : "LDAP-/AD-E-Mail-Adresse:",
+    "Allows login against an email attribute. Mail and mailPrimaryAddress will be allowed. WARNING: Disabling login with email might require enabling strict login checking to be effective, please refer to ownCloud documentation for more details!" : "Erlaubt die Anmeldung gegen ein E-Mail-Attribut. Mail und mailPrimaryAddress werden zugelassen. WARNUNG: Die Deaktivierung der Anmeldung per E-Mail erfordert möglicherweise die Aktivierung von `strict login checking`, um wirksam zu sein. Weitere Einzelheiten finden Sie in der ownCloud-Dokumentation!",
     "Other Attributes:" : "Andere Attribute:",
     "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. %%uid ersetzt den Benutzernamen bei der Anmeldung. Beispiel: \"uid=%%uid\"",
     "Test Loginname" : "Loginnamen testen",
