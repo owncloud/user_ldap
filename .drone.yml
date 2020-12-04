@@ -186,14 +186,27 @@ steps:
   commands:
   - make test-php-unit-dbg
 
-- name: codecov-upload
+- name: coverage-rename
   pull: always
-  image: plugins/codecov:latest
+  image: owncloudci/php:7.2
+  commands:
+  - mv tests/output/clover.xml tests/output/clover-phpunit-php7.2-sqlite.xml
+
+- name: coverage-cache-1
+  pull: always
+  image: plugins/s3
   settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
+    access_key:
+      from_secret: cache_s3_access_key
+    bucket: cache
+    endpoint:
+      from_secret: cache_s3_endpoint
+    path_style: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+    source: tests/output/clover-phpunit-php7.2-sqlite.xml
+    strip_prefix: tests/output
+    target: /-${DRONE_BUILD_NUMBER}
 
 trigger:
   ref:
@@ -252,14 +265,27 @@ steps:
   commands:
   - make test-php-unit-dbg
 
-- name: codecov-upload
+- name: coverage-rename
   pull: always
-  image: plugins/codecov:latest
+  image: owncloudci/php:7.2
+  commands:
+  - mv tests/output/clover.xml tests/output/clover-phpunit-php7.2-mariadb10.2.xml
+
+- name: coverage-cache-1
+  pull: always
+  image: plugins/s3
   settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
+    access_key:
+      from_secret: cache_s3_access_key
+    bucket: cache
+    endpoint:
+      from_secret: cache_s3_endpoint
+    path_style: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+    source: tests/output/clover-phpunit-php7.2-mariadb10.2.xml
+    strip_prefix: tests/output
+    target: /-${DRONE_BUILD_NUMBER}
 
 services:
 - name: mariadb
@@ -286,7 +312,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.2-mysql5.5
+name: phpunit-php7.2-mysql8.0
 
 platform:
   os: linux
@@ -328,95 +354,34 @@ steps:
   commands:
   - make test-php-unit-dbg
 
-- name: codecov-upload
+- name: coverage-rename
   pull: always
-  image: plugins/codecov:latest
+  image: owncloudci/php:7.2
+  commands:
+  - mv tests/output/clover.xml tests/output/clover-phpunit-php7.2-mysql8.0.xml
+
+- name: coverage-cache-1
+  pull: always
+  image: plugins/s3
   settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
+    access_key:
+      from_secret: cache_s3_access_key
+    bucket: cache
+    endpoint:
+      from_secret: cache_s3_endpoint
+    path_style: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+    source: tests/output/clover-phpunit-php7.2-mysql8.0.xml
+    strip_prefix: tests/output
+    target: /-${DRONE_BUILD_NUMBER}
 
 services:
 - name: mysql
   pull: always
-  image: mysql:5.5
-  environment:
-    MYSQL_DATABASE: owncloud
-    MYSQL_PASSWORD: owncloud
-    MYSQL_ROOT_PASSWORD: owncloud
-    MYSQL_USER: owncloud
-
-trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
-  - refs/heads/master
-
-depends_on:
-- coding-standard-php7.2
-- phan-php7.2
-- phan-php7.3
-- phan-php7.4
-
----
-kind: pipeline
-type: docker
-name: phpunit-php7.2-mysql5.7
-
-platform:
-  os: linux
-  arch: amd64
-
-workspace:
-  base: /var/www/owncloud
-  path: server/apps/user_ldap
-
-steps:
-- name: install-core
-  pull: always
-  image: owncloudci/core
-  settings:
-    core_path: /var/www/owncloud/server
-    db_host: mysql
-    db_name: owncloud
-    db_password: owncloud
-    db_type: mysql
-    db_username: owncloud
-    exclude: apps/user_ldap
-    version: daily-master-qa
-
-- name: setup-server-user_ldap
-  pull: always
-  image: owncloudci/php:7.2
-  commands:
-  - cd /var/www/owncloud/server
-  - php occ a:l
-  - php occ a:e user_ldap
-  - php occ a:e testing
-  - php occ a:l
-  - php occ config:system:set trusted_domains 1 --value=server
-  - php occ log:manage --level 2
-
-- name: phpunit-tests
-  pull: always
-  image: owncloudci/php:7.2
-  commands:
-  - make test-php-unit-dbg
-
-- name: codecov-upload
-  pull: always
-  image: plugins/codecov:latest
-  settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
-
-services:
-- name: mysql
-  pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -480,14 +445,27 @@ steps:
   commands:
   - make test-php-unit-dbg
 
-- name: codecov-upload
+- name: coverage-rename
   pull: always
-  image: plugins/codecov:latest
+  image: owncloudci/php:7.2
+  commands:
+  - mv tests/output/clover.xml tests/output/clover-phpunit-php7.2-postgres9.4.xml
+
+- name: coverage-cache-1
+  pull: always
+  image: plugins/s3
   settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
+    access_key:
+      from_secret: cache_s3_access_key
+    bucket: cache
+    endpoint:
+      from_secret: cache_s3_endpoint
+    path_style: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+    source: tests/output/clover-phpunit-php7.2-postgres9.4.xml
+    strip_prefix: tests/output
+    target: /-${DRONE_BUILD_NUMBER}
 
 services:
 - name: postgres
@@ -555,14 +533,27 @@ steps:
   commands:
   - make test-php-unit-dbg
 
-- name: codecov-upload
+- name: coverage-rename
   pull: always
-  image: plugins/codecov:latest
+  image: owncloudci/php:7.2
+  commands:
+  - mv tests/output/clover.xml tests/output/clover-phpunit-php7.2-oracle.xml
+
+- name: coverage-cache-1
+  pull: always
+  image: plugins/s3
   settings:
-    paths:
-    - tests/output/clover.xml
-    token:
-      from_secret: codecov_token
+    access_key:
+      from_secret: cache_s3_access_key
+    bucket: cache
+    endpoint:
+      from_secret: cache_s3_endpoint
+    path_style: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+    source: tests/output/clover-phpunit-php7.2-oracle.xml
+    strip_prefix: tests/output
+    target: /-${DRONE_BUILD_NUMBER}
 
 services:
 - name: oracle
@@ -985,6 +976,112 @@ depends_on:
 - phan-php7.2
 - phan-php7.3
 - phan-php7.4
+
+---
+kind: pipeline
+type: docker
+name: sonar-analysis
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /var/www/owncloud
+  path: server/apps/user_ldap
+
+steps:
+- name: cache-restore
+  pull: always
+  image: plugins/s3-cache:1
+  settings:
+    access_key:
+      from_secret: cache_s3_access_key
+    endpoint:
+      from_secret: cache_s3_endpoint
+    restore: true
+    secret_key:
+      from_secret: cache_s3_secret_key
+  when:
+    instance:
+    - drone.owncloud.services
+    - drone.owncloud.com
+
+- name: composer-install
+  pull: always
+  image: owncloudci/php:7.4
+  commands:
+  - make vendor
+  environment:
+    COMPOSER_HOME: /drone/src/.cache/composer
+
+- name: install-core
+  pull: always
+  image: owncloudci/core
+  settings:
+    core_path: /var/www/owncloud/server
+    db_host: sqlite
+    db_name: owncloud
+    db_password: owncloud
+    db_type: sqlite
+    db_username: owncloud
+    exclude: apps/user_ldap
+    version: daily-master-qa
+
+- name: sync-from-cache
+  pull: always
+  image: minio/mc
+  commands:
+  - mkdir -p results
+  - mc mirror cache/cache//-${DRONE_BUILD_NUMBER} results/
+  environment:
+    MC_HOST_cache:
+      from_secret: cache_s3_connection_url
+
+- name: list-coverage-results
+  pull: always
+  image: owncloudci/php:7.4
+  commands:
+  - ls -l results
+
+- name: sonarcloud
+  pull: always
+  image: sonarsource/sonar-scanner-cli
+  environment:
+    SONAR_SCANNER_OPTS: -Xdebug
+    SONAR_TOKEN:
+      from_secret: sonar_token
+  when:
+    instance:
+    - drone.owncloud.services
+    - drone.owncloud.com
+
+- name: purge-cache
+  image: minio/mc
+  commands:
+  - mc rm --recursive --force cache/cache//-${DRONE_BUILD_NUMBER}
+  environment:
+    MC_HOST_cache:
+      from_secret: cache_s3_connection_url
+
+trigger:
+  ref:
+  - refs/pull/**
+  - refs/tags/**
+  - refs/heads/master
+
+depends_on:
+- phpunit-php7.2-sqlite
+- phpunit-php7.2-mariadb10.2
+- phpunit-php7.2-mysql8.0
+- phpunit-php7.2-postgres9.4
+- phpunit-php7.2-oracle
+- phpunit-php7.3-mysql5.7
+- phpunit-php7.3-postgres9.4
+- phpunit-php7.3-oracle
+- phpunit-php7.4-mysql5.7
+- phpunit-php7.4-postgres9.4
+- phpunit-php7.4-oracle
 
 ---
 kind: pipeline
@@ -1972,7 +2069,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2097,7 +2193,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2222,7 +2317,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2347,7 +2441,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2472,7 +2565,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2597,7 +2689,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2721,7 +2812,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2846,7 +2936,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -2970,7 +3059,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3095,7 +3183,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3220,7 +3307,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3344,7 +3430,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3469,7 +3554,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3594,7 +3678,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3718,7 +3801,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3843,7 +3925,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -3970,7 +4051,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4097,7 +4177,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4224,7 +4303,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4351,7 +4429,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4476,7 +4553,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4601,7 +4677,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4726,7 +4801,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4850,7 +4924,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -4975,7 +5048,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5100,7 +5172,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5224,7 +5295,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5349,7 +5419,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5476,7 +5545,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5603,7 +5671,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5738,7 +5805,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -5873,7 +5939,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6008,7 +6073,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6143,7 +6207,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6278,7 +6341,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6413,7 +6475,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6547,7 +6608,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6682,7 +6742,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6816,7 +6875,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -6951,7 +7009,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7086,7 +7143,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7220,7 +7276,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7355,7 +7410,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7490,7 +7544,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7624,7 +7677,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7759,7 +7811,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -7896,7 +7947,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8033,7 +8083,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8170,7 +8219,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8307,7 +8355,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8496,7 +8543,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8685,7 +8731,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -8874,7 +8919,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -9063,7 +9107,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -9252,7 +9295,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -9441,7 +9483,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -9630,7 +9671,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -9819,7 +9859,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10008,7 +10047,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10197,7 +10235,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10386,7 +10423,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10575,7 +10611,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10764,7 +10799,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -10953,7 +10987,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -11142,7 +11175,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -11331,7 +11363,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -11520,7 +11551,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -11709,7 +11739,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -11898,7 +11927,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -12087,7 +12115,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -12276,7 +12303,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -12465,7 +12491,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -12654,7 +12679,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -12843,7 +12867,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13032,7 +13055,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13221,7 +13243,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13410,7 +13431,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13599,7 +13619,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13788,7 +13807,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -13977,7 +13995,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -19718,7 +19735,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -19849,7 +19865,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -19980,7 +19995,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -20572,7 +20586,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -20777,7 +20790,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -20982,7 +20994,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -21187,7 +21198,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -21392,7 +21402,6 @@ trigger:
   ref:
   - refs/pull/**
   - refs/tags/**
-  - refs/heads/master
 
 depends_on:
 - coding-standard-php7.2
@@ -38055,18 +38064,7 @@ trigger:
   - failure
 
 depends_on:
-- phpunit-php7.2-sqlite
-- phpunit-php7.2-mariadb10.2
-- phpunit-php7.2-mysql5.5
-- phpunit-php7.2-mysql5.7
-- phpunit-php7.2-postgres9.4
-- phpunit-php7.2-oracle
-- phpunit-php7.3-mysql5.7
-- phpunit-php7.3-postgres9.4
-- phpunit-php7.3-oracle
-- phpunit-php7.4-mysql5.7
-- phpunit-php7.4-postgres9.4
-- phpunit-php7.4-oracle
+- sonar-analysis
 - IntegrationBackupServer
 - IntegrationConnect
 - IntegrationTestAccessGroupsMatchFilter
