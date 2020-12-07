@@ -29,7 +29,7 @@ config = {
 				'7.4',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 				'postgres:9.4',
 				'oracle',
 			],

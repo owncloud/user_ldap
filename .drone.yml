@@ -580,7 +580,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.3-mysql5.7
+name: phpunit-php7.3-mysql8.0
 
 platform:
   os: linux
@@ -625,7 +625,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -780,7 +782,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: phpunit-php7.4-mysql5.7
+name: phpunit-php7.4-mysql8.0
 
 platform:
   os: linux
@@ -825,7 +827,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1076,10 +1080,10 @@ depends_on:
 - phpunit-php7.2-mysql8.0
 - phpunit-php7.2-postgres9.4
 - phpunit-php7.2-oracle
-- phpunit-php7.3-mysql5.7
+- phpunit-php7.3-mysql8.0
 - phpunit-php7.3-postgres9.4
 - phpunit-php7.3-oracle
-- phpunit-php7.4-mysql5.7
+- phpunit-php7.4-mysql8.0
 - phpunit-php7.4-postgres9.4
 - phpunit-php7.4-oracle
 
