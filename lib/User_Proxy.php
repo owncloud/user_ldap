@@ -81,7 +81,7 @@ class User_Proxy extends Proxy implements
 				&& \method_exists($this->getAccess($configPrefix), $method)) {
 				$instance = $this->getAccess($configPrefix);
 			}
-			if ($result = \call_user_func_array([$instance, $method], $parameters)) {
+			if (($result = \call_user_func_array([$instance, $method], $parameters)) !== false) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 			}
