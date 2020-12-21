@@ -1034,7 +1034,7 @@ steps:
 
 - name: sync-from-cache
   pull: always
-  image: minio/mc
+  image: minio/mc:RELEASE.2020-12-10T01-26-17Z
   commands:
   - mkdir -p results
   - mc mirror cache/cache//-${DRONE_BUILD_NUMBER} results/
@@ -1061,7 +1061,7 @@ steps:
     - drone.owncloud.com
 
 - name: purge-cache
-  image: minio/mc
+  image: minio/mc:RELEASE.2020-12-10T01-26-17Z
   commands:
   - mc rm --recursive --force cache/cache//-${DRONE_BUILD_NUMBER}
   environment:
@@ -8494,6 +8494,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
     TEST_SERVER_URL: http://server
@@ -8682,6 +8683,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
     TEST_SERVER_URL: http://server
@@ -8870,6 +8872,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
     TEST_SERVER_URL: http://server
@@ -9058,6 +9061,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
     TEST_SERVER_URL: http://server
@@ -9246,6 +9250,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
     TEST_SERVER_URL: http://server
@@ -9434,6 +9439,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
     TEST_SERVER_URL: http://server
@@ -9622,6 +9628,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
     TEST_SERVER_URL: http://server
@@ -9810,6 +9817,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
     TEST_SERVER_URL: http://server
@@ -9998,6 +10006,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
     TEST_SERVER_URL: http://server
@@ -10186,6 +10195,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
     TEST_SERVER_URL: http://server
@@ -10374,6 +10384,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
     TEST_SERVER_URL: http://server
@@ -10562,6 +10573,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
     TEST_SERVER_URL: http://server
@@ -10750,6 +10762,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
     TEST_SERVER_URL: http://server
@@ -10938,6 +10951,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
     TEST_SERVER_URL: http://server
@@ -11126,6 +11140,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
     TEST_SERVER_URL: http://server
@@ -11314,6 +11329,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
     TEST_SERVER_URL: http://server
@@ -11502,6 +11518,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
     TEST_SERVER_URL: http://server
@@ -11690,6 +11707,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
     TEST_SERVER_URL: http://server
@@ -11878,6 +11896,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
     TEST_SERVER_URL: http://server
@@ -12066,6 +12085,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
     TEST_SERVER_URL: http://server
@@ -12254,6 +12274,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
     TEST_SERVER_URL: http://server
@@ -12442,6 +12463,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
     TEST_SERVER_URL: http://server
@@ -12630,6 +12652,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
     TEST_SERVER_URL: http://server
@@ -12818,6 +12841,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
     TEST_SERVER_URL: http://server
@@ -13006,6 +13030,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
     TEST_SERVER_URL: http://server
@@ -13194,6 +13219,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
     TEST_SERVER_URL: http://server
@@ -13382,6 +13408,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
     TEST_SERVER_URL: http://server
@@ -13570,6 +13597,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
     TEST_SERVER_URL: http://server
@@ -13758,6 +13786,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
     TEST_SERVER_URL: http://server
@@ -13946,6 +13975,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
     TEST_SERVER_URL: http://server
@@ -14134,6 +14164,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
     TEST_SERVER_URL: http://server
@@ -14321,6 +14352,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
     TEST_SERVER_URL: http://server
@@ -14508,6 +14540,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
     TEST_SERVER_URL: http://server
@@ -14695,6 +14728,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
     TEST_SERVER_URL: http://server
@@ -14882,6 +14916,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
     TEST_SERVER_URL: http://server
@@ -15069,6 +15104,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
     TEST_SERVER_URL: http://server
@@ -15256,6 +15292,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
     TEST_SERVER_URL: http://server
@@ -15443,6 +15480,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
     TEST_SERVER_URL: http://server
@@ -15630,6 +15668,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
     TEST_SERVER_URL: http://server
@@ -15817,6 +15856,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
     TEST_SERVER_URL: http://server
@@ -16004,6 +16044,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
     TEST_SERVER_URL: http://server
@@ -16191,6 +16232,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
     TEST_SERVER_URL: http://server
@@ -16378,6 +16420,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
     TEST_SERVER_URL: http://server
@@ -16565,6 +16608,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
     TEST_SERVER_URL: http://server
@@ -16752,6 +16796,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
     TEST_SERVER_URL: http://server
@@ -16939,6 +16984,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
     TEST_SERVER_URL: http://server
@@ -17126,6 +17172,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
     TEST_SERVER_URL: http://server
@@ -17313,6 +17360,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
     TEST_SERVER_URL: http://server
@@ -17500,6 +17548,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
     TEST_SERVER_URL: http://server
@@ -17687,6 +17736,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
     TEST_SERVER_URL: http://server
@@ -17874,6 +17924,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
     TEST_SERVER_URL: http://server
@@ -18061,6 +18112,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
     TEST_SERVER_URL: http://server
@@ -18248,6 +18300,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
     TEST_SERVER_URL: http://server
@@ -18435,6 +18488,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
     TEST_SERVER_URL: http://server
@@ -18622,6 +18676,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
     TEST_SERVER_URL: http://server
@@ -18809,6 +18864,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
     TEST_SERVER_URL: http://server
@@ -18996,6 +19052,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
     TEST_SERVER_URL: http://server
@@ -19183,6 +19240,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
     TEST_SERVER_URL: http://server
@@ -19370,6 +19428,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
     TEST_SERVER_URL: http://server
@@ -19557,6 +19616,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
     TEST_SERVER_URL: http://server
@@ -19698,6 +19758,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
@@ -19828,6 +19889,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
@@ -19958,6 +20020,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
@@ -20088,6 +20151,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
@@ -20217,6 +20281,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
@@ -20346,6 +20411,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
+    BEHAT_FILTER_TAGS: ~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
@@ -20521,7 +20587,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -20725,7 +20791,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -20929,7 +20995,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -21133,7 +21199,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -21337,7 +21403,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -21541,7 +21607,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -21744,7 +21810,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -21947,7 +22013,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -22150,7 +22216,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -22353,7 +22419,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -22576,7 +22642,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
     TEST_SERVER_URL: http://server
@@ -22784,7 +22850,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
     TEST_SERVER_URL: http://server
@@ -22992,7 +23058,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
     TEST_SERVER_URL: http://server
@@ -23200,7 +23266,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
     TEST_SERVER_URL: http://server
@@ -23408,7 +23474,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
     TEST_SERVER_URL: http://server
@@ -23616,7 +23682,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
     TEST_SERVER_URL: http://server
@@ -23824,7 +23890,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
     TEST_SERVER_URL: http://server
@@ -24032,7 +24098,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
     TEST_SERVER_URL: http://server
@@ -24240,7 +24306,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
     TEST_SERVER_URL: http://server
@@ -24448,7 +24514,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
     TEST_SERVER_URL: http://server
@@ -24656,7 +24722,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
     TEST_SERVER_URL: http://server
@@ -24864,7 +24930,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
     TEST_SERVER_URL: http://server
@@ -25072,7 +25138,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
     TEST_SERVER_URL: http://server
@@ -25280,7 +25346,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
     TEST_SERVER_URL: http://server
@@ -25488,7 +25554,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
     TEST_SERVER_URL: http://server
@@ -25696,7 +25762,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
     TEST_SERVER_URL: http://server
@@ -25904,7 +25970,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
     TEST_SERVER_URL: http://server
@@ -26112,7 +26178,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
     TEST_SERVER_URL: http://server
@@ -26320,7 +26386,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
     TEST_SERVER_URL: http://server
@@ -26528,7 +26594,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
     TEST_SERVER_URL: http://server
@@ -26736,7 +26802,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
     TEST_SERVER_URL: http://server
@@ -26944,7 +27010,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
     TEST_SERVER_URL: http://server
@@ -27152,7 +27218,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
     TEST_SERVER_URL: http://server
@@ -27360,7 +27426,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
     TEST_SERVER_URL: http://server
@@ -27568,7 +27634,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
     TEST_SERVER_URL: http://server
@@ -27776,7 +27842,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
     TEST_SERVER_URL: http://server
@@ -27984,7 +28050,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
     TEST_SERVER_URL: http://server
@@ -28192,7 +28258,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
     TEST_SERVER_URL: http://server
@@ -28400,7 +28466,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
     TEST_SERVER_URL: http://server
@@ -28608,7 +28674,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
     TEST_SERVER_URL: http://server
@@ -28770,7 +28836,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
@@ -28920,7 +28986,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
@@ -29070,7 +29136,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
@@ -29266,7 +29332,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29489,7 +29555,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29712,7 +29778,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -29935,7 +30001,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -30158,7 +30224,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -30381,7 +30447,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 1
     TEST_SERVER_URL: http://server
@@ -30589,7 +30655,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 2
     TEST_SERVER_URL: http://server
@@ -30797,7 +30863,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 3
     TEST_SERVER_URL: http://server
@@ -31005,7 +31071,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 4
     TEST_SERVER_URL: http://server
@@ -31213,7 +31279,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 5
     TEST_SERVER_URL: http://server
@@ -31421,7 +31487,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 6
     TEST_SERVER_URL: http://server
@@ -31629,7 +31695,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 7
     TEST_SERVER_URL: http://server
@@ -31837,7 +31903,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 8
     TEST_SERVER_URL: http://server
@@ -32045,7 +32111,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 9
     TEST_SERVER_URL: http://server
@@ -32253,7 +32319,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 10
     TEST_SERVER_URL: http://server
@@ -32461,7 +32527,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 11
     TEST_SERVER_URL: http://server
@@ -32669,7 +32735,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 12
     TEST_SERVER_URL: http://server
@@ -32877,7 +32943,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 13
     TEST_SERVER_URL: http://server
@@ -33085,7 +33151,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 14
     TEST_SERVER_URL: http://server
@@ -33293,7 +33359,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 15
     TEST_SERVER_URL: http://server
@@ -33501,7 +33567,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 16
     TEST_SERVER_URL: http://server
@@ -33709,7 +33775,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 17
     TEST_SERVER_URL: http://server
@@ -33917,7 +33983,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 18
     TEST_SERVER_URL: http://server
@@ -34125,7 +34191,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 19
     TEST_SERVER_URL: http://server
@@ -34333,7 +34399,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 20
     TEST_SERVER_URL: http://server
@@ -34541,7 +34607,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 21
     TEST_SERVER_URL: http://server
@@ -34749,7 +34815,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 22
     TEST_SERVER_URL: http://server
@@ -34957,7 +35023,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 23
     TEST_SERVER_URL: http://server
@@ -35165,7 +35231,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 24
     TEST_SERVER_URL: http://server
@@ -35373,7 +35439,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 25
     TEST_SERVER_URL: http://server
@@ -35581,7 +35647,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 26
     TEST_SERVER_URL: http://server
@@ -35789,7 +35855,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 27
     TEST_SERVER_URL: http://server
@@ -35997,7 +36063,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 28
     TEST_SERVER_URL: http://server
@@ -36205,7 +36271,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 29
     TEST_SERVER_URL: http://server
@@ -36413,7 +36479,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-api
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 30
     RUN_PART: 30
     TEST_SERVER_URL: http://server
@@ -36575,7 +36641,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 1
@@ -36725,7 +36791,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 2
@@ -36875,7 +36941,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-cli
   environment:
-    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey
+    BEHAT_FILTER_TAGS: ~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required
     DIVIDE_INTO_NUM_PARTS: 3
     MAILHOG_HOST: email
     RUN_PART: 3
@@ -37071,7 +37137,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -37294,7 +37360,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -37517,7 +37583,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -37740,7 +37806,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
@@ -37963,7 +38029,7 @@ steps:
   - . /var/www/owncloud/saved-settings.sh
   - make test-acceptance-core-webui
   environment:
-    BEHAT_FILTER_TAGS: "@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey"
+    BEHAT_FILTER_TAGS: "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required"
     BROWSER: chrome
     DIVIDE_INTO_NUM_PARTS: 5
     MAILHOG_HOST: email
