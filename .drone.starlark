@@ -319,6 +319,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
 			'numberOfParts': 30,
 			'extraSetup': [
@@ -367,6 +368,7 @@ config = {
 			],
 			'runCoreTests': True,
 			'federatedServerNeeded': True,
+			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
 			'numberOfParts': 30,
 			'cron': 'nightly',
@@ -418,6 +420,7 @@ config = {
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
+			'filterTags': '~@skip&&~@app-required',
 		},
 		'core-cli-acceptance-latest-nightly': {
 			'suites': {
@@ -436,6 +439,7 @@ config = {
 			'runAllSuites': True,
 			'numberOfParts': 3,
 			'emailNeeded': True,
+			'filterTags': '~@skip&&~@app-required',
 			'cron': 'nightly',
 		},
 		'core-webui-acceptance': {
@@ -456,7 +460,7 @@ config = {
 			'federatedServerNeeded': True,
 			'runAllSuites': True,
 			'numberOfParts': 5,
-			'filterTags': '@smokeTest&&~@skip',
+			'filterTags': '@smokeTest&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -507,7 +511,7 @@ config = {
 			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
-			'filterTags': '@smokeTest&&~@skip',
+			'filterTags': '@smokeTest&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -560,7 +564,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
-			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -624,7 +628,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
-			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -672,7 +676,7 @@ config = {
 			'cron': 'nightly',
 			'runAllSuites': True,
 			'numberOfParts': 5,
-			'filterTags': '@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys',
+			'filterTags': '@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required',
 			'extraApps': {
 				'encryption': ''
 			},
@@ -739,7 +743,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
-			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -803,7 +807,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
-			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'filterTags': '~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -854,7 +858,7 @@ config = {
 			'extraApps': {
 				'encryption': ''
 			},
-			'filterTags': '@smokeTest&&~@skip&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey',
+			'filterTags': '@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required',
 			'extraSetup': [
 				{
 					'name': 'configure-app',
