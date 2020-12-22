@@ -1034,7 +1034,7 @@ steps:
 
 - name: sync-from-cache
   pull: always
-  image: minio/mc:RELEASE.2020-12-10T01-26-17Z
+  image: minio/mc:RELEASE.2020-12-18T10-53-53Z
   commands:
   - mkdir -p results
   - mc mirror cache/cache//-${DRONE_BUILD_NUMBER} results/
@@ -1061,7 +1061,7 @@ steps:
     - drone.owncloud.com
 
 - name: purge-cache
-  image: minio/mc:RELEASE.2020-12-10T01-26-17Z
+  image: minio/mc:RELEASE.2020-12-18T10-53-53Z
   commands:
   - mc rm --recursive --force cache/cache//-${DRONE_BUILD_NUMBER}
   environment:
@@ -2070,9 +2070,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2194,9 +2193,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2318,9 +2316,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2442,9 +2439,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2566,9 +2562,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2690,9 +2685,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2813,9 +2807,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -2937,9 +2930,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3060,9 +3052,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3184,9 +3175,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3308,9 +3298,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3431,9 +3420,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3555,9 +3543,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3679,9 +3666,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3802,9 +3788,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -3926,9 +3911,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4052,9 +4036,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4178,9 +4161,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4304,9 +4286,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4430,9 +4411,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4554,9 +4534,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4678,9 +4657,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4802,9 +4780,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -4925,9 +4902,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5049,9 +5025,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5173,9 +5148,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5296,9 +5270,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5420,9 +5393,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5546,9 +5518,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5672,9 +5643,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5806,9 +5776,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -5940,9 +5909,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6074,9 +6042,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6208,9 +6175,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6342,9 +6308,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6476,9 +6441,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6609,9 +6573,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6743,9 +6706,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -6876,9 +6838,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7010,9 +6971,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7144,9 +7104,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7277,9 +7236,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7411,9 +7369,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7545,9 +7502,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7678,9 +7634,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7812,9 +7767,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -7948,9 +7902,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8084,9 +8037,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8220,9 +8172,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8356,9 +8307,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8545,9 +8495,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8734,9 +8683,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -8923,9 +8871,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -9112,9 +9059,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -9301,9 +9247,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -9490,9 +9435,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -9679,9 +9623,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -9868,9 +9811,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -10057,9 +9999,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -10246,9 +10187,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -10435,9 +10375,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -10624,9 +10563,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -10813,9 +10751,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11002,9 +10939,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11191,9 +11127,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11380,9 +11315,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11569,9 +11503,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11758,9 +11691,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -11947,9 +11879,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -12136,9 +12067,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -12325,9 +12255,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -12514,9 +12443,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -12703,9 +12631,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -12892,9 +12819,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -13081,9 +13007,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -13270,9 +13195,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -13459,9 +13383,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -13648,9 +13571,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -13837,9 +13759,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -14026,9 +13947,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -19797,9 +19717,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -19928,9 +19847,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -20059,9 +19977,8 @@ services:
     APACHE_WEBROOT: /var/www/owncloud/server
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -20653,9 +20570,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -20857,9 +20773,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -21061,9 +20976,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -21265,9 +21179,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
@@ -21469,9 +21382,8 @@ services:
     MYSQL_USER: owncloud
 
 trigger:
-  ref:
-  - refs/pull/**
-  - refs/tags/**
+  cron:
+  - nightly
 
 depends_on:
 - coding-standard-php7.2
