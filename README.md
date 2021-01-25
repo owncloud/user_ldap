@@ -1,6 +1,9 @@
 # LDAP Integration
 
 [![Build Status](https://drone.owncloud.com/api/badges/owncloud/user_ldap/status.svg?branch=master)](https://drone.owncloud.com/owncloud/user_ldap)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=owncloud_user_ldap&metric=alert_status)](https://sonarcloud.io/dashboard?id=owncloud_user_ldap)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=owncloud_user_ldap&metric=security_rating)](https://sonarcloud.io/dashboard?id=owncloud_user_ldap)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=owncloud_user_ldap&metric=coverage)](https://sonarcloud.io/dashboard?id=owncloud_user_ldap)
 
 ## Running Tests
 
