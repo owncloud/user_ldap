@@ -177,6 +177,9 @@ test-acceptance-webui: ## Run LDAP webUI acceptance tests
 test-acceptance-webui: $(acceptance_test_deps)
 	BEHAT_BIN=$(BEHAT_BIN) ../../tests/acceptance/run.sh --remote --type webui
 
+.PHONY: starlark-generate
+starlark-generate:
+	drone starlark --source=.drone.starlark --repo.slug=user_ldap
 #
 # Dependency management
 #--------------------------------------
