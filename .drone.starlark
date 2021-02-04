@@ -1417,7 +1417,7 @@ def javascript(ctx):
 				},
 				'bucket': 'cache',
 				'source': './coverage/lcov.info',
-				'target': '%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
+				'target': '%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
 				'path_style': True,
 				'strip_prefix': './coverage',
 				'access_key': {
@@ -1590,7 +1590,7 @@ def phpTests(ctx, testType):
 							},
 							'bucket': 'cache',
 							'source': 'tests/output/clover-%s.xml' % (name),
-							'target': '%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
+							'target': '%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
 							'path_style': True,
 							'strip_prefix': 'tests/output',
 							'access_key': {
@@ -1822,13 +1822,14 @@ def acceptance(ctx):
 				if (testConfig['cron'] != ''):
 					result['trigger']['cron'] = testConfig['cron']
 				else:
-					if ((testConfig['pullRequestAndCron'] != '') and (ctx.build.event != 'pull_request')):
-						result['trigger']['cron'] = testConfig['pullRequestAndCron']
-					else:
-						result['trigger']['ref'] = [
+					result['trigger'] = {
+						'ref': [
 							'refs/pull/**',
 							'refs/tags/**'
 						]
+					}
+					for branch in config['branches']:
+						result['trigger']['ref'].append('refs/heads/%s' % branch)
 
 				pipelines.append(result)
 
@@ -1862,7 +1863,7 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 				},
 				'commands': [
 					'mkdir -p results',
-					'mc mirror cache/cache/%s/%s results/' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
+					'mc mirror cache/cache/%s/%s results/' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
 				]
 			},
 			{
@@ -1881,9 +1882,9 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 					'SONAR_TOKEN': {
 						'from_secret': 'sonar_token'
 					},
-					'SONAR_PULL_REQUEST_BASE': 'master' if ctx.build.event == 'pull_request' else '',
-					'SONAR_PULL_REQUEST_BRANCH': ctx.build.source if ctx.build.event == 'pull_request' else '',
-					'SONAR_PULL_REQUEST_KEY': ctx.build.ref.replace("refs/pull/", "").split("/")[0] if ctx.build.event == 'pull_request' else '',
+					'SONAR_PULL_REQUEST_BASE': 'master',
+					'SONAR_PULL_REQUEST_BRANCH': '${DRONE_SOURCE_BRANCH}',
+					'SONAR_PULL_REQUEST_KEY': '${DRONE_COMMIT_REF}'.replace("refs/pull/", "").split("/")[0],
 					'SONAR_SCANNER_OPTS': '-Xdebug'
 				},
 				'when': {
@@ -1902,7 +1903,7 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 					}
 				},
 				'commands': [
-				'mc rm --recursive --force cache/cache/%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
+				'mc rm --recursive --force cache/cache/%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
 				]
 			},
 		],
