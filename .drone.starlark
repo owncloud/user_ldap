@@ -551,7 +551,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
@@ -615,7 +615,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
@@ -665,7 +665,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
@@ -730,7 +730,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
@@ -794,7 +794,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
@@ -844,7 +844,7 @@ config = {
 				'mysql:5.7',
 			],
 			'servers': [
-				'latest',
+				'daily-master-qa',
 			],
 			'phpVersions': [
 				'7.2',
