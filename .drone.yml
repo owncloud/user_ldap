@@ -1152,7 +1152,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1231,7 +1233,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1310,7 +1314,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1389,7 +1395,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1468,7 +1476,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1547,7 +1557,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1626,7 +1638,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1705,7 +1719,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1784,7 +1800,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1863,7 +1881,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1942,7 +1962,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -1973,7 +1995,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAP-master-mysql5.7-php7.2
+name: apiProvisioningLDAP-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -2059,7 +2081,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -2098,7 +2122,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAP-master-mysql5.7-php7.3
+name: apiProvisioningLDAP-master-mysql8.0-php7.3
 
 platform:
   os: linux
@@ -2184,7 +2208,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -2223,7 +2249,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAP-master-mysql5.7-php7.4
+name: apiProvisioningLDAP-master-mysql8.0-php7.4
 
 platform:
   os: linux
@@ -2309,7 +2335,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -2348,7 +2376,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAP-master-mysql5.7-php7.2
+name: apiUserLDAP-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -2434,7 +2462,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -2473,7 +2503,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAP-master-mysql5.7-php7.3
+name: apiUserLDAP-master-mysql8.0-php7.3
 
 platform:
   os: linux
@@ -2559,7 +2589,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -2598,7 +2630,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAP-master-mysql5.7-php7.4
+name: apiUserLDAP-master-mysql8.0-php7.4
 
 platform:
   os: linux
@@ -2684,7 +2716,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -3221,7 +3255,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAP-latest-mysql5.7-php7.2
+name: apiProvisioningLDAP-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -3307,7 +3341,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -3595,7 +3631,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAP-latest-mysql5.7-php7.2
+name: apiUserLDAP-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -3681,7 +3717,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -3969,7 +4007,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAPS-master-mysql5.7-php7.2
+name: apiProvisioningLDAPS-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -4057,7 +4095,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4096,7 +4136,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiProvisioningLDAPS-latest-mysql5.7-php7.2
+name: apiProvisioningLDAPS-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -4184,7 +4224,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4223,7 +4265,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAPS-master-mysql5.7-php7.2
+name: apiUserLDAPS-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -4311,7 +4353,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4350,7 +4394,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: apiUserLDAPS-latest-mysql5.7-php7.2
+name: apiUserLDAPS-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -4438,7 +4482,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4477,7 +4523,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioning-master-mysql5.7-php7.2
+name: cliProvisioning-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -4563,7 +4609,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4602,7 +4650,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioning-master-mysql5.7-php7.3
+name: cliProvisioning-master-mysql8.0-php7.3
 
 platform:
   os: linux
@@ -4688,7 +4736,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -4727,7 +4777,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioning-master-mysql5.7-php7.4
+name: cliProvisioning-master-mysql8.0-php7.4
 
 platform:
   os: linux
@@ -4813,7 +4863,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5101,7 +5153,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioning-latest-mysql5.7-php7.2
+name: cliProvisioning-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -5187,7 +5239,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5475,7 +5529,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioningLDAPS-master-mysql5.7-php7.2
+name: cliProvisioningLDAPS-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -5563,7 +5617,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5602,7 +5658,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: cliProvisioningLDAPS-latest-mysql5.7-php7.2
+name: cliProvisioningLDAPS-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -5690,7 +5746,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5729,7 +5787,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAP-master-chrome-mysql5.7-php7.2
+name: webUIUserLDAP-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -5819,7 +5877,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5864,7 +5924,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAP-master-chrome-mysql5.7-php7.3
+name: webUIUserLDAP-master-chrome-mysql8.0-php7.3
 
 platform:
   os: linux
@@ -5954,7 +6014,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -5999,7 +6061,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAP-master-chrome-mysql5.7-php7.4
+name: webUIUserLDAP-master-chrome-mysql8.0-php7.4
 
 platform:
   os: linux
@@ -6089,7 +6151,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -6134,7 +6198,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioning-master-chrome-mysql5.7-php7.2
+name: webUIProvisioning-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -6224,7 +6288,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -6269,7 +6335,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioning-master-chrome-mysql5.7-php7.3
+name: webUIProvisioning-master-chrome-mysql8.0-php7.3
 
 platform:
   os: linux
@@ -6359,7 +6425,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -6404,7 +6472,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioning-master-chrome-mysql5.7-php7.4
+name: webUIProvisioning-master-chrome-mysql8.0-php7.4
 
 platform:
   os: linux
@@ -6494,7 +6562,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -7077,7 +7147,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAP-latest-chrome-mysql5.7-php7.2
+name: webUIUserLDAP-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -7167,7 +7237,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -7481,7 +7553,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioning-latest-chrome-mysql5.7-php7.2
+name: webUIProvisioning-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -7571,7 +7643,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -7885,7 +7959,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAPS-master-chrome-mysql5.7-php7.2
+name: webUIUserLDAPS-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -7977,7 +8051,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8022,7 +8098,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIUserLDAPS-latest-chrome-mysql5.7-php7.2
+name: webUIUserLDAPS-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8114,7 +8190,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8159,7 +8237,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioningS-master-chrome-mysql5.7-php7.2
+name: webUIProvisioningS-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8251,7 +8329,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8296,7 +8376,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: webUIProvisioningS-latest-chrome-mysql5.7-php7.2
+name: webUIProvisioningS-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8388,7 +8468,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8433,7 +8515,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-1-master-mysql5.7-php7.2
+name: core-apiAll-30-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8567,7 +8649,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8601,7 +8685,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -8623,7 +8707,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-2-master-mysql5.7-php7.2
+name: core-apiAll-30-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8757,7 +8841,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8791,7 +8877,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -8813,7 +8899,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-3-master-mysql5.7-php7.2
+name: core-apiAll-30-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -8947,7 +9033,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -8981,7 +9069,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9003,7 +9091,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-4-master-mysql5.7-php7.2
+name: core-apiAll-30-4-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -9137,7 +9225,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -9171,7 +9261,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9193,7 +9283,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-5-master-mysql5.7-php7.2
+name: core-apiAll-30-5-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -9327,7 +9417,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -9361,7 +9453,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9383,7 +9475,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-6-master-mysql5.7-php7.2
+name: core-apiAll-30-6-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -9517,7 +9609,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -9551,7 +9645,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9573,7 +9667,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-7-master-mysql5.7-php7.2
+name: core-apiAll-30-7-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -9707,7 +9801,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -9741,7 +9837,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9763,7 +9859,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-8-master-mysql5.7-php7.2
+name: core-apiAll-30-8-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -9897,7 +9993,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -9931,7 +10029,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -9953,7 +10051,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-9-master-mysql5.7-php7.2
+name: core-apiAll-30-9-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -10087,7 +10185,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -10121,7 +10221,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -10143,7 +10243,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-10-master-mysql5.7-php7.2
+name: core-apiAll-30-10-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -10277,7 +10377,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -10311,7 +10413,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -10333,7 +10435,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-11-master-mysql5.7-php7.2
+name: core-apiAll-30-11-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -10467,7 +10569,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -10501,7 +10605,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -10523,7 +10627,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-12-master-mysql5.7-php7.2
+name: core-apiAll-30-12-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -10657,7 +10761,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -10691,7 +10797,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -10713,7 +10819,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-13-master-mysql5.7-php7.2
+name: core-apiAll-30-13-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -10847,7 +10953,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -10881,7 +10989,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -10903,7 +11011,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-14-master-mysql5.7-php7.2
+name: core-apiAll-30-14-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11037,7 +11145,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -11071,7 +11181,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -11093,7 +11203,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-15-master-mysql5.7-php7.2
+name: core-apiAll-30-15-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11227,7 +11337,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -11261,7 +11373,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -11283,7 +11395,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-16-master-mysql5.7-php7.2
+name: core-apiAll-30-16-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11417,7 +11529,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -11451,7 +11565,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -11473,7 +11587,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-17-master-mysql5.7-php7.2
+name: core-apiAll-30-17-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11607,7 +11721,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -11641,7 +11757,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -11663,7 +11779,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-18-master-mysql5.7-php7.2
+name: core-apiAll-30-18-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11797,7 +11913,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -11831,7 +11949,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -11853,7 +11971,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-19-master-mysql5.7-php7.2
+name: core-apiAll-30-19-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -11987,7 +12105,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12021,7 +12141,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12043,7 +12163,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-20-master-mysql5.7-php7.2
+name: core-apiAll-30-20-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -12177,7 +12297,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12211,7 +12333,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12233,7 +12355,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-21-master-mysql5.7-php7.2
+name: core-apiAll-30-21-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -12367,7 +12489,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12401,7 +12525,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12423,7 +12547,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-22-master-mysql5.7-php7.2
+name: core-apiAll-30-22-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -12557,7 +12681,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12591,7 +12717,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12613,7 +12739,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-23-master-mysql5.7-php7.2
+name: core-apiAll-30-23-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -12747,7 +12873,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12781,7 +12909,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12803,7 +12931,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-24-master-mysql5.7-php7.2
+name: core-apiAll-30-24-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -12937,7 +13065,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -12971,7 +13101,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -12993,7 +13123,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-25-master-mysql5.7-php7.2
+name: core-apiAll-30-25-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -13127,7 +13257,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -13161,7 +13293,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -13183,7 +13315,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-26-master-mysql5.7-php7.2
+name: core-apiAll-30-26-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -13317,7 +13449,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -13351,7 +13485,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -13373,7 +13507,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-27-master-mysql5.7-php7.2
+name: core-apiAll-30-27-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -13507,7 +13641,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -13541,7 +13677,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -13563,7 +13699,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-28-master-mysql5.7-php7.2
+name: core-apiAll-30-28-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -13697,7 +13833,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -13731,7 +13869,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -13753,7 +13891,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-29-master-mysql5.7-php7.2
+name: core-apiAll-30-29-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -13887,7 +14025,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -13921,7 +14061,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -13943,7 +14083,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-30-30-master-mysql5.7-php7.2
+name: core-apiAll-30-30-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -14077,7 +14217,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -14111,7 +14253,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -14133,7 +14275,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-1-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -14267,7 +14409,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -14301,7 +14445,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -14321,7 +14465,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-2-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -14455,7 +14599,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -14489,7 +14635,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -14509,7 +14655,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-3-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -14643,7 +14789,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -14677,7 +14825,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -14697,7 +14845,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-4-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-4-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -14831,7 +14979,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -14865,7 +15015,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -14885,7 +15035,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-5-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-5-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15019,7 +15169,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15053,7 +15205,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -15073,7 +15225,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-6-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-6-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15207,7 +15359,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15241,7 +15395,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -15261,7 +15415,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-7-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-7-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15395,7 +15549,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15429,7 +15585,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -15449,7 +15605,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-8-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-8-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15583,7 +15739,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15617,7 +15775,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -15637,7 +15795,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-9-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-9-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15771,7 +15929,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15805,7 +15965,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -15825,7 +15985,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-10-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-10-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -15959,7 +16119,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -15993,7 +16155,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16013,7 +16175,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-11-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-11-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -16147,7 +16309,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -16181,7 +16345,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16201,7 +16365,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-12-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-12-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -16335,7 +16499,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -16369,7 +16535,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16389,7 +16555,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-13-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-13-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -16523,7 +16689,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -16557,7 +16725,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16577,7 +16745,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-14-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-14-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -16711,7 +16879,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -16745,7 +16915,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16765,7 +16935,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-15-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-15-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -16899,7 +17069,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -16933,7 +17105,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -16953,7 +17125,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-16-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-16-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -17087,7 +17259,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -17121,7 +17295,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -17141,7 +17315,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-17-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-17-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -17275,7 +17449,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -17309,7 +17485,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -17329,7 +17505,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-18-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-18-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -17463,7 +17639,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -17497,7 +17675,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -17517,7 +17695,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-19-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-19-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -17651,7 +17829,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -17685,7 +17865,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -17705,7 +17885,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-20-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-20-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -17839,7 +18019,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -17873,7 +18055,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -17893,7 +18075,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-21-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-21-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18027,7 +18209,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -18061,7 +18245,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -18081,7 +18265,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-22-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-22-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18215,7 +18399,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -18249,7 +18435,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -18269,7 +18455,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-23-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-23-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18403,7 +18589,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -18437,7 +18625,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -18457,7 +18645,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-24-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-24-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18591,7 +18779,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -18625,7 +18815,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -18645,7 +18835,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-25-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-25-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18779,7 +18969,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -18813,7 +19005,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -18833,7 +19025,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-26-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-26-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -18967,7 +19159,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19001,7 +19195,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -19021,7 +19215,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-27-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-27-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19155,7 +19349,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19189,7 +19385,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -19209,7 +19405,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-28-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-28-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19343,7 +19539,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19377,7 +19575,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -19397,7 +19595,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-29-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-29-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19531,7 +19729,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19565,7 +19765,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -19585,7 +19785,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-latest-30-30-latest-mysql5.7-php7.2
+name: core-apiAll-latest-30-30-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19719,7 +19919,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19753,7 +19955,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -19773,7 +19975,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-3-1-master-mysql5.7-php7.2
+name: core-cliAll-3-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19862,7 +20064,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -19905,7 +20109,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-3-2-master-mysql5.7-php7.2
+name: core-cliAll-3-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -19994,7 +20198,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20037,7 +20243,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-3-3-master-mysql5.7-php7.2
+name: core-cliAll-3-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20126,7 +20332,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20169,7 +20377,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-latest-3-1-latest-mysql5.7-php7.2
+name: core-cliAll-latest-3-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20258,7 +20466,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20299,7 +20509,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-latest-3-2-latest-mysql5.7-php7.2
+name: core-cliAll-latest-3-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20388,7 +20598,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20429,7 +20641,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-latest-3-3-latest-mysql5.7-php7.2
+name: core-cliAll-latest-3-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20518,7 +20730,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20559,7 +20773,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-webUI-5-1-master-chrome-mysql5.7-php7.2
+name: core-webUI-5-1-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20698,7 +20912,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20742,7 +20958,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -20764,7 +20980,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-webUI-5-2-master-chrome-mysql5.7-php7.2
+name: core-webUI-5-2-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -20903,7 +21119,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -20947,7 +21165,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -20969,7 +21187,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-webUI-5-3-master-chrome-mysql5.7-php7.2
+name: core-webUI-5-3-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -21108,7 +21326,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -21152,7 +21372,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -21174,7 +21394,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-webUI-5-4-master-chrome-mysql5.7-php7.2
+name: core-webUI-5-4-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -21313,7 +21533,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -21357,7 +21579,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -21379,7 +21601,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-webUI-5-5-master-chrome-mysql5.7-php7.2
+name: core-webUI-5-5-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -21518,7 +21740,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -21562,7 +21786,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -21584,7 +21808,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-latest-5-1-latest-chrome-mysql5.7-php7.2
+name: core-wUI-latest-5-1-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -21723,7 +21947,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -21767,7 +21993,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -21787,7 +22013,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-latest-5-2-latest-chrome-mysql5.7-php7.2
+name: core-wUI-latest-5-2-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -21926,7 +22152,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -21970,7 +22198,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -21990,7 +22218,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-latest-5-3-latest-chrome-mysql5.7-php7.2
+name: core-wUI-latest-5-3-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22129,7 +22357,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -22173,7 +22403,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -22193,7 +22423,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-latest-5-4-latest-chrome-mysql5.7-php7.2
+name: core-wUI-latest-5-4-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22332,7 +22562,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -22376,7 +22608,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -22396,7 +22628,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-latest-5-5-latest-chrome-mysql5.7-php7.2
+name: core-wUI-latest-5-5-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22535,7 +22767,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -22579,7 +22813,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -22599,7 +22833,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-1-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22753,7 +22987,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -22787,7 +23023,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -22807,7 +23043,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-2-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22961,7 +23197,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -22995,7 +23233,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -23015,7 +23253,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-3-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23169,7 +23407,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -23203,7 +23443,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -23223,7 +23463,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-4-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-4-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23377,7 +23617,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -23411,7 +23653,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -23431,7 +23673,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-5-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-5-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23585,7 +23827,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -23619,7 +23863,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -23639,7 +23883,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-6-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-6-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23793,7 +24037,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -23827,7 +24073,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -23847,7 +24093,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-7-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-7-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24001,7 +24247,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -24035,7 +24283,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -24055,7 +24303,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-8-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-8-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24209,7 +24457,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -24243,7 +24493,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -24263,7 +24513,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-9-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-9-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24417,7 +24667,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -24451,7 +24703,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -24471,7 +24723,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-10-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-10-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24625,7 +24877,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -24659,7 +24913,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -24679,7 +24933,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-11-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-11-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24833,7 +25087,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -24867,7 +25123,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -24887,7 +25143,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-12-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-12-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25041,7 +25297,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -25075,7 +25333,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -25095,7 +25353,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-13-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-13-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25249,7 +25507,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -25283,7 +25543,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -25303,7 +25563,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-14-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-14-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25457,7 +25717,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -25491,7 +25753,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -25511,7 +25773,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-15-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-15-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25665,7 +25927,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -25699,7 +25963,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -25719,7 +25983,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-16-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-16-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25873,7 +26137,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -25907,7 +26173,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -25927,7 +26193,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-17-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-17-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26081,7 +26347,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -26115,7 +26383,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -26135,7 +26403,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-18-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-18-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26289,7 +26557,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -26323,7 +26593,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -26343,7 +26613,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-19-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-19-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26497,7 +26767,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -26531,7 +26803,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -26551,7 +26823,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-20-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-20-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26705,7 +26977,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -26739,7 +27013,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -26759,7 +27033,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-21-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-21-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26913,7 +27187,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -26947,7 +27223,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -26967,7 +27243,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-22-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-22-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27121,7 +27397,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -27155,7 +27433,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -27175,7 +27453,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-23-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-23-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27329,7 +27607,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -27363,7 +27643,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -27383,7 +27663,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-24-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-24-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27537,7 +27817,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -27571,7 +27853,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -27591,7 +27873,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-25-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-25-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27745,7 +28027,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -27779,7 +28063,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -27799,7 +28083,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-26-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-26-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27953,7 +28237,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -27987,7 +28273,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -28007,7 +28293,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-27-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-27-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28161,7 +28447,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -28195,7 +28483,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -28215,7 +28503,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-28-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-28-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28369,7 +28657,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -28403,7 +28693,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -28423,7 +28713,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-29-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-29-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28577,7 +28867,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -28611,7 +28903,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -28631,7 +28923,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-30-master-mysql5.7-php7.2
+name: core-apiAll-enc-UK-30-30-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28785,7 +29077,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -28819,7 +29113,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -28839,7 +29133,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-1-master-mysql5.7-php7.2
+name: core-cliAll-enc-UK-3-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28948,7 +29242,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -28989,7 +29285,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-2-master-mysql5.7-php7.2
+name: core-cliAll-enc-UK-3-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29098,7 +29394,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -29139,7 +29437,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-3-master-mysql5.7-php7.2
+name: core-cliAll-enc-UK-3-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29248,7 +29546,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -29289,7 +29589,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-1-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-UK-5-1-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29448,7 +29748,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -29492,7 +29794,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -29512,7 +29814,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-2-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-UK-5-2-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29671,7 +29973,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -29715,7 +30019,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -29735,7 +30039,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-3-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-UK-5-3-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29894,7 +30198,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -29938,7 +30244,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -29958,7 +30264,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-4-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-UK-5-4-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30117,7 +30423,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -30161,7 +30469,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -30181,7 +30489,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-5-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-UK-5-5-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30340,7 +30648,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -30384,7 +30694,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -30404,7 +30714,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-1-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30558,7 +30868,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -30592,7 +30904,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -30612,7 +30924,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-2-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30766,7 +31078,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -30800,7 +31114,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -30820,7 +31134,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-3-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30974,7 +31288,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -31008,7 +31324,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -31028,7 +31344,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-4-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-4-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31182,7 +31498,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -31216,7 +31534,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -31236,7 +31554,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-5-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-5-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31390,7 +31708,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -31424,7 +31744,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -31444,7 +31764,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-6-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-6-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31598,7 +31918,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -31632,7 +31954,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -31652,7 +31974,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-7-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-7-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31806,7 +32128,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -31840,7 +32164,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -31860,7 +32184,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-8-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-8-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32014,7 +32338,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -32048,7 +32374,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -32068,7 +32394,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-9-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-9-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32222,7 +32548,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -32256,7 +32584,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -32276,7 +32604,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-10-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-10-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32430,7 +32758,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -32464,7 +32794,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -32484,7 +32814,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-11-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-11-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32638,7 +32968,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -32672,7 +33004,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -32692,7 +33024,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-12-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-12-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32846,7 +33178,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -32880,7 +33214,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -32900,7 +33234,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-13-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-13-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33054,7 +33388,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -33088,7 +33424,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -33108,7 +33444,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-14-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-14-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33262,7 +33598,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -33296,7 +33634,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -33316,7 +33654,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-15-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-15-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33470,7 +33808,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -33504,7 +33844,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -33524,7 +33864,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-16-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-16-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33678,7 +34018,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -33712,7 +34054,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -33732,7 +34074,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-17-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-17-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33886,7 +34228,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -33920,7 +34264,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -33940,7 +34284,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-18-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-18-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34094,7 +34438,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -34128,7 +34474,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -34148,7 +34494,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-19-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-19-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34302,7 +34648,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -34336,7 +34684,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -34356,7 +34704,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-20-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-20-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34510,7 +34858,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -34544,7 +34894,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -34564,7 +34914,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-21-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-21-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34718,7 +35068,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -34752,7 +35104,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -34772,7 +35124,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-22-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-22-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34926,7 +35278,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -34960,7 +35314,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -34980,7 +35334,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-23-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-23-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35134,7 +35488,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -35168,7 +35524,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -35188,7 +35544,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-24-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-24-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35342,7 +35698,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -35376,7 +35734,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -35396,7 +35754,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-25-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-25-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35550,7 +35908,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -35584,7 +35944,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -35604,7 +35964,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-26-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-26-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35758,7 +36118,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -35792,7 +36154,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -35812,7 +36174,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-27-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-27-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35966,7 +36328,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36000,7 +36364,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -36020,7 +36384,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-28-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-28-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36174,7 +36538,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36208,7 +36574,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -36228,7 +36594,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-29-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-29-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36382,7 +36748,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36416,7 +36784,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -36436,7 +36804,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-30-master-mysql5.7-php7.2
+name: core-apiAll-enc-MK-30-30-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36590,7 +36958,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36624,7 +36994,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -36644,7 +37014,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-1-master-mysql5.7-php7.2
+name: core-cliAll-enc-MK-3-1-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36753,7 +37123,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36794,7 +37166,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-2-master-mysql5.7-php7.2
+name: core-cliAll-enc-MK-3-2-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36903,7 +37275,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -36944,7 +37318,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-3-master-mysql5.7-php7.2
+name: core-cliAll-enc-MK-3-3-master-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37053,7 +37427,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -37094,7 +37470,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-1-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-MK-5-1-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37253,7 +37629,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -37297,7 +37675,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -37317,7 +37695,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-2-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-MK-5-2-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37476,7 +37854,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -37520,7 +37900,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -37540,7 +37920,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-3-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-MK-5-3-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37699,7 +38079,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -37743,7 +38125,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -37763,7 +38145,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-4-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-MK-5-4-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37922,7 +38304,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -37966,7 +38350,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -37986,7 +38370,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-5-master-chrome-mysql5.7-php7.2
+name: core-wUI-enc-MK-5-5-master-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -38145,7 +38529,9 @@ steps:
 services:
 - name: mysql
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
+  command:
+  - --default-authentication-plugin=mysql_native_password
   environment:
     MYSQL_DATABASE: owncloud
     MYSQL_PASSWORD: owncloud
@@ -38189,7 +38575,7 @@ services:
 
 - name: mysql-federated
   pull: always
-  image: mysql:5.7
+  image: mysql:8.0
   environment:
     MYSQL_DATABASE: owncloud-federated
     MYSQL_PASSWORD: owncloud
@@ -38248,207 +38634,207 @@ depends_on:
 - IntegrationTestPaging
 - User/IntegrationTestUserAvatar
 - User/IntegrationTestUserDisplayName
-- apiProvisioningLDAP-master-mysql5.7-php7.2
-- apiProvisioningLDAP-master-mysql5.7-php7.3
-- apiProvisioningLDAP-master-mysql5.7-php7.4
-- apiUserLDAP-master-mysql5.7-php7.2
-- apiUserLDAP-master-mysql5.7-php7.3
-- apiUserLDAP-master-mysql5.7-php7.4
+- apiProvisioningLDAP-master-mysql8.0-php7.2
+- apiProvisioningLDAP-master-mysql8.0-php7.3
+- apiProvisioningLDAP-master-mysql8.0-php7.4
+- apiUserLDAP-master-mysql8.0-php7.2
+- apiUserLDAP-master-mysql8.0-php7.3
+- apiUserLDAP-master-mysql8.0-php7.4
 - apiProvisioningLDAP-master-postgres9.4-php7.2
 - apiProvisioningLDAP-master-oracle-php7.2
 - apiUserLDAP-master-postgres9.4-php7.2
 - apiUserLDAP-master-oracle-php7.2
-- apiProvisioningLDAP-latest-mysql5.7-php7.2
+- apiProvisioningLDAP-latest-mysql8.0-php7.2
 - apiProvisioningLDAP-latest-postgres9.4-php7.2
 - apiProvisioningLDAP-latest-oracle-php7.2
-- apiUserLDAP-latest-mysql5.7-php7.2
+- apiUserLDAP-latest-mysql8.0-php7.2
 - apiUserLDAP-latest-postgres9.4-php7.2
 - apiUserLDAP-latest-oracle-php7.2
-- apiProvisioningLDAPS-master-mysql5.7-php7.2
-- apiProvisioningLDAPS-latest-mysql5.7-php7.2
-- apiUserLDAPS-master-mysql5.7-php7.2
-- apiUserLDAPS-latest-mysql5.7-php7.2
-- cliProvisioning-master-mysql5.7-php7.2
-- cliProvisioning-master-mysql5.7-php7.3
-- cliProvisioning-master-mysql5.7-php7.4
+- apiProvisioningLDAPS-master-mysql8.0-php7.2
+- apiProvisioningLDAPS-latest-mysql8.0-php7.2
+- apiUserLDAPS-master-mysql8.0-php7.2
+- apiUserLDAPS-latest-mysql8.0-php7.2
+- cliProvisioning-master-mysql8.0-php7.2
+- cliProvisioning-master-mysql8.0-php7.3
+- cliProvisioning-master-mysql8.0-php7.4
 - cliProvisioning-master-postgres9.4-php7.2
 - cliProvisioning-master-oracle-php7.2
-- cliProvisioning-latest-mysql5.7-php7.2
+- cliProvisioning-latest-mysql8.0-php7.2
 - cliProvisioning-latest-postgres9.4-php7.2
 - cliProvisioning-latest-oracle-php7.2
-- cliProvisioningLDAPS-master-mysql5.7-php7.2
-- cliProvisioningLDAPS-latest-mysql5.7-php7.2
-- webUIUserLDAP-master-chrome-mysql5.7-php7.2
-- webUIUserLDAP-master-chrome-mysql5.7-php7.3
-- webUIUserLDAP-master-chrome-mysql5.7-php7.4
-- webUIProvisioning-master-chrome-mysql5.7-php7.2
-- webUIProvisioning-master-chrome-mysql5.7-php7.3
-- webUIProvisioning-master-chrome-mysql5.7-php7.4
+- cliProvisioningLDAPS-master-mysql8.0-php7.2
+- cliProvisioningLDAPS-latest-mysql8.0-php7.2
+- webUIUserLDAP-master-chrome-mysql8.0-php7.2
+- webUIUserLDAP-master-chrome-mysql8.0-php7.3
+- webUIUserLDAP-master-chrome-mysql8.0-php7.4
+- webUIProvisioning-master-chrome-mysql8.0-php7.2
+- webUIProvisioning-master-chrome-mysql8.0-php7.3
+- webUIProvisioning-master-chrome-mysql8.0-php7.4
 - webUIUserLDAP-master-chrome-postgres9.4-php7.2
 - webUIUserLDAP-master-chrome-oracle-php7.2
 - webUIProvisioning-master-chrome-postgres9.4-php7.2
 - webUIProvisioning-master-chrome-oracle-php7.2
-- webUIUserLDAP-latest-chrome-mysql5.7-php7.2
+- webUIUserLDAP-latest-chrome-mysql8.0-php7.2
 - webUIUserLDAP-latest-chrome-postgres9.4-php7.2
 - webUIUserLDAP-latest-chrome-oracle-php7.2
-- webUIProvisioning-latest-chrome-mysql5.7-php7.2
+- webUIProvisioning-latest-chrome-mysql8.0-php7.2
 - webUIProvisioning-latest-chrome-postgres9.4-php7.2
 - webUIProvisioning-latest-chrome-oracle-php7.2
-- webUIUserLDAPS-master-chrome-mysql5.7-php7.2
-- webUIUserLDAPS-latest-chrome-mysql5.7-php7.2
-- webUIProvisioningS-master-chrome-mysql5.7-php7.2
-- webUIProvisioningS-latest-chrome-mysql5.7-php7.2
-- core-apiAll-30-1-master-mysql5.7-php7.2
-- core-apiAll-30-2-master-mysql5.7-php7.2
-- core-apiAll-30-3-master-mysql5.7-php7.2
-- core-apiAll-30-4-master-mysql5.7-php7.2
-- core-apiAll-30-5-master-mysql5.7-php7.2
-- core-apiAll-30-6-master-mysql5.7-php7.2
-- core-apiAll-30-7-master-mysql5.7-php7.2
-- core-apiAll-30-8-master-mysql5.7-php7.2
-- core-apiAll-30-9-master-mysql5.7-php7.2
-- core-apiAll-30-10-master-mysql5.7-php7.2
-- core-apiAll-30-11-master-mysql5.7-php7.2
-- core-apiAll-30-12-master-mysql5.7-php7.2
-- core-apiAll-30-13-master-mysql5.7-php7.2
-- core-apiAll-30-14-master-mysql5.7-php7.2
-- core-apiAll-30-15-master-mysql5.7-php7.2
-- core-apiAll-30-16-master-mysql5.7-php7.2
-- core-apiAll-30-17-master-mysql5.7-php7.2
-- core-apiAll-30-18-master-mysql5.7-php7.2
-- core-apiAll-30-19-master-mysql5.7-php7.2
-- core-apiAll-30-20-master-mysql5.7-php7.2
-- core-apiAll-30-21-master-mysql5.7-php7.2
-- core-apiAll-30-22-master-mysql5.7-php7.2
-- core-apiAll-30-23-master-mysql5.7-php7.2
-- core-apiAll-30-24-master-mysql5.7-php7.2
-- core-apiAll-30-25-master-mysql5.7-php7.2
-- core-apiAll-30-26-master-mysql5.7-php7.2
-- core-apiAll-30-27-master-mysql5.7-php7.2
-- core-apiAll-30-28-master-mysql5.7-php7.2
-- core-apiAll-30-29-master-mysql5.7-php7.2
-- core-apiAll-30-30-master-mysql5.7-php7.2
-- core-apiAll-latest-30-1-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-2-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-3-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-4-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-5-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-6-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-7-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-8-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-9-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-10-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-11-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-12-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-13-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-14-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-15-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-16-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-17-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-18-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-19-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-20-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-21-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-22-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-23-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-24-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-25-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-26-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-27-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-28-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-29-latest-mysql5.7-php7.2
-- core-apiAll-latest-30-30-latest-mysql5.7-php7.2
-- core-cliAll-3-1-master-mysql5.7-php7.2
-- core-cliAll-3-2-master-mysql5.7-php7.2
-- core-cliAll-3-3-master-mysql5.7-php7.2
-- core-cliAll-latest-3-1-latest-mysql5.7-php7.2
-- core-cliAll-latest-3-2-latest-mysql5.7-php7.2
-- core-cliAll-latest-3-3-latest-mysql5.7-php7.2
-- core-webUI-5-1-master-chrome-mysql5.7-php7.2
-- core-webUI-5-2-master-chrome-mysql5.7-php7.2
-- core-webUI-5-3-master-chrome-mysql5.7-php7.2
-- core-webUI-5-4-master-chrome-mysql5.7-php7.2
-- core-webUI-5-5-master-chrome-mysql5.7-php7.2
-- core-wUI-latest-5-1-latest-chrome-mysql5.7-php7.2
-- core-wUI-latest-5-2-latest-chrome-mysql5.7-php7.2
-- core-wUI-latest-5-3-latest-chrome-mysql5.7-php7.2
-- core-wUI-latest-5-4-latest-chrome-mysql5.7-php7.2
-- core-wUI-latest-5-5-latest-chrome-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-1-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-2-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-3-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-4-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-5-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-6-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-7-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-8-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-9-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-10-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-11-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-12-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-13-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-14-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-15-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-16-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-17-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-18-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-19-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-20-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-21-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-22-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-23-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-24-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-25-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-26-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-27-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-28-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-29-master-mysql5.7-php7.2
-- core-apiAll-enc-UK-30-30-master-mysql5.7-php7.2
-- core-cliAll-enc-UK-3-1-master-mysql5.7-php7.2
-- core-cliAll-enc-UK-3-2-master-mysql5.7-php7.2
-- core-cliAll-enc-UK-3-3-master-mysql5.7-php7.2
-- core-wUI-enc-UK-5-1-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-UK-5-2-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-UK-5-3-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-UK-5-4-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-UK-5-5-master-chrome-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-1-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-2-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-3-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-4-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-5-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-6-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-7-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-8-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-9-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-10-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-11-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-12-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-13-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-14-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-15-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-16-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-17-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-18-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-19-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-20-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-21-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-22-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-23-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-24-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-25-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-26-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-27-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-28-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-29-master-mysql5.7-php7.2
-- core-apiAll-enc-MK-30-30-master-mysql5.7-php7.2
-- core-cliAll-enc-MK-3-1-master-mysql5.7-php7.2
-- core-cliAll-enc-MK-3-2-master-mysql5.7-php7.2
-- core-cliAll-enc-MK-3-3-master-mysql5.7-php7.2
-- core-wUI-enc-MK-5-1-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-MK-5-2-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-MK-5-3-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-MK-5-4-master-chrome-mysql5.7-php7.2
-- core-wUI-enc-MK-5-5-master-chrome-mysql5.7-php7.2
+- webUIUserLDAPS-master-chrome-mysql8.0-php7.2
+- webUIUserLDAPS-latest-chrome-mysql8.0-php7.2
+- webUIProvisioningS-master-chrome-mysql8.0-php7.2
+- webUIProvisioningS-latest-chrome-mysql8.0-php7.2
+- core-apiAll-30-1-master-mysql8.0-php7.2
+- core-apiAll-30-2-master-mysql8.0-php7.2
+- core-apiAll-30-3-master-mysql8.0-php7.2
+- core-apiAll-30-4-master-mysql8.0-php7.2
+- core-apiAll-30-5-master-mysql8.0-php7.2
+- core-apiAll-30-6-master-mysql8.0-php7.2
+- core-apiAll-30-7-master-mysql8.0-php7.2
+- core-apiAll-30-8-master-mysql8.0-php7.2
+- core-apiAll-30-9-master-mysql8.0-php7.2
+- core-apiAll-30-10-master-mysql8.0-php7.2
+- core-apiAll-30-11-master-mysql8.0-php7.2
+- core-apiAll-30-12-master-mysql8.0-php7.2
+- core-apiAll-30-13-master-mysql8.0-php7.2
+- core-apiAll-30-14-master-mysql8.0-php7.2
+- core-apiAll-30-15-master-mysql8.0-php7.2
+- core-apiAll-30-16-master-mysql8.0-php7.2
+- core-apiAll-30-17-master-mysql8.0-php7.2
+- core-apiAll-30-18-master-mysql8.0-php7.2
+- core-apiAll-30-19-master-mysql8.0-php7.2
+- core-apiAll-30-20-master-mysql8.0-php7.2
+- core-apiAll-30-21-master-mysql8.0-php7.2
+- core-apiAll-30-22-master-mysql8.0-php7.2
+- core-apiAll-30-23-master-mysql8.0-php7.2
+- core-apiAll-30-24-master-mysql8.0-php7.2
+- core-apiAll-30-25-master-mysql8.0-php7.2
+- core-apiAll-30-26-master-mysql8.0-php7.2
+- core-apiAll-30-27-master-mysql8.0-php7.2
+- core-apiAll-30-28-master-mysql8.0-php7.2
+- core-apiAll-30-29-master-mysql8.0-php7.2
+- core-apiAll-30-30-master-mysql8.0-php7.2
+- core-apiAll-latest-30-1-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-2-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-3-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-4-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-5-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-6-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-7-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-8-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-9-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-10-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-11-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-12-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-13-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-14-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-15-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-16-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-17-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-18-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-19-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-20-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-21-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-22-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-23-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-24-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-25-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-26-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-27-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-28-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-29-latest-mysql8.0-php7.2
+- core-apiAll-latest-30-30-latest-mysql8.0-php7.2
+- core-cliAll-3-1-master-mysql8.0-php7.2
+- core-cliAll-3-2-master-mysql8.0-php7.2
+- core-cliAll-3-3-master-mysql8.0-php7.2
+- core-cliAll-latest-3-1-latest-mysql8.0-php7.2
+- core-cliAll-latest-3-2-latest-mysql8.0-php7.2
+- core-cliAll-latest-3-3-latest-mysql8.0-php7.2
+- core-webUI-5-1-master-chrome-mysql8.0-php7.2
+- core-webUI-5-2-master-chrome-mysql8.0-php7.2
+- core-webUI-5-3-master-chrome-mysql8.0-php7.2
+- core-webUI-5-4-master-chrome-mysql8.0-php7.2
+- core-webUI-5-5-master-chrome-mysql8.0-php7.2
+- core-wUI-latest-5-1-latest-chrome-mysql8.0-php7.2
+- core-wUI-latest-5-2-latest-chrome-mysql8.0-php7.2
+- core-wUI-latest-5-3-latest-chrome-mysql8.0-php7.2
+- core-wUI-latest-5-4-latest-chrome-mysql8.0-php7.2
+- core-wUI-latest-5-5-latest-chrome-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-1-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-2-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-3-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-4-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-5-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-6-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-7-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-8-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-9-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-10-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-11-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-12-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-13-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-14-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-15-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-16-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-17-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-18-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-19-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-20-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-21-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-22-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-23-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-24-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-25-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-26-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-27-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-28-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-29-master-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-30-master-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-1-master-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-2-master-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-3-master-mysql8.0-php7.2
+- core-wUI-enc-UK-5-1-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-2-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-3-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-4-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-5-master-chrome-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-1-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-2-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-3-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-4-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-5-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-6-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-7-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-8-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-9-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-10-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-11-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-12-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-13-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-14-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-15-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-16-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-17-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-18-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-19-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-20-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-21-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-22-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-23-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-24-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-25-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-26-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-27-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-28-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-29-master-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-30-master-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-1-master-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-2-master-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-3-master-mysql8.0-php7.2
+- core-wUI-enc-MK-5-1-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-2-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-3-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-4-master-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-5-master-chrome-mysql8.0-php7.2
 
 ...
