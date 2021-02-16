@@ -62,7 +62,7 @@ config = {
 				'apiUserLDAP',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -95,7 +95,7 @@ config = {
 				'apiUserLDAP',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 				'postgres:9.4',
 				'oracle',
 			],
@@ -112,7 +112,7 @@ config = {
 				'apiUserLDAP': 'apiUserLDAPS',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -145,7 +145,7 @@ config = {
 				'cliProvisioning',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -176,7 +176,7 @@ config = {
 				'cliProvisioning',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 				'postgres:9.4',
 				'oracle',
 			],
@@ -192,7 +192,7 @@ config = {
 				'cliProvisioning': 'cliProvisioningLDAPS',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -226,7 +226,7 @@ config = {
 				'webUIProvisioning',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -259,7 +259,7 @@ config = {
 				'webUIProvisioning',
 			],
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 				'postgres:9.4',
 				'oracle',
 			],
@@ -276,7 +276,7 @@ config = {
 				'webUIProvisioning': 'webUIProvisioningS',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -309,7 +309,7 @@ config = {
 				'apiAll': 'core-apiAll',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -358,7 +358,7 @@ config = {
 				'apiAll': 'core-apiAll-latest',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'latest',
@@ -408,7 +408,7 @@ config = {
 				'cliAll': 'core-cliAll',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -427,7 +427,7 @@ config = {
 				'cliAll': 'core-cliAll-latest',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'latest',
@@ -447,7 +447,7 @@ config = {
 				'webUIall': 'core-webUI',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -497,7 +497,7 @@ config = {
 				'webUIall': 'core-wUI-latest',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'latest',
@@ -548,7 +548,7 @@ config = {
 				'apiAll': 'core-apiAll-enc-UK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -612,7 +612,7 @@ config = {
 				'cliAll': 'core-cliAll-enc-UK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -662,7 +662,7 @@ config = {
 				'webUIall': 'core-wUI-enc-UK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -727,7 +727,7 @@ config = {
 				'apiAll': 'core-apiAll-enc-MK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -791,7 +791,7 @@ config = {
 				'cliAll': 'core-cliAll-enc-MK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -841,7 +841,7 @@ config = {
 				'webUIall': 'core-wUI-enc-MK',
 			},
 			'databases': [
-				'mysql:5.7',
+				'mysql:8.0',
 			],
 			'servers': [
 				'daily-master-qa',
@@ -2491,7 +2491,7 @@ def databaseServiceForFederation(db, suffix):
 		print('Not implemented federated database for ', dbName)
 		return []
 
-	return [{
+	service = {
 		'name': dbName + suffix,
 		'image': db,
 		'pull': 'always',
@@ -2501,7 +2501,10 @@ def databaseServiceForFederation(db, suffix):
 			'MYSQL_DATABASE': getDbDatabase(db) + suffix,
 			'MYSQL_ROOT_PASSWORD': getDbRootPassword()
 		}
-	}]
+	}
+	if (db == 'mysql:8.0'):
+		service['command'] = ['--default-authentication-plugin=mysql_native_password']
+	return [service]
 
 def buildTestConfig(params):
 	configs = []
@@ -2539,7 +2542,7 @@ def ldapIntegration():
 	default = {
 		'servers': ['daily-master-qa'],
 		'phpVersions': ['7.2'],
-		'databases': ['mysql:5.7'],
+		'databases': ['mysql:8.0'],
 		'ldapNeeded': True,
 		'logLevel': '2',
 	}
