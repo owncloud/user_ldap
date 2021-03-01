@@ -14,7 +14,7 @@ Feature: Manage users using the Provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
     And user "Alice" should exist
-    And user "Alice" should be able to access a skeleton file
+    And user "Alice" should be able to upload file "filesForUpload/textfile.txt" to "/textfile.txt"
     Examples:
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
@@ -100,7 +100,7 @@ Feature: Manage users using the Provisioning API
   @issue-core-33186
   Scenario Outline: admin tries to modify password of user for which an LDAP attribute is specified
     Given using OCS API version "<ocs-api-version>"
-    And user "Alice" has been created with default attributes and skeleton files
+    And user "Alice" has been created with default attributes and small skeleton files
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=Alice,ou=TestUsers" to "ldap_password"
     And the LDAP users are resynced
     And the administrator resets the password of user "Alice" to "api_password" using the provisioning API
@@ -238,14 +238,14 @@ Feature: Manage users using the Provisioning API
   Scenario Outline: Administrator deletes a ldap user and resyncs again
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes and without skeleton files
-    And user "Alice" has uploaded file with content "new file that should be overwritten after user deletion" to "textfile0.txt"
+    And user "Alice" has uploaded file with content "new file that should be gone after user deletion" to "textfile0.txt"
     When the administrator deletes user "Alice" using the provisioning API
     Then the OCS status code should be "<ocs-status-code>"
     And the HTTP status code should be "<http-status-code>"
     And user "Alice" should not exist
     When the LDAP users are resynced
     Then user "Alice" should exist
-    And the content of file "textfile0.txt" for user "Alice" using password "123456" should be "ownCloud test text file 0" plus end-of-line
+    And as "Alice" file "textfile0.txt" should not exist
     Examples:
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
@@ -253,7 +253,7 @@ Feature: Manage users using the Provisioning API
 
   Scenario Outline: Administrator tries to create a user with same name as existing ldap user
     Given using OCS API version "<ocs-api-version>"
-    And user "Alice" has been created with default attributes and skeleton files
+    And user "Alice" has been created with default attributes and small skeleton files
     When the administrator sends a user creation request with the following attributes using the provisioning API:
       | username    | Alice        |
       | password    | %alt1%       |

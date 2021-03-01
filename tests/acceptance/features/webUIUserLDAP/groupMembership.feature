@@ -6,7 +6,7 @@ Feature: group membership
   So that I only need to configure group membership once
 
   Background:
-    Given these users have been created with default attributes and skeleton files:
+    Given these users have been created with default attributes and large skeleton files:
       | username |
       | Alice    |
       | Brian    |

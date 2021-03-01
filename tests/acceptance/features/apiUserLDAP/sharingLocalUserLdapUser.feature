@@ -5,7 +5,9 @@ Feature: Sharing between local and LDAP users
 
   Background:
     Given user "local-user" has been created with default attributes in the database user backend
-    And these users have been created with default attributes and skeleton files:
+    And user "local-user" has created folder "/PARENT"
+    And user "local-user" has uploaded file with content "ownCloud test text file parent" to "/PARENT/parent.txt"
+    And these users have been created with default attributes and small skeleton files:
       | username |
       | Alice    |
       | Brian    |
@@ -47,7 +49,6 @@ Feature: Sharing between local and LDAP users
     Then the content of file "/PARENT (2)/parent.txt" for user "Alice" should be:
     """
     ownCloud test text file parent
-    
     """
 
   Scenario: Share a folder from a local user to an LDAP user and change folder content
@@ -67,7 +68,6 @@ Feature: Sharing between local and LDAP users
     And the content of file "/PARENT/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
-    
     """
 
   Scenario: Share a folder from an LDAP user to a local group, delete the group
@@ -87,12 +87,10 @@ Feature: Sharing between local and LDAP users
     Then the content of file "/PARENT (2)/parent.txt" for user "Brian" should be:
     """
     ownCloud test text file parent
-    
     """
     And the content of file "/PARENT (2)/parent.txt" for user "Carol" should be:
     """
     ownCloud test text file parent
-    
     """
     When the administrator deletes ldap group "grp1"
     Then as "Brian" file "/PARENT (2)/parent.txt" should not exist
@@ -115,12 +113,10 @@ Feature: Sharing between local and LDAP users
     Then the content of file "/PARENT (2)/parent.txt" for user "Brian" should be:
     """
     ownCloud test text file parent
-    
     """
     And the content of file "/PARENT (2)/parent.txt" for user "Carol" should be:
     """
     ownCloud test text file parent
-    
     """
     When the administrator removes user "Brian" from ldap group "grp1"
     Then as "Brian" file "/PARENT (2)/parent.txt" should not exist

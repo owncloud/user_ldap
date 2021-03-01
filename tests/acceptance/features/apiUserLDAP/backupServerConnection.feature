@@ -8,7 +8,7 @@ Feature: connect to a backup LDAP serer
   Background:
     Given the owncloud log level has been set to "warning"
     And the owncloud log has been cleared
-    And user "Alice" has been created with default attributes and skeleton files
+    And user "Alice" has been created with default attributes and small skeleton files
 
   Scenario: authentication works when the main server is not reachable but the backup server is
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
