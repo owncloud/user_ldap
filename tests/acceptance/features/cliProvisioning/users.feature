@@ -6,7 +6,7 @@ Feature: add a user using the using the occ command
   So that I can easily manage users when user LDAP is enabled
 
   Background:
-    And these users have been created with default attributes and skeleton files:
+    And these users have been created with default attributes and small skeleton files:
       | username |
       | Alice    |
       | Brian    |

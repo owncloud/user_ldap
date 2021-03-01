@@ -5,7 +5,7 @@ Feature: add users
   So that I can easily manage users when user LDAP is enabled
 
   Background:
-    Given these users have been created with default attributes and skeleton files:
+    Given these users have been created with default attributes and large skeleton files:
       | username |
       | Alice    |
       | Brian    |

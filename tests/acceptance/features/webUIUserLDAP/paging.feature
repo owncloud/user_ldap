@@ -33,6 +33,7 @@ Feature: paging
 
   Scenario: autocompletion of synced users
     And the LDAP users have been resynced
+    And user "my-user-000" has created folder "simple-folder"
     And the user has browsed to the login page
     And the user has logged in with username "my-user-000" and password "my-user-000" using the webUI
     And the user has opened the share dialog for folder "simple-folder"
