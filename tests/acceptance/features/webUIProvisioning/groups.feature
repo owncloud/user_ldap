@@ -5,7 +5,7 @@ Feature: add group
   So that I can easily manage groups when user LDAP is enabled
 
   Background:
-    And these users have been created with default attributes and skeleton files:
+    And these users have been created with default attributes and without skeleton files:
       | username |
       | Alice    |
       | Brian    |
