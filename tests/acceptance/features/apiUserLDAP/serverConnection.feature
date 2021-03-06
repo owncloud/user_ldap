@@ -4,7 +4,7 @@ Feature: connect to LDAP serer
   Background:
     Given the owncloud log level has been set to "warning"
     And the owncloud log has been cleared
-    And user "Alice" has been created with default attributes and skeleton files
+    And user "Alice" has been created with default attributes and small skeleton files
 
   Scenario: authentication fails when the configuration does not contain an ldap port
     Given LDAP config "LDAPTestId" has key "ldapPort" set to ""

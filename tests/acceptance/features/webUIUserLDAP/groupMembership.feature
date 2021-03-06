@@ -85,7 +85,7 @@ Feature: group membership
       | key                          | value       |
       | ldapAttributesForGroupSearch | description |
     # Ensure that the test code is aware of the users and groups that exist
-    Given these users have been created with default attributes and skeleton files but not initialized:
+    Given these users have been created with default attributes and large skeleton files but not initialized:
       | username |
       | usergrp  |
     And these groups have been created:
