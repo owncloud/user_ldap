@@ -9,6 +9,8 @@
 
 PHPUnit tests: `make test-php`
 
+Trigger CI
+
 #### Additional configuration options that can be added to config.php
 
 * `'user_ldap.enable_medial_search' => true`
