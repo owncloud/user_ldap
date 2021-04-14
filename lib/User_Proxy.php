@@ -236,19 +236,20 @@ class User_Proxy extends Proxy implements
 	 *
 	 * @param string $uid the ownCloud user name
 	 * @return bool either the user can or cannot
-	 * @throws \OutOfBoundsException
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 * @throws ServerNotAvailableException
-	 * @throws DoesNotExistOnLDAPException
 	 */
 	public function canChangeAvatar($uid) {
-		foreach ($this->backends as $backend) {
-			if ($backend->userExists($uid)) {
-				return $backend->canChangeAvatar($uid);
+		try {
+			foreach ($this->backends as $backend) {
+				if ($backend->userExists($uid)) {
+					return $backend->canChangeAvatar($uid);
+				}
 			}
+		} catch (\Exception $e) {
+			\OC::$server->getLogger()->debug($e->getMessage());
+			return false;
 		}
-		throw new DoesNotExistOnLDAPException($uid);
+
+		return false;
 	}
 
 	/**
