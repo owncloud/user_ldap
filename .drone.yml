@@ -22973,7 +22973,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-1-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -22995,7 +22995,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23016,7 +23016,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -23185,7 +23185,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-2-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23207,7 +23207,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23228,7 +23228,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -23397,7 +23397,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-3-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23419,7 +23419,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23440,7 +23440,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -23609,7 +23609,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-4-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-4-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23631,7 +23631,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23652,7 +23652,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -23821,7 +23821,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-5-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-5-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -23843,7 +23843,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -23864,7 +23864,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -24033,7 +24033,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-6-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-6-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24055,7 +24055,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24076,7 +24076,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -24245,7 +24245,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-7-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-7-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24267,7 +24267,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24288,7 +24288,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -24457,7 +24457,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-8-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-8-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24479,7 +24479,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24500,7 +24500,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -24669,7 +24669,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-9-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-9-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24691,7 +24691,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24712,7 +24712,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -24881,7 +24881,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-10-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-10-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -24903,7 +24903,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -24924,7 +24924,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -25093,7 +25093,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-11-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-11-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25115,7 +25115,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25136,7 +25136,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -25305,7 +25305,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-12-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-12-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25327,7 +25327,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25348,7 +25348,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -25517,7 +25517,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-13-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-13-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25539,7 +25539,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25560,7 +25560,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -25729,7 +25729,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-14-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-14-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25751,7 +25751,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25772,7 +25772,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -25941,7 +25941,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-15-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-15-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -25963,7 +25963,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -25984,7 +25984,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -26153,7 +26153,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-16-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-16-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26175,7 +26175,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26196,7 +26196,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -26365,7 +26365,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-17-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-17-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26387,7 +26387,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26408,7 +26408,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -26577,7 +26577,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-18-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-18-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26599,7 +26599,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26620,7 +26620,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -26789,7 +26789,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-19-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-19-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -26811,7 +26811,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -26832,7 +26832,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -27001,7 +27001,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-20-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-20-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27023,7 +27023,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27044,7 +27044,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -27213,7 +27213,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-21-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-21-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27235,7 +27235,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27256,7 +27256,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -27425,7 +27425,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-22-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-22-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27447,7 +27447,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27468,7 +27468,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -27637,7 +27637,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-23-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-23-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27659,7 +27659,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27680,7 +27680,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -27849,7 +27849,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-24-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-24-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -27871,7 +27871,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -27892,7 +27892,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -28061,7 +28061,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-25-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-25-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28083,7 +28083,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28104,7 +28104,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -28273,7 +28273,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-26-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-26-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28295,7 +28295,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28316,7 +28316,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -28485,7 +28485,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-27-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-27-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28507,7 +28507,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28528,7 +28528,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -28697,7 +28697,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-28-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-28-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28719,7 +28719,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28740,7 +28740,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -28909,7 +28909,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-29-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-29-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -28931,7 +28931,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -28952,7 +28952,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -29121,7 +29121,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-UK-30-30-master-mysql8.0-php7.2
+name: core-apiAll-enc-UK-30-30-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29143,7 +29143,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -29164,7 +29164,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -29333,7 +29333,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-1-master-mysql8.0-php7.2
+name: core-cliAll-enc-UK-3-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29355,7 +29355,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -29485,7 +29485,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-2-master-mysql8.0-php7.2
+name: core-cliAll-enc-UK-3-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29507,7 +29507,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -29637,7 +29637,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-UK-3-3-master-mysql8.0-php7.2
+name: core-cliAll-enc-UK-3-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29659,7 +29659,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -29789,7 +29789,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-1-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-UK-5-1-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -29811,7 +29811,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -29832,7 +29832,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -30016,7 +30016,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-2-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-UK-5-2-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30038,7 +30038,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -30059,7 +30059,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -30243,7 +30243,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-3-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-UK-5-3-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30265,7 +30265,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -30286,7 +30286,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -30470,7 +30470,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-4-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-UK-5-4-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30492,7 +30492,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -30513,7 +30513,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -30697,7 +30697,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-UK-5-5-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-UK-5-5-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30719,7 +30719,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -30740,7 +30740,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -30924,7 +30924,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-1-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -30946,7 +30946,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -30967,7 +30967,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -31136,7 +31136,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-2-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31158,7 +31158,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -31179,7 +31179,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -31348,7 +31348,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-3-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31370,7 +31370,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -31391,7 +31391,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -31560,7 +31560,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-4-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-4-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31582,7 +31582,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -31603,7 +31603,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -31772,7 +31772,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-5-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-5-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -31794,7 +31794,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -31815,7 +31815,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -31984,7 +31984,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-6-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-6-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32006,7 +32006,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -32027,7 +32027,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -32196,7 +32196,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-7-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-7-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32218,7 +32218,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -32239,7 +32239,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -32408,7 +32408,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-8-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-8-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32430,7 +32430,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -32451,7 +32451,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -32620,7 +32620,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-9-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-9-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32642,7 +32642,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -32663,7 +32663,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -32832,7 +32832,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-10-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-10-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -32854,7 +32854,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -32875,7 +32875,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -33044,7 +33044,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-11-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-11-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33066,7 +33066,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -33087,7 +33087,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -33256,7 +33256,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-12-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-12-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33278,7 +33278,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -33299,7 +33299,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -33468,7 +33468,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-13-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-13-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33490,7 +33490,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -33511,7 +33511,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -33680,7 +33680,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-14-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-14-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33702,7 +33702,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -33723,7 +33723,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -33892,7 +33892,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-15-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-15-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -33914,7 +33914,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -33935,7 +33935,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -34104,7 +34104,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-16-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-16-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34126,7 +34126,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -34147,7 +34147,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -34316,7 +34316,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-17-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-17-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34338,7 +34338,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -34359,7 +34359,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -34528,7 +34528,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-18-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-18-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34550,7 +34550,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -34571,7 +34571,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -34740,7 +34740,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-19-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-19-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34762,7 +34762,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -34783,7 +34783,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -34952,7 +34952,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-20-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-20-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -34974,7 +34974,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -34995,7 +34995,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -35164,7 +35164,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-21-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-21-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35186,7 +35186,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -35207,7 +35207,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -35376,7 +35376,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-22-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-22-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35398,7 +35398,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -35419,7 +35419,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -35588,7 +35588,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-23-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-23-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35610,7 +35610,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -35631,7 +35631,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -35800,7 +35800,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-24-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-24-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -35822,7 +35822,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -35843,7 +35843,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -36012,7 +36012,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-25-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-25-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36034,7 +36034,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -36055,7 +36055,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -36224,7 +36224,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-26-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-26-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36246,7 +36246,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -36267,7 +36267,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -36436,7 +36436,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-27-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-27-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36458,7 +36458,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -36479,7 +36479,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -36648,7 +36648,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-28-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-28-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36670,7 +36670,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -36691,7 +36691,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -36860,7 +36860,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-29-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-29-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -36882,7 +36882,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -36903,7 +36903,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -37072,7 +37072,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-apiAll-enc-MK-30-30-master-mysql8.0-php7.2
+name: core-apiAll-enc-MK-30-30-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37094,7 +37094,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -37115,7 +37115,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -37284,7 +37284,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-1-master-mysql8.0-php7.2
+name: core-cliAll-enc-MK-3-1-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37306,7 +37306,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -37436,7 +37436,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-2-master-mysql8.0-php7.2
+name: core-cliAll-enc-MK-3-2-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37458,7 +37458,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -37588,7 +37588,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-cliAll-enc-MK-3-3-master-mysql8.0-php7.2
+name: core-cliAll-enc-MK-3-3-latest-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37610,7 +37610,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -37740,7 +37740,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-1-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-MK-5-1-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37762,7 +37762,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -37783,7 +37783,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -37967,7 +37967,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-2-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-MK-5-2-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -37989,7 +37989,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -38010,7 +38010,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -38194,7 +38194,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-3-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-MK-5-3-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -38216,7 +38216,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -38237,7 +38237,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -38421,7 +38421,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-4-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-MK-5-4-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -38443,7 +38443,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -38464,7 +38464,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -38648,7 +38648,7 @@ depends_on:
 ---
 kind: pipeline
 type: docker
-name: core-wUI-enc-MK-5-5-master-chrome-mysql8.0-php7.2
+name: core-wUI-enc-MK-5-5-latest-chrome-mysql8.0-php7.2
 
 platform:
   os: linux
@@ -38670,7 +38670,7 @@ steps:
     db_type: mysql
     db_username: owncloud
     exclude: apps/user_ldap
-    version: daily-master-qa
+    version: latest
 
 - name: install-testrunner
   pull: always
@@ -38691,7 +38691,7 @@ steps:
     db_password: owncloud
     db_type: mysql
     db_username: owncloud
-    version: daily-master-qa
+    version: latest
 
 - name: configure-federation
   pull: always
@@ -39040,81 +39040,81 @@ depends_on:
 - core-wUI-latest-5-3-latest-chrome-mysql8.0-php7.2
 - core-wUI-latest-5-4-latest-chrome-mysql8.0-php7.2
 - core-wUI-latest-5-5-latest-chrome-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-1-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-2-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-3-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-4-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-5-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-6-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-7-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-8-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-9-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-10-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-11-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-12-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-13-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-14-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-15-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-16-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-17-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-18-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-19-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-20-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-21-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-22-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-23-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-24-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-25-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-26-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-27-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-28-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-29-master-mysql8.0-php7.2
-- core-apiAll-enc-UK-30-30-master-mysql8.0-php7.2
-- core-cliAll-enc-UK-3-1-master-mysql8.0-php7.2
-- core-cliAll-enc-UK-3-2-master-mysql8.0-php7.2
-- core-cliAll-enc-UK-3-3-master-mysql8.0-php7.2
-- core-wUI-enc-UK-5-1-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-UK-5-2-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-UK-5-3-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-UK-5-4-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-UK-5-5-master-chrome-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-1-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-2-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-3-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-4-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-5-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-6-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-7-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-8-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-9-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-10-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-11-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-12-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-13-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-14-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-15-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-16-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-17-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-18-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-19-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-20-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-21-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-22-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-23-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-24-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-25-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-26-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-27-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-28-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-29-master-mysql8.0-php7.2
-- core-apiAll-enc-MK-30-30-master-mysql8.0-php7.2
-- core-cliAll-enc-MK-3-1-master-mysql8.0-php7.2
-- core-cliAll-enc-MK-3-2-master-mysql8.0-php7.2
-- core-cliAll-enc-MK-3-3-master-mysql8.0-php7.2
-- core-wUI-enc-MK-5-1-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-MK-5-2-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-MK-5-3-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-MK-5-4-master-chrome-mysql8.0-php7.2
-- core-wUI-enc-MK-5-5-master-chrome-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-1-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-2-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-3-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-4-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-5-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-6-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-7-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-8-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-9-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-10-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-11-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-12-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-13-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-14-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-15-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-16-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-17-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-18-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-19-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-20-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-21-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-22-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-23-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-24-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-25-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-26-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-27-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-28-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-29-latest-mysql8.0-php7.2
+- core-apiAll-enc-UK-30-30-latest-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-1-latest-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-2-latest-mysql8.0-php7.2
+- core-cliAll-enc-UK-3-3-latest-mysql8.0-php7.2
+- core-wUI-enc-UK-5-1-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-2-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-3-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-4-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-UK-5-5-latest-chrome-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-1-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-2-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-3-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-4-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-5-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-6-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-7-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-8-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-9-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-10-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-11-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-12-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-13-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-14-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-15-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-16-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-17-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-18-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-19-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-20-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-21-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-22-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-23-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-24-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-25-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-26-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-27-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-28-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-29-latest-mysql8.0-php7.2
+- core-apiAll-enc-MK-30-30-latest-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-1-latest-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-2-latest-mysql8.0-php7.2
+- core-cliAll-enc-MK-3-3-latest-mysql8.0-php7.2
+- core-wUI-enc-MK-5-1-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-2-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-3-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-4-latest-chrome-mysql8.0-php7.2
+- core-wUI-enc-MK-5-5-latest-chrome-mysql8.0-php7.2
 
 ...
