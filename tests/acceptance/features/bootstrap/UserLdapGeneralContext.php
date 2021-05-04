@@ -26,7 +26,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use TestHelpers\SetupHelper;
-use Zend\Ldap\Exception\LdapException;
+use Laminas\Ldap\Exception\LdapException;
 use PHPUnit\Framework\Assert;
 
 require_once 'bootstrap.php';
@@ -168,7 +168,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	) {
 		$ldap = $this->featureContext->getLdap();
 		$ldapEntry = $ldap->getEntry($entry . "," . $this->featureContext->getLdapBaseDN());
-		Zend\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, $append);
+		Laminas\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, $append);
 		$ldap->update($entry . "," . $this->featureContext->getLdapBaseDN(), $ldapEntry);
 	}
 

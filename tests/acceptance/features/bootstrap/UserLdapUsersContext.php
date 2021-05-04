@@ -30,7 +30,7 @@ require_once 'bootstrap.php';
  * context that holds steps to manipulate users and groups in the user_ldap app
  */
 class UserLdapUsersContext extends RawMinkContext implements Context {
-	
+
 	/**
 	 *
 	 * @var UserLdapGeneralContext
@@ -49,22 +49,22 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Zend\Ldap\Exception\LdapException
+	 * @throws \Laminas\Ldap\Exception\LdapException
 	 */
 	public function createLdapGroup($group, $ou = null) {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
-		
+
 		$newDN = 'cn=' . $group . ',ou=' . $ou . ',' .
 				 $this->featureContext->getLdapBaseDN();
-		
+
 		$entry = [];
 		$entry['cn'] = $group;
 		$entry['objectclass'][] = 'posixGroup';
 		$entry['objectclass'][] = 'top';
 		$entry['gidNumber'] = 5000;
-		
+
 		$this->featureContext->getLdap()->add($newDN, $entry);
 	}
 
@@ -77,13 +77,13 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Zend\Ldap\Exception\LdapException
+	 * @throws \Laminas\Ldap\Exception\LdapException
 	 */
 	public function addUserToLdapGroup($user, $group, $ou = null) {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
-		
+
 		$this->userLdapGeneralContext->addValueToLdapAttributeOfTheEntry(
 			$user, "memberUid", "cn=$group,ou=$ou"
 		);
@@ -101,7 +101,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Zend\Ldap\Exception\LdapException
+	 * @throws \Laminas\Ldap\Exception\LdapException
 	 */
 	public function removeUserFromLdapGroup($user, $group, $ou = null) {
 		if ($ou === null) {
@@ -120,7 +120,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Zend\Ldap\Exception\LdapException
+	 * @throws \Laminas\Ldap\Exception\LdapException
 	 */
 	public function deleteLdapGroup($group, $ou = null) {
 		if ($ou === null) {
