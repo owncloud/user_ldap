@@ -134,7 +134,7 @@ config = {
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -214,7 +214,7 @@ config = {
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -298,7 +298,7 @@ config = {
 						'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -333,7 +333,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -347,7 +347,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -383,7 +383,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -397,7 +397,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -472,7 +472,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -486,7 +486,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -523,7 +523,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -537,7 +537,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
@@ -576,7 +576,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -590,7 +590,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -640,7 +640,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -691,7 +691,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -705,7 +705,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -755,7 +755,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -769,7 +769,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -819,7 +819,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -870,7 +870,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -884,7 +884,7 @@ config = {
 						'bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				},
@@ -917,7 +917,7 @@ config = {
 						'bash ./apps/user_ldap/tests/acceptance/setConfig.sh',
 						'php occ ldap:show-config',
 						'php occ ldap:test-config "LDAPTestId"',
-						'php occ user:sync "OCA\User_LDAP\User_Proxy" -m remove',
+						'php occ user:sync "OCA\\\User_LDAP\\\User_Proxy" -m remove',
 						'php occ user:list',
 					]
 				}
