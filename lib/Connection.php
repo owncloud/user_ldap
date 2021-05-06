@@ -372,7 +372,7 @@ class Connection extends LDAPUtility {
 		foreach ($saKeys as $key) {
 			$val = $this->configuration->$key;
 			if (\is_array($val) && \count($val) === 1 && empty($val[0])) {
-				$this->configuration->$key = [];
+				$this->configuration->$key = '';
 			}
 		}
 
