@@ -267,8 +267,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * support this kind of parallel paging.
 	 *
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
+	 * @param int|string|null $limit
+	 * @param int|string|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {

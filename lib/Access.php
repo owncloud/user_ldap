@@ -988,7 +988,7 @@ class Access implements IUserTools {
 			}
 		} else {
 			// simple search without pagination
-			$entries = $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+			$entries = $this->search($filter, $this->connection->__get('ldapBaseGroups'), $attr, $limit, $offset);
 		}
 		return $entries;
 	}
@@ -1163,11 +1163,11 @@ class Access implements IUserTools {
 	 * executes an LDAP search, but counts the results only
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param string|string[] $attr optional, array, one or more attributes that shall be
+	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
+	 * @param string|string[]|null $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
-	 * @param int $limit optional, maximum results to be counted
-	 * @param int $offset optional, a starting point
+	 * @param int|null $limit optional, maximum results to be counted
+	 * @param int|null $offset optional, a starting point
 	 * @param bool $skipHandling indicates whether the pages search operation is
 	 * completed
 	 * @return int|false Integer or false if the search could not be initialized
@@ -1760,16 +1760,16 @@ class Access implements IUserTools {
 			$uuidAttr     = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->__get('ldapExpertUUIDUserAttr');
 		} else {
-			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidAttr = 'ldapUuidGroupAttribute';
 			$uuidOverride = $this->connection->__get('ldapExpertUUIDGroupAttr');
 		}
 
-		if (($this->connection->$uuidAttr !== 'auto') && !$force) {
+		if (($this->connection->__get($uuidAttr) !== 'auto') && !$force) {
 			return true;
 		}
 
 		if ($uuidOverride !== '' && !$force) {
-			$this->connection->$uuidAttr = $uuidOverride;
+			$this->connection->__set($uuidAttr, $uuidOverride);
 			return true;
 		}
 
@@ -1781,8 +1781,8 @@ class Access implements IUserTools {
 					['app' => 'user_ldap']
 				);
 				// TODO we should make the autodetection explicit and store it in the configuration after detection
-				// TODO the UserEntry does thet ... but only for users. Get this sorted out in the wizard properly
-				$this->connection->$uuidAttr = $attribute;
+				// TODO the UserEntry does that ... but only for users. Get this sorted out in the wizard properly
+				$this->connection->__set($uuidAttr, $attribute);
 				return true;
 			}
 		}
@@ -1811,13 +1811,13 @@ class Access implements IUserTools {
 
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser)) {
-			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
+			$uuid = $this->readAttribute($dn, $this->connection->__get($uuidAttr));
 			if (!\is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true)) {
 				$uuid = $this->readAttribute(
 					$dn,
-					$this->connection->$uuidAttr
+					$this->connection->__get($uuidAttr)
 				);
 			}
 			if (\is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
@@ -2129,7 +2129,7 @@ class Access implements IUserTools {
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
-	 * @return bool|true
+	 * @return bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
