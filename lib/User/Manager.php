@@ -294,8 +294,8 @@ class Manager {
 			// Keep user account until duplication is resolved
 			return true;
 		} catch (\OutOfBoundsException $e) {
-			// UUID attribute can't be detected this means that we need to drop the user on sync
-			$this->logger->info("DN '$dn' does not exist any more and can not be resolved using uuid attribute", ['app' => 'user_ldap']);
+			// UUID attribute can't be detected - this means that we need to drop the user on sync
+			$this->logger->info("DN '$dn' does not exist anymore and can not be resolved using uuid attribute", ['app' => 'user_ldap']);
 		}
 		return false;
 	}
