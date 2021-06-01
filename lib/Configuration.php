@@ -187,6 +187,7 @@ class Configuration {
 			$setMethod = 'setValue';
 			switch ($key) {
 				case 'ldapAgentPassword':
+					$val = \filter_var($val, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
 					$setMethod = 'setRawValue';
 					break;
 				case 'homeFolderNamingRule':
