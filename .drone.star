@@ -321,7 +321,7 @@ config = {
 			'federatedServerNeeded': True,
 			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
-			'numberOfParts': 30,
+			'numberOfParts': 29,
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -370,7 +370,7 @@ config = {
 			'federatedServerNeeded': True,
 			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
-			'numberOfParts': 30,
+			'numberOfParts': 29,
 			'cron': 'nightly',
 			'extraSetup': [
 				{
@@ -560,7 +560,7 @@ config = {
 			'federatedServerNeeded': True,
 			'cron': 'nightly',
 			'runAllSuites': True,
-			'numberOfParts': 30,
+			'numberOfParts': 29,
 			'extraApps': {
 				'encryption': ''
 			},
@@ -739,7 +739,7 @@ config = {
 			'federatedServerNeeded': True,
 			'cron': 'nightly',
 			'runAllSuites': True,
-			'numberOfParts': 30,
+			'numberOfParts': 29,
 			'extraApps': {
 				'encryption': ''
 			},
@@ -927,7 +927,7 @@ config = {
 }
 
 def main(ctx):
-	
+
 	before = beforePipelines()
 
 	coverageTests = coveragePipelines(ctx)
