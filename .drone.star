@@ -927,6 +927,7 @@ config = {
 }
 
 def main(ctx):
+	
 	before = beforePipelines()
 
 	coverageTests = coveragePipelines(ctx)
@@ -1352,6 +1353,7 @@ def javascript(ctx):
 		'extraEnvironment': {},
 		'extraCommandsBeforeTestRun': [],
 		'extraTeardown': [],
+		'skip': False
 	}
 
 	if 'defaults' in config:
@@ -1371,6 +1373,9 @@ def javascript(ctx):
 	params = {}
 	for item in default:
 		params[item] = matrix[item] if item in matrix else default[item]
+
+	if params['skip']:
+		return pipelines
 
 	result = {
 		'kind': 'pipeline',
@@ -1458,6 +1463,7 @@ def phpTests(ctx, testType):
 		'extraCommandsBeforeTestRun': [],
 		'extraApps': {},
 		'extraTeardown': [],
+		'skip': False
 	}
 
 	if 'defaults' in config:
@@ -1482,6 +1488,9 @@ def phpTests(ctx, testType):
 		params = {}
 		for item in default:
 			params[item] = matrix[item] if item in matrix else default[item]
+
+		if params['skip']:
+			continue
 
 		cephS3Params = params['cephS3']
 		if type(cephS3Params) == "bool":
@@ -1652,6 +1661,9 @@ def acceptance(ctx):
 		'numberOfParts': 1,
 		'cron': '',
 		'pullRequestAndCron': 'nightly',
+		'skip': False,
+		'debugSuites': [],
+		'skipExceptParts': []
 	}
 
 	if 'defaults' in config:
@@ -1667,6 +1679,14 @@ def acceptance(ctx):
 		else:
 			suites = matrix['suites']
 
+		if 'debugSuites' in matrix and len(matrix['debugSuites']) != 0:
+			if type(matrix['debugSuites']) == "list":
+				suites = {}
+				for suite in matrix['debugSuites']:
+					suites[suite] = suite
+			else:
+				suites = matrix['debugSuites']
+
 		for suite, alternateSuiteName in suites.items():
 			isWebUI = suite.startswith('webUI')
 			isAPI = suite.startswith('api')
@@ -1675,6 +1695,9 @@ def acceptance(ctx):
 			params = {}
 			for item in default:
 				params[item] = matrix[item] if item in matrix else default[item]
+
+			if params['skip']:
+				continue
 
 			if isAPI or isCLI:
 				params['browsers'] = ['']
@@ -1705,6 +1728,10 @@ def acceptance(ctx):
 				params['extraApps'] = extraAppsDict
 
 			for testConfig in buildTestConfig(params):
+				debugPartsEnabled = (len(testConfig['skipExceptParts']) != 0)
+				if debugPartsEnabled and testConfig['runPart'] not in testConfig['skipExceptParts']:
+					continue
+
 				name = 'unknown'
 				if isWebUI or isAPI or isCLI:
 					esString = '-es' + testConfig['esVersion'] if testConfig['esVersion'] != 'none' else ''
@@ -2068,6 +2095,7 @@ def ldapService(ldapNeeded):
 				'LDAP_ORGANISATION': 'owncloud',
 				'LDAP_ADMIN_PASSWORD': 'admin',
 				'LDAP_TLS_VERIFY_CLIENT': 'never',
+				'HOSTNAME': 'ldap',
 			}
 		}]
 
@@ -2137,11 +2165,13 @@ def owncloudService(version, phpVersion, name = 'server', path = '/var/www/owncl
 			'APACHE_CONFIG_TEMPLATE': 'ssl',
 			'APACHE_SSL_CERT_CN': 'server',
 			'APACHE_SSL_CERT': '/var/www/owncloud/%s.crt' % name,
-			'APACHE_SSL_KEY': '/var/www/owncloud/%s.key' % name
+			'APACHE_SSL_KEY': '/var/www/owncloud/%s.key' % name,
+			'APACHE_LOGGING_PATH': '/dev/null',
 		}
 	else:
 		environment = {
-			'APACHE_WEBROOT': path
+			'APACHE_WEBROOT': path,
+			'APACHE_LOGGING_PATH': '/dev/null',
 		}
 
 	return [{
