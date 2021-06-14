@@ -3,8 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
-.
+## [0.15.3] - 2021-06-14
+
+### Fixed
+- Fixed read LDAP attribute value 0 returned as null [#599](https://github.com/owncloud/user_ldap/issues/599)
 
 ## [0.15.2] - 2020-06-16
 
@@ -128,7 +130,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.2...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.3...master
+[0.15.5]: https://github.com/owncloud/user_ldap/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/owncloud/user_ldap/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/owncloud/user_ldap/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/owncloud/user_ldap/compare/v0.14.0...v0.15.0
