@@ -7,6 +7,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 - Fixed read LDAP attribute value 0 returned as null [#599](https://github.com/owncloud/user_ldap/issues/599)
+- Security: filter special characters from password field [#636](https://github.com/owncloud/user_ldap/issues/636)
+- LDAP multiple base dns break pagination [#307](https://github.com/owncloud/user_ldap/issues/307)
+
+### Changed
+- Add warning for disabling email login regarding strict login check [#581](https://github.com/owncloud/user_ldap/issues/581) (Requires 10.5.0)
+- Facelift [#597](https://github.com/owncloud/user_ldap/issues/597)
+- Bump libraries
+
 
 ## [0.15.2] - 2020-06-16
 
