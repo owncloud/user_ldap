@@ -45,18 +45,18 @@ class Wizard extends LDAPUtility {
 	protected $result;
 	protected $resultCache = [];
 
-	const LRESULT_PROCESSED_OK = 2;
-	const LRESULT_PROCESSED_INVALID = 3;
-	const LRESULT_PROCESSED_SKIP = 4;
+	public const LRESULT_PROCESSED_OK = 2;
+	public const LRESULT_PROCESSED_INVALID = 3;
+	public const LRESULT_PROCESSED_SKIP = 4;
 
-	const LFILTER_LOGIN      = 2;
-	const LFILTER_USER_LIST  = 3;
-	const LFILTER_GROUP_LIST = 4;
+	public const LFILTER_LOGIN      = 2;
+	public const LFILTER_USER_LIST  = 3;
+	public const LFILTER_GROUP_LIST = 4;
 
-	const LFILTER_MODE_ASSISTED = 2;
-	const LFILTER_MODE_RAW = 1;
+	public const LFILTER_MODE_ASSISTED = 2;
+	public const LFILTER_MODE_RAW = 1;
 
-	const LDAP_NW_TIMEOUT = 4;
+	public const LDAP_NW_TIMEOUT = 4;
 
 	/**
 	 * Constructor
@@ -367,9 +367,11 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForGroups() {
-		return $this->determineGroups('ldap_groupfilter_groups',
-									  'ldapGroupFilterGroups',
-									  false);
+		return $this->determineGroups(
+			'ldap_groupfilter_groups',
+			'ldapGroupFilterGroups',
+			false
+		);
 	}
 
 	/**
@@ -377,8 +379,10 @@ class Wizard extends LDAPUtility {
 	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForUsers() {
-		return $this->determineGroups('ldap_userfilter_groups',
-									  'ldapUserFilterGroups');
+		return $this->determineGroups(
+			'ldap_userfilter_groups',
+			'ldapUserFilterGroups'
+		);
 	}
 
 	/**
@@ -504,11 +508,13 @@ class Wizard extends LDAPUtility {
 		}
 
 		$obclasses = ['groupOfNames', 'group', 'posixGroup', 'groupOfUniqueNames', '*'];
-		$this->determineFeature($obclasses,
-								'objectclass',
-								'ldap_groupfilter_objectclass',
-								'ldapGroupFilterObjectclass',
-								false);
+		$this->determineFeature(
+			$obclasses,
+			'objectclass',
+			'ldap_groupfilter_objectclass',
+			'ldapGroupFilterObjectclass',
+			false
+		);
 
 		return $this->result;
 	}
@@ -535,11 +541,13 @@ class Wizard extends LDAPUtility {
 		$filter = $this->configuration->ldapUserFilter;
 		//if filter is empty, it is probably the first time the wizard is called
 		//then, apply suggestions.
-		$this->determineFeature($obclasses,
-								'objectclass',
-								'ldap_userfilter_objectclass',
-								'ldapUserFilterObjectclass',
-								empty($filter));
+		$this->determineFeature(
+			$obclasses,
+			'objectclass',
+			'ldap_userfilter_objectclass',
+			'ldapUserFilterObjectclass',
+			empty($filter)
+		);
 
 		return $this->result;
 	}
@@ -559,8 +567,10 @@ class Wizard extends LDAPUtility {
 		$displayName = $this->configuration->ldapGroupDisplayName;
 		if ($displayName === '') {
 			$d = $this->configuration->getDefaults();
-			$this->applyFind('ldap_group_display_name',
-							 $d['ldap_group_display_name']);
+			$this->applyFind(
+				'ldap_group_display_name',
+				$d['ldap_group_display_name']
+			);
 		}
 		$filter = $this->composeLdapFilter(self::LFILTER_GROUP_LIST);
 
@@ -1058,9 +1068,11 @@ class Wizard extends LDAPUtility {
 						continue;
 					}
 					$newItems = [];
-					$state = $this->getAttributeValuesFromEntry($attributes,
-																$attr,
-																$newItems);
+					$state = $this->getAttributeValuesFromEntry(
+						$attributes,
+						$attr,
+						$newItems
+					);
 					$dnReadCount++;
 					$foundItems = \array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
@@ -1102,8 +1114,12 @@ class Wizard extends LDAPUtility {
 		$dig = 3;
 
 		$availableFeatures =
-			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   $dig, $maxEntryObjC);
+			$this->cumulativeSearchOnAttribute(
+				$objectclasses,
+				$attr,
+				$dig,
+				$maxEntryObjC
+			);
 		if (\is_array($availableFeatures)
 		   && \count($availableFeatures) > 0) {
 			\natcasesort($availableFeatures);
@@ -1181,9 +1197,11 @@ class Wizard extends LDAPUtility {
 			$this->getLDAP()->startTls($cr);
 		}
 
-		$lo = @$this->getLDAP()->bind($cr,
-								 $this->configuration->ldapAgentName,
-								 $this->configuration->ldapAgentPassword);
+		$lo = @$this->getLDAP()->bind(
+			$cr,
+			$this->configuration->ldapAgentName,
+			$this->configuration->ldapAgentPassword
+		);
 		if ($lo === true) {
 			$this->$cr = $cr;
 			return $cr;

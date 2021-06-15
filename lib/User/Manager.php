@@ -51,7 +51,7 @@ class Manager {
 	/**
 	 * DB config keys for user preferences
 	 */
-	const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
+	public const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
 
 	/** @var Access */
 	protected $access;
@@ -93,10 +93,14 @@ class Manager {
 	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
-	public function __construct(IConfig $ocConfig,
-								FilesystemHelper $ocFilesystem, ILogger $logger,
-								IAvatarManager $avatarManager,
-								IDBConnection $db, IUserManager $userManager) {
+	public function __construct(
+		IConfig $ocConfig,
+		FilesystemHelper $ocFilesystem,
+		ILogger $logger,
+		IAvatarManager $avatarManager,
+		IDBConnection $db,
+		IUserManager $userManager
+	) {
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->logger        = $logger;
@@ -204,7 +208,8 @@ class Manager {
 			$dn,
 			$this->getAttributes(),
 			$this->getConnection()->ldapUserFilter,
-			20); // TODO why 20? why is 1 not sufficient?
+			20
+		); // TODO why 20? why is 1 not sufficient?
 		if ($result === false || $result['count'] === 0) {
 			// FIXME the ldap error ($result = false) should bubble up ... and not be converted to a DoesNotExistOnLDAPException
 			throw new DoesNotExistOnLDAPException($dn);
@@ -446,7 +451,11 @@ class Manager {
 	 */
 	public function markLogin($uid) {
 		$this->ocConfig->setUserValue(
-			$uid, 'user_ldap', self::USER_PREFKEY_FIRSTLOGIN, 1);
+			$uid,
+			'user_ldap',
+			self::USER_PREFKEY_FIRSTLOGIN,
+			1
+		);
 	}
 
 	/**
@@ -489,17 +498,21 @@ class Manager {
 			$this->access->getFilterPartForUserSearch($search)
 		]);
 
-		$this->logger->debug('getUsers: Options: search '.$search
+		$this->logger->debug(
+			'getUsers: Options: search '.$search
 			.' limit '.$limit
 			.' offset ' .$offset
 			.' Filter: '.$filter,
-			['app' => self::class]);
+			['app' => self::class]
+		);
 
 		//do the search and translate results to owncloud names
 		$ldap_users = $this->fetchListOfUsers(
 			$filter,
 			$this->getAttributes(),
-			$limit, $offset);
+			$limit,
+			$offset
+		);
 		$ownCloudUserNames = [];
 		foreach ($ldap_users as $ldapEntry) {
 			try {

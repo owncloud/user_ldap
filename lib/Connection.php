@@ -110,9 +110,11 @@ class Connection extends LDAPUtility {
 	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
-		$this->configuration = new Configuration($this->configuration->getCoreConfig(),
-												 $this->configPrefix,
-												 $this->configID !== null);
+		$this->configuration = new Configuration(
+			$this->configuration->getCoreConfig(),
+			$this->configPrefix,
+			$this->configID !== null
+		);
 		$this->ldapConnectionRes = null;
 	}
 
@@ -314,10 +316,12 @@ class Connection extends LDAPUtility {
 			$val = $this->configuration->$keyBase;
 			if (empty($val)) {
 				$obj = \strpos('Users', $keyBase) !== false ? 'Users' : 'Groups';
-				Util::writeLog('user_ldap',
-									'Base tree for '.$obj.
+				Util::writeLog(
+					'user_ldap',
+					'Base tree for '.$obj.
 									' is empty, using Base DN',
-									Util::DEBUG);
+					Util::DEBUG
+				);
 				$this->configuration->$keyBase = $this->configuration->ldapBase;
 			}
 		}
@@ -330,15 +334,21 @@ class Connection extends LDAPUtility {
 				$this->configuration->$effectiveSetting = $uuidOverride;
 			} else {
 				if ($this->configID !== null &&
-					!\in_array($this->configuration->$effectiveSetting,
-						\array_merge(['auto'], $this->uuidAttributes), true)
+					!\in_array(
+						$this->configuration->$effectiveSetting,
+						\array_merge(['auto'], $this->uuidAttributes),
+						true
+					)
 				) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
-					Util::writeLog('user_ldap',
-										'Illegal value for the '.
+					Util::writeLog(
+						'user_ldap',
+						'Illegal value for the '.
 										$effectiveSetting.', '.'reset to '.
-										'autodetect.', Util::INFO);
+										'autodetect.',
+						Util::INFO
+					);
 				}
 			}
 		}
@@ -362,10 +372,12 @@ class Connection extends LDAPUtility {
 			&& \stripos($this->configuration->ldapHost, 'ldaps://') === 0
 		) {
 			$this->configuration->ldapTLS = false;
-			Util::writeLog('user_ldap',
-								'LDAPS (already using secure connection) and '.
+			Util::writeLog(
+				'user_ldap',
+				'LDAPS (already using secure connection) and '.
 								'TLS do not work together. Switched off TLS.',
-								Util::INFO);
+				Util::INFO
+			);
 		}
 	}
 
@@ -403,9 +415,11 @@ class Connection extends LDAPUtility {
 						break;
 				}
 				$configurationOK = false;
-				Util::writeLog('user_ldap',
-									$errorStr.'No '.$subj.' given!',
-									Util::WARN);
+				Util::writeLog(
+					'user_ldap',
+					$errorStr.'No '.$subj.' given!',
+					Util::WARN
+				);
 			}
 		}
 
@@ -416,11 +430,13 @@ class Connection extends LDAPUtility {
 			($agent === ''  && $pwd !== '')
 			|| ($agent !== '' && $pwd === '')
 		) {
-			Util::writeLog('user_ldap',
-								$errorStr.'either no password is given for the '.
+			Util::writeLog(
+				'user_ldap',
+				$errorStr.'either no password is given for the '.
 								'user agent or a password is given, but not an '.
 								'LDAP agent.',
-				Util::WARN);
+				Util::WARN
+			);
 			$configurationOK = false;
 		}
 
@@ -429,18 +445,22 @@ class Connection extends LDAPUtility {
 		$baseGroups = $this->configuration->ldapBaseGroups;
 
 		if (empty($base) && empty($baseUsers) && empty($baseGroups)) {
-			Util::writeLog('user_ldap',
-								$errorStr.'Not a single Base DN given.',
-								Util::WARN);
+			Util::writeLog(
+				'user_ldap',
+				$errorStr.'Not a single Base DN given.',
+				Util::WARN
+			);
 			$configurationOK = false;
 		}
 
 		if (\mb_strpos($this->configuration->ldapLoginFilter, '%uid', 0, 'UTF-8')
 		   === false) {
-			Util::writeLog('user_ldap',
-								$errorStr.'login filter does not contain %uid '.
+			Util::writeLog(
+				'user_ldap',
+				$errorStr.'login filter does not contain %uid '.
 								'place holder.',
-								Util::WARN);
+				Util::WARN
+			);
 			$configurationOK = false;
 		}
 
@@ -482,30 +502,38 @@ class Connection extends LDAPUtility {
 			return false;
 		}
 		if (!$this->ignoreValidation && !$this->configured) {
-			Util::writeLog('user_ldap',
-								'Configuration is invalid, cannot connect',
-								Util::WARN);
+			Util::writeLog(
+				'user_ldap',
+				'Configuration is invalid, cannot connect',
+				Util::WARN
+			);
 			return false;
 		}
 		if (!$this->ldapConnectionRes) {
 			if (!$this->getLDAP()->areLDAPFunctionsAvailable()) {
 				$phpLDAPinstalled = false;
-				Util::writeLog('user_ldap',
-									'function ldap_connect is not available. Make '.
+				Util::writeLog(
+					'user_ldap',
+					'function ldap_connect is not available. Make '.
 									'sure that the PHP ldap module is installed.',
-									Util::ERROR);
+					Util::ERROR
+				);
 
 				return false;
 			}
 			if ($this->configuration->turnOffCertCheck) {
 				if (\putenv('LDAPTLS_REQCERT=never')) {
-					Util::writeLog('user_ldap',
+					Util::writeLog(
+						'user_ldap',
 						'Turned off SSL certificate validation successfully.',
-						Util::DEBUG);
+						Util::DEBUG
+					);
 				} else {
-					Util::writeLog('user_ldap',
-										'Could not turn off SSL certificate validation.',
-										Util::WARN);
+					Util::writeLog(
+						'user_ldap',
+						'Could not turn off SSL certificate validation.',
+						Util::WARN
+					);
 				}
 			}
 
@@ -517,18 +545,22 @@ class Connection extends LDAPUtility {
 					&& !$this->getFromCache('overrideMainServer'))
 				) {
 					$this->doConnect(
-							$this->configuration->ldapHost,
-							$this->configuration->ldapPort);
+						$this->configuration->ldapHost,
+						$this->configuration->ldapPort
+					);
 					if (@$this->ldap->bind(
-							$this->ldapConnectionRes,
-							$this->configuration->ldapAgentName,
-							$this->configuration->ldapAgentPassword)
+						$this->ldapConnectionRes,
+						$this->configuration->ldapAgentName,
+						$this->configuration->ldapAgentPassword
+					)
 					) {
 						return true;
 					}
-					Util::writeLog('user_ldap',
+					Util::writeLog(
+						'user_ldap',
 						'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-						Util::DEBUG);
+						Util::DEBUG
+					);
 					throw new BindFailedException();
 				}
 			} catch (ServerNotAvailableException $e) {
@@ -547,16 +579,20 @@ class Connection extends LDAPUtility {
 			}
 
 			// try the Backup (Replica!) Server
-			Util::writeLog('user_ldap',
+			Util::writeLog(
+				'user_ldap',
 				'Trying to connect to backup server '.$this->configuration->ldapBackupHost.':'.$this->configuration->ldapBackupPort,
-				Util::DEBUG);
+				Util::DEBUG
+			);
 			$this->doConnect(
-					$this->configuration->ldapBackupHost,
-					$this->configuration->ldapBackupPort);
+				$this->configuration->ldapBackupHost,
+				$this->configuration->ldapBackupPort
+			);
 			if (@$this->ldap->bind(
-					$this->ldapConnectionRes,
-					$this->configuration->ldapAgentName,
-					$this->configuration->ldapAgentPassword)
+				$this->ldapConnectionRes,
+				$this->configuration->ldapAgentName,
+				$this->configuration->ldapAgentPassword
+			)
 			) {
 				if (!$this->getFromCache('overrideMainServer')) {
 					//when bind to backup server succeeded and failed to main server,
@@ -565,9 +601,11 @@ class Connection extends LDAPUtility {
 				}
 				return true;
 			}
-			Util::writeLog('user_ldap',
+			Util::writeLog(
+				'user_ldap',
 				'Bind to backup server failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
-				Util::DEBUG);
+				Util::DEBUG
+			);
 			throw new BindFailedException();
 		}
 		return null;

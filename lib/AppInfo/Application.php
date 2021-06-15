@@ -55,7 +55,8 @@ class Application extends \OCP\AppFramework\App {
 		if ($server->getAppManager()->isEnabledForUser('user_webdavauth')) {
 			$server->getLogger()->warning(
 				'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 		}
 	}
 
