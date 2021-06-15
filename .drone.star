@@ -927,7 +927,6 @@ config = {
 }
 
 def main(ctx):
-
 	before = beforePipelines()
 
 	coverageTests = coveragePipelines(ctx)
@@ -936,6 +935,13 @@ def main(ctx):
 		return []
 
 	dependsOn(before, coverageTests)
+
+	nonCoverageTests = nonCoveragePipelines(ctx)
+	if (nonCoverageTests == False):
+		print('Errors detected in nonCoveragePipelines. Review messages above.')
+		return []
+
+	dependsOn(before, nonCoverageTests)
 
 	stages = stagePipelines(ctx)
 	if (stages == False):
@@ -951,18 +957,28 @@ def main(ctx):
 		dependsOn(coverageTests, afterCoverageTests)
 
 	after = afterPipelines(ctx)
-	dependsOn(afterCoverageTests + stages, after)
+	dependsOn(afterCoverageTests + nonCoverageTests + stages, after)
 
-	return before + coverageTests + afterCoverageTests + stages + after
+	return before + coverageTests + afterCoverageTests + nonCoverageTests + stages + after
 
 def beforePipelines():
 	return codestyle() + jscodestyle() + phpstan() + phan()
 
 def coveragePipelines(ctx):
-	# All pipelines that might have coverage or other test analysis reported
-	jsPipelines = javascript(ctx)
-	phpUnitPipelines = phpTests(ctx, 'phpunit')
-	phpIntegrationPipelines = phpTests(ctx, 'phpintegration')
+	# All unit test pipelines that have coverage or other test analysis reported
+	jsPipelines = javascript(ctx, True)
+	phpUnitPipelines = phpTests(ctx, 'phpunit', True)
+	phpIntegrationPipelines = phpTests(ctx, 'phpintegration', True)
+	if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
+		return False
+
+	return jsPipelines + phpUnitPipelines + phpIntegrationPipelines
+
+def nonCoveragePipelines(ctx):
+	# All unit test pipelines that do not have coverage or other test analysis reported
+	jsPipelines = javascript(ctx, False)
+	phpUnitPipelines = phpTests(ctx, 'phpunit', False)
+	phpIntegrationPipelines = phpTests(ctx, 'phpintegration', False)
 	if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
 		return False
 
@@ -1078,7 +1094,7 @@ def jscodestyle():
 		'steps': [
 			{
 				'name': 'coding-standard-js',
-				'image': 'owncloudci/php:7.2',
+				'image': 'owncloudci/php:8.0',
 				'pull': 'always',
 				'commands': [
 					'make test-js-style'
@@ -1339,7 +1355,7 @@ def build():
 
 	return pipelines
 
-def javascript(ctx):
+def javascript(ctx, withCoverage):
 	pipelines = []
 
 	if 'javascript' not in config:
@@ -1377,6 +1393,14 @@ def javascript(ctx):
 	if params['skip']:
 		return pipelines
 
+	# if we only want pipelines with coverage, and this pipeline does not do coverage, then do not include it
+	if withCoverage and not params['coverage']:
+		return pipelines
+
+	# if we only want pipelines without coverage, and this pipeline does coverage, then do not include it
+	if not withCoverage and params['coverage']:
+		return pipelines
+
 	result = {
 		'kind': 'pipeline',
 		'type': 'docker',
@@ -1387,13 +1411,13 @@ def javascript(ctx):
 		},
 		'steps':
 			installCore('daily-master-qa', 'sqlite', False) +
-			installApp('7.2') +
-			setupServerAndApp('7.2', params['logLevel']) +
+			installApp('7.4') +
+			setupServerAndApp('7.4', params['logLevel']) +
 			params['extraSetup'] +
 		[
 			{
 				'name': 'js-tests',
-				'image': 'owncloudci/php:7.2',
+				'image': 'owncloudci/php:8.0',
 				'pull': 'always',
 				'environment': params['extraEnvironment'],
 				'commands': params['extraCommandsBeforeTestRun'] + [
@@ -1422,7 +1446,7 @@ def javascript(ctx):
 				},
 				'bucket': 'cache',
 				'source': './coverage/lcov.info',
-				'target': '%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
+				'target': '%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
 				'path_style': True,
 				'strip_prefix': './coverage',
 				'access_key': {
@@ -1439,7 +1463,7 @@ def javascript(ctx):
 
 	return [result]
 
-def phpTests(ctx, testType):
+def phpTests(ctx, testType, withCoverage):
 	pipelines = []
 
 	if testType not in config:
@@ -1490,6 +1514,14 @@ def phpTests(ctx, testType):
 			params[item] = matrix[item] if item in matrix else default[item]
 
 		if params['skip']:
+			continue
+
+		# if we only want pipelines with coverage, and this pipeline does not do coverage, then do not include it
+		if withCoverage and not params['coverage']:
+			continue
+
+		# if we only want pipelines without coverage, and this pipeline does coverage, then do not include it
+		if not withCoverage and params['coverage']:
 			continue
 
 		cephS3Params = params['cephS3']
@@ -1599,7 +1631,7 @@ def phpTests(ctx, testType):
 							},
 							'bucket': 'cache',
 							'source': 'tests/output/clover-%s.xml' % (name),
-							'target': '%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
+							'target': '%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
 							'path_style': True,
 							'strip_prefix': 'tests/output',
 							'access_key': {
@@ -1849,14 +1881,13 @@ def acceptance(ctx):
 				if (testConfig['cron'] != ''):
 					result['trigger']['cron'] = testConfig['cron']
 				else:
-					result['trigger'] = {
-						'ref': [
+					if ((testConfig['pullRequestAndCron'] != '') and (ctx.build.event != 'pull_request')):
+						result['trigger']['cron'] = testConfig['pullRequestAndCron']
+					else:
+						result['trigger']['ref'] = [
 							'refs/pull/**',
 							'refs/tags/**'
 						]
-					}
-					for branch in config['branches']:
-						result['trigger']['ref'].append('refs/heads/%s' % branch)
 
 				pipelines.append(result)
 
@@ -1890,7 +1921,7 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 				},
 				'commands': [
 					'mkdir -p results',
-					'mc mirror cache/cache/%s/%s results/' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
+					'mc mirror cache/cache/%s/%s results/' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
 				]
 			},
 			{
@@ -1902,42 +1933,23 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 				]
 			},
 			{
-				'name': 'sonarcloud-pr',
+				'name': 'sonarcloud',
 				'image': 'sonarsource/sonar-scanner-cli',
 				'pull': 'always',
 				'environment': {
 					'SONAR_TOKEN': {
 						'from_secret': 'sonar_token'
 					},
-					'SONAR_PULL_REQUEST_BASE': 'master',
-					'SONAR_PULL_REQUEST_BRANCH': '${DRONE_SOURCE_BRANCH}',
-					'SONAR_PULL_REQUEST_KEY': '${DRONE_COMMIT_REF}'.replace("refs/pull/", "").split("/")[0],
+					'SONAR_PULL_REQUEST_BASE': 'master' if ctx.build.event == 'pull_request' else '',
+					'SONAR_PULL_REQUEST_BRANCH': ctx.build.source if ctx.build.event == 'pull_request' else '',
+					'SONAR_PULL_REQUEST_KEY': ctx.build.ref.replace("refs/pull/", "").split("/")[0] if ctx.build.event == 'pull_request' else '',
 					'SONAR_SCANNER_OPTS': '-Xdebug'
 				},
 				'when': {
-					'event': {
-						'include': [
-							'pull_request'
-						],
-					},
-				}
-			},
-			{
-				'name': 'sonarcloud-master',
-				'image': 'sonarsource/sonar-scanner-cli',
-				'pull': 'always',
-				'environment': {
-					'SONAR_TOKEN': {
-						'from_secret': 'sonar_token'
-					},
-					'SONAR_SCANNER_OPTS': '-Xdebug'
-				},
-				'when': {
-					'event': {
-						'exclude': [
-							'pull_request'
-						],
-					},
+					'instance': [
+						'drone.owncloud.services',
+						'drone.owncloud.com'
+					],
 				}
 			},
 			{
@@ -1949,7 +1961,7 @@ def sonarAnalysis(ctx, phpVersion = '7.4'):
 					}
 				},
 				'commands': [
-				'mc rm --recursive --force cache/cache/%s/%s' % (ctx.repo.slug, '${DRONE_COMMIT}-${DRONE_BUILD_NUMBER}'),
+				'mc rm --recursive --force cache/cache/%s/%s' % (ctx.repo.slug, ctx.build.commit + '-${DRONE_BUILD_NUMBER}'),
 				]
 			},
 		],
