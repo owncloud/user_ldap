@@ -63,13 +63,14 @@ class ConfigurationController extends Controller {
 	 * @param LDAP $ldapWrapper
 	 * @param Helper $helper
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IConfig $config,
-								ISession $session,
-								IL10N $l10n,
-								LDAP $ldapWrapper,
-								Helper $helper
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IConfig $config,
+		ISession $session,
+		IL10N $l10n,
+		LDAP $ldapWrapper,
+		Helper $helper
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;

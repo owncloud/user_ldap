@@ -217,8 +217,10 @@ class User_LDAP implements IUserBackend, UserInterface {
 	* @return bool
 	*/
 	public function deleteUser($uid) {
-		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
-			['app' => 'user_ldap']);
+		\OC::$server->getLogger()->info(
+			'Cleaning up after user ' . $uid,
+			['app' => 'user_ldap']
+		);
 
 		$this->userManager->getUserMapper()->unmap($uid);
 

@@ -62,10 +62,10 @@ class TestConfig extends Command {
 			->setName('ldap:test-config')
 			->setDescription('tests an LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 		;
 	}
 

@@ -202,7 +202,8 @@ abstract class AbstractMapping {
 	 * @return array
 	 */
 	public function getList($offset = null, $limit = null) {
-		$query = $this->dbc->prepare('
+		$query = $this->dbc->prepare(
+			'
 			SELECT
 				`ldap_dn` AS `dn`,
 				`owncloud_name` AS `name`,

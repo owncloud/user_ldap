@@ -49,10 +49,11 @@ class MappingController extends Controller {
 	 * @param IL10N $l10n
 	 * @param IDBConnection $connection
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IL10N $l10n,
-								IDBConnection $connection
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IL10N $l10n,
+		IDBConnection $connection
 	) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;

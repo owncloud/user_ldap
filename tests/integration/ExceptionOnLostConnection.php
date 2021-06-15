@@ -169,7 +169,10 @@ class ExceptionOnLostConnection {
 		$ch = $this->getCurl();
 		\curl_setopt($ch, CURLOPT_POST, true);
 		\curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-		\curl_setopt($ch, CURLOPT_HTTPHEADER, [
+		\curl_setopt(
+			$ch,
+			CURLOPT_HTTPHEADER,
+			[
 				'Content-Type: application/json',
 				'Content-Length: ' . \strlen($postData)]
 		);

@@ -400,9 +400,11 @@ class Configuration {
 		if ($defaults === null) {
 			$defaults = $this->getDefaults();
 		}
-		return $this->coreConfig->getAppValue('user_ldap',
-										$this->prefix.$varName,
-										$defaults[$varName]);
+		return $this->coreConfig->getAppValue(
+			'user_ldap',
+			$this->prefix.$varName,
+			$defaults[$varName]
+		);
 	}
 
 	/**
@@ -433,9 +435,11 @@ class Configuration {
 	 * @param string $value
 	 */
 	protected function saveValue($varName, $value) {
-		$this->coreConfig->setAppValue('user_ldap',
-										$this->prefix.$varName,
-										$value);
+		$this->coreConfig->setAppValue(
+			'user_ldap',
+			$this->prefix.$varName,
+			$value
+		);
 	}
 
 	/**

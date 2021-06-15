@@ -201,7 +201,9 @@ class Helper {
 		$ocConfig = \OC::$server->getConfig();
 
 		$userBackend  = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig
+			$configPrefixes,
+			$ldapWrapper,
+			$ocConfig
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
