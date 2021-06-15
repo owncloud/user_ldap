@@ -59,16 +59,16 @@ class ShowConfig extends Base {
 			->setName('ldap:show-config')
 			->setDescription('shows the LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::OPTIONAL,
-					'will show the configuration of the specified id'
-					 )
+				'configID',
+				InputArgument::OPTIONAL,
+				'will show the configuration of the specified id'
+			)
 			->addOption(
-					'show-password',
-					null,
-					InputOption::VALUE_NONE,
-					'show ldap bind password'
-					 )
+				'show-password',
+				null,
+				InputOption::VALUE_NONE,
+				'show ldap bind password'
+			)
 		;
 	}
 

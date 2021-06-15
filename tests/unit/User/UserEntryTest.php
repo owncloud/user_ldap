@@ -56,7 +56,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetDN() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -69,7 +72,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapUserName'))
 			->will($this->returnValue('uid'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'uid' => [0 => 'foo']
@@ -83,7 +89,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapExpertUsernameAttr'))
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -111,7 +120,10 @@ class UserEntryTest extends \Test\TestCase {
 				$uuidAttr,
 				$uuidAttr
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -129,7 +141,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapExpertUsernameAttr'))
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -165,7 +180,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
 			->will($this->returnValue($uuidAttr));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -191,7 +209,10 @@ class UserEntryTest extends \Test\TestCase {
 				'auto',
 				'auto'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				$uuidAttr => [0 => $uuidValue]
@@ -209,7 +230,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
 			->will($this->returnValue('auto'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -226,7 +250,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
 			->will($this->returnValue('objectguid'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'objectguid'  => [0 => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"],
@@ -246,7 +273,10 @@ class UserEntryTest extends \Test\TestCase {
 				'displayname',
 				''
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'displayname' => [0 => 'Foo'],
@@ -266,7 +296,10 @@ class UserEntryTest extends \Test\TestCase {
 				'displayname',
 				'mail'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'displayname' => [0 => 'Foo'],
@@ -289,7 +322,10 @@ class UserEntryTest extends \Test\TestCase {
 				'mail',
 				'uid'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'uid' => [0 => 'foo'],
@@ -303,7 +339,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapQuotaAttribute'))
 			->will($this->returnValue('quota'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => '5 GB']
@@ -325,7 +364,10 @@ class UserEntryTest extends \Test\TestCase {
 				'1 GB',
 				'1 GB'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => 'invalid']
@@ -347,7 +389,10 @@ class UserEntryTest extends \Test\TestCase {
 				'2 GB',
 				'2 GB'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -368,7 +413,10 @@ class UserEntryTest extends \Test\TestCase {
 				'invalid',
 				'invalid'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'quota' => [0 => 'invalid']
@@ -388,7 +436,10 @@ class UserEntryTest extends \Test\TestCase {
 				null,
 				null
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -401,7 +452,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapEmailAttribute'))
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -415,7 +469,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapEmailAttribute'))
 			->will($this->returnValue('mail'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar']
 			]
@@ -428,7 +485,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'home' => [0 => '/absolute/path/to/home']
@@ -445,7 +505,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'home' => [0 => 'f/o/o']
@@ -459,7 +522,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
 			->will($this->returnValue('attr:home'));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]
@@ -485,7 +551,10 @@ class UserEntryTest extends \Test\TestCase {
 				'attr:home',
 				'mail'
 			);
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c']
@@ -495,7 +564,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarImageInJpegPhoto() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'jpegphoto' => [0 => 'binarydata']
@@ -505,7 +577,10 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarImageInThumbnailPhoto() {
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'thumbnailphoto' => [0 => 'binarydata']
@@ -519,7 +594,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapAttributesForUserSearch'))
 			->will($this->returnValue(['mail', 'uid', 'firstname']));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 				'mail' => [0 => 'a@b.c', 1 => 'alt@b.c'], // all mails should be found
@@ -535,7 +613,10 @@ class UserEntryTest extends \Test\TestCase {
 			->method('__get')
 			->with($this->equalTo('ldapAttributesForUserSearch'))
 			->will($this->returnValue([]));
-		$userEntry = new UserEntry($this->config, $this->logger, $this->connection,
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
 			[
 				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
 			]

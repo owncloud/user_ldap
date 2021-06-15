@@ -61,12 +61,13 @@ class WizardController extends Controller {
 	 * @param IL10N $l10n
 	 * @param LDAP $ldapWrapper
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IConfig $config,
-								Manager $manager,
-								IL10N $l10n,
-								LDAP $ldapWrapper
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IConfig $config,
+		Manager $manager,
+		IL10N $l10n,
+		LDAP $ldapWrapper
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;

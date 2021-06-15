@@ -279,8 +279,10 @@ class UserEntry {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning
 			if ($path[0] !== '/') {
-				$path = $this->config->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data') . '/' . $path;
+				$path = $this->config->getSystemValue(
+					'datadirectory',
+					\OC::$SERVERROOT.'/data'
+				) . '/' . $path;
 			}
 			return $path;
 		}

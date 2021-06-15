@@ -164,7 +164,10 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		return $this->handleRequest(
-			$gid, 'countUsersInGroup', [$gid, $search]);
+			$gid,
+			'countUsersInGroup',
+			[$gid, $search]
+		);
 	}
 
 	/**

@@ -29,12 +29,12 @@ namespace OCA\User_LDAP;
 interface ILDAPWrapper {
 	// see http://php.net/manual/en/function.ldap-errno.php#20665
 	// and https://ldapwiki.com/wiki/LDAP%20Result%20Codes
-	const LDAP_SUCCESS = 0x00;
-	const LDAP_OPERATIONS_ERROR = 0x01;
-	const LDAP_REFERRAL = 0x0a;
-	const LDAP_NO_SUCH_OBJECT = 0x20;
-	const LDAP_INAPPROPRIATE_AUTH = 0x30;
-	const LDAP_INVALID_CREDENTIALS = 0x31;
+	public const LDAP_SUCCESS = 0x00;
+	public const LDAP_OPERATIONS_ERROR = 0x01;
+	public const LDAP_REFERRAL = 0x0a;
+	public const LDAP_NO_SUCH_OBJECT = 0x20;
+	public const LDAP_INAPPROPRIATE_AUTH = 0x30;
+	public const LDAP_INVALID_CREDENTIALS = 0x31;
 
 	//LDAP functions in use
 

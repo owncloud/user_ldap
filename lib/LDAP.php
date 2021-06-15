@@ -69,8 +69,10 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool|LDAP
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
-		$this->preFunctionCall('ldap_control_paged_result_response',
-			[$link, $result, $cookie, $estimated]);
+		$this->preFunctionCall(
+			'ldap_control_paged_result_response',
+			[$link, $result, $cookie, $estimated]
+		);
 		$result = @\ldap_control_paged_result_response($link, $result, $cookie, $estimated);  // suppress deprecation for 7.4
 		$this->postFunctionCall();
 
@@ -262,7 +264,8 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	private function formatLdapCallArguments($func, $arguments) {
-		$argumentsLog = \implode(",",
+		$argumentsLog = \implode(
+			",",
 			\array_map(
 				function ($argument) {
 					if (\is_string($argument) || \is_bool($argument) || \is_numeric($argument)) {

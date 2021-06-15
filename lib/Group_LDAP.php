@@ -219,8 +219,11 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return $groupMembers;
 		}
 		$seen[$dnGroup] = 1;
-		$members = $this->access->readAttribute($dnGroup, $this->access->getConnection()->ldapGroupMemberAssocAttr,
-												$this->access->getConnection()->ldapGroupFilter);
+		$members = $this->access->readAttribute(
+			$dnGroup,
+			$this->access->getConnection()->ldapGroupMemberAssocAttr,
+			$this->access->getConnection()->ldapGroupFilter
+		);
 		if (\is_array($members)) {
 			foreach ($members as $memberDN) {
 				$allMembers[$memberDN] = 1;
@@ -479,7 +482,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed
 			$groupsToMatch = $this->access->fetchListOfGroups(
-				$this->access->getConnection()->ldapGroupFilter, ['dn',$dynamicGroupMemberURL]);
+				$this->access->getConnection()->ldapGroupFilter,
+				['dn',$dynamicGroupMemberURL]
+			);
 			foreach ($groupsToMatch as $dynamicGroup) {
 				if (!\array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
 					continue;
@@ -590,8 +595,10 @@ class Group_LDAP implements \OCP\GroupInterface {
 			$this->access->getConnection()->ldapGroupFilter,
 			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$escapedDn
 		]);
-		$groups = $this->access->fetchListOfGroups($filter,
-			[$this->access->getConnection()->ldapGroupDisplayName, 'dn']);
+		$groups = $this->access->fetchListOfGroups(
+			$filter,
+			[$this->access->getConnection()->ldapGroupDisplayName, 'dn']
+		);
 		if (\is_array($groups)) {
 			foreach ($groups as $groupobj) {
 				$groupDN = $groupobj['dn'][0];
@@ -687,9 +694,11 @@ class Group_LDAP implements \OCP\GroupInterface {
 						$this->access->connection->ldapUserFilter,
 						$this->access->getFilterPartForUserSearch($search)]);
 				}
-				if (!\is_array($this->access->readAttribute($member,
-						$this->access->connection->ldapUserDisplayName,
-						$filter))) {
+				if (!\is_array($this->access->readAttribute(
+					$member,
+					$this->access->connection->ldapUserDisplayName,
+					$filter
+				))) {
 					continue;
 				}
 				// dn2username will also check if the users belong to the allowed base
@@ -773,9 +782,11 @@ class Group_LDAP implements \OCP\GroupInterface {
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]);
 			} else {
 				//we need to apply the search filter now
-				if (!$this->access->readAttribute($member,
+				if (!$this->access->readAttribute(
+					$member,
 					$this->access->getConnection()->ldapUserDisplayName,
-					$this->access->getFilterPartForUserSearch($search))) {
+					$this->access->getFilterPartForUserSearch($search)
+				)) {
 					continue;
 				}
 				// dn2username will also check if the users belong to the allowed base
@@ -830,10 +841,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 			$this->access->getFilterPartForGroupSearch($search)
 		]);
 		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, \OCP\Util::DEBUG);
-		$ldap_groups = $this->access->fetchListOfGroups($filter,
-				[$this->access->getConnection()->ldapGroupDisplayName, 'dn'],
-				$limit,
-				$offset);
+		$ldap_groups = $this->access->fetchListOfGroups(
+			$filter,
+			[$this->access->getConnection()->ldapGroupDisplayName, 'dn'],
+			$limit,
+			$offset
+		);
 		$ldap_groups = $this->access->ownCloudGroupNames($ldap_groups);
 
 		$this->access->getConnection()->writeToCache($cacheKey, $ldap_groups);

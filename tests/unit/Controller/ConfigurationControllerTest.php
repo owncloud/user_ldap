@@ -159,7 +159,8 @@ class ConfigurationControllerTest extends TestCase {
 						return $expectedValue === $value;
 					};
 					return true;
-				}));
+				})
+			);
 
 		$result = $this->controller->create('src');
 
