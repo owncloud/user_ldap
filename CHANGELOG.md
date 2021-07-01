@@ -16,13 +16,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Bump libraries
 
 
+
 ## [0.15.2] - 2020-06-16
 
 ### Fixed
 - Reissue search in case of missing cookie in continued paged search - [#551](https://github.com/owncloud/user_ldap/issues/551)
 
 ### Changed
-- Set ownCloud min-version to 10.4
 - Bump libraries
 
 ## [0.15.1] - 2020-03-09
@@ -41,6 +41,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 
 - Drop PHP 7.0 - [#474](https://github.com/owncloud/user_ldap/issues/474)
+- Requires ownCloud min-version 10.4
 
 ## [0.14.0] - 2019-11-11
 
