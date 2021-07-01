@@ -223,6 +223,9 @@ OCA = OCA || {};
 			view._updateStatusIndicator(view.STATUS_UNTESTED);
 			view.basicStatusCheck(view);
 			view.functionalityCheck();
+			if (view['configModel']['configuration']['ldap_host'] !== '')
+				$('.ldap_config_state_indicator_subline').html(view['configModel']['configuration']['ldap_host'] + ':' + view['configModel']['configuration']['ldap_port'])
+			
 		},
 
 		/**

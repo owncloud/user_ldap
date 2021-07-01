@@ -449,8 +449,6 @@ OCA = OCA || {};
 				$.each(result['configuration'], function(key, value) {
 					model.configuration[key] = value;
 				});
-
-				$('.ldap_config_state_indicator_subline').html(result['configuration']['ldap_host'] + ':' + result['configuration']['ldap_port'])
 			}
 			model.loadingConfig = false;
 			model._broadcast('configLoaded', model.configuration);
@@ -628,6 +626,9 @@ OCA = OCA || {};
 				configPrefix: configID,
 				errorMessage: _.isUndefined(result['message']) ? '' : result['message']
 			};
+
+			$('.ldap_config_state_indicator_subline').html('')
+
 			model._broadcast('deleteConfiguration', payload);
 		}
 	};
