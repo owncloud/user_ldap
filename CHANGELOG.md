@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Bump libraries
 
 
+
 ## [0.15.2] - 2020-06-16
 
 ### Fixed
@@ -40,6 +41,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 
 - Drop PHP 7.0 - [#474](https://github.com/owncloud/user_ldap/issues/474)
+- Requires ownCloud min-version 10.4
 
 ## [0.14.0] - 2019-11-11
 
