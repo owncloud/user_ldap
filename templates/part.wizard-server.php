@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://')); ?>
+				<?php p($l->t('You can omit the protocol, except you require SSL. Then start with ldaps://')); ?>
 			</div>
 		</div>
 
@@ -64,7 +64,7 @@
 			<label for="ldap_tls"><?php p($l->t('Use StartTLS support')); ?></label>
 			<input type="checkbox" id="ldap_tls" name="ldap_tls" value="1">
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn\'t need this checkbox checked. You\'ll need to import the LDAP server\'s certificate in your %s server.', $theme->getName())); ?>
+				<?php p($l->t('Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn\'t need this checkbox checked. You\'ll need to import the LDAP server\'s certificate in your %s server.', $theme->getName())); ?>
 			</div>
 		</div>
 
@@ -72,7 +72,7 @@
 			<label><?php p($l->t('User DN')); ?></label>
 			<input type="text" id="ldap_dn" name="ldap_dn" class="tablecell" autocomplete="off" />
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.')); ?>
+				<?php p($l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.')); ?>
 			</div>
 		</div>
 
@@ -80,7 +80,7 @@
 			<label><?php p($l->t('Password')); ?></label>
 			<input type="password" id="ldap_agent_password" class="tablecell" name="ldap_agent_password" autocomplete="off" />
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('For anonymous access, leave DN and Password empty.')); ?>
+				<?php p($l->t('For anonymous access, leave DN and Password empty.')); ?>
 			</div>
 		</div>
 
@@ -89,7 +89,7 @@
 			<textarea id="ldap_base" name="ldap_base" class="tablecell" placeholder="" >
 			</textarea>
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('You can specify Base DN for users and groups in the Advanced tab')); ?>
+				<?php p($l->t('You can specify Base DN for users and groups in the Advanced tab')); ?>
 			</div>
 		</div>
 
@@ -105,7 +105,7 @@
 			</label>
 			<input type="checkbox" id="ldap_experienced_admin" value="1" name="ldap_experienced_admin" class="tablecell" />
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.')); ?>
+				<?php p($l->t('Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.')); ?>
 			</div>
 		</div>
 	</section>

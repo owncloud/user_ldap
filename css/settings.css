@@ -1,12 +1,15 @@
-#ldap section {
-	margin-bottom: 2rem;
-	width: 100% !important;
+#ldap {
+	width: calc(100% - 40px);
 }
 
 @media all and (min-width: 768px) {
 	#ldap section {
 		width: 60% !important;
 	}
+}
+
+#ldap section {
+	margin-bottom: 2rem;
 }
 
 #ldap section h3 {
@@ -75,6 +78,23 @@
 #ldap .tablerow .hint {
 	clear: both;
 	font-size: .8em;
+	position: relative;
+	padding-left: 1rem;
+}
+
+#ldap .tablerow .hint:before {
+	background: url('/core/img/actions/info.svg');
+    background-size: contain;
+	background-position: 50% 100%;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 1.3em;
+	width: 1.3em;
+	margin-right: 0rem;
+	content: ' ';
+	position: absolute;
+	margin-left: -1rem;
+	top: 3px;
 }
 
 #ldap .tablerow .hint img {
@@ -269,15 +289,16 @@ select[multiple=multiple] + button {
 #ldap .header {
 	position: fixed;
 	background: #fff;
-	width: inherit;
 	top: 5.5em;
 	padding-top: 1.7em;
 	z-index: 1;
+	width: calc(100% - 40px);
 }
 
 @media all and (min-width: 768px) {
 	#ldap .header {
 		top: 3.5em;
+		width: 60%;
 	}
 }
 
@@ -316,8 +337,13 @@ select[multiple=multiple] + button {
 	color: #333333;
 	border: none;
 	background: transparent;
-	padding: 0.7em 1.3em;
+	padding: 0.2rem 1.3rem;
 	display: none;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.stateIndicator div {
+	font-weight: 100;
+	font-size: 75%;
 }
 
 @media all and (min-width: 768px) {

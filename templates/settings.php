@@ -62,7 +62,7 @@ style('user_ldap', 'settings');
 				?>
 				<li class="warn"><a href="#ldapSettings-1"><?php p($l->t('Advanced')); ?></a></li>
 				<li class="warn"><a href="#ldapSettings-2"><?php p($l->t('Expert')); ?></a></li>
-				<li class="stateIndicator"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span></li>
+				<li class="stateIndicator"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span><div class="ldap_config_state_indicator_subline"></div></li>
 				<li>
 					<a href="<?php p(link_to_docs('admin-ldap')); ?>" target="_blank" rel="noreferrer">
 						<img src="<?php print_unescaped(image_path('', 'actions/info.svg')); ?>" style="height:1.75ex" />
@@ -94,7 +94,7 @@ style('user_ldap', 'settings');
 							<label for="ldap_backup_host"><?php p($l->t('Backup (Replica) Host')); ?></label>
 							<input type="text" id="ldap_backup_host" name="ldap_backup_host" data-default="<?php p($_['ldap_backup_host_default']); ?>">
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('Give an optional backup host. It must be a replica of the main LDAP/AD server.')); ?>
+								<?php p($l->t('Give an optional backup host. It must be a replica of the main LDAP/AD server.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
@@ -103,25 +103,25 @@ style('user_ldap', 'settings');
 						<div class="tablerow">
 							<label for="ldap_override_main_server"><?php p($l->t('Disable Main Server')); ?></label><input type="checkbox" id="ldap_override_main_server" name="ldap_override_main_server" value="1" data-default="<?php p($_['ldap_override_main_server_default']); ?>"/>
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('Only connect to the replica server.')); ?>
+								<?php p($l->t('Only connect to the replica server.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_turn_off_cert_check"><?php p($l->t('Turn off SSL certificate validation.')); ?></label><input type="checkbox" id="ldap_turn_off_cert_check" name="ldap_turn_off_cert_check" data-default="<?php p($_['ldap_turn_off_cert_check_default']); ?>" value="1">
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName())); ?>
+								<?php p($l->t('Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your %s server.', $theme->getName())); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_cache_ttl"><?php p($l->t('Cache Time-To-Live')); ?></label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" data-default="<?php p($_['ldap_cache_ttl_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('in seconds. A change empties the cache.')); ?>
+								<?php p($l->t('in seconds. A change empties the cache.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_network_timeout"><?php p($l->t('Network Timeout')); ?></label><input type="number" id="ldap_network_timeout" name="ldap_network_timeout" data-default="<?php p($_['ldap_network_timeout_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" class=""> <?php p($l->t('timeout for all the ldap network operations, in seconds.')); ?>
+								<?php p($l->t('timeout for all the ldap network operations, in seconds.')); ?>
 							</div>
 						</div>
 					</div>
@@ -134,28 +134,28 @@ style('user_ldap', 'settings');
 							<label for="ldap_display_name"><?php p($l->t('User Display Name Field')); ?></label>
 							<input type="text" id="ldap_display_name" name="ldap_display_name" data-default="<?php p($_['ldap_display_name_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('The LDAP attribute to use to generate the user\'s display name.')); ?>
+								<?php p($l->t('The LDAP attribute to use to generate the user\'s display name.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_user_display_name_2"><?php p($l->t('2nd User Display Name Field')); ?></label>
 							<input type="text" id="ldap_user_display_name_2" name="ldap_user_display_name_2" data-default="<?php p($_['ldap_user_display_name_2_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«.')); ?>
+								<?php p($l->t('Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_base_users"><?php p($l->t('Base User Tree')); ?></label>
 							<textarea id="ldap_base_users" name="ldap_base_users" placeholder="<?php p($l->t('One User Base DN per line')); ?>" data-default="<?php p($_['ldap_base_users_default']); ?>"></textarea>
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Base User Tree')); ?>
+								<?php p($l->t('Base User Tree')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_attributes_for_user_search"><?php p($l->t('User Search Attributes')); ?></label>
 							<textarea id="ldap_attributes_for_user_search" name="ldap_attributes_for_user_search" placeholder="<?php p($l->t('Optional; one attribute per line')); ?>" data-default="<?php p($_['ldap_attributes_for_user_search_default']); ?>"></textarea>
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('User Search Attributes')); ?>
+								<?php p($l->t('User Search Attributes')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
@@ -166,21 +166,21 @@ style('user_ldap', 'settings');
 							<label for="ldap_group_display_name"><?php p($l->t('Group Display Name Field')); ?></label>
 							<input type="text" id="ldap_group_display_name" name="ldap_group_display_name" data-default="<?php p($_['ldap_group_display_name_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('The LDAP attribute to use to generate the groups\'s display name.')); ?>
+								<?php p($l->t('The LDAP attribute to use to generate the groups\'s display name.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_base_groups"><?php p($l->t('Base Group Tree')); ?></label>
 							<textarea id="ldap_base_groups" name="ldap_base_groups" placeholder="<?php p($l->t('One Group Base DN per line')); ?>" data-default="<?php p($_['ldap_base_groups_default']); ?>"></textarea>
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Base Group Tree')); ?>
+								<?php p($l->t('Base Group Tree')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_attributes_for_group_search"><?php p($l->t('Group Search Attributes')); ?></label>
 							<textarea id="ldap_attributes_for_group_search" name="ldap_attributes_for_group_search" placeholder="<?php p($l->t('Optional; one attribute per line')); ?>" data-default="<?php p($_['ldap_attributes_for_group_search_default']); ?>"></textarea>
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Group Search Attributes')); ?>
+								<?php p($l->t('Group Search Attributes')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
@@ -200,19 +200,19 @@ style('user_ldap', 'settings');
 						<div class="tablerow">
 							<label for="ldap_dynamic_group_member_url"><?php p($l->t('Dynamic Group Member URL')); ?></label><input type="text" id="ldap_dynamic_group_member_url" name="ldap_dynamic_group_member_url" data-default="<?php p($_['ldap_dynamic_group_member_url_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)')); ?>
+								<?php p($l->t('The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_nested_groups"><?php p($l->t('Nested Groups')); ?></label><input type="checkbox" id="ldap_nested_groups" name="ldap_nested_groups" value="1" data-default="<?php p($_['ldap_nested_groups_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)')); ?>
+								<?php p($l->t('When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_paging_size"><?php p($l->t('Paging chunksize')); ?></label><input type="number" id="ldap_paging_size" name="ldap_paging_size" data-default="<?php p($_['ldap_paging_size_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)')); ?>
+								<?php p($l->t('Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)')); ?>
 							</div>
 						</div>
 					</div>
@@ -225,28 +225,28 @@ style('user_ldap', 'settings');
 							<label for="ldap_quota_attr"><?php p($l->t('Quota Field')); ?></label>
 							<input type="text" id="ldap_quota_attr" name="ldap_quota_attr" data-default="<?php p($_['ldap_quota_attr_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Leave empty for user\'s default quota. Otherwise, specify an LDAP/AD attribute.')); ?>
+								<?php p($l->t('Leave empty for user\'s default quota. Otherwise, specify an LDAP/AD attribute.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_quota_def"><?php p($l->t('Quota Default')); ?></label>
 							<input type="text" id="ldap_quota_def" name="ldap_quota_def" data-default="<?php p($_['ldap_quota_def_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Override default quota for LDAP users who do not have a quota set in the Quota Field.')); ?>
+								<?php p($l->t('Override default quota for LDAP users who do not have a quota set in the Quota Field.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_email_attr"><?php p($l->t('Email Field')); ?></label>
 							<input type="text" id="ldap_email_attr" name="ldap_email_attr" data-default="<?php p($_['ldap_email_attr_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Set the user\'s email from their LDAP attribute. Leave it empty for default behaviour.')); ?>
+								<?php p($l->t('Set the user\'s email from their LDAP attribute. Leave it empty for default behaviour.')); ?>
 							</div>
 						</div>
 						<div class="tablerow">
 							<label for="home_folder_naming_rule"><?php p($l->t('User Home Folder Naming Rule')); ?></label>
 							<input type="text" id="home_folder_naming_rule" name="home_folder_naming_rule" data-default="<?php p($_['home_folder_naming_rule_default']); ?>" />
 							<div class="hint">
-								<img src="/core/img/actions/info.svg" > <?php p($l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.')); ?>
+								<?php p($l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.')); ?>
 							</div>
 						</div>
 					</div>

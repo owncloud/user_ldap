@@ -55,6 +55,14 @@ OCA = OCA || {};
 			});
 
 			$('.ldap_action_test_connection').click(this.onTestButtonClick);
+			
+			$('#ldap_host').on('input', function () {				
+				$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
+			})
+
+			$('#ldap_port').on('input', function () {
+				$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
+			})
 		},
 
 		/**
@@ -258,6 +266,8 @@ OCA = OCA || {};
 			if(!_.isUndefined(this.tabs[newTabID])) {
 				this._controlUpdate(this.tabs[newTabID].tabIndex);
 			}
+
+			$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
 		},
 
 		/**
