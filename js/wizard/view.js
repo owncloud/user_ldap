@@ -266,8 +266,6 @@ OCA = OCA || {};
 			if(!_.isUndefined(this.tabs[newTabID])) {
 				this._controlUpdate(this.tabs[newTabID].tabIndex);
 			}
-
-			$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
 		},
 
 		/**
