@@ -235,14 +235,6 @@ select[multiple=multiple] + button {
 	cursor: wait;
 }
 
-#ldap .ldap_saving {
-	margin-right: 15px;
-	color: orange;
-	font-weight: bold;
-}
-
-#ldap .ldap_saving img { height: 15px; }
-
 #ldap .app-name .ldap_config_state_indicator_container {
 	display: inline-block;
 	margin-left: 2em;
@@ -333,11 +325,40 @@ select[multiple=multiple] + button {
 	left: 1.3em;
 }
 
-#ldap .ui-tabs .ui-tabs-nav li.stateIndicator {
+#ldap .ui-tabs .ui-tabs-nav li.stateIndicator,
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper {
 	color: #333333;
 	border: none;
 	background: transparent;
 	padding: 0.2rem 1.3rem;
+	display: none;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper {
+	padding: 0.5rem 1.3rem;
+	display: block; 
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving {
+	margin-right: 15px;
+	color: orange;
+	font-weight: bold;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving .done {
+	display: none;
+	color: #128c12;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done img {
+	display: none;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done .done {
+	display: inline;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done .working {
 	display: none;
 }
 

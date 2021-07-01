@@ -339,7 +339,7 @@ OCA = OCA || {};
 		 * shows a save spinner
 		 */
 		showSaveSpinner: function() {
-			this.$saveSpinners.removeClass('hidden');
+			this.$saveSpinners.show()
 			$('#ldap *').addClass('save-cursor');
 		},
 
@@ -347,8 +347,14 @@ OCA = OCA || {};
 		 * hides the save spinner
 		 */
 		hideSaveSpinner: function() {
-			this.$saveSpinners.addClass('hidden');
-			$('#ldap *').removeClass('save-cursor');
+			this.$saveSpinners.addClass('done')
+			setTimeout(function() {
+				$('#ldap .ldap_saving').fadeOut(1000, function () {
+					$('#ldap .ldap_saving').removeClass('done')
+				});
+				$('#ldap *').removeClass('save-cursor');
+				
+			}, 1000)			
 		},
 
 		/**

@@ -69,6 +69,11 @@ style('user_ldap', 'settings');
 						<span class="ldap_grey"><?php p($l->t('Help')); ?></span>
 					</a>
 				</li>
+				<li class="ldap_saving_wrapper">
+					<div class="ldap_saving">
+						<span class="working"><?php p($l->t('Saving'));?> ...</span><span class="done"><?php p($l->t('Saved'));?></span>
+					</div>
+				</li>
 			</ul>
 		</div>
 		<?php if (OCP\App::isEnabled('user_webdavauth')) {
