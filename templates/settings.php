@@ -70,7 +70,7 @@ style('user_ldap', 'settings');
 					</a>
 				</li>
 				<li class="ldap_saving_wrapper">
-					<div class="ldap_saving">
+					<div class="ldap_saving hidden">
 						<span class="working"><?php p($l->t('Saving'));?> ...</span><span class="done"><?php p($l->t('Saved'));?></span>
 					</div>
 				</li>
