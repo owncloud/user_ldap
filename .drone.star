@@ -321,7 +321,7 @@ config = {
 			'federatedServerNeeded': True,
 			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
-			'numberOfParts': 29,
+			'numberOfParts': 21,
 			'extraSetup': [
 				{
 					'name': 'configure-app',
@@ -370,7 +370,7 @@ config = {
 			'federatedServerNeeded': True,
 			'filterTags': '~@skip&&~@app-required',
 			'runAllSuites': True,
-			'numberOfParts': 29,
+			'numberOfParts': 21,
 			'cron': 'nightly',
 			'extraSetup': [
 				{
@@ -560,7 +560,7 @@ config = {
 			'federatedServerNeeded': True,
 			'cron': 'nightly',
 			'runAllSuites': True,
-			'numberOfParts': 29,
+			'numberOfParts': 21,
 			'extraApps': {
 				'encryption': ''
 			},
@@ -739,7 +739,7 @@ config = {
 			'federatedServerNeeded': True,
 			'cron': 'nightly',
 			'runAllSuites': True,
-			'numberOfParts': 29,
+			'numberOfParts': 21,
 			'extraApps': {
 				'encryption': ''
 			},
