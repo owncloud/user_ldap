@@ -2161,34 +2161,27 @@ class Access implements IUserTools {
 					);
 					return false;
 				}
-				if ($cookie !== null) {
-					if (empty($offset)) {
-						//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
-						$this->abandonPagedSearch();
-						\OC::$server->getLogger()->debug(
-							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
-							['app' => 'user_ldap']
-						);
-					} else {
-						\OC::$server->getLogger()->debug(
-							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
-							['app' => 'user_ldap']
-						);
-					}
-					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
-						$this->connection->getConnectionResource(),
-						$limit,
-						false,
-						$cookie
-					);
-					if (!$pagedSearchOK) {
-						return false;
-					}
-				} else {
+				if (empty($offset)) {
+					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+					$this->abandonPagedSearch();
 					\OC::$server->getLogger()->debug(
-						"No paged search for us at $range",
+						'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
 						['app' => 'user_ldap']
 					);
+				} else {
+					\OC::$server->getLogger()->debug(
+						'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+						['app' => 'user_ldap']
+					);
+				}
+				$pagedSearchOK = $this->getLDAP()->controlPagedResult(
+					$this->connection->getConnectionResource(),
+					$limit,
+					false,
+					$cookie
+				);
+				if (!$pagedSearchOK) {
+					return false;
 				}
 			}
 		} elseif ($this->connection->hasPagedResultSupport && $limit === 0) {

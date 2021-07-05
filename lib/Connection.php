@@ -330,7 +330,7 @@ class Connection extends LDAPUtility {
 									' is empty, using Base DN',
 					Util::DEBUG
 				);
-				$this->configuration->$keyBase = $this->configuration->ldapBase;
+				$this->configuration->$keyBase = $this->configuration->__get('ldapBase');
 			}
 		}
 
