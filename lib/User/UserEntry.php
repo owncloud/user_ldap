@@ -249,7 +249,7 @@ class UserEntry {
 	}
 
 	private function verifyQuotaValue($quotaValue) {
-		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false; /** @phpstan-ignore-line */
+		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
 	/**
