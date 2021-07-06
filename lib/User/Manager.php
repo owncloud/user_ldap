@@ -450,12 +450,18 @@ class Manager {
 	 * @param string $uid
 	 */
 	public function markLogin($uid) {
-		$this->ocConfig->setUserValue(
+		if ($this->ocConfig->getUserValue(
 			$uid,
 			'user_ldap',
-			self::USER_PREFKEY_FIRSTLOGIN,
-			1
-		);
+			self::USER_PREFKEY_FIRSTLOGIN
+		) !== '1') {
+			$this->ocConfig->setUserValue(
+				$uid,
+				'user_ldap',
+				self::USER_PREFKEY_FIRSTLOGIN,
+				'1'
+			);
+		}
 	}
 
 	/**
