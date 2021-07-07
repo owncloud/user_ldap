@@ -14,7 +14,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	</description>
 	<licence>AGPL</licence>
 	<author>Jörn Friedrich Dreyer, Tom Needham, Juan Pablo Villafañez Ramos, Dominik Schmidt and Arthur Schiwon</author>
-	<version>0.15.3</version>
+	<version>0.15.4</version>
 	<types>
 		<authentication/>
 	</types>
