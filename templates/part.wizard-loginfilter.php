@@ -27,7 +27,7 @@
 		</div>
 		<div id="ldapReadOnlyLoginFilterContainer" class="hidden ldapReadOnlyFilterContainer tablerow">
 			<label><?php p($l->t('LDAP Filter:'));?></label>
-			<span class="ldapFilterReadOnlyElement ldapInputColElement"></span>
+			<div class="ldapFilterReadOnlyElement"></div>
 		</div>
 		<div id="rawLoginFilterContainer" class="tablerow invisible">
 			<label><?php p($l->t('Edit LDAP Query'));?></label>
