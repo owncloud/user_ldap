@@ -2,9 +2,9 @@
 	width: calc(100% - 40px);
 }
 
-@media all and (min-width: 768px) {
+@media all and (min-width: 1200px) {
 	#ldap section {
-		width: 60% !important;
+		width: 65% !important;
 	}
 }
 
@@ -115,7 +115,13 @@
 
 
 .ldapWizardControls {
-	text-align: right;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+}
+
+.ldapWizardControls > div {
+	margin-left: 1rem;
 }
 
 .ldapWizardInfo {
@@ -279,7 +285,6 @@ select[multiple=multiple] + button {
 }
 
 #ldap .header {
-	position: fixed;
 	background: #fff;
 	top: 5.5em;
 	padding-top: 1.7em;
@@ -290,7 +295,7 @@ select[multiple=multiple] + button {
 @media all and (min-width: 768px) {
 	#ldap .header {
 		top: 3.5em;
-		width: 60%;
+		width: calc(750% - 40px);
 	}
 }
 
@@ -362,7 +367,7 @@ select[multiple=multiple] + button {
 	display: none;
 }
 
-#ldap .ui-tabs .ui-tabs-nav li.stateIndicator div {
+#ldap .stateIndicator div {
 	font-weight: 100;
 	font-size: 75%;
 }
@@ -374,7 +379,7 @@ select[multiple=multiple] + button {
 }
 
 .ui-tabs .ui-tabs-panel {
-	margin-top: 5.3em;
+	margin-top: 1rem;
 }
 
 #ldap button {

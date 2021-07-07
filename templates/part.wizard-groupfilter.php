@@ -1,5 +1,5 @@
 <fieldset id="ldapWizard4">
-	<div>
+	<section>
 		<p>
 			<?php p($l->t('Groups meeting these criteria are available in %s:', $theme->getName()));?>
 		</p>
@@ -58,5 +58,5 @@
 			<span id="ldap_group_count"></span>
 		</p>
 		<?php print_unescaped($_['wizardControls']); ?>
-	</div>
+	</section>
 </fieldset>
