@@ -121,7 +121,7 @@
 }
 
 .ldapWizardControls > div {
-	margin-left: 1rem;
+	margin-right: 1rem;
 }
 
 .ldapWizardInfo {
@@ -367,7 +367,7 @@ select[multiple=multiple] + button {
 	display: none;
 }
 
-#ldap .stateIndicator div {
+#ldap .ldap_config_state_indicator_subline {
 	font-weight: 100;
 	font-size: 75%;
 }

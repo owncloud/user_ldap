@@ -52,7 +52,7 @@ style('user_ldap', 'settings');
 <form id="ldap" class="section" action="#" method="post">
 	<div id="ldapSettings">
 		<div class="header">
-			<h2 class="app-name"><?php p($l->t('LDAP')); ?><div class="ldap_config_state_indicator_container"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span></div></h2>
+			<h2 class="app-name"><?php p($l->t('LDAP')); ?><div class="ldap_config_state_indicator_container"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span><div class="ldap_config_state_indicator_subline"></div></div></h2>
 			<ul>
 				<?php foreach ($_['toc'] as $id => $title) {
 	?>
