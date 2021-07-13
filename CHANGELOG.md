@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [0.15.4] - 2021-07-07
 
 ### Fixed
+- [QA] Frontend breaks with other auser auth apps [#659](https://github.com/owncloud/user_ldap/issues/659)
 - Fix display errors in combination with other apps [#660](https://github.com/owncloud/user_ldap/issues/660)
 - [QA] Login Attributes: LDAP Filter misagligned output [#653](https://github.com/owncloud/user_ldap/issues/653)
 
