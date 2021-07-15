@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 
-## [0.15.4] - 2021-07-07
+## [0.15.4] - 2021-07-13
 
 ### Fixed
+- user_ldap 0.15.3 double quote in passwords does not work [#662](https://github.com/owncloud/user_ldap/issues/662)
 - Fix display errors in combination with other apps [#660](https://github.com/owncloud/user_ldap/issues/660)
 - [QA] Frontend breaks with other auser auth apps [#659](https://github.com/owncloud/user_ldap/issues/659)
 - [QA] tab break into new line hides content [#656](https://github.com/owncloud/user_ldap/issues/656)
