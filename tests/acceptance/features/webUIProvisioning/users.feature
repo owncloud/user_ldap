@@ -32,7 +32,7 @@ Feature: add users
     When the administrator changes the display name of user "new-user" to "New User" using the webUI
     And the administrator logs out of the webUI
     And user "new-user" logs in using the webUI
-    Then "New User" should be shown as the name of the current user on the WebUI
+    Then "New User" should be shown as the name of the current user on the webUI
     And user "new-user" should exist
     And the user attributes returned by the API should include
       | displayname | New User |
@@ -68,7 +68,7 @@ Feature: add users
     And the administrator changes the display name of user "Alice" to "New User" using the webUI
     And the administrator logs out of the webUI
     And user "Alice" logs in using the webUI
-    Then "ldap user" should be shown as the name of the current user on the WebUI
+    Then "ldap user" should be shown as the name of the current user on the webUI
     And user "Alice" should exist
     And the user attributes returned by the API should include
       | displayname | ldap user |

@@ -12,12 +12,12 @@ Feature: providing an avatar by LDAP
   Scenario: upload an avatar to the LDAP server
     When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=Alice,ou=TestUsers" to the content of the file "testavatar.jpg"
     And user "Alice" has logged in using the webUI
-    Then the display name should not be visible on the WebUI
-    And an avatar should be shown for the current user on the WebUI
+    Then the display name should not be visible on the webUI
+    And an avatar should be shown for the current user on the webUI
 
   Scenario: set the avatar on the LDAP server to an invalid string
     When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=Alice,ou=TestUsers" to "0"
     And user "Alice" has logged in using the webUI
-    Then the display name should be visible on the WebUI
-    And "Alice Hansen" should be shown as the name of the current user on the WebUI
-    And no avatar should be shown for the current user on the WebUI
+    Then the display name should be visible on the webUI
+    And "Alice Hansen" should be shown as the name of the current user on the webUI
+    And no avatar should be shown for the current user on the webUI
