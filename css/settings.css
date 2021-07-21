@@ -1,12 +1,15 @@
-#ldap section {
-	margin-bottom: 2rem;
-	width: 100% !important;
+#ldap {
+	width: calc(100% - 40px);
 }
 
-@media all and (min-width: 768px) {
+@media all and (min-width: 1200px) {
 	#ldap section {
-		width: 60% !important;
+		width: 65% !important;
 	}
+}
+
+#ldap section {
+	margin-bottom: 2rem;
 }
 
 #ldap section h3 {
@@ -75,6 +78,23 @@
 #ldap .tablerow .hint {
 	clear: both;
 	font-size: .8em;
+	position: relative;
+	padding-left: 1rem;
+}
+
+#ldap .tablerow .hint:before {
+	background: url('/core/img/actions/info.svg');
+    background-size: contain;
+	background-position: 50% 100%;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 1.3em;
+	width: 1.3em;
+	margin-right: 0rem;
+	content: ' ';
+	position: absolute;
+	margin-left: -1rem;
+	top: 3px;
 }
 
 #ldap .tablerow .hint img {
@@ -95,7 +115,13 @@
 
 
 .ldapWizardControls {
-	text-align: right;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+}
+
+.ldapWizardControls > div {
+	margin-right: 1rem;
 }
 
 .ldapWizardInfo {
@@ -215,14 +241,6 @@ select[multiple=multiple] + button {
 	cursor: wait;
 }
 
-#ldap .ldap_saving {
-	margin-right: 15px;
-	color: orange;
-	font-weight: bold;
-}
-
-#ldap .ldap_saving img { height: 15px; }
-
 #ldap .app-name .ldap_config_state_indicator_container {
 	display: inline-block;
 	margin-left: 2em;
@@ -267,17 +285,17 @@ select[multiple=multiple] + button {
 }
 
 #ldap .header {
-	position: fixed;
 	background: #fff;
-	width: inherit;
 	top: 5.5em;
 	padding-top: 1.7em;
 	z-index: 1;
+	width: calc(100% - 40px);
 }
 
 @media all and (min-width: 768px) {
 	#ldap .header {
 		top: 3.5em;
+		width: calc(750% - 40px);
 	}
 }
 
@@ -312,12 +330,46 @@ select[multiple=multiple] + button {
 	left: 1.3em;
 }
 
-#ldap .ui-tabs .ui-tabs-nav li.stateIndicator {
+#ldap .ui-tabs .ui-tabs-nav li.stateIndicator,
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper {
 	color: #333333;
 	border: none;
 	background: transparent;
-	padding: 0.7em 1.3em;
+	padding: 0.2rem 1.3rem;
 	display: none;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper {
+	padding: 0.5rem 1.3rem;
+	display: block; 
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving {
+	margin-right: 15px;
+	color: orange;
+	font-weight: bold;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving .done {
+	display: none;
+	color: #128c12;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done img {
+	display: none;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done .done {
+	display: inline;
+}
+
+#ldap .ui-tabs .ui-tabs-nav li.ldap_saving_wrapper .ldap_saving.done .working {
+	display: none;
+}
+
+#ldap .ldap_config_state_indicator_subline {
+	font-weight: 100;
+	font-size: 75%;
 }
 
 @media all and (min-width: 768px) {
@@ -327,7 +379,7 @@ select[multiple=multiple] + button {
 }
 
 .ui-tabs .ui-tabs-panel {
-	margin-top: 5.3em;
+	margin-top: 1rem;
 }
 
 #ldap button {

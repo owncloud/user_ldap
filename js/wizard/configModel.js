@@ -626,6 +626,9 @@ OCA = OCA || {};
 				configPrefix: configID,
 				errorMessage: _.isUndefined(result['message']) ? '' : result['message']
 			};
+
+			$('.ldap_config_state_indicator_subline').html('')
+
 			model._broadcast('deleteConfiguration', payload);
 		}
 	};

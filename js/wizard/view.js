@@ -55,6 +55,14 @@ OCA = OCA || {};
 			});
 
 			$('.ldap_action_test_connection').click(this.onTestButtonClick);
+			
+			$('#ldap_host').on('input', function () {				
+				$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
+			})
+
+			$('#ldap_port').on('input', function () {
+				$('.ldap_config_state_indicator_subline').html($('#ldap_host').val() + ':' + $('#ldap_port').val())
+			})
 		},
 
 		/**
@@ -215,6 +223,9 @@ OCA = OCA || {};
 			view._updateStatusIndicator(view.STATUS_UNTESTED);
 			view.basicStatusCheck(view);
 			view.functionalityCheck();
+			if (view['configModel']['configuration']['ldap_host'] !== '')
+				$('.ldap_config_state_indicator_subline').html(view['configModel']['configuration']['ldap_host'] + ':' + view['configModel']['configuration']['ldap_port'])
+			
 		},
 
 		/**
@@ -329,7 +340,7 @@ OCA = OCA || {};
 		 * shows a save spinner
 		 */
 		showSaveSpinner: function() {
-			this.$saveSpinners.removeClass('hidden');
+			this.$saveSpinners.show()
 			$('#ldap *').addClass('save-cursor');
 		},
 
@@ -337,8 +348,14 @@ OCA = OCA || {};
 		 * hides the save spinner
 		 */
 		hideSaveSpinner: function() {
-			this.$saveSpinners.addClass('hidden');
-			$('#ldap *').removeClass('save-cursor');
+			this.$saveSpinners.addClass('done')
+			setTimeout(function() {
+				$('#ldap .ldap_saving').fadeOut(1000, function () {
+					$('#ldap .ldap_saving').removeClass('done')
+				});
+				$('#ldap *').removeClass('save-cursor');
+				
+			}, 1000)			
 		},
 
 		/**
@@ -469,10 +486,3 @@ OCA = OCA || {};
 
 	OCA.LDAP.Wizard.WizardView = WizardView;
 })();
-
-$(document).ready(function () {
-	$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
-    $(window).on('resize', function(){
-		$('.ui-tabs .ui-tabs-panel').css('margin-top', $('#ldap .header').outerHeight())
-  	});
-});

@@ -7,7 +7,7 @@
 			<label for="ldap_userfilter_objectclass"><?php p($l->t('Only these object classes:'));?></label>
 			<select id="ldap_userfilter_objectclass" multiple="multiple" name="ldap_userfilter_objectclass" class="multiSelectPlugin"></select>
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" > <?php p($l->t('The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.'));?>
+				<?php p($l->t('The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.'));?>
 			</div>
 		</div>
 		
@@ -45,7 +45,7 @@
 			<label><?php p($l->t('Edit LDAP Query'));?></label>
 			<textarea type="text" id="ldap_userlist_filter" name="ldap_userlist_filter" class="ldapFilterInputElement"></textarea>
 			<div class="hint">
-				<img src="/core/img/actions/info.svg" > <?php p($l->t('The filter specifies which LDAP users shall have access to the %s instance.', $theme->getName()));?>
+				<?php p($l->t('The filter specifies which LDAP users shall have access to the %s instance.', $theme->getName()));?>
 			</div>
 		</div>
 

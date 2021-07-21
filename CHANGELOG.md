@@ -3,8 +3,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
-.
+## [Unreleased] - XXXX-XX-XX
+
+
+## [0.15.4] - 2021-07-13
+
+### Fixed
+- user_ldap 0.15.3 double quote in passwords does not work [#662](https://github.com/owncloud/user_ldap/issues/662)
+- Fix display errors in combination with other apps [#660](https://github.com/owncloud/user_ldap/issues/660)
+- [QA] Frontend breaks with other auser auth apps [#659](https://github.com/owncloud/user_ldap/issues/659)
+- [QA] tab break into new line hides content [#656](https://github.com/owncloud/user_ldap/issues/656)
+- [QA] Login Attributes: LDAP Filter misagligned output [#653](https://github.com/owncloud/user_ldap/issues/653)
+
+## [0.15.3] - 2021-06-14
+
+### Fixed
+- Fix display errors in combination with other apps [#660](https://github.com/owncloud/user_ldap/issues/660)
+- Fixed read LDAP attribute value 0 returned as null [#599](https://github.com/owncloud/user_ldap/issues/599)
+- Security: filter special characters from password field [#636](https://github.com/owncloud/user_ldap/issues/636)
+- LDAP multiple base dns break pagination [#307](https://github.com/owncloud/user_ldap/issues/307)
+
+### Changed
+- Add warning for disabling email login regarding strict login check [#581](https://github.com/owncloud/user_ldap/issues/581) (Requires 10.5.0)
+- Facelift [#597](https://github.com/owncloud/user_ldap/issues/597)
+- Bump libraries
+
+
 
 ## [0.15.2] - 2020-06-16
 
@@ -30,6 +54,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 
 - Drop PHP 7.0 - [#474](https://github.com/owncloud/user_ldap/issues/474)
+- Requires ownCloud min-version 10.4
 
 ## [0.14.0] - 2019-11-11
 
@@ -128,7 +153,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.2...master
+
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.4...master
+[0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.3...v0.15.4
+[0.15.3]: https://github.com/owncloud/user_ldap/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/owncloud/user_ldap/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/owncloud/user_ldap/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/owncloud/user_ldap/compare/v0.14.0...v0.15.0
