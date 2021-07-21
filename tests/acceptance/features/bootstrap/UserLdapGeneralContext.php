@@ -73,7 +73,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws Exception
 	 */
 	public function ldapConfigHasKeySetTo(
-		$configId, $configKey, $configValue
+		$configId,
+		$configKey,
+		$configValue
 	) {
 		$oldConfig = $this->featureContext->getOldLdapConfig();
 		if (!isset($oldConfig[$configId][$configKey])) {
@@ -117,7 +119,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function ldapConfigHasTheseSettings($configId, TableNode $table) {
 		foreach ($table as $line) {
 			$this->ldapConfigHasKeySetTo(
-				$configId, $line['key'], $line['value']
+				$configId,
+				$line['key'],
+				$line['value']
 			);
 		}
 	}
@@ -164,7 +168,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws LdapException
 	 */
 	public function setTheLdapAttributeOfTheEntryTo(
-		$attribute, $entry, $value, $append=false
+		$attribute,
+		$entry,
+		$value,
+		$append=false
 	) {
 		$ldap = $this->featureContext->getLdap();
 		$ldapEntry = $ldap->getEntry($entry . "," . $this->featureContext->getLdapBaseDN());
@@ -187,12 +194,16 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 		foreach ($table as $row) {
 			if ($first) {
 				$this->setTheLdapAttributeOfTheEntryTo(
-					$attribute, $entry, $row
+					$attribute,
+					$entry,
+					$row
 				);
 				$first = false;
 			} else {
 				$this->addValueToLdapAttributeOfTheEntry(
-					$attribute, $entry, $row
+					$attribute,
+					$entry,
+					$row
 				);
 			}
 		}
@@ -209,12 +220,16 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws LdapException
 	 */
 	public function theLdapAttributeOfTheEntryToContentOfFile(
-		$attribute, $entry, $filename
+		$attribute,
+		$entry,
+		$filename
 	) {
 		$value = \file_get_contents(\getenv("FILES_FOR_UPLOAD") . $filename);
 
 		$this->setTheLdapAttributeOfTheEntryTo(
-			$attribute, $entry, $value
+			$attribute,
+			$entry,
+			$value
 		);
 	}
 
@@ -258,7 +273,8 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function deleteValueFromLdapAttribute($value, $attribute, $entry) {
 		$ldap = $this->featureContext->getLdap();
 		$ldap->deleteAttributes(
-			$entry . "," . $this->featureContext->getLdapBaseDN(), [$attribute => [$value]]
+			$entry . "," . $this->featureContext->getLdapBaseDN(),
+			[$attribute => [$value]]
 		);
 	}
 
@@ -291,7 +307,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	public function createLDAPUsers($amount, $prefix, $ou) {
 		$ldap = $this->featureContext->getLdap();
 		$uidNumberSearch = $ldap->searchEntries(
-			'objectClass=posixAccount', null, 0, ['uidNumber']
+			'objectClass=posixAccount',
+			null,
+			0,
+			['uidNumber']
 		);
 		$maxUidNumber = 0;
 		foreach ($uidNumberSearch as $searchResult) {
@@ -328,7 +347,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 			$ldap->add($newDN, $entry);
 			$this->featureContext->addUserToCreatedUsersList(
-				$uid, $uid, $uid, null, false
+				$uid,
+				$uid,
+				$uid,
+				null,
+				false
 			);
 
 			if ($ouExists) {

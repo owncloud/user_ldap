@@ -57,7 +57,9 @@ class CommandTest extends TestCase {
 	 * @param array $expectedNotToBeContained
 	 */
 	public function testShowConfigAsTable(
-		$input, $expectedToBeContained, $expectedNotToBeContained
+		$input,
+		$expectedToBeContained,
+		$expectedNotToBeContained
 	) {
 		$this->commandTester->execute($input);
 		$output = $this->commandTester->getDisplay();

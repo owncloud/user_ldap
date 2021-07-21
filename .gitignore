@@ -1,6 +1,7 @@
 /node_modules/
 /build/
 .php_cs.cache
+.php-cs-fixer.cache
 /tests/output/
 
 # Composer

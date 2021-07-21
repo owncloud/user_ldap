@@ -172,7 +172,8 @@ class Access implements IUserTools {
 		if (!$this->checkConnection()) {
 			\OC::$server->getLogger()->warning(
 				'No LDAP Connector assigned, access impossible for readAttribute.',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
@@ -180,7 +181,8 @@ class Access implements IUserTools {
 			//LDAP not available
 			\OC::$server->getLogger()->debug(
 				'LDAP resource not available.',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 		//Cancel possibly running Paged Results operation, otherwise we run in
@@ -243,7 +245,8 @@ class Access implements IUserTools {
 
 		\OC::$server->getLogger()->debug(
 			"Requested attribute $attr not found for $dn",
-			['app' => 'user_ldap']);
+			['app' => 'user_ldap']
+		);
 		return false;
 	}
 
@@ -272,7 +275,8 @@ class Access implements IUserTools {
 				//do not throw this message on userExists check, irritates
 				\OC::$server->getLogger()->debug(
 					"readAttribute failed for DN $dn",
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
@@ -280,7 +284,8 @@ class Access implements IUserTools {
 		if ($attributes[0] === '' && ($filter === 'objectclass=*' || $this->getLDAP()->countEntries($cr, $rr) === 1)) {
 			\OC::$server->getLogger()->debug(
 				"readAttribute: $dn found",
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return true;
 		}
 		$er = $this->getLDAP()->firstEntry($cr, $rr);
@@ -290,7 +295,10 @@ class Access implements IUserTools {
 		}
 		//LDAP attributes are not case sensitive
 		$result = Util::mb_array_change_key_case(
-			$this->getLDAP()->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+			$this->getLDAP()->getAttributes($cr, $er),
+			MB_CASE_LOWER,
+			'UTF-8'
+		);
 
 		if (!\array_key_exists('dn', $result)
 			&& \in_array('dn', $attributes, true)
@@ -448,11 +456,13 @@ class Access implements IUserTools {
 				"DN <$fdn> outside configured base domains:".
 				\print_r($this->connection->ldapBaseUsers, true).
 				" on {$this->connection->ldapHost}",
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 		} else {
 			\OC::$server->getLogger()->debug(
 				"No DN found for <$name> on {$this->connection->ldapHost}",
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 		}
 
 		return false;
@@ -572,7 +582,8 @@ class Access implements IUserTools {
 			//If the UUID can't be detected something is foul.
 			\OC::$server->getLogger()->error(
 				"Cannot determine UUID for $fdn. Skipping.",
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 
@@ -581,7 +592,8 @@ class Access implements IUserTools {
 			if (!isset($ldapDisplayName[0]) && empty($ldapDisplayName[0])) {
 				\OC::$server->getLogger()->error(
 					"No or empty name for $fdn.",
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 				return false;
 			}
 			$ldapDisplayName = $ldapDisplayName[0];
@@ -1057,7 +1069,8 @@ class Access implements IUserTools {
 			// Return an empty array just like before.
 			\OC::$server->getLogger()->debug(
 				'Could not search, because resource is missing.',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 
@@ -1071,10 +1084,12 @@ class Access implements IUserTools {
 			\OC::$server->getLogger()->error(
 				'Error when searching: '.$this->getLDAP()->error($cr).
 				' code '.$this->getLDAP()->errno($cr),
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			\OC::$server->getLogger()->error(
 				'Attempt for Paging?  '.\print_r($pagedSearchOK, true),
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 
@@ -1109,7 +1124,8 @@ class Access implements IUserTools {
 					$estimates[$key] = $estimated;
 					\OC::$server->getLogger()->debug(
 						'Page response cookie '.$this->cookie2str($cookie)." at $range, estimated<$estimated>",
-						['app' => 'user_ldap']);
+						['app' => 'user_ldap']
+					);
 					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
 				}
 			}
@@ -1128,7 +1144,8 @@ class Access implements IUserTools {
 			if ($limit !== null) {
 				\OC::$server->getLogger()->info( // TODO level debug?
 					'Paged search was not available',
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 			}
 		}
 		/* ++ Fixing RHDS searches with pages with zero results ++
@@ -1159,7 +1176,8 @@ class Access implements IUserTools {
 	private function count($filter, array $bases, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OC::$server->getLogger()->debug(
 			'Count filter:  '.\print_r($filter, true),
-			['app' => 'user_ldap']);
+			['app' => 'user_ldap']
+		);
 
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if ($limit !== null && $limit < $limitPerPage && $limit > 0) {
@@ -1172,8 +1190,13 @@ class Access implements IUserTools {
 
 		$shouldRetryForMissingCookie = true;
 		do {
-			$search = $this->executeSearch($filter, $bases, $attr,
-										   $limitPerPage, $offset);
+			$search = $this->executeSearch(
+				$filter,
+				$bases,
+				$attr,
+				$limitPerPage,
+				$offset
+			);
 			if ($search === false) {
 				if ($counter > 0) {
 					return $counter;
@@ -1189,8 +1212,14 @@ class Access implements IUserTools {
 			$counts = $this->countEntriesInSearchResults($sr);
 
 			list($hasMorePages, $estimates) = $this->processPagedSearchStatus(
-				$sr, $filter, $bases, $count, $limitPerPage,
-				$offset, $pagedSearchOK, $skipHandling
+				$sr,
+				$filter,
+				$bases,
+				$count,
+				$limitPerPage,
+				$offset,
+				$pagedSearchOK,
+				$skipHandling
 			);
 
 			// according to LDAP documentation, when cookie is missing for
@@ -1220,9 +1249,15 @@ class Access implements IUserTools {
 						// used
 						$this->countEntriesInSearchResults($sr);
 						$this->processPagedSearchStatus(
-							$retrySr, $filter, $bases, 1, $limitPerPage,
-							$reOffset, $retryPagedSearchOK,
-							true);
+							$retrySr,
+							$filter,
+							$bases,
+							1,
+							$limitPerPage,
+							$reOffset,
+							$retryPagedSearchOK,
+							true
+						);
 					}
 
 					// do not continue both retry and original query on error
@@ -1311,9 +1346,16 @@ class Access implements IUserTools {
 				$findings = \array_merge($findings, $this->getLDAP()->getEntries($cr, $res));
 			}
 
-			list($hasMorePages, ) = $this->processPagedSearchStatus($sr, $filter, $bases, $findings['count'],
-								$limit, $offset, $pagedSearchOK,
-										false);
+			list($hasMorePages, ) = $this->processPagedSearchStatus(
+				$sr,
+				$filter,
+				$bases,
+				$findings['count'],
+				$limit,
+				$offset,
+				$pagedSearchOK,
+				false
+			);
 
 			// according to LDAP documentation, when cookie is missing for
 			// continued paged search, we should retry search from scratch
@@ -1340,9 +1382,16 @@ class Access implements IUserTools {
 						// i.e. result does not need to be fetched, we just need the cookie
 						// thus pass 1 or any other value as $iFoundItems because it is not
 						// used
-						$this->processPagedSearchStatus($retrySr, $filter, $bases, 1, $limit,
-							$reOffset, $retryPagedSearchOK,
-							true);
+						$this->processPagedSearchStatus(
+							$retrySr,
+							$filter,
+							$bases,
+							1,
+							$limit,
+							$reOffset,
+							$retryPagedSearchOK,
+							true
+						);
 					}
 
 					// do not continue both retry and original query on error
@@ -1491,9 +1540,11 @@ class Access implements IUserTools {
 	 * @return string the final filter part to use in LDAP searches
 	 */
 	public function getFilterPartForUserSearch($search) {
-		return $this->getFilterPartForSearch($search,
+		return $this->getFilterPartForSearch(
+			$search,
 			$this->connection->ldapAttributesForUserSearch,
-			$this->connection->ldapUserDisplayName);
+			$this->connection->ldapUserDisplayName
+		);
 	}
 
 	/**
@@ -1502,9 +1553,11 @@ class Access implements IUserTools {
 	 * @return string the final filter part to use in LDAP searches
 	 */
 	public function getFilterPartForGroupSearch($search) {
-		return $this->getFilterPartForSearch($search,
+		return $this->getFilterPartForSearch(
+			$search,
 			$this->connection->ldapAttributesForGroupSearch,
-			$this->connection->ldapGroupDisplayName);
+			$this->connection->ldapGroupDisplayName
+		);
 	}
 
 	/**
@@ -1551,7 +1604,8 @@ class Access implements IUserTools {
 			} catch (\Exception $e) {
 				\OC::$server->getLogger()->info(
 					'Creating advanced filter for search failed, falling back to simple method.',
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 			}
 		}
 
@@ -1723,7 +1777,8 @@ class Access implements IUserTools {
 			if (\is_array($value) && isset($value[0]) && !empty($value[0])) {
 				\OC::$server->getLogger()->debug(
 					"Setting $attribute as $uuidAttr",
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 				// TODO we should make the autodetection explicit and store it in the configuration after detection
 				// TODO the UserEntry does thet ... but only for users. Get this sorted out in the wizard properly
 				$this->connection->$uuidAttr = $attribute;
@@ -1732,7 +1787,8 @@ class Access implements IUserTools {
 		}
 		\OC::$server->getLogger()->error(
 			'Could not autodetect the UUID attribute',
-			['app' => 'user_ldap']);
+			['app' => 'user_ldap']
+		);
 
 		return false;
 	}
@@ -1758,8 +1814,10 @@ class Access implements IUserTools {
 			if (!\is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true)) {
-				$uuid = $this->readAttribute($dn,
-												 $this->connection->$uuidAttr);
+				$uuid = $this->readAttribute(
+					$dn,
+					$this->connection->$uuidAttr
+				);
 			}
 			if (\is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
 				$uuid = $uuid[0];
@@ -1973,7 +2031,8 @@ class Access implements IUserTools {
 		if ($this->connection->hasPagedResultSupport) {
 			\OC::$server->getLogger()->debug(
 				'Abandoning paged search - last cookie: '.$this->cookie2str($this->lastCookie).', cookies: <'.\implode(',', \array_map([$this, 'cookie2str'], $this->cookies)).'>',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			$cr = $this->connection->getConnectionResource();
 			$this->getLDAP()->controlPagedResult($cr, 0, false, $this->lastCookie);
 			$this->getPagedSearchResultState();
@@ -2083,13 +2142,15 @@ class Access implements IUserTools {
 			\OC::$server->getLogger()->debug(
 				"Initializing paged search for Filter $filter base ".\print_r($bases, true)
 				.' attr '.\print_r($attr, true)." at $range",
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			//get the cookie from the search for the previous search, required by LDAP
 			foreach ($bases as $base) {
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 				\OC::$server->getLogger()->debug(
 					"Cookie for $base at $range is ".$this->cookie2str($cookie),
-					['app' => 'user_ldap']);
+					['app' => 'user_ldap']
+				);
 
 				// '0' is valid, because 389ds
 				if (empty($cookie) && $cookie !== '0' && ($offset > 0)) {
@@ -2098,7 +2159,8 @@ class Access implements IUserTools {
 					$this->abandonPagedSearch();
 					\OC::$server->getLogger()->debug(
 						"Cache not available for continued paged search at $range, aborting.",
-						['app' => 'user_ldap']);
+						['app' => 'user_ldap']
+					);
 					return false;
 				}
 				if ($cookie !== null) {
@@ -2107,22 +2169,28 @@ class Access implements IUserTools {
 						$this->abandonPagedSearch();
 						\OC::$server->getLogger()->debug(
 							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
-							['app' => 'user_ldap']);
+							['app' => 'user_ldap']
+						);
 					} else {
 						\OC::$server->getLogger()->debug(
 							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
-							['app' => 'user_ldap']);
+							['app' => 'user_ldap']
+						);
 					}
 					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
-						$this->connection->getConnectionResource(), $limit,
-						false, $cookie);
+						$this->connection->getConnectionResource(),
+						$limit,
+						false,
+						$cookie
+					);
 					if (!$pagedSearchOK) {
 						return false;
 					}
 				} else {
 					\OC::$server->getLogger()->debug(
 						"No paged search for us at $range",
-						['app' => 'user_ldap']);
+						['app' => 'user_ldap']
+					);
 				}
 			}
 		} elseif ($this->connection->hasPagedResultSupport && $limit === 0) {
@@ -2138,7 +2206,10 @@ class Access implements IUserTools {
 				$pageSize = 500;
 			}
 			$pagedSearchOK = $this->getLDAP()->controlPagedResult(
-				$this->connection->getConnectionResource(), $pageSize, false, ''
+				$this->connection->getConnectionResource(),
+				$pageSize,
+				false,
+				''
 			);
 		}
 

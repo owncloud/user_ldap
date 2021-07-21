@@ -114,8 +114,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($this->connection);
 
 		$this->manager = new Manager(
-			$this->config, $filesystem, $logger, $avatarManager,
-			$dbConn, $userMgr
+			$this->config,
+			$filesystem,
+			$logger,
+			$avatarManager,
+			$dbConn,
+			$userMgr
 		);
 		$this->manager->setLdapAccess($this->access);
 	}
