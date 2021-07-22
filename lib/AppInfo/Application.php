@@ -48,6 +48,16 @@ class Application extends \OCP\AppFramework\App {
 				);
 			}
 		);
+		$container->registerService(
+			Group_Proxy::class,
+			function ($c) {
+				$helper = $c->query(Helper::class);
+				return new Group_Proxy(
+					$helper->getServerConfigurationPrefixes(true),
+					new LDAP()
+				);
+			}
+		);
 	}
 
 	public function checkCompatibility() {
