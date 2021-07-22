@@ -27,8 +27,6 @@
 
 namespace OCA\User_LDAP;
 
-use OC\ServerNotAvailableException;
-use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -50,6 +48,7 @@ class User_Proxy extends Proxy implements
 	 */
 	private $backends = [];
 	private $refBackend = null;
+	private $serverConfigPrefixes = null;
 
 	/**
 	 * Constructor
@@ -57,6 +56,9 @@ class User_Proxy extends Proxy implements
 	 */
 	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
 		parent::__construct($ldap);
+
+		$this->serverConfigPrefixes = $serverConfigPrefixes;
+
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
@@ -244,7 +246,7 @@ class User_Proxy extends Proxy implements
 					return $backend->canChangeAvatar($uid);
 				}
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			\OC::$server->getLogger()->debug($e->getMessage());
 			return false;
 		}
@@ -362,5 +364,22 @@ class User_Proxy extends Proxy implements
 			$result = null;
 		}
 		return $result;
+	}
+
+	/**
+	 * Check if the last ldap query resulted in a connection error
+	 *
+	 * @throws \Exception
+	 */
+	public function checkForConnectionErrors() {
+		foreach ($this->serverConfigPrefixes as $configPrefix) {
+			$userManager = $this->getAccess($configPrefix)->getUserManager();
+			$cr = $userManager->getConnection()->getConnectionResource();
+			$errorCode = $this->ldap->errno($cr);
+
+			if ($errorCode != ldap::LDAP_SUCCESS) {
+				throw new \Exception($this->ldap->error($cr));
+			}
+		}
 	}
 }
