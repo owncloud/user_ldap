@@ -27,8 +27,6 @@
 
 namespace OCA\User_LDAP;
 
-use OC\ServerNotAvailableException;
-use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\User\IProvidesEMailBackend;
@@ -250,7 +248,7 @@ class User_Proxy extends Proxy implements
 					return $backend->canChangeAvatar($uid);
 				}
 			}
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			\OC::$server->getLogger()->debug($e->getMessage());
 			return false;
 		}
@@ -370,16 +368,23 @@ class User_Proxy extends Proxy implements
 		return $result;
 	}
 
-	public function testConnection(){
+	/**
+	 * Check if the last ldap query resulted in a connection error
+	 *
+	 * @throws \Exception
+	 */
+	public function checkForConnectionErrors(){
 		foreach ($this->serverConfigPrefixes as $configPrefix) {
 			$userManager = $this->getAccess($configPrefix)->getUserManager();
 			$cr = $userManager->getConnection()->getConnectionResource();
 
 			$errorCode = $this->ldap->errno($cr);
+			$error = $this->ldap->error($cr);
 
-			if($errorCode === -1) {
-				throw new ServerNotAvailableException('Lost connection to LDAP server.');
+			if($errorCode != ldap::LDAP_SUCCESS) {
+				throw new \Exception($error);
 			}
+
 
 		}
 	}
