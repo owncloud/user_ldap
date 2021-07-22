@@ -66,8 +66,6 @@ class User_Proxy extends Proxy implements
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
-
-
 	}
 
 	/**
@@ -373,19 +371,15 @@ class User_Proxy extends Proxy implements
 	 *
 	 * @throws \Exception
 	 */
-	public function checkForConnectionErrors(){
+	public function checkForConnectionErrors() {
 		foreach ($this->serverConfigPrefixes as $configPrefix) {
 			$userManager = $this->getAccess($configPrefix)->getUserManager();
 			$cr = $userManager->getConnection()->getConnectionResource();
-
 			$errorCode = $this->ldap->errno($cr);
-			$error = $this->ldap->error($cr);
 
-			if($errorCode != ldap::LDAP_SUCCESS) {
-				throw new \Exception($error);
+			if ($errorCode != ldap::LDAP_SUCCESS) {
+				throw new \Exception($this->ldap->error($cr));
 			}
-
-
 		}
 	}
 }
