@@ -405,4 +405,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 		}
 		return null;
 	}
+
+	public function clearConnectionCache() {
+		$this->userManager->getConnection()->clearCache();
+	}
 }

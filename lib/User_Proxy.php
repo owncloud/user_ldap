@@ -363,4 +363,21 @@ class User_Proxy extends Proxy implements
 		}
 		return $result;
 	}
+
+	public function getBackendCount() {
+		return \count($this->backends);
+	}
+
+	public function clearFullCache($callback = null) {
+		$this->clearCache();
+		if ($callback !== null) {
+			$callback($this);
+		}
+		foreach ($this->backends as $backend) {
+			$backend->clearConnectionCache();
+			if ($callback !== null) {
+				$callback($backend);
+			}
+		}
+	}
 }
