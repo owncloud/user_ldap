@@ -35,7 +35,7 @@ use OCA\User_LDAP\User\Manager;
 
 abstract class Proxy {
 	private static $accesses = [];
-	private $ldap = null;
+	protected $ldap = null;
 
 	/** @var \OCP\ICache|null */
 	private $cache;

@@ -50,6 +50,7 @@ class User_Proxy extends Proxy implements
 	 */
 	private $backends = [];
 	private $refBackend = null;
+	private $serverConfigPrefixes = null;
 
 	/**
 	 * Constructor
@@ -57,6 +58,9 @@ class User_Proxy extends Proxy implements
 	 */
 	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
 		parent::__construct($ldap);
+
+		$this->serverConfigPrefixes = $serverConfigPrefixes;
+
 		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new User_LDAP($ocConfig, $this->getAccess($configPrefix)->getUserManager());
@@ -64,6 +68,8 @@ class User_Proxy extends Proxy implements
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
+
+
 	}
 
 	/**
@@ -362,5 +368,19 @@ class User_Proxy extends Proxy implements
 			$result = null;
 		}
 		return $result;
+	}
+
+	public function testConnection(){
+		foreach ($this->serverConfigPrefixes as $configPrefix) {
+			$userManager = $this->getAccess($configPrefix)->getUserManager();
+			$cr = $userManager->getConnection()->getConnectionResource();
+
+			$errorCode = $this->ldap->errno($cr);
+
+			if($errorCode === -1) {
+				throw new ServerNotAvailableException('Lost connection to LDAP server.');
+			}
+
+		}
 	}
 }
