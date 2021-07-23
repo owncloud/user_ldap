@@ -124,7 +124,7 @@ class WizardController extends Controller {
 			case 'countGroups':
 			case 'countInBaseDN':
 				try {
-					/** @var WizardResult $result */
+					/** @var WizardResult|bool $result */
 					$result = $this->getWizard($config)->$action();
 					if ($result !== false) {
 						$data = $result->getResultArray();

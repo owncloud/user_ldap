@@ -1,4 +1,8 @@
 parameters:
   bootstrapFiles:
     - %currentWorkingDirectory%/../../lib/base.php
+  inferPrivatePropertyTypeFromConstructor: true
+  treatPhpDocTypesAsCertain: false
+  excludes_analyse:
+    - %currentWorkingDirectory%/appinfo/Migrations/*.php
   ignoreErrors:

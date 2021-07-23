@@ -40,7 +40,7 @@ class MappingController extends Controller {
 	/** @var IL10N */
 	protected $l10n;
 
-	/** @var Connection */
+	/** @var IDBConnection | Connection */
 	protected $connection;
 
 	/**

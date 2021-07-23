@@ -38,6 +38,7 @@ use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\User\UserEntry;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -266,8 +267,8 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * support this kind of parallel paging.
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|string|null $limit
+	 * @param int|string|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
@@ -323,7 +324,7 @@ class User_LDAP implements IUserBackend, UserInterface {
 	}
 
 	/**
-	 * @param $uid
+	 * @param int $uid
 	 * @return string[]|false false if user was not found
 	 */
 	public function getSearchTerms($uid) {
