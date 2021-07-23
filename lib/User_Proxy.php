@@ -246,7 +246,7 @@ class User_Proxy extends Proxy implements
 					return $backend->canChangeAvatar($uid);
 				}
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->debug($e->getMessage());
 			return false;
 		}
@@ -367,7 +367,7 @@ class User_Proxy extends Proxy implements
 	}
 
 	/**
-	 * Check if the last ldap query resulted in a connection error
+	 * Check if any connection errors occured during the latest ldap query
 	 *
 	 * @throws \Exception
 	 */
@@ -377,7 +377,7 @@ class User_Proxy extends Proxy implements
 			$cr = $userManager->getConnection()->getConnectionResource();
 			$errorCode = $this->ldap->errno($cr);
 
-			if ($errorCode != ldap::LDAP_SUCCESS) {
+			if ($errorCode != LDAP::LDAP_SUCCESS) {
 				throw new \Exception($this->ldap->error($cr));
 			}
 		}
