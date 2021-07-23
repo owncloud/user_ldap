@@ -521,4 +521,11 @@ class Group_LDAPTest extends \Test\TestCase {
 		$groupsAgain = $groupBackend->getUserGroups('userX');
 		$this->assertEquals(['group1', 'group2'], $groupsAgain);
 	}
+
+	public function testClearConnectionCache() {
+		$this->connection->expects($this->once())->method('clearCache');
+
+		$groupBackend = new GroupLDAP($this->access);
+		$groupBackend->clearConnectionCache();
+	}
 }
