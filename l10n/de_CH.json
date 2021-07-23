@@ -101,6 +101,7 @@
     "Expert" : "Experte",
     "Help" : "Hilfe",
     "Saving" : "Speichern",
+    "Saved" : "Gespeichert",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann deshalb zu unerwartetem Systemverhalten kommen. Bitte kontaktiere Deinen Systemadministator und bitte um die Deaktivierung einer der beiden Anwendungen.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte kontaktiere Deinen Systemadministrator und bitte um die Installation des Moduls.",
     "Connection Settings" : "Verbindungseinstellungen",

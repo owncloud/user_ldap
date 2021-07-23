@@ -101,6 +101,7 @@ OC.L10N.register(
     "Expert" : "Ειδικός",
     "Help" : "Βοήθεια",
     "Saving" : "Αποθήκευση",
+    "Saved" : "Αποθηκεύτηκε",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλούμε ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Προσοχή:</b> Το άρθρωμα PHP LDAP δεν είναι εγκατεστημένο και το σύστημα υποστήριξης δεν θα δουλέψει. Παρακαλούμε ζητήστε από τον διαχειριστή συστήματος να το εγκαταστήσει.",
     "Connection Settings" : "Ρυθμίσεις Σύνδεσης",

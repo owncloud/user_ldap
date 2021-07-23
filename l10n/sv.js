@@ -93,6 +93,7 @@ OC.L10N.register(
     "Expert" : "Expert",
     "Help" : "Hjälp",
     "Saving" : "Sparar",
+    "Saved" : "Sparad",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varning:</b> Apps user_ldap och user_webdavauth är inkompatibla. Oväntade problem kan uppstå. Be din systemadministratör att inaktivera en av dem.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varning:</b> PHP LDAP - modulen är inte installerad, serversidan kommer inte att fungera. Kontakta din systemadministratör för installation.",
     "Connection Settings" : "Uppkopplingsinställningar",

@@ -98,6 +98,7 @@ OC.L10N.register(
     "Expert" : "Стручњак",
     "Help" : "Помоћ",
     "Saving" : "Снимам",
+    "Saved" : "Сачувано",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Упозорење:</b> Апликације user_ldap и user_webdavauth нису компатибилне. Можете имати проблема. Питајте систем администратора да искључи једну од њих.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Упозорење:</b> ПХП ЛДАП модул није инсталиран и зачеље неће радити. Питајте систем администратора да га инсталира.",
     "Connection Settings" : "Поставке везе",

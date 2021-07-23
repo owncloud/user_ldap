@@ -95,6 +95,7 @@
     "Expert" : "حرفه ای",
     "Help" : "راهنما",
     "Saving" : "درحال ذخیره",
+    "Saved" : "ذخیره شد",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>اخطار:</b> اپلیکیشن های user_ldap و  user_webdavauth سازگار نیستند. ممکن است شما رفتار غیرقابل انتظاری را تجربه کنید. لطفا از مدیر سیستم خود بخواهید تا یکی از آن ها را غیرفعال کنند.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>اخطار:</b> ماژول php برای LDAP نصب نشده است، backend ها کار نمی کنند. لطفا از مدیر سیستم خود بخواهید تا نصب کنند.",
     "Connection Settings" : "تنظیمات اتصال",

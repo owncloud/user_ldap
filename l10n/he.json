@@ -102,6 +102,7 @@
     "Expert" : "מומחה",
     "Help" : "עזרה",
     "Saving" : "שמירה",
+    "Saved" : "נשמר",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>אזהרה:</b> מודול PHP LDAP אינו מותקן, צד אחורי לא יעבוד. יש לבקש מהמנהל המערכת להתקין אותו.",
     "Connection Settings" : "הגדרות התחברות",

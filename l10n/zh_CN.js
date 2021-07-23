@@ -100,6 +100,7 @@ OC.L10N.register(
     "Expert" : "专家",
     "Help" : "帮助",
     "Saving" : "保存中",
+    "Saved" : "已保存",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告：</b> 应用 user_ldap 和 user_webdavauth 之间不兼容。您可能遭遇未预料的行为。请让系统管理员禁用其中一个。",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告：</b> PHP LDAP 模块未安装，后端将无法工作。请请求您的系统管理员安装该模块。",
     "Connection Settings" : "连接设置",

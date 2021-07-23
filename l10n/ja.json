@@ -99,6 +99,7 @@
     "Expert" : "エキスパート設定",
     "Help" : "ヘルプ",
     "Saving" : "保存中",
+    "Saved" : "保存されました",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>警告:</b> PHP LDAP モジュールがインストールされていません。バックエンド接続が正しく動作しません。システム管理者にインストールするよう問い合わせてください。",
     "Connection Settings" : "接続設定",

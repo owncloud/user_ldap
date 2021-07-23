@@ -101,6 +101,7 @@ OC.L10N.register(
     "Expert" : "Експерт",
     "Help" : "Помощ",
     "Saving" : "Запазване",
+    "Saved" : "Запазено",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Предупреждение:</b> Приложенията user_ldap и user_webdavauth са несъвместими. Може да изпитате неочаквано поведение. Моля поискайте системния администратор да изключи едното от тях.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Предупреждение:</b> PHP LDAP модулът не е инсталиран и сървърът няма да работи. Моля поискайте системният администратор да го инсталира.",
     "Connection Settings" : "Настройки на Връзката",
