@@ -1,8 +1,6 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  *
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  * @license AGPL-3.0
