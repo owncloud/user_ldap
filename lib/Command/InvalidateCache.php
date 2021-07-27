@@ -21,12 +21,9 @@
 
 namespace OCA\User_LDAP\Command;
 
-use OCP\ICache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User_Proxy;
@@ -37,13 +34,6 @@ class InvalidateCache extends Command {
 	private $uProxy;
 	/** @var Group_Proxy */
 	private $gProxy;
-
-	/** @var UserMapping */
-	protected $mapping;
-	/**
-	 * @var ICache
-	 */
-	private $cache;
 
 	public function __construct(User_Proxy $uProxy, Group_Proxy $gProxy) {
 		$this->uProxy = $uProxy;
