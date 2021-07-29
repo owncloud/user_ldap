@@ -231,4 +231,21 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	public function isVisibleForScope($scope) {
 		return true;
 	}
+
+	public function getBackendCount() {
+		return \count($this->backends);
+	}
+
+	public function clearFullCache($callback = null) {
+		$this->clearCache();
+		if ($callback !== null) {
+			$callback($this);
+		}
+		foreach ($this->backends as $backend) {
+			$backend->clearConnectionCache();
+			if ($callback !== null) {
+				$callback($backend);
+			}
+		}
+	}
 }

@@ -30,6 +30,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\UserEntry;
+use OCA\User_LDAP\Connection;
 use OCP\IConfig;
 
 /**
@@ -369,5 +370,14 @@ class User_LDAPTest extends \Test\TestCase {
 			->willReturn($userEntry);
 
 		$this->assertFalse($this->backend->canChangeAvatar('usertest'));
+	}
+
+	public function testClearConnectionCache() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects($this->once())->method('clearCache');
+
+		$this->manager->method('getConnection')->willReturn($connection);
+
+		$this->backend->clearConnectionCache();
 	}
 }

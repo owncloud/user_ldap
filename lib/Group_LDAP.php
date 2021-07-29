@@ -957,4 +957,8 @@ class Group_LDAP implements \OCP\GroupInterface {
 	public function isVisibleForScope($scope) {
 		return true;
 	}
+
+	public function clearConnectionCache() {
+		$this->access->getConnection()->clearCache();
+	}
 }
