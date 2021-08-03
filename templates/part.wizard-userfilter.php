@@ -21,15 +21,23 @@
 			<select id="ldap_userfilter_groups" multiple="multiple" name="ldap_userfilter_groups" class="multiSelectPlugin"></select>
 		</div>
 
-		<div class="tablerow ldapManyGroupsSupport hidden">
-			<label><?php p($l->t('Available groups'));?></label>
-			<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"></select>
-			<span class="buttonSpan">
+		<div class="tablerow ldapManyGroupsSupport">
+			<div>
+				<label><?php p($l->t('Available groups'));?></label>
+				<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"></select>
+			</div>
+
+			<div class="selectbuttonwrap">
+				<label>&nbsp;</label>
 				<button class="ldapGroupListSelect" type="button">&gt;</button>
 				<button class="ldapGroupListDeselect" type="button">&lt;</button>
-			</span>
-			<label><?php p($l->t('Selected groups'));?></label>
-			<select class="ldapGroupList ldapGroupListSelected" multiple="multiple"></select>
+			</div>
+
+			<div>
+				<label><?php p($l->t('Selected groups'));?></label>
+				<select class="ldapGroupList ldapGroupListSelected" multiple="multiple"></select>	
+			</div>
+			
 		</div>
 
 		<div class="tablerow">
