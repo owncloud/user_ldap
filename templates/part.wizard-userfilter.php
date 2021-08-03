@@ -21,7 +21,7 @@
 			<select id="ldap_userfilter_groups" multiple="multiple" name="ldap_userfilter_groups" class="multiSelectPlugin"></select>
 		</div>
 
-		<div class="tablerow ldapManyGroupsSupport">
+		<div class="tablerow ldapManyGroupsSupport hidden">
 			<div>
 				<label><?php p($l->t('Available groups'));?></label>
 				<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"></select>
