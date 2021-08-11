@@ -192,6 +192,10 @@ class Helper {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
+		if (isset($param['hasBeenHandled']) && $param['hasBeenHandled']) {
+			return;
+		}
+
 		$configPrefixes = $this->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		$ocConfig = \OC::$server->getConfig();
@@ -204,6 +208,7 @@ class Helper {
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
 			$param['uid'] = $uid;
+			$param['hasBeenHandled'] = true;
 		}
 	}
 
