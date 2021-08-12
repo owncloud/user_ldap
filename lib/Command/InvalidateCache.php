@@ -44,7 +44,7 @@ class InvalidateCache extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:invalidate-cache')
-			->setDescription('invalidates the cache for given users or all users.');
+			->setDescription('invalidates the LDAP cache.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
