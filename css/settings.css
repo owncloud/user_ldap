@@ -185,6 +185,42 @@
 	width: auto;
 }
 
+.ldapManyGroupsSupport {
+	display: flex;
+	align-items: center;
+}
+
+.ldapManyGroupsSupport > div:first-child,
+.ldapManyGroupsSupport > div:last-child {
+	width: 20rem;
+}
+
+.ldapManyGroupsSupport > div {
+	height: 10rem;
+}
+
+.ldapManyGroupsSupport select {
+	height: calc(100% - 20px) !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+
+.ldapManyGroupsSupport .selectbuttonwrap {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	justify-content: center;
+	padding: 0 1rem;
+}
+
+.ldapManyGroupsSupport .selectbuttonwrap button {
+	margin: 0;
+}
+
+.ldapManyGroupsSupport .selectbuttonwrap button:first-child{
+	margin-bottom: 10px;
+}
+
 .ldapManyGroupsSupport .buttonSpan {
 	display: inline-block;
 	vertical-align: top;
@@ -295,7 +331,6 @@ select[multiple=multiple] + button {
 @media all and (min-width: 768px) {
 	#ldap .header {
 		top: 3.5em;
-		width: calc(750% - 40px);
 	}
 }
 
