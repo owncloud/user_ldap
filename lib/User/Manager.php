@@ -489,6 +489,7 @@ class Manager {
 	 * @param integer $limit
 	 * @param integer $offset
 	 * @return string[] an array of all uids
+	 * @throws OutOfBoundsException
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
@@ -521,17 +522,12 @@ class Manager {
 		);
 		$ownCloudUserNames = [];
 		foreach ($ldap_users as $ldapEntry) {
-			try {
-				$userEntry = $this->getFromEntry($ldapEntry);
-				$this->logger->debug(
-					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".\json_encode($ldapEntry),
-					['app' => self::class]
-				);
-				$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
-			} catch (\OutOfBoundsException $e) {
-				// tell the admin why we skip the user
-				$this->logger->logException($e, ['app' => self::class]);
-			}
+			$userEntry = $this->getFromEntry($ldapEntry);
+			$this->logger->debug(
+				"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".\json_encode($ldapEntry),
+				['app' => self::class]
+			);
+			$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
 		}
 
 		$this->logger->debug('getUsers: '.\count($ownCloudUserNames). ' Users found', ['app' => self::class]);
