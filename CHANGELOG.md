@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+### Changed
+- Change color of warning sign for expert settings [#678](https://github.com/owncloud/user_ldap/pull/678)
 
 ## [0.15.4] - 2021-07-13
 
