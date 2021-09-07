@@ -2915,7 +2915,7 @@ def ldapIntegration(ctx):
 
     default = {
         "servers": ["daily-master-qa"],
-        "phpVersions": ["7.2"],
+        "phpVersions": ["7.4"],
         "databases": ["mysql:8.0"],
         "ldapNeeded": True,
         "logLevel": "2",
