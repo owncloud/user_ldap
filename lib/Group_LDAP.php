@@ -221,8 +221,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute(
 			$dnGroup,
-			$this->access->getConnection()->ldapGroupMemberAssocAttr,
-			$this->access->getConnection()->ldapGroupFilter
+			$this->access->getConnection()->ldapGroupMemberAssocAttr
 		);
 		if (\is_array($members)) {
 			foreach ($members as $memberDN) {
