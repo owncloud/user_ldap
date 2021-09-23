@@ -49,7 +49,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function createNewLdapConfig($configId) {
+	public function createNewLdapConfig(string $configId):void {
 		$occResult = SetupHelper::runOcc(
 			['ldap:create-empty-config', $configId]
 		);
@@ -73,10 +73,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws Exception
 	 */
 	public function ldapConfigHasKeySetTo(
-		$configId,
-		$configKey,
-		$configValue
-	) {
+		string $configId,
+		string $configKey,
+		string $configValue
+	):void {
 		$oldConfig = $this->featureContext->getOldLdapConfig();
 		if (!isset($oldConfig[$configId][$configKey])) {
 			//remember old settings to be able to set them back after test run
@@ -116,7 +116,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function ldapConfigHasTheseSettings($configId, TableNode $table) {
+	public function ldapConfigHasTheseSettings(
+		string $configId,
+		TableNode $table
+	):void {
 		foreach ($table as $line) {
 			$this->ldapConfigHasKeySetTo(
 				$configId,
@@ -134,7 +137,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws Exception
 	 * @return void
 	 */
-	public function ldapUserIsSynced($user) {
+	public function ldapUserIsSynced(string $user):void {
 		$this->featureContext->runOcc(
 			['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
 		);
@@ -152,7 +155,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function theAdminListsTheEnabledBackendsUsingTheOccCommand() {
+	public function theAdminListsTheEnabledBackendsUsingTheOccCommand():void {
 		$this->featureContext->runOcc(["user:sync -l"]);
 	}
 
@@ -168,11 +171,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws LdapException
 	 */
 	public function setTheLdapAttributeOfTheEntryTo(
-		$attribute,
-		$entry,
-		$value,
-		$append=false
-	) {
+		string $attribute,
+		string $entry,
+		string $value,
+		bool $append = false
+	):void {
 		$ldap = $this->featureContext->getLdap();
 		$ldapEntry = $ldap->getEntry($entry . "," . $this->featureContext->getLdapBaseDN());
 		Laminas\Ldap\Attribute::setAttribute($ldapEntry, $attribute, $value, $append);
@@ -189,7 +192,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws LdapException
 	 */
-	public function theLdapAttributeOfTheEntryToTable($attribute, $entry, $table) {
+	public function theLdapAttributeOfTheEntryToTable(
+		string $attribute,
+		string $entry,
+		TableNode $table
+	):void {
 		$first = true;
 		foreach ($table as $row) {
 			if ($first) {
@@ -220,10 +227,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws LdapException
 	 */
 	public function theLdapAttributeOfTheEntryToContentOfFile(
-		$attribute,
-		$entry,
-		$filename
-	) {
+		string $attribute,
+		string $entry,
+		string $filename
+	):void {
 		$value = \file_get_contents(\getenv("FILES_FOR_UPLOAD") . $filename);
 
 		$this->setTheLdapAttributeOfTheEntryTo(
@@ -243,7 +250,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws LdapException
 	 */
-	public function addValueToLdapAttributeOfTheEntry($value, $attribute, $entry) {
+	public function addValueToLdapAttributeOfTheEntry(
+		string $value,
+		string $attribute,
+		string $entry
+	):void {
 		$this->setTheLdapAttributeOfTheEntryTo($attribute, $entry, $value, true);
 	}
 
@@ -255,7 +266,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws LdapException
 	 */
-	public function deleteTheLdapEntry($entry) {
+	public function deleteTheLdapEntry(string $entry):void {
 		$ldap = $this->featureContext->getLdap();
 		$ldap->delete($entry . "," . $this->featureContext->getLdapBaseDN());
 	}
@@ -270,7 +281,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws LdapException
 	 */
-	public function deleteValueFromLdapAttribute($value, $attribute, $entry) {
+	public function deleteValueFromLdapAttribute(
+		string $value,
+		string $attribute,
+		string $entry
+	):void {
 		$ldap = $this->featureContext->getLdap();
 		$ldap->deleteAttributes(
 			$entry . "," . $this->featureContext->getLdapBaseDN(),
@@ -286,7 +301,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 *
 	 * @return void
 	 */
-	public function theAdminImportsThisLdifData(PyStringNode $ldifData) {
+	public function theAdminImportsThisLdifData(PyStringNode $ldifData):void {
 		$this->featureContext->importLdifData($ldifData->getRaw());
 	}
 
@@ -304,7 +319,11 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws LdapException
 	 */
-	public function createLDAPUsers($amount, $prefix, $ou) {
+	public function createLDAPUsers(
+		int $amount,
+		string $prefix,
+		string $ou
+	):void {
 		$ldap = $this->featureContext->getLdap();
 		$uidNumberSearch = $ldap->searchEntries(
 			'objectClass=posixAccount',
@@ -374,7 +393,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
+	public function setUpBeforeScenario(BeforeScenarioScope $scope):void {
 		$environment = $scope->getEnvironment();
 		// Get all the contexts you need in this context
 		$this->featureContext = $environment->getContext('FeatureContext');
@@ -388,7 +407,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function theUsersShouldHave($usersList) {
+	public function theUsersShouldHave(TableNode $usersList):void {
 		$this->featureContext->verifyTableNodeColumnsCount($usersList, 1);
 		$users = $usersList->getRows();
 		$usersSimplified = $this->featureContext->simplifyArray($users);

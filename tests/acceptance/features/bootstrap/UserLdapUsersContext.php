@@ -23,6 +23,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\MinkExtension\Context\RawMinkContext;
+use Laminas\Ldap\Exception\LdapException;
 
 require_once 'bootstrap.php';
 
@@ -46,12 +47,15 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @When the administrator creates group :group in ldap OU :ou
 	 *
 	 * @param string $group
-	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
+	 * @param string|null $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Laminas\Ldap\Exception\LdapException
+	 * @throws LdapException
 	 */
-	public function createLdapGroup($group, $ou = null) {
+	public function createLdapGroup(
+		string $group,
+		?string $ou = null
+	):void {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
@@ -74,12 +78,16 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 *
 	 * @param string $user
 	 * @param string $group
-	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
+	 * @param string|null $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Laminas\Ldap\Exception\LdapException
+	 * @throws LdapException
 	 */
-	public function addUserToLdapGroup($user, $group, $ou = null) {
+	public function addUserToLdapGroup(
+		string $user,
+		string $group,
+		?string $ou = null
+	):void {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
@@ -100,12 +108,16 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 *
 	 * @param string $user
 	 * @param string $group
-	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
+	 * @param string|null $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Laminas\Ldap\Exception\LdapException
+	 * @throws LdapException
 	 */
-	public function removeUserFromLdapGroup($user, $group, $ou = null) {
+	public function removeUserFromLdapGroup(
+		string $user,
+		string $group,
+		?string $ou = null
+	):void {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
@@ -121,12 +133,15 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @When the administrator deletes group :group in ldap OU :ou
 	 *
 	 * @param string $group
-	 * @param string $ou if null ldapGroupsOU from behat.yml will be used
+	 * @param string|null $ou if null ldapGroupsOU from behat.yml will be used
 	 *
 	 * @return void
-	 * @throws \Laminas\Ldap\Exception\LdapException
+	 * @throws LdapException
 	 */
-	public function deleteLdapGroup($group, $ou = null) {
+	public function deleteLdapGroup(
+		string $group,
+		?string $ou = null
+	):void {
 		if ($ou === null) {
 			$ou = $this->featureContext->getLdapGroupsOU();
 		}
@@ -140,7 +155,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 *
 	 * @return void
 	 */
-	public function setUpBeforeScenario(BeforeScenarioScope $scope) {
+	public function setUpBeforeScenario(BeforeScenarioScope $scope):void {
 		$environment = $scope->getEnvironment();
 		// Get all the contexts you need in this context
 		$this->userLdapGeneralContext = $environment->getContext(
