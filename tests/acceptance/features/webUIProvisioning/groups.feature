@@ -70,9 +70,9 @@ Feature: add group
   Scenario: Adding database user to LDAP group should not be possible
     Given user "db-user" has been created with default attributes in the database user backend
     And the administrator has browsed to the users page
-    When the administrator adds user "db-user" to group "grp1" using the webUI
+    When the administrator tries to add user "db-user" to group "grp1" using the webUI
     Then user "db-user" should exist
-    And user "db-user" should not belong to group "grp1"
+    But user "db-user" should not belong to group "grp1"
 
   Scenario: Adding LDAP user to database group should be possible
     Given group "db-group" has been created in the database user backend
@@ -84,6 +84,6 @@ Feature: add group
   @issue-core-25224
   Scenario: Adding LDAP user to LDAP group should not be possible
     Given the administrator has browsed to the users page
-    When the administrator adds user "Alice" to group "grp1" using the webUI
+    When the administrator tries to add user "Alice" to group "grp1" using the webUI
     Then user "Alice" should exist
-    And user "Alice" should not belong to group "grp1"
+    But user "Alice" should not belong to group "grp1"
