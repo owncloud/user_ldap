@@ -6,7 +6,6 @@ dir = {
 }
 
 config = {
-    "app": "user_ldap",
     "rocketchat": {
         "channel": "builds",
         "from_secret": "private_rocketchat",
@@ -1210,7 +1209,7 @@ def phpstan(ctx):
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
                 "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
-                         installApp(ctx, phpVersion) +
+                         installAppPhp(ctx, phpVersion) +
                          installExtraApps(phpVersion, params["extraApps"]) +
                          setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
                          [
@@ -1455,7 +1454,7 @@ def javascript(ctx, withCoverage):
             "path": "server/apps/%s" % ctx.repo.name,
         },
         "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
-                 installApp(ctx, "7.4") +
+                 installAppJavaScript(ctx) +
                  setupServerAndApp(ctx, "7.4", params["logLevel"], False, params["enableApp"]) +
                  params["extraSetup"] +
                  [
@@ -1627,7 +1626,7 @@ def phpTests(ctx, testType, withCoverage):
                         "path": "server/apps/%s" % ctx.repo.name,
                     },
                     "steps": installCore(ctx, "daily-master-qa", db, False) +
-                             installApp(ctx, phpVersion) +
+                             installAppPhp(ctx, phpVersion) +
                              installExtraApps(phpVersion, params["extraApps"]) +
                              setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
                              setupCeph(params["cephS3"]) +
@@ -1958,7 +1957,8 @@ def acceptance(ctx):
                     "steps": installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
                              installTestrunner(ctx, "7.4", testConfig["useBundledApp"]) +
                              (installFederated(testConfig["server"], testConfig["phpVersion"], testConfig["logLevel"], testConfig["database"], federationDbSuffix) + owncloudLog("federated") if testConfig["federatedServerNeeded"] else []) +
-                             installApp(ctx, testConfig["phpVersion"]) +
+                             installAppPhp(ctx, testConfig["phpVersion"]) +
+                             installAppJavaScript(ctx) +
                              installExtraApps(testConfig["phpVersion"], testConfig["extraApps"]) +
                              setupServerAndApp(ctx, testConfig["phpVersion"], testConfig["logLevel"], testConfig["federatedServerNeeded"], params["enableApp"]) +
                              owncloudLog("server") +
@@ -2493,35 +2493,53 @@ def installExtraApps(phpVersion, extraApps):
         "commands": commandArray,
     }]
 
-def installApp(ctx, phpVersion):
-    if "appInstallCommand" not in config:
+def installAppPhp(ctx, phpVersion):
+    if "appInstallCommandPhp" not in config:
         return []
 
-    if "buildJsDeps" not in config:
-        installJsDeps = False
-    else:
-        installJsDeps = config["buildJsDeps"]
-
-    return ([
+    # config["appInstallCommandPhp"] must be the command that is needed to
+    # install just the PHP-related part of the app. The docker image has PHP
+    # and "base" tools. But it does not have JavaScript tools like nodejs,
+    # npm, yarn etc.
+    return [
         {
-            "name": "install-app-js-%s" % config["app"],
-            "image": "owncloudci/nodejs:%s" % getNodeJsVersion(),
+            "name": "install-app-php-%s" % ctx.repo.name,
+            "image": "owncloudci/php:%s" % phpVersion,
             "pull": "always",
             "commands": [
-                "cd /var/www/owncloud/server/apps/%s" % config["app"],
-                "make install-js-deps",
-                "make build-dev",
+                "cd %s/apps/%s" % (dir["server"], ctx.repo.name),
+                config["appInstallCommandPhp"],
             ],
         },
-    ] if installJsDeps else []) + [{
-        "name": "install-app-%s" % ctx.repo.name,
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
-        "commands": [
-            "cd %s/apps/%s" % (dir["server"], ctx.repo.name),
-            config["appInstallCommand"],
-        ],
-    }]
+    ]
+
+def installAppJavaScript(ctx):
+    nothingToDo = True
+    commandArray = [
+        "cd %s/apps/%s" % (dir["server"], ctx.repo.name),
+    ]
+
+    if "appInstallCommandJavaScript" in config:
+        nothingToDo = False
+        commandArray.append(config["appInstallCommandJavaScript"])
+
+    if "buildJsDeps" in config:
+        if config["buildJsDeps"]:
+            nothingToDo = False
+            commandArray.append("make install-js-deps")
+            commandArray.append("make build-dev")
+
+    if (nothingToDo):
+        return []
+
+    return [
+        {
+            "name": "install-app-js-%s" % ctx.repo.name,
+            "image": "owncloudci/nodejs:%s" % getNodeJsVersion(),
+            "pull": "always",
+            "commands": commandArray,
+        },
+    ]
 
 def setupServerAndApp(ctx, phpVersion, logLevel, federatedServerNeeded = False, enableApp = True):
     return [{
@@ -2957,10 +2975,10 @@ def ldapIntegration(ctx):
                             "name": name,
                             "workspace": {
                                 "base": "/var/www/owncloud",
-                                "path": "server/apps/%s" % config["app"],
+                                "path": "server/apps/%s" % ctx.repo.name,
                             },
                             "steps": installCore(ctx, server, db, False) +
-                                     installApp(ctx, phpVersion) +
+                                     installAppPhp(ctx, phpVersion) +
                                      setupServerAndApp(ctx, phpVersion, params["logLevel"]) +
                                      [
                                          ({
