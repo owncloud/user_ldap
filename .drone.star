@@ -20,12 +20,12 @@ config = {
     "phpunit": {
         "allDatabases": {
             "phpVersions": [
-                "7.3",
+                "7.4",
             ],
         },
         "reducedDatabases": {
             "phpVersions": [
-                "7.4",
+                "7.3",
             ],
             "databases": [
                 "mysql:8.0",
