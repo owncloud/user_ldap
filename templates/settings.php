@@ -203,6 +203,28 @@ style('user_ldap', 'settings');
 							</select>
 						</div>
 						<div class="tablerow">
+							<label for="ldap_group_member_algo"><?php p($l->t('Group-Member algorithm')); ?></label>
+							<select id="ldap_group_member_algo" name="ldap_group_member_algo" data-default="<?php p($_['ldap_group_member_algo_default']); ?>" >
+								<option value="groupScan"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'groupScan')) {
+			p(' selected');
+		} ?>>groupScan</option>
+								<option value="memberOf"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'memberOf')) {
+			p(' selected');
+		} ?>>memberOf</option>
+								<option value="recursiveMemberOf"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'recursiveMemberOf')) {
+			p(' selected');
+		} ?>>recursiveMemberOf (AD)</option>
+							</select>
+							<div class="hint">
+								<?php p($l->t('Algorithm to be used when searching for members in a group. In case of doubt, "%s" is the safe choice. Note that you\'re responsible of fulfilling the restrictions in order to use any algorithm; the app will behave erratically if the restrictions aren\'t fulfilled', ['groupScan'])); ?>
+								<ul>
+									<li>groupScan: <?php p($l->t('Scan the group looking for users. This is the basic method and works without restrictions. It supports nested groups')) ;?></li>
+									<li>memberOf: <?php p($l->t('Search the members using the "memberOf" attribute. It requires support for the "memberOf" attribute, and it doesn\'t work with nested groups')) ;?></li>
+									<li>recursiveMemberOf (AD): <?php p($l->t('Search the members using the "memberOf" attribute in a recursive way. It requires support for the "memberOf" attribute and support for the "LDAP_MATCHING_RULE_IN_CHAIN" operator, it works with nested groups. Its main target is AD servers')) ;?></li>
+								</ul>
+							</div>
+						</div>
+						<div class="tablerow">
 							<label for="ldap_dynamic_group_member_url"><?php p($l->t('Dynamic Group Member URL')); ?></label><input type="text" id="ldap_dynamic_group_member_url" name="ldap_dynamic_group_member_url" data-default="<?php p($_['ldap_dynamic_group_member_url_default']); ?>" />
 							<div class="hint">
 								<?php p($l->t('The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)')); ?>
