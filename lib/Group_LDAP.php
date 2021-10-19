@@ -109,45 +109,56 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return false;
 		}
 
-		//check primary group first
-		if ($gid === $this->getUserPrimaryGroup($userDN)) {
-			$this->access->getConnection()->writeToCache($cacheKey, true);
-			return true;
-		}
-
-		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = $this->_groupMembers($groupDN);
-		$members = \array_keys($members); // uids are returned as keys
-		if (!\is_array($members) || \count($members) === 0) {
-			$this->access->getConnection()->writeToCache($cacheKey, false);
-			return false;
-		}
-
-		//extra work if we don't get back user DNs
-		if (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid') {
-			$dns = [];
-			$filterParts = [];
-			$bytes = 0;
-			foreach ($members as $mid) {
-				$filter = \str_replace('%uid', $mid, $this->access->getConnection()->ldapLoginFilter);
-				$filterParts[] = $filter;
-				$bytes += \strlen($filter);
-				if ($bytes >= 9000000) {
-					// AD has a default input buffer of 10 MB, we do not want
-					// to take even the chance to exceed it
-					$filter = $this->access->combineFilterWithOr($filterParts);
-					$bytes = 0;
-					$filterParts = [];
-					$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
-					$dns = \array_merge($dns, $users);
+		$groupMemberAlgo = $this->access->getConnection()->ldapGroupMemberAlgo;
+		switch ($groupMemberAlgo) {
+			case "recursiveMemberOf":
+				$members = $this->getGroupUsersViaRecursiveMemberOf($groupDN, ['dn']);
+				break;
+			case "memberOf":
+				// groupScan works noticeable faster in this case so use the same algorithm
+			case "groupScan":
+			default:
+				//check primary group first
+				if ($gid === $this->getUserPrimaryGroup($userDN)) {
+					$this->access->getConnection()->writeToCache($cacheKey, true);
+					return true;
 				}
-			}
-			if (\count($filterParts) > 0) {
-				$filter = $this->access->combineFilterWithOr($filterParts);
-				$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
-				$dns = \array_merge($dns, $users);
-			}
-			$members = $dns;
+
+				//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
+				$members = $this->_groupMembers($groupDN);
+				$members = \array_keys($members); // uids are returned as keys
+				if (!\is_array($members) || \count($members) === 0) {
+					$this->access->getConnection()->writeToCache($cacheKey, false);
+					return false;
+				}
+
+				//extra work if we don't get back user DNs
+				if (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid') {
+					$dns = [];
+					$filterParts = [];
+					$bytes = 0;
+					foreach ($members as $mid) {
+						$filter = \str_replace('%uid', $mid, $this->access->getConnection()->ldapLoginFilter);
+						$filterParts[] = $filter;
+						$bytes += \strlen($filter);
+						if ($bytes >= 9000000) {
+							// AD has a default input buffer of 10 MB, we do not want
+							// to take even the chance to exceed it
+							$filter = $this->access->combineFilterWithOr($filterParts);
+							$bytes = 0;
+							$filterParts = [];
+							$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
+							$dns = \array_merge($dns, $users);
+						}
+					}
+					if (\count($filterParts) > 0) {
+						$filter = $this->access->combineFilterWithOr($filterParts);
+						$users = $this->access->fetchListOfUsers($filter, 'dn', \count($filterParts));
+						$dns = \array_merge($dns, $users);
+					}
+					$members = $dns;
+				}
+				break;
 		}
 
 		$isInGroup = \in_array($userDN, $members);
@@ -663,45 +674,21 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return [];
 		}
 
-		$escapedGroupDn = $this->access->getConnection()->getLDAP()->escape($groupDN, null, LDAP_ESCAPE_FILTER);
 		$groupUsers = [];
-		$attrs = $this->access->getUserManager()->getAttributes(true);
 
 		$groupMemberAlgo = $this->access->getConnection()->ldapGroupMemberAlgo;
 		switch ($groupMemberAlgo) {
 			case "memberOf":
-				$groupID = $this->getGroupPrimaryGroupID($groupDN);
-				if ($groupID === false) {
-					$memberofFilter = "(memberOf={$escapedGroupDn})";
-				} else {
-					$memberofFilter = "(|(primaryGroupId={$groupID})(memberOf={$escapedGroupDn}))";
-				}
-				$filter = $this->access->combineFilterWithAnd([
-					$this->access->getConnection()->ldapUserFilter,
-					$memberofFilter,
-					$this->access->getFilterPartForUserSearch($search),
-				]);
-				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs);
+				$groupUsers = $this->getGroupUsersViaMemberOf($groupDN, ['dn'], $search);
 				$groupUsers = \array_map(function ($item) {
-					return $this->access->dn2username($item['dn'][0]);
-				}, $ldap_users);
+					return $this->access->dn2username($item);
+				}, $groupUsers);
 				break;
 			case "recursiveMemberOf":
-				$groupID = $this->getGroupPrimaryGroupID($groupDN);
-				if ($groupID === false) {
-					$memberofFilter = "(memberOf:1.2.840.113556.1.4.1941:={$escapedGroupDn})";
-				} else {
-					$memberofFilter = "(|(primaryGroupId={$groupID})(memberOf:1.2.840.113556.1.4.1941:={$escapedGroupDn}))";
-				}
-				$filter = $this->access->combineFilterWithAnd([
-					$this->access->getConnection()->ldapUserFilter,
-					$memberofFilter,
-					$this->access->getFilterPartForUserSearch($search),
-				]);
-				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs);
+				$groupUsers = $this->getGroupUsersViaRecursiveMemberOf($groupDN, ['dn'], $search);
 				$groupUsers = \array_map(function ($item) {
-					return $this->access->dn2username($item['dn'][0]);
-				}, $ldap_users);
+					return $this->access->dn2username($item);
+				}, $groupUsers);
 				break;
 			case "groupScan":
 			default:
@@ -713,6 +700,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 					return [];
 				}
 
+				$attrs = $this->access->getUserManager()->getAttributes(true);
 				$isMemberUid = (\strtolower($this->access->getConnection()->ldapGroupMemberAssocAttr) === 'memberuid');
 				foreach ($members as $member) {
 					if ($isMemberUid) {
@@ -751,7 +739,6 @@ class Group_LDAP implements \OCP\GroupInterface {
 				break;
 		}
 
-
 		\natsort($groupUsers);
 		$this->access->getConnection()->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = \array_slice($groupUsers, $offset, $limit);
@@ -759,6 +746,43 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$this->access->getConnection()->writeToCache($cacheKey, $groupUsers);
 
 		return $groupUsers;
+	}
+
+	private function getGroupUsersViaMemberOf($groupDN, $attrs, $search = null) {
+		$escapedGroupDn = $this->access->getConnection()->getLDAP()->escape($groupDN, null, LDAP_ESCAPE_FILTER);
+		$groupID = $this->getGroupPrimaryGroupID($groupDN);
+		if ($groupID === false) {
+			$memberofFilter = "(memberOf={$escapedGroupDn})";
+		} else {
+			$memberofFilter = "(|(primaryGroupId={$groupID})(memberOf={$escapedGroupDn}))";
+		}
+		return $this->_getGroupUsersFromMemberOf($memberofFilter, $attrs, $search);
+	}
+
+	private function getGroupUsersViaRecursiveMemberOf($groupDN, $attrs, $search = null) {
+		$escapedGroupDn = $this->access->getConnection()->getLDAP()->escape($groupDN, null, LDAP_ESCAPE_FILTER);
+		$groupID = $this->getGroupPrimaryGroupID($groupDN);
+		if ($groupID === false) {
+			$memberofFilter = "(memberOf:1.2.840.113556.1.4.1941:={$escapedGroupDn})";
+		} else {
+			$memberofFilter = "(|(primaryGroupId={$groupID})(memberOf:1.2.840.113556.1.4.1941:={$escapedGroupDn}))";
+		}
+		return $this->_getGroupUsersFromMemberOf($memberofFilter, $attrs, $search);
+	}
+
+	private function _getGroupUsersFromMemberOf($memberofFilter, $attrs, $search = null) {
+		$filtersArray = [
+			$this->access->getConnection()->ldapUserFilter,
+			$memberofFilter,
+		];
+		// include the search filter if it isn't null
+		if ($search !== null) {
+			$filtersArray[] = $this->access->getFilterPartForUserSearch($search);
+		}
+
+		$filter = $this->access->combineFilterWithAnd($filtersArray);
+		$ldap_users = $this->access->fetchListOfUsers($filter, $attrs);
+		return $ldap_users;
 	}
 
 	/**
