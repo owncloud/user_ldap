@@ -518,8 +518,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (\intval($this->access->getConnection()->hasMemberOfFilterSupport) === 1
 			&& \intval($this->access->getConnection()->useMemberOfToDetectMembership) === 1
 		) {
-			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
-			$groupDNs = $this->access->groupsMatchFilter($groupDNs);
+			$groupDNs = $this->access->groupsMatchFilter(
+				$this->_getGroupDNsFromMemberOf($userDN)
+			);
 			if (\is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
 					$groupName = $this->access->dn2groupname($dn);
