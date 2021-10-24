@@ -192,8 +192,8 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		echo "adminSendsUserCreationRequestLdap end getRowsHash\n";
 		$username = $this->featureContext->getActualUsername($table["username"]);
 		$password = $this->featureContext->getActualPassword($table["password"]);
-		$displayname = \array_key_exists("displayname", $table) ? $table["displayname"] : null;
-		$email = \array_key_exists("email", $table) ? $table["email"] : null;
+		$displayname = \array_key_exists("displayname", $table) ? $table["displayname"] : "";
+		$email = \array_key_exists("email", $table) ? $table["email"] : "";
 		$userAttributes = [
 			"userid" => $username,
 			"password" => $password,
