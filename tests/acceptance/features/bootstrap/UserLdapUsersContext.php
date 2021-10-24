@@ -203,7 +203,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 
 		$userAttributesTable = [
 			["userid", $username],
-			["passowrd", $password],
+			["password", $password],
 			["displayname", $displayname],
 			["email", $email]
 		];
