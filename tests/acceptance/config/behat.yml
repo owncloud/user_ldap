@@ -35,6 +35,7 @@ default:
         - UserLdapUsersContext:
         - FeatureContext: *common_feature_context_params
         - OccContext:
+        - OcsContext:
 
     cliProvisioning:
       paths:
