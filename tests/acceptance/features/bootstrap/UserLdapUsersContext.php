@@ -171,7 +171,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 			'FeatureContext'
 		);
 		$this->ocsContext = $environment->getContext(
-			'OcsContext'
+			'OCSContext'
 		);
 	}
 
