@@ -201,12 +201,18 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 			"email" => $email
 		];
 
+		$userAttributesTable = [
+			["userid", $username],
+			["passowrd", $password],
+			["displayname", $displayname],
+			["email", $email]
+		];
 		echo "adminSendsUserCreationRequestLdap userSendsHTTPMethodToOcsApiEndpointWithBody\n";
 		$this->userSendsHTTPMethodToOcsApiEndpointWithBody(
 			$this->featureContext->getAdminUsername(),
 			"POST",
 			"/cloud/users",
-			new TableNode($userAttributes)
+			new TableNode($userAttributesTable)
 		);
 		echo "adminSendsUserCreationRequestLdap addUserToCreatedUsersList\n";
 		$this->featureContext->addUserToCreatedUsersList(
