@@ -7,7 +7,7 @@ Feature: Manage users using the Provisioning API
   Scenario: Admin creates a regular user
     Given using OCS API version "1"
     And user "Alice" has been deleted
-    When the administrator sends a user creation request with the following attributes using the provisioning API:
+    When the administrator sends a user creation request with the following attributes using the provisioning API and LDAP:
       | username    | Alice          |
       | password    | %alt1%         |
       | displayname | Brand New User |

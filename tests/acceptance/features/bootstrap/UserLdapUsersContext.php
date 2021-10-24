@@ -22,6 +22,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Laminas\Ldap\Exception\LdapException;
 
@@ -42,6 +43,11 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 	 * @var FeatureContext
 	 */
 	private $featureContext;
+
+	/**
+	 * @var OCSContext
+	 */
+	private $ocsContext;
 
 	/**
 	 * @When the administrator creates group :group in ldap OU :ou
@@ -164,5 +170,51 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		$this->featureContext = $environment->getContext(
 			'FeatureContext'
 		);
+		$this->ocsContext = $environment->getContext(
+			'OcsContext'
+		);
+	}
+
+	/**
+	 * @When the administrator sends a user creation request with the following attributes using the provisioning API and LDAP:
+	 *
+	 * @param TableNode $table
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	public function adminSendsUserCreationRequestLdap(TableNode $table):void {
+		echo "adminSendsUserCreationRequestLdap start\n";
+		$this->featureContext->verifyTableNodeRows($table, ["username", "password"], ["email", "displayname"]);
+		echo "adminSendsUserCreationRequestLdap getRowsHash\n";
+		$table = $table->getRowsHash();
+		echo "adminSendsUserCreationRequestLdap end getRowsHash\n";
+		$username = $this->featureContext->getActualUsername($table["username"]);
+		$password = $this->featureContext->getActualPassword($table["password"]);
+		$displayname = \array_key_exists("displayname", $table) ? $table["displayname"] : null;
+		$email = \array_key_exists("email", $table) ? $table["email"] : null;
+		$userAttributes = [
+			"userid" => $username,
+			"password" => $password,
+			"displayname" => $displayname,
+			"email" => $email
+		];
+
+		echo "adminSendsUserCreationRequestLdap userSendsHTTPMethodToOcsApiEndpointWithBody\n";
+		$this->ocsContext->userSendsHTTPMethodToOcsApiEndpointWithBody(
+			$this->featureContext->getAdminUsername(),
+			"POST",
+			"/cloud/users",
+			new TableNode($userAttributes)
+		);
+		echo "adminSendsUserCreationRequestLdap addUserToCreatedUsersList\n";
+		$this->featureContext->addUserToCreatedUsersList(
+			$username,
+			$password,
+			$displayname,
+			$email,
+			$this->featureContext->theHTTPStatusCodeWasSuccess()
+		);
+		echo "adminSendsUserCreationRequestLdap end\n";
 	}
 }
