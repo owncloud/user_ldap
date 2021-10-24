@@ -25,6 +25,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Laminas\Ldap\Exception\LdapException;
+use TestHelpers\OcsApiHelper;
 
 require_once 'bootstrap.php';
 
@@ -201,7 +202,7 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 		];
 
 		echo "adminSendsUserCreationRequestLdap userSendsHTTPMethodToOcsApiEndpointWithBody\n";
-		$this->ocsContext->userSendsHTTPMethodToOcsApiEndpointWithBody(
+		$this->userSendsHTTPMethodToOcsApiEndpointWithBody(
 			$this->featureContext->getAdminUsername(),
 			"POST",
 			"/cloud/users",
@@ -216,5 +217,64 @@ class UserLdapUsersContext extends RawMinkContext implements Context {
 			$this->featureContext->theHTTPStatusCodeWasSuccess()
 		);
 		echo "adminSendsUserCreationRequestLdap end\n";
+	}
+
+	/**
+	 * @param string $user
+	 * @param string $verb
+	 * @param string $url
+	 * @param TableNode|null $body
+	 * @param string|null $password
+	 * @param array|null $headers
+	 *
+	 * @return void
+	 */
+	public function userSendsHTTPMethodToOcsApiEndpointWithBody(
+		string $user,
+		string $verb,
+		string $url,
+		?TableNode $body = null,
+		?string $password = null,
+		?array $headers = null
+	):void {
+		echo "userSendsHTTPMethodToOcsApiEndpointWithBody start\n";
+		/**
+		 * array of the data to be sent in the body.
+		 * contains $body data converted to an array
+		 *
+		 * @var array $bodyArray
+		 */
+		$bodyArray = [];
+		if ($body instanceof TableNode) {
+			$bodyArray = $body->getRowsHash();
+		} elseif ($body !== null && \is_array($body)) {
+			$bodyArray = $body;
+		}
+
+		if ($user !== 'UNAUTHORIZED_USER') {
+			echo "userSendsHTTPMethodToOcsApiEndpointWithBody a\n";
+			if ($password === null) {
+				$password = $this->featureContext->getPasswordForUser($user);
+			}
+			$user = $this->featureContext->getActualUsername($user);
+		} else {
+			echo "userSendsHTTPMethodToOcsApiEndpointWithBody not a\n";
+			$user = null;
+			$password = null;
+		}
+		echo "userSendsHTTPMethodToOcsApiEndpointWithBody OcsApiHelper::sendRequest\n";
+		$response = OcsApiHelper::sendRequest(
+			$this->featureContext->getBaseUrl(),
+			$user,
+			$password,
+			$verb,
+			$url,
+			$this->featureContext->getStepLineRef(),
+			$bodyArray,
+			$this->featureContext->getOcsApiVersion(),
+			$headers
+		);
+		echo "userSendsHTTPMethodToOcsApiEndpointWithBody setResponse\n";
+		$this->featureContext->setResponse($response);
 	}
 }
