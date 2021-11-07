@@ -412,7 +412,7 @@ config = {
             ],
             "runCoreTests": True,
             "runAllSuites": True,
-            "numberOfParts": 3,
+            "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required",
         },
@@ -431,7 +431,7 @@ config = {
             ],
             "runCoreTests": True,
             "runAllSuites": True,
-            "numberOfParts": 3,
+            "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required",
             "cron": "nightly",
@@ -453,7 +453,7 @@ config = {
             "runCoreTests": True,
             "federatedServerNeeded": True,
             "runAllSuites": True,
-            "numberOfParts": 5,
+            "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
             "extraSetup": [
                 {
@@ -504,7 +504,7 @@ config = {
             "federatedServerNeeded": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 5,
+            "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
             "extraSetup": [
                 {
@@ -617,7 +617,7 @@ config = {
             "runCoreTests": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 3,
+            "numberOfParts": 2,
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
@@ -669,7 +669,7 @@ config = {
             "federatedServerNeeded": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 5,
+            "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
             "extraApps": {
                 "encryption": "",
@@ -796,7 +796,7 @@ config = {
             "runCoreTests": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 3,
+            "numberOfParts": 2,
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
@@ -848,7 +848,7 @@ config = {
             "federatedServerNeeded": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 5,
+            "numberOfParts": 2,
             "extraApps": {
                 "encryption": "",
             },
