@@ -221,8 +221,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute(
 			$dnGroup,
-			$this->access->getConnection()->ldapGroupMemberAssocAttr,
-			$this->access->getConnection()->ldapGroupFilter
+			$this->access->getConnection()->ldapGroupMemberAssocAttr
 		);
 		if (\is_array($members)) {
 			foreach ($members as $memberDN) {
@@ -261,8 +260,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (!\is_array($groups)) {
 			return [];
 		}
-		$groups = $this->access->groupsMatchFilter($groups);
-		$allGroups =  $groups;
+		$allGroups = $groups;
 		$nestedGroups = $this->access->getConnection()->ldapNestedGroups;
 		if (\intval($nestedGroups) === 1) {
 			foreach ($groups as $group) {
@@ -520,7 +518,9 @@ class Group_LDAP implements \OCP\GroupInterface {
 		if (\intval($this->access->getConnection()->hasMemberOfFilterSupport) === 1
 			&& \intval($this->access->getConnection()->useMemberOfToDetectMembership) === 1
 		) {
-			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
+			$groupDNs = $this->access->groupsMatchFilter(
+				$this->_getGroupDNsFromMemberOf($userDN)
+			);
 			if (\is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {
 					$groupName = $this->access->dn2groupname($dn);
