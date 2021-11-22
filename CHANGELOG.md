@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Changed
 - Change color of warning sign for expert settings [#678](https://github.com/owncloud/user_ldap/pull/678)
+- Fix user group selection layout [#672](https://github.com/owncloud/user_ldap/pull/672)
+- Add a command to invalidate the LDAP cache [#670](https://github.com/owncloud/user_ldap/pull/670)
+- Adjust command description [#671](https://github.com/owncloud/user_ldap/pull/671)
+- Drop PHP 7.2 in sonar-project.properties [#680](https://github.com/owncloud/user_ldap/pull/680)
 
 ## [0.15.4] - 2021-07-13
 
