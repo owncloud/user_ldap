@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased] - XXXX-XX-XX
+## [0.16.0] - 2021-11-21
 
 ### Changed
 - Change color of warning sign for expert settings [#678](https://github.com/owncloud/user_ldap/pull/678)
@@ -156,7 +156,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.15.4...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.16.0...master
+[0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
 [0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/owncloud/user_ldap/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/owncloud/user_ldap/compare/v0.15.1...v0.15.2
