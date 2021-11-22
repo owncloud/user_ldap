@@ -3,11 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [0.16.0] - 2021-11-21
+## [Unreleased] - XXXX-XX-XX
 
 ### Changed
 - Change color of warning sign for expert settings [#678](https://github.com/owncloud/user_ldap/pull/678)
 - Decode binary GUID where we normally expected string (eDirectory) [#711](https://github.com/owncloud/user_ldap/pull/711)
+
+## [0.16.0] - 2021-11-21
+
+### Changed
+- Fix user group selection layout [#672](https://github.com/owncloud/user_ldap/pull/672)
+- Add a command to invalidate the LDAP cache [#670](https://github.com/owncloud/user_ldap/pull/670)
+- Adjust command description [#671](https://github.com/owncloud/user_ldap/pull/671)
+- Drop PHP 7.2 in sonar-project.properties [#680](https://github.com/owncloud/user_ldap/pull/680)
 
 ## [0.15.4] - 2021-07-13
 
