@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * ownCloud
  *
@@ -350,7 +350,7 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 
 		$lenOfSuffix = \strlen((string)$amount);
 		for ($i = 0; $i < $amount; $i++) {
-			$uid = $prefix . \str_pad($i, $lenOfSuffix, '0', STR_PAD_LEFT);
+			$uid = $prefix . \str_pad((string)$i, $lenOfSuffix, '0', STR_PAD_LEFT);
 			$newDN = 'uid=' . $uid . ',ou=' . $ou . ',' . $this->featureContext->getLdapBaseDN();
 
 			$entry = [];
