@@ -87,6 +87,10 @@ OCA = OCA || {};
 					$element: $('#ldap_group_member_assoc_attribute'),
 					setMethod: 'setGroupMemberAssociationAttribute'
 				},
+				ldap_group_member_algo: {
+					$element: $('#ldap_group_member_algo'),
+					setMethod: 'setGroupMemberAlgo'
+				},
 				ldap_dynamic_group_member_url: {
 					$element: $('#ldap_dynamic_group_member_url'),
 					setMethod: 'setDynamicGroupMemberURL'
@@ -275,6 +279,14 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * sets the algorithm to use for the group membership search
+		 *
+		 * @param {string} attribute
+		 */
+		setGroupMemberAlgo: function(algo) {
+			this.setElementValue(this.managedItems.ldap_group_member_algo.$element, algo);
+		},
+		/**
 		  * sets the dynamic group member url attribute
 		  *
 		  * @param {string} attribute
@@ -282,7 +294,7 @@ OCA = OCA || {};
 		setDynamicGroupMemberURL: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute);
 		},
-                
+
 		/**
 		 * enabled or disables the use of nested groups (groups in groups in
 		 * groups…)
