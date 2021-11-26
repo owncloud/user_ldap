@@ -58,7 +58,7 @@ class CheckUser extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:check-user')
-			->setDescription('checks whether a user exists on LDAP.')
+			->setDescription('checks whether a user exists on LDAP')
 			->addArgument(
 				'ocName',
 				InputArgument::REQUIRED,
