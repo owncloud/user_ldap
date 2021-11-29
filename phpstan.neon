@@ -6,3 +6,18 @@ parameters:
   excludes_analyse:
     - %currentWorkingDirectory%/appinfo/Migrations/*.php
   ignoreErrors:
+    -
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::bind\(\) expects resource, null given.!'
+      path: lib/Connection.php
+    -
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::errno\(\) expects resource, null given.!'
+      path: lib/Connection.php
+    -
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::error\(\) expects resource, null given.!'
+      path: lib/Connection.php
+    -
+      message: "#Strict comparison using === between non-empty-string and '' will always evaluate to false.#"
+      path: lib/Connection.php
+    -
+      message: "#Strict comparison using === between non-empty-string and '' will always evaluate to false.#"
+      path: lib/Wizard.php

@@ -56,7 +56,11 @@ use OCP\Util;
  * @property string $ldapGroupDisplayName
  */
 class Connection extends LDAPUtility {
+	/**
+	 * @var resource|null
+	 */
 	private $ldapConnectionRes;
+
 	private $configPrefix;
 	private $configID;
 	private $configured = false;
@@ -632,6 +636,7 @@ class Connection extends LDAPUtility {
 		if ($host === '') {
 			return false;
 		}
+		// Returns a link resource on success, otherwise false
 		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
 		if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_REFERRALS, 0)) {

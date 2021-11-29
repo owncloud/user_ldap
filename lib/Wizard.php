@@ -868,6 +868,7 @@ class Wizard extends LDAPUtility {
 							$er = $this->getLDAP()->firstEntry($cr, $rr);
 							$attrs = $this->getLDAP()->getAttributes($cr, $er);
 							$dn = $this->getLDAP()->getDN($cr, $er);
+							// Note: $dn should never be the empty string, but we check just in case.
 							if ($dn == false || $dn === '') {
 								continue;
 							}
