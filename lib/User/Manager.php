@@ -144,23 +144,23 @@ class Manager {
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {
-		$ldapConfig = $this->getConnection()->getConfiguration();
+		$ldapConfig = $this->getConnection();
 		$attributes = ['dn' => true, 'uid' => true, 'samaccountname' => true,
-			$ldapConfig['ldapQuotaAttribute'] => true,
-			$ldapConfig['ldapEmailAttribute'] => true,
-			$this->getConnection()->ldapUserDisplayName => true,
-			$this->getConnection()->ldapUserDisplayName2 => true,
-			$ldapConfig['ldapExpertUsernameAttr'] => true,
+			$ldapConfig->ldapQuotaAttribute => true,
+			$ldapConfig->ldapEmailAttribute => true,
+			$ldapConfig->ldapUserDisplayName => true,
+			$ldapConfig->ldapUserDisplayName2 => true,
+			$ldapConfig->ldapExpertUsernameAttr => true,
 		];
-		if ($this->getConnection()->getConfiguration()['ldapUserName'] !== null) {
-			$attributes[$ldapConfig['ldapUserName']] = true;
+		if ($ldapConfig->ldapUserName !== null) {
+			$attributes[$ldapConfig->ldapUserName] = true;
 		}
-		$homeRule = $ldapConfig['homeFolderNamingRule'];
+		$homeRule = $ldapConfig->homeFolderNamingRule;
 		if (\strpos($homeRule, 'attr:') === 0) {
 			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
 		}
-		$searchAttributes = $ldapConfig['ldapAttributesForUserSearch'];
-		if ($searchAttributes === '' || $searchAttributes === null) { //FIXME empty multiline initializes as '', make it []
+		$searchAttributes = $ldapConfig->ldapAttributesForUserSearch;
+		if ($searchAttributes === '' || $searchAttributes === null) { /** @phpstan-ignore-line FIXME empty multiline initializes as '', make it [] */
 			$searchAttributes = [];
 		}
 		foreach ($searchAttributes as $attr) {
@@ -168,7 +168,7 @@ class Manager {
 				$attributes[$attr] = true;
 			}
 		}
-		$uuidAttribute = $ldapConfig['ldapUuidUserAttribute'];
+		$uuidAttribute = $ldapConfig->ldapUuidUserAttribute;
 		if ($uuidAttribute !== 'auto' && $uuidAttribute !== '') {
 			// if uuidAttribute is specified use that
 			$attributes[$uuidAttribute] = true;

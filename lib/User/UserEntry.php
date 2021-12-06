@@ -158,9 +158,9 @@ class UserEntry {
 			if ($uuid === null) {
 				continue;
 			}
-			if ($this->connection->getConfiguration()['ldapExpertUUIDUserAttr'] !== $uuidAttribute) {
+			if ($this->connection->ldapExpertUUIDUserAttr !== $uuidAttribute) {
 				// remember autodetected uuid attribute
-				$this->connection->getConfiguration()['ldapExpertUUIDUserAttr'] = $uuidAttribute;
+				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
 			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
@@ -230,10 +230,10 @@ class UserEntry {
 		}
 
 		if ($quota === null) {
-			if (!$this->connection->getConfiguration()['ldapQuotaDefault']) {
+			if (!$this->connection->ldapQuotaDefault) {
 				\OC::$server->getLogger()->debug("No LDAP quota default configured", ['app' => 'user_ldap']);
 			} else {
-				$quota = $this->connection->getConfiguration()['ldapQuotaDefault'];
+				$quota = $this->connection->ldapQuotaDefault;
 				if (!$this->verifyQuotaValue($quota)) {
 					\OC::$server->getLogger()->error("Invalid default quota <$quota>", ['app' => 'user_ldap']);
 					$quota = null;
@@ -267,6 +267,9 @@ class UserEntry {
 	public function getHome() {
 		$path = '';
 		$attr = $this->getAttributeName('homeFolderNamingRule', '');
+		if ($attr === '') {
+			return $attr;
+		}
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -316,7 +319,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
-		$rawAttributes = $this->connection->getConfiguration()['ldapAttributesForUserSearch'];
+		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
 		$searchTerms = [];

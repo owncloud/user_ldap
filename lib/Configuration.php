@@ -84,6 +84,7 @@ use OCP\IConfig;
  * @property string $lastJpegPhotoLookup,
  * @property string $ldapNestedGroups,
  * @property string $ldapDynamicGroupMemberURL
+ * @property string $backupPort
  */
 class Configuration {
 

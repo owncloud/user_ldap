@@ -190,7 +190,7 @@ class Access implements IUserTools {
 		$this->abandonPagedSearch();
 		// openLDAP requires that we init a new Paged Search. Not needed by AD,
 		// but does not hurt either.
-		$pagingSize = (int)$this->connection->__get('ldapPagingSize');
+		$pagingSize = (int)$this->connection->ldapPagingSize;
 		// 0 won't result in replies, small numbers may leave out groups
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		if ($pagingSize > 20) {
@@ -449,18 +449,18 @@ class Access implements IUserTools {
 		//Check whether the DN belongs to the Base, to avoid issues on multi-
 		//server setups
 		if (\is_string($fdn)) {
-			if ($this->isDNPartOfBase($fdn, $this->connection->__get('ldapBaseUsers'))) {
+			if ($this->isDNPartOfBase($fdn, $this->connection->ldapBaseUsers)) {
 				return $fdn;
 			}
 			\OC::$server->getLogger()->debug(
 				"DN <$fdn> outside configured base domains:".
-				\print_r($this->connection->__get('ldapBaseUsers'), true).
-				" on {$this->connection->__get('ldapHost')}",
+				\print_r($this->connection->ldapBaseUsers, true).
+				" on {$this->connection->ldapHost}",
 				['app' => 'user_ldap']
 			);
 		} else {
 			\OC::$server->getLogger()->debug(
-				"No DN found for <$name> on {$this->connection->__get('ldapHost')}",
+				"No DN found for <$name> on {$this->connection->ldapHost}",
 				['app' => 'user_ldap']
 			);
 		}
@@ -480,7 +480,7 @@ class Access implements IUserTools {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
-		if (!$this->isDNPartOfBase($fdn, $this->connection->__get('ldapBaseGroups'))) {
+		if (!$this->isDNPartOfBase($fdn, $this->connection->ldapBaseGroups)) {
 			return false;
 		}
 
@@ -510,12 +510,12 @@ class Access implements IUserTools {
 
 			// Check the base DN first. If this is not met already, we don't
 			// need to ask the server at all.
-			if (!$this->isDNPartOfBase($dn, $this->connection->__get('ldapBaseGroups'))) {
+			if (!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
 				$this->connection->writeToCache($cacheKey, false);
 				continue;
 			}
 
-			$result = $this->readAttribute($dn, 'cn', $this->connection->__get('ldapGroupFilter'));
+			$result = $this->readAttribute($dn, 'cn', $this->connection->ldapGroupFilter);
 			if (\is_array($result)) {
 				$this->connection->writeToCache($cacheKey, true);
 				$validGroupDNs[] = $dn;
@@ -538,7 +538,7 @@ class Access implements IUserTools {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
-		if (!$this->isDNPartOfBase($fdn, $this->connection->__get('ldapBaseUsers'))) {
+		if (!$this->isDNPartOfBase($fdn, $this->connection->ldapBaseUsers)) {
 			return false;
 		}
 
@@ -558,10 +558,10 @@ class Access implements IUserTools {
 	public function dn2ocname($fdn, $ldapDisplayName = null, $isUser = true) {
 		if ($isUser) {
 			$mapper = $this->getUserMapper();
-			$displayNameAttribute = $this->connection->__get('ldapUserDisplayName');
+			$displayNameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
 			$mapper = $this->getGroupMapper();
-			$displayNameAttribute = $this->connection->__get('ldapGroupDisplayName');
+			$displayNameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 
 		//let's try to retrieve the ownCloud name from the mappings table
@@ -600,7 +600,7 @@ class Access implements IUserTools {
 		}
 
 		if ($isUser) {
-			$usernameAttribute = (string)$this->connection->__get('ldapExpertUsernameAttr');
+			$usernameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
 			if ($usernameAttribute !== '') {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
 				$username = $username[0];
@@ -616,7 +616,7 @@ class Access implements IUserTools {
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
 		//NOTE: mind, disabling cache affects only this instance! Using it
 		// outside of core user management will still cache the user as non-existing.
-		$originalTTL = $this->connection->__get('ldapCacheTTL') ;
+		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if (($isUser && $this->shouldMapToUsername($intName))
 			|| (!$isUser && $this->shouldMapToGroupname($intName))) {
@@ -709,10 +709,10 @@ class Access implements IUserTools {
 	 */
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
 		if ($isUsers) {
-			$nameAttribute = $this->connection->__get('ldapUserDisplayName');
-			$sndAttribute  = $this->connection->__get('ldapUserDisplayName2');
+			$nameAttribute = $this->connection->ldapUserDisplayName;
+			$sndAttribute  = $this->connection->ldapUserDisplayName2;
 		} else {
-			$nameAttribute = $this->connection->__get('ldapGroupDisplayName');
+			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 		$ownCloudNames = [];
 
@@ -760,7 +760,7 @@ class Access implements IUserTools {
 	 */
 	public function fetchUsersByLoginName($loginName, array $attributes = ['dn']) {
 		$loginName = $this->escapeFilterPart($loginName);
-		$filter = \str_replace('%uid', $loginName, $this->connection->__get('ldapLoginFilter'));
+		$filter = \str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		return $this->fetchListOfUsers($filter, $attributes);
 	}
 
@@ -774,7 +774,7 @@ class Access implements IUserTools {
 	 */
 	public function countUsersByLoginName($loginName) {
 		$loginName = $this->escapeFilterPart($loginName);
-		$filter = \str_replace('%uid', $loginName, $this->connection->__get('ldapLoginFilter'));
+		$filter = \str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		return $this->countUsers($filter);
 	}
 
@@ -926,7 +926,7 @@ class Access implements IUserTools {
 			}
 		} else {
 			// simple search without pagination
-			$entries = $this->search($filter, $this->connection->__get('ldapBaseUsers'), $attr, $limit, $offset);
+			$entries = $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 		}
 		return $entries;
 	}
@@ -951,7 +951,7 @@ class Access implements IUserTools {
 		// counting does not support multiple bases, we have to count each
 		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		foreach ($this->connection->__get('ldapBaseUsers') as $base) {
+		foreach ($this->connection->ldapBaseUsers as $base) {
 			$e = $this->count($filter, [$base], $attr, $limit, $offset);
 			$entries += $e;
 		}
@@ -981,14 +981,14 @@ class Access implements IUserTools {
 			// paging cookies, we need to use single base search - this behaviour is similar to
 			// using separate ldap backend and avoids cookie invalidation
 			$entries = [];
-			foreach ($this->connection->__get('ldapBaseUsers') as $base) {
+			foreach ($this->connection->ldapBaseGroups as $base) {
 				foreach ($this->search($filter, [$base], $attr, $limit, $offset) as $entry) {
 					$entries[] = $entry;
 				}
 			}
 		} else {
 			// simple search without pagination
-			$entries = $this->search($filter, $this->connection->__get('ldapBaseGroups'), $attr, $limit, $offset);
+			$entries = $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
 		}
 		return $entries;
 	}
@@ -1013,7 +1013,7 @@ class Access implements IUserTools {
 		// counting does not support multiple bases, we have to count each
 		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		foreach ($this->connection->__get('ldapBaseGroups') as $base) {
+		foreach ($this->connection->ldapBaseGroups as $base) {
 			$e = $this->count($filter, [$base], $attr, $limit, $offset);
 			$entries += $e;
 		}
@@ -1038,7 +1038,7 @@ class Access implements IUserTools {
 		// counting does not support multiple bases, we have to count each
 		// base separately (as in case of separate ldap backends)
 		$entries = 0;
-		foreach ($this->connection->__get('ldapBase') as $base) {
+		foreach ($this->connection->ldapBase as $base) {
 			$e = $this->count('objectclass=*', [$base], ['dn'], $limit, $offset);
 			$entries += $e;
 		}
@@ -1081,7 +1081,7 @@ class Access implements IUserTools {
 		$linkResources = \array_pad([], \count($base), $cr);
 		$sr = $this->getLDAP()->search($linkResources, $base, $filter, $attr); /** @phpstan-ignore-line */
 		$error = $this->getLDAP()->errno($cr);
-		if (!\is_array($sr) || $error !== '0') {
+		if (!\is_array($sr) || (string)$error !== '0') {
 			\OC::$server->getLogger()->error(
 				'Error when searching: '.$this->getLDAP()->error($cr).
 				' code '.$this->getLDAP()->errno($cr),
@@ -1180,7 +1180,7 @@ class Access implements IUserTools {
 			['app' => 'user_ldap']
 		);
 
-		$limitPerPage = (int)$this->connection->__get('ldapPagingSize');
+		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if ($limit !== null && $limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
 		}
@@ -1465,7 +1465,7 @@ class Access implements IUserTools {
 	 * @return bool|mixed|string
 	 */
 	public function sanitizeUsername($name) {
-		if ($this->connection->__get('ldapIgnoreNamingRules')) {
+		if ($this->connection->ldapIgnoreNamingRules) {
 			return $name;
 		}
 
@@ -1543,8 +1543,8 @@ class Access implements IUserTools {
 	public function getFilterPartForUserSearch($search) {
 		return $this->getFilterPartForSearch(
 			$search,
-			$this->connection->__get('ldapAttributesForUserSearch'),
-			$this->connection->__get('ldapUserDisplayName')
+			$this->connection->ldapAttributesForUserSearch,
+			$this->connection->ldapUserDisplayName
 		);
 	}
 
@@ -1556,8 +1556,8 @@ class Access implements IUserTools {
 	public function getFilterPartForGroupSearch($search) {
 		return $this->getFilterPartForSearch(
 			$search,
-			$this->connection->__get('ldapAttributesForGroupSearch'),
-			$this->connection->__get('ldapGroupDisplayName')
+			$this->connection->ldapAttributesForGroupSearch,
+			$this->connection->ldapGroupDisplayName
 		);
 	}
 
@@ -1661,8 +1661,8 @@ class Access implements IUserTools {
 	 */
 	public function getFilterForUserCount() {
 		$filter = $this->combineFilterWithAnd([
-			$this->connection->__get('ldapUserFilter'),
-			"{$this->connection->__get('ldapUserDisplayName')}=*"
+			$this->connection->ldapUserFilter,
+			"{$this->connection->ldapUserDisplayName}=*"
 		]);
 
 		return $filter;
@@ -1702,11 +1702,11 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException on any LDAP connection error
 	 */
 	public function getUserDnByUuid($uuid) {
-		$uuidOverride = $this->connection->__get('ldapExpertUUIDUserAttr');
-		$filter       = $this->connection->__get('ldapUserFilter');
-		$base         = $this->connection->__get('ldapBaseUsers');
+		$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		$filter       = $this->connection->ldapUserFilter;
+		$base         = $this->connection->ldapBaseUsers;
 
-		if ($this->connection->__get('ldapUuidUserAttribute') === 'auto' && $uuidOverride === '') {
+		if ($this->connection->ldapUuidUserAttribute === 'auto' && $uuidOverride === '') {
 			// Sacrebleu! The UUID attribute is unknown :( We need first an
 			// existing DN to be able to reliably detect it.
 			$result = $this->search($filter, $base, ['dn'], 1);
@@ -1726,7 +1726,7 @@ class Access implements IUserTools {
 			}
 		}
 
-		$uuidAttr = $this->connection->__get('ldapUuidUserAttribute');
+		$uuidAttr = $this->connection->ldapUuidUserAttribute;
 		if ($uuidAttr === 'guid' || $uuidAttr === 'objectguid') {
 			$uuid = $this->formatGuid2ForFilterUser($uuid);
 		}
@@ -1758,22 +1758,22 @@ class Access implements IUserTools {
 	private function detectUuidAttribute($dn, $isUser = true, $force = false) {
 		if ($isUser) {
 			$uuidAttr     = 'ldapUuidUserAttribute';
-			$uuidOverride = $this->connection->__get('ldapExpertUUIDUserAttr');
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
 		} else {
 			$uuidAttr = 'ldapUuidGroupAttribute';
-			$uuidOverride = $this->connection->__get('ldapExpertUUIDGroupAttr');
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
 		}
 
-		if (($this->connection->__get($uuidAttr) !== 'auto') && !$force) {
+		if (($this->connection->$uuidAttr !== 'auto') && !$force) {
 			return true;
 		}
 
 		if ($uuidOverride !== '' && !$force) {
-			$this->connection->__set($uuidAttr, $uuidOverride);
+			$this->connection->$uuidAttr = $uuidOverride;
 			return true;
 		}
 
-		foreach ($this->connection->__get('uuidAttributes') as $attribute) {
+		foreach ($this->connection->uuidAttributes as $attribute) {
 			$value = $this->readAttribute($dn, $attribute);
 			if (\is_array($value) && isset($value[0]) && !empty($value[0])) {
 				\OC::$server->getLogger()->debug(
@@ -1782,7 +1782,7 @@ class Access implements IUserTools {
 				);
 				// TODO we should make the autodetection explicit and store it in the configuration after detection
 				// TODO the UserEntry does that ... but only for users. Get this sorted out in the wizard properly
-				$this->connection->__set($uuidAttr, $attribute);
+				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
 		}
@@ -1803,21 +1803,21 @@ class Access implements IUserTools {
 	public function getUUID($dn, $isUser = true) {
 		if ($isUser) {
 			$uuidAttr     = 'ldapUuidUserAttribute';
-			$uuidOverride = $this->connection->__get('ldapExpertUUIDUserAttr');
+			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
 		} else {
 			$uuidAttr     = 'ldapUuidGroupAttribute';
-			$uuidOverride = $this->connection->__get('ldapExpertUUIDGroupAttr');
+			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
 		}
 
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser)) {
-			$uuid = $this->readAttribute($dn, $this->connection->__get($uuidAttr));
+			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
 			if (!\is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true)) {
 				$uuid = $this->readAttribute(
 					$dn,
-					$this->connection->__get($uuidAttr)
+					$this->connection->$uuidAttr
 				);
 			}
 			if (\is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
@@ -2161,27 +2161,34 @@ class Access implements IUserTools {
 					);
 					return false;
 				}
-				if (empty($offset)) {
-					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
-					$this->abandonPagedSearch();
+				if ($cookie !== null) {
+					if (empty($offset)) {
+						//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+						$this->abandonPagedSearch();
+						\OC::$server->getLogger()->debug(
+							'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']
+						);
+					} else {
+						\OC::$server->getLogger()->debug(
+							'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+							['app' => 'user_ldap']
+						);
+					}
+					$pagedSearchOK = $this->getLDAP()->controlPagedResult(
+						$this->connection->getConnectionResource(),
+						$limit,
+						false,
+						$cookie
+					);
+					if (!$pagedSearchOK) {
+						return false;
+					}
+				} else {  /** @phpstan-ignore-line */
 					\OC::$server->getLogger()->debug(
-						'Ready for a paged search with cookie '.$this->cookie2str($cookie)." at $range",
+						"No paged search for us at $range",
 						['app' => 'user_ldap']
 					);
-				} else {
-					\OC::$server->getLogger()->debug(
-						'Continuing a paged search with cookie '.$this->cookie2str($cookie)." at $range",
-						['app' => 'user_ldap']
-					);
-				}
-				$pagedSearchOK = $this->getLDAP()->controlPagedResult(
-					$this->connection->getConnectionResource(),
-					$limit,
-					false,
-					$cookie
-				);
-				if (!$pagedSearchOK) {
-					return false;
 				}
 			}
 		} elseif ($this->connection->hasPagedResultSupport && $limit === 0) {

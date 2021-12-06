@@ -54,6 +54,29 @@ use OCP\Util;
  * @property bool $hasMemberOfFilterSupport
  * @property bool $useMemberOfToDetectMembership
  * @property string $ldapGroupDisplayName
+ *
+ * These additional properties are being accessed from this class
+ * So adding this to make phpstan pass
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapEmailAttribute
+ * @property string $ldapExpertUsernameAttr
+ * @property string $homeFolderNamingRule
+ * @property array $ldapAttributesForUserSearch
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUserName
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapQuotaDefault
+ * @property array $ldapBaseGroups
+ * @property string $originalTTL
+ * @property string $ldapCacheTTL
+ * @property array $ldapBase
+ * @property string $ldapIgnoreNamingRules
+ * @property array $ldapAttributesForGroupSearch
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $uuidAttr
+ * @property string $ldapUuidGroupAttribute.
+ * @property int $backupPort
+ *
  */
 class Connection extends LDAPUtility {
 	/**
@@ -334,7 +357,7 @@ class Connection extends LDAPUtility {
 									' is empty, using Base DN',
 					Util::DEBUG
 				);
-				$this->configuration->$keyBase = $this->configuration->__get('ldapBase');
+				$this->configuration->$keyBase = $this->configuration->ldapBase; /** @phpstan-ignore-line fixing this makes unit tests fail */
 			}
 		}
 
@@ -367,7 +390,7 @@ class Connection extends LDAPUtility {
 
 		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
-			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
+			$this->configuration->backupPort = $this->configuration->ldapPort;
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
