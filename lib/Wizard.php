@@ -652,8 +652,9 @@ class Wizard extends LDAPUtility {
 		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->getConnection()->ldapLoginFilter, \OCP\Util::DEBUG);
 
 		$users = $this->access->countUsersByLoginName($loginName);
-		if ($this->getLDAP()->errno($cr) !== 0 && $this->getLDAP()->errno($cr) !== '0') {
-			throw new \Exception((string)$this->getLDAP()->error($cr));
+		$errNumber = $this->getLDAP()->errno($cr);
+		if ($errNumber !== 0 && $errNumber !== '0') {
+			throw new \Exception((string)$errNumber);
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. $users . ' users', \OCP\Util::DEBUG);
 		$filter = \str_replace('%uid', $loginName, $this->access->getConnection()->ldapLoginFilter);

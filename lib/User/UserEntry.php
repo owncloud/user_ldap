@@ -267,9 +267,6 @@ class UserEntry {
 	public function getHome() {
 		$path = '';
 		$attr = $this->getAttributeName('homeFolderNamingRule', '');
-		if ($attr === '') {
-			return $attr;
-		}
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -292,7 +289,7 @@ class UserEntry {
 
 		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
 		$enforce = $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true);
-		if ($attr !== null
+		if ($attr !== ''
 			&& \filter_var($enforce, FILTER_VALIDATE_BOOLEAN)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
