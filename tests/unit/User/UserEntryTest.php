@@ -115,6 +115,7 @@ class UserEntryTest extends \Test\TestCase {
 				[$this->equalTo('ldapExpertUUIDUserAttr')],
 				[$this->equalTo('ldapExpertUUIDUserAttr')]
 			)
+
 			->willReturnOnConsecutiveCalls(
 				null,
 				$uuidAttr,

@@ -37,18 +37,53 @@ use OCP\Util;
  * magic properties (incomplete)
  * responsible for LDAP connections in context with the provided configuration
  *
- * @property string ldapHost
- * @property string ldapPort holds the port number
- * @property string ldapUserFilter
- * @property string ldapUserDisplayName
- * @property string ldapUserDisplayName2
- * @property boolean hasPagedResultSupport
- * @property string[] ldapBaseUsers
- * @property int|string ldapPagingSize holds an integer
- * @property bool|mixed|void ldapGroupMemberAssocAttr
+ * @property string $ldapHost
+ * @property string $ldapPort holds the port number
+ * @property string $ldapUserFilter
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property boolean $hasPagedResultSupport
+ * @property string[] $ldapBaseUsers
+ * @property int|string $ldapPagingSize holds an integer
+ * @property bool|mixed|void $ldapGroupMemberAssocAttr
+ * @property bool $ldapConfigurationActive
+ * @property string $ldapGroupFilter
+ * @property string $ldapLoginFilter
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapNestedGroups
+ * @property bool $hasMemberOfFilterSupport
+ * @property bool $useMemberOfToDetectMembership
+ * @property string $ldapGroupDisplayName
+ *
+ * These additional properties are being accessed from this class
+ * So adding this to make phpstan pass
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapEmailAttribute
+ * @property string $ldapExpertUsernameAttr
+ * @property string $homeFolderNamingRule
+ * @property array $ldapAttributesForUserSearch
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUserName
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapQuotaDefault
+ * @property array $ldapBaseGroups
+ * @property string $originalTTL
+ * @property string $ldapCacheTTL
+ * @property array $ldapBase
+ * @property string $ldapIgnoreNamingRules
+ * @property array $ldapAttributesForGroupSearch
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $uuidAttr
+ * @property string $ldapUuidGroupAttribute.
+ * @property int $backupPort
+ *
  */
 class Connection extends LDAPUtility {
+	/**
+	 * @var resource|null
+	 */
 	private $ldapConnectionRes;
+
 	private $configPrefix;
 	private $configID;
 	private $configured = false;
@@ -81,7 +116,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Constructor
 	 * @param ILDAPWrapper $ldap
-	 * @param Configuration
+	 * @param Configuration $configuration
 	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections // TODO might be obsolete
 	 */
 	public function __construct(ILDAPWrapper $ldap, Configuration $configuration, $configID = 'user_ldap') {
@@ -251,7 +286,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param array $config array that holds the config parameters in an associated array
-	 * @param array &$setParameters optional; array where the set fields will be given to
+	 * @param array $setParameters optional; array where the set fields will be given to
 	 * @return boolean true if config validates, false otherwise. Check with $setParameters for detailed success on single parameters
 	 */
 	public function setConfiguration($config, &$setParameters = null) {
@@ -322,7 +357,7 @@ class Connection extends LDAPUtility {
 									' is empty, using Base DN',
 					Util::DEBUG
 				);
-				$this->configuration->$keyBase = $this->configuration->ldapBase;
+				$this->configuration->$keyBase = $this->configuration->ldapBase; /** @phpstan-ignore-line fixing this makes unit tests fail */
 			}
 		}
 
@@ -364,7 +399,7 @@ class Connection extends LDAPUtility {
 		foreach ($saKeys as $key) {
 			$val = $this->configuration->$key;
 			if (\is_array($val) && \count($val) === 1 && empty($val[0])) {
-				$this->configuration->$key = [];
+				$this->configuration->$key = '';
 			}
 		}
 
@@ -624,9 +659,10 @@ class Connection extends LDAPUtility {
 		if ($host === '') {
 			return false;
 		}
+		// Returns a link resource on success, otherwise false
 		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
-		if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-			if ($this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+		if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_REFERRALS, 0)) {
 				if ($this->configuration->ldapTLS) {
 					$this->getLDAP()->startTls($this->ldapConnectionRes);
 				}
@@ -635,8 +671,8 @@ class Connection extends LDAPUtility {
 			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
 		// Set network timeout threshold to avoid long delays when ldap server cannot be resolved
-		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_NETWORK_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
-		$this->getLDAP()->setOption($this->ldapConnectionRes, LDAP_OPT_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
+		$this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_NETWORK_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
+		$this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_TIMEOUT, \intval($this->configuration->ldapNetworkTimeout));
 		if (!$this->getLDAP()->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null; // to indicate it really is not set, connect() might have set it to false
 			throw new ServerNotAvailableException("Connect to $host:$port failed");

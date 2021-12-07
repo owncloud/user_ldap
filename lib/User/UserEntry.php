@@ -93,7 +93,7 @@ class UserEntry {
 	 * Returns the username or null if none defined or
 	 * if no such LDAP attribute was configured.
 	 *
-	 * @return string username for this user
+	 * @return string|null username for this user
 	 */
 	public function getUserName() {
 		$attr = $this->getAttributeName('ldapUserName');
@@ -266,7 +266,7 @@ class UserEntry {
 	 */
 	public function getHome() {
 		$path = '';
-		$attr = $this->getAttributeName('homeFolderNamingRule', null);
+		$attr = $this->getAttributeName('homeFolderNamingRule', '');
 		if (\is_string($attr) && \strpos($attr, 'attr:') === 0 // TODO do faster startswith check
 			&& \strlen($attr) > 5
 		) {
@@ -289,7 +289,7 @@ class UserEntry {
 
 		// TODO use OutOfBoundsException and https://github.com/owncloud/core/pull/28805
 		$enforce = $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true);
-		if ($attr !== null
+		if ($attr !== ''
 			&& \filter_var($enforce, FILTER_VALIDATE_BOOLEAN)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user
@@ -336,8 +336,8 @@ class UserEntry {
 	}
 
 	/**
-	 * @param $configOption string
-	 * @param $default string
+	 * @param string $configOption
+	 * @param string $default
 	 * @return string
 	 */
 	private function getAttributeName($configOption, $default = '') {
@@ -353,9 +353,9 @@ class UserEntry {
 	/**
 	 * Read first value from a single value Attribute of an ldap entry
 	 * TODO allow passing in a verification function, eg for quota or uuid values
-	 * @param $attributeName string
-	 * @param $default string
-	 * @param $trim bool don't trim value, eg for binary data
+	 * @param string $attributeName
+	 * @param string $default
+	 * @param bool $trim  don't trim value, eg for binary data
 	 * @return string|null
 	 */
 	private function getAttributeValue($attributeName, $default = null, $trim = true) {

@@ -72,6 +72,11 @@ class ShowConfig extends Base {
 		;
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int|void|null
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
@@ -89,7 +94,7 @@ class ShowConfig extends Base {
 
 	/**
 	 * prints the LDAP configuration(s)
-	 * @param string[] configID(s)
+	 * @param string[] $configIDs
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output

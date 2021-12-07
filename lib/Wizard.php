@@ -176,7 +176,7 @@ class Wizard extends LDAPUtility {
 	 */
 	public function countInBaseDN() {
 		// we don't need to provide a filter in this case
-		$total = $this->countEntries(null, 'objects');
+		$total = $this->countEntries('', 'objects');
 		if ($total === false) {
 			throw new \Exception('invalid results received');
 		}
@@ -301,7 +301,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @return WizardResult
+	 * @return WizardResult|bool
 	 * @throws \Exception
 	 */
 	public function determineAttributes() {
@@ -521,7 +521,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * detects the available object classes
-	 * @return WizardResult
+	 * @return WizardResult|bool
 	 * @throws \Exception
 	 */
 	public function determineUserObjectClasses() {
@@ -652,8 +652,9 @@ class Wizard extends LDAPUtility {
 		\OCP\Util::writeLog('user_ldap', 'Wiz: testLogin '. $loginName . ', filter '. $this->access->getConnection()->ldapLoginFilter, \OCP\Util::DEBUG);
 
 		$users = $this->access->countUsersByLoginName($loginName);
-		if ($this->getLDAP()->errno($cr) !== 0) {
-			throw new \Exception($this->getLDAP()->error($cr));
+		$errNumber = $this->getLDAP()->errno($cr);
+		if ($errNumber !== 0 && $errNumber !== '0') {
+			throw new \Exception((string)$errNumber);
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: found '. $users . ' users', \OCP\Util::DEBUG);
 		$filter = \str_replace('%uid', $loginName, $this->access->getConnection()->ldapLoginFilter);
@@ -732,7 +733,7 @@ class Wizard extends LDAPUtility {
 			$port = $hostInfo['port'];
 			$host = \str_replace(':'.$port, '', $host);
 			$this->applyFind('ldap_host', $host);
-			$this->applyFind('ldap_port', $port);
+			$this->applyFind('ldap_port', (string)$port);
 		}
 	}
 
@@ -757,6 +758,7 @@ class Wizard extends LDAPUtility {
 		if (!$this->getLDAP()->isResource($rr)) {
 			return false;
 		}
+		/** @var resource|mixed $er */
 		$er = $this->getLDAP()->firstEntry($cr, $rr);
 		while (\is_resource($er)) {
 			$this->getLDAP()->getDN($cr, $er);
@@ -831,7 +833,7 @@ class Wizard extends LDAPUtility {
 	 * @param integer $filterType int, for which use case the filter shall be created
 	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
 	 * self::LFILTER_GROUP_LIST
-	 * @return string|false string with the filter on success, false otherwise
+	 * @return string string with the filter on success, false otherwise
 	 * @throws \Exception
 	 */
 	private function composeLdapFilter($filterType) {
@@ -867,6 +869,7 @@ class Wizard extends LDAPUtility {
 							$er = $this->getLDAP()->firstEntry($cr, $rr);
 							$attrs = $this->getLDAP()->getAttributes($cr, $er);
 							$dn = $this->getLDAP()->getDN($cr, $er);
+							// Note: $dn should never be the empty string, but we check just in case.
 							if ($dn == false || $dn === '') {
 								continue;
 							}
@@ -1063,6 +1066,7 @@ class Wizard extends LDAPUtility {
 					}
 					$rr = $entry; //will be expected by nextEntry next round
 					$attributes = $this->getLDAP()->getAttributes($cr, $entry);
+					/** @var string|bool $dn */
 					$dn = $this->getLDAP()->getDN($cr, $entry);
 					if ($dn === false || \in_array($dn, $dnRead)) {
 						continue;
@@ -1077,7 +1081,7 @@ class Wizard extends LDAPUtility {
 					$foundItems = \array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
-				} while (($state === self::LRESULT_PROCESSED_SKIP
+				} while ((isset($state) && $state === self::LRESULT_PROCESSED_SKIP
 						|| $this->getLDAP()->isResource($entry))
 						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
 			}
@@ -1095,7 +1099,7 @@ class Wizard extends LDAPUtility {
 	 * Configuration class
 	 * @param bool $po whether the objectClass with most result entries
 	 * shall be pre-selected via the result
-	 * @return array|false list of found items.
+	 * @return array list of found items.
 	 * @throws \Exception
 	 */
 	private function determineFeature($objectclasses, $attr, $dbkey, $confkey, $po = false) {
@@ -1148,7 +1152,7 @@ class Wizard extends LDAPUtility {
 	 * appends a list of values fr
 	 * @param resource|array $result the return value from ldap_get_attributes
 	 * @param string $attribute the attribute values to look for
-	 * @param array &$known new values will be appended here
+	 * @param array $known new values will be appended here
 	 * @return int, state on of the class constants LRESULT_PROCESSED_OK,
 	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
 	 */
@@ -1189,10 +1193,10 @@ class Wizard extends LDAPUtility {
 			$this->configuration->ldapPort
 		);
 
-		$this->getLDAP()->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-		$this->getLDAP()->setOption($cr, LDAP_OPT_REFERRALS, 0);
-		$this->getLDAP()->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
-		$this->getLDAP()->setOption($cr, LDAP_OPT_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		$this->getLDAP()->setOption($cr, (string)LDAP_OPT_PROTOCOL_VERSION, 3);
+		$this->getLDAP()->setOption($cr, (string)LDAP_OPT_REFERRALS, 0);
+		$this->getLDAP()->setOption($cr, (string)LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
+		$this->getLDAP()->setOption($cr, (string)LDAP_OPT_TIMEOUT, self::LDAP_NW_TIMEOUT);
 		if ($this->configuration->ldapTLS) {
 			$this->getLDAP()->startTls($cr);
 		}

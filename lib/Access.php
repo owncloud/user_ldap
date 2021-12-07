@@ -634,7 +634,7 @@ class Access implements IUserTools {
 
 	/**
 	 * Determines if we should store a mapping to this ownCloud account or not
-	 * @param $username
+	 * @param string $username
 	 * @return bool
 	 */
 	public function shouldMapToUsername($username) {
@@ -663,6 +663,7 @@ class Access implements IUserTools {
 		}
 		$groupBackend = $group->getBackend();
 		$groupBackendClass = \get_class($groupBackend);
+		/** @phpstan-ignore-next-line */
 		if (($groupBackendClass === \OCA\User_LDAP\Group_LDAP::class || $groupBackendClass === \OCA\User_LDAP\Group_Proxy::class)
 				&& \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
 			// Account with same groupname exists, and matching backend, we can use this - merge
@@ -1078,9 +1079,9 @@ class Access implements IUserTools {
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, $offset);
 
 		$linkResources = \array_pad([], \count($base), $cr);
-		$sr = $this->getLDAP()->search($linkResources, $base, $filter, $attr);
+		$sr = $this->getLDAP()->search($linkResources, $base, $filter, $attr); /** @phpstan-ignore-line */
 		$error = $this->getLDAP()->errno($cr);
-		if (!\is_array($sr) || $error !== 0) {
+		if (!\is_array($sr) || (string)$error !== '0') {
 			\OC::$server->getLogger()->error(
 				'Error when searching: '.$this->getLDAP()->error($cr).
 				' code '.$this->getLDAP()->errno($cr),
@@ -1162,11 +1163,11 @@ class Access implements IUserTools {
 	 * executes an LDAP search, but counts the results only
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param string|string[] $attr optional, array, one or more attributes that shall be
+	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
+	 * @param string|string[]|null $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
-	 * @param int $limit optional, maximum results to be counted
-	 * @param int $offset optional, a starting point
+	 * @param int|null $limit optional, maximum results to be counted
+	 * @param int|null $offset optional, a starting point
 	 * @param bool $skipHandling indicates whether the pages search operation is
 	 * completed
 	 * @return int|false Integer or false if the search could not be initialized
@@ -1408,7 +1409,7 @@ class Access implements IUserTools {
 
 		// if we're here, probably no connection resource is returned.
 		// to make ownCloud behave nicely, we simply give back an empty array.
-		if ($findings === null) {
+		if (\count($findings) === 0) {
 			return [];
 		}
 
@@ -1631,7 +1632,7 @@ class Access implements IUserTools {
 	 * list users found by ldap with the current input appended by
 	 * a *
 	 *
-	 * @param $term
+	 * @param string $term
 	 * @return string
 	 */
 	private function prepareSearchTerm($term) {
@@ -1759,7 +1760,7 @@ class Access implements IUserTools {
 			$uuidAttr     = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
 		} else {
-			$uuidAttr     = 'ldapUuidGroupAttribute';
+			$uuidAttr = 'ldapUuidGroupAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
 		}
 
@@ -1780,7 +1781,7 @@ class Access implements IUserTools {
 					['app' => 'user_ldap']
 				);
 				// TODO we should make the autodetection explicit and store it in the configuration after detection
-				// TODO the UserEntry does thet ... but only for users. Get this sorted out in the wizard properly
+				// TODO the UserEntry does that ... but only for users. Get this sorted out in the wizard properly
 				$this->connection->$uuidAttr = $attribute;
 				return true;
 			}
@@ -2066,9 +2067,6 @@ class Access implements IUserTools {
 		$cookie = '';
 		if (isset($this->cookies[$cacheKey])) {
 			$cookie = $this->cookies[$cacheKey];
-			if ($cookie === null) {
-				$cookie = '';
-			}
 		}
 		return $cookie;
 	}
@@ -2131,7 +2129,7 @@ class Access implements IUserTools {
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
-	 * @return bool|true
+	 * @return bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
@@ -2186,7 +2184,7 @@ class Access implements IUserTools {
 					if (!$pagedSearchOK) {
 						return false;
 					}
-				} else {
+				} else {  /** @phpstan-ignore-line */
 					\OC::$server->getLogger()->debug(
 						"No paged search for us at $range",
 						['app' => 'user_ldap']
