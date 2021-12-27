@@ -419,7 +419,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
-            "filterTags": "~@skip&&~@app-required",
+            "filterTags": "~@skip&&~@app-required&&~@dbConversion",
         },
         "core-cli-acceptance-latest-nightly": {
             "suites": {
@@ -438,7 +438,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
-            "filterTags": "~@skip&&~@app-required",
+            "filterTags": "~@skip&&~@app-required&&~@dbConversion",
             "cron": "nightly",
         },
         "core-webui-acceptance": {
@@ -627,7 +627,7 @@ config = {
             "extraApps": {
                 "encryption": "",
             },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
+            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
                 {
                     "name": "configure-app",
@@ -806,7 +806,7 @@ config = {
             "extraApps": {
                 "encryption": "",
             },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
+            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
                 {
                     "name": "configure-app",
