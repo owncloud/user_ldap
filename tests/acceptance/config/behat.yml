@@ -25,6 +25,8 @@ default:
         - OccContext:
         - OccUsersGroupsContext:
         - WebDavPropertiesContext:
+        - PublicWebDavContext:
+        - TagsContext:
 
     apiProvisioningLDAP:
       paths:
