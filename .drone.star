@@ -40,37 +40,21 @@ config = {
         },
     },
     "acceptance": {
-        "api-with-ldaps": {
-            "suites": {
-                "apiCopyFromPublicLink": "apiCopyFromPublicLink",
-            },
+        "api-with-core-latest": {
+            "suites": [
+                "apiCopyFromPublicLink",
+                "apiCopyFromPublicLink",
+            ],
             "databases": [
                 "mysql:8.0",
+                "postgres:9.4",
+                "oracle",
             ],
             "servers": [
-                "daily-master-qa",
                 "latest",
             ],
             "phpVersions": [
                 "7.3",
-            ],
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        'php occ ldap:set-config LDAPTestId ldapPort "636"',
-                        'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
             ],
         },
     },
