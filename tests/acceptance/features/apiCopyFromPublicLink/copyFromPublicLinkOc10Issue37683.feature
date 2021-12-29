@@ -17,6 +17,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -32,6 +33,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -47,6 +49,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -62,6 +65,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -77,6 +81,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -92,6 +97,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -107,6 +113,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -122,6 +129,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -137,6 +145,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -152,6 +161,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -167,6 +177,7 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
 
@@ -182,5 +193,6 @@ Feature: copying from public link share
     Then the HTTP status code should be "204"
     And as "Alice" folder "/PARENT/testFolder" should exist
     And as "Alice" folder "/PARENT/copy1.txt" should exist
+    And as "Alice" file "/PARENT/copy1.txt/testfile.txt" should exist
     And the content of file "/PARENT/copy1.txt/testfile.txt" for user "Alice" should be "some data"
     And the content of file "/PARENT/testFolder/testfile.txt" for user "Alice" should be "some data"
