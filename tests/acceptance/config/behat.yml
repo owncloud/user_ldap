@@ -3,9 +3,9 @@ default:
     '': '%paths.base%/../features/bootstrap'
 
   suites:
-    apiUserLDAP:
+    apiCopyFromPublicLink:
       paths:
-        - '%paths.base%/../features/apiUserLDAP'
+        - '%paths.base%/../features/apiCopyFromPublicLink'
       context: &common_ldap_suite_context
         parameters:
           ldapAdminPassword: admin
