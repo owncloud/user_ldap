@@ -40,52 +40,6 @@ config = {
         },
     },
     "acceptance": {
-        "api-with-core-master-mysql": {
-            "suites": [
-                "apiCopyFromPublicLink",
-            ],
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                "7.4",
-            ],
-        },
-        "api-with-core-master-other-db": {
-            "suites": [
-                "apiCopyFromPublicLink",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "api-with-core-latest": {
-            "suites": [
-                "apiCopyFromPublicLink",
-            ],
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
         "api-with-ldaps": {
             "suites": {
                 "apiCopyFromPublicLink": "apiCopyFromPublicLink",
