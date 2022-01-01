@@ -91,10 +91,10 @@ config = {
             ],
         },
         "api-with-core-latest": {
-            "suites": [
-                "apiProvisioningLDAP",
-                "apiUserLDAP",
-            ],
+            "suites": {
+                "apiProvisioningLDAP": "apiProvLDAP",
+                "apiUserLDAP": "apiUsrLDAP",
+            },
             "databases": [
                 "mysql:8.0",
                 "postgres:9.4",
@@ -109,8 +109,8 @@ config = {
         },
         "api-with-ldaps": {
             "suites": {
-                "apiProvisioningLDAP": "apiProvisioningLDAPS",
-                "apiUserLDAP": "apiUserLDAPS",
+                "apiProvisioningLDAP": "apiProvLDAPS",
+                "apiUserLDAP": "apiUsrLDAPS",
             },
             "databases": [
                 "mysql:8.0",
@@ -189,7 +189,7 @@ config = {
         },
         "cli-with-ldaps": {
             "suites": {
-                "cliProvisioning": "cliProvisioningLDAPS",
+                "cliProvisioning": "cliProvLDAPS",
             },
             "databases": [
                 "mysql:8.0",
@@ -253,10 +253,10 @@ config = {
             ],
         },
         "webUI-with-core-latest": {
-            "suites": [
-                "webUIUserLDAP",
-                "webUIProvisioning",
-            ],
+            "suites": {
+                "webUIUserLDAP": "webUIUsrLDAP",
+                "webUIProvisioning": "webUIProv",
+            },
             "databases": [
                 "mysql:8.0",
                 "postgres:9.4",
@@ -271,8 +271,8 @@ config = {
         },
         "webUI-with-ldaps": {
             "suites": {
-                "webUIUserLDAP": "webUIUserLDAPS",
-                "webUIProvisioning": "webUIProvisioningS",
+                "webUIUserLDAP": "webUIUsrLDAPS",
+                "webUIProvisioning": "webUIProvS",
             },
             "databases": [
                 "mysql:8.0",
@@ -493,7 +493,7 @@ config = {
         },
         "core-webui-acceptance-latest-nightly": {
             "suites": {
-                "webUIall": "core-wUI-latest",
+                "webUIall": "core-wUI-lat",
             },
             "databases": [
                 "mysql:8.0",
@@ -544,7 +544,7 @@ config = {
         },
         "core-api-acceptance-encryption-userkeys-nightly": {
             "suites": {
-                "apiAll": "core-apiAll-enc-UK",
+                "apiAll": "core-apiAll-e-UK",
             },
             "databases": [
                 "mysql:8.0",
@@ -608,7 +608,7 @@ config = {
         },
         "core-cli-acceptance-encryption-userkeys-nightly": {
             "suites": {
-                "cliAll": "core-cliAll-enc-UK",
+                "cliAll": "core-cliAll-e-UK",
             },
             "databases": [
                 "mysql:8.0",
@@ -658,7 +658,7 @@ config = {
         },
         "core-webui-acceptance-encryption-userkeys-nightly": {
             "suites": {
-                "webUIall": "core-wUI-enc-UK",
+                "webUIall": "core-wUI-e-UK",
             },
             "databases": [
                 "mysql:8.0",
@@ -723,7 +723,7 @@ config = {
         },
         "core-api-acceptance-encryption-masterkey-nightly": {
             "suites": {
-                "apiAll": "core-apiAll-enc-MK",
+                "apiAll": "core-apiAll-e-MK",
             },
             "databases": [
                 "mysql:8.0",
@@ -787,7 +787,7 @@ config = {
         },
         "core-cli-acceptance-encryption-masterkey-nightly": {
             "suites": {
-                "cliAll": "core-cliAll-enc-MK",
+                "cliAll": "core-cliAll-e-MK",
             },
             "databases": [
                 "mysql:8.0",
@@ -837,7 +837,7 @@ config = {
         },
         "core-webui-acceptance-encryption-masterkey-nightly": {
             "suites": {
-                "webUIall": "core-wUI-enc-MK",
+                "webUIall": "core-wUI-e-MK",
             },
             "databases": [
                 "mysql:8.0",
