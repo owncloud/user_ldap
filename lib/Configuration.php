@@ -57,6 +57,7 @@ use OCP\IConfig;
  * @property string $ldapGroupFilterGroups,
  * @property string $ldapGroupDisplayName,
  * @property string $ldapGroupMemberAssocAttr,
+ * @property string $ldapGroupMemberAlgo,
  * @property string $ldapLoginFilter,
  * @property string $ldapLoginFilterMode,
  * @property string $ldapLoginFilterEmail,

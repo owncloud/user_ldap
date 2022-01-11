@@ -46,6 +46,7 @@ use OCP\Util;
  * @property string[] $ldapBaseUsers
  * @property int|string $ldapPagingSize holds an integer
  * @property bool|mixed|void $ldapGroupMemberAssocAttr
+ * @property string $ldapGroupMemberAlgo,
  * @property bool $ldapConfigurationActive
  * @property string $ldapGroupFilter
  * @property string $ldapLoginFilter
