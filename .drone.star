@@ -101,7 +101,7 @@ config = {
                 "oracle",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -117,7 +117,7 @@ config = {
             ],
             "servers": [
                 "daily-master-qa",
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -181,7 +181,7 @@ config = {
                 "oracle",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -196,7 +196,7 @@ config = {
             ],
             "servers": [
                 "daily-master-qa",
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -263,7 +263,7 @@ config = {
                 "oracle",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -279,7 +279,7 @@ config = {
             ],
             "servers": [
                 "daily-master-qa",
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -360,7 +360,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -429,7 +429,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -499,7 +499,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -550,7 +550,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -614,7 +614,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -664,7 +664,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -729,7 +729,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -793,7 +793,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
@@ -843,7 +843,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "10.9.1RC2",
+                "10.9.1RC1",
             ],
             "phpVersions": [
                 "7.3",
