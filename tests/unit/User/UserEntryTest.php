@@ -247,7 +247,7 @@ class UserEntryTest extends \Test\TestCase {
 	public function testGetUUIDInvalidBinaryUUID() {
 		$this->expectException(\OutOfBoundsException::class);
 
-		$this->connection->expects($this->exactly(2))
+		$this->connection->expects($this->exactly(1))
 			->method('__get')
 			->with($this->equalTo('ldapExpertUUIDUserAttr'))
 			->will($this->returnValue('objectguid'));

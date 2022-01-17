@@ -1862,10 +1862,23 @@ class Access implements IUserTools {
 	 * {@link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198 The PHP ldap_get_values_lan doc comments}
 	 *
 	 * @param string $binGuid the ObjectGUID / GUID in it's binary form as retrieved from Microsoft AD / Novell eDirectory
+	 *                        If you pass an already decoded GUID as string, it will be returned as is.
 	 * @return string
 	 * @throws \OutOfBoundsException
 	 */
 	public static function binGUID2str($binGuid) {
+		$guidLength = \strlen($binGuid);
+
+		// The guid should have 16 byte when binary and 36 byte when string (including '-' characters)
+		if (($guidLength !== 16) && ($guidLength !== 36)) {
+			throw new \OutOfBoundsException(\sprintf('Invalid GUID with length %d received: <%X>', $guidLength, $binGuid));
+		}
+
+		// If we get a guid in string form we simply return it to prevent double decoding
+		if ($guidLength === 36) {
+			return $binGuid;
+		}
+
 		// V = unsigned long (always 32 bit, little endian byte order)
 		// v = unsigned short (always 16 bit, little endian byte order)
 		// n = unsigned short (always 16 bit, big endian byte order)

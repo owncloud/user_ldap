@@ -365,6 +365,11 @@ class UserEntry {
 			if ($trim) {
 				$value = \trim($value);
 			}
+
+			if ($attributeName === 'objectguid' || $attributeName === 'guid') {
+				$value = Access::binGUID2str($value);
+			}
+
 			if ($value === '') {
 				return $default;
 			}
