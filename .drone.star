@@ -320,7 +320,7 @@ config = {
             "federatedServerNeeded": True,
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
-            "numberOfParts": 21,
+            "numberOfParts": 30,
             "extraSetup": [
                 {
                     "name": "configure-app",
