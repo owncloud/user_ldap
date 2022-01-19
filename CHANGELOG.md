@@ -168,7 +168,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 
 [Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.16.0...master
-[0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
+[0.16.0]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
 [0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/owncloud/user_ldap/compare/v0.15.2...v0.15.3
 [0.15.2]: https://github.com/owncloud/user_ldap/compare/v0.15.1...v0.15.2
