@@ -135,6 +135,7 @@
     "One Group Base DN per line" : "หนึ่ง Group Base DN ต่อหนึ่งบรรทัด",
     "Group Search Attributes" : "คุณลักษณะการค้นหาแบบกลุ่ม",
     "Group-Member association" : "ความสัมพันธ์ของสมาชิกในกลุ่ม",
+    "Group-Member algorithm" : "อัลกอริทึมสมาชิกกลุ่ม",
     "Dynamic Group Member URL" : "URL สมาชิกกลุ่มแบบไดนามิก",
     "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "แอตทริบิวต์ LDAP อยู่ในกลุ่มของวัตถุ ที่ประกอบด้วย URL การค้นหา LDAP ที่\nกำหนดว่าวัตถุอะไรควรอยู่ในกลุ่ม (ตั้งค่าเป็นว่าง เพื่อปิดการใช้งานฟังก์ชั่นสมาชิกกลุ่มแบบไดนามิก)",
     "Nested Groups" : "กลุ่มที่ซ้อนกัน",
