@@ -419,6 +419,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
+            "federatedServerNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
         },
         "core-cli-acceptance-latest-nightly": {
@@ -438,6 +439,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
+            "federatedServerNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
             "cron": "nightly",
         },
@@ -624,6 +626,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
+            "federatedServerNeeded": True,
             "extraApps": {
                 "encryption": "",
             },
@@ -803,6 +806,7 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
+            "federatedServerNeeded": True,
             "extraApps": {
                 "encryption": "",
             },
