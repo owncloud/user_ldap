@@ -18,14 +18,10 @@ Feature: add group
     And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
-  Scenario: An LDAP group should be listed but the member count is not known
+  @skipOnOcV10.7 @skipOnOcV10.8 @skipOnOcV10.9.0 @skipOnOcV10.9.1
+  Scenario: An LDAP group should be listed but the member count is not displayed
     Then the group name "grp1" should be listed on the webUI
-    And the user count of group "grp1" should display 0 users on the webUI
-    # there are 2 LDAP users in this LDAP group
-    # TBD if we can or should display that information
-    #And the user count of group "grp1" should display 2 users on the webUI
-    # or a step like this: (maybe there should be no count displayed for LDAP groups
-    #And the user count of group "grp1" should not be displayed on the webUI
+    And the user count of group "grp1" should not be displayed on the webUI
 
   Scenario: Adding a simple database group should be possible
     When the administrator adds group "simple-group" using the webUI
@@ -67,6 +63,7 @@ Feature: add group
       | Unable to delete grp1 | Unable to delete group. |
     And group "grp1" should exist
 
+  @skipOnOcV10.7 @skipOnOcV10.8 @skipOnOcV10.9.0 @skipOnOcV10.9.1
   Scenario: Adding database user to database group should be possible
     Given user "db-user" has been created with default attributes in the database user backend
     And group "db-group" has been created in the database user backend
@@ -74,7 +71,7 @@ Feature: add group
     When the administrator adds user "db-user" to group "db-group" using the webUI
     Then user "db-user" should exist
     And user "db-user" should belong to group "db-group"
-    And the user count of group "db-group" should display 0 users on the webUI
+    And the user count of group "db-group" should not be displayed on the webUI
     # for a database group and user, we should really see the user in the count
     #And the user count of group "db-group" should display 1 users on the webUI
 
@@ -86,16 +83,14 @@ Feature: add group
     Then user "db-user" should exist
     But user "db-user" should not belong to group "grp1"
 
+  @skipOnOcV10.7 @skipOnOcV10.8 @skipOnOcV10.9.0 @skipOnOcV10.9.1
   Scenario: Adding LDAP user to database group should be possible
     Given group "db-group" has been created in the database user backend
     And the administrator has browsed to the users page
     When the administrator adds user "Alice" to group "db-group" using the webUI
     Then user "Alice" should exist
     And user "Alice" should belong to group "db-group"
-    And the user count of group "db-group" should display 0 users on the webUI
-    # for a database group and LDAP user, we should really see the user in the count
-    # The group and group membership is all on the server, not back in LDAP
-    #And the user count of group "db-group" should display 1 users on the webUI
+    And the user count of group "db-group" should not be displayed on the webUI
 
   @issue-core-25224
   Scenario: Adding LDAP user to LDAP group should not be possible
