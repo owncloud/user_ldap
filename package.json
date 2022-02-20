@@ -7,7 +7,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "bower": "~1.8.12"
+    "bower": "~1.8.13"
   },
   "repository": {
     "type": "git",
