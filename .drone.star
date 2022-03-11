@@ -58,9 +58,7 @@ config = {
                 "7.3",
             ],
             "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
+                "postgres:12",
             ],
             "coverage": False,
         },
@@ -83,13 +81,13 @@ config = {
         },
     },
     "acceptance": {
-        "api-with-core-master-mysql": {
+        "api-with-core-master-pgsql": {
             "suites": [
                 "apiProvisioningLDAP",
                 "apiUserLDAP",
             ],
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -99,31 +97,13 @@ config = {
                 DEFAULT_PHP_VERSION,
             ],
         },
-        "api-with-core-master-other-db": {
-            "suites": [
-                "apiProvisioningLDAP",
-                "apiUserLDAP",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
         "api-with-core-latest": {
             "suites": {
                 "apiProvisioningLDAP": "apiProvLDAP",
                 "apiUserLDAP": "apiUsrLDAP",
             },
             "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -138,7 +118,7 @@ config = {
                 "apiUserLDAP": "apiUsrLDAPS",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -165,12 +145,12 @@ config = {
                 },
             ],
         },
-        "cli-with-core-master-mysql": {
+        "cli-with-core-master-pgsql": {
             "suites": [
                 "cliProvisioning",
             ],
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -180,29 +160,12 @@ config = {
                 DEFAULT_PHP_VERSION,
             ],
         },
-        "cli-with-core-master-other-db": {
-            "suites": [
-                "cliProvisioning",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
         "cli-with-core-latest": {
             "suites": [
                 "cliProvisioning",
             ],
             "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -216,7 +179,7 @@ config = {
                 "cliProvisioning": "cliProvLDAPS",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -243,13 +206,13 @@ config = {
                 },
             ],
         },
-        "webUI-with-core-master-mysql": {
+        "webUI-with-core-master-pgsql": {
             "suites": [
                 "webUIUserLDAP",
                 "webUIProvisioning",
             ],
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -259,31 +222,13 @@ config = {
                 DEFAULT_PHP_VERSION,
             ],
         },
-        "webUI-with-core-master-other-db": {
-            "suites": [
-                "webUIUserLDAP",
-                "webUIProvisioning",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
         "webUI-with-core-latest": {
             "suites": {
                 "webUIUserLDAP": "webUIUsrLDAP",
                 "webUIProvisioning": "webUIProv",
             },
             "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -298,7 +243,7 @@ config = {
                 "webUIProvisioning": "webUIProvS",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -330,7 +275,7 @@ config = {
                 "apiAll": "core-apiAll",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -380,7 +325,7 @@ config = {
                 "apiAll": "core-apiAll-latest",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -393,7 +338,6 @@ config = {
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
             "numberOfParts": 21,
-            "cron": "nightly",
             "extraApps": {
                 "files_external": "",
             },
@@ -431,7 +375,7 @@ config = {
                 "cliAll": "core-cliAll",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -453,7 +397,7 @@ config = {
                 "cliAll": "core-cliAll-latest",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -469,14 +413,13 @@ config = {
             "extraApps": {
                 "files_external": "",
             },
-            "cron": "nightly",
         },
         "core-webui-acceptance": {
             "suites": {
                 "webUIall": "core-webUI",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "daily-master-qa",
@@ -527,7 +470,7 @@ config = {
                 "webUIall": "core-wUI-lat",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -538,7 +481,6 @@ config = {
             "emailNeeded": True,
             "runCoreTests": True,
             "federatedServerNeeded": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
@@ -579,7 +521,7 @@ config = {
                 "apiAll": "core-apiAll-e-UK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -589,7 +531,6 @@ config = {
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 21,
             "extraApps": {
@@ -641,7 +582,7 @@ config = {
                 "cliAll": "core-cliAll-e-UK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -650,7 +591,6 @@ config = {
                 "7.3",
             ],
             "runCoreTests": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
@@ -690,7 +630,7 @@ config = {
                 "webUIall": "core-wUI-e-UK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -701,7 +641,6 @@ config = {
             "emailNeeded": True,
             "runCoreTests": True,
             "federatedServerNeeded": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
@@ -753,7 +692,7 @@ config = {
                 "apiAll": "core-apiAll-e-MK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -763,7 +702,6 @@ config = {
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 21,
             "extraApps": {
@@ -815,7 +753,7 @@ config = {
                 "cliAll": "core-cliAll-e-MK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -824,7 +762,6 @@ config = {
                 "7.3",
             ],
             "runCoreTests": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 2,
             "emailNeeded": True,
@@ -864,7 +801,7 @@ config = {
                 "webUIall": "core-wUI-e-MK",
             },
             "databases": [
-                "mysql:8.0",
+                "postgres:12",
             ],
             "servers": [
                 "latest",
@@ -875,7 +812,6 @@ config = {
             "emailNeeded": True,
             "runCoreTests": True,
             "federatedServerNeeded": True,
-            "cron": "nightly",
             "runAllSuites": True,
             "numberOfParts": 2,
             "extraApps": {
@@ -1540,11 +1476,7 @@ def phpTests(ctx, testType, withCoverage):
     cronDefault = {
         "phpVersions": [DEFAULT_PHP_VERSION],
         "databases": [
-            "sqlite",
-            "mariadb:10.2",
-            "mysql:8.0",
-            "postgres:9.4",
-            "oracle",
+            "postgres:12",
         ],
         "coverage": True,
         "includeKeyInMatrixName": False,
@@ -3090,7 +3022,7 @@ def ldapIntegration(ctx):
     default = {
         "servers": ["daily-master-qa"],
         "phpVersions": ["7.4"],
-        "databases": ["mysql:8.0"],
+        "databases": ["postgres:12"],
         "ldapNeeded": True,
         "logLevel": "2",
     }
