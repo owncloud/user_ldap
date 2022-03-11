@@ -2693,7 +2693,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
             "settings": {
                 "version": federatedServerVersion,
                 "core_path": dir["federated"],
-                "db_type": "mysql",
+                "db_type": dbType,
                 "db_name": database,
                 "db_host": host + dbSuffix,
                 "db_username": username,
