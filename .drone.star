@@ -2719,23 +2719,35 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
 def databaseServiceForFederation(db, suffix):
     dbName = getDbName(db)
 
-    if dbName not in ["mariadb", "mysql"]:
-        print("Not implemented federated database for ", dbName)
-        return []
+    if (dbName == "mariadb") or (dbName == "mysql"):
+        service = {
+            "name": dbName + suffix,
+            "image": db,
+            "pull": "always",
+            "environment": {
+                "MYSQL_USER": getDbUsername(db),
+                "MYSQL_PASSWORD": getDbPassword(db),
+                "MYSQL_DATABASE": getDbDatabase(db),
+                "MYSQL_ROOT_PASSWORD": getDbRootPassword(),
+            },
+        }
+        if (db == "mysql:8.0"):
+            service["command"] = ["--default-authentication-plugin=mysql_native_password"]
+        return [service]
 
-    service = {
-        "name": dbName + suffix,
-        "image": db,
-        "environment": {
-            "MYSQL_USER": getDbUsername(db),
-            "MYSQL_PASSWORD": getDbPassword(db),
-            "MYSQL_DATABASE": getDbDatabase(db) + suffix,
-            "MYSQL_ROOT_PASSWORD": getDbRootPassword(),
-        },
-    }
-    if (db == "mysql:8.0"):
-        service["command"] = ["--default-authentication-plugin=mysql_native_password"]
-    return [service]
+    if dbName == "postgres":
+        return [{
+            "name": dbName + suffix,
+            "image": db,
+            "pull": "always",
+            "environment": {
+                "POSTGRES_USER": getDbUsername(db),
+                "POSTGRES_PASSWORD": getDbPassword(db),
+                "POSTGRES_DB": getDbDatabase(db),
+            },
+        }]
+
+    return []
 
 def buildTestConfig(params):
     configs = []
