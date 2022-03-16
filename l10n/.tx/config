@@ -7,4 +7,3 @@ file_filter = <lang>/user_ldap.po
 source_file = templates/user_ldap.pot
 source_lang = en
 type = PO
-
