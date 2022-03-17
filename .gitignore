@@ -19,3 +19,6 @@ vendor-bin/**/composer.lock
 # IDE Cache
 .idea/
 .vscode/
+
+# Generated from .drone.star
+.drone.yml
