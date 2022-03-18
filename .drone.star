@@ -343,6 +343,9 @@ config = {
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
             "numberOfParts": 30,
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
@@ -391,6 +394,9 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 21,
             "cron": "nightly",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
@@ -438,6 +444,9 @@ config = {
             "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
+            "extraApps": {
+                "files_external": "",
+            },
         },
         "core-cli-acceptance-latest-nightly": {
             "suites": {
@@ -457,6 +466,9 @@ config = {
             "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
+            "extraApps": {
+                "files_external": "",
+            },
             "cron": "nightly",
         },
         "core-webui-acceptance": {
@@ -478,6 +490,9 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
@@ -527,6 +542,9 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
@@ -576,6 +594,7 @@ config = {
             "numberOfParts": 21,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
             "extraSetup": [
@@ -637,6 +656,7 @@ config = {
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
@@ -687,6 +707,7 @@ config = {
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "extraSetup": [
                 {
@@ -747,6 +768,7 @@ config = {
             "numberOfParts": 21,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
             "extraSetup": [
@@ -808,6 +830,7 @@ config = {
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
@@ -857,6 +880,7 @@ config = {
             "numberOfParts": 2,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
             "extraSetup": [
