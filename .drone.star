@@ -1,7 +1,32 @@
+BANST_AWS_CLI = "banst/awscli"
+DRONE_CLI = "drone/cli:alpine"
+MAILHOG_MAILHOG = "mailhog/mailhog"
+MINIO_MC = "minio/mc:RELEASE.2020-12-18T10-53-53Z"
 OC_CI_ALPINE = "owncloudci/alpine:latest"
+OC_CI_BAZEL_BUILDIFIER = "owncloudci/bazel-buildifier"
+OC_CI_CEPH = "owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04"
+OC_CI_CORE = "owncloudci/core"
+OC_CI_DRONE_CANCEL_PREVIOUS_BUILDS = "owncloudci/drone-cancel-previous-builds"
+OC_CI_DRONE_SKIP_PIPELINE = "owncloudci/drone-skip-pipeline"
+OC_CI_NODEJS = "owncloudci/nodejs:%s"
+OC_CI_ORACLE_XE = "owncloudci/oracle-xe:latest"
+OC_CI_PHP = "owncloudci/php:%s"
+OC_CI_SCALITY_S3_SERVER = "owncloudci/scality-s3server"
 OC_CI_WAIT_FOR = "owncloudci/wait-for:latest"
-OC_CI_NODEJS = "owncloudci/nodejs:14"
+OC_OPS_ELASTIC_SEARCH = "owncloudops/elasticsearch:%s"
 OC_UBUNTU = "owncloud/ubuntu:20.04"
+OSIXIA_OPEN_LDAP = "osixia/openldap"
+PLUGINS_GITHUB_RELEASE = "plugins/github-release"
+PLUGINS_S3 = "plugins/s3"
+PLUGINS_S3_CACHE = "plugins/s3-cache:1"
+PLUGINS_SLACK = "plugins/slack:1"
+SELENIUM_STANDALONE_CHROME_DEBUG = "selenium/standalone-chrome-debug:3.141.59-oxygen"
+SELENIUM_STANDALONE_FIREFOX_DEBUG = "selenium/standalone-firefox-debug:3.8.1"
+SONARSOURCE_SONAR_SCANNER_CLI = "sonarsource/sonar-scanner-cli"
+THEGEEKLAB_DRONE_GITHUB_COMMENT = "thegeeklab/drone-github-comment:1"
+
+DEFAULT_PHP_VERSION = "7.4"
+DEFAULT_NODEJS_VERSION = "14"
 
 dir = {
     "base": "/var/www/owncloud",
@@ -25,7 +50,7 @@ config = {
     "phpunit": {
         "allDatabases": {
             "phpVersions": [
-                "7.4",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "reducedDatabases": {
@@ -71,7 +96,7 @@ config = {
             ],
             "phpVersions": [
                 "7.3",
-                "7.4",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "api-with-core-master-other-db": {
@@ -125,8 +150,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -153,7 +177,7 @@ config = {
             ],
             "phpVersions": [
                 "7.3",
-                "7.4",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "cli-with-core-master-other-db": {
@@ -204,8 +228,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -233,7 +256,7 @@ config = {
             ],
             "phpVersions": [
                 "7.3",
-                "7.4",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "webUI-with-core-master-other-db": {
@@ -287,8 +310,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -321,11 +343,13 @@ config = {
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
             "numberOfParts": 30,
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -338,8 +362,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -371,11 +394,13 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 21,
             "cron": "nightly",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -388,8 +413,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -420,6 +444,9 @@ config = {
             "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
+            "extraApps": {
+                "files_external": "",
+            },
         },
         "core-cli-acceptance-latest-nightly": {
             "suites": {
@@ -439,6 +466,9 @@ config = {
             "numberOfParts": 2,
             "emailNeeded": True,
             "filterTags": "~@skip&&~@app-required&&~@dbConversion",
+            "extraApps": {
+                "files_external": "",
+            },
             "cron": "nightly",
         },
         "core-webui-acceptance": {
@@ -460,11 +490,13 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -477,8 +509,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -511,11 +542,13 @@ config = {
             "runAllSuites": True,
             "numberOfParts": 2,
             "filterTags": "@smokeTest&&~@skip&&~@app-required",
+            "extraApps": {
+                "files_external": "",
+            },
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -528,8 +561,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -562,13 +594,13 @@ config = {
             "numberOfParts": 21,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -581,8 +613,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -595,8 +626,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -626,13 +656,13 @@ config = {
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -645,8 +675,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -678,12 +707,12 @@ config = {
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -696,8 +725,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -710,8 +738,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -741,13 +768,13 @@ config = {
             "numberOfParts": 21,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -760,8 +787,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -774,8 +800,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -805,13 +830,13 @@ config = {
             "emailNeeded": True,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required&&~@dbConversion",
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -824,8 +849,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -856,13 +880,13 @@ config = {
             "numberOfParts": 2,
             "extraApps": {
                 "encryption": "",
+                "files_external": "",
             },
             "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -875,8 +899,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -889,8 +912,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -907,8 +929,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": "owncloudci/php:7.3",
-                    "pull": "always",
+                    "image": OC_CI_PHP % "7.3",
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -960,7 +981,7 @@ def main(ctx):
     return before + coverageTests + afterCoverageTests + nonCoverageTests + stages + after
 
 def beforePipelines(ctx):
-    return codestyle(ctx) + jscodestyle(ctx) + checkForRecentBuilds(ctx) + phpstan(ctx) + phan(ctx) + phplint(ctx) + checkStarlark()
+    return codestyle(ctx) + jscodestyle(ctx) + cancelPreviousBuilds() + phpstan(ctx) + phan(ctx) + phplint(ctx) + checkStarlark()
 
 def coveragePipelines(ctx):
     # All unit test pipelines that have coverage or other test analysis reported
@@ -1008,7 +1029,7 @@ def codestyle(ctx):
         return pipelines
 
     default = {
-        "phpVersions": ["7.4"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
     }
 
     if "defaults" in config:
@@ -1045,16 +1066,16 @@ def codestyle(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": [
-                    {
-                        "name": "coding-standard",
-                        "image": "owncloudci/php:%s" % phpVersion,
-                        "pull": "always",
-                        "commands": [
-                            "make test-php-style",
-                        ],
-                    },
-                ],
+                "steps": skipIfUnchanged(ctx, "lint") +
+                         [
+                             {
+                                 "name": "coding-standard",
+                                 "image": OC_CI_PHP % phpVersion,
+                                 "commands": [
+                                     "make test-php-style",
+                                 ],
+                             },
+                         ],
                 "depends_on": [],
                 "trigger": {
                     "ref": [
@@ -1089,16 +1110,16 @@ def jscodestyle(ctx):
             "base": dir["base"],
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": [
-            {
-                "name": "coding-standard-js",
-                "image": OC_CI_NODEJS,
-                "pull": "always",
-                "commands": [
-                    "make test-js-style",
-                ],
-            },
-        ],
+        "steps": skipIfUnchanged(ctx, "lint") +
+                 [
+                     {
+                         "name": "coding-standard-js",
+                         "image": OC_CI_NODEJS % DEFAULT_NODEJS_VERSION,
+                         "commands": [
+                             "make test-js-style",
+                         ],
+                     },
+                 ],
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -1115,53 +1136,27 @@ def jscodestyle(ctx):
 
     return pipelines
 
-def checkForRecentBuilds(ctx):
-    pipelines = []
-
-    result = {
+def cancelPreviousBuilds():
+    return [{
         "kind": "pipeline",
         "type": "docker",
-        "name": "stop-recent-builds",
-        "workspace": {
-            "base": dir["base"],
-            "path": "server/apps/%s" % ctx.repo.name,
+        "name": "cancel-previous-builds",
+        "clone": {
+            "disable": True,
         },
-        "steps": stopRecentBuilds(ctx),
+        "steps": [{
+            "name": "cancel-previous-builds",
+            "image": OC_CI_DRONE_CANCEL_PREVIOUS_BUILDS,
+            "settings": {
+                "DRONE_TOKEN": {
+                    "from_secret": "drone_token",
+                },
+            },
+        }],
         "depends_on": [],
         "trigger": {
             "ref": [
-                "refs/heads/master",
-                "refs/tags/**",
                 "refs/pull/**",
-            ],
-        },
-    }
-
-    pipelines.append(result)
-
-    return pipelines
-
-def stopRecentBuilds(ctx):
-    app = "%s/apps/%s" % (dir["server"], ctx.repo.name)
-    return [{
-        "name": "stop-recent-builds",
-        "image": "drone/cli:alpine",
-        "pull": "always",
-        "environment": {
-            "DRONE_SERVER": "https://drone.owncloud.com",
-            "DRONE_TOKEN": {
-                "from_secret": "drone_token",
-            },
-            "OWNCLOUD_APP": ctx.repo.slug,
-        },
-        "commands": [
-            "drone build ls %s --status running > %s/recentBuilds.txt" % (ctx.repo.slug, app),
-            "drone build info %s ${DRONE_BUILD_NUMBER} > %s/thisBuildInfo.txt" % (ctx.repo.slug, app),
-            "cd %s && ./.drone/cancelBuilds.sh" % app,
-        ],
-        "when": {
-            "event": [
-                "pull_request",
             ],
         },
     }]
@@ -1173,7 +1168,7 @@ def phpstan(ctx):
         return pipelines
 
     default = {
-        "phpVersions": ["7.4"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
         "logLevel": "2",
         "extraApps": {},
         "enableApp": True,
@@ -1213,15 +1208,15 @@ def phpstan(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
+                "steps": skipIfUnchanged(ctx, "lint") +
+                         installCore(ctx, "daily-master-qa", "sqlite", False) +
                          installAppPhp(ctx, phpVersion) +
                          installExtraApps(phpVersion, params["extraApps"]) +
                          setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
                          [
                              {
                                  "name": "phpstan",
-                                 "image": "owncloudci/php:%s" % phpVersion,
-                                 "pull": "always",
+                                 "image": OC_CI_PHP % phpVersion,
                                  "commands": [
                                      "make test-php-phpstan",
                                  ],
@@ -1250,7 +1245,7 @@ def phan(ctx):
         return pipelines
 
     default = {
-        "phpVersions": ["7.4"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
     }
 
     if "defaults" in config:
@@ -1287,12 +1282,12 @@ def phan(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
+                "steps": skipIfUnchanged(ctx, "lint") +
+                         installCore(ctx, "daily-master-qa", "sqlite", False) +
                          [
                              {
                                  "name": "phan",
-                                 "image": "owncloudci/php:%s" % phpVersion,
-                                 "pull": "always",
+                                 "image": OC_CI_PHP % phpVersion,
                                  "commands": [
                                      "make test-php-phan",
                                  ],
@@ -1321,7 +1316,7 @@ def build(ctx):
         return pipelines
 
     default = {
-        "phpVersions": ["7.3"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
         "commands": [
             "make dist",
         ],
@@ -1359,16 +1354,14 @@ def build(ctx):
             "steps": [
                 {
                     "name": "build",
-                    "image": "owncloudci/php:%s" % phpVersion,
-                    "pull": "always",
+                    "image": OC_CI_PHP % phpVersion,
                     "environment": params["extraEnvironment"],
                     "commands": params["commands"],
                 },
             ] + ([
                 {
                     "name": "github_release",
-                    "image": "plugins/github-release",
-                    "pull": "always",
+                    "image": PLUGINS_GITHUB_RELEASE,
                     "settings": {
                         "checksum": "sha256",
                         "file_exists": "overwrite",
@@ -1458,15 +1451,15 @@ def javascript(ctx, withCoverage):
             "base": dir["base"],
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
+        "steps": skipIfUnchanged(ctx, "unit-tests") +
+                 installCore(ctx, "daily-master-qa", "sqlite", False) +
                  installAppJavaScript(ctx) +
-                 setupServerAndApp(ctx, "7.4", params["logLevel"], False, params["enableApp"]) +
+                 setupServerAndApp(ctx, DEFAULT_PHP_VERSION, params["logLevel"], False, params["enableApp"]) +
                  params["extraSetup"] +
                  [
                      {
                          "name": "js-tests",
-                         "image": "owncloudci/nodejs:%s" % getNodeJsVersion(),
-                         "pull": "always",
+                         "image": OC_CI_NODEJS % getNodeJsVersion(),
                          "environment": params["extraEnvironment"],
                          "commands": params["extraCommandsBeforeTestRun"] + [
                              "make test-js",
@@ -1486,8 +1479,7 @@ def javascript(ctx, withCoverage):
     if params["coverage"]:
         result["steps"].append({
             "name": "coverage-cache",
-            "image": "plugins/s3",
-            "pull": "always",
+            "image": PLUGINS_S3,
             "settings": {
                 "endpoint": {
                     "from_secret": "cache_s3_endpoint",
@@ -1519,8 +1511,34 @@ def phpTests(ctx, testType, withCoverage):
 
     errorFound = False
 
-    default = {
-        "phpVersions": ["7.3", "7.4"],
+    # The default PHP unit test settings for a PR.
+    # Note: do not run Oracle by default in PRs.
+    prDefault = {
+        "phpVersions": [DEFAULT_PHP_VERSION],
+        "databases": [
+            "sqlite",
+            "mariadb:10.2",
+            "mysql:8.0",
+            "postgres:9.4",
+        ],
+        "coverage": True,
+        "includeKeyInMatrixName": False,
+        "logLevel": "2",
+        "cephS3": False,
+        "scalityS3": False,
+        "extraSetup": [],
+        "extraServices": [],
+        "extraEnvironment": {},
+        "extraCommandsBeforeTestRun": [],
+        "extraApps": {},
+        "extraTeardown": [],
+        "skip": False,
+        "enableApp": True,
+    }
+
+    # The default PHP unit test settings for the cron job (usually runs nightly).
+    cronDefault = {
+        "phpVersions": [DEFAULT_PHP_VERSION],
         "databases": [
             "sqlite",
             "mariadb:10.2",
@@ -1542,6 +1560,11 @@ def phpTests(ctx, testType, withCoverage):
         "skip": False,
         "enableApp": True,
     }
+
+    if (ctx.build.event == "cron"):
+        default = cronDefault
+    else:
+        default = prDefault
 
     if "defaults" in config:
         if testType in config["defaults"]:
@@ -1630,7 +1653,8 @@ def phpTests(ctx, testType, withCoverage):
                         "base": dir["base"],
                         "path": "server/apps/%s" % ctx.repo.name,
                     },
-                    "steps": installCore(ctx, "daily-master-qa", db, False) +
+                    "steps": skipIfUnchanged(ctx, "unit-tests") +
+                             installCore(ctx, "daily-master-qa", db, False) +
                              installAppPhp(ctx, phpVersion) +
                              installExtraApps(phpVersion, params["extraApps"]) +
                              setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
@@ -1640,8 +1664,7 @@ def phpTests(ctx, testType, withCoverage):
                              [
                                  {
                                      "name": "%s-tests" % testType,
-                                     "image": "owncloudci/php:%s" % phpVersion,
-                                     "pull": "always",
+                                     "image": OC_CI_PHP % phpVersion,
                                      "environment": params["extraEnvironment"],
                                      "commands": params["extraCommandsBeforeTestRun"] + [
                                          command,
@@ -1664,16 +1687,14 @@ def phpTests(ctx, testType, withCoverage):
                 if params["coverage"]:
                     result["steps"].append({
                         "name": "coverage-rename",
-                        "image": "owncloudci/php:%s" % phpVersion,
-                        "pull": "always",
+                        "image": OC_CI_PHP % phpVersion,
                         "commands": [
                             "mv tests/output/clover.xml tests/output/clover-%s.xml" % (name),
                         ],
                     })
                     result["steps"].append({
                         "name": "coverage-cache-1",
-                        "image": "plugins/s3",
-                        "pull": "always",
+                        "image": PLUGINS_S3,
                         "settings": {
                             "endpoint": {
                                 "from_secret": "cache_s3_endpoint",
@@ -1717,7 +1738,7 @@ def acceptance(ctx):
     default = {
         "servers": ["daily-master-qa", "latest"],
         "browsers": ["chrome"],
-        "phpVersions": ["7.4"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
         "databases": ["mariadb:10.2"],
         "esVersions": ["none"],
         "federatedServerNeeded": False,
@@ -1799,8 +1820,7 @@ def acceptance(ctx):
                 params["extraSetup"] = [
                     {
                         "name": "configure-app",
-                        "image": "owncloudci/php:7.4",
-                        "pull": "always",
+                        "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                         "commands": [
                             "cd /var/www/owncloud/server/apps/files_primary_s3",
                             "cp tests/drone/scality.config.php /var/www/owncloud/server/config",
@@ -1829,8 +1849,7 @@ def acceptance(ctx):
                 params["extraTeardown"] = [
                     {
                         "name": "cleanup-scality-bucket",
-                        "image": "banst/awscli",
-                        "pull": "always",
+                        "image": BANST_AWS_CLI,
                         "failure": "ignore",
                         "commands": [
                             "aws configure set aws_access_key_id $SCALITY_KEY",
@@ -1961,8 +1980,9 @@ def acceptance(ctx):
                         "base": dir["base"],
                         "path": "testrunner/apps/%s" % ctx.repo.name,
                     },
-                    "steps": installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
-                             installTestrunner(ctx, "7.4", testConfig["useBundledApp"]) +
+                    "steps": skipIfUnchanged(ctx, "acceptance-tests") +
+                             installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
+                             installTestrunner(ctx, DEFAULT_PHP_VERSION, testConfig["useBundledApp"]) +
                              (installFederated(testConfig["server"], testConfig["phpVersion"], testConfig["logLevel"], testConfig["database"], federationDbSuffix) + owncloudLog("federated") if testConfig["federatedServerNeeded"] else []) +
                              installAppPhp(ctx, testConfig["phpVersion"]) +
                              installAppJavaScript(ctx) +
@@ -1980,8 +2000,7 @@ def acceptance(ctx):
                              [
                                  ({
                                      "name": "acceptance-tests",
-                                     "image": "owncloudci/php:7.4",
-                                     "pull": "always",
+                                     "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                                      "environment": environment,
                                      "commands": testConfig["extraCommandsBeforeTestRun"] + [
                                          "touch %s/saved-settings.sh" % dir["base"],
@@ -1993,7 +2012,7 @@ def acceptance(ctx):
                                          "path": "%s/downloads" % dir["server"],
                                      }],
                                  }),
-                             ] + testConfig["extraTeardown"] + buildGithubCommentForBuildStopped(name, params["earlyFail"]) + githubComment(params["earlyFail"]) + stopBuild(ctx, params["earlyFail"]),
+                             ] + testConfig["extraTeardown"] + githubComment(params["earlyFail"]) + stopBuild(ctx, params["earlyFail"]),
                     "services": databaseService(testConfig["database"]) +
                                 browserService(testConfig["browser"]) +
                                 emailService(testConfig["emailNeeded"]) +
@@ -2032,7 +2051,7 @@ def acceptance(ctx):
 
     return pipelines
 
-def sonarAnalysis(ctx, phpVersion = "7.4"):
+def sonarAnalysis(ctx, phpVersion = DEFAULT_PHP_VERSION):
     sonar_env = {
         "SONAR_TOKEN": {
             "from_secret": "sonar_token",
@@ -2070,14 +2089,14 @@ def sonarAnalysis(ctx, phpVersion = "7.4"):
                          ],
                      },
                  ] +
+                 skipIfUnchanged(ctx, "unit-tests") +
                  cacheRestore() +
                  composerInstall(phpVersion) +
                  installCore(ctx, "daily-master-qa", "sqlite", False) +
                  [
                      {
                          "name": "sync-from-cache",
-                         "image": "minio/mc:RELEASE.2020-12-18T10-53-53Z",
-                         "pull": "always",
+                         "image": MINIO_MC,
                          "environment": {
                              "MC_HOST_cache": {
                                  "from_secret": "cache_s3_connection_url",
@@ -2090,16 +2109,14 @@ def sonarAnalysis(ctx, phpVersion = "7.4"):
                      },
                      {
                          "name": "list-coverage-results",
-                         "image": "owncloudci/php:%s" % phpVersion,
-                         "pull": "always",
+                         "image": OC_CI_PHP % phpVersion,
                          "commands": [
                              "ls -l results",
                          ],
                      },
                      {
                          "name": "sonarcloud",
-                         "image": "sonarsource/sonar-scanner-cli",
-                         "pull": "always",
+                         "image": SONARSOURCE_SONAR_SCANNER_CLI,
                          "environment": sonar_env,
                          "when": {
                              "instance": [
@@ -2110,7 +2127,7 @@ def sonarAnalysis(ctx, phpVersion = "7.4"):
                      },
                      {
                          "name": "purge-cache",
-                         "image": "minio/mc:RELEASE.2020-12-18T10-53-53Z",
+                         "image": MINIO_MC,
                          "environment": {
                              "MC_HOST_cache": {
                                  "from_secret": "cache_s3_connection_url",
@@ -2147,8 +2164,7 @@ def notify():
         "steps": [
             {
                 "name": "notify-rocketchat",
-                "image": "plugins/slack:1",
-                "pull": "always",
+                "image": PLUGINS_SLACK,
                 "settings": {
                     "webhook": {
                         "from_secret": config["rocketchat"]["from_secret"],
@@ -2180,7 +2196,6 @@ def databaseService(db):
         service = {
             "name": dbName,
             "image": db,
-            "pull": "always",
             "environment": {
                 "MYSQL_USER": getDbUsername(db),
                 "MYSQL_PASSWORD": getDbPassword(db),
@@ -2196,7 +2211,6 @@ def databaseService(db):
         return [{
             "name": dbName,
             "image": db,
-            "pull": "always",
             "environment": {
                 "POSTGRES_USER": getDbUsername(db),
                 "POSTGRES_PASSWORD": getDbPassword(db),
@@ -2207,8 +2221,7 @@ def databaseService(db):
     if dbName == "oracle":
         return [{
             "name": dbName,
-            "image": "owncloudci/oracle-xe:latest",
-            "pull": "always",
+            "image": OC_CI_ORACLE_XE,
             "environment": {
                 "ORACLE_USER": getDbUsername(db),
                 "ORACLE_PASSWORD": getDbPassword(db),
@@ -2223,8 +2236,7 @@ def browserService(browser):
     if browser == "chrome":
         return [{
             "name": "selenium",
-            "image": "selenium/standalone-chrome-debug:3.141.59-oxygen",
-            "pull": "always",
+            "image": SELENIUM_STANDALONE_CHROME_DEBUG,
             "environment": {
                 "JAVA_OPTS": "-Dselenium.LOGGER.level=WARNING",
             },
@@ -2237,8 +2249,7 @@ def browserService(browser):
     if browser == "firefox":
         return [{
             "name": "selenium",
-            "image": "selenium/standalone-firefox-debug:3.8.1",
-            "pull": "always",
+            "image": SELENIUM_STANDALONE_FIREFOX_DEBUG,
             "environment": {
                 "JAVA_OPTS": "-Dselenium.LOGGER.level=WARNING",
                 "SE_OPTS": "-enablePassThrough false",
@@ -2267,8 +2278,7 @@ def emailService(emailNeeded):
     if emailNeeded:
         return [{
             "name": "email",
-            "image": "mailhog/mailhog",
-            "pull": "always",
+            "image": MAILHOG_MAILHOG,
         }]
 
     return []
@@ -2289,8 +2299,7 @@ def ldapService(ldapNeeded):
     if ldapNeeded:
         return [{
             "name": "ldap",
-            "image": "osixia/openldap",
-            "pull": "always",
+            "image": OSIXIA_OPEN_LDAP,
             "environment": {
                 "LDAP_DOMAIN": "owncloud.com",
                 "LDAP_ORGANISATION": "owncloud",
@@ -2307,8 +2316,7 @@ def elasticSearchService(esVersion):
 
     return [{
         "name": "elasticsearch",
-        "image": "owncloudops/elasticsearch:%s" % esVersion,
-        "pull": "always",
+        "image": OC_OPS_ELASTIC_SEARCH % esVersion,
         "environment": {
             "ELASTICSEARCH_ROOT_LOG_LEVEL": "warn",
             "ELASTICSEARCH_BOOTSTRAP_MEMORY_LOCK": "false",
@@ -2329,8 +2337,7 @@ def scalityService(serviceParams):
 
     return [{
         "name": "scality",
-        "image": "owncloudci/scality-s3server",
-        "pull": "always",
+        "image": OC_CI_SCALITY_S3_SERVER,
         "environment": serviceEnvironment,
     }]
 
@@ -2352,8 +2359,7 @@ def cephService(serviceParams):
 
     return [{
         "name": "ceph",
-        "image": "owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04",
-        "pull": "always",
+        "image": OC_CI_CEPH,
         "environment": serviceEnvironment,
     }]
 
@@ -2375,8 +2381,7 @@ def owncloudService(version, phpVersion, name, path, ssl, xForwardedFor):
 
     return [{
         "name": name,
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "environment": environment,
         "commands": ([
             "a2enmod remoteip",
@@ -2427,15 +2432,14 @@ def getDbDatabase(db):
 def getNodeJsVersion():
     if "nodeJsVersion" not in config:
         # We use nodejs 14 as the default
-        return "14"
+        return DEFAULT_NODEJS_VERSION
     else:
         return config["nodeJsVersion"]
 
 def cacheRestore():
     return [{
         "name": "cache-restore",
-        "image": "plugins/s3-cache:1",
-        "pull": "always",
+        "image": PLUGINS_S3_CACHE,
         "settings": {
             "access_key": {
                 "from_secret": "cache_s3_access_key",
@@ -2459,8 +2463,7 @@ def cacheRestore():
 def composerInstall(phpVersion):
     return [{
         "name": "composer-install",
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "environment": {
             "COMPOSER_HOME": "/drone/src/.cache/composer",
         },
@@ -2488,8 +2491,7 @@ def installCore(ctx, version, db, useBundledApp):
 
     stepDefinition = {
         "name": "install-core",
-        "image": "owncloudci/core",
-        "pull": "always",
+        "image": OC_CI_CORE,
         "settings": {
             "version": version,
             "core_path": dir["server"],
@@ -2509,8 +2511,7 @@ def installCore(ctx, version, db, useBundledApp):
 def installTestrunner(ctx, phpVersion, useBundledApp):
     return [{
         "name": "install-testrunner",
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "commands": [
             "mkdir /tmp/testrunner",
             "git clone -b master --depth=1 https://github.com/owncloud/core.git /tmp/testrunner",
@@ -2523,8 +2524,8 @@ def installTestrunner(ctx, phpVersion, useBundledApp):
 def installExtraApps(phpVersion, extraApps):
     commandArray = []
     for app, command in extraApps.items():
-        commandArray.append("git clone https://github.com/owncloud/%s.git %s/apps/%s" % (app, dir["testrunner"], app))
-        commandArray.append("cp -r %s/apps/%s %s/apps/" % (dir["testrunner"], app, dir["server"]))
+        commandArray.append("ls %s/apps/%s || git clone https://github.com/owncloud/%s.git %s/apps/%s" % (dir["testrunner"], app, app, dir["testrunner"], app))
+        commandArray.append("ls %s/apps/%s || cp -r %s/apps/%s %s/apps/" % (dir["server"], app, dir["testrunner"], app, dir["server"]))
         if (command != ""):
             commandArray.append("cd %s/apps/%s" % (dir["server"], app))
             commandArray.append(command)
@@ -2538,8 +2539,7 @@ def installExtraApps(phpVersion, extraApps):
 
     return [{
         "name": "install-extra-apps",
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "commands": commandArray,
     }]
 
@@ -2554,8 +2554,7 @@ def installAppPhp(ctx, phpVersion):
     return [
         {
             "name": "install-app-php-%s" % ctx.repo.name,
-            "image": "owncloudci/php:%s" % phpVersion,
-            "pull": "always",
+            "image": OC_CI_PHP % phpVersion,
             "commands": [
                 "cd %s/apps/%s" % (dir["server"], ctx.repo.name),
                 config["appInstallCommandPhp"],
@@ -2585,8 +2584,7 @@ def installAppJavaScript(ctx):
     return [
         {
             "name": "install-app-js-%s" % ctx.repo.name,
-            "image": "owncloudci/nodejs:%s" % getNodeJsVersion(),
-            "pull": "always",
+            "image": OC_CI_NODEJS % getNodeJsVersion(),
             "commands": commandArray,
         },
     ]
@@ -2594,8 +2592,7 @@ def installAppJavaScript(ctx):
 def setupServerAndApp(ctx, phpVersion, logLevel, federatedServerNeeded = False, enableApp = True):
     return [{
         "name": "setup-server-%s" % ctx.repo.name,
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "commands": [
             "cd %s" % dir["server"],
             "php occ a:l",
@@ -2633,8 +2630,7 @@ def setupCeph(serviceParams):
         },
         {
             "name": "setup-ceph",
-            "image": "owncloudci/php:7.4",
-            "pull": "always",
+            "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
             "commands": setupCommands + ([
                 "./apps/files_primary_s3/tests/drone/create-bucket.sh",
             ] if createFirstBucket else []),
@@ -2669,8 +2665,7 @@ def setupScality(serviceParams):
         },
         {
             "name": "setup-scality",
-            "image": "owncloudci/php:7.4",
-            "pull": "always",
+            "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
             "commands": setupCommands + ([
                 "php occ s3:create-bucket owncloud --accept-warning",
             ] if createFirstBucket else []) + ([
@@ -2693,8 +2688,7 @@ def setupElasticSearch(esVersion):
         },
         {
             "name": "setup-es",
-            "image": "owncloudci/php:7.4",
-            "pull": "always",
+            "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
             "commands": [
                 "cd %s" % dir["server"],
                 "php occ config:app:set search_elastic servers --value elasticsearch",
@@ -2707,7 +2701,6 @@ def waitForServer(federatedServerNeeded):
     return [{
         "name": "wait-for-server",
         "image": OC_CI_WAIT_FOR,
-        "pull": "always",
         "commands": [
             "wait-for -it server:80 -t 600",
         ] + ([
@@ -2718,8 +2711,7 @@ def waitForServer(federatedServerNeeded):
 def fixPermissions(phpVersion, federatedServerNeeded, selUserNeeded = False):
     return [{
         "name": "fix-permissions",
-        "image": "owncloudci/php:%s" % phpVersion,
-        "pull": "always",
+        "image": OC_CI_PHP % phpVersion,
         "commands": [
             "chown -R www-data %s" % dir["server"],
         ] + ([
@@ -2737,7 +2729,6 @@ def owncloudLog(server):
     return [{
         "name": "owncloud-log-%s" % server,
         "image": OC_UBUNTU,
-        "pull": "always",
         "detach": True,
         "commands": [
             "tail -f %s/%s/data/owncloud.log" % (dir["base"], server),
@@ -2766,8 +2757,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
     return [
         {
             "name": "install-federated",
-            "image": "owncloudci/core",
-            "pull": "always",
+            "image": OC_CI_CORE,
             "settings": {
                 "version": federatedServerVersion,
                 "core_path": dir["federated"],
@@ -2780,8 +2770,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
         },
         {
             "name": "configure-federation",
-            "image": "owncloudci/php:%s" % phpVersion,
-            "pull": "always",
+            "image": OC_CI_PHP % phpVersion,
             "commands": [
                 "echo 'export TEST_SERVER_FED_URL=http://federated' > %s/saved-settings.sh" % dir["base"],
                 "cd %s" % dir["federated"],
@@ -2805,7 +2794,6 @@ def databaseServiceForFederation(db, suffix):
     service = {
         "name": dbName + suffix,
         "image": db,
-        "pull": "always",
         "environment": {
             "MYSQL_USER": getDbUsername(db),
             "MYSQL_PASSWORD": getDbPassword(db),
@@ -2839,8 +2827,7 @@ def stopBuild(ctx, earlyFail):
     if (earlyFail):
         return [{
             "name": "stop-build",
-            "image": "drone/cli:alpine",
-            "pull": "always",
+            "image": DRONE_CLI,
             "environment": {
                 "DRONE_SERVER": "https://drone.owncloud.com",
                 "DRONE_TOKEN": {
@@ -2863,39 +2850,17 @@ def stopBuild(ctx, earlyFail):
     else:
         return []
 
-def buildGithubCommentForBuildStopped(alternateSuiteName, earlyFail):
-    if (earlyFail):
-        return [{
-            "name": "build-github-comment-buildStop",
-            "image": OC_UBUNTU,
-            "pull": "always",
-            "commands": [
-                "echo ':boom: Acceptance tests pipeline <strong>%s</strong> failed. The build has been cancelled.\\n\\n${DRONE_BUILD_LINK}/${DRONE_JOB_NUMBER}${DRONE_STAGE_NUMBER}/1\\n' >> %s/comments.file" % (alternateSuiteName, dir["base"]),
-            ],
-            "when": {
-                "status": [
-                    "failure",
-                ],
-                "event": [
-                    "pull_request",
-                ],
-            },
-        }]
-
-    else:
-        return []
-
 def githubComment(earlyFail):
     if (earlyFail):
         return [{
             "name": "github-comment",
-            "image": "jmccann/drone-github-comment:1",
+            "image": THEGEEKLAB_DRONE_GITHUB_COMMENT,
             "pull": "if-not-exists",
             "settings": {
-                "message_file": "%s/comments.file" % dir["base"],
-            },
-            "environment": {
-                "GITHUB_TOKEN": {
+                "message": ":boom: Acceptance tests pipeline <strong>${DRONE_STAGE_NAME}</strong> failed. The build has been cancelled.\\n\\n${DRONE_BUILD_LINK}/${DRONE_JOB_NUMBER}${DRONE_STAGE_NUMBER}",
+                "key": "pr-${DRONE_PULL_REQUEST}",
+                "update": "true",
+                "api_key": {
                     "from_secret": "github_token",
                 },
             },
@@ -2920,16 +2885,14 @@ def checkStarlark():
         "steps": [
             {
                 "name": "format-check-starlark",
-                "image": "owncloudci/bazel-buildifier",
-                "pull": "always",
+                "image": OC_CI_BAZEL_BUILDIFIER,
                 "commands": [
                     "buildifier --mode=check .drone.star",
                 ],
             },
             {
                 "name": "show-diff",
-                "image": "owncloudci/bazel-buildifier",
-                "pull": "always",
+                "image": OC_CI_BAZEL_BUILDIFIER,
                 "commands": [
                     "buildifier --mode=fix .drone.star",
                     "git diff",
@@ -2967,7 +2930,8 @@ def phplint(ctx):
             "base": "/var/www/owncloud",
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": installNPM() +
+        "steps": skipIfUnchanged(ctx, "lint") +
+                 installNPM() +
                  lintTest(),
         "depends_on": [],
         "trigger": {
@@ -2989,8 +2953,7 @@ def phplint(ctx):
 def installNPM():
     return [{
         "name": "npm-install",
-        "image": "owncloudci/nodejs:%s" % getNodeJsVersion(),
-        "pull": "always",
+        "image": OC_CI_NODEJS % getNodeJsVersion(),
         "commands": [
             "yarn install --frozen-lockfile",
         ],
@@ -2999,12 +2962,115 @@ def installNPM():
 def lintTest():
     return [{
         "name": "lint-test",
-        "image": "owncloudci/php:7.4",
-        "pull": "always",
+        "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
         "commands": [
             "make test-lint",
         ],
     }]
+
+def skipIfUnchanged(ctx, type):
+    if ("full-ci" in ctx.build.title.lower()):
+        return []
+
+    skip_step = {
+        "name": "skip-if-unchanged",
+        "image": OC_CI_DRONE_SKIP_PIPELINE,
+        "when": {
+            "event": [
+                "pull_request",
+            ],
+        },
+    }
+
+    # these files are not relevant for test pipelines
+    # if only files in this array are changed, then don't even run the "lint"
+    # pipelines (like code-style, phan, phpstan...)
+    allow_skip_if_changed = [
+        "^.github/.*",
+        "^changelog/.*",
+        "^docs/.*",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "LICENSE",
+        "LICENSE.md",
+        "README.md",
+    ]
+
+    if type == "lint":
+        skip_step["settings"] = {
+            "ALLOW_SKIP_CHANGED": allow_skip_if_changed,
+        }
+        return [skip_step]
+
+    if type == "acceptance-tests":
+        # if any of these files are touched then run all acceptance tests
+        # note: some oC10 apps have various directories like handlers, rules, etc.
+        #       so those are all listed here so that this starlark code can be
+        #       the same for every oC10 app.
+        acceptance_files = [
+            "^tests/acceptance/.*",
+            "^tests/drone/.*",
+            "^tests/TestHelpers/.*",
+            "^vendor-bin/behat/.*",
+            "^appinfo/.*",
+            "^command/.*",
+            "^controller/.*",
+            "^css/.*",
+            "^db/.*",
+            "^handlers/.*",
+            "^js/.*",
+            "^lib/.*",
+            "^rules/.*",
+            "^src/.*",
+            "^templates/.*",
+            "composer.json",
+            "composer.lock",
+            "Makefile",
+            "package.json",
+            "package-lock.json",
+            "yarn.lock",
+        ]
+        skip_step["settings"] = {
+            "DISALLOW_SKIP_CHANGED": acceptance_files,
+        }
+        return [skip_step]
+
+    if type == "unit-tests":
+        # if any of these files are touched then run all unit tests
+        # note: some oC10 apps have various directories like handlers, rules, etc.
+        #       so those are all listed here so that this starlark code can be
+        #       the same for every oC10 app.
+        unit_files = [
+            "^tests/integration/.*",
+            "^tests/js/.*",
+            "^tests/Unit/.*",
+            "^tests/unit/.*",
+            "^appinfo/.*",
+            "^command/.*",
+            "^controller/.*",
+            "^css/.*",
+            "^db/.*",
+            "^handlers/.*",
+            "^js/.*",
+            "^lib/.*",
+            "^rules/.*",
+            "^src/.*",
+            "^templates/.*",
+            "composer.json",
+            "composer.lock",
+            "Makefile",
+            "package.json",
+            "package-lock.json",
+            "phpunit.xml",
+            "yarn.lock",
+            "sonar-project.properties",
+        ]
+        skip_step["settings"] = {
+            "DISALLOW_SKIP_CHANGED": unit_files,
+        }
+        return [skip_step]
+
+    return []
 
 # This is custom starlark code added just for user_ldap
 # It is not committed to the starlark "standard" code in other apps because
