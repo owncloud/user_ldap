@@ -58,7 +58,7 @@ config = {
                 "7.3",
             ],
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "coverage": False,
         },
@@ -87,7 +87,7 @@ config = {
                 "apiUserLDAP",
             ],
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -103,7 +103,7 @@ config = {
                 "apiUserLDAP": "apiUsrLDAP",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -118,7 +118,7 @@ config = {
                 "apiUserLDAP": "apiUsrLDAPS",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -150,7 +150,7 @@ config = {
                 "cliProvisioning",
             ],
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -165,7 +165,7 @@ config = {
                 "cliProvisioning",
             ],
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -179,7 +179,7 @@ config = {
                 "cliProvisioning": "cliProvLDAPS",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -212,7 +212,7 @@ config = {
                 "webUIProvisioning",
             ],
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -228,7 +228,7 @@ config = {
                 "webUIProvisioning": "webUIProv",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -243,7 +243,7 @@ config = {
                 "webUIProvisioning": "webUIProvS",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -275,7 +275,7 @@ config = {
                 "apiAll": "core-apiAll",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -325,7 +325,7 @@ config = {
                 "apiAll": "core-apiAll-latest",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -375,7 +375,7 @@ config = {
                 "cliAll": "core-cliAll",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -397,7 +397,7 @@ config = {
                 "cliAll": "core-cliAll-latest",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -419,7 +419,7 @@ config = {
                 "webUIall": "core-webUI",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "daily-master-qa",
@@ -470,7 +470,7 @@ config = {
                 "webUIall": "core-wUI-lat",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -521,7 +521,7 @@ config = {
                 "apiAll": "core-apiAll-e-UK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -582,7 +582,7 @@ config = {
                 "cliAll": "core-cliAll-e-UK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -630,7 +630,7 @@ config = {
                 "webUIall": "core-wUI-e-UK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -692,7 +692,7 @@ config = {
                 "apiAll": "core-apiAll-e-MK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -753,7 +753,7 @@ config = {
                 "cliAll": "core-cliAll-e-MK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -801,7 +801,7 @@ config = {
                 "webUIall": "core-wUI-e-MK",
             },
             "databases": [
-                "postgres:13",
+                "postgres:14",
             ],
             "servers": [
                 "latest",
@@ -1455,7 +1455,7 @@ def phpTests(ctx, testType, withCoverage):
             "sqlite",
             "mariadb:10.2",
             "mysql:8.0",
-            "postgres:9.4",
+            "postgres:14",
         ],
         "coverage": True,
         "includeKeyInMatrixName": False,
@@ -1476,7 +1476,7 @@ def phpTests(ctx, testType, withCoverage):
     cronDefault = {
         "phpVersions": [DEFAULT_PHP_VERSION],
         "databases": [
-            "postgres:13",
+            "postgres:14",
         ],
         "coverage": True,
         "includeKeyInMatrixName": False,
@@ -3034,7 +3034,7 @@ def ldapIntegration(ctx):
     default = {
         "servers": ["daily-master-qa"],
         "phpVersions": ["7.4"],
-        "databases": ["postgres:13"],
+        "databases": ["postgres:14"],
         "ldapNeeded": True,
         "logLevel": "2",
     }
