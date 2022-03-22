@@ -342,7 +342,7 @@ config = {
             "federatedServerNeeded": True,
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
-            "numberOfParts": 30,
+            "numberOfParts": 28,
             "extraApps": {
                 "files_external": "",
             },
@@ -392,7 +392,7 @@ config = {
             "federatedServerNeeded": True,
             "filterTags": "~@skip&&~@app-required",
             "runAllSuites": True,
-            "numberOfParts": 21,
+            "numberOfParts": 20,
             "cron": "nightly",
             "extraApps": {
                 "files_external": "",
@@ -591,7 +591,7 @@ config = {
             "federatedServerNeeded": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 21,
+            "numberOfParts": 20,
             "extraApps": {
                 "encryption": "",
                 "files_external": "",
@@ -765,7 +765,7 @@ config = {
             "federatedServerNeeded": True,
             "cron": "nightly",
             "runAllSuites": True,
-            "numberOfParts": 21,
+            "numberOfParts": 20,
             "extraApps": {
                 "encryption": "",
                 "files_external": "",
