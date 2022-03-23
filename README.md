@@ -25,8 +25,8 @@ PHPUnit tests: `make test-php`
 
 #### Additional configuration options that can be modified via occ configurations 
 
-The user_ldap app  will check for updated attributes at every user login. Attributes like mail oder quota are retrieved from the ldap server. To save ressources on the ldap server, there is a minimum time between two updates for every user. Without modification, the update intervall is not more often then 86400 seconds (1 day). This can be modifed by setting the app config 'updateAttributesInterval' to any number you like. Setting this value to 0 will update on very login request which can be quiet often and stress your ldap server.
+The user_ldap app  will check for updated attributes at every user login. Attributes like mail oder quota are retrieved from the ldap server. To save resources on the ldap server, there is a minimum time between two updates for every user. Without modification, the update interval is not more often then 86400 seconds (1 day). This can be modified by setting the app config 'updateAttributesInterval' to any number you like. Setting this value to 0 will update on very login request which can be quiet often and stress your ldap server.
 Attributes are unlikely to change very often, but waiting a day for a new quota is maybe a little bit long.
 
-To allow modificatons of minimum time between checks to one hour (3600 seconds) you can do this via occ:
+To allow modifications of minimum time between checks to one hour (3600 seconds) you can do this via occ:
 ```occ config:app:set user_ldap updateAttributesInterval  --value=3600 ```
