@@ -80,10 +80,6 @@ default:
         - OccContext:
 
   extensions:
-    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-      filename: report-user_ldap.xml
-      outputDir: '%paths.base%/../../../../../tests/acceptance/output/'
-
     Cjm\Behat\StepThroughExtension: ~
 
     rdx\behatvars\BehatVariablesExtension: ~
