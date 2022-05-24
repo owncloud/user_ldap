@@ -49,8 +49,8 @@ OC.L10N.register(
     "No data specified" : "Nenhuma data especificada",
     " Could not set configuration %s" : "Não foi possível definir a configuração %s",
     "Action does not exist" : "Não existe esta acção",
-    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados"],
+    "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados","%s grupos encontrados"],
+    "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados","%s utilizadores encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Não foi possível detetar o atributo do nome do utilizador. Por favor especifique-o nas configurações ldap avançadas.",
     "Could not find the desired feature" : "Não foi possível encontrar a funcionalidade desejada",
     "Test Configuration" : "Testar Configuração",
@@ -158,4 +158,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

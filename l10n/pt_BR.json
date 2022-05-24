@@ -47,8 +47,8 @@
     "No data specified" : "Não há dados especificados",
     " Could not set configuration %s" : "Não foi possível definir a configuração %s",
     "Action does not exist" : "A ação não existe",
-    "_%s group found_::_%s groups found_" : ["grupo% s encontrado","grupos% s encontrado"],
-    "_%s user found_::_%s users found_" : ["usuário %s encontrado","usuários %s encontrados"],
+    "_%s group found_::_%s groups found_" : ["grupo% s encontrado","grupos% s encontrado","grupos% s encontrado"],
+    "_%s user found_::_%s users found_" : ["usuário %s encontrado","usuários %s encontrados","usuários %s encontrados"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Não foi possível detectar o nome de exibição do atributo do usuário. Por favor, indique-o você mesmo em configurações avançadas do LDAP.",
     "Could not find the desired feature" : "Não foi possível encontrar a função desejada",
     "Test Configuration" : "Teste de Configuração",
@@ -166,5 +166,5 @@
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Nomes de usuários são usados para armazenar e atribuir dados (meta). A fim de identificar e reconhecer precisamente usuários, cada usuário LDAP terá um nome de usuário interno. Isso requer um mapeamento de nome de usuário para usuário LDAP. O nome de usuário criado é mapeado para o UUID do usuário LDAP. Além disso, o DN é armazenado em cache, assim como para reduzir a interação LDAP, mas não é usado para identificação. Se o DN muda, as mudanças serão encontrados. O nome de usuário interno é usado por toda parte. Limpando os mapeamentos terá sobras em todos os lugares. Limpando os mapeamentos não é a configuração sensível, que afeta todas as configurações LDAP! Nunca limpar os mapeamentos em um ambiente de produção, somente em um teste ou estágio experimental.",
     "Clear Username-LDAP User Mapping" : "Limpar Mapeamento de Usuário Nome de Usuário-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar NomedoGrupo-LDAP Mapeamento do Grupo"
-},"pluralForm" :"nplurals=2; plural=(n > 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
