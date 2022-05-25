@@ -15,7 +15,7 @@ OC_CI_SCALITY_S3_SERVER = "owncloudci/scality-s3server"
 OC_CI_WAIT_FOR = "owncloudci/wait-for:latest"
 OC_OPS_ELASTIC_SEARCH = "owncloudops/elasticsearch:%s"
 OC_UBUNTU = "owncloud/ubuntu:20.04"
-OSIXIA_OPEN_LDAP = "osixia/openldap"
+DINKEL_OPEN_LDAP = "dinkel/openldap"
 PLUGINS_GITHUB_RELEASE = "plugins/github-release"
 PLUGINS_S3 = "plugins/s3"
 PLUGINS_S3_CACHE = "plugins/s3-cache:1"
@@ -44,10 +44,11 @@ config = {
         "master",
     ],
     "codestyle": True,
-    "phpstan": True,
-    "phan": True,
+    "phpstan": False,
+    "phan": False,
     "javascript": False,
     "phpunit": {
+        "skip": True,
         "allDatabases": {
             "phpVersions": [
                 DEFAULT_PHP_VERSION,
@@ -83,88 +84,88 @@ config = {
         },
     },
     "acceptance": {
-        "api-with-core-master-mysql": {
-            "suites": [
-                "apiProvisioningLDAP",
-                "apiUserLDAP",
-            ],
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                DEFAULT_PHP_VERSION,
-            ],
-        },
-        "api-with-core-master-other-db": {
-            "suites": [
-                "apiProvisioningLDAP",
-                "apiUserLDAP",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "api-with-core-latest": {
-            "suites": {
-                "apiProvisioningLDAP": "apiProvLDAP",
-                "apiUserLDAP": "apiUsrLDAP",
-            },
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "api-with-ldaps": {
-            "suites": {
-                "apiProvisioningLDAP": "apiProvLDAPS",
-                "apiUserLDAP": "apiUsrLDAPS",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        'php occ ldap:set-config LDAPTestId ldapPort "636"',
-                        'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
+        # "api-with-core-master-mysql": {
+        #     "suites": [
+        #         "apiProvisioningLDAP",
+        #         "apiUserLDAP",
+        #     ],
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #         DEFAULT_PHP_VERSION,
+        #     ],
+        # },
+        # "api-with-core-master-other-db": {
+        #     "suites": [
+        #         "apiProvisioningLDAP",
+        #         "apiUserLDAP",
+        #     ],
+        #     "databases": [
+        #         "postgres:9.4",
+        #         "oracle",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        # },
+        # "api-with-core-latest": {
+        #     "suites": {
+        #         "apiProvisioningLDAP": "apiProvLDAP",
+        #         "apiUserLDAP": "apiUsrLDAP",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #         "postgres:9.4",
+        #         "oracle",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        # },
+        # "api-with-ldaps": {
+        #     "suites": {
+        #         "apiProvisioningLDAP": "apiProvLDAPS",
+        #         "apiUserLDAP": "apiUsrLDAPS",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 'php occ ldap:set-config LDAPTestId ldapPort "636"',
+        #                 'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
         "cli-with-core-master-mysql": {
             "suites": [
                 "cliProvisioning",
@@ -243,189 +244,189 @@ config = {
                 },
             ],
         },
-        "webUI-with-core-master-mysql": {
-            "suites": [
-                "webUIUserLDAP",
-                "webUIProvisioning",
-            ],
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                DEFAULT_PHP_VERSION,
-            ],
-        },
-        "webUI-with-core-master-other-db": {
-            "suites": [
-                "webUIUserLDAP",
-                "webUIProvisioning",
-            ],
-            "databases": [
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "webUI-with-core-latest": {
-            "suites": {
-                "webUIUserLDAP": "webUIUsrLDAP",
-                "webUIProvisioning": "webUIProv",
-            },
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "webUI-with-ldaps": {
-            "suites": {
-                "webUIUserLDAP": "webUIUsrLDAPS",
-                "webUIProvisioning": "webUIProvS",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        'php occ ldap:set-config LDAPTestId ldapPort "636"',
-                        'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
-        "core-api-acceptance": {
-            "suites": {
-                "apiAll": "core-apiAll",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "filterTags": "~@skip&&~@app-required",
-            "runAllSuites": True,
-            "numberOfParts": 28,
-            "extraApps": {
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
-        "core-api-acceptance-latest-nightly": {
-            "suites": {
-                "apiAll": "core-apiAll-latest",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "filterTags": "~@skip&&~@app-required",
-            "runAllSuites": True,
-            "numberOfParts": 20,
-            "cron": "nightly",
-            "extraApps": {
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
+        # "webUI-with-core-master-mysql": {
+        #     "suites": [
+        #         "webUIUserLDAP",
+        #         "webUIProvisioning",
+        #     ],
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #         DEFAULT_PHP_VERSION,
+        #     ],
+        # },
+        # "webUI-with-core-master-other-db": {
+        #     "suites": [
+        #         "webUIUserLDAP",
+        #         "webUIProvisioning",
+        #     ],
+        #     "databases": [
+        #         "postgres:9.4",
+        #         "oracle",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        # },
+        # "webUI-with-core-latest": {
+        #     "suites": {
+        #         "webUIUserLDAP": "webUIUsrLDAP",
+        #         "webUIProvisioning": "webUIProv",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #         "postgres:9.4",
+        #         "oracle",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        # },
+        # "webUI-with-ldaps": {
+        #     "suites": {
+        #         "webUIUserLDAP": "webUIUsrLDAPS",
+        #         "webUIProvisioning": "webUIProvS",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 'php occ ldap:set-config LDAPTestId ldapPort "636"',
+        #                 'php occ ldap:set-config LDAPTestId ldapHost "ldaps://ldap"',
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-api-acceptance": {
+        #     "suites": {
+        #         "apiAll": "core-apiAll",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "filterTags": "~@skip&&~@app-required",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 28,
+        #     "extraApps": {
+        #         "files_external": "",
+        #     },
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-api-acceptance-latest-nightly": {
+        #     "suites": {
+        #         "apiAll": "core-apiAll-latest",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "filterTags": "~@skip&&~@app-required",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 20,
+        #     "cron": "nightly",
+        #     "extraApps": {
+        #         "files_external": "",
+        #     },
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
         "core-cli-acceptance": {
             "suites": {
                 "cliAll": "core-cliAll",
@@ -434,7 +435,7 @@ config = {
                 "mysql:8.0",
             ],
             "servers": [
-                "daily-master-qa",
+                "latest",
             ],
             "phpVersions": [
                 "7.3",
@@ -471,345 +472,345 @@ config = {
             },
             "cron": "nightly",
         },
-        "core-webui-acceptance": {
-            "suites": {
-                "webUIall": "core-webUI",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "emailNeeded": True,
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "filterTags": "@smokeTest&&~@skip&&~@app-required",
-            "extraApps": {
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
-        "core-webui-acceptance-latest-nightly": {
-            "suites": {
-                "webUIall": "core-wUI-lat",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "emailNeeded": True,
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "filterTags": "@smokeTest&&~@skip&&~@app-required",
-            "extraApps": {
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-            ],
-        },
-        "core-api-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "apiAll": "core-apiAll-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 20,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/server",
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
-        "core-cli-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "cliAll": "core-cliAll-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "runCoreTests": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "emailNeeded": True,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/server",
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
-        "core-webui-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "webUIall": "core-wUI-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "emailNeeded": True,
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/server",
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
-        "core-api-acceptance-encryption-masterkey-nightly": {
-            "suites": {
-                "apiAll": "core-apiAll-e-MK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 20,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/server",
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type masterkey --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
+        # "core-webui-acceptance": {
+        #     "suites": {
+        #         "webUIall": "core-webUI",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "daily-master-qa",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "emailNeeded": True,
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "runAllSuites": True,
+        #     "numberOfParts": 2,
+        #     "filterTags": "@smokeTest&&~@skip&&~@app-required",
+        #     "extraApps": {
+        #         "files_external": "",
+        #     },
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-webui-acceptance-latest-nightly": {
+        #     "suites": {
+        #         "webUIall": "core-wUI-lat",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "emailNeeded": True,
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 2,
+        #     "filterTags": "@smokeTest&&~@skip&&~@app-required",
+        #     "extraApps": {
+        #         "files_external": "",
+        #     },
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-api-acceptance-encryption-userkeys-nightly": {
+        #     "suites": {
+        #         "apiAll": "core-apiAll-e-UK",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 20,
+        #     "extraApps": {
+        #         "encryption": "",
+        #         "files_external": "",
+        #     },
+        #     "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-encryption",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/server",
+        #                 "php occ encryption:enable",
+        #                 "php occ encryption:select-encryption-type user-keys --yes",
+        #                 "php occ config:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-cli-acceptance-encryption-userkeys-nightly": {
+        #     "suites": {
+        #         "cliAll": "core-cliAll-e-UK",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "runCoreTests": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 2,
+        #     "emailNeeded": True,
+        #     "extraApps": {
+        #         "encryption": "",
+        #         "files_external": "",
+        #     },
+        #     "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-encryption",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/server",
+        #                 "php occ encryption:enable",
+        #                 "php occ encryption:select-encryption-type user-keys --yes",
+        #                 "php occ config:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-webui-acceptance-encryption-userkeys-nightly": {
+        #     "suites": {
+        #         "webUIall": "core-wUI-e-UK",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "emailNeeded": True,
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 2,
+        #     "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
+        #     "extraApps": {
+        #         "encryption": "",
+        #         "files_external": "",
+        #     },
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-encryption",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/server",
+        #                 "php occ encryption:enable",
+        #                 "php occ encryption:select-encryption-type user-keys --yes",
+        #                 "php occ config:list",
+        #             ],
+        #         },
+        #     ],
+        # },
+        # "core-api-acceptance-encryption-masterkey-nightly": {
+        #     "suites": {
+        #         "apiAll": "core-apiAll-e-MK",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 20,
+        #     "extraApps": {
+        #         "encryption": "",
+        #         "files_external": "",
+        #     },
+        #     "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-encryption",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/server",
+        #                 "php occ encryption:enable",
+        #                 "php occ encryption:select-encryption-type masterkey --yes",
+        #                 "php occ config:list",
+        #             ],
+        #         },
+        #     ],
+        # },
         "core-cli-acceptance-encryption-masterkey-nightly": {
             "suites": {
                 "cliAll": "core-cliAll-e-MK",
@@ -859,69 +860,69 @@ config = {
                 },
             ],
         },
-        "core-webui-acceptance-encryption-masterkey-nightly": {
-            "suites": {
-                "webUIall": "core-wUI-e-MK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-            "emailNeeded": True,
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd /var/www/owncloud/server",
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/federated",
-                        "php occ market:install user_ldap",
-                        "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
-                    "commands": [
-                        "cd /var/www/owncloud/server",
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type masterkey --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
+        # "core-webui-acceptance-encryption-masterkey-nightly": {
+        #     "suites": {
+        #         "webUIall": "core-wUI-e-MK",
+        #     },
+        #     "databases": [
+        #         "mysql:8.0",
+        #     ],
+        #     "servers": [
+        #         "latest",
+        #     ],
+        #     "phpVersions": [
+        #         "7.3",
+        #     ],
+        #     "emailNeeded": True,
+        #     "runCoreTests": True,
+        #     "federatedServerNeeded": True,
+        #     "cron": "nightly",
+        #     "runAllSuites": True,
+        #     "numberOfParts": 2,
+        #     "extraApps": {
+        #         "encryption": "",
+        #         "files_external": "",
+        #     },
+        #     "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:masterkey&&~@skip&&~@app-required",
+        #     "extraSetup": [
+        #         {
+        #             "name": "configure-app",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "wait-for-it -t 600 ldap:636",
+        #                 "cd /var/www/owncloud/server",
+        #                 "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-app-on-federated-server",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/federated",
+        #                 "php occ market:install user_ldap",
+        #                 "bash /var/www/owncloud/server/apps/user_ldap/tests/acceptance/setConfig.sh",
+        #                 "php occ ldap:show-config",
+        #                 'php occ ldap:test-config "LDAPTestId"',
+        #                 "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
+        #                 "php occ user:list",
+        #             ],
+        #         },
+        #         {
+        #             "name": "configure-encryption",
+        #             "image": OC_CI_PHP % "7.3",
+        #             "commands": [
+        #                 "cd /var/www/owncloud/server",
+        #                 "php occ encryption:enable",
+        #                 "php occ encryption:select-encryption-type masterkey --yes",
+        #                 "php occ config:list",
+        #             ],
+        #         },
+        #     ],
+        # },
     },
     "defaults": {
         "acceptance": {
@@ -986,31 +987,31 @@ def beforePipelines(ctx):
 def coveragePipelines(ctx):
     # All unit test pipelines that have coverage or other test analysis reported
     jsPipelines = javascript(ctx, True)
-    phpUnitPipelines = phpTests(ctx, "phpunit", True)
-    phpIntegrationPipelines = phpTests(ctx, "phpintegration", True)
-    if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
-        return False
+    # phpUnitPipelines = phpTests(ctx, "phpunit", True)
+    # phpIntegrationPipelines = phpTests(ctx, "phpintegration", True)
+    # if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
+    #     return False
 
-    return jsPipelines + phpUnitPipelines + phpIntegrationPipelines
+    return jsPipelines
 
 def nonCoveragePipelines(ctx):
     # All unit test pipelines that do not have coverage or other test analysis reported
     jsPipelines = javascript(ctx, False)
-    phpUnitPipelines = phpTests(ctx, "phpunit", False)
-    phpIntegrationPipelines = phpTests(ctx, "phpintegration", False)
-    if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
-        return False
+    # # phpUnitPipelines = phpTests(ctx, "phpunit", False)
+    # phpIntegrationPipelines = phpTests(ctx, "phpintegration", False)
+    # if (jsPipelines == False) or (phpUnitPipelines == False) or (phpIntegrationPipelines == False):
+    #     return False
 
-    return jsPipelines + phpUnitPipelines + phpIntegrationPipelines
+    return jsPipelines
 
 def stagePipelines(ctx):
-    buildPipelines = build(ctx)
-    ldapIntegrationPipelines = ldapIntegration(ctx)
+    # buildPipelines = build(ctx)
+    # ldapIntegrationPipelines = ldapIntegration(ctx)
     acceptancePipelines = acceptance(ctx)
-    if (buildPipelines == False) or (acceptancePipelines == False) or (ldapIntegrationPipelines == False):
-        return False
+    # if (buildPipelines == False) or (acceptancePipelines == False) or (ldapIntegrationPipelines == False):
+    #     return False
 
-    return buildPipelines + ldapIntegrationPipelines + acceptancePipelines
+    return acceptancePipelines
 
 def afterCoveragePipelines(ctx):
     return [
@@ -1066,16 +1067,15 @@ def codestyle(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": skipIfUnchanged(ctx, "lint") +
-                         [
-                             {
-                                 "name": "coding-standard",
-                                 "image": OC_CI_PHP % phpVersion,
-                                 "commands": [
-                                     "make test-php-style",
-                                 ],
-                             },
-                         ],
+                "steps": [
+                    {
+                        "name": "coding-standard",
+                        "image": OC_CI_PHP % phpVersion,
+                        "commands": [
+                            "make test-php-style",
+                        ],
+                    },
+                ],
                 "depends_on": [],
                 "trigger": {
                     "ref": [
@@ -1110,16 +1110,15 @@ def jscodestyle(ctx):
             "base": dir["base"],
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": skipIfUnchanged(ctx, "lint") +
-                 [
-                     {
-                         "name": "coding-standard-js",
-                         "image": OC_CI_NODEJS % DEFAULT_NODEJS_VERSION,
-                         "commands": [
-                             "make test-js-style",
-                         ],
-                     },
-                 ],
+        "steps": [
+            {
+                "name": "coding-standard-js",
+                "image": OC_CI_NODEJS % DEFAULT_NODEJS_VERSION,
+                "commands": [
+                    "make test-js-style",
+                ],
+            },
+        ],
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -1208,8 +1207,7 @@ def phpstan(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": skipIfUnchanged(ctx, "lint") +
-                         installCore(ctx, "daily-master-qa", "sqlite", False) +
+                "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
                          installAppPhp(ctx, phpVersion) +
                          installExtraApps(phpVersion, params["extraApps"]) +
                          setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
@@ -1282,8 +1280,7 @@ def phan(ctx):
                     "base": dir["base"],
                     "path": "server/apps/%s" % ctx.repo.name,
                 },
-                "steps": skipIfUnchanged(ctx, "lint") +
-                         installCore(ctx, "daily-master-qa", "sqlite", False) +
+                "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
                          [
                              {
                                  "name": "phan",
@@ -1451,8 +1448,7 @@ def javascript(ctx, withCoverage):
             "base": dir["base"],
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": skipIfUnchanged(ctx, "unit-tests") +
-                 installCore(ctx, "daily-master-qa", "sqlite", False) +
+        "steps": installCore(ctx, "daily-master-qa", "sqlite", False) +
                  installAppJavaScript(ctx) +
                  setupServerAndApp(ctx, DEFAULT_PHP_VERSION, params["logLevel"], False, params["enableApp"]) +
                  params["extraSetup"] +
@@ -1653,8 +1649,7 @@ def phpTests(ctx, testType, withCoverage):
                         "base": dir["base"],
                         "path": "server/apps/%s" % ctx.repo.name,
                     },
-                    "steps": skipIfUnchanged(ctx, "unit-tests") +
-                             installCore(ctx, "daily-master-qa", db, False) +
+                    "steps": installCore(ctx, "daily-master-qa", db, False) +
                              installAppPhp(ctx, phpVersion) +
                              installExtraApps(phpVersion, params["extraApps"]) +
                              setupServerAndApp(ctx, phpVersion, params["logLevel"], False, params["enableApp"]) +
@@ -1980,8 +1975,7 @@ def acceptance(ctx):
                         "base": dir["base"],
                         "path": "testrunner/apps/%s" % ctx.repo.name,
                     },
-                    "steps": skipIfUnchanged(ctx, "acceptance-tests") +
-                             installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
+                    "steps": installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
                              installTestrunner(ctx, DEFAULT_PHP_VERSION, testConfig["useBundledApp"]) +
                              (installFederated(testConfig["server"], testConfig["phpVersion"], testConfig["logLevel"], testConfig["database"], federationDbSuffix) + owncloudLog("federated") if testConfig["federatedServerNeeded"] else []) +
                              installAppPhp(ctx, testConfig["phpVersion"]) +
@@ -2089,7 +2083,6 @@ def sonarAnalysis(ctx, phpVersion = DEFAULT_PHP_VERSION):
                          ],
                      },
                  ] +
-                 skipIfUnchanged(ctx, "unit-tests") +
                  cacheRestore() +
                  composerInstall(phpVersion) +
                  installCore(ctx, "daily-master-qa", "sqlite", False) +
@@ -2299,12 +2292,12 @@ def ldapService(ldapNeeded):
     if ldapNeeded:
         return [{
             "name": "ldap",
-            "image": OSIXIA_OPEN_LDAP,
+            "image": DINKEL_OPEN_LDAP,
             "environment": {
-                "LDAP_DOMAIN": "owncloud.com",
-                "LDAP_ORGANISATION": "owncloud",
-                "LDAP_ADMIN_PASSWORD": "admin",
-                "LDAP_TLS_VERIFY_CLIENT": "never",
+                "SLDAP_DOMAIN": "owncloud.com",
+                "SLDAP_ORGANISATION": "owncloud",
+                "SLDAP_PASSWORD": "admin",
+                "SLAPD_ADDITIONAL_MODULES": "memberof",
             },
         }]
 
@@ -2930,8 +2923,7 @@ def phplint(ctx):
             "base": "/var/www/owncloud",
             "path": "server/apps/%s" % ctx.repo.name,
         },
-        "steps": skipIfUnchanged(ctx, "lint") +
-                 installNPM() +
+        "steps": installNPM() +
                  lintTest(),
         "depends_on": [],
         "trigger": {
