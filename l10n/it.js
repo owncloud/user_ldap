@@ -135,6 +135,7 @@ OC.L10N.register(
     "One Group Base DN per line" : "Un DN base gruppo per riga",
     "Group Search Attributes" : "Attributi di ricerca gruppo",
     "Group-Member association" : "Associazione gruppo-utente ",
+    "Algorithm to be used when searching for members in a group. In case of doubt, \"%s\" is the safe choice. Note that you're responsible of fulfilling the restrictions in order to use any algorithm; the app will behave erratically if the restrictions aren't fulfilled" : "Algoritmi da usare cercando i membri di un gruppo. In caso di dubbi \"%s\" è la scelta sicura. Nota che sei responsabile di soddisfare le restrizioni al fine di usare qualsiasi algoritmo; l'applicazione funzionerà difettosamente se le restrizioni non sono soddisfatte.",
     "Dynamic Group Member URL" : "URL membro di gruppo dinamico",
     "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "L'attributo LDAP che sugli oggetti di gruppo contiene un URL di ricerca LDAP che determina quali oggetti appartengono al gruppo. (Un valore vuoto disabilità la funzionalità di appartenenza ai gruppi dinamica)",
     "Nested Groups" : "Gruppi nidificati",
