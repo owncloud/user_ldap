@@ -1001,6 +1001,21 @@ class Group_LDAP implements \OCP\GroupInterface {
 		return true;
 	}
 
+	public function getGroupDetails($gid) {
+		$dn = $this->access->groupname2dn($gid);
+		if ($dn === false) {
+			// FIXME: It seems local groups also end up going through here...
+			return null;
+		}
+
+		$attr = $this->access->getConnection()->ldapGroupDisplayName;
+		$displayname = $this->access->readAttribute($dn, $attr);
+		return [
+			'gid' => $gid,
+			'displayName' => $displayname[0],
+		];
+	}
+
 	/**
 	* Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
@@ -1010,7 +1025,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(\OC\Group\Backend::COUNT_USERS & $actions);
+		return (bool)((\OC\Group\Backend::COUNT_USERS | \OC\Group\Backend::GROUP_DETAILS) & $actions);
 	}
 
 	/**

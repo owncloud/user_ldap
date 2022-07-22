@@ -207,6 +207,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 		return $this->handleRequest($gid, 'groupExists', [$gid]);
 	}
 
+	public function getGroupDetails($gid) {
+		return $this->handleRequest($gid, 'getGroupDetails', [$gid]);
+	}
 	/**
 	 * Check if backend implements actions
 	 * @param int $actions bitwise-or'ed actions
