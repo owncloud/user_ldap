@@ -474,7 +474,6 @@ class Access implements IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 *
 	 * @param string $fdn the dn of the group object
-	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with the name to use in ownCloud, false on DN outside of search DN
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -532,7 +531,6 @@ class Access implements IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in ownCloud
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -551,7 +549,6 @@ class Access implements IUserTools {
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapDisplayName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @return string|false with with the name to use in ownCloud
 	 * @throws \BadMethodCallException

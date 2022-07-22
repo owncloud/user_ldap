@@ -291,6 +291,14 @@ style('user_ldap', 'settings');
 				</div>
 			</section>
 			<section>
+				<h3><?php p($l->t('Internal Groupname')); ?></h3>
+				<p><?php p($l->t('The internal groupname is used to uniquely identify the group. It has the same restrictions as the internal username, in particular, the group name must be immutable and unique. By default, the UUID will be used. This internal groupname won\'t likely by visible because a displayname attribute is intended to be used to show the group.')); ?></p>
+				<div class="tablerow">
+					<label for="ldap_expert_groupname_attr"><?php p($l->t('Internal Groupname Attribute:')); ?></label>
+					<input type="text" id="ldap_expert_groupname_attr" name="ldap_expert_groupname_attr" data-default="<?php p($_['ldap_expert_groupname_attr_default']); ?>" />
+				</div>
+			</section>
+			<section>
 				<h3><?php p($l->t('Override UUID detection')); ?></h3>
 				<p><?php p($l->t('By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups.')); ?></p>
 				<div class="tablerow">
