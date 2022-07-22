@@ -28,6 +28,10 @@ OCA = OCA || {};
 					$element: $('#ldap_expert_username_attr'),
 					setMethod: 'setUsernameAttribute'
 				},
+				ldap_expert_groupname_attr: {
+					$element: $('#ldap_expert_groupname_attr'),
+					setMethod: 'setGroupnameAttribute'
+				},
 				ldap_expert_uuid_user_attr: {
 					$element: $('#ldap_expert_uuid_user_attr'),
 					setMethod: 'setUserUUIDAttribute'
@@ -71,6 +75,15 @@ OCA = OCA || {};
 		 */
 		setUsernameAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_expert_username_attr.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute to be used to create an ownCloud ID (username)
+		 *
+		 * @param {string} attribute
+		 */
+		setGroupnameAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_expert_groupname_attr.$element, attribute);
 		},
 
 		/**
