@@ -557,11 +557,9 @@ class Access implements IUserTools {
 	public function dn2ocname($fdn, $isUser = true) {
 		if ($isUser) {
 			$mapper = $this->getUserMapper();
-			$displayNameAttribute = $this->connection->ldapUserDisplayName;
 			$nameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
 		} else {
 			$mapper = $this->getGroupMapper();
-			$displayNameAttribute = $this->connection->ldapGroupDisplayName;
 			$nameAttribute = (string)$this->connection->ldapExpertGroupnameAttr;
 		}
 
@@ -691,21 +689,9 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
-		if ($isUsers) {
-			$nameAttribute = $this->connection->ldapUserDisplayName;
-			$sndAttribute  = $this->connection->ldapUserDisplayName2;
-		} else {
-			$nameAttribute = $this->connection->ldapGroupDisplayName;
-		}
 		$ownCloudNames = [];
 
 		foreach ($ldapObjects as $ldapObject) {
-			$nameByLDAP = null;
-			if (isset($ldapObject[$nameAttribute][0])) {
-				// might be set, but not necessarily. if so, we use it.
-				$nameByLDAP = $ldapObject[$nameAttribute][0];
-			}
-
 			$ocName = $this->dn2ocname($ldapObject['dn'][0], $isUsers);
 			if ($ocName) {
 				$ownCloudNames[$ldapObject['dn'][0]] = $ocName;
