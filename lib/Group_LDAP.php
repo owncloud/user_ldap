@@ -1002,6 +1002,12 @@ class Group_LDAP implements \OCP\GroupInterface {
 	}
 
 	public function getGroupDetails($gid) {
+		$cacheKey = "groupDetails-$gid";
+		$details = $this->access->getConnection()->getFromCache($cacheKey);
+		if ($details !== null) {
+			return $details;
+		}
+
 		$dn = $this->access->groupname2dn($gid);
 		if ($dn === false) {
 			// FIXME: It seems local groups also end up going through here...
@@ -1010,10 +1016,13 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 		$attr = $this->access->getConnection()->ldapGroupDisplayName;
 		$displayname = $this->access->readAttribute($dn, $attr);
-		return [
+
+		$details = [
 			'gid' => $gid,
 			'displayName' => $displayname[0],
 		];
+		$this->access->getConnection()->writeToCache($cacheKey, $details);
+		return $details;
 	}
 
 	/**
