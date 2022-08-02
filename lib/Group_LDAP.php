@@ -1011,15 +1011,26 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$dn = $this->access->groupname2dn($gid);
 		if ($dn === false) {
 			// FIXME: It seems local groups also end up going through here...
+			// Because OC\Group]Manager\getGroupObject loops through all backends
+			// and when the backend implementsActions(\OC\Group\Backend::GROUP_DETAILS)
+			// it calls getGroupDetails without checking if the group even exists in
+			// that backend.
 			return null;
 		}
 
 		$attr = $this->access->getConnection()->ldapGroupDisplayName;
 		$displayname = $this->access->readAttribute($dn, $attr);
+		if (\is_array($displayname)) {
+			$groupDisplayName = $displayname[0];
+		} else {
+			// The attribute was not found, maybe because the group does not even exist
+			// Default to the group id
+			$groupDisplayName = $gid;
+		}
 
 		$details = [
 			'gid' => $gid,
-			'displayName' => $displayname[0],
+			'displayName' => $groupDisplayName,
 		];
 		$this->access->getConnection()->writeToCache($cacheKey, $details);
 		return $details;
