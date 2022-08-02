@@ -592,7 +592,11 @@ class Access implements IUserTools {
 		} else {
 			$name = $uuid;
 		}
-		$intName = $this->sanitizeUsername($name);
+
+		$intName = $name;
+		if ($isUser) {
+			$intName = $this->sanitizeUsername($name);
+		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
