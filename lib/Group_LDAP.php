@@ -1010,12 +1010,15 @@ class Group_LDAP implements \OCP\GroupInterface {
 
 		$dn = $this->access->groupname2dn($gid);
 		if ($dn === false) {
-			// FIXME: It seems local groups also end up going through here...
 			return null;
 		}
 
 		$attr = $this->access->getConnection()->ldapGroupDisplayName;
 		$displayname = $this->access->readAttribute($dn, $attr);
+		if (!\is_array($displayname)) {
+			// displayname attr not found
+			return null;
+		}
 
 		$details = [
 			'gid' => $gid,
