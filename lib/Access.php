@@ -472,11 +472,10 @@ class Access implements IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 *
 	 * @param string $fdn the dn of the group object
-	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with the name to use in ownCloud, false on DN outside of search DN
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function dn2groupname($fdn, $ldapName = null) {
+	public function dn2groupname($fdn) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -484,7 +483,7 @@ class Access implements IUserTools {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, false);
+		return $this->dn2ocname($fdn, false);
 	}
 
 	/**
@@ -530,11 +529,10 @@ class Access implements IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in ownCloud
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function dn2username($fdn, $ldapName = null) {
+	public function dn2username($fdn) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -542,26 +540,25 @@ class Access implements IUserTools {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, true);
+		return $this->dn2ocname($fdn, true);
 	}
 
 	/**
 	 * returns an internal ownCloud name for the given LDAP DN, false on DN outside of search DN
 	 *
 	 * @param string $fdn the dn of the user object
-	 * @param string $ldapDisplayName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @return string|false with with the name to use in ownCloud
 	 * @throws \BadMethodCallException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function dn2ocname($fdn, $ldapDisplayName = null, $isUser = true) {
+	public function dn2ocname($fdn, $isUser = true) {
 		if ($isUser) {
 			$mapper = $this->getUserMapper();
-			$displayNameAttribute = $this->connection->ldapUserDisplayName;
+			$nameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
 		} else {
 			$mapper = $this->getGroupMapper();
-			$displayNameAttribute = $this->connection->ldapGroupDisplayName;
+			$nameAttribute = (string)$this->connection->ldapExpertGroupnameAttr;
 		}
 
 		//let's try to retrieve the ownCloud name from the mappings table
@@ -587,30 +584,13 @@ class Access implements IUserTools {
 			return false;
 		}
 
-		if ($ldapDisplayName === null) {
-			$ldapDisplayName = $this->readAttribute($fdn, $displayNameAttribute);
-			if (!isset($ldapDisplayName[0]) && empty($ldapDisplayName[0])) {
-				\OC::$server->getLogger()->error(
-					"No or empty name for $fdn.",
-					['app' => 'user_ldap']
-				);
-				return false;
-			}
-			$ldapDisplayName = $ldapDisplayName[0];
-		}
-
-		if ($isUser) {
-			$usernameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
-			if ($usernameAttribute !== '') {
-				$username = $this->readAttribute($fdn, $usernameAttribute);
-				$username = $username[0];
-			} else {
-				$username = $uuid;
-			}
-			$intName = $this->sanitizeUsername($username);
+		if ($nameAttribute !== '') {
+			$name = $this->readAttribute($fdn, $nameAttribute);
+			$name = $name[0];
 		} else {
-			$intName = $ldapDisplayName;
+			$name = $uuid;
 		}
+		$intName = $this->sanitizeUsername($name);
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
@@ -708,22 +688,10 @@ class Access implements IUserTools {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
-		if ($isUsers) {
-			$nameAttribute = $this->connection->ldapUserDisplayName;
-			$sndAttribute  = $this->connection->ldapUserDisplayName2;
-		} else {
-			$nameAttribute = $this->connection->ldapGroupDisplayName;
-		}
 		$ownCloudNames = [];
 
 		foreach ($ldapObjects as $ldapObject) {
-			$nameByLDAP = null;
-			if (isset($ldapObject[$nameAttribute][0])) {
-				// might be set, but not necessarily. if so, we use it.
-				$nameByLDAP = $ldapObject[$nameAttribute][0];
-			}
-
-			$ocName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
+			$ocName = $this->dn2ocname($ldapObject['dn'][0], $isUsers);
 			if ($ocName) {
 				$ownCloudNames[$ldapObject['dn'][0]] = $ocName;
 			}

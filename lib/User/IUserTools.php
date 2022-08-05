@@ -33,7 +33,7 @@ interface IUserTools {
 
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*');
 
-	public function dn2username($dn, $ldapname = null);
+	public function dn2username($dn);
 
 	/**
 	 * returns the LDAP DN for the given internal ownCloud name of the user
