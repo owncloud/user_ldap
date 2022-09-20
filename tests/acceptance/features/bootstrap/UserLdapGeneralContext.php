@@ -138,8 +138,10 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @return void
 	 */
 	public function ldapUserIsSynced(string $user):void {
-		$this->featureContext->runOcc(
-			['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
+		$this->featureContext->setOccLastCode(
+			$this->featureContext->runOcc(
+				['user:sync', 'OCA\User_LDAP\User_Proxy', '-u', $user, '-m', 'remove']
+			)
 		);
 		if ($this->featureContext->getExitStatusCodeOfOccCommand() !== 0) {
 			throw new \Exception(
@@ -156,7 +158,9 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 	 * @throws Exception
 	 */
 	public function theAdminListsTheEnabledBackendsUsingTheOccCommand():void {
-		$this->featureContext->runOcc(["user:sync -l"]);
+		$this->featureContext->setOccLastCode(
+			$this->featureContext->runOcc(["user:sync -l"])
+		);
 	}
 
 	/**
