@@ -53,17 +53,6 @@ config = {
                 DEFAULT_PHP_VERSION,
             ],
         },
-        "reducedDatabases": {
-            "phpVersions": [
-                "7.3",
-            ],
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "coverage": False,
-        },
     },
     "ldapIntegration": {
         "integration-tests": {
@@ -90,46 +79,15 @@ config = {
             ],
             "databases": [
                 "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                DEFAULT_PHP_VERSION,
-            ],
-        },
-        "api-with-core-master-other-db": {
-            "suites": [
-                "apiProvisioningLDAP",
-                "apiUserLDAP",
-            ],
-            "databases": [
                 "postgres:9.4",
                 "oracle",
             ],
             "servers": [
                 "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "api-with-core-latest": {
-            "suites": {
-                "apiProvisioningLDAP": "apiProvLDAP",
-                "apiUserLDAP": "apiUsrLDAP",
-            },
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "api-with-ldaps": {
@@ -145,12 +103,12 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -171,44 +129,15 @@ config = {
             ],
             "databases": [
                 "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                DEFAULT_PHP_VERSION,
-            ],
-        },
-        "cli-with-core-master-other-db": {
-            "suites": [
-                "cliProvisioning",
-            ],
-            "databases": [
                 "postgres:9.4",
                 "oracle",
             ],
             "servers": [
                 "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "cli-with-core-latest": {
-            "suites": [
-                "cliProvisioning",
-            ],
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "cli-with-ldaps": {
@@ -223,12 +152,12 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -250,46 +179,15 @@ config = {
             ],
             "databases": [
                 "mysql:8.0",
-            ],
-            "servers": [
-                "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-                DEFAULT_PHP_VERSION,
-            ],
-        },
-        "webUI-with-core-master-other-db": {
-            "suites": [
-                "webUIUserLDAP",
-                "webUIProvisioning",
-            ],
-            "databases": [
                 "postgres:9.4",
                 "oracle",
             ],
             "servers": [
                 "daily-master-qa",
-            ],
-            "phpVersions": [
-                "7.3",
-            ],
-        },
-        "webUI-with-core-latest": {
-            "suites": {
-                "webUIUserLDAP": "webUIUsrLDAP",
-                "webUIProvisioning": "webUIProv",
-            },
-            "databases": [
-                "mysql:8.0",
-                "postgres:9.4",
-                "oracle",
-            ],
-            "servers": [
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
         },
         "webUI-with-ldaps": {
@@ -305,12 +203,12 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -336,7 +234,7 @@ config = {
                 "daily-master-qa",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
@@ -349,7 +247,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -362,7 +260,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -386,7 +284,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
@@ -400,7 +298,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -413,7 +311,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -437,7 +335,7 @@ config = {
                 "daily-master-qa",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "runAllSuites": True,
@@ -459,7 +357,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "runAllSuites": True,
@@ -482,7 +380,7 @@ config = {
                 "daily-master-qa",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "emailNeeded": True,
             "runCoreTests": True,
@@ -496,7 +394,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -509,7 +407,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -533,7 +431,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "emailNeeded": True,
             "runCoreTests": True,
@@ -548,7 +446,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -561,7 +459,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -585,7 +483,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
@@ -600,7 +498,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -613,7 +511,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -626,7 +524,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -647,7 +545,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "cron": "nightly",
@@ -662,7 +560,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -675,7 +573,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -696,7 +594,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "emailNeeded": True,
             "runCoreTests": True,
@@ -712,7 +610,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -725,7 +623,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -738,7 +636,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -759,7 +657,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "federatedServerNeeded": True,
@@ -774,7 +672,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -787,7 +685,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -800,7 +698,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -821,7 +719,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "runCoreTests": True,
             "cron": "nightly",
@@ -836,7 +734,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -849,7 +747,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -870,7 +768,7 @@ config = {
                 "latest",
             ],
             "phpVersions": [
-                "7.3",
+                DEFAULT_PHP_VERSION,
             ],
             "emailNeeded": True,
             "runCoreTests": True,
@@ -886,7 +784,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
@@ -899,7 +797,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/federated",
                         "php occ market:install user_ldap",
@@ -912,7 +810,7 @@ config = {
                 },
                 {
                     "name": "configure-encryption",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "cd /var/www/owncloud/server",
                         "php occ encryption:enable",
@@ -929,7 +827,7 @@ config = {
             "extraSetup": [
                 {
                     "name": "configure-app",
-                    "image": OC_CI_PHP % "7.3",
+                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
                     "commands": [
                         "wait-for-it -t 600 ldap:636",
                         "cd /var/www/owncloud/server",
