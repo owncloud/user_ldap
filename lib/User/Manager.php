@@ -540,6 +540,79 @@ class Manager {
 		return $ownCloudUserNames;
 	}
 
+	/**
+	 * Connect to the ldap and find all the users whose username is the $uid.
+	 * The query will be based on the configured ldapExpertUsernameAttr.
+	 * Usually, this method should return only one result, which is for the owncloud
+	 * user mapped, but it might return 0 results if the user was deleted in LDAP
+	 * or more than one if multiple LDAP users might have the same username. If multiple
+	 * results are returned, then there are mapping collisions that must be resolved.
+	 * @param string $uid the ownCloud uid to be looked for in the LDAP
+	 * @return array a map containing the user info: the dn, the owncloud_name and
+	 * the directory_uuid as they would be inserted in the mapping table, as well
+	 * as the raw data fetched.
+	 */
+	public function findUsersByUsername($uid) {
+		$ldapConfig = $this->getConnection();
+
+		$uuidAttrs = [$ldapConfig->ldapExpertUUIDUserAttr];
+		if ($ldapConfig->ldapExpertUUIDUserAttr === 'auto') {
+			$uuidAttrs = $ldapConfig->uuidAttributes;
+		}
+
+		$usernameAttrs = [$ldapConfig->ldapExpertUsernameAttr];
+		if ($ldapConfig->ldapExpertUsernameAttr === '') {
+			$usernameAttrs = $uuidAttrs;
+		}
+
+		$escapedUid = $this->access->escapeFilterPart($uid);
+		if (\count($usernameAttrs) === 1) {
+			$innerFilter = "{$usernameAttrs[0]}={$escapedUid}";
+		} else {
+			$attrFilters = [];
+			foreach ($usernameAttrs as $attr) {
+				$attrFilters[] = "{$attr}={$escapedUid}";
+			}
+			$innerFilter = $this->access->combineFilterWithOr($attrFilters);
+		}
+
+		$filter = $this->access->combineFilterWithAnd([
+			$this->getConnection()->ldapUserFilter,
+			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all
+			$innerFilter,
+		]);
+
+		$ldap_users = $this->fetchListOfUsers(
+			$filter,
+			$this->getAttributes(),
+		);
+
+		$entries = [];
+		foreach ($ldap_users as $ldapEntry) {
+			$chosenUsername = null;
+			foreach ($usernameAttrs as $usernameAttr) {
+				if (isset($ldapEntry[$usernameAttr][0])) {
+					$chosenUsername = $ldapEntry[$usernameAttr][0];
+				}
+			}
+			$chosenUuid = null;
+			foreach ($uuidAttrs as $uuidAttr) {
+				if (isset($ldapEntry[$uuidAttr][0])) {
+					$chosenUuid = $ldapEntry[$uuidAttr][0];
+				}
+			}
+
+			$entryData = [
+				'dn' => $ldapEntry['dn'][0],
+				'owncloud_name' => $chosenUsername,
+				'directory_uuid' => $chosenUuid,
+				'rawData' => $ldapEntry,
+			];
+			$entries[] = $entryData;
+		}
+		return $entries;
+	}
+
 	// TODO find better places for the delegations to Access
 
 	/**

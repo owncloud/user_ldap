@@ -175,6 +175,18 @@ class User_Proxy extends Proxy implements
 		return $users;
 	}
 
+	public function findUsername($uid) {
+		// we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
+		$users = [];
+		foreach ($this->backends as $backend) {
+			$backendUsers = $backend->findUsername($uid);
+			if (\is_array($backendUsers)) {
+				$users = \array_merge($users, $backendUsers);
+			}
+		}
+		return $users;
+	}
+
 	/**
 	 * check if a user exists
 	 * @param string $uid the username
