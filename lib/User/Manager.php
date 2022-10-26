@@ -556,7 +556,7 @@ class Manager {
 		$ldapConfig = $this->getConnection();
 
 		$uuidAttrs = [$ldapConfig->ldapExpertUUIDUserAttr];
-		if ($ldapConfig->ldapExpertUUIDUserAttr === 'auto') {
+		if ($ldapConfig->ldapExpertUUIDUserAttr === 'auto' || $ldapConfig->ldapExpertUUIDUserAttr === '') {
 			$uuidAttrs = $ldapConfig->uuidAttributes;
 		}
 
@@ -566,19 +566,20 @@ class Manager {
 		}
 
 		$escapedUid = $this->access->escapeFilterPart($uid);
-		if (\count($usernameAttrs) === 1) {
-			$innerFilter = "{$usernameAttrs[0]}={$escapedUid}";
-		} else {
-			$attrFilters = [];
-			foreach ($usernameAttrs as $attr) {
+		$attrFilters = [];
+		foreach ($usernameAttrs as $attr) {
+			if ($attr === 'objectguid' || $attr === 'guid') {
+				// needs special formatting because we need to send as binary data
+				$attrFilters[] = "{$attr}=" . $this->access->formatGuid2ForFilterUser($uid);
+			} else {
 				$attrFilters[] = "{$attr}={$escapedUid}";
 			}
-			$innerFilter = $this->access->combineFilterWithOr($attrFilters);
 		}
+		$innerFilter = $this->access->combineFilterWithOr($attrFilters);
 
 		$filter = $this->access->combineFilterWithAnd([
 			$this->getConnection()->ldapUserFilter,
-			$this->getConnection()->ldapUserDisplayName . '=*', // TODO why do we need this? =* basically selects all
+			$this->getConnection()->ldapUserDisplayName . '=*',
 			$innerFilter,
 		]);
 
@@ -589,18 +590,8 @@ class Manager {
 
 		$entries = [];
 		foreach ($ldap_users as $ldapEntry) {
-			$chosenUsername = null;
-			foreach ($usernameAttrs as $usernameAttr) {
-				if (isset($ldapEntry[$usernameAttr][0])) {
-					$chosenUsername = $ldapEntry[$usernameAttr][0];
-				}
-			}
-			$chosenUuid = null;
-			foreach ($uuidAttrs as $uuidAttr) {
-				if (isset($ldapEntry[$uuidAttr][0])) {
-					$chosenUuid = $ldapEntry[$uuidAttr][0];
-				}
-			}
+			$chosenUsername = $this->getValueFromEntry($ldapEntry, $usernameAttrs);
+			$chosenUuid = $this->getValueFromEntry($ldapEntry, $uuidAttrs);
 
 			$entryData = [
 				'dn' => $ldapEntry['dn'][0],
@@ -611,6 +602,23 @@ class Manager {
 			$entries[] = $entryData;
 		}
 		return $entries;
+	}
+
+	/**
+	 * Get the value of the first attribute of the attrs list found inside the ldapEntry
+	 */
+	private function getValueFromEntry($ldapEntry, $attrs) {
+		$chosenValue = null;
+		foreach ($attrs as $attr) {
+			if (isset($ldapEntry[$attr][0])) {
+				$chosenValue = $ldapEntry[$attr][0];
+				if ($attr === 'objectguid' || $attr === 'guid') {
+					$chosenValue = Access::binGUID2str($chosenValue);
+				}
+				break;
+			}
+		}
+		return $chosenValue;
 	}
 
 	// TODO find better places for the delegations to Access

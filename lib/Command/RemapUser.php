@@ -78,7 +78,6 @@ class RemapUser extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$uid = $input->getArgument('ocName');
 		$this->isAllowed($input->getOption('force'));
-		//$this->confirmUserIsMapped($uid);
 
 		$mappedData = $this->getMappedUUIDAndDN($uid);
 		if ($mappedData['mappedDN'] === false || $mappedData['mappedUUID'] === false) {
@@ -93,7 +92,6 @@ class RemapUser extends Command {
 		$table1->render();
 
 		$entries = $this->backend->findUsername($uid);
-		$entryCount = \count($entries);
 
 		$output->writeln('');
 		$output->writeln('Candidates found in LDAP:');
@@ -104,25 +102,13 @@ class RemapUser extends Command {
 		}
 		$table2->render();
 
-		if ($entryCount > 1) {
-			$output->writeln('<error>Found too many candidates in LDAP for the target user, remapping isn\'t possible</error>');
-			return 1;
-		} elseif ($entryCount < 1) {
-			$output->writeln('<error>User not found in LDAP. Consider removing the ownCloud\'s account</error>');
-			return 2;
+		try {
+			$message = $this->remapUser($uid, $mappedData, $entries);
+			$output->writeln($message);
+		} catch (\UnexpectedValueException $e) {
+			$output->writeln("<error>{$e->getMessage()}</error>");
+			return $e->getCode();
 		}
-
-		if ($mappedData['mappedDN'] === $entries[0]['dn'] && $mappedData['mappedUUID'] === $entries[0]['directory_uuid']) {
-			$output->writeln('The same user is already mapped. Nothing to do');
-			return 0;  // just show a message and return a success code
-		}
-
-		$result = $this->mapping->replaceUUIDAndDN($uid, $entries[0]['dn'], $entries[0]['directory_uuid']);
-		if ($result === false) {
-			$output->writeln("<error>Failed to replace mapping data for user {$uid}</error>");
-			return 3;
-		}
-		$output->writeln('Mapping data replaced');
 	}
 
 	private function getMappedUUIDAndDN($username) {
@@ -132,21 +118,6 @@ class RemapUser extends Command {
 			'mappedDN' => $dn,
 			'mappedUUID' => $uuid,
 		];
-	}
-
-	/**
-	 * checks whether a user is actually mapped
-	 * @param string $ocName the username as used in ownCloud
-	 * @throws \Exception
-	 * @return true
-	 */
-	private function confirmUserIsMapped($ocName) {
-		$dn = $this->mapping->getDNByName($ocName);
-		if ($dn === false) {
-			throw new \Exception('The given user is not a recognized LDAP user.');
-		}
-
-		return true;
 	}
 
 	/**
@@ -161,5 +132,24 @@ class RemapUser extends Command {
 		}
 
 		return true;
+	}
+
+	private function remapUser($uid, $mappedData, $entries) {
+		$entryCount = \count($entries);
+		if ($entryCount > 1) {
+			throw new \UnexpectedValueException('Found too many candidates in LDAP for the target user, remapping isn\'t possible', 1);
+		} elseif ($entryCount < 1) {
+			throw new \UnexpectedValueException('User not found in LDAP. Consider removing the ownCloud\'s account', 2);
+		}
+
+		if ($mappedData['mappedDN'] === $entries[0]['dn'] && $mappedData['mappedUUID'] === $entries[0]['directory_uuid']) {
+			return 'The same user is already mapped. Nothing to do';
+		}
+
+		$result = $this->mapping->replaceUUIDAndDN($uid, $entries[0]['dn'], $entries[0]['directory_uuid']);
+		if ($result === false) {
+			throw new \UnexpectedValueException("Failed to replace mapping data for user {$uid}", 3);
+		}
+		return 'Mapping data replaced';
 	}
 }
