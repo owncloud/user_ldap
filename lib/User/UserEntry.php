@@ -23,6 +23,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Attributes\ConverterHub;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -153,6 +154,7 @@ class UserEntry {
 			$uuidAttributes = $this->connection->uuidAttributes;
 		}
 		foreach ($uuidAttributes as $uuidAttribute) {
+			$lowercaseUuidAttribute = \strtolower($uuidAttribute);
 			// uuid may be binary ... must not be trimmed!
 			$uuid = $this->getAttributeValue($uuidAttribute, null, false);
 			if ($uuid === null) {
@@ -163,8 +165,9 @@ class UserEntry {
 				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
 			}
-			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
-				$uuid = Access::binGUID2str($uuid);
+			$converterHub = ConverterHub::getDefaultConverterHub();
+			if ($converterHub->hasConverter($lowercaseUuidAttribute)) {
+				$uuid = $converterHub->bin2str($lowercaseUuidAttribute, $uuid);
 			}
 
 			return $uuid;
