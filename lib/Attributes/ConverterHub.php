@@ -123,7 +123,7 @@ class ConverterHub {
 	 * @param string $attr the attribute associated to the string representation
 	 * @param string $strValue the string representation of the value of
 	 * the attribute
-	 * @param string a string suitable to be used as filter
+	 * @return string a string suitable to be used as filter
 	 * @throws ConverterException if no converter is registered, or the
 	 * associated converter can't deal with the input.
 	 */

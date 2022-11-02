@@ -1732,7 +1732,7 @@ class Access implements IUserTools {
 		$lowercaseUuidAttr = \strtolower($uuidAttr);
 		$converterHub = ConverterHub::getDefaultConverterHub();
 		if ($converterHub->hasConverter($lowercaseUuidAttr)) {
-			$uuid = $converterHub->str2filter($uuid);
+			$uuid = $converterHub->str2filter($lowercaseUuidAttr, $uuid);
 		}
 
 		$filter = $uuidAttr . '=' . $uuid;
