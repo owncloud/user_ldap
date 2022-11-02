@@ -154,7 +154,6 @@ class UserEntry {
 			$uuidAttributes = $this->connection->uuidAttributes;
 		}
 		foreach ($uuidAttributes as $uuidAttribute) {
-			$lowercaseUuidAttribute = \strtolower($uuidAttribute);
 			// uuid may be binary ... must not be trimmed!
 			$uuid = $this->getAttributeValue($uuidAttribute, null, false);
 			if ($uuid === null) {
@@ -164,10 +163,6 @@ class UserEntry {
 				// remember autodetected uuid attribute
 				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
-			}
-			$converterHub = ConverterHub::getDefaultConverterHub();
-			if ($converterHub->hasConverter($lowercaseUuidAttribute)) {
-				$uuid = $converterHub->bin2str($lowercaseUuidAttribute, $uuid);
 			}
 
 			return $uuid;
@@ -369,8 +364,9 @@ class UserEntry {
 				$value = \trim($value);
 			}
 
-			if ($attributeName === 'objectguid' || $attributeName === 'guid') {
-				$value = Access::binGUID2str($value);
+			$converterHub = ConverterHub::getDefaultConverterHub();
+			if ($converterHub->hasConverter($attributeName)) {
+				$value = $converterHub->bin2str($attributeName, $value);
 			}
 
 			if ($value === '') {

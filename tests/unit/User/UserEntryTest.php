@@ -23,6 +23,7 @@ namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\User\UserEntry;
+use OCA\User_LDAP\Attributes\ConverterException;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -245,7 +246,7 @@ class UserEntryTest extends \Test\TestCase {
 	/**
 	 */
 	public function testGetUUIDInvalidBinaryUUID() {
-		$this->expectException(\OutOfBoundsException::class);
+		$this->expectException(ConverterException::class);
 
 		$this->connection->expects($this->exactly(1))
 			->method('__get')
