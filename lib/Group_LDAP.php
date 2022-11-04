@@ -1001,6 +1001,16 @@ class Group_LDAP implements \OCP\GroupInterface {
 		return true;
 	}
 
+	/**
+	 * Get the details of the target group. The details consist (as of now)
+	 * of the gid and the displayname of the group. More data might be added
+	 * accordingly to the interface.
+	 * The method returns null on error (such as missing displayname, or
+	 * missing group)
+	 * @param string $gid the gid of the group we want to get the details of
+	 * @return array|null an array containing the gid and the displayname such as
+	 * ['gid' => 'abcdef', 'displayname' => 'my group']
+	 */
 	public function getGroupDetails($gid) {
 		$cacheKey = "groupDetails-$gid";
 		$details = $this->access->getConnection()->getFromCache($cacheKey);
