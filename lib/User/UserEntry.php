@@ -23,6 +23,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Attributes\ConverterHub;
 use OCP\IConfig;
 use OCP\ILogger;
 
@@ -162,9 +163,6 @@ class UserEntry {
 				// remember autodetected uuid attribute
 				$this->connection->ldapExpertUUIDUserAttr = $uuidAttribute;
 				$this->connection->saveConfiguration(); // FIXME should not be done here. Move to wizard?
-			}
-			if ($uuidAttribute === 'objectguid' || $uuidAttribute === 'guid') {
-				$uuid = Access::binGUID2str($uuid);
 			}
 
 			return $uuid;
@@ -366,8 +364,9 @@ class UserEntry {
 				$value = \trim($value);
 			}
 
-			if ($attributeName === 'objectguid' || $attributeName === 'guid') {
-				$value = Access::binGUID2str($value);
+			$converterHub = ConverterHub::getDefaultConverterHub();
+			if ($converterHub->hasConverter($attributeName)) {
+				$value = $converterHub->bin2str($attributeName, $value);
 			}
 
 			if ($value === '') {

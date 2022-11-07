@@ -41,6 +41,7 @@ use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCA\User_LDAP\Attributes\ConverterHub;
 use OCP\Util;
 
 /**
@@ -327,11 +328,12 @@ class Access implements IUserTools {
 		$values = [];
 		if (isset($result[$attribute]) && $result[$attribute]['count'] > 0) {
 			$lowercaseAttribute = \strtolower($attribute);
+			$converterHub = ConverterHub::getDefaultConverterHub();
 			for ($i=0; $i<$result[$attribute]['count']; $i++) {
 				if ($this->resemblesDN($attribute)) {
 					$values[] = Helper::normalizeDN($result[$attribute][$i]);
-				} elseif ($lowercaseAttribute === 'objectguid' || $lowercaseAttribute === 'guid') {
-					$values[] = self::binGUID2str($result[$attribute][$i]);
+				} elseif ($converterHub->hasConverter($lowercaseAttribute)) {
+					$values[] = $converterHub->bin2str($lowercaseAttribute, $result[$attribute][$i]);
 				} else {
 					$values[] = $result[$attribute][$i];
 				}
@@ -1727,8 +1729,10 @@ class Access implements IUserTools {
 		}
 
 		$uuidAttr = $this->connection->ldapUuidUserAttribute;
-		if ($uuidAttr === 'guid' || $uuidAttr === 'objectguid') {
-			$uuid = $this->formatGuid2ForFilterUser($uuid);
+		$lowercaseUuidAttr = \strtolower($uuidAttr);
+		$converterHub = ConverterHub::getDefaultConverterHub();
+		if ($converterHub->hasConverter($lowercaseUuidAttr)) {
+			$uuid = $converterHub->str2filter($lowercaseUuidAttr, $uuid);
 		}
 
 		$filter = $uuidAttr . '=' . $uuid;
@@ -1826,119 +1830,6 @@ class Access implements IUserTools {
 		}
 
 		return $uuid;
-	}
-
-	/**
-	 * converts a binary GUID into a string representation
-	 *
-	 * TODO use shorter version with pack()
-	 *
-	 * General UUID information: @see http://ldapwiki.com/wiki/Universally%20Unique%20Identifier
-	 *
-	 * ## openldap EntryUUID uses RFC4122 see {@link http://ldapwiki.com/wiki/UUID definition}
-	 * see the {@link http://ldapwiki.com/wiki/EntryUUID ldapwiki EntryUUID definition}
-	 *
-	 * ## Microsoft Active Directory objectGUID is defined as 16 byte octet string
-	 * {@link https://msdn.microsoft.com/en-us/library/ms679021(v=vs.85).aspx official objectGUID definition}
-	 * From the {@link http://ldapwiki.com/wiki/ObjectGUID ldapwiki ObjectGUID definition}:
-	 * ObjectGUID is generally a Universally Unique Identifier other than the
-	 * format differs from the UUID standard only in the byte order of the first 3 fields.
-	 * {@link http://support.microsoft.com/default.aspx?scid=kb%3Ben-us%3B325649 conversion to a string}
-	 *
-	 * ## Novell eDirectory GUID is defined as 16 byte octet string
-	 * From the {@link http://ldapwiki.com/wiki/GUID ldapwiki GUID definition}:
-	 * There are several different methods that are used to display any given GUID
-	 * {@link http://www.novell.com/documentation/developer/ndslib/schm_enu/data/sdk1198.html official GUID definition}
-	 *
-	 * ## 389 Directory Server / Oracle Directory Server Enterprise Edition (ODSEE) is defined as utf string
-	 * {@link https://github.com/leto/389-ds/blob/master/ldap/schema/01core389.ldif#L69 schema definition}
-	 * {@link  https://docs.oracle.com/cd/E49437_01/reference.111220/e27801/nsuniqueid-virtual-attribute.html official nsuniqueid definition}
-	 * The nsuniqueid values are generated based on the entryuuid value by moving the "-" to comply with the format of the ODSEE Nsuniqueid Virtual Attribute attribute.
-	 *
-	 * ## RedHat FreeIPA is defined as utf string
-	 * {@link https://github.com/freeipa/freeipa/blob/master/install/share/uuid.ldif ipaUniqueID schema}
-	 *
-	 * This implementation was taken from
-	 * {@link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198 The PHP ldap_get_values_lan doc comments}
-	 *
-	 * @param string $binGuid the ObjectGUID / GUID in it's binary form as retrieved from Microsoft AD / Novell eDirectory
-	 *                        If you pass an already decoded GUID as string, it will be returned as is.
-	 * @return string
-	 * @throws \OutOfBoundsException
-	 */
-	public static function binGUID2str($binGuid) {
-		$guidLength = \strlen($binGuid);
-
-		// The guid should have 16 byte when binary and 36 byte when string (including '-' characters)
-		if (($guidLength !== 16) && ($guidLength !== 36)) {
-			throw new \OutOfBoundsException(\sprintf('Invalid GUID with length %d received: <%X>', $guidLength, $binGuid));
-		}
-
-		// If we get a guid in string form we simply return it to prevent double decoding
-		if ($guidLength === 36) {
-			return $binGuid;
-		}
-
-		// V = unsigned long (always 32 bit, little endian byte order)
-		// v = unsigned short (always 16 bit, little endian byte order)
-		// n = unsigned short (always 16 bit, big endian byte order)
-		// N = unsigned long (always 32 bit, big endian byte order)
-		// TODO treat all warnings es error? see https://stackoverflow.com/a/2071048
-		$unpacked = \unpack('Va/v2b/n2c/Nd', $binGuid); // only throws a warning if it could not parse the input
-		$uuid = \sprintf('%08X-%04X-%04X-%04X-%04X%08X', $unpacked['a'], $unpacked['b1'], $unpacked['b2'], $unpacked['c1'], $unpacked['c2'], $unpacked['d']);
-		// make sure this is not a bogus UUID
-		if ($uuid === '00000000-0000-0000-0000-000000000000') {
-			throw new \OutOfBoundsException(\sprintf('Invalid binary uuid <%X>', $binGuid));
-		}
-		return $uuid;
-	}
-
-	/**
-	 * the first three blocks of the string-converted GUID happen to be in
-	 * reverse order. In order to use it in a filter, this needs to be
-	 * corrected. Furthermore the dashes need to be replaced and \\ preprended
-	 * to every two hax figures.
-	 *
-	 * If an invalid string is passed, it will be returned without change.
-	 *
-	 * @param string $guid
-	 * @return string
-	 * @throws \InvalidArgumentException
-	 */
-	public function formatGuid2ForFilterUser($guid) {
-		if (!\is_string($guid)) {
-			throw new \InvalidArgumentException('String expected');
-		}
-		$blocks = \explode('-', $guid);
-		if (\count($blocks) !== 5) {
-			/*
-			 * Why not throw an Exception instead? This method is a utility
-			 * called only when trying to figure out whether a "missing" known
-			 * LDAP user was or was not renamed on the LDAP server. And this
-			 * even on the use case that a reverse lookup is needed (UUID known,
-			 * not DN), i.e. when finding users (search dialog, users page,
-			 * login, …) this will not be fired. This occurs only if shares from
-			 * a users are supposed to be mounted who cannot be found. Throwing
-			 * an exception here would kill the experience for a valid, acting
-			 * user. Instead we write a log message.
-			 */
-			\OC::$server->getLogger()->info(
-				'Passed string does not resemble a valid GUID. Known UUID ' .
-				'({uuid}) probably does not match UUID configuration.',
-				[ 'app' => 'user_ldap', 'uuid' => $guid ]
-			);
-			return $guid;
-		}
-		for ($i=0; $i < 3; $i++) {
-			$pairs = \str_split($blocks[$i], 2);
-			$pairs = \array_reverse($pairs);
-			$blocks[$i] = \implode('', $pairs);
-		}
-		for ($i=0; $i < 5; $i++) {
-			$pairs = \str_split($blocks[$i], 2);
-			$blocks[$i] = '\\' . \implode('\\', $pairs);
-		}
-		return \implode('', $blocks);
 	}
 
 	/**
