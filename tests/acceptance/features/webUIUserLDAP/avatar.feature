@@ -15,6 +15,7 @@ Feature: providing an avatar by LDAP
     Then the display name should not be visible on the webUI
     And an avatar should be shown for the current user on the webUI
 
+
   Scenario: set the avatar on the LDAP server to an invalid string
     When the administrator sets the ldap attribute "jpegPhoto" of the entry "uid=Alice,ou=TestUsers" to "0"
     And user "Alice" has logged in using the webUI

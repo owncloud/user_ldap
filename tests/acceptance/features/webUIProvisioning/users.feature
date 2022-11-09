@@ -12,11 +12,13 @@ Feature: add users
     And user admin has logged in using the webUI
     And the administrator has browsed to the users page
 
+
   Scenario: use the webUI to create a simple user
     When the administrator creates a user with the name "guiusr1" and the password "%regular%" using the webUI
     And the administrator logs out of the webUI
     And user "guiusr1" logs in using the webUI
     Then the user should be redirected to a webUI page with the title "Files - %productname%"
+
 
   Scenario: use the webUI to delete a simple user
     Given user "new-user" has been created with default attributes in the database user backend
@@ -25,6 +27,7 @@ Feature: add users
     And the deleted user "new-user" tries to login using the password "%alt1%" using the webUI
     Then the user should be redirected to a webUI page with the title "%productname%"
     And user "new-user" should not exist
+
 
   Scenario: Admin changes the display name of the user
     Given user "new-user" has been created with default attributes in the database user backend
@@ -37,6 +40,7 @@ Feature: add users
     And the user attributes returned by the API should include
       | displayname | New User |
 
+
   Scenario: Admin changes the password of the user
     Given user "new-user" has been created with default attributes in the database user backend
     And the administrator has browsed to the users page
@@ -45,11 +49,13 @@ Feature: add users
     And the content of file "textfile0.txt" for user "new-user" using password "new_password" should be "ownCloud test text file 0" plus end-of-line
     But user "new-user" using password "%regular%" should not be able to download file "textfile0.txt"
 
+
   Scenario: use the webUI to create a simple user with same username as existing ldap user
     When the administrator creates a user with the name "Brian" and the password "%regular%" using the webUI
     Then a notification should be displayed on the webUI with the text "Error creating user: A user with that name already exists."
     And user "Brian" should exist
     But user "Brian" using password "%regular%" should not be able to download file "textfile0.txt"
+
 
   Scenario: admin deletes ldap defined user and syncs again
     When the administrator deletes user "Alice" using the webUI and confirms the deletion using the webUI
@@ -104,6 +110,7 @@ Feature: add users
     Then the quota definition of user "Alice" should be "10 MB"
     And the quota of user "Alice" should be set to "10 MB" on the webUI
 
+
   Scenario: admin sets quota of user for which no LDAP quota attribute is specified
     #to set Quota we can just misuse any LDAP text field
     Given LDAP config "LDAPTestId" has key "ldapQuotaAttribute" set to "employeeNumber"
@@ -130,6 +137,7 @@ Feature: add users
     And the administrator reloads the users page
     Then the quota definition of user "Alice" should be "10MB"
     And the quota of user "Alice" should be set to "10MB" on the webUI
+
 
   Scenario: admin sets quota of user in LDAP when a default quota is set in the LDAP settings
     #to set Quota we can just misuse any LDAP text field

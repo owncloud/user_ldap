@@ -5,6 +5,7 @@ Feature: changing password
   I want to change my LDAP password and be able to use it in owncloud
   So that I do not have to remember multiple passwords
 
+
   Scenario Outline: change password on the LDAP server
     Given user "Alice" has been created with default attributes and without skeleton files
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=Alice,ou=TestUsers" to "<new-password>"

@@ -14,6 +14,7 @@ Feature: filter groups
       | ShareeGroup  |
       | ShareeGroup2 |
 
+
   Scenario: single group filter
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                        |
@@ -24,6 +25,7 @@ Feature: filter groups
       | group |
       | admin |
       | grp2  |
+
 
   Scenario: filter with asterisk
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
@@ -37,6 +39,7 @@ Feature: filter groups
       | ShareeGroup  |
       | ShareeGroup2 |
 
+
   Scenario: filter for multiple groups
     When the administrator sets these settings of LDAP config "LDAPTestId" using the occ command
       | key             | value                                                     |
@@ -48,6 +51,7 @@ Feature: filter groups
       | admin  |
       | group1 |
       | group2 |
+
 
   Scenario: filter groups that are in multiple OUs but have the same CN
     Given the administrator has imported this ldif data:
