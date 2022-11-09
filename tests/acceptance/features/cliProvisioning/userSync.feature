@@ -31,6 +31,7 @@ Feature: sync user using occ command
     Then the email address of user "Alice" should be "alice@example.org"
     And the email address of user "Brian" should be "brian@example1.com"
 
+
   Scenario: admin lists all the enabled backends
     When the admin lists the enabled user backends using the occ command
     Then the command should have been successful
@@ -39,6 +40,7 @@ Feature: sync user using occ command
       OC\User\Database
       OCA\User_LDAP\User_Proxy
       """
+
 
   Scenario: admin deletes ldap users and performs full sync
     When the administrator deletes user "Alice" using the occ command

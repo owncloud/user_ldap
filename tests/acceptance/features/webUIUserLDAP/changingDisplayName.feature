@@ -8,6 +8,7 @@ Feature: changing display name
   Background:
     Given user "Alice" has been created with default attributes and without skeleton files
 
+
   Scenario Outline: change display name on the LDAP server
     Given the administrator sets the ldap attribute "displayname" of the entry "uid=Alice,ou=TestUsers" to "<new-displayname>"
     When user "Alice" logs in using the webUI
@@ -23,6 +24,7 @@ Feature: changing display name
     Given the administrator sets the ldap attribute "displayname" of the entry "uid=Alice,ou=TestUsers" to "0"
     When user "Alice" logs in using the webUI
     Then "0" should be shown as the name of the current user on the webUI
+
 
   Scenario: delete display name on the LDAP server
     Given user "Brian" has been created with default attributes and without skeleton files

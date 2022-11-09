@@ -10,6 +10,7 @@ Feature: connect to a backup LDAP serer
     And the owncloud log has been cleared
     And user "Alice" has been created with default attributes and small skeleton files
 
+
   Scenario: authentication works when the main server is not reachable but the backup server is
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
     And LDAP config "LDAPTestId" has key "ldapBackupHost" set to "%ldap_host%"
@@ -17,17 +18,20 @@ Feature: connect to a backup LDAP serer
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
+
   Scenario: authentication works when the main server and the backup server are reachable
     Given LDAP config "LDAPTestId" has key "ldapBackupHost" set to "%ldap_host%"
     And LDAP config "LDAPTestId" has key "ldapBackupPort" set to "%ldap_port%"
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
+
   Scenario: authentication works when the backup server is not reachable but the main server is
     Given LDAP config "LDAPTestId" has key "ldapBackupHost" set to "not-existent"
     And LDAP config "LDAPTestId" has key "ldapBackupPort" set to "%ldap_port%"
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
+
 
   Scenario Outline: authentication fails when the main server and backup server is not reachable and works again when one server comes back
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
@@ -47,6 +51,7 @@ Feature: connect to a backup LDAP serer
       | server-that-comes-back |
       | ldapHost               |
       | ldapBackupHost         |
+
 
   Scenario: password changes on the backup server are applied to oC when the main server is not reachable
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
