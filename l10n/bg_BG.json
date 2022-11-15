@@ -49,7 +49,7 @@
     "Action does not exist" : "Несъществуващо действие",
     "_%s group found_::_%s groups found_" : ["%s намерена група","%s намерени групи"],
     "_%s user found_::_%s users found_" : ["%s намерен потребител","%s намерени потребители"],
-    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Не може да се открие атрибута на показваното потребителско име. Моля посочете го сами в разширените настройки на ldap.",
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Неуспешно е откриването на атрибута на показваното потребителско име. Моля посочете го сами в разширените настройки на ldap.",
     "Could not find the desired feature" : "Желаната функция не е открита ",
     "Test Configuration" : "Тестова конфигурация",
     "Groups meeting these criteria are available in %s:" : "Групи спазващи тези критерии са разположени в %s:",
