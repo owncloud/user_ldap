@@ -24,7 +24,7 @@
     "Saving failed. Please make sure the database is in Operation. Reload before continuing." : "Запазването не бе успешно. Моля, уверете се, че базата данни работи. Презаредете преди да продължите.",
     "Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?" : "Превключването на режима ще даде възможност за автоматични LDAP заявки. В зависимост от размера на LDAP това може да отнеме известно време. Все още ли искате да превключите режима?",
     "Mode switch" : "Превключвател на режим",
-    "Select attributes" : "Изберете атрибути",
+    "Select attributes" : "Избор на атрибути",
     "User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command line validation): <br/>" : "Потребителят не е намерен. Моля, проверете своите атрибути за вход и потребителското име. Ефективен филтър (копирайте и поставете за проверка в командния ред): <br/>",
     "User found and settings verified." : "Потребителят е намерен и настройките са проверени.",
     "Settings verified, but more than one user was found. Only the first will be able to login. Consider a more narrow filter." : "Настройките са потвърдени, но е намерен повече от един потребител. Само първите ще могат да влязат. Помислете за по-тесен филтър.",
