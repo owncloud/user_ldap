@@ -7,6 +7,7 @@ Feature: Single user sync using the OCS API
       | Alice    |
       | Brian    |
 
+
   Scenario Outline: admin deletes ldap users and syncs only one of them
     Given using OCS API version "<ocs-api-version>"
     When the administrator deletes user "Alice" using the provisioning API
@@ -23,6 +24,7 @@ Feature: Single user sync using the OCS API
       | 1               | 100             |
       | 2               | 200             |
 
+
   Scenario Outline: admin syncs after changing display name of a ldap user
     Given using OCS API version "<ocs-api-version>"
     When the administrator sets the ldap attribute "displayname" of the entry "uid=Alice,ou=TestUsers" to "ldap user zero"
@@ -37,6 +39,7 @@ Feature: Single user sync using the OCS API
       | ocs-api-version | ocs-status-code |
       | 1               | 100             |
       | 2               | 200             |
+
 
   Scenario Outline: admin syncs after changing email address of a ldap user
     Given using OCS API version "<ocs-api-version>"

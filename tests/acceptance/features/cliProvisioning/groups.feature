@@ -11,6 +11,7 @@ Feature: add group
       | username | displayname  |
       | Alice    | Alice Hansen |
 
+
   Scenario Outline: admin creates a group
     When the administrator creates group "<group_id>" using the occ command
     Then the command should have been successful
@@ -21,6 +22,7 @@ Feature: add group
       | simplegroup | nothing special here        |
       | España      | special European characters |
       | नेपाली      | Unicode group name          |
+
 
   Scenario Outline: admin removes a user from a group
     When the administrator creates group "<group_id>" using the occ command
@@ -50,6 +52,7 @@ Feature: add group
       | simplegroup | nothing special here        |
       | España      | special European characters |
       | नेपाली      | Unicode group name          |
+
 
   Scenario Outline: admin deletes a group
     When the administrator creates group "<group_id>" using the occ command

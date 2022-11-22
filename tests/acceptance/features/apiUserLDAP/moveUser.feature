@@ -1,6 +1,7 @@
 @api
 Feature: move users between OUs
 
+
   Scenario: Moving a user between OUs by deleting an recreating the user
     Given the owncloud log level has been set to "info"
     And the owncloud log backend has been set to "owncloud"

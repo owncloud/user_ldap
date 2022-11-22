@@ -9,12 +9,14 @@ Feature: paging
     Given LDAP config "LDAPTestId" has key "ldapPagingSize" set to "10"
     And the administrator has created "200" LDAP users with the prefix "my-user-" in the OU "NEWZombies"
 
+
   Scenario: login to a system with a lot of users
     Then it should be possible to login with the username "my-user-000" and password "my-user-000" using the WebUI
     And the user logs out of the webUI
     Then it should be possible to login with the username "my-user-100" and password "my-user-100" using the WebUI
     And the user logs out of the webUI
     Then it should be possible to login with the username "my-user-199" and password "my-user-199" using the WebUI
+
 
   Scenario: change password on a system with a lot of users
     And these users have been initialized:
@@ -30,6 +32,7 @@ Feature: paging
     Then it should be possible to login with the username "my-user-100" and password "new-password100" using the WebUI
     And the user logs out of the webUI
     Then it should be possible to login with the username "my-user-199" and password "new-password199" using the WebUI
+
 
   Scenario: autocompletion of synced users
     And the LDAP users have been resynced
