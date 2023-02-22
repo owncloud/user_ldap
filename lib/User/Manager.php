@@ -160,7 +160,7 @@ class Manager {
 			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
 		}
 		$searchAttributes = $ldapConfig->ldapAttributesForUserSearch;
-		if ($searchAttributes === '' || $searchAttributes === null) { /** @phpstan-ignore-line FIXME empty multiline initializes as '', make it [] */
+		if ($searchAttributes === '' || $searchAttributes === null) { /** FIXME empty multiline initializes as '', make it [] */
 			$searchAttributes = [];
 		}
 		foreach ($searchAttributes as $attr) {
