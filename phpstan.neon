@@ -17,5 +17,5 @@ parameters:
       message: '#^Dead catch [^"]* is never thrown in the try block.$#'
       path: lib/Access.php
     -
-      message: "#Strict comparison using === between non-falsy-string and '' will always evaluate to false.#"
+      message: "#Strict comparison using === between mixed and '' will always evaluate to false.#"
       path: lib/Wizard.php

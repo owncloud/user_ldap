@@ -720,24 +720,6 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * Checks, whether a port was entered in the Host configuration
-	 * field. In this case the port will be stripped off, but also stored as
-	 * setting.
-	 */
-	private function checkHost() {
-		$host = $this->configuration->ldapHost;
-		$hostInfo = \parse_url($host);
-
-		//removes Port from Host
-		if (\is_array($hostInfo) && isset($hostInfo['port'])) {
-			$port = $hostInfo['port'];
-			$host = \str_replace(':'.$port, '', $host);
-			$this->applyFind('ldap_host', $host);
-			$this->applyFind('ldap_port', (string)$port);
-		}
-	}
-
-	/**
 	 * tries to detect the group member association attribute which is
 	 * one of 'uniqueMember', 'memberUid', 'member'
 	 * @return string|false, string with the attribute name, false on error
