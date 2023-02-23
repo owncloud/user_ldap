@@ -4,6 +4,7 @@ Feature: User names that are valid in ownCloud can be created and used from LDAP
   I want the full range of valid ownCloud user names to work from LDAP
   So that LDAP users can work with their files in ownCloud
 
+
   Scenario Outline: Valid ownCloud user names can be used from LDAP
     Given user "<username>" has been created with default attributes and without skeleton files
     When user "<username>" uploads file with content "uploaded content" to "test.txt" using the WebDAV API

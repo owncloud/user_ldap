@@ -4,6 +4,7 @@ Feature: Manage users using the Provisioning API
   I want to be able to add, delete and modify users via the Provisioning API
   So that I can easily manage users when user LDAP is enabled
 
+
   Scenario Outline: Admin creates a regular user
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been deleted
@@ -20,6 +21,7 @@ Feature: Manage users using the Provisioning API
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
 
+
   Scenario Outline: Admin deletes a regular user
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes in the database user backend
@@ -31,6 +33,7 @@ Feature: Manage users using the Provisioning API
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: Administrator can edit a user email
     Given using OCS API version "<ocs-api-version>"
@@ -44,6 +47,7 @@ Feature: Manage users using the Provisioning API
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
 
+
   Scenario Outline: the administrator can edit a user display (the API allows editing the "display name" by using the key word "display")
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes in the database user backend
@@ -56,6 +60,7 @@ Feature: Manage users using the Provisioning API
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
 
+
   Scenario Outline: the administrator can edit a user display name
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes in the database user backend
@@ -67,6 +72,7 @@ Feature: Manage users using the Provisioning API
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: the administrator can edit a user quota
     Given using OCS API version "<ocs-api-version>"
@@ -157,6 +163,7 @@ Feature: Manage users using the Provisioning API
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
 
+
   Scenario Outline: admin sets quota of user for which no LDAP quota attribute is specified
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes and without skeleton files
@@ -195,6 +202,7 @@ Feature: Manage users using the Provisioning API
       | 2               | 200             | 200              |
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
+
 
   Scenario Outline: admin sets quota of user in LDAP when a default quota is set in the LDAP settings
     Given using OCS API version "<ocs-api-version>"
@@ -235,6 +243,7 @@ Feature: Manage users using the Provisioning API
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
 
+
   Scenario Outline: Administrator deletes a ldap user and resyncs again
     Given using OCS API version "<ocs-api-version>"
     And user "Alice" has been created with default attributes and without skeleton files
@@ -250,6 +259,7 @@ Feature: Manage users using the Provisioning API
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: Administrator tries to create a user with same name as existing ldap user
     Given using OCS API version "<ocs-api-version>"

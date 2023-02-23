@@ -9,6 +9,7 @@ Feature: manage groups
     # In drone the ldap groups have not synced yet. So this occ command is required to sync them.
     And the administrator has invoked occ command "group:list"
 
+
   Scenario Outline: admin creates a database group when ldap is enabled
     Given using OCS API version "<ocs-api-version>"
     When the administrator sends a group creation request for group "simplegroup" using the provisioning API
@@ -19,6 +20,7 @@ Feature: manage groups
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: adding a non ldap user to a database group when ldap is enabled
     Given using OCS API version "<ocs-api-version>"
@@ -32,6 +34,7 @@ Feature: manage groups
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
 
+
   Scenario Outline: admin deletes a database group when ldap is enabled
     Given using OCS API version "<ocs-api-version>"
     And group "simplegroup" has been created in the database user backend
@@ -43,6 +46,7 @@ Feature: manage groups
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: admin gets users in the database group when ldap is enabled
     Given using OCS API version "<ocs-api-version>"
@@ -60,6 +64,7 @@ Feature: manage groups
       | ocs-api-version | ocs-status-code | http-status-code |
       | 1               | 100             | 200              |
       | 2               | 200             | 200              |
+
 
   Scenario Outline: Administrator tries to delete a ldap group
     Given using OCS API version "<ocs-api-version>"
@@ -90,6 +95,7 @@ Feature: manage groups
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
 
+
   Scenario Outline: Add ldap user to database group
     Given using OCS API version "<ocs-api-version>"
     And group "db-group" has been created in the database user backend
@@ -119,6 +125,7 @@ Feature: manage groups
     # | 1               | 102             | 200              |
     # | 2               | 400             | 400              |
 
+
   Scenario: Add ldap group with same name as existing database group
     Given group "db-group" has been created in the database user backend
     And these users have been created with default attributes and without skeleton files:
@@ -141,12 +148,14 @@ Feature: manage groups
     And user "Carol" should not belong to group "db-group"
     But user "Brian" should belong to group "db-group"
 
+
   Scenario: creating a group in an OU that is different to the other groups
     Given user "David" has been created with default attributes and without skeleton files
     When the administrator creates group "new-group-in-other-ou" in ldap OU "TestUsers"
     And the administrator adds user "David" to group "new-group-in-other-ou" in ldap OU "TestUsers"
     And the administrator invokes occ command "group:list"
     Then user "David" should belong to group "new-group-in-other-ou"
+
 
   Scenario: creating a group with a name that already exists in LDAP but in a other OU
     Given these users have been created with default attributes and without skeleton files:
@@ -163,6 +172,7 @@ Feature: manage groups
     Then user "Carol" should belong to group "grp1"
     But user "David" should not belong to group "grp1"
     And group "grp1_2" should not exist
+
 
   Scenario: creating two groups with the same name in different LDAP OUs at the same time
     Given these users have been created with default attributes and without skeleton files:
@@ -189,6 +199,7 @@ Feature: manage groups
     Then group "so-far-unused-group-name" should exist
     And user "Carol" should belong to group "so-far-unused-group-name"
     But user "Brian" should not belong to group "so-far-unused-group-name"
+
 
   Scenario Outline: Add database group with same name as existing ldap group
     Given using OCS API version "<ocs-api-version>"

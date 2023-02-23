@@ -6,6 +6,7 @@ Feature: connect to LDAP serer
     And the owncloud log has been cleared
     And user "Alice" has been created with default attributes and small skeleton files
 
+
   Scenario: authentication fails when the configuration does not contain an ldap port
     Given LDAP config "LDAPTestId" has key "ldapPort" set to ""
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
@@ -16,6 +17,7 @@ Feature: connect to LDAP serer
     When the administrator sets the LDAP config "LDAPTestId" key "ldapPort" to "%ldap_port%" using the occ command
     And user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
+
 
   Scenario: authentication fails when the configuration has a wrong hostname
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"
@@ -30,15 +32,18 @@ Feature: connect to LDAP serer
     And user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
+
   Scenario: authentication works when the hostname contains the protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "%ldap_host%"
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
 
+
   Scenario: authentication works when the hostname does not contain the protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "%ldap_host_without_scheme%"
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
+
 
   Scenario: authentication does not work when the hostname contains a wrong protocol
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "http://%ldap_host_without_scheme%"
@@ -126,6 +131,7 @@ Feature: connect to LDAP serer
     Then the HTTP status code should be "500"
     #Then the HTTP status code should be "200"
 
+
   Scenario: authentication works when there are multiple configurations and both connect correctly to the same host
     Given a new LDAP config with the name "SecondaryLdapConfig" has been created
     And LDAP config "SecondaryLdapConfig" has these settings:
@@ -161,6 +167,7 @@ Feature: connect to LDAP serer
       | ldapConfigurationActive       | 1                                                                                        |
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "200"
+
 
   Scenario: authentication fails when both configurations have an unreachable host configured
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "not-existent"

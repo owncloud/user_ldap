@@ -16,13 +16,15 @@ Feature: Sharing between local and LDAP users
     And user "Brian" has been added to group "grp1"
     And user "Carol" has been added to group "grp1"
 
+
   Scenario: Share a folder from an LDAP user to a local user
     When user "Alice" shares folder "/PARENT" with user "local-user" using the sharing API
     Then the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
-    
+
     """
+
 
   Scenario: Share a folder from an LDAP user to a local user and change folder content
     Given user "Alice" has shared folder "/PARENT" with user "local-user"
@@ -30,6 +32,7 @@ Feature: Sharing between local and LDAP users
     And user "local-user" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
     Then the content of file "/PARENT/new-file.txt" for user "Alice" should be "new file"
     And the content of file "/PARENT/parent.txt" for user "Alice" should be "changed file"
+
 
   Scenario: Share a folder from an LDAP user to a local user read only
     Given user "Alice" has shared folder "/PARENT" with user "local-user" with permissions "read"
@@ -41,8 +44,9 @@ Feature: Sharing between local and LDAP users
     And the content of file "/PARENT/parent.txt" for user "Alice" should be:
     """
     ownCloud test text file parent
-    
+
     """
+
 
   Scenario: Share a folder from a local user to an LDAP user
     When user "local-user" shares folder "/PARENT" with user "Alice" using the sharing API
@@ -51,12 +55,14 @@ Feature: Sharing between local and LDAP users
     ownCloud test text file parent
     """
 
+
   Scenario: Share a folder from a local user to an LDAP user and change folder content
     Given user "local-user" has shared folder "/PARENT" with user "Alice"
     When user "Alice" uploads file with content "new file" to "PARENT (2)/new-file.txt" using the WebDAV API
     And user "Alice" uploads file with content "changed file" to "PARENT (2)/parent.txt" using the WebDAV API
     Then the content of file "/PARENT/new-file.txt" for user "local-user" should be "new file"
     And the content of file "/PARENT/parent.txt" for user "local-user" should be "changed file"
+
 
   Scenario: Share a folder from a local user to an LDAP user without write permissions
     Given user "local-user" has shared folder "/PARENT" with user "Alice" with permissions "read"
@@ -70,6 +76,7 @@ Feature: Sharing between local and LDAP users
     ownCloud test text file parent
     """
 
+
   Scenario: Share a folder from an LDAP user to a local group, delete the group
     Given group "local-group" has been created in the database user backend
     And user "local-user" has been added to database backend group "local-group"
@@ -77,10 +84,11 @@ Feature: Sharing between local and LDAP users
     Then the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
-    
+
     """
     When the administrator deletes group "local-group" using the provisioning API
     Then as "local-user" file "/PARENT (2)/parent.txt" should not exist
+
 
   Scenario: Share a folder from a local user to an LDAP group, delete the group
     When user "local-user" shares folder "/PARENT" with group "grp1" using the sharing API
@@ -96,6 +104,7 @@ Feature: Sharing between local and LDAP users
     Then as "Brian" file "/PARENT (2)/parent.txt" should not exist
     And as "Carol" file "/PARENT (2)/parent.txt" should not exist
 
+
   Scenario: Share a folder from an LDAP user to a local group, take member out of the group
     Given group "local-group" has been created in the database user backend
     And user "local-user" has been added to database backend group "local-group"
@@ -103,10 +112,11 @@ Feature: Sharing between local and LDAP users
     Then the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
-    
+
     """
     When the administrator removes user "local-user" from group "local-group" using the provisioning API
     Then as "local-user" file "/PARENT (2)/parent.txt" should not exist
+
 
   Scenario: Share a folder from a local user to an LDAP group, take member out of the group
     When user "local-user" shares folder "/PARENT" with group "grp1" using the sharing API
@@ -140,7 +150,7 @@ Feature: Sharing between local and LDAP users
 #    Then the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
 #    """
 #    ownCloud test text file parent
-#    
+#
 #    """
     When user "local-user" gets the properties of file "/PARENT (2)/parent.txt" using the WebDAV API
     Then the HTTP status code should be "500"
@@ -152,5 +162,5 @@ Feature: Sharing between local and LDAP users
     And the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
     """
     ownCloud test text file parent
-    
+
     """

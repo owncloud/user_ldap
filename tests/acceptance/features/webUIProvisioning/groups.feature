@@ -23,15 +23,18 @@ Feature: add group
     Then the group name "grp1" should be listed on the webUI
     And the user count of group "grp1" should not be displayed on the webUI
 
+
   Scenario: Adding a simple database group should be possible
     When the administrator adds group "simple-group" using the webUI
     Then the group name "simple-group" should be listed on the webUI
     And group "simple-group" should exist
 
+
   Scenario: Add group with same name as existing ldap group
     When the administrator adds group "grp1" using the webUI
     Then the group name "grp1" should be listed on the webUI
     And a notification should be displayed on the webUI with the text "Error creating group: Group already exists."
+
 
   Scenario: Add ldap group with same name as existing database group
     Given group "db-group" has been created in the database user backend
@@ -47,6 +50,7 @@ Feature: add group
     Then the group name "db-group_2" should not be listed on the webUI
     And group "db-group_2" should not exist
 
+
   Scenario: delete group
     Given group "simple group" has been created in the database user backend
     And the administrator has browsed to the users page
@@ -55,6 +59,7 @@ Feature: add group
     When the administrator reloads the users page
     Then the group name "simple group" should not be listed on the webUI
     And group "simple group" should not exist
+
 
   Scenario: delete ldap defined group
     When the administrator deletes the group named "grp1" using the webUI and confirms the deletion using the webUI

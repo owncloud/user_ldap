@@ -8,9 +8,11 @@ Feature: login users
   Background:
     Given user "Alice" has been created with default attributes and without skeleton files
 
+
   Scenario: login with default settings
     When the LDAP users have been resynced
     Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
+
 
   Scenario: using ldap filter including email field
     When LDAP config "LDAPTestId" has these settings:
@@ -19,12 +21,14 @@ Feature: login users
       | ldapEmailAttribute |                                                                                  |
     Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
+
   Scenario: using ldapEmailAttribute but loginFilter lacks email field
     When LDAP config "LDAPTestId" has these settings:
       | key                | value                                    |
       | ldapLoginFilter    | (&(objectclass=inetOrgPerson)(uid=%uid)) |
       | ldapEmailAttribute | mail                                     |
     Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
+
 
   Scenario: no ldapEmailAttribute and loginFilter lacks email field
     When LDAP config "LDAPTestId" has these settings:
@@ -34,6 +38,7 @@ Feature: login users
     And the LDAP users have been resynced
     Then it should not be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
 
+
   Scenario: change Email address on LDAP server
     When the administrator sets the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers" to "Alice-change@example.org"
     And the LDAP users have been resynced
@@ -42,15 +47,18 @@ Feature: login users
     Then it should not be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
     But it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
 
+
   Scenario: change Email address on LDAP server, do not sync
     When the administrator sets the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers" to "Alice-change@example.org"
     Then it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
+
 
   Scenario: add a second Email address
     When the administrator adds "Alice-change@example.org" to the ldap attribute "mail" of the entry "uid=Alice,ou=TestUsers"
     Then it should be possible to login with the username "alice@example.org" and password "%regular%" using the WebUI
     When the user logs out of the webUI
     Then it should be possible to login with the username "Alice-change@example.org" and password "%regular%" using the WebUI
+
 
   Scenario: delete the Email address
     Given user "Brian" has been created with default attributes and without skeleton files

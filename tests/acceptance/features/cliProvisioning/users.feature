@@ -11,6 +11,7 @@ Feature: add a user using the using the occ command
       | Alice    |
       | Brian    |
 
+
   Scenario: admin creates an ordinary user using the occ command
     When the administrator creates this user using the occ command:
       | username  | displayname |
@@ -20,6 +21,7 @@ Feature: add a user using the using the occ command
     And user "justauser" should exist
     And user "justauser" should be able to access a skeleton file
 
+
   Scenario: admin tries to create an existing user
     Given this user has been created using the occ command:
       | username       | displayname    |
@@ -27,6 +29,7 @@ Feature: add a user using the using the occ command
     When the administrator tries to create a user "brand-new-user" using the occ command
     Then the command should have failed with exit code 1
     And the command output should contain the text 'The user "brand-new-user" already exists.'
+
 
   Scenario: admin deletes a user
     Given this user has been created using the occ command:
@@ -36,6 +39,7 @@ Feature: add a user using the using the occ command
     Then the command should have been successful
     And the command output should contain the text "User with uid 'brand-new-user', display name 'Brand New User', email '' was deleted"
     And user "brand-new-user" should not exist
+
 
   Scenario: the administrator can edit a user email
     Given this user has been created using the occ command:
@@ -48,6 +52,7 @@ Feature: add a user using the using the occ command
     And the user attributes returned by the API should include
       | email | brand-new-user@example.com |
 
+
   Scenario: the administrator can edit a user display name
     Given this user has been created using the occ command:
       | username       | displayname    |
@@ -59,6 +64,7 @@ Feature: add a user using the using the occ command
     And the user attributes returned by the API should include
       | displayname | A New User |
 
+
   Scenario: admin deletes ldap defined user and syncs again
     When the administrator deletes user "Alice" using the occ command
     Then the command should have been successful
@@ -66,6 +72,7 @@ Feature: add a user using the using the occ command
     And user "Alice" should not exist
     When the LDAP users are resynced
     Then user "Alice" should exist
+
 
   Scenario: admin tries to modify displayname of user for which an LDAP attribute is specified
     When the administrator sets the ldap attribute "displayname" of the entry "uid=Brian,ou=TestUsers" to "ldap user"
@@ -75,6 +82,7 @@ Feature: add a user using the using the occ command
     And user "Brian" should exist
     And the user attributes returned by the API should include
       | displayname | ldap user |
+
 
   Scenario: admin tries to modify password of user for which an LDAP attribute is specified
     When the administrator sets the ldap attribute "userpassword" of the entry "uid=Brian,ou=TestUsers" to "ldap_password"

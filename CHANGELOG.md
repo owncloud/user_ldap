@@ -3,11 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## Unreleased
+## [Unreleased] - 2022-xx-xx
+
+- [#770](https://github.com/owncloud/user_ldap/pull/770) - Don't trim binary attribute values as this might corrupt the value if it starts with a non-printable ASCII byte.
+
+## [0.16.1] - 2022-11-07
 
 ### Changed
-- Change color of warning sign for expert settings [#678](https://github.com/owncloud/user_ldap/pull/678)
-- Decode binary GUID where we normally expected string (eDirectory) [#711](https://github.com/owncloud/user_ldap/pull/711)
+
+- [#678](https://github.com/owncloud/user_ldap/pull/678) - Change color of warning sign for expert settings 
+- [#711](https://github.com/owncloud/user_ldap/pull/711) - Decode binary GUID where we normally expected string (eDirectory)
+- [#760](https://github.com/owncloud/user_ldap/pull/760) - Binary converter
 
 ## [0.16.0] - 2021-11-25
 
@@ -167,7 +173,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.16.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.16.1...master
+[0.16.1]: https://github.com/owncloud/user_ldap/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
 [0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.3...v0.15.4
 [0.15.3]: https://github.com/owncloud/user_ldap/compare/v0.15.2...v0.15.3
