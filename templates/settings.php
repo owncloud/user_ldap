@@ -220,7 +220,7 @@ style('user_ldap', 'settings');
 								<ul>
 									<li>groupScan: <?php p($l->t('Scan the group looking for users. This is the basic method and works without restrictions. It supports nested groups')) ;?></li>
 									<li>memberOf: <?php p($l->t('Search the members using the "memberOf" attribute. It requires support for the "memberOf" attribute, and it doesn\'t work with nested groups')) ;?></li>
-									<li>recursiveMemberOf (AD): <?php p($l->t('Search the members using the "memberOf" attribute in a recursive way. It requires support for the "memberOf" attribute and support for the "LDAP_MATCHING_RULE_IN_CHAIN" operator, it works with nested groups. Its main target is AD servers')) ;?></li>
+									<li>recursiveMemberOf (AD): <?php p($l->t('Search the members using the "memberOf" attribute in a recursive way. It requires support for the "memberOf" attribute and support for the "LDAP_MATCHING_RULE_IN_CHAIN" operator, it works with nested groups. Its main target is AD servers. NOTE: This algorithm only works with members explicitly listed in the group; AD\'s primary group, for example, won\'t be taken into account.')) ;?></li>
 								</ul>
 							</div>
 						</div>
