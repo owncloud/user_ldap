@@ -14,7 +14,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	</description>
 	<licence>AGPL</licence>
 	<author>Jörn Friedrich Dreyer, Tom Needham, Juan Pablo Villafañez Ramos, Dominik Schmidt and Arthur Schiwon</author>
-	<version>0.16.1</version>
+	<version>0.17.0</version>
 	<types>
 		<authentication/>
 	</types>
@@ -25,7 +25,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/user_ldap/ownCloud-app-ldap-user-management.jpg</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
-		<owncloud min-version="10.4" max-version="10" />
+		<owncloud min-version="10.11" max-version="10" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>
