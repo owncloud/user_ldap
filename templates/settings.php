@@ -220,7 +220,7 @@ style('user_ldap', 'settings');
 								<ul>
 									<li>groupScan: <?php p($l->t('Scan the group looking for users. This is the basic method and works without restrictions. It supports nested groups')) ;?></li>
 									<li>memberOf: <?php p($l->t('Search the members using the "memberOf" attribute. It requires support for the "memberOf" attribute, and it doesn\'t work with nested groups')) ;?></li>
-									<li>recursiveMemberOf (AD): <?php p($l->t('Search the members using the "memberOf" attribute in a recursive way. It requires support for the "memberOf" attribute and support for the "LDAP_MATCHING_RULE_IN_CHAIN" operator, it works with nested groups. Its main target is AD servers')) ;?></li>
+									<li>recursiveMemberOf (AD): <?php p($l->t('Search the members using the "memberOf" attribute in a recursive way. It requires support for the "memberOf" attribute and support for the "LDAP_MATCHING_RULE_IN_CHAIN" operator, it works with nested groups. Its main target is AD servers. NOTE: This algorithm only works with members explicitly listed in the group; AD\'s primary group, for example, won\'t be taken into account.')) ;?></li>
 								</ul>
 							</div>
 						</div>
@@ -288,6 +288,14 @@ style('user_ldap', 'settings');
 				<div class="tablerow">
 					<label for="ldap_expert_username_attr"><?php p($l->t('Internal Username Attribute:')); ?></label>
 					<input type="text" id="ldap_expert_username_attr" name="ldap_expert_username_attr" data-default="<?php p($_['ldap_expert_username_attr_default']); ?>" />
+				</div>
+			</section>
+			<section>
+				<h3><?php p($l->t('Internal Groupname')); ?></h3>
+				<p><?php p($l->t('The internal groupname is used to uniquely identify the group. It has the same restrictions as the internal username, in particular, the group name must be immutable and unique. By default, the UUID will be used. This internal groupname won\'t likely by visible because a displayname attribute is intended to be used to show the group.')); ?></p>
+				<div class="tablerow">
+					<label for="ldap_expert_groupname_attr"><?php p($l->t('Internal Groupname Attribute:')); ?></label>
+					<input type="text" id="ldap_expert_groupname_attr" name="ldap_expert_groupname_attr" data-default="<?php p($_['ldap_expert_groupname_attr_default']); ?>" />
 				</div>
 			</section>
 			<section>

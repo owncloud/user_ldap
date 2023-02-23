@@ -61,6 +61,7 @@ use OCP\Util;
  * @property string $ldapQuotaAttribute
  * @property string $ldapEmailAttribute
  * @property string $ldapExpertUsernameAttr
+ * @property string $ldapExpertGroupnameAttr
  * @property string $homeFolderNamingRule
  * @property array $ldapAttributesForUserSearch
  * @property string $ldapUuidUserAttribute

@@ -1002,6 +1002,43 @@ class Group_LDAP implements \OCP\GroupInterface {
 	}
 
 	/**
+	 * Get the details of the target group. The details consist (as of now)
+	 * of the gid and the displayname of the group. More data might be added
+	 * accordingly to the interface.
+	 * The method returns null on error (such as missing displayname, or
+	 * missing group)
+	 * @param string $gid the gid of the group we want to get the details of
+	 * @return array|null an array containing the gid and the displayname such as
+	 * ['gid' => 'abcdef', 'displayname' => 'my group']
+	 */
+	public function getGroupDetails($gid) {
+		$cacheKey = "groupDetails-$gid";
+		$details = $this->access->getConnection()->getFromCache($cacheKey);
+		if ($details !== null) {
+			return $details;
+		}
+
+		$dn = $this->access->groupname2dn($gid);
+		if ($dn === false) {
+			return null;
+		}
+
+		$attr = $this->access->getConnection()->ldapGroupDisplayName;
+		$displayname = $this->access->readAttribute($dn, $attr);
+		if (!\is_array($displayname)) {
+			// displayname attr not found
+			return null;
+		}
+
+		$details = [
+			'gid' => $gid,
+			'displayName' => $displayname[0],
+		];
+		$this->access->getConnection()->writeToCache($cacheKey, $details);
+		return $details;
+	}
+
+	/**
 	* Check if backend implements actions
 	* @param int $actions bitwise-or'ed actions
 	* @return boolean
@@ -1010,7 +1047,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(\OC\Group\Backend::COUNT_USERS & $actions);
+		return (bool)((\OC\Group\Backend::COUNT_USERS | \OC\Group\Backend::GROUP_DETAILS) & $actions);
 	}
 
 	/**
