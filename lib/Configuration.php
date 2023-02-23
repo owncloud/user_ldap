@@ -539,7 +539,7 @@ class Configuration {
 			'ldap_group_member_assoc_attribute' => 'uniqueMember',
 			'ldap_group_member_algo'            => 'groupScan',
 			'ldap_cache_ttl'                    => 600,
-			'ldap_network_timeout'              => 2,
+			'ldap_network_timeout'              => 15,
 			'ldap_uuid_user_attribute'          => 'auto',
 			'ldap_uuid_group_attribute'         => 'auto',
 			'home_folder_naming_rule'           => '',
