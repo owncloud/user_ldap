@@ -360,13 +360,14 @@ class UserEntry {
 		$attributeName = \strtolower($attributeName); // all ldap keys are lowercase
 		if (isset($this->ldapEntry[$attributeName][0])) {
 			$value = $this->ldapEntry[$attributeName][0];
-			if ($trim) {
-				$value = \trim($value);
-			}
 
 			$converterHub = ConverterHub::getDefaultConverterHub();
 			if ($converterHub->hasConverter($attributeName)) {
 				$value = $converterHub->bin2str($attributeName, $value);
+			}
+
+			if ($trim) {
+				$value = \trim($value);
 			}
 
 			if ($value === '') {

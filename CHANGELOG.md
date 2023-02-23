@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - 2022-xx-xx
 
+- [#770](https://github.com/owncloud/user_ldap/pull/770) - Don't trim binary attribute values as this might corrupt the value if it starts with a non-printable ASCII byte.
 
 ## [0.16.1] - 2022-11-07
 

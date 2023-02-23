@@ -665,7 +665,6 @@ class Access implements IUserTools {
 		}
 		$groupBackend = $group->getBackend();
 		$groupBackendClass = \get_class($groupBackend);
-		/** @phpstan-ignore-next-line */
 		if (($groupBackendClass === \OCA\User_LDAP\Group_LDAP::class || $groupBackendClass === \OCA\User_LDAP\Group_Proxy::class)
 				&& \OC::$server->getConfig()->getAppValue('user_ldap', 'reuse_accounts', 'no') === 'yes') {
 			// Account with same groupname exists, and matching backend, we can use this - merge
@@ -2088,7 +2087,7 @@ class Access implements IUserTools {
 					if (!$pagedSearchOK) {
 						return false;
 					}
-				} else {  /** @phpstan-ignore-line */
+				} else {
 					\OC::$server->getLogger()->debug(
 						"No paged search for us at $range",
 						['app' => 'user_ldap']
