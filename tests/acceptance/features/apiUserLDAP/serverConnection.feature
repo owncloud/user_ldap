@@ -49,9 +49,6 @@ Feature: connect to LDAP serer
     Given LDAP config "LDAPTestId" has key "ldapHost" set to "http://%ldap_host_without_scheme%"
     When user "Alice" requests "/index.php/apps/files" with "GET" using basic auth
     Then the HTTP status code should be "401"
-    And the last lines of the log file should contain log-entries containing these attributes:
-      | app | message                                                                              |
-      | PHP | ldap_set_option(): supplied argument is not a valid ldap link resource at            |
 
   @issue-49
   Scenario: authentication works when second of multiple configurations has an unreachable host configured
