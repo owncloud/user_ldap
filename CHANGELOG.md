@@ -3,9 +3,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased] - 2022-xx-xx
+## [0.17.0] - 2022-02.24
 
+### Changed
+
+- [#762](https://github.com/owncloud/user_ldap/pull/762) - Include a notice for the recursive group membership algorithm
+- [#748](https://github.com/owncloud/user_ldap/pull/748) - [full-ci] Expose group's displayname 
+- [#734](https://github.com/owncloud/user_ldap/pull/734) - Rise default network timeout to 15 secs
+- [#675](https://github.com/owncloud/user_ldap/pull/675) - [full-ci] Do not check for the username if if has been processed already
+
+### Fixed
+
+- [#771](https://github.com/owncloud/user_ldap/pull/771) - fix: fix config file for new transifex client
 - [#770](https://github.com/owncloud/user_ldap/pull/770) - Don't trim binary attribute values as this might corrupt the value if it starts with a non-printable ASCII byte.
+
 
 ## [0.16.1] - 2022-11-07
 
@@ -173,7 +184,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.16.1...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.17.0...master
+[0.17.0]: https://github.com/owncloud/user_ldap/compare/v0.16.1...v0.17.0
 [0.16.1]: https://github.com/owncloud/user_ldap/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
 [0.15.4]: https://github.com/owncloud/user_ldap/compare/v0.15.3...v0.15.4
