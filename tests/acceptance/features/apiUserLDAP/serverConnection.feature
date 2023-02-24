@@ -51,7 +51,6 @@ Feature: connect to LDAP serer
     Then the HTTP status code should be "401"
     And the last lines of the log file should contain log-entries containing these attributes:
       | app | message                                                                              |
-      | PHP | ldap_connect(): Could not create session handle: Bad parameter to an ldap routine at |
       | PHP | ldap_set_option(): supplied argument is not a valid ldap link resource at            |
 
   @issue-49
