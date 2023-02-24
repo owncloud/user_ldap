@@ -139,7 +139,6 @@
     "Algorithm to be used when searching for members in a group. In case of doubt, \"%s\" is the safe choice. Note that you're responsible of fulfilling the restrictions in order to use any algorithm; the app will behave erratically if the restrictions aren't fulfilled" : "搜索组中的成员时使用的算法。 如有疑问，“%s”是安全的选择。 请注意，您有责任满足限制以使用任何算法； 如果限制未得到满足，应用程序将运行异常",
     "Scan the group looking for users. This is the basic method and works without restrictions. It supports nested groups" : "扫描群组寻找用户。 这是基本方法，可以不受限制地工作。 它支持嵌套组",
     "Search the members using the \"memberOf\" attribute. It requires support for the \"memberOf\" attribute, and it doesn't work with nested groups" : "使用“memberOf”属性搜索成员。 它需要对“memberOf”属性的支持，并且它不适用于嵌套组",
-    "Search the members using the \"memberOf\" attribute in a recursive way. It requires support for the \"memberOf\" attribute and support for the \"LDAP_MATCHING_RULE_IN_CHAIN\" operator, it works with nested groups. Its main target is AD servers" : "以递归方式使用“memberOf”属性搜索成员。 它需要对“memberOf”属性的支持和对“LDAP_MATCHING_RULE_IN_CHAIN”运算符的支持，它适用于嵌套组。 它的主要目标是AD服务器",
     "Dynamic Group Member URL" : "动态组成员URL",
     "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "LDAP组对象属性，包含用于确定属于该组对象的LDAP搜索URL。(空设置禁用动态组成员的功能。)",
     "Nested Groups" : "嵌套组",
