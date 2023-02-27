@@ -28,6 +28,7 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Attributes\ConverterHub;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
@@ -567,10 +568,10 @@ class Manager {
 
 		$escapedUid = $this->access->escapeFilterPart($uid);
 		$attrFilters = [];
+		$converterHub = ConverterHub::getDefaultConverterHub();
 		foreach ($usernameAttrs as $attr) {
-			if ($attr === 'objectguid' || $attr === 'guid') {
-				// needs special formatting because we need to send as binary data
-				$attrFilters[] = "{$attr}=" . $this->access->formatGuid2ForFilterUser($uid);
+			if ($converterHub->hasConverter($attr)) {
+				$attrFilters[] = "{$attr}=" . $converterHub->str2filter($attr, $uid);
 			} else {
 				$attrFilters[] = "{$attr}={$escapedUid}";
 			}
@@ -609,11 +610,13 @@ class Manager {
 	 */
 	private function getValueFromEntry($ldapEntry, $attrs) {
 		$chosenValue = null;
+		$converterHub = ConverterHub::getDefaultConverterHub();
+
 		foreach ($attrs as $attr) {
 			if (isset($ldapEntry[$attr][0])) {
 				$chosenValue = $ldapEntry[$attr][0];
-				if ($attr === 'objectguid' || $attr === 'guid') {
-					$chosenValue = Access::binGUID2str($chosenValue);
+				if ($converterHub->hasConverter($attr)) {
+					$chosenValue = $converterHub->bin2str($attr, $chosenValue);
 				}
 				break;
 			}
