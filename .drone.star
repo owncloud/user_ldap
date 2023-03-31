@@ -481,180 +481,6 @@ config = {
                 },
             ],
         },
-        "core-api-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "apiAll": "core-apiAll-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                DEFAULT_PHP_VERSION,
-            ],
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 20,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd %s" % dir["server"],
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "cd %s" % dir["federated"],
-                        "php occ market:install user_ldap",
-                        "bash %s/apps/user_ldap/tests/acceptance/setConfig.sh" % dir["server"],
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "cd %s" % dir["server"],
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
-        "core-cli-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "cliAll": "core-cliAll-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                DEFAULT_PHP_VERSION,
-            ],
-            "runCoreTests": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "emailNeeded": True,
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "filterTags": "~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required&&~@dbConversion",
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd %s" % dir["server"],
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "cd %s" % dir["server"],
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
-        "core-webui-acceptance-encryption-userkeys-nightly": {
-            "suites": {
-                "webUIall": "core-wUI-e-UK",
-            },
-            "databases": [
-                "mysql:8.0",
-            ],
-            "servers": [
-                "latest",
-            ],
-            "phpVersions": [
-                DEFAULT_PHP_VERSION,
-            ],
-            "emailNeeded": True,
-            "runCoreTests": True,
-            "federatedServerNeeded": True,
-            "cron": "nightly",
-            "runAllSuites": True,
-            "numberOfParts": 2,
-            "filterTags": "@smokeTest&&~@skipOnEncryption&&~@skipOnEncryptionType:user-keys&&~@skip&&~@app-required",
-            "extraApps": {
-                "encryption": "",
-                "files_external": "",
-            },
-            "extraSetup": [
-                {
-                    "name": "configure-app",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "wait-for-it -t 600 ldap:636",
-                        "cd %s" % dir["server"],
-                        "bash ./apps/user_ldap/tests/acceptance/setConfig.sh",
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "cd %s" % dir["federated"],
-                        "php occ market:install user_ldap",
-                        "bash %s/apps/user_ldap/tests/acceptance/setConfig.sh" % dir["server"],
-                        "php occ ldap:show-config",
-                        'php occ ldap:test-config "LDAPTestId"',
-                        "php occ user:sync \"OCA\\\\User_LDAP\\\\User_Proxy\" -m remove",
-                        "php occ user:list",
-                    ],
-                },
-                {
-                    "name": "configure-encryption",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
-                    "commands": [
-                        "cd %s" % dir["server"],
-                        "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type user-keys --yes",
-                        "php occ config:list",
-                    ],
-                },
-            ],
-        },
         "core-api-acceptance-encryption-masterkey-nightly": {
             "suites": {
                 "apiAll": "core-apiAll-e-MK",
@@ -711,7 +537,6 @@ config = {
                     "commands": [
                         "cd %s" % dir["server"],
                         "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type masterkey --yes",
                         "php occ config:list",
                     ],
                 },
@@ -760,7 +585,6 @@ config = {
                     "commands": [
                         "cd %s" % dir["server"],
                         "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type masterkey --yes",
                         "php occ config:list",
                     ],
                 },
@@ -823,7 +647,6 @@ config = {
                     "commands": [
                         "cd %s" % dir["server"],
                         "php occ encryption:enable",
-                        "php occ encryption:select-encryption-type masterkey --yes",
                         "php occ config:list",
                     ],
                 },
