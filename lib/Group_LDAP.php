@@ -1009,7 +1009,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	 * missing group)
 	 * @param string $gid the gid of the group we want to get the details of
 	 * @return array|null an array containing the gid and the displayname such as
-	 * ['gid' => 'abcdef', 'displayname' => 'my group']
+	 * ['gid' => 'abcdef', 'displayName' => 'my group']
 	 */
 	public function getGroupDetails($gid) {
 		$cacheKey = "groupDetails-$gid";
