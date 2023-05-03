@@ -374,7 +374,6 @@ class UserLdapGeneralContext extends RawMinkContext implements Context {
 				$uid,
 				$uid,
 				null,
-				null,
 				false
 			);
 
