@@ -76,9 +76,9 @@ class CheckUser extends Command {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @return int|void|null
+	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$uid = $input->getArgument('ocName');
 			$this->isAllowed($input->getOption('force'));
@@ -86,15 +86,16 @@ class CheckUser extends Command {
 			$exists = $this->backend->userExists($uid);
 			if ($exists === true) {
 				$output->writeln('The user is still available on LDAP.');
-				return;
+				return 0;
 			}
 
-			$output->writeln('The user does not exists on LDAP anymore.');
+			$output->writeln('The user does not exist on LDAP anymore.');
 			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 				. $uid . '"');
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
 		}
+		return 0;
 	}
 
 	/**
