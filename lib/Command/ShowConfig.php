@@ -75,21 +75,22 @@ class ShowConfig extends Base {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @return int|void|null
+	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if ($configID !== null) {
 			$configIDs[] = $configID;
 			if (!\in_array($configIDs[0], $availableConfigs)) {
 				$output->writeln("Invalid configID");
-				return;
+				return 1;
 			}
 		} else {
 			$configIDs = $availableConfigs;
 		}
 		$this->renderConfigs($configIDs, $input, $output, $input->getOption('show-password'));
+		return 0;
 	}
 
 	/**

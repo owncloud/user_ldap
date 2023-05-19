@@ -72,14 +72,14 @@ class TestConfig extends Command {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @return int|void|null
+	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configId = $input->getArgument('configID');
 		if (!\in_array($configId, $availableConfigs, true)) {
 			$output->writeln("Invalid configID");
-			return;
+			return 1;
 		}
 
 		$result = $this->testConfig($configId);
@@ -92,6 +92,7 @@ class TestConfig extends Command {
 		} else {
 			$output->writeln('Your LDAP server was kidnapped by aliens.');
 		}
+		return 0;
 	}
 
 	/**

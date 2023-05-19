@@ -47,7 +47,7 @@ class InvalidateCache extends Command {
 			->setDescription('invalidates the LDAP cache');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uProxyBackendsCount = $this->uProxy->getBackendCount() + 1;  // +1 for the proxy itself
 		$gProxyBackendsCount = $this->gProxy->getBackendCount() + 1;  // +1 for the proxy itself
 

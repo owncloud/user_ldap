@@ -70,15 +70,15 @@ class SetConfig extends Command {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @return int|void|null
+	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$helper = new Helper();
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!\in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
-			return;
+			return 1;
 		}
 
 		$this->setValue(
@@ -86,6 +86,7 @@ class SetConfig extends Command {
 			$input->getArgument('configKey'),
 			$input->getArgument('configValue')
 		);
+		return 0;
 	}
 
 	/**
