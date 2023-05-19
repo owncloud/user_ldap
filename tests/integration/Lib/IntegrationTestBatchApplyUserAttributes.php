@@ -56,7 +56,7 @@ class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * indirectly tests whether batchApplyUserAttributes does it job properly,
+	 * indirectly tests whether batchApplyUserAttributes does its job properly
 	 * when a user without display name is included in the result set from LDAP.
 	 *
 	 * @return bool

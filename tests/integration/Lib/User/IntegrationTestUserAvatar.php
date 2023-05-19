@@ -64,7 +64,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping->map($dn, $username, 'fakeUUID-' . $username);
 
 		// initialize home folder and make sure that the user will update
-		// also remove an possibly existing avatar
+		// also remove a possibly existing avatar
 		\OC_Util::tearDownFS();
 
 		$userSession = \OC::$server->getUserSession();
@@ -75,7 +75,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		\OC_Util::setupFS($username);
 
-		// finally attempt to get the avatar set
+		// finally, attempt to get the avatar set
 		$this->userManager->updateAvatar($uid);
 	}
 
@@ -102,7 +102,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 	/**
 	 * tests whether an image received from LDAP which is of an invalid file
-	 * type is dealt with properly (i.e. not set and not dying).
+	 * type is dealt with properly (i.e., not set and not dying).
 	 *
 	 * @return bool
 	 */

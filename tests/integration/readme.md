@@ -1,6 +1,6 @@
 # Requirements #
 
-For running the tests manually (e.g. in your dev environment), have (as in do copy if not already done) the following files from https://github.com/owncloud/administration/tree/master/ldap-testing copied into the directory "setup-scripts":
+For running the tests manually (e.g., in your dev environment), have (as in do copy if not already done) the following files from https://github.com/owncloud/administration/tree/master/ldap-testing copied into the directory "setup-scripts":
 
  * start.sh
  * stop.sh
@@ -18,7 +18,7 @@ There is a script for this.
 
 ```# ./autotest.sh```
 
-If not run from the within the tests/integration directory, the script will cd into it.
+If not run from within the tests/integration directory, the script will cd into it.
 
 If either start.sh, stop.sh or config.php are not present, the missing file will be fetched from https://github.com/owncloud/administration/tree/master/ldap-testing
 

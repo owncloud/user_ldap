@@ -51,7 +51,7 @@ class IntegrationTestBackupServer extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that a backup connection is being used when the main  LDAP server
+	 * tests that a backup connection is being used when the main LDAP server
 	 * is offline
 	 *
 	 * Beware: after starting docker, the LDAP host might not be ready yet, thus

@@ -48,8 +48,8 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * tests that paging works properly against a simple example (reading
+	 * a few users in small steps)
 	 *
 	 * @return bool
 	 */
@@ -113,8 +113,8 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that paging works properly against a simple example (reading all
-	 * of few users in smallest steps)
+	 * tests that paging works properly against a simple example (reading
+	 * a few users in small steps)
 	 *
 	 * @return bool
 	 */

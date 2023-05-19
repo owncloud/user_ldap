@@ -55,7 +55,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * test that a faulty host will does not connect successfully
+	 * test that a faulty host will not connect successfully
 	 *
 	 * @return bool
 	 */
@@ -74,7 +74,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that a connect succeeds when only a hostname is provided
+	 * tests that a connection succeeds when only a hostname is provided
 	 *
 	 * @return bool
 	 */
@@ -93,7 +93,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that a connect succeeds when an LDAP URL is provided
+	 * tests that a connection succeeds when an LDAP URL is provided
 	 *
 	 * @return bool
 	 */
@@ -112,7 +112,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that a connect succeeds when an LDAP URL with port is provided
+	 * tests that a connection succeeds when an LDAP URL with port is provided
 	 *
 	 * @return bool
 	 */
@@ -131,7 +131,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 	}
 
 	/**
-	 * tests that a connect succeeds when a hostname with port is provided
+	 * tests that a connection succeeds when a hostname with port is provided
 	 *
 	 * @return bool
 	 */

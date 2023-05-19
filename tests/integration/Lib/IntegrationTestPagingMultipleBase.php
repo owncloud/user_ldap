@@ -57,9 +57,9 @@ class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
-		// having multiple base DNs, we expect that each configured base DN
-		// for each server will return its results for given LIMIT and OFFSET.
-		// This means, that having 2 base DNs, and requestlist LIMIT 2, we expect
+		// Having multiple base DNs, we expect that each configured base DN
+		// for each server will return its results for the given LIMIT and OFFSET.
+		// This means that having 2 base DNs, and requestlist LIMIT 2, we expect
 		// to receive 4 entries
 		$result = $this->access->searchUsers($filter, $attributes, 2, 0);
 		if (\count($result) !== 4) {
@@ -112,9 +112,9 @@ class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 		$filter = 'objectclass=inetorgperson';
 		$attributes = ['cn', 'dn'];
 
-		// having multiple base DNs, we expect that each configured base DN
-		// for each server will return its results for given LIMIT and OFFSET.
-		// This means, that having 2 base DNs, and requestlist LIMIT 2, we expect
+		// Having multiple base DNs, we expect that each configured base DN
+		// for each server will return its results for the given LIMIT and OFFSET.
+		// This means that having 2 base DNs, and requestlist LIMIT 2, we expect
 		// to receive 4 entries
 		$result = $this->access->countUsers($filter, $attributes, 2, 0);
 		if ($result !== 4) {
