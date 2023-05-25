@@ -716,7 +716,7 @@ def main(ctx):
     return before + coverageTests + afterCoverageTests + nonCoverageTests + stages + after
 
 def beforePipelines(ctx):
-    return codestyle(ctx) + jscodestyle(ctx) + cancelPreviousBuilds() + phpstan(ctx) + phan(ctx) + phplint(ctx) + checkStarlark()
+    return validateDailyTarballBuild() + codestyle(ctx) + jscodestyle(ctx) + cancelPreviousBuilds() + phpstan(ctx) + phan(ctx) + phplint(ctx) + checkStarlark()
 
 def coveragePipelines(ctx):
     # All unit test pipelines that have coverage or other test analysis reported
@@ -2475,7 +2475,7 @@ def setupElasticSearch(esVersion):
             "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
             "commands": [
                 "cd %s" % dir["server"],
-                "php occ config:app:set search_elastic servers --value elasticsearch",
+                "php occ config:app:set search_elastic servers --value http://elasticsearch:9200",
                 "php occ search:index:reset --force",
             ],
         },
@@ -2856,6 +2856,36 @@ def skipIfUnchanged(ctx, type):
         return [skip_step]
 
     return []
+
+def validateDailyTarballBuild():
+    if "validateDailyTarball" not in config:
+        return []
+
+    if not config["validateDailyTarball"]:
+        return []
+
+    pipeline = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "check-tarball-build-date",
+        "steps": [{
+            "name": "check-build-date",
+            "image": OC_CI_ALPINE,
+            "commands": [
+                "chmod +x ./tests/drone/check-daily-update.sh",
+                "./tests/drone/check-daily-update.sh %s %s" % ("daily-master", "daily-master-qa"),
+            ],
+        }],
+        "depends_on": [],
+        "trigger": {
+            "ref": [],
+        },
+    }
+
+    for branch in config["branches"]:
+        pipeline["trigger"]["ref"].append("refs/heads/%s" % branch)
+
+    return [pipeline]
 
 # This is custom starlark code added just for user_ldap
 # It is not committed to the starlark "standard" code in other apps because
