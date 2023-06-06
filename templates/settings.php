@@ -55,11 +55,11 @@ style('user_ldap', 'settings');
 			<h2 class="app-name"><?php p($l->t('LDAP')); ?><div class="ldap_config_state_indicator_container"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span><div class="ldap_config_state_indicator_subline"></div></div></h2>
 			<ul>
 				<?php foreach ($_['toc'] as $id => $title) {
-	?>
+					?>
 					<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
 					<?php
-}
-				?>
+				}
+?>
 				<li class="warn"><a href="#ldapSettings-1"><?php p($l->t('Advanced')); ?></a></li>
 				<li class="warn"><a href="#ldapSettings-2"><?php p($l->t('Expert')); ?></a></li>
 				<li class="stateIndicator"><span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span><div class="ldap_config_state_indicator_subline"></div></li>
@@ -77,13 +77,13 @@ style('user_ldap', 'settings');
 			</ul>
 		</div>
 		<?php if (OCP\App::isEnabled('user_webdavauth')) {
-					print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
-				}
+			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
+		}
 
 		if (!\function_exists('ldap_connect')) {
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
 		}
-		?>
+?>
 		<?php print_unescaped($_['tabs']); ?>
 		<fieldset id="ldapSettings-1">
 			<div id="ldapAdvancedAccordion">
@@ -192,28 +192,28 @@ style('user_ldap', 'settings');
 							<label for="ldap_group_member_assoc_attribute"><?php p($l->t('Group-Member association')); ?></label>
 							<select id="ldap_group_member_assoc_attribute" name="ldap_group_member_assoc_attribute" data-default="<?php p($_['ldap_group_member_assoc_attribute_default']); ?>" >
 								<option value="uniqueMember"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'uniqueMember')) {
-			p(' selected');
-		} ?>>uniqueMember</option>
+									p(' selected');
+								} ?>>uniqueMember</option>
 								<option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'memberUid')) {
-			p(' selected');
-		} ?>>memberUid</option>
+									p(' selected');
+								} ?>>memberUid</option>
 								<option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'member')) {
-			p(' selected');
-		} ?>>member (AD)</option>
+									p(' selected');
+								} ?>>member (AD)</option>
 							</select>
 						</div>
 						<div class="tablerow">
 							<label for="ldap_group_member_algo"><?php p($l->t('Group-Member algorithm')); ?></label>
 							<select id="ldap_group_member_algo" name="ldap_group_member_algo" data-default="<?php p($_['ldap_group_member_algo_default']); ?>" >
 								<option value="groupScan"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'groupScan')) {
-			p(' selected');
-		} ?>>groupScan</option>
+									p(' selected');
+								} ?>>groupScan</option>
 								<option value="memberOf"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'memberOf')) {
-			p(' selected');
-		} ?>>memberOf</option>
+									p(' selected');
+								} ?>>memberOf</option>
 								<option value="recursiveMemberOf"<?php if (isset($_['ldap_group_member_algo']) && ($_['ldap_group_member_algo'] === 'recursiveMemberOf')) {
-			p(' selected');
-		} ?>>recursiveMemberOf (AD)</option>
+									p(' selected');
+								} ?>>recursiveMemberOf (AD)</option>
 							</select>
 							<div class="hint">
 								<?php p($l->t('Algorithm to be used when searching for members in a group. In case of doubt, "%s" is the safe choice. Note that you\'re responsible of fulfilling the restrictions in order to use any algorithm; the app will behave erratically if the restrictions aren\'t fulfilled', ['groupScan'])); ?>

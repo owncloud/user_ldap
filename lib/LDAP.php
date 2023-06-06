@@ -88,7 +88,7 @@ class LDAP implements ILDAPWrapper {
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
 		return @$this->invokeLDAPMethod('control_paged_result', $link, $pageSize,  // suppress deprecation for 7.4
-										$isCritical, $cookie);
+			$isCritical, $cookie);
 	}
 
 	/**

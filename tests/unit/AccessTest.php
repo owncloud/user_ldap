@@ -35,7 +35,6 @@ use OCA\User_LDAP\User\Manager;
  * @package OCA\User_LDAP
  */
 class AccessTest extends \Test\TestCase {
-
 	/**
 	 * @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject
 	 */

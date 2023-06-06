@@ -35,7 +35,6 @@ use OCP\IL10N;
  * @package OCA\User_LDAP
  */
 class WizardTest extends \Test\TestCase {
-
 	/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject */
 	protected $configuration;
 
@@ -78,7 +77,7 @@ class WizardTest extends \Test\TestCase {
 						return ['dc=foobar,dc=bar'];
 					case 'ldapAttributesForUserSearch':
 						return [];
-					// other attributes
+						// other attributes
 					case 'ldapHost':
 						return 'localhost';
 					case 'ldapPort':

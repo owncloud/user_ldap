@@ -38,13 +38,12 @@ use OCP\User\IProvidesUserNameBackend;
 use OCP\UserInterface;
 
 class User_Proxy extends Proxy implements
-		IUserBackend,
-		UserInterface,
-		IProvidesQuotaBackend,
-		IProvidesExtendedSearchBackend,
-		IProvidesEMailBackend,
-		IProvidesUserNameBackend {
-
+	IUserBackend,
+	UserInterface,
+	IProvidesQuotaBackend,
+	IProvidesExtendedSearchBackend,
+	IProvidesEMailBackend,
+	IProvidesUserNameBackend {
 	/**
 	 * @var User_LDAP[]
 	 */

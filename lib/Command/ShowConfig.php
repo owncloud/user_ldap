@@ -35,7 +35,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
-
 	/** @var IConfig */
 	protected $config;
 

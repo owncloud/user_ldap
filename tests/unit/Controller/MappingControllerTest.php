@@ -35,7 +35,6 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Controller
  */
 class MappingControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */

@@ -27,7 +27,6 @@ namespace OCA\User_LDAP\Mapping;
 * @package OCA\User_LDAP\Mapping
 */
 class UserMapping extends AbstractMapping {
-
 	/**
 	 * returns the DB table name which holds the mappings
 	 * @return string

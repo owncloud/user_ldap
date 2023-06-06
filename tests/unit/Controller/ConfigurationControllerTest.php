@@ -37,7 +37,6 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Controller
  */
 class ConfigurationControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -200,7 +199,6 @@ class ConfigurationControllerTest extends TestCase {
 	}
 
 	public function testTest() {
-
 		// use valid looking config to pass critical validation
 		$this->config->expects($this->any())
 			->method('getAppValue')

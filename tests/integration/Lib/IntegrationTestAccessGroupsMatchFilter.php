@@ -27,7 +27,6 @@ use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 require_once __DIR__ . '/../AbstractIntegrationTest.php';
 
 class IntegrationTestAccessGroupsMatchFilter extends AbstractIntegrationTest {
-
 	/**
 	 * prepares the LDAP environment and sets up a test configuration for
 	 * the LDAP backend.
