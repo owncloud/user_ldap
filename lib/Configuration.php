@@ -89,7 +89,6 @@ use OCP\IConfig;
  * @property string $backupPort
  */
 class Configuration {
-
 	/** @var IConfig */
 	protected $coreConfig;
 
@@ -343,7 +342,7 @@ class Configuration {
 						$value = \implode("\n", $value);
 					}
 					break;
-				//following options are not stored but detected, skip them
+					//following options are not stored but detected, skip them
 				case 'ldapIgnoreNamingRules':
 				case 'hasPagedResultSupport':
 				case 'ldapUuidUserAttribute':

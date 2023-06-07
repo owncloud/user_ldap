@@ -35,7 +35,6 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Controller
  */
 class WizardControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */

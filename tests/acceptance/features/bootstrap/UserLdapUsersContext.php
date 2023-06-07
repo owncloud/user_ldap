@@ -31,7 +31,6 @@ require_once 'bootstrap.php';
  * context that holds steps to manipulate users and groups in the user_ldap app
  */
 class UserLdapUsersContext extends RawMinkContext implements Context {
-
 	/**
 	 *
 	 * @var UserLdapGeneralContext

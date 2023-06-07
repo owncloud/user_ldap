@@ -35,7 +35,6 @@ use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
-
 	/** @var IConfig */
 	protected $coreConfig;
 

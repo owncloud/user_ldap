@@ -40,7 +40,6 @@ use OCP\IRequest;
  * @package OCA\User_LDAP\Controller
  */
 class WizardController extends Controller {
-
 	/** @var IConfig */
 	protected $config;
 

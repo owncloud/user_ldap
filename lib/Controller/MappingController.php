@@ -36,7 +36,6 @@ use OCP\IRequest;
  * @package OCA\User_LDAP\Controller
  */
 class MappingController extends Controller {
-
 	/** @var IL10N */
 	protected $l10n;
 

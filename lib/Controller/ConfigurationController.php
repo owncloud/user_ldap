@@ -38,7 +38,6 @@ use OCP\ISession;
  * @package OCA\User_LDAP\Controller
  */
 class ConfigurationController extends Controller {
-
 	/** @var IConfig */
 	protected $config;
 

@@ -27,7 +27,6 @@ namespace OCA\User_LDAP;
  * @brief wraps around static ownCloud core methods
  */
 class FilesystemHelper {
-
 	/**
 	 * @brief states whether the filesystem was loaded
 	 * @return bool

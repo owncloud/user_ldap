@@ -23,7 +23,6 @@
 namespace OCA\User_LDAP;
 
 class ConfigurationTest extends \Test\TestCase {
-
 	/** @var Configuration */
 	private $configuration;
 

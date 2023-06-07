@@ -33,7 +33,6 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Configuration;
 
 class SetConfig extends Command {
-
 	/** @var IConfig */
 	protected $config;
 

@@ -7,15 +7,26 @@ parameters:
     - %currentWorkingDirectory%/appinfo/Migrations/*.php
   ignoreErrors:
     -
-      messages:
-        - '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::bind\(\) expects resource, null given.!'
-        - '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::errno\(\) expects resource, null given.!'
-        - '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::error\(\) expects resource, null given.!'
-        - "#Strict comparison using === between non-empty-string and '' will always evaluate to false.#"
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::bind\(\) expects resource, null given.!'
       path: lib/Connection.php
+      count: 2
+    -
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::errno\(\) expects resource, null given.!'
+      path: lib/Connection.php
+      count: 2
+    -
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::error\(\) expects resource, null given.!'
+      path: lib/Connection.php
+      count: 2
+    -
+      message: "#Strict comparison using === between non-empty-string and '' will always evaluate to false.#"
+      path: lib/Connection.php
+      count: 1
     -
       message: '#^Dead catch [^"]* is never thrown in the try block.$#'
       path: lib/Access.php
+      count: 1
     -
       message: "#Strict comparison using === between mixed and '' will always evaluate to false.#"
       path: lib/Wizard.php
+      count: 1

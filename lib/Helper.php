@@ -29,7 +29,6 @@
 namespace OCA\User_LDAP;
 
 class Helper {
-
 	/**
 	 * FIXME use public AppConfig API
 	 * returns prefixes for each saved LDAP/AD server configuration.

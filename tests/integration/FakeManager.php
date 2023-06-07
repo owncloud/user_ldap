@@ -32,7 +32,6 @@ use OCP\IConfig;
  * scope of these tests, we replace it with a mock.
  */
 class FakeManager extends \OCA\User_LDAP\User\Manager {
-
 	/** @var IConfig */
 	protected $ocConfig;
 
