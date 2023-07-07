@@ -739,7 +739,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 				break;
 		}
 
-		\natsort($groupUsers);
+		\sort($groupUsers);
 		$this->access->getConnection()->writeToCache('usersInGroup-'.$gid.'-'.$search, $groupUsers);
 		$groupUsers = \array_slice($groupUsers, $offset, $limit);
 
