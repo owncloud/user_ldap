@@ -3,17 +3,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [unreleased] - XXXX-xx-xx
+## [0.18.0] - 2023-07-13
 
-- 
+### Changed
+
+- [#796](https://github.com/owncloud/user_ldap/pull/796) - Use alphabetical order instead of natural order
+- [#787](https://github.com/owncloud/user_ldap/pull/787) - Always return an int from Symfony Command execute method
+- [#783](https://github.com/owncloud/user_ldap/pull/783) - Add condition in `doConnect` for checking network timeout is set
+- Minimum core version 10.11, mimimum php version 7.4
+- Dependencies updated.
 
 
-## [0.17.0] - 2022-02.24
+## [0.17.0] - 2022-02-24
 
 ### Changed
 
 - [#762](https://github.com/owncloud/user_ldap/pull/762) - Include a notice for the recursive group membership algorithm
-- [#748](https://github.com/owncloud/user_ldap/pull/748) - [full-ci] Expose group's displayname 
+- [#748](https://github.com/owncloud/user_ldap/pull/748) - [full-ci] Expose group's displayname
 - [#734](https://github.com/owncloud/user_ldap/pull/734) - Rise default network timeout to 15 secs
 - [#675](https://github.com/owncloud/user_ldap/pull/675) - [full-ci] Do not check for the username if if has been processed already
 
@@ -27,7 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Changed
 
-- [#678](https://github.com/owncloud/user_ldap/pull/678) - Change color of warning sign for expert settings 
+- [#678](https://github.com/owncloud/user_ldap/pull/678) - Change color of warning sign for expert settings
 - [#711](https://github.com/owncloud/user_ldap/pull/711) - Decode binary GUID where we normally expected string (eDirectory)
 - [#760](https://github.com/owncloud/user_ldap/pull/760) - Binary converter
 
@@ -189,7 +195,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.17.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.18.0...master
+[0.18.0]: https://github.com/owncloud/user_ldap/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/owncloud/user_ldap/compare/v0.16.1...v0.17.0
 [0.16.1]: https://github.com/owncloud/user_ldap/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/owncloud/user_ldap/compare/v0.15.4...v0.16.0
