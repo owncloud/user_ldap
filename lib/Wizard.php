@@ -685,6 +685,17 @@ class Wizard extends LDAPUtility {
 			}
 		}
 
+		//check whether the agent name is in email form
+		$i = \stripos($this->configuration->ldapAgentName, '@');
+		if ($i !== false) {
+			$base1 = \substr($this->configuration->ldapAgentName, $i+1);
+			$base1 = 'dc=' . \implode(',dc=', \explode('.', $base1));
+			if ($this->testBaseDN($base)) {
+				$this->applyFind('ldap_base', $base);
+				return $this->result;
+			}
+		}
+
 		//this did not help :(
 		//Let's see whether we can parse the Host URL and convert the domain to
 		//a base DN
