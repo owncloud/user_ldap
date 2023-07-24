@@ -685,13 +685,13 @@ class Wizard extends LDAPUtility {
 			}
 		}
 
-		//check whether the agent name is in email form
-		$i = \stripos($this->configuration->ldapAgentName, '@');
+		//check whether the agent name is in email form; last '@' is taken, if muptiple.
+		$i = \strrpos($this->configuration->ldapAgentName, '@');
 		if ($i !== false) {
 			$base1 = \substr($this->configuration->ldapAgentName, $i+1);
 			$base1 = 'dc=' . \implode(',dc=', \explode('.', $base1));
-			if ($this->testBaseDN($base)) {
-				$this->applyFind('ldap_base', $base);
+			if ($this->testBaseDN($base1)) {
+				$this->applyFind('ldap_base', $base1);
 				return $this->result;
 			}
 		}
