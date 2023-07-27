@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [0.18.0] - 2023-07-13
+## [0.18.0] - 2023-07-27
 
 ### Changed
 
@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - [#783](https://github.com/owncloud/user_ldap/pull/783) - Add condition in `doConnect` for checking network timeout is set
 - Minimum core version 10.11, mimimum php version 7.4
 - Dependencies updated.
+
+### Fixed
+
+- [#800](https://github.com/owncloud/user_ldap/pull/800) - guessBaseDN: try to parse domain part from a user given in email syntax
 
 
 ## [0.17.0] - 2022-02-24
