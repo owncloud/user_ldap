@@ -685,7 +685,7 @@ class Wizard extends LDAPUtility {
 			}
 		}
 
-		//check whether the agent name is in email form; last '@' is taken, if muptiple.
+		//check whether the agent name is in email form; last '@' is taken, if multiple.
 		$i = \strrpos($this->configuration->ldapAgentName, '@');
 		if ($i !== false) {
 			$base1 = \substr($this->configuration->ldapAgentName, $i+1);
