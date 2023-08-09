@@ -102,7 +102,7 @@ class Application extends \OCP\AppFramework\App {
 
 		$uProxy = $container->query(User_Proxy::class);
 		$eventDispatcher = $server->getEventDispatcher();
-		$eventDispatcher->addListener(UserExtendedAttributesEvent::USER_EXTENDED_ATTRIBUTES, function(UserExtendedAttributesEvent $event) use ($uProxy) {
+		$eventDispatcher->addListener(UserExtendedAttributesEvent::USER_EXTENDED_ATTRIBUTES, function (UserExtendedAttributesEvent $event) use ($uProxy) {
 			$targetUser = $event->getUser();
 			if ($targetUser->getBackendClassName() !== 'LDAP') {
 				// If the user doesn't come from LDAP, there is nothing to do here.
