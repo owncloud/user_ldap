@@ -120,6 +120,10 @@ OCA = OCA || {};
 				home_folder_naming_rule: {
 					$element: $('#home_folder_naming_rule'),
 					setMethod: 'setHomeFolderAttribute'
+				},
+				ldap_exposed_attributes_for_user: {
+					$element: $('#ldap_exposed_attributes_for_user'),
+					setMethod: 'setExposedAttributesForUser'
 				}
 			};
 			this.setManagedItems(items);
@@ -348,6 +352,15 @@ OCA = OCA || {};
 		 */
 		setHomeFolderAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.home_folder_naming_rule.$element, attribute);
+		},
+
+		/**
+		 * sets the user attributes that will be exposed to other apps
+		 *
+		 * @param {string} attributes
+		 */
+		setExposedAttributesForUser: function(attributes) {
+			this.setElementValue(this.managedItems.ldap_exposed_attributes_for_user.$element, attributes);
 		},
 
 		/**

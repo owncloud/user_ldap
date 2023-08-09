@@ -30,3 +30,4 @@ $application = new OCA\User_LDAP\AppInfo\Application();
 $application->checkCompatibility();
 $application->registerBackends();
 $application->registerHooks();
+$application->registerEventListener();

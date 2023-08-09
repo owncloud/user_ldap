@@ -276,6 +276,13 @@ style('user_ldap', 'settings');
 								<?php p($l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.')); ?>
 							</div>
 						</div>
+						<div class="tablerow">
+							<label for="ldap_exposed_attributes_for_user"><?php p($l->t('Exposed User Attributes')); ?></label>
+							<textarea id="ldap_exposed_attributes_for_user" name="ldap_exposed_attributes_for_user" placeholder="<?php p($l->t('Optional; one attribute per line')); ?>" data-default="<?php p($_['ldap_exposed_attributes_for_user_default']); ?>"></textarea>
+							<div class="hint">
+								<?php p($l->t('User attributes that other apps will be able to check')); ?>
+							</div>
+						</div>
 					</div>
 				</section>
 			</div>

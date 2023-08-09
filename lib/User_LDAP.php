@@ -406,6 +406,30 @@ class User_LDAP implements IUserBackend, UserInterface {
 		return null;
 	}
 
+	/**
+	 * Get the exposed attributes for the user.
+	 * It will return a map with the configured attributes as keys, and the
+	 * value of those attributes as values. In case of multivalued attributes,
+	 * only the first value will be returned.
+	 *
+	 * @param string $uid
+	 * @return array<string,string>|false key -> value map containing the attributes
+	 * and their values. False if the user isn't found
+	 */
+	public function getExposedAttributes($uid) {
+		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
+
+		$exposedAttrs = $this->userManager->getExposedAttributes();
+		$attrs = [];
+		foreach ($exposedAttrs as $attr) {
+			$attrs[$attr] = $userEntry->getAttribute($attr);
+		}
+		return $attrs;
+	}
+
 	public function clearConnectionCache() {
 		$this->userManager->getConnection()->clearCache();
 	}

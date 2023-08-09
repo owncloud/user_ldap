@@ -367,6 +367,10 @@ class User_Proxy extends Proxy implements
 		return \count($this->backends);
 	}
 
+	public function getExposedAttributes($uid) {
+		return $this->handleRequest($uid, 'getExposedAttributes', [$uid]);
+	}
+
 	public function clearFullCache($callback = null) {
 		$this->clearCache();
 		if ($callback !== null) {
