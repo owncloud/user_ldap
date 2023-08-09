@@ -626,6 +626,49 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals([], $userEntry->getSearchTerms());
 	}
 
+	public function testGetAttribute() {
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'samaccountname' => [0 => 'user007'],
+				'whencreated' => [0 => '20220930084030.0Z']
+			]
+		);
+		self::assertSame('user007', $userEntry->getAttribute('samaccountname'));
+		self::assertSame('20220930084030.0Z', $userEntry->getAttribute('whencreated'));
+	}
+
+	public function testGetAttributeMissing() {
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'samaccountname' => [0 => 'user007'],
+				'whencreated' => [0 => '20220930084030.0Z']
+			]
+		);
+		self::assertNull($userEntry->getAttribute('missingone'));
+	}
+
+	public function testGetAttributeNotTrimmed() {
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'samaccountname' => [0 => '	user007 '],
+				'whencreated' => [0 => '20220930084030.0Z']
+			]
+		);
+		self::assertSame('	user007 ', $userEntry->getAttribute('samaccountname'));
+	}
+
 	public function testLdapEntryLowercasedKeys() {
 		$val = 'cn=foo,dc=foobar,dc=bar';
 		$input = ['Dn' => ['count' => 1, $val]];
