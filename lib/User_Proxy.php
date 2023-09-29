@@ -175,6 +175,35 @@ class User_Proxy extends Proxy implements
 	}
 
 	/**
+	 * Get a list of users. Each item contains the prefix for the configuration
+	 * associated to the user and the raw ldap user entry as returned by the ldap
+	 * library.
+	 * For example:
+	 * ```
+	 * [
+	 *   ['prefix' => '', 'entry' => <rawEntry1>],
+	 *   ['prefix' => 's01', 'entry' => <rawEntry2>],
+	 *   ['prefix' => '', 'entry' => <rawEntry3>],
+	 *   .....
+	 * ]
+	 * ```
+	 * The prefix can be used with the `getUserEntryFromRawWithPrefix` to get
+	 * a UserEntry instance
+	 */
+	public function getRawUsersEntriesWithPrefix($search = '', $limit = 10, $offset = 0) {
+		$result = [];
+		foreach ($this->backends as $configPrefix => $backend) {
+			$userEntries = $backend->getRawUserEntries($search, $limit, $offset);
+			if (\is_array($userEntries)) {
+				foreach ($userEntries as $userEntry) {
+					$result[] = ['prefix' => $configPrefix, 'entry' => $userEntry];
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * check if a user exists
 	 * @param string $uid the username
 	 * @return bool
@@ -363,8 +392,54 @@ class User_Proxy extends Proxy implements
 		return $result;
 	}
 
+	/**
+	 * Get a user entry instance from the uid
+	 *
+	 * @param string $uid
+	 * @return \OCA\User_LDAP\User\UserEntry|null the user entry instance, or null if missing
+	 */
+	public function getUserEntry($uid) {
+		$result = $this->handleRequest($uid, 'getUserEntry', [$uid]);
+		if ($result === false) { // false means no username for user found
+			$result = null;
+		}
+		return $result;
+	}
+
+	/**
+	 * Get a user entry instance. We'll access to the specified backend from the
+	 * configPrefix, and that backend will get the user entry instance from
+	 * the provided raw data (ldap_entry)
+	 *
+	 * @param string $configPrefix the configPrefix for the target backend
+	 * @param array $ldap_entry the raw ldap entry for the user
+	 * @return \OCA\User_LDAP\User\UserEntry
+	 * @throws \BadMethodCallException when access object has not been set
+	 * @throws \InvalidArgumentException if entry does not contain a dn
+	 * @throws \OutOfBoundsException when username could not be determined
+	 */
+	public function getUserEntryFromRawWithPrefix($configPrefix, $ldap_entry) {
+		$backend = $this->backends[$configPrefix];
+		return $backend->getUserEntryFromRaw($ldap_entry);
+	}
+
 	public function getBackendCount() {
 		return \count($this->backends);
+	}
+
+	/**
+	 * Test the connection. This will fail if ANY of the backend connections fail
+	 *
+	 * @return bool true if binds to all the backends, false otherwise
+	 * @throws \OC\ServerNotAvailableException if ANY connection throws it
+	 */
+	public function testConnection() {
+		$result = true;
+		foreach ($this->backends as $backend) {
+			$resultBackend = $backend->testConnection();
+			$result = $result && $resultBackend;
+		}
+		return $result;
 	}
 
 	public function clearFullCache($callback = null) {

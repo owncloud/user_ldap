@@ -25,6 +25,7 @@ use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\UserSyncLDAPBackend;
 
 class Application extends \OCP\AppFramework\App {
 	/**
@@ -82,6 +83,18 @@ class Application extends \OCP\AppFramework\App {
 			// register user backend
 			\OC_User::useBackend($userBackend);
 			$server->getGroupManager()->addBackend($groupBackend);
+
+			// conditionally add the userSync backend if it's available
+			// in order to keep backwards compatibility
+			if (\method_exists($server, 'getSyncManager')) {
+				$syncManager = $server->getSyncManager();
+				$userSyncer = $syncManager->getUserSyncer();
+				if ($userSyncer !== null) {
+					$userSyncer->registerBackend(
+						new UserSyncLDAPBackend($userBackend)
+					);
+				}
+			}
 		}
 	}
 
