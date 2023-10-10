@@ -33,7 +33,6 @@ class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
 	protected $curArgs = [];
 	private array $pagedSearchControl;
-	private array $pagedSearchControlResult;
 
 	/**
 	 * @param resource $link
@@ -71,8 +70,12 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool|LDAP
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
-		$cookie = $this->pagedSearchControlResult['cookie'];
-		$estimated = $this->pagedSearchControlResult['size'];
+		$ret = ldap_parse_result($link, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
+		if (!$ret) {
+			throw new \Exception('ldap_parse_result failed');
+		}
+		$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
+		$estimated = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['size'] ?? '';
 		return true;
 	}
 
@@ -204,16 +207,13 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
-		$control = [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => $this->pagedSearchControl['pageSize'], 'cookie' => $this->pagedSearchControl['cookie']]]];
+		if ($this->pagedSearchControl['pageSize'] > 0) {
+			$control = [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => [
+				'size' => $this->pagedSearchControl['pageSize'],
+				'cookie' => $this->pagedSearchControl['cookie']]]];
+		}
 
-		$result = ldap_search($link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, 0, $control);
-
-		ldap_parse_result($link, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
-		$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
-		$size = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['size'] ?? '';
-		$this->pagedSearchControlResult = compact('cookie', 'size');
-
-		return $result;
+		return ldap_search($link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, 0, $control ?? []);
 	}
 
 	/**
@@ -263,6 +263,9 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool true if it is a resource, false otherwise
 	 */
 	public function isResource($resource) {
+		if ($resource instanceof \LDAP\Connection) {
+			return true;
+		}
 		return \is_resource($resource);
 	}
 
