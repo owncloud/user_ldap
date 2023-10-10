@@ -195,7 +195,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
