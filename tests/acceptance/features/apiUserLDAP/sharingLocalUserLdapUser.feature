@@ -132,7 +132,7 @@ Feature: Sharing between local and LDAP users
     Then as "Brian" file "/PARENT (2)/parent.txt" should not exist
     But as "Carol" file "/PARENT (2)/parent.txt" should exist
 
-  @issue-364
+  @issue-364 @skipOnOcV10.12 @skipOnOcV10.13.0 @skipOnOcV10.13.1
   Scenario: Share a folder from an LDAP user to a local user
     Given user "Alice" has shared folder "/PARENT" with user "local-user"
     When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "not-existing" using the occ command
