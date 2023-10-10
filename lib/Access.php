@@ -254,7 +254,7 @@ class Access implements IUserTools {
 	/**
 	 * Runs an read operation against LDAP
 	 *
-	 * @param resource $cr the LDAP connection
+	 * @param \LDAP\Connection $cr the LDAP connection
 	 * @param string $dn
 	 * @param string|array $attributes
 	 * @param string $filter

@@ -35,7 +35,7 @@ class LDAP implements ILDAPWrapper {
 	private array $pagedSearchControl;
 
 	/**
-	 * @param resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $dn
 	 * @param string $password
 	 * @return bool|mixed
@@ -63,11 +63,11 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
-	 * @param LDAP|resource $result
+	 * @param \LDAP\Connection $link
+	 * @param \LDAP\Result $result
 	 * @param string $cookie
 	 * @param int $estimated $cookie
-	 * @return bool|LDAP
+	 * @return bool
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
 		$ret = ldap_parse_result($link, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
@@ -80,7 +80,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param int $pageSize
 	 * @param bool $isCritical
 	 * @param string $cookie
@@ -92,7 +92,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed
 	 */
@@ -101,7 +101,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return mixed|string
 	 */
 	public function errno($link) {
@@ -109,7 +109,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return int|mixed
 	 */
 	public function error($link) {
@@ -142,7 +142,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed
 	 */
@@ -151,7 +151,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return array|mixed
 	 */
@@ -160,7 +160,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed|string
 	 */
@@ -169,7 +169,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return array|mixed
 	 */
@@ -178,7 +178,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param resource $result
 	 * @return mixed
 	 */
@@ -187,7 +187,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
@@ -217,7 +217,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $option
 	 * @param int $value
 	 * @return bool|mixed
@@ -227,7 +227,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return mixed|true
 	 */
 	public function startTls($link) {
@@ -235,7 +235,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param resource $link
+	 * @param \LDAP\Connection $link
 	 * @return bool|mixed
 	 */
 	public function unbind($link) {
@@ -257,11 +257,6 @@ class LDAP implements ILDAPWrapper {
 		return true;
 	}
 
-	/**
-	 * Checks whether the submitted parameter is a resource
-	 * @param Resource $resource the resource variable to check
-	 * @return bool true if it is a resource, false otherwise
-	 */
 	public function isResource($resource) {
 		if ($resource instanceof \LDAP\Connection) {
 			return true;
