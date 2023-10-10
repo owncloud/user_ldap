@@ -199,9 +199,11 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * Returns the LDAP handler
+	 *
 	 * @return resource | null
 	 *
 	 * @throws \OC\ServerNotAvailableException
+	 * @throws BindFailedException
 	 */
 	public function getConnectionResource() {
 		if ($this->ldapConnectionRes === null) {
@@ -600,11 +602,7 @@ class Connection extends LDAPUtility {
 					);
 					throw new BindFailedException();
 				}
-			} catch (ServerNotAvailableException $e) {
-				if (\trim($this->configuration->ldapBackupHost) === "") {
-					throw $e;
-				}
-			} catch (BindFailedException $e) {
+			} catch (ServerNotAvailableException|BindFailedException $e) {
 				if (\trim($this->configuration->ldapBackupHost) === "") {
 					throw $e;
 				}
