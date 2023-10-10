@@ -261,6 +261,12 @@ class LDAP implements ILDAPWrapper {
 		if ($resource instanceof \LDAP\Connection) {
 			return true;
 		}
+		if ($resource instanceof \LDAP\Result) {
+			return true;
+		}
+		if ($resource instanceof \LDAP\ResultEntry) {
+			return true;
+		}
 		return \is_resource($resource);
 	}
 
