@@ -22,13 +22,13 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
-use Exception;
 use OC;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
+use Throwable;
 use function get_class_methods;
 use function strpos;
 
@@ -164,7 +164,7 @@ abstract class AbstractIntegrationTest {
 				print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
 				exit(1);
 			}
-		} catch (Exception $ex) {
+		} catch (Throwable $ex) {
 			print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
 			print((string)$ex);
 			exit(1);
