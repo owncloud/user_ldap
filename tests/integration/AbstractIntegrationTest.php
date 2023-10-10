@@ -22,18 +22,22 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
+use Exception;
+use OC;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
+use function get_class_methods;
+use function strpos;
 
 require_once __DIR__  . '/../../../../lib/base.php';
 require_once __DIR__ . '/FakeManager.php';
 
 abstract class AbstractIntegrationTest {
 	/** @var  LDAP */
-	protected $ldap;
+	protected LDAP $ldap;
 
 	/** @var  Connection */
 	protected $connection;
@@ -55,11 +59,12 @@ abstract class AbstractIntegrationTest {
 
 	/** @var string[] */
 	protected $server;
+	protected $base;
 
-	public function __construct($host, $port, $bind, $pwd, $base, $baseUsers = null, $baseGroups = null) {
+	public function __construct(string $host, $port, $bind, $pwd, $base, $baseUsers = null, $baseGroups = null) {
 		$this->base = $base;
-		$this->bdnUsers = $baseUsers === null ? $base : $baseUsers;
-		$this->bdnGroups = $baseGroups === null ? $base : $baseGroups;
+		$this->bdnUsers = $baseUsers ?? $base;
+		$this->bdnGroups = $baseGroups ?? $base;
 		$this->server = [
 			'host' => $host,
 			'port' => $port,
@@ -74,7 +79,7 @@ abstract class AbstractIntegrationTest {
 	 */
 	public function init() {
 		// wipe account table
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('accounts')->execute();
 
 		$this->initLDAPWrapper();
@@ -86,7 +91,7 @@ abstract class AbstractIntegrationTest {
 	/**
 	 * initializes the test LDAP wrapper
 	 */
-	protected function initLDAPWrapper() {
+	protected function initLDAPWrapper(): void {
 		$this->ldap = new LDAP();
 	}
 
@@ -94,7 +99,7 @@ abstract class AbstractIntegrationTest {
 	 * sets up the LDAP configuration to be used for the test
 	 */
 	protected function initConnection() {
-		$coreConfig = \OC::$server->getConfig();
+		$coreConfig = OC::$server->getConfig();
 		$configuration = new Configuration($coreConfig, 'test');
 		$this->connection = new Connection($this->ldap, $configuration);
 		// use the defaults to make sure we don't use any remnants
@@ -126,7 +131,7 @@ abstract class AbstractIntegrationTest {
 	/**
 	 * initializes the Access test instance
 	 */
-	protected function initAccess() {
+	protected function initAccess(): void {
 		$this->access = new Access($this->connection, $this->userManager);
 	}
 
@@ -135,16 +140,12 @@ abstract class AbstractIntegrationTest {
 	 *
 	 * If a test failed, the script is exited with return code 1.
 	 */
-	public function run() {
-		$methods = \get_class_methods($this);
+	public function run(): void {
+		$methods = get_class_methods($this);
 		$atLeastOneCaseRan = false;
 		foreach ($methods as $method) {
-			if (\strpos($method, 'case') === 0) {
-				print("running $method " . PHP_EOL);
-				if (!$this->$method()) {
-					print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
-					exit(1);
-				}
+			if (strpos($method, 'case') === 0) {
+				$this->runTest($method);
 				$atLeastOneCaseRan = true;
 			}
 		}
@@ -152,6 +153,20 @@ abstract class AbstractIntegrationTest {
 			print('Tests succeeded' . PHP_EOL);
 		} else {
 			print('No Test was available.' . PHP_EOL);
+			exit(1);
+		}
+	}
+
+	private function runTest(string $method): void {
+		print("running $method " . PHP_EOL);
+		try {
+			if (!$this->$method()) {
+				print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
+				exit(1);
+			}
+		} catch (Exception $ex) {
+			print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
+			print((string)$ex);
 			exit(1);
 		}
 	}
