@@ -83,7 +83,7 @@ use OCP\Util;
  */
 class Connection extends LDAPUtility {
 	/**
-	 * @var resource|null
+	 * @var \LDAP\Connection | null
 	 */
 	private $ldapConnectionRes;
 
@@ -201,7 +201,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Returns the LDAP handler
 	 *
-	 * @return resource | null
+	 * @return \LDAP\Connection | null
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 * @throws BindFailedException

@@ -40,7 +40,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Bind to LDAP directory
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param string $dn an RDN to log in with
 	 * @param string $password the password
 	 * @return bool true on success, false otherwise
@@ -59,7 +59,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Send LDAP pagination control
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param int $pageSize number of results per page
 	 * @param bool $isCritical Indicates whether the pagination is critical of not.
 	 * @param string $cookie structure sent by LDAP server
@@ -69,8 +69,8 @@ interface ILDAPWrapper {
 
 	/**
 	 * Retrieve the LDAP pagination cookie
-	 * @param resource $link LDAP link resource
-	 * @param resource $result LDAP result resource
+	 * @param \LDAP\Connection $link LDAP link resource
+	 * @param \LDAP\Result $result LDAP result resource
 	 * @param string $cookie structure sent by LDAP server
 	 * @param int $estimated The estimated number of entries to retrieve.
 	 * @return bool true on success, false otherwise
@@ -81,7 +81,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Count the number of entries in a search
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return int|false number of results on success, false otherwise
 	 */
@@ -89,14 +89,14 @@ interface ILDAPWrapper {
 
 	/**
 	 * Return the LDAP error number of the last LDAP command
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @return string error message as string
 	 */
 	public function errno($link);
 
 	/**
 	 * Return the LDAP error message of the last LDAP command
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @return int error code as integer
 	 */
 	public function error($link);
@@ -124,7 +124,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Return first result id
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return Resource an LDAP search result resource
 	 * */
@@ -132,7 +132,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Get attributes from a search result entry
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return array containing the results, false on error
 	 * */
@@ -140,7 +140,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Get the DN of a result entry
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return string containing the DN, false on error
 	 */
@@ -148,7 +148,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Get all result entries
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP result resource
 	 * @return array containing the results, false on error
 	 */
@@ -156,7 +156,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Return next result id
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param resource $result LDAP entry result resource
 	 * @return resource an LDAP search result resource
 	 * */
@@ -164,7 +164,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Read an entry
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param string $baseDN The DN of the entry to read from
 	 * @param string $filter An LDAP filter
 	 * @param array $attr array of the attributes to read
@@ -187,7 +187,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Sets the value of the specified option to be $value
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @param string $option a defined LDAP Server option
 	 * @param int $value the new value for the option
 	 * @return bool true on success, false otherwise
@@ -196,14 +196,14 @@ interface ILDAPWrapper {
 
 	/**
 	 * establish Start TLS
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
 	public function startTls($link);
 
 	/**
 	 * Unbind from LDAP directory
-	 * @param resource $link LDAP link resource
+	 * @param \LDAP\Connection $link LDAP link resource
 	 * @return bool true on success, false otherwise
 	 */
 	public function unbind($link);
@@ -224,7 +224,7 @@ interface ILDAPWrapper {
 
 	/**
 	 * Checks whether the submitted parameter is a resource
-	 * @param resource $resource the resource variable to check
+	 * @param \LDAP\Connection|resource $resource the resource variable to check
 	 * @return bool true if it is a resource, false otherwise
 	 */
 	public function isResource($resource);
