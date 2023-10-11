@@ -88,6 +88,7 @@ config = {
                 "IntegrationTestCountUsersByLoginName",
                 "IntegrationTestFetchUsersByLoginName",
                 "IntegrationTestPaging",
+                "IntegrationTestPagingMultipleBase",
                 "User/IntegrationTestUserAvatar",
                 "User/IntegrationTestUserDisplayName",
             ],
