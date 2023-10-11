@@ -22,6 +22,7 @@
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\Exceptions\BindFailedException;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User_LDAP;
@@ -84,7 +85,7 @@ class IntegrationBackupServer extends AbstractIntegrationTest {
 				'ldap_backup_port' => '32123',
 			]);
 			$this->connection->getConnectionResource();
-		} catch (ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException|BindFailedException $e) {
 			return true;
 		}
 		return false;
@@ -105,7 +106,7 @@ class IntegrationBackupServer extends AbstractIntegrationTest {
 				'ldap_backup_port' => '',
 			]);
 			$this->connection->getConnectionResource();
-		} catch (ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException|BindFailedException $e) {
 			return true;
 		}
 		return false;
