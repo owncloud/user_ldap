@@ -41,6 +41,22 @@ class UserSyncLDAPBackend implements IUserSyncBackend {
 	}
 
 	/**
+	 * Get the pointer's position. This method isn't part of the interface and
+	 * it's expected to be used only for testing
+	 */
+	public function getPointer() {
+		return $this->pointer;
+	}
+
+	/**
+	 * Get the cached user data. This method isn't part of the interface and
+	 * it's expected to be used only for testing
+	 */
+	public function getCachedUserData() {
+		return $this->cachedUserData;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function resetPointer() {
@@ -97,7 +113,7 @@ class UserSyncLDAPBackend implements IUserSyncBackend {
 				$email = $userEntry->getEMailAddress();
 				$home = $userEntry->getHome();
 				$searchTerms = $userEntry->getSearchTerms();
-			} catch (\Exception $e) {
+			} catch (\Exception $ex) {
 				throw new SyncBackendUserFailedException("Can't sync user with dn {$userEntry->getDN()}", 1, $ex);
 			}
 
@@ -141,7 +157,7 @@ class UserSyncLDAPBackend implements IUserSyncBackend {
 				$email = $userEntry->getEMailAddress();
 				$home = $userEntry->getHome();
 				$searchTerms = $userEntry->getSearchTerms();
-			} catch (\Exception $e) {
+			} catch (\Exception $ex) {
 				throw new SyncBackendUserFailedException("Can't sync user with dn {$userEntry->getDN()}", 1, $ex);
 			}
 
