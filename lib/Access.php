@@ -42,6 +42,7 @@ use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Attributes\ConverterHub;
+use OCA\User_LDAP\Attributes\ConverterException;
 use OCP\Util;
 
 /**
@@ -1549,12 +1550,21 @@ class Access implements IUserTools {
 		}
 		$searchWords = \explode(' ', \trim($search));
 		$wordFilters = [];
+		$converterHub = ConverterHub::getDefaultConverterHub();
 		foreach ($searchWords as $word) {
-			$word = $this->prepareSearchTerm($word);
+			$preparedWord = $this->prepareSearchTerm($word);
 			//every word needs to appear at least once
 			$wordMatchOneAttrFilters = [];
 			foreach ($searchAttributes as $attr) {
-				$wordMatchOneAttrFilters[] = "$attr=$word";
+				if ($converterHub->hasConverter($attr)) {
+					try {
+						$wordMatchOneAttrFilters[] = "$attr=" . $this->prepareSearchTerm($converterHub->str2filter($attr, $word));
+					} catch (ConverterException $e) {
+						$wordMatchOneAttrFilters[] = "$attr=$preparedWord";
+					}
+				} else {
+					$wordMatchOneAttrFilters[] = "$attr=$preparedWord";
+				}
 			}
 			$wordFilters[] = $this->combineFilterWithOr($wordMatchOneAttrFilters);
 		}
@@ -1583,15 +1593,33 @@ class Access implements IUserTools {
 			}
 		}
 
-		$search = $this->prepareSearchTerm($search);
+		$preparedSearch = $this->prepareSearchTerm($search);
+		$converterHub = ConverterHub::getDefaultConverterHub();
 		if (!\is_array($searchAttributes) || \count($searchAttributes) === 0) {
 			if ($fallbackAttribute === '') {
 				return '';
 			}
-			$filter[] = "$fallbackAttribute=$search";
+			if ($converterHub->hasConverter($fallbackAttribute)) {
+				try {
+					$filter[] = "$fallbackAttribute=" . $this->prepareSearchTerm($converterHub->str2filter($fallbackAttribute, $search));
+				} catch (ConverterException $e) {
+					// if failed to convert, then do no convert
+					$filter[] = "$fallbackAttribute=$preparedSearch";
+				}
+			} else {
+				$filter[] = "$fallbackAttribute=$preparedSearch";
+			}
 		} else {
 			foreach ($searchAttributes as $attribute) {
-				$filter[] = "$attribute=$search";
+				if ($converterHub->hasConverter($attribute)) {
+					try {
+						$filter[] = "$attribute=" . $this->prepareSearchTerm($converterHub->str2filter($attribute, $search));
+					} catch (ConverterException $e) {
+						$filter[] = "$attribute=$preparedSearch";
+					}
+				} else {
+					$filter[] = "$attribute=$preparedSearch";
+				}
 			}
 		}
 		if (\count($filter) === 1) {
