@@ -610,6 +610,23 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals(['a@b.c', 'alt@b.c', 'foo'], $userEntry->getSearchTerms());
 	}
 
+	public function testGetSearchTermsWithConversion() {
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('ldapAttributesForUserSearch'))
+			->will($this->returnValue(['objectguid']));  // objectguid is converted by default
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'objectguid' => [0 => "\xf3\x71\xe2\x36\xa9\x48\x63\x4e\xb6\xbd\x41\xb6\x9d\x9b\x59\xb3"], // all mails should be found
+			]
+		);
+		self::assertEquals(['36e271f3-48a9-4e63-b6bd-41b69d9b59b3'], $userEntry->getSearchTerms());
+	}
+
 	public function testGetSearchTermsUnconfigured() {
 		$this->connection->expects($this->once())
 			->method('__get')
