@@ -330,6 +330,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertCount(0, $result);
 	}
 
+	public function testGetLdapUsers() {
+		$this->prepareForGetUsers();
+		$result = $this->manager->getLdapUsers('');
+		$expected = [
+			[ 'dn' => ['cn=alice,dc=foobar,dc=bar'] ],
+			[ 'dn' => ['cn=bob,dc=foobar,dc=bar'] ],
+			[ 'dn' => ['cn=carol,dc=foobar,dc=bar'] ],
+		];
+		$this->assertEquals($expected, $result);
+	}
+
 	public function testGetUserEntryByDn() {
 		$this->access->expects($this->once())
 			->method('executeRead')

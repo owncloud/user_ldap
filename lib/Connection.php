@@ -600,7 +600,7 @@ class Connection extends LDAPUtility {
 						'Bind failed: ' . $this->getLDAP()->errno($this->ldapConnectionRes) . ': ' . $this->getLDAP()->error($this->ldapConnectionRes),
 						Util::DEBUG
 					);
-					throw new BindFailedException();
+					throw new BindFailedException("Cannot bind to the LDAP server");
 				}
 			} catch (ServerNotAvailableException|BindFailedException $e) {
 				if (\trim($this->configuration->ldapBackupHost) === "") {
@@ -693,6 +693,11 @@ class Connection extends LDAPUtility {
 		}
 
 		// binding is done via getConnectionResource()
+		// need to reset the connection to throw exception, otherwise
+		// the exception is thrown only for the first bind but not for
+		// the rest, because the resource is valid even though the
+		// bind failed.
+		$this->resetConnectionResource();
 		$cr = $this->getConnectionResource();
 
 		if (!$this->getLDAP()->isResource($cr)) {

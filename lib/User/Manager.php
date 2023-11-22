@@ -492,6 +492,35 @@ class Manager {
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
+		$ldap_users = $this->getLdapUsers($search, $limit, $offset);
+		$owncloudNames = [];
+		foreach ($ldap_users as $ldapEntry) {
+			try {
+				$userEntry = $this->getFromEntry($ldapEntry);
+				$this->logger->debug(
+					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".\json_encode($ldapEntry),
+					['app' => self::class]
+				);
+				$owncloudNames[] = $userEntry->getOwnCloudUID();
+			} catch (\OutOfBoundsException $e) {
+				// tell the admin why we skip the user
+				$this->logger->logException($e, ['app' => self::class]);
+			}
+		}
+
+		return $owncloudNames;
+	}
+
+	/**
+	 * Get a list of all users, as raw ldap info
+	 *
+	 * @param string $search
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array an array containing the information about the users
+	 * as returned by the ldap library.
+	 */
+	public function getLdapUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
 
 		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
@@ -506,7 +535,7 @@ class Manager {
 		]);
 
 		$this->logger->debug(
-			'getUsers: Options: search '.$search
+			'getLdapUsers: Options: search '.$search
 			.' limit '.$limit
 			.' offset ' .$offset
 			.' Filter: '.$filter,
@@ -520,24 +549,9 @@ class Manager {
 			$limit,
 			$offset
 		);
-		$ownCloudUserNames = [];
-		foreach ($ldap_users as $ldapEntry) {
-			try {
-				$userEntry = $this->getFromEntry($ldapEntry);
-				$this->logger->debug(
-					"Caching ldap entry for <{$ldapEntry['dn'][0]}>:".\json_encode($ldapEntry),
-					['app' => self::class]
-				);
-				$ownCloudUserNames[] = $userEntry->getOwnCloudUID();
-			} catch (\OutOfBoundsException $e) {
-				// tell the admin why we skip the user
-				$this->logger->logException($e, ['app' => self::class]);
-			}
-		}
 
-		$this->logger->debug('getUsers: '.\count($ownCloudUserNames). ' Users found', ['app' => self::class]);
-
-		return $ownCloudUserNames;
+		$this->logger->debug('getLdapUsers: '.\count($ldap_users). ' Users found', ['app' => self::class]);
+		return $ldap_users;
 	}
 
 	// TODO find better places for the delegations to Access

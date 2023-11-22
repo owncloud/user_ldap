@@ -27,6 +27,7 @@
 
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\UserEntry;
@@ -61,6 +62,42 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->backend = new User_LDAP($this->config, $this->manager);
 
 		\OC_User::clearBackends();
+	}
+
+	public function testGetRawUserEntries() {
+		$expected = [
+			[
+				'dn' => ['uid=blab,dc=ex,dc=com'],
+				'uid' => ['blab'],
+			],
+			[
+				'dn' => ['uid=bleb,dc=ex,dc=com'],
+				'uid' => ['bleb'],
+			],
+			[
+				'dn' => ['uid=blib,dc=ex,dc=com'],
+				'uid' => ['blib'],
+			],
+		];
+		$this->manager->method('getLdapUsers')->willReturn($expected);
+		$this->assertEquals($expected, $this->backend->getRawUserEntries());
+	}
+
+	public function testGetUserEntry() {
+		$userEntry = $this->createMock(UserEntry::class);
+		$this->manager->method('getCachedEntry')->willReturn($userEntry);
+		$this->assertEquals($userEntry, $this->backend->getUserEntry('user1'));
+	}
+
+	public function testGetUserEntryMissing() {
+		$this->manager->method('getCachedEntry')->willReturn(null);
+		$this->assertFalse($this->backend->getUserEntry('user1'));
+	}
+
+	public function testGetUserEntryFromRaw() {
+		$userEntry = $this->createMock(UserEntry::class);
+		$this->manager->method('getFromEntry')->willReturn($userEntry);
+		$this->assertEquals($userEntry, $this->backend->getUserEntryFromRaw(['dn' => ['uid=oo,dc=ex,dc=org'], 'uid' => ['oo']]));
 	}
 
 	public function testCheckPasswordUidReturn() {
@@ -370,6 +407,25 @@ class User_LDAPTest extends \Test\TestCase {
 			->willReturn($userEntry);
 
 		$this->assertFalse($this->backend->canChangeAvatar('usertest'));
+	}
+
+	public function testTestConnection() {
+		$connection = $this->createMock(Connection::class);
+		$connection->method('bind')->willReturn(true);
+
+		$this->manager->method('getConnection')->willReturn($connection);
+		$this->assertTrue($this->backend->testConnection());
+	}
+
+	public function testTestConnectionException() {
+		$this->expectException(ServerNotAvailableException::class);
+
+		$connection = $this->createMock(Connection::class);
+		$connection->method('bind')
+			->will($this->throwException(new ServerNotAvailableException('server died')));
+
+		$this->manager->method('getConnection')->willReturn($connection);
+		$this->backend->testConnection();
 	}
 
 	public function testClearConnectionCache() {

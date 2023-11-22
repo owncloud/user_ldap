@@ -179,6 +179,24 @@ class User_LDAP implements IUserBackend, UserInterface {
 	}
 
 	/**
+	 * Get a raw list of users, as returned by the ldap library
+	 *
+	 * WARNING: Using this function combined with LIMIT $limit and OFFSET $offset
+	 * will search in parallel all provided base DNs in this server,
+	 * and thus can return more then LIMIT $limit users. This function shall
+	 * be used with limit and offset by iterators that can
+	 * support this kind of parallel paging.
+	 *
+	 * @param string $search
+	 * @param integer $limit
+	 * @param integer $offset
+	 * @return array an array with the ldap users, as returned by the ldap library
+	 */
+	public function getRawUserEntries($search = '', $limit = 10, $offset = 0) {
+		return $this->userManager->getLdapUsers($search, $limit, $offset);
+	}
+
+	/**
 	 * check if a user exists
 	 *
 	 * @param string $uid the username
@@ -404,6 +422,43 @@ class User_LDAP implements IUserBackend, UserInterface {
 			return $image;
 		}
 		return null;
+	}
+
+	/**
+	 * Get a user entry from the provided uid.
+	 *
+	 * @param string $uid
+	 * @return UserEntry|false the user entry, or false if it's missing
+	 */
+	public function getUserEntry($uid) {
+		$userEntry = $this->userManager->getCachedEntry($uid);
+		if ($userEntry === null) {
+			return false;
+		}
+		return $userEntry;
+	}
+
+	/**
+	 * Get a user entry from the raw ldap user data
+	 *
+	 * @param array $ldap_entry
+	 * @return UserEntry the user entry, or false if it's missing
+	 * @throws \BadMethodCallException when access object has not been set
+	 * @throws \InvalidArgumentException if entry does not contain a dn
+	 * @throws \OutOfBoundsException when username could not be determined
+	 */
+	public function getUserEntryFromRaw($ldap_entry) {
+		return $this->userManager->getFromEntry($ldap_entry);
+	}
+
+	/**
+	 * Test the connection by sending a bind request
+	 *
+	 * @return bool true if binds, false otherwise
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function testConnection() {
+		return $this->userManager->getConnection()->bind();
 	}
 
 	public function clearConnectionCache() {
