@@ -132,19 +132,28 @@ Feature: Sharing between local and LDAP users
     Then as "Brian" file "/PARENT (2)/parent.txt" should not exist
     But as "Carol" file "/PARENT (2)/parent.txt" should exist
 
-  @issue-364 @skipOnOcV10.12 @skipOnOcV10.13.0 @skipOnOcV10.13.1
+  @issue-364
   Scenario: Share a folder from an LDAP user to a local user
     Given user "Alice" has shared folder "/PARENT" with user "local-user"
     When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "not-existing" using the occ command
     And user "local-user" downloads file "/PARENT (2)/parent.txt" using the WebDAV API
-    Then the HTTP status code should be "404"
+    Then the HTTP status code should be "500"
+    And the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
+    """
+    <?xml version="1.0" encoding="utf-8"?>
+    <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+      <s:exception>InvalidArgumentException</s:exception>
+      <s:message>Jail rootPath is null</s:message>
+    </d:error>
+
+    """
 #    Then the content of file "/PARENT (2)/parent.txt" for user "local-user" should be:
 #    """
 #    ownCloud test text file parent
 #
 #    """
     When user "local-user" gets the properties of file "/PARENT (2)/parent.txt" using the WebDAV API
-    Then the HTTP status code should be "404"
+    Then the HTTP status code should be "500"
 #    When user "local-user" gets the properties of file "/PARENT (2)/parent.txt" using the WebDAV API
 #    Then the properties response should contain an etag
     When the administrator sets the LDAP config "LDAPTestId" key "ldapHost" to "%ldap_host_without_scheme%" using the occ command
