@@ -406,6 +406,10 @@ class User_LDAP implements IUserBackend, UserInterface {
 		return null;
 	}
 
+	public function findUsername($uid) {
+		return $this->userManager->findUsersByUsername($uid);
+	}
+
 	public function clearConnectionCache() {
 		$this->userManager->getConnection()->clearCache();
 	}

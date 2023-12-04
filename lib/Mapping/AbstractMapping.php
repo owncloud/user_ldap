@@ -195,6 +195,15 @@ abstract class AbstractMapping {
 	}
 
 	/**
+	 * Gets the LDAP UUID based on the provided name.
+	 * @param string $name
+	 * @return string|false
+	 */
+	public function getUUIDByName($name) {
+		return $this->getXbyY('directory_uuid', 'owncloud_name', $name);
+	}
+
+	/**
 	 * gets a piece of the mapping list
 	 * TODO unused, remove
 	 * @param int $offset
@@ -251,6 +260,24 @@ abstract class AbstractMapping {
 			WHERE `owncloud_name` = ?');
 
 		return $this->modify($query, [$name]);
+	}
+
+	/**
+	 * Replace the dn and the uuid for the owncloud_name
+	 * @param string $name the owncloud_name
+	 * @param string $dn the new dn for the owncloud_name
+	 * @param string $uuid the new directory_uuid for the owncloud_name
+	 * @return int|false the number of row updated or false in case of error
+	 */
+	public function replaceUUIDAndDN($name, $dn, $uuid) {
+		$queryStr = "UPDATE `{$this->getTableName()}` SET `ldap_dn` = ?, `directory_uuid` = ? WHERE `owncloud_name` = ?";
+		$query = $this->dbc->prepare($queryStr);
+		$result = $query->execute([$dn, $uuid, $name]);
+		if ($result === true) {
+			return $query->rowCount();
+		} else {
+			return false;
+		}
 	}
 
 	/**

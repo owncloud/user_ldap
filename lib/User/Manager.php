@@ -28,6 +28,7 @@ namespace OCA\User_LDAP\User;
 use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Attributes\ConverterHub;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\DoesNotExistOnLDAPException;
 use OCA\User_LDAP\FilesystemHelper;
@@ -538,6 +539,89 @@ class Manager {
 		$this->logger->debug('getUsers: '.\count($ownCloudUserNames). ' Users found', ['app' => self::class]);
 
 		return $ownCloudUserNames;
+	}
+
+	/**
+	 * Connect to the ldap and find all the users whose username is the $uid.
+	 * The query will be based on the configured ldapExpertUsernameAttr.
+	 * Usually, this method should return only one result, which is for the owncloud
+	 * user mapped, but it might return 0 results if the user was deleted in LDAP
+	 * or more than one if multiple LDAP users might have the same username. If multiple
+	 * results are returned, then there are mapping collisions that must be resolved.
+	 * @param string $uid the ownCloud uid to be looked for in the LDAP
+	 * @return array a map containing the user info: the dn, the owncloud_name and
+	 * the directory_uuid as they would be inserted in the mapping table, as well
+	 * as the raw data fetched.
+	 */
+	public function findUsersByUsername($uid) {
+		$ldapConfig = $this->getConnection();
+
+		$uuidAttrs = [$ldapConfig->ldapExpertUUIDUserAttr];
+		if ($ldapConfig->ldapExpertUUIDUserAttr === 'auto' || $ldapConfig->ldapExpertUUIDUserAttr === '') {
+			$uuidAttrs = $ldapConfig->uuidAttributes;
+		}
+
+		$usernameAttrs = [$ldapConfig->ldapExpertUsernameAttr];
+		if ($ldapConfig->ldapExpertUsernameAttr === '') {
+			$usernameAttrs = $uuidAttrs;
+		}
+
+		$escapedUid = $this->access->escapeFilterPart($uid);
+		$attrFilters = [];
+		$converterHub = ConverterHub::getDefaultConverterHub();
+		foreach ($usernameAttrs as $attr) {
+			if ($converterHub->hasConverter($attr)) {
+				$attrFilters[] = "{$attr}=" . $converterHub->str2filter($attr, $uid);
+			} else {
+				$attrFilters[] = "{$attr}={$escapedUid}";
+			}
+		}
+		$innerFilter = $this->access->combineFilterWithOr($attrFilters);
+
+		$filter = $this->access->combineFilterWithAnd([
+			$this->getConnection()->ldapUserFilter,
+			$this->getConnection()->ldapUserDisplayName . '=*',
+			$innerFilter,
+		]);
+
+		$ldap_users = $this->fetchListOfUsers(
+			$filter,
+			$this->getAttributes(),
+		);
+
+		$entries = [];
+		foreach ($ldap_users as $ldapEntry) {
+			$chosenUsername = $this->getValueFromEntry($ldapEntry, $usernameAttrs);
+			$chosenUuid = $this->getValueFromEntry($ldapEntry, $uuidAttrs);
+
+			$entryData = [
+				'dn' => $ldapEntry['dn'][0],
+				'owncloud_name' => $chosenUsername,
+				'directory_uuid' => $chosenUuid,
+				'rawData' => $ldapEntry,
+			];
+			$entries[] = $entryData;
+		}
+		return $entries;
+	}
+
+	/**
+	 * Get the value of the first attribute of the attrs list found inside the ldapEntry
+	 */
+	private function getValueFromEntry($ldapEntry, $attrs) {
+		$chosenValue = null;
+		$converterHub = ConverterHub::getDefaultConverterHub();
+
+		foreach ($attrs as $attr) {
+			if (isset($ldapEntry[$attr][0])) {
+				$chosenValue = $ldapEntry[$attr][0];
+				if ($converterHub->hasConverter($attr)) {
+					$chosenValue = $converterHub->bin2str($attr, $chosenValue);
+				}
+				break;
+			}
+		}
+		return $chosenValue;
 	}
 
 	// TODO find better places for the delegations to Access

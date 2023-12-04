@@ -42,6 +42,7 @@ More information is available in the [LDAP User and Group Backend documentation]
 		<command>OCA\User_LDAP\Command\DeleteConfig</command>
 		<command>OCA\User_LDAP\Command\Search</command>
 		<command>OCA\User_LDAP\Command\CheckUser</command>
+		<command>OCA\User_LDAP\Command\RemapUser</command>
 		<command>OCA\User_LDAP\Command\InvalidateCache</command>
 	</commands>
 
