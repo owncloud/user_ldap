@@ -334,6 +334,15 @@ class UserEntry {
 	}
 
 	/**
+	 * Get the value of the attribute or null if the attribute is missing.
+	 * Unless the attribute has an associated converter (such as objectsid,
+	 * guid and objectguid), the value will be returned unmodified.
+	 */
+	public function getAttribute($attrName) {
+		return $this->getAttributeValue($attrName, null, false);
+	}
+
+	/**
 	 * @param string $configOption
 	 * @param string $default
 	 * @return string

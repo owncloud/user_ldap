@@ -74,6 +74,7 @@ use OCP\IConfig;
  * @property string $ldapConfigurationActive,
  * @property string $ldapAttributesForUserSearch,
  * @property string $ldapAttributesForGroupSearch,
+ * @property string $ldapExposedAttributesForUser,
  * @property string $ldapExperiencedAdmin,
  * @property string $homeFolderNamingRule,
  * @property string $hasPagedResultSupport,
@@ -142,6 +143,7 @@ class Configuration {
 		'ldapConfigurationActive' => false,
 		'ldapAttributesForUserSearch' => null,
 		'ldapAttributesForGroupSearch' => null,
+		'ldapExposedAttributesForUser' => null,
 		'ldapExperiencedAdmin' => false,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
@@ -257,6 +259,7 @@ class Configuration {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
+				case 'ldapExposedAttributesForUser':
 				case 'ldapUserFilterObjectclass':
 				case 'ldapUserFilterGroups':
 				case 'ldapGroupFilterObjectclass':
@@ -288,6 +291,7 @@ class Configuration {
 					case 'ldapBaseGroups':
 					case 'ldapAttributesForUserSearch':
 					case 'ldapAttributesForGroupSearch':
+					case 'ldapExposedAttributesForUser':
 					case 'ldapUserFilterObjectclass':
 					case 'ldapUserFilterGroups':
 					case 'ldapGroupFilterObjectclass':
@@ -333,6 +337,7 @@ class Configuration {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
+				case 'ldapExposedAttributesForUser':
 				case 'ldapUserFilterObjectclass':
 				case 'ldapUserFilterGroups':
 				case 'ldapGroupFilterObjectclass':
@@ -546,6 +551,7 @@ class Configuration {
 			'ldap_configuration_active'         => 0,
 			'ldap_attributes_for_user_search'   => '',
 			'ldap_attributes_for_group_search'  => '',
+			'ldap_exposed_attributes_for_user'  => '',
 			'ldap_expert_username_attr'         => '',
 			'ldap_expert_groupname_attr'        => '',
 			'ldap_expert_uuid_user_attr'        => '',
@@ -606,6 +612,7 @@ class Configuration {
 			'ldap_configuration_active'         => 'ldapConfigurationActive',
 			'ldap_attributes_for_user_search'   => 'ldapAttributesForUserSearch',
 			'ldap_attributes_for_group_search'  => 'ldapAttributesForGroupSearch',
+			'ldap_exposed_attributes_for_user'  => 'ldapExposedAttributesForUser',
 			'ldap_expert_username_attr'         => 'ldapExpertUsernameAttr',
 			'ldap_expert_groupname_attr'        => 'ldapExpertGroupnameAttr',
 			'ldap_expert_uuid_user_attr'        => 'ldapExpertUUIDUserAttr',

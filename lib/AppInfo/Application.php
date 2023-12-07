@@ -25,6 +25,8 @@ use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
+use OCP\User\UserExtendedAttributesEvent;
+use OCA\User_LDAP\User\Manager;
 
 class Application extends \OCP\AppFramework\App {
 	/**
@@ -92,5 +94,31 @@ class Application extends \OCP\AppFramework\App {
 			$this->getContainer()->query(Helper::class),
 			'loginName2UserName'
 		);
+	}
+
+	public function registerEventListener() {
+		$container = $this->getContainer();
+		$server = $container->getServer();
+
+		$uProxy = $container->query(User_Proxy::class);
+		$eventDispatcher = $server->getEventDispatcher();
+		$eventDispatcher->addListener(UserExtendedAttributesEvent::USER_EXTENDED_ATTRIBUTES, function (UserExtendedAttributesEvent $event) use ($uProxy) {
+			$targetUser = $event->getUser();
+			if ($targetUser->getBackendClassName() !== 'LDAP') {
+				// If the user doesn't come from LDAP, there is nothing to do here.
+				return;
+			}
+
+			try {
+				$attrs = $uProxy->getExposedAttributes($targetUser->getUID());
+
+				$event->setAttributes('user_ldap_state', 'OK');
+				foreach ($attrs as $key => $value) {
+					$event->setAttributes("user_ldap_attr_{$key}", $value);
+				}
+			} catch (\Exception $e) {
+				$event->setAttributes('user_ldap_state', 'Error');
+			}
+		});
 	}
 }

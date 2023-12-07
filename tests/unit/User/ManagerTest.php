@@ -102,6 +102,8 @@ class ManagerTest extends \Test\TestCase {
 						return null;
 					case 'ldapAttributesForUserSearch':
 						return ['uidNumber'];
+					case 'ldapExposedAttributesForUser':
+						return ['homePhone', 'homePostalAddress'];
 					case 'ldapBaseUsers':
 						return 'dc=foobar,dc=bar';
 					default:
@@ -124,6 +126,12 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager->setLdapAccess($this->access);
 	}
 
+	public function testGetExposedAttributes() {
+		$attributes = $this->manager->getExposedAttributes();
+		$this->assertContains('homePhone', $attributes);
+		$this->assertContains('homePostalAddress', $attributes);
+	}
+
 	public function testGetAttributesAll() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
@@ -138,6 +146,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertContains('jpegphoto', $attributes);
 		$this->assertContains('thumbnailphoto', $attributes);
 		$this->assertContains('uidNumber', $attributes);
+		$this->assertContains('homePhone', $attributes);
+		$this->assertContains('homePostalAddress', $attributes);
 	}
 
 	public function testGetAttributesAvatarsDisabled() {

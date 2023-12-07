@@ -136,6 +136,22 @@ class Manager {
 	public function getConnection() {
 		return $this->access->getConnection();
 	}
+
+	/**
+	 * Get a list with the configured exposed attributes.
+	 * The `getAttributes` method will contain these exposed attributes, and all
+	 * of them will be requested. This list is public in order to know what
+	 * attributes can be exposed to the outside.
+	 */
+	public function getExposedAttributes() {
+		$ldapConfig = $this->getConnection();
+		$exposedAttributes = $ldapConfig->ldapExposedAttributesForUser;
+		if ($exposedAttributes === '' || $exposedAttributes === null) {
+			$exposedAttributes = [];
+		}
+		return $exposedAttributes;
+	}
+
 	/**
 	 * returns a list of attributes that will be processed further, e.g. quota,
 	 * email, displayname, or others.
@@ -177,6 +193,12 @@ class Manager {
 			foreach ($this->getConnection()->uuidAttributes as $attr) {
 				$attributes[$attr] = true;
 			}
+		}
+
+		// attributes to be exposed
+		$exposedAttributes = $this->getExposedAttributes();
+		foreach ($exposedAttributes as $expAttr) {
+			$attributes[$expAttr] = true;
 		}
 
 		if ($this->ocConfig->getSystemValue('enable_avatars', true) === true && !$minimal) {

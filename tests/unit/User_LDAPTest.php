@@ -372,6 +372,30 @@ class User_LDAPTest extends \Test\TestCase {
 		$this->assertFalse($this->backend->canChangeAvatar('usertest'));
 	}
 
+	public function testGetExposedAttributes() {
+		$userEntry = $this->createMock(UserEntry::class);
+		$userEntry->method('getAttribute')
+			->willReturnMap([
+				['attr1', 'value01'],
+				['attr2', 'value02'],
+			]);
+
+		$this->manager->method('getCachedEntry')->willReturn($userEntry);
+		$this->manager->method('getExposedAttributes')->willReturn(['attr1', 'attr2']);
+
+		$expected = [
+			'attr1' => 'value01',
+			'attr2' => 'value02',
+		];
+		$this->assertSame($expected, $this->backend->getExposedAttributes('usertest'));
+	}
+
+	public function testGetExposedAttributesMissingEntry() {
+		$this->manager->method('getCachedEntry')->willReturn(null);
+
+		$this->assertFalse($this->backend->getExposedAttributes('usertest'));
+	}
+
 	public function testClearConnectionCache() {
 		$connection = $this->createMock(Connection::class);
 		$connection->expects($this->once())->method('clearCache');

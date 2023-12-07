@@ -74,6 +74,7 @@ use OCP\Util;
  * @property array $ldapBase
  * @property string $ldapIgnoreNamingRules
  * @property array $ldapAttributesForGroupSearch
+ * @property array $ldapExposedAttributesForUser
  * @property string $ldapExpertUUIDGroupAttr
  * @property string $uuidAttr
  * @property string $ldapUuidGroupAttribute.
@@ -337,6 +338,7 @@ class Connection extends LDAPUtility {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
+				case 'ldapExposedAttributesForUser':
 					if (\is_array($config[$configkey])) {
 						$result[$dbkey] = \implode("\n", $config[$configkey]);
 						break;
@@ -398,8 +400,11 @@ class Connection extends LDAPUtility {
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
-		$saKeys = ['ldapAttributesForUserSearch',
-						'ldapAttributesForGroupSearch'];
+		$saKeys = [
+			'ldapAttributesForUserSearch',
+			'ldapAttributesForGroupSearch',
+			'ldapExposedAttributesForUser',
+		];
 		foreach ($saKeys as $key) {
 			$val = $this->configuration->$key;
 			if (\is_array($val) && \count($val) === 1 && empty($val[0])) {
