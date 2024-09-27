@@ -863,7 +863,7 @@ class Wizard extends LDAPUtility {
 							$attrs = $this->getLDAP()->getAttributes($cr, $er);
 							$dn = $this->getLDAP()->getDN($cr, $er);
 							// Note: $dn should never be the empty string, but we check just in case.
-							if ($dn == false || $dn === '') {
+							if (!$dn) {
 								continue;
 							}
 							$filterPart = '(memberof=' . $dn . ')';
