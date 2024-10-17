@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - xxxx-xx-xx
 
+### Fixed
+
+- [#823](https://github.com/owncloud/user_ldap/pull/823) - Don't hit the LDAP server if no exposed attribute is configured
 
 
 ## [0.19.0] - 2024-01-18
