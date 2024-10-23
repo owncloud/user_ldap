@@ -142,6 +142,7 @@ class Manager {
 	 * The `getAttributes` method will contain these exposed attributes, and all
 	 * of them will be requested. This list is public in order to know what
 	 * attributes can be exposed to the outside.
+	 * @return string[]
 	 */
 	public function getExposedAttributes() {
 		$ldapConfig = $this->getConnection();

@@ -111,6 +111,13 @@ class Application extends \OCP\AppFramework\App {
 
 			try {
 				$attrs = $uProxy->getExposedAttributes($targetUser->getUID());
+				if ($attrs === null || $attrs === false) {
+					// either there are no exposed attributes or the user isn't found in LDAP
+					// if there are no exposed attributes configured, we won't contact the LDAP server,
+					// so we don't know if the user really exists.
+					$event->setAttributes('user_ldap_state', 'Unknown');
+					return;
+				}
 
 				$event->setAttributes('user_ldap_state', 'OK');
 				foreach ($attrs as $key => $value) {

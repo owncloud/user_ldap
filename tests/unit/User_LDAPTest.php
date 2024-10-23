@@ -392,8 +392,16 @@ class User_LDAPTest extends \Test\TestCase {
 
 	public function testGetExposedAttributesMissingEntry() {
 		$this->manager->method('getCachedEntry')->willReturn(null);
+		$this->manager->method('getExposedAttributes')->willReturn(['attr1']);
 
 		$this->assertFalse($this->backend->getExposedAttributes('usertest'));
+	}
+
+	public function testGetExposedAttributesNoAttrConfigured() {
+		$this->manager->method('getCachedEntry')->willReturn(null);
+		$this->manager->method('getExposedAttributes')->willReturn([]);
+
+		$this->assertNull($this->backend->getExposedAttributes('usertest'));
 	}
 
 	public function testClearConnectionCache() {

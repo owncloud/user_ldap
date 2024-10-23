@@ -413,16 +413,21 @@ class User_LDAP implements IUserBackend, UserInterface {
 	 * only the first value will be returned.
 	 *
 	 * @param string $uid
-	 * @return array<string,string>|false key -> value map containing the attributes
-	 * and their values. False if the user isn't found
+	 * @return array<string,string>|false|null key -> value map containing the
+	 * attributes and their values. False if the user isn't found. Null if no
+	 * attribute is configured
 	 */
 	public function getExposedAttributes($uid) {
+		$exposedAttrs = $this->userManager->getExposedAttributes();
+		if (\count($exposedAttrs) === 0) {
+			return null;
+		}
+
 		$userEntry = $this->userManager->getCachedEntry($uid);
 		if ($userEntry === null) {
 			return false;
 		}
 
-		$exposedAttrs = $this->userManager->getExposedAttributes();
 		$attrs = [];
 		foreach ($exposedAttrs as $attr) {
 			$attrs[$attr] = $userEntry->getAttribute($attr);
