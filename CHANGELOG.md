@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased] - xxxx-xx-xx
+## [Unreleased] - XXXX-XX-XX
+
+
+## [0.19.1] - 2024-10-23
 
 ### Fixed
 
@@ -213,7 +216,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.19.0...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.19.1...master
+[0.19.1]: https://github.com/owncloud/user_ldap/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/owncloud/user_ldap/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/owncloud/user_ldap/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/owncloud/user_ldap/compare/v0.16.1...v0.17.0
