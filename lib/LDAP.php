@@ -32,9 +32,10 @@ use OC\ServerNotAvailableException;
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
 	protected $curArgs = [];
+	private array $pagedSearchControl;
 
 	/**
-	 * @param resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $dn
 	 * @param string $password
 	 * @return bool|mixed
@@ -62,37 +63,36 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
-	 * @param LDAP|resource $result
+	 * @param \LDAP\Connection $link
+	 * @param \LDAP\Result $result
 	 * @param string $cookie
 	 * @param int $estimated $cookie
-	 * @return bool|LDAP
+	 * @return bool
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie = null, &$estimated = null) {
-		$this->preFunctionCall(
-			'ldap_control_paged_result_response',
-			[$link, $result, $cookie, $estimated]
-		);
-		$result = @\ldap_control_paged_result_response($link, $result, $cookie, $estimated);  // suppress deprecation for 7.4
-		$this->postFunctionCall();
-
-		return $result;
+		$ret = ldap_parse_result($link, $result, $errcode, $matcheddn, $errmsg, $referrals, $controls);
+		if (!$ret) {
+			throw new \Exception('ldap_parse_result failed');
+		}
+		$cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
+		$estimated = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['size'] ?? '';
+		return true;
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param int $pageSize
 	 * @param bool $isCritical
 	 * @param string $cookie
 	 * @return mixed|true
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
-		return @$this->invokeLDAPMethod('control_paged_result', $link, $pageSize,  // suppress deprecation for 7.4
-			$isCritical, $cookie);
+		$this->pagedSearchControl = compact('pageSize', 'isCritical', 'cookie');
+		return true;
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed
 	 */
@@ -101,7 +101,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return mixed|string
 	 */
 	public function errno($link) {
@@ -109,7 +109,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return int|mixed
 	 */
 	public function error($link) {
@@ -142,7 +142,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed
 	 */
@@ -151,7 +151,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return array|mixed
 	 */
@@ -160,7 +160,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return mixed|string
 	 */
@@ -169,7 +169,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param LDAP|resource $result
 	 * @return array|mixed
 	 */
@@ -178,7 +178,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param resource $result
 	 * @return mixed
 	 */
@@ -187,7 +187,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
@@ -198,7 +198,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $baseDN
 	 * @param string $filter
 	 * @param array $attr
@@ -207,11 +207,17 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
-		return $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit);
+		if ($this->pagedSearchControl['pageSize'] > 0) {
+			$control = [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => [
+				'size' => $this->pagedSearchControl['pageSize'],
+				'cookie' => $this->pagedSearchControl['cookie']]]];
+		}
+
+		return ldap_search($link, $baseDN, $filter, $attr, $attrsOnly, $limit, -1, 0, $control ?? []);
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @param string $option
 	 * @param int $value
 	 * @return bool|mixed
@@ -221,7 +227,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param LDAP|resource $link
+	 * @param \LDAP\Connection $link
 	 * @return mixed|true
 	 */
 	public function startTls($link) {
@@ -229,7 +235,7 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
-	 * @param resource $link
+	 * @param \LDAP\Connection $link
 	 * @return bool|mixed
 	 */
 	public function unbind($link) {
@@ -238,7 +244,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * Checks whether the server supports LDAP
-	 * @return boolean if it the case, false otherwise
+	 * @return boolean
 	 * */
 	public function areLDAPFunctionsAvailable() {
 		return \function_exists('ldap_connect');
@@ -246,30 +252,31 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * Checks whether PHP supports LDAP Paged Results
-	 * @return boolean if it the case, false otherwise
 	 * */
-	public function hasPagedResultSupport() {
-		$hasSupport = \function_exists('ldap_control_paged_result')
-			&& \function_exists('ldap_control_paged_result_response');
-		return $hasSupport;
+	public function hasPagedResultSupport(): bool {
+		return true;
 	}
 
-	/**
-	 * Checks whether the submitted parameter is a resource
-	 * @param Resource $resource the resource variable to check
-	 * @return bool true if it is a resource, false otherwise
-	 */
 	public function isResource($resource) {
+		if ($resource instanceof \LDAP\Connection) {
+			return true;
+		}
+		if ($resource instanceof \LDAP\Result) {
+			return true;
+		}
+		if ($resource instanceof \LDAP\ResultEntry) {
+			return true;
+		}
 		return \is_resource($resource);
 	}
 
-	private function formatLdapCallArguments($func, $arguments) {
+	private function formatLdapCallArguments($func, $arguments): string {
 		$argumentsLog = \implode(
 			",",
 			\array_map(
-				function ($argument) {
+				static function ($argument) {
 					if (\is_string($argument) || \is_bool($argument) || \is_numeric($argument)) {
-						return \strval($argument);
+						return (string)$argument;
 					}
 					return \gettype($argument);
 				},
@@ -282,13 +289,14 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @return mixed
+	 * @throws ServerNotAvailableException
 	 */
 	private function invokeLDAPMethod() {
 		$arguments = \func_get_args();
 		$func = 'ldap_' . \array_shift($arguments);
 		if (\function_exists($func)) {
 			// Start logging event
-			$eventId = \uniqid($func);
+			$eventId = \uniqid($func, true);
 			\OC::$server->getEventLogger()->start($eventId, $this->formatLdapCallArguments($func, $arguments));
 
 			// Execute call
@@ -341,7 +349,7 @@ class LDAP implements ILDAPWrapper {
 					throw new \Exception('LDAP Operations error', $errorCode);
 				} else {
 					\OC::$server->getLogger()->debug(
-						"LDAP error {$errorMsg} ({$errorCode}) after calling {$this->curFunc}",
+						"LDAP error $errorMsg ($errorCode) after calling $this->curFunc",
 						[ 'app' => 'user_ldap']
 					);
 				}

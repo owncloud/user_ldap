@@ -254,7 +254,7 @@ class Access implements IUserTools {
 	/**
 	 * Runs an read operation against LDAP
 	 *
-	 * @param resource $cr the LDAP connection
+	 * @param \LDAP\Connection $cr the LDAP connection
 	 * @param string $dn
 	 * @param string|array $attributes
 	 * @param string $filter
@@ -769,7 +769,8 @@ class Access implements IUserTools {
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
-		return $this->fetchList($ldapRecords, \count($attr) > 1);
+		$manyAttributes = \is_string($attr) ? false : \count($attr) > 1;
+		return $this->fetchList($ldapRecords, $manyAttributes);
 	}
 
 	/**
