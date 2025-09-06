@@ -131,6 +131,7 @@
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP-/AD-attribut.",
     "Internal Username" : "Internt användarnamn",
     "Internal Username Attribute:" : "Internt användarnamnsattribut:",
+    "Internal Groupname" : "Internt gruppnamn",
     "Override UUID detection" : "Åsidosätt UUID-detektion",
     "By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups." : "Som standard upptäcker ownCloud automatiskt UUID-attributet. Det UUID-attributet används för att utan tvivel identifiera LDAP-användare och grupper. Dessutom kommer interna användarnamn skapas baserat på detta UUID, om inte annat anges ovan. Du kan åsidosätta inställningen och passera ett attribut som du själv väljer. Du måste se till att attributet som du väljer kan hämtas för både användare och grupper och att det är unikt. Lämna det tomt för standard beteende. Förändringar kommer endast att påverka nyligen mappade (tillagda) LDAP-användare och grupper.",
     "UUID Attribute for Users:" : "UUID-attribut för användare:",
