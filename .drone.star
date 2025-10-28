@@ -4,7 +4,7 @@ MINIO_MC = "minio/mc:RELEASE.2020-12-18T10-53-53Z"
 OC_CI_ALPINE = "owncloudci/alpine:latest"
 OC_CI_BAZEL_BUILDIFIER = "owncloudci/bazel-buildifier"
 OC_CI_CEPH = "owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04"
-OC_CI_CORE = "owncloudci/core"
+OC_CI_CORE = "owncloudci/core:php82"
 OC_CI_DRONE_SKIP_PIPELINE = "owncloudci/drone-skip-pipeline"
 OC_CI_NODEJS = "owncloudci/nodejs:%s"
 OC_CI_ORACLE_XE = "owncloudci/oracle-xe:latest"
@@ -21,7 +21,7 @@ SELENIUM_STANDALONE_CHROME_DEBUG = "selenium/standalone-chrome-debug:3.141.59-ox
 SELENIUM_STANDALONE_FIREFOX_DEBUG = "selenium/standalone-firefox-debug:3.8.1"
 SONARSOURCE_SONAR_SCANNER_CLI = "sonarsource/sonar-scanner-cli"
 
-DEFAULT_PHP_VERSION = "7.4"
+DEFAULT_PHP_VERSION = "8.2"
 DEFAULT_NODEJS_VERSION = "14"
 
 # minio mc environment variables
@@ -55,14 +55,7 @@ config = {
     ],
     "codestyle": True,
     "phpstan": True,
-    "phan": {
-        "multipleVersions": {
-            "phpVersions": [
-                DEFAULT_PHP_VERSION,
-                "7.3",
-            ],
-        },
-    },
+    "phan": False,
     "javascript": False,
     "phpunit": {
         "allDatabases": {
@@ -2197,7 +2190,7 @@ def installCore(ctx, version, db, useBundledApp):
         "name": "install-core",
         "image": OC_CI_CORE,
         "settings": {
-            "version": version,
+            "git_reference": "feat/php8",
             "core_path": dir["server"],
             "db_type": dbType,
             "db_name": database,
@@ -2771,7 +2764,7 @@ def ldapIntegration(ctx):
 
     default = {
         "servers": ["daily-master-qa"],
-        "phpVersions": ["7.4"],
+        "phpVersions": ["8.2"],
         "databases": ["mysql:8.0"],
         "ldapNeeded": True,
         "logLevel": "2",

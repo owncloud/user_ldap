@@ -7,15 +7,15 @@ parameters:
     - %currentWorkingDirectory%/appinfo/Migrations/*.php
   ignoreErrors:
     -
-      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::bind\(\) expects resource, null given.!'
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::bind\(\) expects LDAP\\Connection, null given.!'
       path: lib/Connection.php
       count: 2
     -
-      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::errno\(\) expects resource, null given.!'
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::errno\(\) expects LDAP\\Connection, null given.!'
       path: lib/Connection.php
       count: 2
     -
-      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::error\(\) expects resource, null given.!'
+      message: '!Parameter #1 \$link of method OCA\\User_LDAP\\ILDAPWrapper::error\(\) expects LDAP\\Connection, null given.!'
       path: lib/Connection.php
       count: 2
     -

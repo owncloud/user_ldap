@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16a905380dcafacc284725c5fb720338",
+    "content-hash": "e3d4044bc5f08135c805c52461148541",
     "packages": [],
     "packages-dev": [
         {
@@ -66,34 +66,34 @@
         },
         {
             "name": "laminas/laminas-ldap",
-            "version": "2.13.0",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-ldap.git",
-                "reference": "308f7749b12e2c14e91f51ddca4e2296fafe2367"
+                "reference": "cb66c477ec2fd2a7f38527c59d0635a9166b6597"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/308f7749b12e2c14e91f51ddca4e2296fafe2367",
-                "reference": "308f7749b12e2c14e91f51ddca4e2296fafe2367",
+                "url": "https://api.github.com/repos/laminas/laminas-ldap/zipball/cb66c477ec2fd2a7f38527c59d0635a9166b6597",
+                "reference": "cb66c477ec2fd2a7f38527c59d0635a9166b6597",
                 "shasum": ""
             },
             "require": {
                 "ext-ldap": "*",
-                "php": "^7.3 || ~8.0.0 || ~8.1.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
             },
             "conflict": {
                 "zendframework/zend-ldap": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~1.0.0",
-                "laminas/laminas-config": "^3.7.0",
-                "laminas/laminas-eventmanager": "^3.3",
-                "laminas/laminas-stdlib": "^3.3",
-                "php-mock/php-mock-phpunit": "^2.6",
-                "phpunit/phpunit": "^9.5.8",
-                "psalm/plugin-phpunit": "^0.16.1",
-                "vimeo/psalm": "^4.13.1"
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "laminas/laminas-config": "^3.8.0",
+                "laminas/laminas-eventmanager": "^3.6.0",
+                "laminas/laminas-stdlib": "^3.15.0",
+                "php-mock/php-mock-phpunit": "^2.6.1",
+                "phpunit/phpunit": "^9.5.26",
+                "psalm/plugin-phpunit": "^0.18.0",
+                "vimeo/psalm": "^5.0.0"
             },
             "suggest": {
                 "laminas/laminas-eventmanager": "Laminas\\EventManager component"
@@ -128,7 +128,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-03-19T15:18:53+00:00"
+            "time": "2022-12-19T19:50:51+00:00"
         }
     ],
     "aliases": [],
@@ -137,12 +137,12 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "ext-ldap": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.3"
+        "php": "8.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
