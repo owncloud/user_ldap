@@ -83,6 +83,7 @@
     "Enable StartTLS support (also known as LDAP over TLS) for the connection.  Note that this is different than LDAPS (LDAP over SSL) which doesn't need this checkbox checked. You'll need to import the LDAP server's certificate in your %s server." : "为连接启用 StartTLS 支持（也称为 LDAP over TLS）。 请注意，这与不需要选中此复选框的 LDAPS（基于 SSL 的 LDAP）不同。 您需要在%s服务器中导入 LDAP 服务器的证书。",
     "User DN" : "User DN",
     "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "客戶端使用者的DN與特定字詞的連結需要完善，例如:uid=agent,dc=example,dc=com。若是匿名連接，則將DN與密碼欄位留白。",
+    "Password" : "密碼",
     "For anonymous access, leave DN and Password empty." : "匿名連接時請將 DN 與密碼欄位留白",
     "One Base DN per line" : "一行一個 Base DN",
     "You can specify Base DN for users and groups in the Advanced tab" : "您可以在進階標籤頁裡面指定使用者及群組的 Base DN",
