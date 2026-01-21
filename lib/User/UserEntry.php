@@ -314,6 +314,7 @@ class UserEntry {
 	 * @return string[]
 	 */
 	public function getSearchTerms() {
+		$converterHub = ConverterHub::getDefaultConverterHub();
 		$rawAttributes = $this->connection->ldapAttributesForUserSearch;
 		$attributes = empty($rawAttributes) ? [] : $rawAttributes;
 		// Get from LDAP if we don't have it already
@@ -321,7 +322,11 @@ class UserEntry {
 		foreach ($attributes as $attr) {
 			$attr = \strtolower($attr);
 			if (isset($this->ldapEntry[$attr])) {
+				$mustConvert = $converterHub->hasConverter($attr);
 				foreach ($this->ldapEntry[$attr] as $value) {
+					if ($mustConvert) {
+						$value = $converterHub->bin2str($attr, $value);
+					}
 					$value = \trim($value);
 					if (!empty($value)) {
 						$searchTerms[\strtolower($value)] = true;
