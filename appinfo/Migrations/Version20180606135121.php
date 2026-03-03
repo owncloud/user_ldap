@@ -3,7 +3,7 @@
 namespace OCA\User_LDAP\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\Migration\ISchemaMigration;
 
 /**
@@ -45,7 +45,7 @@ class Version20180606135121 implements ISchemaMigration {
 				foreach ($columns as $columnName) {
 					$table->addColumn(
 						$columnName,
-						Type::STRING,
+						Types::STRING,
 						['length' => 255, 'notNull' => true]
 					);
 				}

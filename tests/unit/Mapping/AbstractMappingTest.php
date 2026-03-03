@@ -199,8 +199,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testClear() {
 		list($mapper, $data) = $this->initTest();
 
-		$done = $mapper->clear();
-		$this->assertTrue($done);
+		$mapper->clear();
 		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertFalse($name);

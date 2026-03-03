@@ -21,7 +21,7 @@
 
 namespace OCA\User_LDAP\Controller;
 
-use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IDBConnection;
@@ -78,21 +78,21 @@ class MappingControllerTest extends TestCase {
 		$platform->expects($this->once())
 			->method('getTruncateTableSQL')
 			->with("`*PREFIX*ldap_{$subject}_mapping`")
-			->will($this->returnValue($truncateSQL));
+			->willReturn($truncateSQL);
 
 		$this->connection->expects($this->once())
 			->method('getDatabasePlatform')
-			->will($this->returnValue($platform));
+			->willReturn($platform);
 
 		$statement = $this->createMock(Statement::class);
 		$statement->expects($this->once())
-			->method('execute')
-			->will($this->returnValue(true));
+			->method('executeStatement')
+			->willReturn(1);
 
 		$this->connection->expects($this->once())
 			->method('prepare')
 			->with($truncateSQL)
-			->will($this->returnValue($statement));
+			->willReturn($statement);
 
 		$result = $this->controller->clear($subject);
 

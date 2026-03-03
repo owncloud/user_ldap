@@ -81,9 +81,11 @@ abstract class AbstractMapping {
 			WHERE `' . $compareCol . '` = ?
 		');
 
-		$res = $query->execute([$search]);
+		$res = $query->executeQuery([$search]);
 		if ($res !== false) {
-			return $query->fetchColumn();
+			$row = $res->fetchOne();
+			$res->free();
+			return $row;
 		}
 
 		return false;
@@ -91,13 +93,13 @@ abstract class AbstractMapping {
 
 	/**
 	 * Performs a DELETE or UPDATE query to the database.
-	 * @param \Doctrine\DBAL\Driver\Statement $query
+	 * @param \Doctrine\DBAL\Statement $query
 	 * @param array $parameters
 	 * @return bool true if at least one row was modified, false otherwise
 	 */
 	protected function modify($query, $parameters) {
-		$result = $query->execute($parameters);
-		return ($result === true && $query->rowCount() > 0);
+		$rowCount = $query->executeStatement($parameters);
+		return $rowCount > 0;
 	}
 
 	/**
@@ -165,13 +167,12 @@ abstract class AbstractMapping {
 			WHERE `owncloud_name` LIKE ?
 		');
 
-		$res = $query->execute([$prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch]);
+		$res = $query->executeQuery([$prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch]);
 		$names = [];
-		if ($res !== false) {
-			while ($row = $query->fetch()) {
-				$names[] = $row['owncloud_name'];
-			}
+		while ($row = $res->fetchAssociative()) {
+			$names[] = $row['owncloud_name'];
 		}
+		$res->free();
 		return $names;
 	}
 
@@ -213,8 +214,10 @@ abstract class AbstractMapping {
 			$offset
 		);
 
-		$query->execute();
-		return $query->fetchAll();
+		$res = $query->executeQuery();
+		$data = $res->fetchAllAssociative();
+		$res->free();
+		return $data;
 	}
 
 	/**
@@ -255,12 +258,12 @@ abstract class AbstractMapping {
 
 	/**
 	 * Truncate's the mapping table
-	 * @return bool
+	 * @return void
 	 */
 	public function clear() {
 		$sql = $this->dbc
 			->getDatabasePlatform()
 			->getTruncateTableSQL('`' . $this->getTableName() . '`');
-		return $this->dbc->prepare($sql)->execute();
+		$this->dbc->prepare($sql)->executeStatement();
 	}
 }

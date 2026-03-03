@@ -76,9 +76,10 @@ class MappingController extends Controller {
 		}
 		// TODO else return error 'unknown subject '
 		try {
-			if ($mapping === null || !$mapping->clear()) {
+			if ($mapping === null) {
 				throw new \Exception($this->l10n->t('Failed to clear the mappings.'));
 			}
+			$mapping->clear();
 			return new DataResponse(['status' => 'success']);
 		} catch (\Exception $e) {
 			return new DataResponse([
