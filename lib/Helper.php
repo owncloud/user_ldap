@@ -69,9 +69,11 @@ class Helper {
 			}
 		}
 
-		$stmt = \OCP\DB::prepare($sql);
+		$stmt = \OC::$server->getDatabaseConnection()->prepare($sql);
 
-		$serverConfigs = $stmt->execute(['%'.$referenceConfigkey])->fetchAll();
+		$result = $stmt->executeQuery(['%'.$referenceConfigkey]);
+		$serverConfigs = $result->fetchAllAssociative();
+		$result->free();
 		$prefixes = [];
 
 		foreach ($serverConfigs as $serverConfig) {
@@ -97,8 +99,10 @@ class Helper {
 			WHERE `appid` = \'user_ldap\'
 				AND `configkey` LIKE ?
 		';
-		$query = \OCP\DB::prepare($query);
-		$configHosts = $query->execute(['%'.$referenceConfigkey])->fetchAll();
+		$query = \OC::$server->getDatabaseConnection()->prepare($query);
+		$result = $query->executeQuery(['%'.$referenceConfigkey]);
+		$configHosts = $result->fetchAllAssociative();
+		$result->free();
 		$result = [];
 
 		foreach ($configHosts as $configHost) {
@@ -116,7 +120,7 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if (!\in_array($prefix, self::getServerConfigurationPrefixes())) {
+		if (!\in_array($prefix, $this->getServerConfigurationPrefixes())) {
 			return false;
 		}
 
@@ -125,7 +129,7 @@ class Helper {
 			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
-		$query = \OCP\DB::prepare('
+		$query = \OC::$server->getDatabaseConnection()->prepare('
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
@@ -133,11 +137,7 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute([$prefix.'%']);
-
-		if (\OCP\DB::isError($delRows)) {
-			return false;
-		}
+		$delRows = $query->executeStatement([$prefix.'%']);
 
 		if ($delRows === 0) {
 			return false;
