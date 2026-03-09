@@ -2184,7 +2184,7 @@ def installCore(ctx, version, db, useBundledApp):
         "name": "install-core",
         "image": OC_CI_CORE,
         "settings": {
-            "git_reference": "feat/php8-again",
+            "git_reference": "master",
             "core_path": dir["server"],
             "db_type": dbType,
             "db_name": database,
