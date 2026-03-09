@@ -25,8 +25,8 @@ More information is available in the [LDAP User and Group Backend documentation]
 	<screenshot>https://raw.githubusercontent.com/owncloud/screenshots/master/user_ldap/ownCloud-app-ldap-user-management.jpg</screenshot>
 	<dependencies>
 		<lib>ldap</lib>
-		<owncloud min-version="10.15" max-version="11" />
-                <php min-version="7.4" />
+		<owncloud min-version="11" max-version="11" />
+		<php min-version="8.3" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>
