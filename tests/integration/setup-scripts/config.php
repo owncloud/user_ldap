@@ -7,3 +7,4 @@ if ($host === false) {
 	$host = "localhost";
 }
 $port = 389;
+$uri = 'ldap://' . $host . ':' . $port;

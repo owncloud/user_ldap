@@ -127,6 +127,9 @@ class LDAP implements ILDAPWrapper {
 	 * @link http://www.php.net/manual/en/function.ldap-escape.php
 	 */
 	public function escape($value, $ignore = null, $flags = null) {
+		if ($value === null) {
+			return '';
+		}
 		return $this->invokeLDAPMethod('escape', $value, $ignore, $flags);
 	}
 
