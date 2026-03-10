@@ -130,6 +130,8 @@ class LDAP implements ILDAPWrapper {
 		if ($value === null) {
 			return '';
 		}
+		$ignore = $ignore ?? '';
+		$flags = $flags ?? 0;
 		return $this->invokeLDAPMethod('escape', $value, $ignore, $flags);
 	}
 
