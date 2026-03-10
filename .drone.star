@@ -2805,6 +2805,7 @@ def ldapIntegration(ctx):
                             "steps": installCore(ctx, server, db, False) +
                                      installAppPhp(ctx, phpVersion) +
                                      setupServerAndApp(ctx, phpVersion, params["logLevel"]) +
+                                     owncloudLog("server") +
                                      [
                                          ({
                                              "name": "ldap-integration-tests",
