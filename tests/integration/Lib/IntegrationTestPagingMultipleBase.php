@@ -137,6 +137,7 @@ class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 		// and thus sets cookie so search can continue
 		$result = $this->access->countUsers($filter, $attributes, 2, 0);
 		if ($result !== 4) {
+			echo "Expected 4, got $result" . PHP_EOL;
 			return false;
 		}
 
@@ -144,6 +145,7 @@ class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 		// and thus sets '' cookie indicating completion
 		$result = $this->access->countUsers($filter, $attributes, 10, 0);
 		if ($result !== 5) {
+			echo "Expected 5, got $result" . PHP_EOL;
 			return false;
 		}
 
@@ -151,6 +153,7 @@ class IntegrationTestPagingMultipleBase extends AbstractIntegrationTest {
 		// by retrying search to repopulate cookie
 		$result = $this->access->countUsers($filter, $attributes, 2, 2);
 		if ($result !== 1) {
+			echo "Expected 1, got $result" . PHP_EOL;
 			return false;
 		}
 
