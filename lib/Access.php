@@ -1240,15 +1240,17 @@ class Access implements IUserTools {
 					$reOffset += $limit;
 				} while ($continue && $reOffset < $offset);
 			} else {
-				foreach ($counts as $i => $count) {
-					if (!empty($estimates) && $estimates[$i] > 0) {
-						// estimate reported for complete result, use it
-						$counter += $estimates[$i];
-						// stop counting entries on subsequent pages for the base with an estimate
-						// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
-						unset($bases[$i]);
-					} else {
-						$counter += $count;
+				if ($pagedSearchOK) {
+					foreach ($counts as $i => $count) {
+						if (!empty($estimates) && $estimates[$i] > 0) {
+							// estimate reported for complete result, use it
+							$counter += $estimates[$i];
+							// stop counting entries on subsequent pages for the base with an estimate
+							// TODO currently all queries search the same ldap server, in theory we could end all here. Not much harm done though
+							unset($bases[$i]);
+						} else {
+							$counter += $count;
+						}
 					}
 				}
 
