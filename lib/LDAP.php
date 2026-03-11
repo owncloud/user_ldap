@@ -212,7 +212,7 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
-		if ($this->pagedSearchControl['pageSize'] > 0) {
+		if (isset($this->pagedSearchControl['pageSize']) && $this->pagedSearchControl['pageSize'] > 0) {
 			$control = [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => [
 				'size' => $this->pagedSearchControl['pageSize'],
 				'cookie' => $this->pagedSearchControl['cookie']]]];
