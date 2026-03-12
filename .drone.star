@@ -5,6 +5,7 @@ OC_CI_ALPINE = "owncloudci/alpine:latest"
 OC_CI_BAZEL_BUILDIFIER = "owncloudci/bazel-buildifier"
 OC_CI_CEPH = "owncloudci/ceph:tag-build-master-jewel-ubuntu-16.04"
 OC_CI_CORE = "owncloudci/core:php83"
+OC_CI_CORE_OLD = "owncloudci/core:nodejs14"
 OC_CI_DRONE_SKIP_PIPELINE = "owncloudci/drone-skip-pipeline"
 OC_CI_NODEJS = "owncloudci/nodejs:%s"
 OC_CI_ORACLE_XE = "owncloudci/oracle-xe:latest"
@@ -1694,6 +1695,7 @@ def acceptance(ctx):
                         "path": "testrunner/apps/%s" % ctx.repo.name,
                     },
                     "steps": skipIfUnchanged(ctx, "acceptance-tests") +
+                             waitForServer(testConfig["federatedServerNeeded"]) +
                              installCore(ctx, testConfig["server"], testConfig["database"], testConfig["useBundledApp"]) +
                              installTestrunner(ctx, DEFAULT_PHP_VERSION, testConfig["useBundledApp"]) +
                              (installFederated(testConfig["federatedServerVersion"], phpVersionForDocker, testConfig["logLevel"], testConfig["database"], federationDbSuffix) + owncloudLog("federated") if testConfig["federatedServerNeeded"] else []) +
@@ -1706,7 +1708,6 @@ def acceptance(ctx):
                              setupScality(testConfig["scalityS3"]) +
                              setupElasticSearch(testConfig["esVersion"]) +
                              testConfig["extraSetup"] +
-                             waitForServer(testConfig["federatedServerNeeded"]) +
                              waitForEmailService(testConfig["emailNeeded"]) +
                              waitForSamba(testConfig["extraServices"]) +
                              fixPermissions(phpVersionForDocker, testConfig["federatedServerNeeded"], params["selUserNeeded"]) +
@@ -2440,6 +2441,12 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
     password = getDbPassword(db)
     database = getDbDatabase(db) + dbSuffix
 
+    image = OC_CI_CORE
+    if (federatedServerVersion == "10.9.1"):
+        image = OC_CI_CORE_OLD
+    if (federatedServerVersion == "latest"):
+        image = OC_CI_CORE_OLD
+
     if host == "mariadb":
         dbType = "mysql"
     elif host == "postgres":
@@ -2449,7 +2456,7 @@ def installFederated(federatedServerVersion, phpVersion, logLevel, db, dbSuffix 
     return [
         {
             "name": "install-federated",
-            "image": OC_CI_CORE,
+            "image": image,
             "settings": {
                 "version": federatedServerVersion,
                 "core_path": dir["federated"],
