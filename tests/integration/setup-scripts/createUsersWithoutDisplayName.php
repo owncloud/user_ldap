@@ -25,7 +25,7 @@ if (\php_sapi_name() !== 'cli') {
 
 include __DIR__ . '/config.php';
 
-$cr = \ldap_connect($host, $port);
+$cr = \ldap_connect($uri);
 \ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 $ok = \ldap_bind($cr, $adn, $apwd);
 

@@ -561,7 +561,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 				\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
 					$this->access->getConnection()->ldapHost, \OCP\Util::DEBUG);
 			}
-			$uid = $result[0];
+			$uid = $result[0] ?? null;
 		} else {
 			// just in case
 			$uid = $userDN;
@@ -601,7 +601,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 			return [];
 		}
 		$seen[$dn] = true;
-		$escapedDn = $this->access->getConnection()->getLDAP()->escape($dn, null, LDAP_ESCAPE_FILTER);
+		$escapedDn = $this->access->getConnection()->getLDAP()->escape($dn ?? '', null, LDAP_ESCAPE_FILTER);
 		$filter = $this->access->combineFilterWithAnd([
 			$this->access->getConnection()->ldapGroupFilter,
 			$this->access->getConnection()->ldapGroupMemberAssocAttr.'='.$escapedDn
@@ -749,6 +749,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	}
 
 	private function getGroupUsersViaMemberOf($groupDN, $attrs, $search = null) {
+		$groupDN = $groupDN ?? '';
 		$escapedGroupDn = $this->access->getConnection()->getLDAP()->escape($groupDN, null, LDAP_ESCAPE_FILTER);
 		$groupID = $this->getGroupPrimaryGroupID($groupDN);
 		if ($groupID === false) {
@@ -760,6 +761,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 	}
 
 	private function getGroupUsersViaRecursiveMemberOf($groupDN, $attrs, $search = null) {
+		$groupDN = $groupDN ?? '';
 		$escapedGroupDn = $this->access->getConnection()->getLDAP()->escape($groupDN, null, LDAP_ESCAPE_FILTER);
 		$groupID = $this->getGroupPrimaryGroupID($groupDN);
 		if ($groupID === false) {
