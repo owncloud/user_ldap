@@ -80,9 +80,9 @@ style('user_ldap', 'settings');
 			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.').'</p>');
 		}
 
-		if (!\function_exists('ldap_connect')) {
-			print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
-		}
+if (!\function_exists('ldap_connect')) {
+	print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
+}
 ?>
 		<?php print_unescaped($_['tabs']); ?>
 		<fieldset id="ldapSettings-1">

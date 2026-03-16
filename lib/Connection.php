@@ -83,7 +83,7 @@ use OCP\Util;
  */
 class Connection extends LDAPUtility {
 	/**
-	 * @var resource|null
+	 * @var \LDAP\Connection | null
 	 */
 	private $ldapConnectionRes;
 
@@ -201,7 +201,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Returns the LDAP handler
 	 *
-	 * @return resource | null
+	 * @return \LDAP\Connection | null
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 * @throws BindFailedException
@@ -666,6 +666,10 @@ class Connection extends LDAPUtility {
 		}
 		// Returns a link resource on success, otherwise false
 		$this->ldapConnectionRes = $this->getLDAP()->connect($host, $port);
+		if ($this->ldapConnectionRes === false) {
+			throw new ServerNotAvailableException("Failed to connect to $host:$port");
+		}
+
 		if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if ($this->getLDAP()->setOption($this->ldapConnectionRes, (string)LDAP_OPT_REFERRALS, 0)) {
 				if ($this->configuration->ldapTLS) {
