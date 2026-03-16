@@ -23,6 +23,7 @@ SELENIUM_STANDALONE_FIREFOX_DEBUG = "selenium/standalone-firefox-debug:3.8.1"
 SONARSOURCE_SONAR_SCANNER_CLI = "sonarsource/sonar-scanner-cli"
 
 DEFAULT_PHP_VERSION = "8.3"
+PREVIOUS_PHP_VERSION = "7.4"
 DEFAULT_NODEJS_VERSION = "14"
 
 # minio mc environment variables
@@ -267,7 +268,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -318,7 +319,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -415,7 +416,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -467,7 +468,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -519,7 +520,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -629,7 +630,7 @@ config = {
                 },
                 {
                     "name": "configure-app-on-federated-server",
-                    "image": OC_CI_PHP % DEFAULT_PHP_VERSION,
+                    "image": OC_CI_PHP % PREVIOUS_PHP_VERSION,
                     "commands": [
                         "cd %s" % dir["federated"],
                         "php occ market:install user_ldap",
@@ -1682,11 +1683,11 @@ def acceptance(ctx):
                         environment["S3_TYPE"] = "scality"
 
                 federationDbSuffix = "-federated"
-                federatedPhpVersion = 7.4
+                federatedPhpVersion = PREVIOUS_PHP_VERSION
                 if (testConfig["federatedServerVersion"] == "latest"):
-                    federatedPhpVersion = 7.4
+                    federatedPhpVersion = PREVIOUS_PHP_VERSION
                 if (testConfig["federatedServerVersion"] == "git"):
-                    federatedPhpVersion = 8.3
+                    federatedPhpVersion = DEFAULT_PHP_VERSION
 
                 if len(testConfig["federatedServerVersion"]) == 0:
                     testConfig["federatedServerVersion"] = testConfig["server"]
@@ -2770,7 +2771,7 @@ def ldapIntegration(ctx):
 
     default = {
         "servers": ["daily-master-qa"],
-        "phpVersions": ["8.3"],
+        "phpVersions": [DEFAULT_PHP_VERSION],
         "databases": ["mysql:8.0"],
         "ldapNeeded": True,
         "logLevel": "2",
