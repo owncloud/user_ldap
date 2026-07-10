@@ -32,6 +32,7 @@ make test-php-style        # Check code style
 make test-php-phpstan      # Run PHPStan static analysis
 make test-acceptance-api   # Run LDAP API acceptance tests
 make test-acceptance-cli   # Run LDAP CLI acceptance tests
+make test-acceptance-webui # Run LDAP WebUI acceptance tests
 ```
 
 ### Configuration Options
