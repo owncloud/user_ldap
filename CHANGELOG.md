@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased] - XXXX-XX-XX
 
 
+## [0.20.1] - 2026-07-22
+
+### Changed
+- Maintenance release re-signed with the ownCloud G2 code-signing certificate for the ownCloud 11.0.0 release.
+
+## [0.20.0] - 2026-06-29
+
+### Changed
+- ownCloud 11 compatible release (oc 11.0.0-rc1).
+
 ## [0.19.1] - 2024-10-23
 
 ### Fixed
@@ -215,8 +225,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.19.1...master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.20.1..master
+[0.20.1]: https://github.com/owncloud/user_ldap/compare/v0.20.0..v0.20.1
+[0.20.0]: https://github.com/owncloud/user_ldap/compare/v0.19.1..v0.20.0
 [0.19.1]: https://github.com/owncloud/user_ldap/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/owncloud/user_ldap/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/owncloud/user_ldap/compare/v0.17.0...v0.18.0
