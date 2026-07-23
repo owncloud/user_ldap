@@ -210,7 +210,7 @@ class UserEntry {
 	 * values are 'none' (unlimited), 'default' (the ownCloud's default quota), '1234' (quota in
 	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
 	 *
-	 * @return string|false quota
+	 * @return string|null quota
 	 * TODO throw Exception for invalid values after https://github.com/owncloud/core/pull/28805 has been merged
 	 */
 	public function getQuota() {
@@ -237,9 +237,6 @@ class UserEntry {
 					$quota = null;
 				}
 			}
-		}
-		if ($quota === null) {
-			$quota = false;
 		}
 
 		\OC::$server->getLogger()->debug("using quota <$quota> for user <{$this->getOwnCloudUID()}>", ['app' => 'user_ldap']);
