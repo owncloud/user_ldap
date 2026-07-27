@@ -1470,9 +1470,20 @@ class Access implements IUserTools {
 			$asterisk = '*';
 			$input = \mb_substr($input, 1, null, 'UTF-8');
 		}
-		$search  = ['*', '\\', '(', ')'];
-		$replace = ['\\*', '\\\\', '\\(', '\\)'];
-		return $asterisk . \str_replace($search, $replace, $input);
+		// Escape in a single pass using the RFC 4515 section 3 hex form. A
+		// sequential str_replace() re-escapes the backslashes it just added
+		// itself, which left the wildcard live ('*' became '\\*' - an escaped
+		// backslash followed by a raw asterisk). Control characters are covered
+		// by the same pattern: RFC 4515 requires them to be escaped and they
+		// would otherwise be smuggled onto the wire verbatim.
+		// Deliberately byte-wise, so invalid UTF-8 cannot make this return null.
+		return $asterisk . \preg_replace_callback(
+			'/[*\\\\()\x00-\x1f\x7f]/',
+			static function ($match) {
+				return \sprintf('\\%02x', \ord($match[0]));
+			},
+			$input
+		);
 	}
 
 	/**
