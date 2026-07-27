@@ -244,7 +244,21 @@ class Configuration {
 
 			$setMethod = 'setValue';
 			switch ($key) {
+				case 'ldapAgentName':
+				case 'ldapUserFilter':
+				case 'ldapLoginFilter':
+				case 'ldapGroupFilter':
+					// These end up verbatim in the bind request resp. in the
+					// search filter sent over the wire. Raw control characters
+					// have no legitimate meaning here (RFC 4515 requires them
+					// to be escaped) and would allow smuggling protocol bytes
+					// to whatever service listens on the configured host:port.
+					// Strip them, but keep the regular trimming of setValue().
+					$val = \filter_var($val, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
+					break;
 				case 'ldapAgentPassword':
+					// same reasoning as above, but the password must not be
+					// trimmed since leading/trailing whitespace is significant
 					$val = \filter_var($val, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
 					$setMethod = 'setRawValue';
 					break;

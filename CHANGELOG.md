@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+### Fixed
+
+- [#844](https://github.com/owncloud/user_ldap/pull/844) - Strip control characters from the LDAP bind DN and the search filters
+
 
 ## [0.20.1] - 2026-07-22
 
