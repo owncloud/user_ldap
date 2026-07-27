@@ -71,6 +71,15 @@ class ConfigurationTest extends \Test\TestCase {
 		$dnWithCrlf = "cn=admin\r\nset foo bar\r\n,dc=example,dc=org";
 		$expectedDn = 'cn=adminset foo bar,dc=example,dc=org';
 
+		$dnUntrimmed = " cn=admin,dc=example,dc=org \r\n";
+		$expectedDnTrimmed = 'cn=admin,dc=example,dc=org';
+
+		$dnUmlaut = ' cn=Müller,dc=example,dc=org ';
+		$expectedDnUmlaut = 'cn=Müller,dc=example,dc=org';
+
+		$filterWithCrlf = "(uid=foo)\r\nset foo bar\r\n";
+		$expectedFilter = '(uid=foo)set foo bar';
+
 		return [
 			'set general base' => ['ldapBase', $inputWithDN, $expectWithDN],
 			'set user base'    => ['ldapBaseUsers', $inputWithDN, $expectWithDN],
@@ -85,8 +94,14 @@ class ConfigurationTest extends \Test\TestCase {
 			'set group filter groups'        => ['ldapGroupFilterGroups', $inputNames, $expectedNames],
 			'set login filter attributes'    => ['ldapLoginFilterAttributes', $inputNames, $expectedNames],
 
-			'set agent password' => ['ldapAgentPassword', $password, $password],
+			'set agent password'         => ['ldapAgentPassword', $password, $password],
 			'set agent name strips CRLF' => ['ldapAgentName', $dnWithCrlf, $expectedDn],
+			'set agent name is trimmed'  => ['ldapAgentName', $dnUntrimmed, $expectedDnTrimmed],
+			'set agent name keeps utf-8' => ['ldapAgentName', $dnUmlaut, $expectedDnUmlaut],
+
+			'set user filter strips CRLF'  => ['ldapUserFilter', $filterWithCrlf, $expectedFilter],
+			'set login filter strips CRLF' => ['ldapLoginFilter', $filterWithCrlf, $expectedFilter],
+			'set group filter strips CRLF' => ['ldapGroupFilter', $filterWithCrlf, $expectedFilter],
 
 			'set home folder, variant 1' => ['homeFolderNamingRule', $inputHomeFolder[0], $expectedHomeFolder[0]],
 			'set home folder, variant 2' => ['homeFolderNamingRule', $inputHomeFolder[1], $expectedHomeFolder[1]],
