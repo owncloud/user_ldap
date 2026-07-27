@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+
+## [0.20.2] - 2026-07-27
+
 ### Fixed
 
 - [#844](https://github.com/owncloud/user_ldap/pull/844) - Strip control characters from the LDAP bind DN and the search filters
@@ -230,7 +233,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Add hint for max search term length - [#105](https://github.com/owncloud/user_ldap/issues/105)
 - Allow proxy to check next server - [#101](https://github.com/owncloud/user_ldap/issues/101)
 
-[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.20.1..master
+[Unreleased]: https://github.com/owncloud/user_ldap/compare/v0.20.2..master
+[0.20.2]: https://github.com/owncloud/user_ldap/compare/v0.20.1..v0.20.2
 [0.20.1]: https://github.com/owncloud/user_ldap/compare/v0.20.0..v0.20.1
 [0.20.0]: https://github.com/owncloud/user_ldap/compare/v0.19.1..v0.20.0
 [0.19.1]: https://github.com/owncloud/user_ldap/compare/v0.19.0...v0.19.1
