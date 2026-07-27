@@ -95,9 +95,39 @@ class AccessTest extends \Test\TestCase {
 	public function escapeFilterPartDataProvider() {
 		return [
 			['okay', 'okay'],
-			['*', '\\\\*'], // escape wildcard
-			['foo*bar', 'foo\\\\*bar'], // escape wildcard in valid chars
+			['*', '\\2a'], // escape wildcard
+			['foo*bar', 'foo\\2abar'], // escape wildcard in valid chars
+			['foo\\bar', 'foo\\5cbar'], // escape backslash
+			['(uid=foo)', '\\28uid=foo\\29'], // escape parentheses
+			['\\2a', '\\5c2a'], // an already escaped wildcard must not stay live
+			["foo\r\nbar", 'foo\\0d\\0abar'], // escape CRLF
+			["foo\x00bar", 'foo\\00bar'], // escape NUL
+			["foo\x7fbar", 'foo\\7fbar'], // escape DEL
+			["foo\tbar", 'foo\\09bar'], // escape TAB
+			['cn=Müller', 'cn=Müller'], // UTF-8 must survive
 		];
+	}
+
+	/**
+	 * the asterisk of a leading wildcard search is preserved, everything else
+	 * is still escaped
+	 */
+	public function testEscapeFilterPartAllowAsterisk() {
+		$this->assertSame('*foo', $this->access->escapeFilterPart('*foo', true));
+		$this->assertSame('*foo\\2abar', $this->access->escapeFilterPart('*foo*bar', true));
+		$this->assertSame('*foo\\0d\\0abar', $this->access->escapeFilterPart("*foo\r\nbar", true));
+	}
+
+	/**
+	 * @dataProvider escapeFilterPartDataProvider
+	 * @param $input string
+	 */
+	public function testEscapeFilterPartLeavesNoLiveWildcard($input) {
+		$this->assertStringNotContainsString(
+			'*',
+			$this->access->escapeFilterPart($input),
+			'no raw asterisk may survive escaping'
+		);
 	}
 
 	/**

@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
 
 - [#844](https://github.com/owncloud/user_ldap/pull/844) - Strip control characters from the LDAP bind DN and the search filters
+- [#846](https://github.com/owncloud/user_ldap/pull/846) - Escape wildcards and control characters in user-supplied LDAP filter parts
 
 
 ## [0.20.1] - 2026-07-22
