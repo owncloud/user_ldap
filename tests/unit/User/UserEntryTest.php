@@ -483,6 +483,14 @@ class UserEntryTest extends \Test\TestCase {
 	}
 
 	public function testGetHomeAttributeWithAbsolutePath() {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default = '') {
+				if ($key === 'datadirectory') {
+					return '/absolute/path';
+				}
+				return $default;
+			});
 		$this->connection->expects($this->once())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))
@@ -499,10 +507,197 @@ class UserEntryTest extends \Test\TestCase {
 		self::assertEquals('/absolute/path/to/home', $userEntry->getHome());
 	}
 
-	public function testGetHomeAttributeWithRelativePath() {
-		$this->config->expects($this->once())
+	/**
+	 * The home attribute is controlled by the LDAP directory, not by the
+	 * ownCloud admin. An absolute path outside of the data directory must be
+	 * refused: pointing it at the ownCloud code root would expose - and allow
+	 * overwriting - the application's own PHP files, which is remote code
+	 * execution.
+	 *
+	 * @dataProvider providesHomeOutsideDataDir
+	 */
+	public function testGetHomeOutsideDataDirIsRefused($home) {
+		$this->expectException(\OutOfBoundsException::class);
+
+		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnValue('/path/to/data'));
+			->willReturnCallback(function ($key, $default = '') {
+				if ($key === 'datadirectory') {
+					return '/var/www/owncloud/data';
+				}
+				if ($key === 'user_ldap.home_base_dirs') {
+					return [];
+				}
+				return $default;
+			});
+		// the error path resolves the uid for the log message, which reads
+		// further config options
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) {
+				return $key === 'homeFolderNamingRule' ? 'attr:home' : 'mail';
+			});
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'mail' => [0 => 'a@b.c'],
+				'home' => [0 => $home]
+			]
+		);
+		$userEntry->getHome();
+	}
+
+	public function providesHomeOutsideDataDir() {
+		return [
+			// the reported vector: the ownCloud code root itself
+			'application root' => ['/var/www/owncloud'],
+			'apps directory' => ['/var/www/owncloud/apps'],
+			'system directory' => ['/etc'],
+			// traversal through the relative branch, which is concatenated
+			// onto the data directory without any normalization
+			'relative traversal' => ['../../../../etc'],
+			'relative traversal to root' => ['..'],
+			'traversal mid-path' => ['foo/../../../etc'],
+			// a sibling directory that merely shares the data dir's prefix
+			// must not pass a naive string comparison
+			'prefix sibling' => ['/var/www/owncloud/data-evil'],
+		];
+	}
+
+	/**
+	 * A symlink inside the data directory must not be usable to point a home that
+	 * looks contained at a location outside of it.
+	 */
+	public function testGetHomeEscapingViaSymlinkIsRefused() {
+		$this->expectException(\OutOfBoundsException::class);
+
+		$tmp = \realpath(\sys_get_temp_dir()) . '/oc-ldaphome-' . \uniqid();
+		\mkdir($tmp . '/data', 0777, true);
+		\mkdir($tmp . '/apps', 0777, true);
+		\symlink($tmp . '/apps', $tmp . '/data/escape');
+
+		try {
+			$this->config->expects($this->any())
+				->method('getSystemValue')
+				->willReturnCallback(function ($key, $default = '') use ($tmp) {
+					if ($key === 'datadirectory') {
+						return $tmp . '/data';
+					}
+					if ($key === 'user_ldap.home_base_dirs') {
+						return [];
+					}
+					return $default;
+				});
+			$this->connection->expects($this->any())
+				->method('__get')
+				->willReturnCallback(function ($key) {
+					return $key === 'homeFolderNamingRule' ? 'attr:home' : 'mail';
+				});
+			$userEntry = new UserEntry(
+				$this->config,
+				$this->logger,
+				$this->connection,
+				[
+					'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+					'mail' => [0 => 'a@b.c'],
+					'home' => [0 => $tmp . '/data/escape']
+				]
+			);
+			$userEntry->getHome();
+		} finally {
+			\unlink($tmp . '/data/escape');
+			\rmdir($tmp . '/apps');
+			\rmdir($tmp . '/data');
+			\rmdir($tmp);
+		}
+	}
+
+	/**
+	 * A symlinked data directory is a legitimate setup and must keep working: the
+	 * home is compared after resolving both sides.
+	 */
+	public function testGetHomeUnderSymlinkedDataDirIsAccepted() {
+		$tmp = \realpath(\sys_get_temp_dir()) . '/oc-ldaphome-' . \uniqid();
+		\mkdir($tmp . '/real-data', 0777, true);
+		\symlink($tmp . '/real-data', $tmp . '/data');
+
+		try {
+			$this->config->expects($this->any())
+				->method('getSystemValue')
+				->willReturnCallback(function ($key, $default = '') use ($tmp) {
+					if ($key === 'datadirectory') {
+						return $tmp . '/data';
+					}
+					if ($key === 'user_ldap.home_base_dirs') {
+						return [];
+					}
+					return $default;
+				});
+			$this->connection->expects($this->once())
+				->method('__get')
+				->with($this->equalTo('homeFolderNamingRule'))
+				->will($this->returnValue('attr:home'));
+			$userEntry = new UserEntry(
+				$this->config,
+				$this->logger,
+				$this->connection,
+				[
+					'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+					'home' => [0 => $tmp . '/data/alice']
+				]
+			);
+			self::assertEquals($tmp . '/real-data/alice', $userEntry->getHome());
+		} finally {
+			\unlink($tmp . '/data');
+			\rmdir($tmp . '/real-data');
+			\rmdir($tmp);
+		}
+	}
+
+	/**
+	 * Admins with home directories on a separate mount can opt back in by
+	 * listing the permitted base directories explicitly.
+	 */
+	public function testGetHomeOutsideDataDirAllowedByConfig() {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default = '') {
+				if ($key === 'datadirectory') {
+					return '/var/www/owncloud/data';
+				}
+				if ($key === 'user_ldap.home_base_dirs') {
+					return ['/mnt/nfs/homes'];
+				}
+				return $default;
+			});
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('homeFolderNamingRule'))
+			->will($this->returnValue('attr:home'));
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'home' => [0 => '/mnt/nfs/homes/alice']
+			]
+		);
+		self::assertEquals('/mnt/nfs/homes/alice', $userEntry->getHome());
+	}
+
+	public function testGetHomeAttributeWithRelativePath() {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default = '') {
+				if ($key === 'datadirectory') {
+					return '/path/to/data';
+				}
+				return $default;
+			});
 		$this->connection->expects($this->once())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))

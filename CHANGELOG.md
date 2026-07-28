@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased] - XXXX-XX-XX
 
+### Fixed
+
+- [#848](https://github.com/owncloud/user_ldap/pull/848) - Confine the LDAP home folder naming rule to the data directory
+
 
 ## [0.20.2] - 2026-07-27
 
