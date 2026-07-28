@@ -561,6 +561,13 @@ class UserEntryTest extends \Test\TestCase {
 			'relative traversal' => ['../../../../etc'],
 			'relative traversal to root' => ['..'],
 			'traversal mid-path' => ['foo/../../../etc'],
+			// an absolute path can carry dot segments too - these resolve to a
+			// location outside of the data directory
+			'absolute traversal mid-path' => ['/var/www/../../opt'],
+			'absolute traversal out of data dir' => ['/var/www/owncloud/data/../../apps'],
+			'absolute traversal with dot segments' => ['/var/www/./owncloud/./apps'],
+			'absolute traversal to root' => ['/..'],
+			'absolute dot segments to code root' => ['/var/www/owncloud/data/../.'],
 			// a sibling directory that merely shares the data dir's prefix
 			// must not pass a naive string comparison
 			'prefix sibling' => ['/var/www/owncloud/data-evil'],
@@ -687,6 +694,109 @@ class UserEntryTest extends \Test\TestCase {
 			]
 		);
 		self::assertEquals('/mnt/nfs/homes/alice', $userEntry->getHome());
+	}
+
+	/**
+	 * Dot segments that resolve back inside the data directory are fine - it is
+	 * where the path lands that matters, not how it is spelled.
+	 *
+	 * @dataProvider providesHomeWithDotSegmentsInsideDataDir
+	 */
+	public function testGetHomeWithDotSegmentsInsideDataDirIsAccepted($home, $expected) {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default = '') {
+				if ($key === 'datadirectory') {
+					return '/var/www/owncloud/data';
+				}
+				if ($key === 'user_ldap.home_base_dirs') {
+					return [];
+				}
+				return $default;
+			});
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('homeFolderNamingRule'))
+			->will($this->returnValue('attr:home'));
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'home' => [0 => $home]
+			]
+		);
+		self::assertEquals($expected, $userEntry->getHome());
+	}
+
+	public function providesHomeWithDotSegmentsInsideDataDir() {
+		return [
+			'dot segment' => ['/var/www/owncloud/data/./alice', '/var/www/owncloud/data/alice'],
+			'traversal that returns' => ['/var/www/owncloud/data/foo/../alice', '/var/www/owncloud/data/alice'],
+			'duplicate slashes' => ['/var/www/owncloud//data//alice', '/var/www/owncloud/data/alice'],
+			'trailing slash' => ['/var/www/owncloud/data/alice/', '/var/www/owncloud/data/alice'],
+			'the data directory itself' => ['/var/www/owncloud/data', '/var/www/owncloud/data'],
+			'relative with dot segments' => ['./alice', '/var/www/owncloud/data/alice'],
+		];
+	}
+
+	/**
+	 * A base directory that is not usable as one must not widen the check. Values
+	 * such as '.' or a relative path normalize to something unrelated to the
+	 * intended directory - notably '.' normalizes to the empty string, which used
+	 * to make the containment check accept every absolute path.
+	 *
+	 * @dataProvider providesUnusableBaseDirs
+	 */
+	public function testGetHomeIsRefusedForUnusableBaseDir($baseDir) {
+		$this->expectException(\OutOfBoundsException::class);
+
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function ($key, $default = '') use ($baseDir) {
+				if ($key === 'datadirectory') {
+					return '/var/www/owncloud/data';
+				}
+				if ($key === 'user_ldap.home_base_dirs') {
+					return [$baseDir];
+				}
+				return $default;
+			});
+		// the error path resolves the uid for the log message, which reads
+		// further config options
+		$this->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function ($key) {
+				return $key === 'homeFolderNamingRule' ? 'attr:home' : 'mail';
+			});
+		$userEntry = new UserEntry(
+			$this->config,
+			$this->logger,
+			$this->connection,
+			[
+				'dn' => [0 => 'cn=foo,dc=foobar,dc=bar'],
+				'mail' => [0 => 'a@b.c'],
+				'home' => [0 => '/var/www/owncloud/apps']
+			]
+		);
+		$userEntry->getHome();
+	}
+
+	public function providesUnusableBaseDirs() {
+		return [
+			'empty' => [''],
+			// these normalize to the empty string
+			'current directory' => ['.'],
+			'current directory with slash' => ['./'],
+			'dot segments only' => ['./.'],
+			// a relative base dir would resolve against the working directory of
+			// whichever process happens to run the check
+			'relative' => ['data'],
+			'relative with dot' => ['./data'],
+			'parent' => ['..'],
+			'not a string' => [null],
+		];
 	}
 
 	public function testGetHomeAttributeWithRelativePath() {
