@@ -1,4 +1,4 @@
-# agents.md — user_ldap
+# AGENTS.md — user_ldap
 
 ## Repository Overview
 
