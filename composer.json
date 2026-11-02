@@ -9,8 +9,7 @@
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
-        "laminas/laminas-ldap": "^2.13",
-        "roave/security-advisories": "dev-latest"
+        "laminas/laminas-ldap": "^2.13"
     },
     "require": {
         "php": ">=8.3",
