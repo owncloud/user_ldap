@@ -486,7 +486,7 @@ class Group_LDAP implements \OCP\GroupInterface {
 		$groups = [];
 		$primaryGroup = $this->getUserPrimaryGroup($userDN);
 
-		$dynamicGroupMemberURL = \strtolower($this->access->getConnection()->ldapDynamicGroupMemberURL);
+		$dynamicGroupMemberURL = \strtolower($this->access->getConnection()->ldapDynamicGroupMemberURL ?? '');
 
 		if (!empty($dynamicGroupMemberURL)) {
 			// look through dynamic groups to add them to the result array if needed

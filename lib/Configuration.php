@@ -446,7 +446,7 @@ class Configuration {
 	 * @return string
 	 */
 	protected function getPwd($varName) {
-		return \base64_decode($this->getValue($varName));
+		return \base64_decode($this->getValue($varName) ?? '');
 	}
 
 	/**
@@ -454,7 +454,7 @@ class Configuration {
 	 * @return string
 	 */
 	protected function getLcValue($varName) {
-		return \mb_strtolower($this->getValue($varName), 'UTF-8');
+		return \mb_strtolower($this->getValue($varName) ?? '', 'UTF-8');
 	}
 
 	/**

@@ -172,7 +172,7 @@ class Manager {
 		if ($ldapConfig->ldapUserName !== null) {
 			$attributes[$ldapConfig->ldapUserName] = true;
 		}
-		$homeRule = $ldapConfig->homeFolderNamingRule;
+		$homeRule = $ldapConfig->homeFolderNamingRule ?? '';
 		if (\strpos($homeRule, 'attr:') === 0) {
 			$attributes[\substr($homeRule, \strlen('attr:'))] = true;
 		}

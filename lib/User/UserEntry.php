@@ -473,7 +473,7 @@ class UserEntry {
 	 * @return string
 	 */
 	private function getAttributeName($configOption, $default = '') {
-		$attributeName = \strtolower(\trim($this->connection->$configOption));
+		$attributeName = \strtolower(\trim($this->connection->$configOption ?? ''));
 
 		// strtolower() returns '' for null and false, which is what the connection initializes config options to
 		if ($attributeName === '') {
