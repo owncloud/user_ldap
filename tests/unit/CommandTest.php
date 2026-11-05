@@ -32,6 +32,8 @@ use Test\TestCase;
 class CommandTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
+
+	private $helper;
 	
 	/**
 	 *
